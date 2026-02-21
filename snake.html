@@ -40,21 +40,24 @@
     .app{
       height:100%;
       display:flex;
-      align-items:center;
+      align-items:stretch;
       justify-content:center;
-      padding: max(14px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+      padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
     }
 
     .shell{
       width:min(980px, 100%);
+      height:100%;
       display:grid;
       grid-template-columns: 1.25fr .75fr;
       gap:var(--gap);
       align-items:stretch;
+      min-height: 0;
     }
 
     @media (max-width: 860px){
-      .shell{grid-template-columns: 1fr;}
+      .app{padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));}
+      .shell{grid-template-columns: 1fr; gap: 10px;}
     }
 
     .stage{
@@ -64,27 +67,29 @@
       border: 1px solid rgba(38,50,94,.6);
       box-shadow: var(--shadow);
       overflow:hidden;
-      min-height: 420px;
+      min-height: 0;
+      display:flex;
+      flex-direction:column;
     }
 
+    /* Topbar: now NOT overlaying canvas */
     .topbar{
-      position:absolute;
-      left:0; right:0; top:0;
-      padding: 12px 14px;
+      padding: 10px 12px;
       display:flex;
       gap:10px;
       align-items:center;
       justify-content:space-between;
-      pointer-events:none;
       z-index:4;
+      background: rgba(8,10,22,.10);
+      border-bottom: 1px solid rgba(38,50,94,.30);
+      backdrop-filter: blur(10px);
     }
 
     .pill{
-      pointer-events:auto;
       display:flex;
       gap:12px;
       align-items:baseline;
-      padding: 10px 12px;
+      padding: 9px 10px;
       border-radius: 999px;
       background: rgba(8,10,22,.55);
       border: 1px solid rgba(38,50,94,.5);
@@ -96,13 +101,12 @@
       display:flex;
       flex-direction:column;
       gap:2px;
-      min-width: 88px;
+      min-width: 78px;
     }
     .metric .label{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
     .metric .value{font-weight:800; font-size:18px; line-height:1}
 
     .controls{
-      pointer-events:auto;
       display:flex;
       gap:8px;
       align-items:center;
@@ -136,27 +140,82 @@
       border: 1px solid rgba(255,61,127,.45);
     }
 
-    .hint{
-      position:absolute;
-      left: 16px;
-      bottom: 14px;
-      z-index:4;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(8,10,22,.50);
-      border: 1px solid rgba(38,50,94,.45);
-      color: var(--muted);
-      font-size: 12px;
-      backdrop-filter: blur(10px);
-      max-width: min(520px, calc(100% - 32px));
+    /* Play area (canvas) */
+    .play{
+      position:relative;
+      flex: 1 1 auto;
+      min-height: 0;
     }
 
     canvas{
       width:100%;
       height:100%;
       display:block;
+      touch-action: none;
     }
 
+    /* Mobile D-pad: UNDER canvas (no overlay) */
+    .bottom-controls{
+      padding: 10px 12px 12px 12px;
+      border-top: 1px solid rgba(38,50,94,.28);
+      background: rgba(8,10,22,.12);
+      backdrop-filter: blur(10px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 12px;
+    }
+
+    .dpad{
+      display:none;
+      grid-template-columns: var(--dpad) var(--dpad) var(--dpad);
+      grid-template-rows: var(--dpad) var(--dpad) var(--dpad);
+      gap: 10px;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      --dpad: 62px;
+    }
+
+    @media (pointer: coarse){
+      .dpad{display:grid;}
+    }
+
+    @media (max-width: 420px){
+      .dpad{--dpad: 66px; gap: 10px;}
+    }
+
+    @media (max-height: 700px) and (pointer: coarse){
+      .dpad{--dpad: 58px; gap: 9px;}
+    }
+
+    .dpad button{
+      padding:0;
+      display:grid;
+      place-items:center;
+      border-radius: 18px;
+      background: rgba(8,10,22,.58);
+      border:1px solid rgba(38,50,94,.60);
+      box-shadow: 0 18px 50px rgba(0,0,0,.55);
+    }
+
+    .dpad button:active{transform: translateY(1px) scale(.98)}
+
+    .dpad .up{grid-column:2; grid-row:1}
+    .dpad .left{grid-column:1; grid-row:2}
+    .dpad .down{grid-column:2; grid-row:3}
+    .dpad .right{grid-column:3; grid-row:2}
+
+    .arrow{
+      width: 0; height: 0;
+      border-style: solid;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
+    }
+    .arrow.up{border-width: 0 11px 16px 11px; border-color: transparent transparent rgba(233,238,255,.92) transparent;}
+    .arrow.down{border-width: 16px 11px 0 11px; border-color: rgba(233,238,255,.92) transparent transparent transparent;}
+    .arrow.left{border-width: 11px 16px 11px 0; border-color: transparent rgba(233,238,255,.92) transparent transparent;}
+    .arrow.right{border-width: 11px 0 11px 16px; border-color: transparent transparent transparent rgba(233,238,255,.92);}
+
+    /* Sidebar */
     .sidebar{
       border-radius: var(--radius);
       background: linear-gradient(180deg, rgba(16,24,55,.55), rgba(9,12,27,.45));
@@ -165,7 +224,12 @@
       overflow:hidden;
       display:flex;
       flex-direction:column;
-      min-height: 420px;
+      min-height: 0;
+    }
+
+    @media (max-width: 860px){
+      /* mobile-first: hide sidebar entirely */
+      .sidebar{display:none;}
     }
 
     .side-head{
@@ -187,7 +251,7 @@
     .brand .title{font-size:16px; font-weight:900; letter-spacing:.02em}
     .brand .sub{font-size:12px; color:var(--muted)}
 
-    .side-body{padding: 12px 14px 14px 14px; display:flex; flex-direction:column; gap:12px; flex:1;}
+    .side-body{padding: 12px 14px 14px 14px; display:flex; flex-direction:column; gap:12px; flex:1; overflow:auto;}
 
     .card{
       border-radius: 16px;
@@ -196,7 +260,7 @@
       padding: 12px;
     }
 
-    .row{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+    .row{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;}
 
     .kbd{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -275,7 +339,7 @@
     .switch.on{background: rgba(53,255,154,.10); border-color: rgba(53,255,154,.25)}
     .switch.on::after{transform: translateX(18px); background: linear-gradient(180deg, rgba(53,255,154,.95), rgba(53,255,154,.55));}
 
-    /* Overlays */
+    /* Overlays (start/game over) - allowed, but only when opened */
     .overlay{
       position:absolute;
       inset:0;
@@ -344,59 +408,22 @@
       text-transform:uppercase;
     }
 
-    .gameover-anim{
-      animation: pop .28s ease-out;
-    }
+    .gameover-anim{ animation: pop .28s ease-out; }
     @keyframes pop{
       from{transform: translateY(10px) scale(.98); opacity:0}
       to{transform: translateY(0) scale(1); opacity:1}
     }
 
-    /* Mobile D-pad */
-    .dpad{
-      position:absolute;
-      right: 14px;
-      bottom: 14px;
-      z-index:5;
-      display:none;
-      grid-template-columns: 54px 54px 54px;
-      grid-template-rows: 54px 54px 54px;
-      gap: 8px;
-      pointer-events:auto;
-      user-select:none;
-      -webkit-tap-highlight-color: transparent;
+    /* Mobile compact topbar */
+    @media (max-width: 520px){
+      .metric{min-width: 66px;}
+      .metric .label{font-size:10px;}
+      .metric .value{font-size:16px;}
+      .pill{gap:10px; padding: 8px 9px;}
+      .topbar{padding: 8px 10px;}
+      button{padding: 9px 10px; border-radius: 12px;}
+      .controls{gap: 6px;}
     }
-
-    @media (max-width: 860px), (pointer: coarse){
-      .dpad{display:grid;}
-    }
-
-    .dpad button{
-      padding:0;
-      display:grid;
-      place-items:center;
-      border-radius: 16px;
-      background: rgba(8,10,22,.55);
-      border:1px solid rgba(38,50,94,.55);
-      box-shadow: 0 18px 50px rgba(0,0,0,.55);
-    }
-
-    .dpad button:active{transform: translateY(1px) scale(.98)}
-
-    .dpad .up{grid-column:2; grid-row:1}
-    .dpad .left{grid-column:1; grid-row:2}
-    .dpad .down{grid-column:2; grid-row:3}
-    .dpad .right{grid-column:3; grid-row:2}
-
-    .arrow{
-      width: 0; height: 0;
-      border-style: solid;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
-    }
-    .arrow.up{border-width: 0 10px 14px 10px; border-color: transparent transparent rgba(233,238,255,.92) transparent;}
-    .arrow.down{border-width: 14px 10px 0 10px; border-color: rgba(233,238,255,.92) transparent transparent transparent;}
-    .arrow.left{border-width: 10px 14px 10px 0; border-color: transparent rgba(233,238,255,.92) transparent transparent;}
-    .arrow.right{border-width: 10px 0 10px 14px; border-color: transparent transparent transparent rgba(233,238,255,.92);}
 
     .sr-only{
       position:absolute;
@@ -432,23 +459,23 @@
           </div>
 
           <div class="pill controls">
+            <button class="btn-ghost" id="btnSound" title="Звук">Звук</button>
             <button class="btn-ghost" id="btnPause" title="Пауза (Space)">Пауза</button>
             <button class="btn-danger" id="btnRestart" title="Рестарт (R)">Рестарт</button>
           </div>
         </div>
 
-        <canvas id="game" aria-label="Игра Змейка"></canvas>
-
-        <div class="hint" id="hint">
-          <span class="kbd">WASD</span> / <span class="kbd">↑↓←→</span> — движение, <span class="kbd">Space</span> — пауза, <span class="kbd">R</span> — рестарт.
-          На телефоне: свайп или кнопки.
+        <div class="play" id="playArea" aria-label="Игровое поле">
+          <canvas id="game" aria-label="Игра Змейка"></canvas>
         </div>
 
-        <div class="dpad" id="dpad" aria-label="Управление на мобильном">
-          <button class="up" data-dir="up" aria-label="Вверх"><span class="arrow up"></span></button>
-          <button class="left" data-dir="left" aria-label="Влево"><span class="arrow left"></span></button>
-          <button class="right" data-dir="right" aria-label="Вправо"><span class="arrow right"></span></button>
-          <button class="down" data-dir="down" aria-label="Вниз"><span class="arrow down"></span></button>
+        <div class="bottom-controls" aria-label="Управление на мобильном">
+          <div class="dpad" id="dpad">
+            <button class="up" data-dir="up" aria-label="Вверх"><span class="arrow up"></span></button>
+            <button class="left" data-dir="left" aria-label="Влево"><span class="arrow left"></span></button>
+            <button class="right" data-dir="right" aria-label="Вправо"><span class="arrow right"></span></button>
+            <button class="down" data-dir="down" aria-label="Вниз"><span class="arrow down"></span></button>
+          </div>
         </div>
 
         <div class="overlay" id="overlayStart">
@@ -463,6 +490,7 @@
               <div class="row"><span>Движение</span><span class="kbd">W A S D</span> <span class="kbd">↑ ← ↓ →</span></div>
               <div class="row"><span>Пауза</span><span class="kbd">Space</span></div>
               <div class="row"><span>Рестарт</span><span class="kbd">R</span></div>
+              <div class="row"><span>Телефон</span><span class="kbd">Свайп</span> или <span class="kbd">D‑pad</span></div>
             </div>
             <div class="grid">
               <button id="btnPlay">Играть</button>
@@ -518,12 +546,13 @@
             <ol class="list" id="scores"></ol>
           </div>
 
-          <div class="card">
-            <div class="row" style="margin-bottom:8px"><strong>Советы</strong></div>
+          <div class="card" id="hintCard">
+            <div class="row" style="margin-bottom:8px"><strong>Подсказки</strong></div>
             <div style="color:var(--muted); font-size:12px; line-height:1.55">
-              • Удерживай направление — очереди поворотов сгладят управление.<br/>
-              • На мобильном можно управлять свайпом или кнопками.<br/>
-              • Пауза не сбрасывает темп — используй её, чтобы перевести дух.
+              • Движение: <span class="kbd">WASD</span> / <span class="kbd">↑↓←→</span><br/>
+              • Пауза: <span class="kbd">Space</span> (на телефоне — тап)<br/>
+              • Рестарт: <span class="kbd">R</span><br/>
+              • На мобильном можно управлять свайпом или кнопками D‑pad.
             </div>
           </div>
         </div>
@@ -531,7 +560,7 @@
         <div class="footer">
           <div style="color:var(--muted); font-size:12px">© Neon Night Snake • offline • no deps</div>
           <div style="display:flex; gap:8px">
-            <button class="btn-ghost" id="btnFocus" title="Спрятать/показать подсказку">Подсказка</button>
+            <button class="btn-ghost" id="btnFocus" title="Спрятать/показать подсказки">Подсказки</button>
             <button class="btn-ghost" id="btnFull" title="Полноэкранный режим">Fullscreen</button>
           </div>
         </div>
@@ -673,6 +702,7 @@
 
     const canvas = /** @type {HTMLCanvasElement} */($('#game'));
     const stage = $('#stage');
+    const playArea = $('#playArea');
 
     const elScore = $('#score');
     const elBest = $('#best');
@@ -697,12 +727,13 @@
     const btnRestart = $('#btnRestart');
     const btnFull = $('#btnFull');
     const btnFocus = $('#btnFocus');
+    const btnSound = $('#btnSound');
 
     const scoresList = $('#scores');
     const scoresMeta = $('#scoresMeta');
 
     const soundSwitch = $('#soundSwitch');
-    const hint = $('#hint');
+    const hintCard = $('#hintCard');
 
     const dpad = $('#dpad');
 
@@ -750,12 +781,11 @@
 
     // ---------- Layout / resize ----------
     function computeGrid(){
-      // Choose grid size based on stage size (responsive)
-      const r = stage.getBoundingClientRect();
+      // Choose grid size based on PLAY AREA size (canvas area)
+      const r = playArea.getBoundingClientRect();
       const w = r.width;
       const h = r.height;
 
-      // reserve some for topbar overlay (but canvas is full; still ok)
       const cellTarget = clamp(Math.min(w, h) / 22, 14, 22); // px per cell target
       const gw = clamp(Math.floor(w / cellTarget), GRID_MIN, GRID_MAX);
       const gh = clamp(Math.floor(h / cellTarget), GRID_MIN, GRID_MAX);
@@ -766,7 +796,7 @@
 
     function resizeCanvas(){
       computeGrid();
-      const rect = stage.getBoundingClientRect();
+      const rect = playArea.getBoundingClientRect();
       const dpr = Math.max(1, Math.min(2.25, window.devicePixelRatio || 1));
       const w = Math.floor(rect.width * dpr);
       const h = Math.floor(rect.height * dpr);
@@ -849,7 +879,6 @@
     }
 
     function speedMultiplier(stepMs){
-      // approx relative speed
       const m = baseStepMs / stepMs;
       return Math.round(m * 10) / 10;
     }
@@ -863,7 +892,6 @@
     }
 
     function queueDir(d){
-      // prevent illegal immediate reverse; allow buffering 2 turns
       const last = Game.dirQueue.length ? Game.dirQueue[Game.dirQueue.length - 1] : Game.dir;
       if(d === last) return;
       if(isOpposite(d, last)) return;
@@ -892,10 +920,7 @@
         return;
       }
 
-      // move
       const newHead = {x: nx, y: ny};
-
-      // collision with self (note: moving into tail is ok only if tail moves away; we handle by checking after pop when not eating)
       const willEat = (nx === Game.food.x && ny === Game.food.y);
 
       let tail = null;
@@ -921,13 +946,10 @@
         Game.shake = Math.min(10, Game.shake + 2.4);
         Audio.eat();
 
-        // speed ramp
         if(Game.score % rampEveryPoints === 0){
           const t = clamp(Game.score / 55, 0, 1);
-          // ease out; gets harder but caps
           const target = lerp(baseStepMs, minStepMs, 1 - Math.pow(1 - t, 2));
           Game.stepMs = Math.max(minStepMs, Math.min(Game.stepMs, target));
-          // small extra nudge
           Game.stepMs = Math.max(minStepMs, Game.stepMs - 2);
         }
 
@@ -938,7 +960,6 @@
 
       syncUI();
 
-      // win condition: fill grid
       if(Game.snake.length >= Game.gridW * Game.gridH){
         die('win');
       }
@@ -960,7 +981,6 @@
       syncUI();
       renderScores();
 
-      // Game over overlay
       overScore.textContent = String(Game.score);
       overBest.textContent = String(Game.best);
 
@@ -982,7 +1002,6 @@
       }
 
       overlayOver.classList.remove('hidden');
-      // retrigger animation
       overModal.classList.remove('gameover-anim');
       // eslint-disable-next-line no-unused-expressions
       overModal.offsetWidth;
@@ -1066,7 +1085,6 @@
         e.preventDefault();
         if(overlayStart.style.display !== 'none'){
           startGame();
-          // apply input right away
           queueDir(d);
         } else if(!Game.over){
           queueDir(d);
@@ -1108,16 +1126,26 @@
       }catch{}
     });
 
+    // Sidebar hints toggle (desktop only; never touches the canvas)
     btnFocus.addEventListener('click', () => {
-      const hidden = hint.style.display === 'none';
-      hint.style.display = hidden ? '' : 'none';
+      if(!hintCard) return;
+      const hidden = hintCard.style.display === 'none';
+      hintCard.style.display = hidden ? '' : 'none';
     });
 
-    // Sound switch
+    // ---------- Sound switch + mobile sound button ----------
     function setSoundUI(on){
-      if(on) soundSwitch.classList.add('on');
-      else soundSwitch.classList.remove('on');
-      soundSwitch.setAttribute('aria-checked', String(!!on));
+      if(on) soundSwitch?.classList.add('on');
+      else soundSwitch?.classList.remove('on');
+      soundSwitch?.setAttribute('aria-checked', String(!!on));
+
+      // topbar button text
+      if(btnSound){
+        btnSound.textContent = on ? 'Звук: on' : 'Звук: off';
+        btnSound.classList.toggle('btn-danger', !on);
+        btnSound.classList.toggle('btn-ghost', on);
+      }
+
       Audio.setEnabled(!!on);
     }
 
@@ -1130,15 +1158,17 @@
       setSoundUI(soundOn);
     }
 
-    soundSwitch.addEventListener('click', toggleSound);
-    soundSwitch.addEventListener('keydown', (e) => {
+    soundSwitch?.addEventListener('click', toggleSound);
+    soundSwitch?.addEventListener('keydown', (e) => {
       if(e.key === 'Enter' || e.key === ' '){
         e.preventDefault();
         toggleSound();
       }
     });
 
-    // D-pad / touch
+    btnSound?.addEventListener('click', toggleSound);
+
+    // ---------- D-pad / touch ----------
     function bindDpad(){
       dpad.querySelectorAll('button[data-dir]').forEach(btn => {
         const dir = btn.getAttribute('data-dir');
@@ -1157,14 +1187,13 @@
     }
     bindDpad();
 
-    // Swipe control
+    // Swipe control on playArea only (so D-pad never gets blocked)
     function onTouchStart(e){
       if(!e.touches || e.touches.length !== 1) return;
       const t = e.touches[0];
       Game.touchStart = { x: t.clientX, y: t.clientY, ts: now() };
     }
     function onTouchMove(e){
-      // prevent page scroll within stage
       e.preventDefault();
     }
     function onTouchEnd(e){
@@ -1190,7 +1219,6 @@
       }
 
       if(quickTap){
-        // tap toggles pause
         togglePause();
         return;
       }
@@ -1203,18 +1231,19 @@
       }
     }
 
-    stage.addEventListener('touchstart', onTouchStart, { passive:true });
-    stage.addEventListener('touchmove', onTouchMove, { passive:false });
-    stage.addEventListener('touchend', onTouchEnd, { passive:true });
+    playArea.addEventListener('touchstart', onTouchStart, { passive:true });
+    playArea.addEventListener('touchmove', onTouchMove, { passive:false });
+    playArea.addEventListener('touchend', onTouchEnd, { passive:true });
 
     // ---------- Render ----------
     function cellSize(){
       const w = canvas.width;
       const h = canvas.height;
+      const s = Math.floor(Math.min(w / Game.gridW, h / Game.gridH));
       return {
-        s: Math.floor(Math.min(w / Game.gridW, h / Game.gridH)),
-        ox: Math.floor((w - Math.floor(Math.min(w / Game.gridW, h / Game.gridH)) * Game.gridW) / 2),
-        oy: Math.floor((h - Math.floor(Math.min(w / Game.gridW, h / Game.gridH)) * Game.gridH) / 2)
+        s,
+        ox: Math.floor((w - s * Game.gridW) / 2),
+        oy: Math.floor((h - s * Game.gridH) / 2)
       };
     }
 
@@ -1222,7 +1251,6 @@
       const w = canvas.width, h = canvas.height;
       ctx.clearRect(0,0,w,h);
 
-      // backdrop glow
       const g = ctx.createRadialGradient(w*0.3, h*0.15, 0, w*0.3, h*0.15, Math.max(w,h));
       g.addColorStop(0, 'rgba(124,92,255,.13)');
       g.addColorStop(0.45, 'rgba(31,231,255,.08)');
@@ -1230,14 +1258,12 @@
       ctx.fillStyle = g;
       ctx.fillRect(0,0,w,h);
 
-      // subtle vignette
       const v = ctx.createRadialGradient(w*0.5, h*0.45, Math.min(w,h)*0.15, w*0.5, h*0.45, Math.max(w,h)*0.75);
       v.addColorStop(0, 'rgba(0,0,0,0)');
       v.addColorStop(1, 'rgba(0,0,0,.35)');
       ctx.fillStyle = v;
       ctx.fillRect(0,0,w,h);
 
-      // grid
       const {s, ox, oy} = cellSize();
       ctx.save();
       ctx.translate(ox, oy);
@@ -1283,7 +1309,6 @@
       const pulse = 0.5 + 0.5*Math.sin(t/180);
       const glow = lerp(0.35, 0.9, pulse);
 
-      // glow
       ctx.save();
       ctx.globalCompositeOperation = 'lighter';
       const rad = s*0.9;
@@ -1295,7 +1320,6 @@
       ctx.fillRect(x - rad, y - rad, rad*2 + s, rad*2 + s);
       ctx.restore();
 
-      // core
       const grad = ctx.createLinearGradient(x, y, x+s, y+s);
       grad.addColorStop(0, 'rgba(31,231,255,.95)');
       grad.addColorStop(0.6, 'rgba(124,92,255,.92)');
@@ -1319,17 +1343,14 @@
       const {s, ox, oy} = cellSize();
       const r = Math.max(7, Math.floor(s*0.33));
 
-      // body gradient
       const w = canvas.width, h = canvas.height;
       const body = ctx.createLinearGradient(0,0,w,h);
       body.addColorStop(0, 'rgba(124,92,255,.98)');
       body.addColorStop(0.55, 'rgba(31,231,255,.92)');
       body.addColorStop(1, 'rgba(53,255,154,.92)');
 
-      // subtle shimmer along body
       const shimmer = 0.35 + 0.65*Math.sin(t/210);
 
-      // draw from tail to head (for nicer overlap)
       for(let i=Game.snake.length-1;i>=0;i--){
         const p = Game.snake[i];
         const x = ox + p.x*s;
@@ -1341,19 +1362,16 @@
         ctx.shadowColor = isHead ? 'rgba(31,231,255,.25)' : 'rgba(124,92,255,.20)';
         ctx.shadowBlur = isHead ? Math.max(10, s*0.65) : Math.max(8, s*0.50);
 
-        // fill
         ctx.fillStyle = body;
         roundRect(x+pad, y+pad, s-2*pad, s-2*pad, r);
         ctx.fill();
 
-        // highlight stroke
         ctx.shadowBlur = 0;
         ctx.lineWidth = Math.max(1, s*0.06);
         ctx.strokeStyle = isHead ? `rgba(233,238,255,${0.34 + 0.22*shimmer})` : `rgba(233,238,255,${0.12 + 0.12*shimmer})`;
         ctx.stroke();
 
         if(isHead){
-          // eyes
           const ex = x + s*0.34;
           const ey = y + s*0.36;
           const eyeR = Math.max(1.8, s*0.085);
@@ -1389,7 +1407,6 @@
       const t = now();
       drawBackground();
 
-      // camera shake on hit
       let sx = 0, sy = 0;
       if(Game.shake > 0.1){
         const mag = Game.shake;
@@ -1401,7 +1418,6 @@
       ctx.save();
       ctx.translate(sx, sy);
 
-      // global glow on eat
       if(Game.glow > 0.01){
         ctx.save();
         ctx.globalCompositeOperation = 'lighter';
@@ -1420,7 +1436,7 @@
       drawSnake(t);
       drawFrame();
 
-      // pause overlay indicator (in-canvas)
+      // pause indicator stays in-canvas (no DOM overlay)
       if(Game.paused){
         const w = canvas.width, h = canvas.height;
         ctx.save();
@@ -1452,7 +1468,6 @@
       if(Game.running && !Game.paused && !Game.over){
         const elapsed = t - Game.lastTick;
         if(elapsed >= Game.stepMs){
-          // if tab lags, we only step once to avoid multiple jumps
           Game.lastTick = t;
           step();
         }
@@ -1462,9 +1477,10 @@
 
     // ---------- Scores render ----------
     function renderScores(){
+      if(!scoresList) return;
       scoresList.innerHTML = '';
       const scores = store.scores || [];
-      scoresMeta.textContent = scores.length ? `обновлено ${formatDate(scores[0].ts)}` : 'пока пусто';
+      if(scoresMeta) scoresMeta.textContent = scores.length ? `обновлено ${formatDate(scores[0].ts)}` : 'пока пусто';
 
       if(!scores.length){
         const li = document.createElement('li');
@@ -1501,7 +1517,6 @@
       overlayOver.classList.add('hidden');
     }
 
-    // Start overlay: first pointer unlocks audio to avoid silent issues
     const unlockOnce = () => Audio.unlock();
     window.addEventListener('pointerdown', unlockOnce, { once:true });
 
