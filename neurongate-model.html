@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuronGate — Financial Model</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 16px; }
+.container { max-width: 940px; margin: 0 auto; }
+h1 { font-size: 22px; font-weight: 700; margin-bottom: 2px; }
+.subtitle { color: #64748b; font-size: 13px; margin-bottom: 16px; }
+.controls { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.control-group { flex: 1 1 45%; }
+.control-label { font-size: 11px; color: #64748b; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.btn-group { display: flex; gap: 6px; }
+.btn { flex: 1; padding: 8px 6px; border-radius: 8px; border: 2px solid #334155; background: #1e293b; color: #64748b; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s; }
+.btn:hover { border-color: #475569; }
+.btn.active-red { border-color: #ef4444; background: rgba(239,68,68,0.1); color: #ef4444; }
+.btn.active-yellow { border-color: #f59e0b; background: rgba(245,158,11,0.1); color: #f59e0b; }
+.btn.active-green { border-color: #22c55e; background: rgba(34,197,94,0.1); color: #22c55e; }
+.btn.active-gray { border-color: #94a3b8; background: rgba(148,163,184,0.1); color: #94a3b8; }
+.metrics { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }
+.metric { background: #1e293b; border-radius: 10px; padding: 12px 14px; }
+.metric-label { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+.metric-value { font-size: 18px; font-weight: 700; margin-top: 3px; }
+.metric-sub { font-size: 10px; color: #64748b; margin-top: 1px; }
+.card { background: #1e293b; border-radius: 10px; padding: 14px; margin-bottom: 16px; }
+.card h3 { font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { padding: 8px 6px; text-align: right; color: #64748b; font-weight: 500; border-bottom: 1px solid #334155; }
+td { padding: 5px 4px; text-align: right; border-bottom: 1px solid #0f172a22; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.chart-container { display: flex; align-items: flex-end; gap: 3px; height: 100px; }
+.chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; }
+.chart-val { font-size: 8px; color: #94a3b8; margin-bottom: 1px; }
+.chart-label { font-size: 8px; color: #475569; margin-top: 2px; }
+.pl-chart { display: flex; align-items: center; gap: 3px; height: 100px; position: relative; }
+.pl-zero { position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #334155; }
+.pl-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: center; }
+.green { color: #22c55e; } .red { color: #ef4444; } .yellow { color: #f59e0b; } .blue { color: #38bdf8; }
+.fw7 { font-weight: 700; }
+.progress-row { margin-bottom: 8px; }
+.progress-header { display: flex; justify-content: space-between; margin-bottom: 2px; }
+.progress-name { color: #94a3b8; font-size: 11px; }
+.progress-track { width: 100%; background: #0f172a; border-radius: 3px; height: 6px; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+.conclusions { font-size: 12px; line-height: 1.7; color: #94a3b8; }
+.conclusions p { margin-top: 6px; }
+.highlight-row { background: rgba(51,65,85,0.25); }
+@media (max-width: 768px) {
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .grid2 { grid-template-columns: 1fr; }
+  .controls { flex-direction: column; }
+  .control-group { flex: 1 1 100%; }
+}
+</style>
+</head>
+<body>
+<div class="container" id="app"></div>
+<script>
+const SCENARIOS = {
+  pessimistic: { label: "🔴 Пессимист", color: "#ef4444", cls: "active-red",
+    users: [30,60,100,150,220,300,400,520,650,800,950,1100],
+    arpu: [800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900] },
+  realistic: { label: "🟡 Реалист", color: "#f59e0b", cls: "active-yellow",
+    users: [50,120,200,320,480,700,950,1200,1500,1900,2400,3000],
+    arpu: [1200,1400,1600,1800,2000,2200,2500,2800,3000,3200,3500,3800] },
+  optimistic: { label: "🟢 Оптимист", color: "#22c55e", cls: "active-green",
+    users: [80,200,400,700,1100,1600,2200,3000,4000,5500,7500,10000],
+    arpu: [1500,1800,2200,2500,2800,3200,3600,4000,4500,5000,5500,6000] }
+};
+const MARGINS = [
+  { value: 0.10, label: "10%", desc: "Стартовая", color: "#94a3b8", cls: "active-gray" },
+  { value: 0.20, label: "20%", desc: "Средняя", color: "#f59e0b", cls: "active-yellow" },
+  { value: 0.30, label: "30%", desc: "Оптовая", color: "#22c55e", cls: "active-green" }
+];
+const MONTHS = ["Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек","Янв","Фев"];
+const CP_FEE = 0.029;
+const FIXED = { infra: 7000, marketing: 15000 };
+
+let scenario = "realistic", marginIdx = 2;
+
+function fmt(n) {
+  if (Math.abs(n) >= 1e6) return (n/1e6).toFixed(1) + "М";
+  if (Math.abs(n) >= 1000) return Math.round(n/1000) + "К";
+  return Math.round(n).toLocaleString("ru");
+}
+function fmtR(n) { return Math.round(n).toLocaleString("ru") + " ₽"; }
+
+function calc(s, margin) {
+  let cum = 0;
+  return s.users.map((users, i) => {
+    const gmv = users * s.arpu[i];
+    const provider = gmv / (1 + margin);
+    const gross = gmv - provider;
+    const cpFee = gmv * CP_FEE;
+    const net = gross - cpFee;
+    const fixed = FIXED.infra + FIXED.marketing;
+    const profit = net - fixed;
+    cum += profit;
+    return { month: MONTHS[i], users, arpu: s.arpu[i], gmv, provider, gross, cpFee, net, fixed, profit, cum };
+  });
+}
+
+function render() {
+  const s = SCENARIOS[scenario];
+  const margin = MARGINS[marginIdx].value;
+  const data = calc(s, margin);
+  const allMarginData = MARGINS.map(m => {
+    const d = calc(s, m.value);
+    return { label: m.label, color: m.color, totalGMV: d.reduce((a,x)=>a+x.gmv,0), totalNet: d.reduce((a,x)=>a+x.net,0), totalProfit: d.reduce((a,x)=>a+x.profit,0), breakEven: d.findIndex(x=>x.cum>0), month12: d[11] };
+  });
+  const totalGMV = data.reduce((a,d)=>a+d.gmv,0);
+  const totalNet = data.reduce((a,d)=>a+d.net,0);
+  const totalProfit = data.reduce((a,d)=>a+d.profit,0);
+  const be = data.findIndex(d=>d.cum>0);
+  const maxGMV = Math.max(...data.map(d=>d.gmv));
+  const maxP = Math.max(...data.map(d=>Math.abs(d.profit)));
+
+  const d12 = data[11];
+  const marginPerUser = d12.arpu * margin / (1 + margin);
+  const netPerUser = marginPerUser - d12.arpu * CP_FEE;
+  const ltv = netPerUser * 8;
+  const newUsers = d12.users - data[10].users;
+  const cac = newUsers > 0 ? FIXED.marketing / newUsers : 999999;
+
+  const provPct = (100 / (1 + margin)).toFixed(1);
+  const margPct = (100 - 100 / (1 + margin)).toFixed(1);
+  const cpPct = (100 * CP_FEE).toFixed(1);
+  const netPct = (margPct - cpPct).toFixed(1);
+
+  document.getElementById('app').innerHTML = `
+    <h1>NeuronGate — Financial Model</h1>
+    <p class="subtitle">12 months | Poe + direct providers | RUB balance | CloudPayments 2.9%</p>
+
+    <div class="controls">
+      <div class="control-group">
+        <div class="control-label">Сценарий роста</div>
+        <div class="btn-group">
+          ${Object.entries(SCENARIOS).map(([k,v]) => `<button class="btn ${scenario===k?v.cls:''}" onclick="scenario='${k}';render()">${v.label}</button>`).join('')}
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="control-label">Маржа от провайдера</div>
+        <div class="btn-group">
+          ${MARGINS.map((m,i) => `<button class="btn ${marginIdx===i?m.cls:''}" onclick="marginIdx=${i};render()">${m.label} <span style="font-weight:400;font-size:11px">${m.desc}</span></button>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><div class="metric-label">GMV год</div><div class="metric-value">${fmtR(totalGMV)}</div><div class="metric-sub">оборот</div></div>
+      <div class="metric"><div class="metric-label">Чист. выручка</div><div class="metric-value">${fmtR(totalNet)}</div><div class="metric-sub">маржа ${MARGINS[marginIdx].label} - CP</div></div>
+      <div class="metric"><div class="metric-label">P&L год</div><div class="metric-value" style="color:${totalProfit>0?'#22c55e':'#ef4444'}">${fmtR(totalProfit)}</div></div>
+      <div class="metric"><div class="metric-label">Безубыточн.</div><div class="metric-value">${be>=0?'мес. '+(be+1)+' ('+MONTHS[be]+')':'нет'}</div></div>
+      <div class="metric"><div class="metric-label">Users мес.12</div><div class="metric-value">${d12.users.toLocaleString('ru')}</div><div class="metric-sub">ARPU ${fmtR(d12.arpu)}</div></div>
+    </div>
+
+    <div class="card">
+      <h3>Сравнение маржи (${s.label})</h3>
+      <table>
+        <thead><tr>${["Маржа","GMV год","Чистая выручка","P&L год","Безубыточн.","P&L мес.12"].map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+        <tbody>${allMarginData.map((m,i)=>`<tr class="${marginIdx===i?'highlight-row':''}">
+          <td style="font-weight:700;color:${MARGINS[i].color}">${m.label}</td>
+          <td>${fmtR(m.totalGMV)}</td><td>${fmtR(m.totalNet)}</td>
+          <td class="fw7" style="color:${m.totalProfit>=0?'#22c55e':'#ef4444'}">${m.totalProfit>=0?'+':''}${fmtR(m.totalProfit)}</td>
+          <td>${m.breakEven>=0?'мес. '+(m.breakEven+1):'нет'}</td>
+          <td class="fw7" style="color:${m.month12.profit>=0?'#22c55e':'#ef4444'}">${m.month12.profit>=0?'+':''}${fmtR(m.month12.profit)}/мес</td>
+        </tr>`).join('')}</tbody>
+      </table>
+      <div style="font-size:11px;color:#64748b;margin-top:8px">Разница 10% vs 30%: <strong class="yellow">${fmtR(allMarginData[2].totalProfit-allMarginData[0].totalProfit)}</strong> дополнительной прибыли за год</div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>GMV по месяцам</h3>
+        <div class="chart-container">
+          ${data.map(d=>`<div class="chart-bar-wrap"><div class="chart-val">${fmt(d.gmv)}</div><div style="width:100%;border-radius:3px 3px 0 0;opacity:0.8;height:${Math.max(3,(d.gmv/maxGMV)*75)}px;background:${s.color}"></div><div class="chart-label">${d.month}</div></div>`).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <h3>P&L по месяцам</h3>
+        <div class="pl-chart">
+          <div class="pl-zero"></div>
+          ${data.map(d=>{const h=maxP>0?Math.max(3,(Math.abs(d.profit)/maxP)*42):3;return d.profit>=0?
+            `<div class="pl-bar-wrap"><div style="font-size:7px" class="green">+${fmt(d.profit)}</div><div style="width:80%;height:${h}px;background:#22c55e;border-radius:2px;opacity:0.8"></div><div class="chart-label">${d.month}</div></div>`:
+            `<div class="pl-bar-wrap"><div style="width:80%;height:${h}px;background:#ef4444;border-radius:2px;opacity:0.8"></div><div style="font-size:7px" class="red">${fmt(d.profit)}</div><div class="chart-label">${d.month}</div></div>`;}).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="overflow:auto">
+      <h3>Детальная таблица (маржа ${MARGINS[marginIdx].label})</h3>
+      <table style="font-size:11px">
+        <thead><tr>${["","Users","ARPU","GMV","Провайд.","Маржа","CP","Чист.","Расх.","P&L","Накопл"].map(h=>`<th style="font-size:10px">${h}</th>`).join('')}</tr></thead>
+        <tbody>${data.map(d=>`<tr>
+          <td style="font-weight:600;text-align:left">${d.month}</td>
+          <td>${d.users}</td><td>${d.arpu.toLocaleString('ru')}</td>
+          <td class="fw7">${fmt(d.gmv)}</td>
+          <td class="red">${fmt(d.provider)}</td><td class="green">${fmt(d.gross)}</td>
+          <td class="red">${fmt(d.cpFee)}</td><td>${fmt(d.net)}</td>
+          <td class="red">${fmt(d.fixed)}</td>
+          <td class="fw7" style="color:${d.profit>=0?'#22c55e':'#ef4444'}">${d.profit>=0?'+':''}${fmt(d.profit)}</td>
+          <td class="fw7" style="color:${d.cum>=0?'#22c55e':'#ef4444'}">${d.cum>=0?'+':''}${fmt(d.cum)}</td>
+        </tr>`).join('')}</tbody>
+      </table>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Unit Economics (мес. 12)</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+          ${[{l:'ARPU',v:fmtR(d12.arpu)},{l:'Маржа/user',v:fmtR(marginPerUser)},{l:'Чист./user',v:fmtR(netPerUser)},{l:'LTV (8m)',v:fmtR(ltv)},{l:'CAC',v:cac<999999?fmtR(cac):'-'},{l:'LTV/CAC',v:cac<999999&&cac>0?(ltv/cac).toFixed(1)+'x':'-'}].map(m=>`<div><div style="color:#64748b;font-size:10px">${m.l}</div><div style="font-weight:700;font-size:15px">${m.v}</div></div>`).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <h3>Структура 100₽ GMV</h3>
+        ${[{label:'Провайдер',pct:provPct,color:'#ef4444'},{label:'Маржа '+MARGINS[marginIdx].label,pct:margPct,color:'#22c55e'},{label:'CloudPayments',pct:cpPct,color:'#f59e0b'},{label:'Чистыми',pct:netPct,color:'#38bdf8'}].map(it=>`<div class="progress-row"><div class="progress-header"><span class="progress-name">${it.label}</span><span style="font-weight:700;color:${it.color};font-size:12px">${it.pct} ₽</span></div><div class="progress-track"><div class="progress-fill" style="width:${Math.min(parseFloat(it.pct),100)}%;background:${it.color}"></div></div></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="card conclusions">
+      <h3 style="color:#e2e8f0">Выводы</h3>
+      <p><strong style="color:#e2e8f0">30% маржа</strong> — из 100₽ GMV чистыми ~20₽ (vs 6₽ при 10%). Бизнес жизнеспособен даже при скромном росте.</p>
+      <p><strong style="color:#e2e8f0">Бенчмарк:</strong> GPTunnel берёт 30-50% + 20% НДС сверху. OpenRouter — 5%. Ваши 30% = конкурентоспособная позиция для РФ рынка.</p>
+      <p><strong style="color:#e2e8f0">Стратегия:</strong> Старт 20-30%, снижение до 15-20% при росте и компенсация объёмом + cache + routing + BYOK.</p>
+    </div>
+  `;
+}
+render();
+</script>
+</body>
+</html>
