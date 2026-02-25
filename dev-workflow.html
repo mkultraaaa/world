@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Assistant — Dev & Testing Workflow</title>
+<link rel="stylesheet" href="/_style/pages.css">
+</head>
+<body>
+<div class="container">
+
+<h1>🔄 Development & Testing Workflow</h1>
+<p class="subtitle">Как AI-система разрабатывает, тестирует и деплоит изменения</p>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">5</div><div class="stat-label">Уровней проверки</div></div>
+  <div class="stat"><div class="stat-num">11</div><div class="stat-label">Табов дашборда</div></div>
+  <div class="stat"><div class="stat-num">35+</div><div class="stat-label">API тестов</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Попытки автофикса</div></div>
+  <div class="stat"><div class="stat-num">5%</div><div class="stat-label">Порог UI diff</div></div>
+</div>
+
+<div class="sep"></div>
+
+<!-- Safe Deploy -->
+<div class="flow-section">
+  <div class="flow-title">
+    🛡 Safe Deploy — цикл разработки
+    <span class="badge badge-green">АВТОМАТИЧЕСКИЙ</span>
+  </div>
+
+  <div class="pipeline">
+    <div class="step step-green">
+      <div class="step-box">
+        <div class="step-num">Шаг 1</div>
+        <div class="step-icon">📸</div>
+        <div class="step-name">Checkpoint</div>
+        <div class="step-desc">Сохраняем рабочее состояние server.py и фронтенда ДО изменений</div>
+        <div class="step-tool">safe-deploy.sh checkpoint</div>
+      </div>
+    </div>
+    <div class="step-arrow">→</div>
+
+    <div class="step step-purple">
+      <div class="step-box">
+        <div class="step-num">Шаг 2</div>
+        <div class="step-icon">✏️</div>
+        <div class="step-name">Редактирование</div>
+        <div class="step-desc">Агент или человек вносит изменения в код дашборда</div>
+        <div class="step-tool">edit server.py / HTML / CSS</div>
+      </div>
+    </div>
+    <div class="step-arrow">→</div>
+
+    <div class="step step-blue">
+      <div class="step-box">
+        <div class="step-num">Шаг 3</div>
+        <div class="step-icon">🔍</div>
+        <div class="step-name">Verify</div>
+        <div class="step-desc">5 уровней проверки: синтаксис → health → API → тесты → visual</div>
+        <div class="step-tool">safe-deploy.sh verify</div>
+      </div>
+    </div>
+    <div class="step-arrow">→</div>
+
+    <div class="decision">
+      <div class="diamond"><span class="diamond-text">OK?</span></div>
+      <div class="decision-labels">
+        <span style="color:var(--green);">✅ Pass</span>
+        <span style="color:var(--red);">❌ Fail</span>
+      </div>
+    </div>
+    <div class="step-arrow">→</div>
+
+    <div class="step step-red">
+      <div class="step-box">
+        <div class="step-num">Если fail</div>
+        <div class="step-icon">🔄</div>
+        <div class="step-name">Autofix / Rollback</div>
+        <div class="step-desc">3 попытки автофикса. Если не помогло → откат к checkpoint. Система всегда остаётся рабочей.</div>
+        <div class="step-tool">auto: restart / rollback</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- 5 Levels -->
+<div class="flow-section">
+  <div class="flow-title">
+    🏗 5 уровней проверки
+    <span class="badge badge-blue">FEEDBACK LOOP</span>
+  </div>
+
+  <div class="pipeline">
+    <div class="step step-blue">
+      <div class="step-box">
+        <div class="step-num">Level 1</div>
+        <div class="step-icon">🐍</div>
+        <div class="step-name">Syntax Check</div>
+        <div class="step-desc">py_compile проверяет что Python-код валидный. Мгновенно ловит опечатки.</div>
+        <div class="step-tool">python3 -m py_compile</div>
+      </div>
+    </div>
+    <div class="step-arrow">→</div>
+
+    <div class="step step-blue">
+      <div class="step-box">
+        <div class="step-num">Level 2</div>
+        <div class="step-icon">💓</div>
+        <div class="step-name">Health Check</div>
+        <div class="step-desc">Dashboard отвечает на HTTP? Сервер запущен и принимает соединения.</div>
+        <div class="step-tool">curl /</div>
+      </div>
+    </div>
+    <div class="step-arrow">→</div>
+
+    <div class="step step-blue">
+      <div class="step-box">
+        <div class="step-num">Level 3</div>
+        <div class="step-icon">🔌</div>
+        <div class="step-name">API Smoke</div>
+        <div class="step-desc">Ключевые эндпоинты возвращают валидный JSON.</div>
+        <div class="step-tool">curl /api/kanban</div>
+      </div>
+    </div>
+    <div class="step-arrow">→</div>
+
+    <div class="step step-blue">
+      <div class="step-box">
+        <div class="step-num">Level 4</div>
+        <div class="step-icon">🧪</div>
+        <div class="step-name">Test Suite</div>
+        <div class="step-desc">10+ проверок: CORS, auth, JSON validity, security.</div>
+        <div class="step-tool">test-dashboard.sh</div>
+      </div>
+    </div>
+    <div class="step-arrow">→</div>
+
+    <div class="step step-blue">
+      <div class="step-box">
+        <div class="step-num">Level 5</div>
+        <div class="step-icon">👁</div>
+        <div class="step-name">Visual Regression</div>
+        <div class="step-desc">Playwright скриншотит 11 табов, сравнивает попиксельно с baseline. Порог: 5%.</div>
+        <div class="step-tool">visual_regression.py</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- Schedule -->
+<div class="flow-section">
+  <div class="flow-title">⏰ Когда что запускается</div>
+
+  <div class="timeline">
+    <div class="tl-row">
+      <div class="tl-time">on commit</div>
+      <div class="tl-dot dot-green"></div>
+      <div class="tl-name"><b>Git post-commit hook</b> — safe-deploy если изменён dashboard/</div>
+      <div class="tl-type type-hook">hook</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">on edit</div>
+      <div class="tl-dot dot-orange"></div>
+      <div class="tl-name"><b>Safe Deploy</b> — checkpoint → edit → verify → rollback</div>
+      <div class="tl-type type-manual">manual</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">каж. 30м</div>
+      <div class="tl-dot dot-blue"></div>
+      <div class="tl-name"><b>Watchdog</b> — health monitor: кроны, CPU, диск, gateway, API keys</div>
+      <div class="tl-type type-auto">cron</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">02:00</div>
+      <div class="tl-dot dot-blue"></div>
+      <div class="tl-name"><b>Git Backup</b> — auto commit + push to GitHub</div>
+      <div class="tl-type type-auto">cron</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">03:00</div>
+      <div class="tl-dot dot-blue"></div>
+      <div class="tl-name"><b>QA: тест дашборда</b> — Playwright + API + скриншоты</div>
+      <div class="tl-type type-auto">cron</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">03:30</div>
+      <div class="tl-dot dot-blue"></div>
+      <div class="tl-name"><b>QA: системный аудит</b> — health + dashboard + cron + visual regression</div>
+      <div class="tl-type type-auto">cron</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">04:00 ср</div>
+      <div class="tl-dot dot-blue"></div>
+      <div class="tl-name"><b>CTO ревью</b> — архитектура, надёжность, безопасность (Claude Opus)</div>
+      <div class="tl-type type-auto">cron</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-time">08:00</div>
+      <div class="tl-dot dot-blue"></div>
+      <div class="tl-name"><b>Security check</b> — порты, SSH, обновления, Tailscale</div>
+      <div class="tl-type type-auto">cron</div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- Info grid -->
+<div class="info-grid">
+  <div class="info-box">
+    <h3>🛡 Правила безопасности</h3>
+    <ul>
+      <li>Dashboard через VPN (приватная сеть)</li>
+      <li>CORS restricted к dashboard origin</li>
+      <li>Bearer token на всех write endpoints</li>
+      <li>Secrets в env vars LaunchAgent, НЕ в коде</li>
+      <li>Git backup не содержит секретов (redacted)</li>
+      <li>Агентам запрещён YOLO mode на production</li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h3>📁 Файлы тестов</h3>
+    <ul>
+      <li><code>scripts/safe-deploy.sh</code> — checkpoint/verify/rollback</li>
+      <li><code>scripts/post-deploy-check.sh</code> — полный набор проверок</li>
+      <li><code>scripts/health-monitor.sh</code> — мониторинг здоровья</li>
+      <li><code>scripts/tests/test-dashboard.sh</code> — API тесты</li>
+      <li><code>scripts/tests/test-health.sh</code> — системные тесты</li>
+      <li><code>scripts/tests/test-cron-health.sh</code> — проверка кронов</li>
+      <li><code>scripts/tests/test-visual-regression.sh</code> — UI тесты</li>
+      <li><code>workspace-qa/visual_regression.py</code> — pixelmatch</li>
+      <li><code>workspace-qa/baseline/</code> — эталонные скриншоты</li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h3>🔄 Rollback стратегия</h3>
+    <ul>
+      <li><b>Level 1 (syntax)</b> — агент должен починить сам</li>
+      <li><b>Level 2 (dashboard down)</b> — auto restart через launchctl</li>
+      <li><b>Level 3 (API)</b> — ждём recovery (5 сек)</li>
+      <li><b>Level 4 (tests)</b> — rollback к checkpoint</li>
+      <li><b>Level 5 (visual)</b> — warning, не блокирует</li>
+      <li>После 3 неудачных попыток → полный rollback</li>
+      <li>Если rollback не помог → CRITICAL алерт</li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h3>📊 Метрики качества</h3>
+    <ul>
+      <li><b>Visual diff порог:</b> 5% (динамика ~0.1-0.7%)</li>
+      <li><b>API тестов:</b> 35+ endpoints</li>
+      <li><b>Playwright табов:</b> 11 × 2 viewport</li>
+      <li><b>Watchdog частота:</b> каждые 30 минут</li>
+      <li><b>Autofix попыток:</b> 3 перед rollback</li>
+      <li><b>Backup:</b> ежедневно на GitHub (02:00)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">AI Assistant Dev Workflow v1.0 — обновлено 25 февраля 2026</div>
+
+</div>
+</body>
+</html>
