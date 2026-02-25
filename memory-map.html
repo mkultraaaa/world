@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Assistant — Memory Architecture</title>
 <style>
-/* Tony OS Pages — Unified Style v1.0 */
-/* Used by all pages in tony-dashboard/pages/ */
-/* Dark theme, matches Tony OS dashboard aesthetic */
+/* AI Assistant Pages — Unified Style v1.0 */
+/* Used by all pages in dashboard/pages/ */
+/* Dark theme, matches AI dashboard aesthetic */
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -270,7 +270,7 @@ tr:hover td { background: var(--bg-card-hover); }
     <div class="card">
       <div class="card-icon">💓</div>
       <div class="card-name">HEARTBEAT.md</div>
-      <div class="card-desc">Правила heartbeat-проверок: kanban, рутина, обновления</div>
+      <div class="card-desc">Правила heartbeat-проверок: задачи, рутина, обновления</div>
       <div class="card-path">workspace/HEARTBEAT.md</div>
     </div>
   </div>
@@ -306,9 +306,9 @@ tr:hover td { background: var(--bg-card-hover); }
     </div>
     <div class="card">
       <div class="card-icon">📋</div>
-      <div class="card-name">Kanban</div>
+      <div class="card-name">Tasks</div>
       <div class="card-desc">Единственный источник правды для задач: today, in-progress, done.</div>
-      <div class="card-path">memory/kanban.json</div>
+      <div class="card-path">memory/tasks.json</div>
     </div>
   </div>
 </div>
@@ -323,14 +323,14 @@ tr:hover td { background: var(--bg-card-hover); }
 <div class="layer layer-green">
   <div class="layer-title">🎯 Проекты — 12 проектов, каждый в своей папке</div>
   <div class="cards">
-    <div class="card card-narrow"><div class="card-icon">🏓</div><div class="card-name">PadelMind</div><div class="card-path">projects/padelmind/</div></div>
-    <div class="card card-narrow"><div class="card-icon">👔</div><div class="card-name">Моя Удалёнка</div><div class="card-path">projects/moyaudalenka/</div></div>
+    <div class="card card-narrow"><div class="card-icon">🏓</div><div class="card-name">Проект A</div><div class="card-path">projects/project-a/</div></div>
+    <div class="card card-narrow"><div class="card-icon">👔</div><div class="card-name">Проект B</div><div class="card-path">projects/project-b/</div></div>
     <div class="card card-narrow"><div class="card-icon">📧</div><div class="card-name">Unisender</div><div class="card-path">projects/unisender/</div></div>
-    <div class="card card-narrow"><div class="card-icon">🎮</div><div class="card-name">GoMagic</div><div class="card-path">projects/gomagic/</div></div>
-    <div class="card card-narrow"><div class="card-icon">🧠</div><div class="card-name">NeuronGate</div><div class="card-path">projects/neurongate/</div></div>
+    <div class="card card-narrow"><div class="card-icon">🎮</div><div class="card-name">Проект C</div><div class="card-path">projects/project-c/</div></div>
+    <div class="card card-narrow"><div class="card-icon">🧠</div><div class="card-name">Проект D</div><div class="card-path">projects/project-d/</div></div>
     <div class="card card-narrow"><div class="card-icon">⚡</div><div class="card-name">AI Dashboard</div><div class="card-path">projects/dashboard/</div></div>
     <div class="card card-narrow"><div class="card-icon">📣</div><div class="card-name">Build in Public</div><div class="card-path">projects/build-in-public/</div></div>
-    <div class="card card-narrow"><div class="card-icon">+5</div><div class="card-name">Ещё 5 проектов</div><div class="card-desc">food, health, dreamday, boardgamefriends, padelmind-training</div></div>
+    <div class="card card-narrow"><div class="card-icon">+5</div><div class="card-name">Ещё 5 проектов</div><div class="card-desc">и другие проекты</div></div>
   </div>
   <div style="margin-top:12px;padding:10px 14px;background:rgba(16,185,129,0.08);border-radius:8px;font-size:11px;color:var(--green);">
     📐 Структура: <code>_overview.md</code> → <code>research-*.md</code>, <code>architecture.md</code>, <code>backlog.md</code>, данные (.json/.csv)
@@ -379,7 +379,7 @@ tr:hover td { background: var(--bg-card-hover); }
   <div class="info-box">
     <h3>📥 Кто пишет</h3>
     <ul>
-      <li><b>Тони (main)</b> → дневные логи, last-context, kanban, MEMORY.md</li>
+      <li><b>Main agent</b> → дневные логи, last-context, tasks, MEMORY.md</li>
       <li><b>Крон: Дневник</b> → progress/ (01:00)</li>
       <li><b>Крон: Ресёрч</b> → research/ (05:00)</li>
       <li><b>Крон: Anomaly</b> → analytics/ (10:00)</li>
@@ -394,9 +394,9 @@ tr:hover td { background: var(--bg-card-hover); }
     <ul>
       <li><b>Boot sequence</b> → SOUL + USER + MEMORY + AGENTS + last-context</li>
       <li><b>memory_search</b> → семантический поиск по всем .md</li>
-      <li><b>Утренний брифинг</b> → kanban + лог + погода</li>
+      <li><b>Утренний брифинг</b> → задачи + лог + погода</li>
       <li><b>Вечерний дайджест</b> → лог + прогресс + ресёрч</li>
-      <li><b>Дашборд AI-ассистента</b> → kanban.json + данные проектов</li>
+      <li><b>Дашборд AI-ассистента</b> → tasks.json + данные проектов</li>
       <li><b>Пользователь</b> → через дашборд (VPN)</li>
     </ul>
   </div>
