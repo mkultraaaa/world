@@ -220,11 +220,89 @@ function render() {
       </div>
     </div>
 
+    <div class="card">
+      <h3>📊 Бенчмарки рынка (SimilarWeb + СПАРК, фев 2026)</h3>
+      <table style="font-size:11px">
+        <thead><tr>${["Сервис","Monthly Visits","Unique","Модель","Тарифы ₽"].map(h=>'<th style="text-align:left;font-size:10px">'+h+'</th>').join('')}</tr></thead>
+        <tbody>
+          ${[
+            {n:'study24.ai',v:'1,251K',u:'724K',m:'Подписка',t:'199, 549, 799, 1799'},
+            {n:'chadgpt.ru',v:'1,392K',u:'608K',m:'Подписка',t:'290, 590, 1690'},
+            {n:'gptunnel.ru',v:'1,122K',u:'410K',m:'PAYG',t:'от 50, пакеты 299, 499'},
+            {n:'unitool.ai',v:'779K',u:'397K',m:'Подписка',t:'480, 720, 1600'},
+            {n:'jayflow.ai',v:'729K',u:'346K',m:'—',t:'—'},
+            {n:'neurosphere.pro',v:'404K',u:'151K',m:'PAYG',t:'890, 1690, 2790'},
+            {n:'mashagpt.ru',v:'308K',u:'152K',m:'Freemium',t:'990, 1990, 4990'},
+            {n:'bothub.chat',v:'266K',u:'153K',m:'—',t:'—'},
+            {n:'gptdaisy.com',v:'141K',u:'68K',m:'—',t:'—'},
+          ].map(r=>'<tr><td style="text-align:left;font-weight:600;color:#38bdf8">'+r.n+'</td><td style="text-align:left">'+r.v+'</td><td style="text-align:left">'+r.u+'</td><td style="text-align:left">'+r.m+'</td><td style="text-align:left;color:#94a3b8;font-size:10px">'+r.t+'</td></tr>').join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>🆚 NeuronGate vs GPTunnel (стратегия)</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px">
+        <div style="background:#0f172a;border-radius:8px;padding:12px;">
+          <div style="font-weight:700;color:#f59e0b;margin-bottom:8px;">GPTunnel (факт 2025)</div>
+          <div style="color:#64748b;font-size:10px;text-transform:uppercase;letter-spacing:1px">Выручка СПАРК</div>
+          <div style="font-size:20px;font-weight:700;color:#f59e0b">123 млн ₽/год</div>
+          <div style="color:#94a3b8;font-size:11px;margin-top:4px">2024: 18.7 млн ₽ → 2025: 123 млн ₽ (×6.5)</div>
+          <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div><div style="color:#64748b;font-size:9px">ПЛАТЯЩИХ</div><div style="font-weight:700">~25K</div></div>
+            <div><div style="color:#64748b;font-size:9px">ARPU</div><div style="font-weight:700">410 ₽/мес</div></div>
+            <div><div style="color:#64748b;font-size:9px">MRR</div><div style="font-weight:700">10.25M ₽</div></div>
+            <div><div style="color:#64748b;font-size:9px">B2B КЛИЕНТЫ</div><div style="font-weight:700">3,500</div></div>
+          </div>
+          <div style="margin-top:8px;padding:6px;background:#1e293b;border-radius:6px;font-size:10px;color:#94a3b8">
+            Модель: Consumer volume. Много юзеров × маленький чек. LLama бесплатная → 90% не платят.
+          </div>
+        </div>
+        <div style="background:#0f172a;border-radius:8px;padding:12px;">
+          <div style="font-weight:700;color:#22c55e;margin-bottom:8px;">NeuronGate (прогноз М12)</div>
+          <div style="color:#64748b;font-size:10px;text-transform:uppercase;letter-spacing:1px">Целевая MRR</div>
+          <div style="font-size:20px;font-weight:700;color:#22c55e">1.8 млн ₽/мес</div>
+          <div style="color:#94a3b8;font-size:11px;margin-top:4px">= 21.6 млн ₽/год (17% от GPTunnel)</div>
+          <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div><div style="color:#64748b;font-size:9px">ПЛАТЯЩИХ</div><div style="font-weight:700">~600</div></div>
+            <div><div style="color:#64748b;font-size:9px">ARPU</div><div style="font-weight:700">3,000 ₽/мес</div></div>
+            <div><div style="color:#64748b;font-size:9px">LTV/CAC</div><div style="font-weight:700">~43x</div></div>
+            <div><div style="color:#64748b;font-size:9px">ФОКУС</div><div style="font-weight:700">Dev + B2B</div></div>
+          </div>
+          <div style="margin-top:8px;padding:6px;background:#1e293b;border-radius:6px;font-size:10px;color:#94a3b8">
+            Модель: Developer value. Мало юзеров × высокий чек. API-first, бюджеты, team controls.
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:8px;background:#0f172a;border-radius:8px;font-size:11px;color:#94a3b8;text-align:center">
+        GPTunnel: <strong style="color:#f59e0b">25K × 410₽</strong> = 10M₽/мес &nbsp;|&nbsp; NeuronGate: <strong style="color:#22c55e">600 × 3,000₽</strong> = 1.8M₽/мес &nbsp;|&nbsp; ×7 меньше юзеров, ×7 выше ARPU
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📈 Воронка NeuronGate (базовый сценарий)</h3>
+      <table style="font-size:11px">
+        <thead><tr>${["Метрика","Мес 3","Мес 6","Мес 12","Мес 24"].map(h=>'<th>'+h+'</th>').join('')}</tr></thead>
+        <tbody>
+          ${[
+            {m:'Monthly Visits',v:['5K','25K','80K','200K']},
+            {m:'Регистрации (15%)',v:['750','3,750','12,000','30,000']},
+            {m:'Активные (40%)',v:['300','1,500','4,800','12,000']},
+            {m:'Платящие (10-15%)',v:['35','190','600','1,500']},
+            {m:'B2B клиенты (5%)',v:['2','10','30','75']},
+            {m:'ARPU',v:['1,500₽','2,500₽','3,000₽','4,000₽']},
+            {m:'MRR',v:['52K₽','475K₽','1.8M₽','6M₽']},
+          ].map(r=>'<tr><td style="text-align:left;font-weight:600;color:#94a3b8">'+r.m+'</td>'+r.v.map(v=>'<td class="fw7">'+v+'</td>').join('')+'</tr>').join('')}
+        </tbody>
+      </table>
+    </div>
+
     <div class="card conclusions">
       <h3 style="color:#e2e8f0">Выводы</h3>
       <p><strong style="color:#e2e8f0">30% маржа</strong> — из 100₽ GMV чистыми ~20₽ (vs 6₽ при 10%). Бизнес жизнеспособен даже при скромном росте.</p>
-      <p><strong style="color:#e2e8f0">Бенчмарк:</strong> GPTunnel берёт 30-50% + 20% НДС сверху. OpenRouter — 5%. Ваши 30% = конкурентоспособная позиция для РФ рынка.</p>
-      <p><strong style="color:#e2e8f0">Стратегия:</strong> Старт 20-30%, снижение до 15-20% при росте и компенсация объёмом + cache + routing + BYOK.</p>
+      <p><strong style="color:#e2e8f0">Бенчмарк:</strong> GPTunnel = 123 млн ₽/год (СПАРК 2025), рост ×6.5 за год. Средний чек ~410₽/мес при consumer-модели. Наш developer-first ARPU ×7 выше.</p>
+      <p><strong style="color:#e2e8f0">Рынок:</strong> 10+ активных конкурентов с 100K+ monthly visits. Топ-3 (Study24, Chad, GPTunnel) > 1M visits. Gap: никто не делает developer-grade API + UI одновременно.</p>
+      <p><strong style="color:#e2e8f0">Стратегия:</strong> Старт 20-30%, снижение до 15-20% при росте и компенсация объёмом + cache + routing + BYOK. Фокус на B2B (средний чек 10-150K₽/мес) как основной revenue driver.</p>
     </div>
   `;
 }
