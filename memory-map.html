@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Assistant — Memory Architecture</title>
+<style>
+/* AI Assistant Pages — Unified Style v1.0 */
+/* Used by all pages in dashboard/pages/ */
+/* Dark theme, matches AI dashboard aesthetic */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --bg-card: rgba(255,255,255,0.04);
+  --bg-card-hover: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.08);
+  --border-light: rgba(255,255,255,0.06);
+  --text: #e0e0e0;
+  --text-bright: #fff;
+  --text-dim: #999;
+  --text-muted: #666;
+  --font: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  
+  /* Accent colors */
+  --green: #10b981;
+  --blue: #3b82f6;
+  --orange: #f59e0b;
+  --red: #ef4444;
+  --purple: #a855f7;
+  --fire: #ff6b35;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  padding: 40px 20px;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.container { max-width: 1200px; margin: 0 auto; }
+
+/* Typography */
+h1 { text-align: center; font-size: 28px; margin-bottom: 6px; color: var(--text-bright); }
+h2 { font-size: 20px; color: var(--text-bright); margin-bottom: 12px; }
+h3 { font-size: 14px; color: var(--text-bright); margin-bottom: 10px; }
+.subtitle { text-align: center; color: var(--text-muted); font-size: 13px; margin-bottom: 40px; }
+.footer { text-align: center; margin-top: 32px; color: var(--text-muted); font-size: 11px; }
+
+code {
+  font-family: var(--font-mono);
+  background: rgba(255,255,255,0.06);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* Separator */
+.sep {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 32px 0;
+}
+
+/* Stats bar */
+.stats-bar { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin: 24px 0; }
+.stat {
+  text-align: center;
+  padding: 12px 20px;
+  background: var(--bg-card);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.stat-num { font-size: 24px; font-weight: 700; color: var(--text-bright); }
+.stat-label { font-size: 10px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Sections */
+.flow-section { margin-bottom: 32px; }
+.flow-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Badges */
+.badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+.badge-green { background: rgba(16,185,129,0.15); color: var(--green); }
+.badge-blue { background: rgba(59,130,246,0.15); color: var(--blue); }
+.badge-orange { background: rgba(245,158,11,0.15); color: var(--orange); }
+.badge-red { background: rgba(239,68,68,0.15); color: var(--red); }
+.badge-purple { background: rgba(168,85,247,0.15); color: var(--purple); }
+.badge-fire { background: rgba(255,107,53,0.15); color: var(--fire); }
+
+/* Pipeline (horizontal flow) */
+.pipeline { display: flex; gap: 0; align-items: stretch; flex-wrap: wrap; }
+.step { flex: 1; min-width: 160px; max-width: 250px; position: relative; }
+.step-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.step-num { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+.step-icon { font-size: 24px; margin-bottom: 8px; }
+.step-name { font-size: 14px; font-weight: 600; color: var(--text-bright); margin-bottom: 6px; }
+.step-desc { font-size: 11px; color: var(--text-dim); line-height: 1.5; flex: 1; }
+.step-tool { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border-light); }
+.step-arrow { display: flex; align-items: center; justify-content: center; min-width: 30px; color: #333; font-size: 20px; }
+
+/* Step color variants */
+.step-green .step-box { border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.06); }
+.step-blue .step-box { border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.06); }
+.step-orange .step-box { border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.06); }
+.step-red .step-box { border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.06); }
+.step-purple .step-box { border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.06); }
+.step-fire .step-box { border-color: rgba(255,107,53,0.3); background: rgba(255,107,53,0.06); }
+
+/* Decision diamond */
+.decision { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 90px; }
+.diamond { width: 50px; height: 50px; background: rgba(245,158,11,0.15); border: 2px solid rgba(245,158,11,0.4); transform: rotate(45deg); display: flex; align-items: center; justify-content: center; }
+.diamond-text { transform: rotate(-45deg); font-size: 10px; font-weight: 700; color: var(--orange); }
+.decision-labels { display: flex; gap: 20px; margin-top: 8px; font-size: 10px; }
+
+/* Info boxes (2-column grid) */
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.info-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 16px;
+}
+.info-box h3 { display: flex; align-items: center; gap: 6px; }
+.info-box ul { list-style: none; }
+.info-box li {
+  font-size: 11px;
+  color: var(--text-dim);
+  padding: 3px 0;
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.5;
+}
+.info-box li::before { content: "→"; position: absolute; left: 0; color: var(--text-muted); }
+
+/* Cards grid */
+.cards { display: flex; flex-wrap: wrap; gap: 10px; }
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  flex: 1;
+  min-width: 140px;
+  max-width: 280px;
+}
+.card-icon { font-size: 20px; margin-bottom: 6px; }
+.card-name { font-size: 13px; font-weight: 600; color: var(--text-bright); margin-bottom: 4px; }
+.card-desc { font-size: 11px; color: var(--text-dim); line-height: 1.4; }
+.card-path { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 6px; }
+.card-wide { min-width: 200px; max-width: 350px; }
+.card-narrow { min-width: 120px; max-width: 200px; }
+
+/* Layer blocks (for architecture diagrams) */
+.layer { margin-bottom: 24px; border-radius: 16px; padding: 20px; }
+.layer-title { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; font-weight: 600; }
+.layer-fire { background: linear-gradient(135deg, rgba(255,107,53,0.12), rgba(255,107,53,0.04)); border: 1px solid rgba(255,107,53,0.25); }
+.layer-fire .layer-title { color: var(--fire); }
+.layer-blue { background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(59,130,246,0.04)); border: 1px solid rgba(59,130,246,0.25); }
+.layer-blue .layer-title { color: var(--blue); }
+.layer-green { background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(16,185,129,0.04)); border: 1px solid rgba(16,185,129,0.25); }
+.layer-green .layer-title { color: var(--green); }
+.layer-purple { background: linear-gradient(135deg, rgba(168,85,247,0.12), rgba(168,85,247,0.04)); border: 1px solid rgba(168,85,247,0.25); }
+.layer-purple .layer-title { color: var(--purple); }
+.layer-gray { background: linear-gradient(135deg, rgba(107,114,128,0.12), rgba(107,114,128,0.04)); border: 1px solid rgba(107,114,128,0.25); }
+.layer-gray .layer-title { color: #9ca3af; }
+
+/* Flow connectors */
+.flow { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 16px 0; color: var(--text-muted); font-size: 12px; }
+.flow-arrow { color: #444; font-size: 18px; }
+.flow-label { background: var(--bg-card); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border-light); }
+
+/* Timeline */
+.timeline { margin-top: 24px; }
+.tl-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.tl-time { font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); min-width: 60px; }
+.tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.tl-name { font-size: 12px; color: #ccc; flex: 1; }
+.tl-type { font-size: 10px; padding: 2px 8px; border-radius: 8px; }
+.dot-blue { background: var(--blue); }
+.dot-green { background: var(--green); }
+.dot-orange { background: var(--orange); }
+.type-auto { background: rgba(59,130,246,0.15); color: var(--blue); }
+.type-hook { background: rgba(16,185,129,0.15); color: var(--green); }
+.type-manual { background: rgba(245,158,11,0.15); color: var(--orange); }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; padding: 8px 12px; color: var(--text-dim); font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+td { padding: 8px 12px; border-bottom: 1px solid var(--border-light); color: var(--text); }
+tr:hover td { background: var(--bg-card-hover); }
+
+/* Two-column layout */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .info-grid, .two-col { grid-template-columns: 1fr; }
+  .pipeline { flex-direction: column; }
+  .step { max-width: 100%; }
+  .step-arrow { transform: rotate(90deg); min-height: 20px; }
+  body { padding: 20px 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🧠 Memory Architecture</h1>
+<p class="subtitle">Как устроена память и организация данных AI-ассистента</p>
+
+<!-- Layer 1: Core -->
+<div class="layer layer-fire">
+  <div class="layer-title">🔥 Ядро — загружается при каждом старте сессии</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">👤</div>
+      <div class="card-name">SOUL.md</div>
+      <div class="card-desc">Кто я: роль, принципы, вайб, команда агентов</div>
+      <div class="card-path">workspace/SOUL.md</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧑‍💼</div>
+      <div class="card-name">USER.md</div>
+      <div class="card-desc">Профиль пользователя: предпочтения, цели, проекты</div>
+      <div class="card-path">workspace/USER.md</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧠</div>
+      <div class="card-name">MEMORY.md</div>
+      <div class="card-desc">Ядро долгосрочной памяти: инфра, модели, кроны, уроки, указатели</div>
+      <div class="card-path">workspace/MEMORY.md</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚙️</div>
+      <div class="card-name">AGENTS.md</div>
+      <div class="card-desc">Архитектура hub-and-spoke, правила делегирования, boot sequence</div>
+      <div class="card-path">workspace/AGENTS.md</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔧</div>
+      <div class="card-name">TOOLS.md</div>
+      <div class="card-desc">Инструменты: камеры, SSH, TTS, генерация изображений</div>
+      <div class="card-path">workspace/TOOLS.md</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💓</div>
+      <div class="card-name">HEARTBEAT.md</div>
+      <div class="card-desc">Правила heartbeat-проверок: задачи, рутина, обновления</div>
+      <div class="card-path">workspace/HEARTBEAT.md</div>
+    </div>
+  </div>
+</div>
+
+<div class="flow">
+  <span class="flow-arrow">↕</span>
+  <span class="flow-label">Контекстный мост между сессиями</span>
+  <span class="flow-arrow">↕</span>
+</div>
+
+<!-- Layer 2: Daily -->
+<div class="layer layer-blue">
+  <div class="layer-title">📅 Ежедневная память — логи, контекст, прогресс</div>
+  <div class="cards">
+    <div class="card card-wide">
+      <div class="card-icon">📝</div>
+      <div class="card-name">Дневные логи</div>
+      <div class="card-desc">Все события, решения, разговоры за день. Один файл = один день.</div>
+      <div class="card-path">memory/2026-02-25.md</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔄</div>
+      <div class="card-name">last-context.md</div>
+      <div class="card-desc">Последний контекст перед ресетом. Обновляется после каждого сообщения.</div>
+      <div class="card-path">memory/last-context.md</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <div class="card-name">Дневник прогресса</div>
+      <div class="card-desc">Ежедневный отчёт: что сделано, план на завтра, метрики.</div>
+      <div class="card-path">memory/progress/</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <div class="card-name">Tasks</div>
+      <div class="card-desc">Единственный источник правды для задач: today, in-progress, done.</div>
+      <div class="card-path">memory/tasks.json</div>
+    </div>
+  </div>
+</div>
+
+<div class="flow">
+  <span class="flow-arrow">↕</span>
+  <span class="flow-label">Проектная глубина</span>
+  <span class="flow-arrow">↕</span>
+</div>
+
+<!-- Layer 3: Projects -->
+<div class="layer layer-green">
+  <div class="layer-title">🎯 Проекты — 12 проектов, каждый в своей папке</div>
+  <div class="cards">
+    <div class="card card-narrow"><div class="card-icon">🏓</div><div class="card-name">Проект A</div><div class="card-path">projects/project-a/</div></div>
+    <div class="card card-narrow"><div class="card-icon">👔</div><div class="card-name">Проект B</div><div class="card-path">projects/project-b/</div></div>
+    <div class="card card-narrow"><div class="card-icon">📧</div><div class="card-name">Unisender</div><div class="card-path">projects/unisender/</div></div>
+    <div class="card card-narrow"><div class="card-icon">🎮</div><div class="card-name">Проект C</div><div class="card-path">projects/project-c/</div></div>
+    <div class="card card-narrow"><div class="card-icon">🧠</div><div class="card-name">Проект D</div><div class="card-path">projects/project-d/</div></div>
+    <div class="card card-narrow"><div class="card-icon">⚡</div><div class="card-name">AI Dashboard</div><div class="card-path">projects/dashboard/</div></div>
+    <div class="card card-narrow"><div class="card-icon">📣</div><div class="card-name">Build in Public</div><div class="card-path">projects/build-in-public/</div></div>
+    <div class="card card-narrow"><div class="card-icon">+5</div><div class="card-name">Ещё 5 проектов</div><div class="card-desc">и другие проекты</div></div>
+  </div>
+  <div style="margin-top:12px;padding:10px 14px;background:rgba(16,185,129,0.08);border-radius:8px;font-size:11px;color:var(--green);">
+    📐 Структура: <code>_overview.md</code> → <code>research-*.md</code>, <code>architecture.md</code>, <code>backlog.md</code>, данные (.json/.csv)
+  </div>
+</div>
+
+<div class="flow">
+  <span class="flow-arrow">↕</span>
+  <span class="flow-label">Операционные данные</span>
+  <span class="flow-arrow">↕</span>
+</div>
+
+<!-- Layer 4: Operations -->
+<div class="layer layer-purple">
+  <div class="layer-title">🔬 Аналитика и ресёрч — генерируется кронами</div>
+  <div class="cards">
+    <div class="card"><div class="card-icon">🔍</div><div class="card-name">Ежедневный ресёрч</div><div class="card-desc">Deep dive ротация P1/P2/P3 проектов. Конкуренты, тренды, action items.</div><div class="card-path">memory/research/</div></div>
+    <div class="card"><div class="card-icon">📈</div><div class="card-name">Anomaly Detection</div><div class="card-desc">Аномалии в дашбордах: скачки метрик, stale data, баги расчётов.</div><div class="card-path">memory/analytics/</div></div>
+    <div class="card"><div class="card-icon">🔐</div><div class="card-name">Security</div><div class="card-desc">Аудиты, мониторинг, логи безопасности.</div><div class="card-path">memory/security/</div></div>
+    <div class="card"><div class="card-icon">🧪</div><div class="card-name">QA отчёты</div><div class="card-desc">Ночные тесты дашборда, системные аудиты, баг-листы.</div><div class="card-path">memory/qa-*.md</div></div>
+  </div>
+</div>
+
+<div class="flow">
+  <span class="flow-arrow">↕</span>
+  <span class="flow-label">Системный слой</span>
+  <span class="flow-arrow">↕</span>
+</div>
+
+<!-- Layer 5: System -->
+<div class="layer layer-gray">
+  <div class="layer-title">🛡 Системная память — уроки, профили, служебное</div>
+  <div class="cards">
+    <div class="card"><div class="card-icon">💡</div><div class="card-name">lessons-learned.md</div><div class="card-desc">Ошибки и выводы. Не повторять.</div></div>
+    <div class="card"><div class="card-icon">👨‍💻</div><div class="card-name">user-profile.md</div><div class="card-desc">Полный профиль пользователя: интересы, стиль.</div></div>
+    <div class="card"><div class="card-icon">🏗</div><div class="card-name">CTO ревью</div><div class="card-desc">Еженедельный архитектурный аудит.</div></div>
+    <div class="card"><div class="card-icon">🐕‍🦺</div><div class="card-name">watchdog.log</div><div class="card-desc">Лог здоровья: алерты, known issues.</div></div>
+    <div class="card"><div class="card-icon">🔄</div><div class="card-name">rotation-state.json</div><div class="card-desc">Состояние ротации deep dive ресёрча.</div></div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- Data flow -->
+<div class="info-grid">
+  <div class="info-box">
+    <h3>📥 Кто пишет</h3>
+    <ul>
+      <li><b>Main agent</b> → дневные логи, last-context, tasks, MEMORY.md</li>
+      <li><b>Крон: Дневник</b> → progress/ (01:00)</li>
+      <li><b>Крон: Ресёрч</b> → research/ (05:00)</li>
+      <li><b>Крон: Anomaly</b> → analytics/ (10:00)</li>
+      <li><b>Крон: QA</b> → qa-nightly.md (03:00)</li>
+      <li><b>Крон: Watchdog</b> → watchdog.log (каж. 30 мин)</li>
+      <li><b>Крон: CTO</b> → cto-review-*.md (среда 04:00)</li>
+      <li><b>Крон: Бэкап</b> → git push на GitHub (02:00)</li>
+    </ul>
+  </div>
+  <div class="info-box">
+    <h3>📤 Кто читает</h3>
+    <ul>
+      <li><b>Boot sequence</b> → SOUL + USER + MEMORY + AGENTS + last-context</li>
+      <li><b>memory_search</b> → семантический поиск по всем .md</li>
+      <li><b>Утренний брифинг</b> → задачи + лог + погода</li>
+      <li><b>Вечерний дайджест</b> → лог + прогресс + ресёрч</li>
+      <li><b>Дашборд AI-ассистента</b> → tasks.json + данные проектов</li>
+      <li><b>Пользователь</b> → через дашборд (VPN)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">AI Assistant Memory Architecture — обновлено 25 февраля 2026</div>
+
+</div>
+</body>
+</html>
