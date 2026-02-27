@@ -3,576 +3,381 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ NeuroGate - AI Gateway для России</title>
+    <title>⚡ NeuroGate — AI Gateway для России</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --dark-bg: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            --c1: #667eea;
+            --c2: #764ba2;
+            --c3: #4facfe;
+            --grad: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --grad-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
 
         .reveal {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: var(--dark-bg);
-            color: #ffffff;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(160deg, #0a0a1a 0%, #111128 40%, #0d1b2a 100%);
+            color: #e0e0e0;
         }
 
         .reveal .slides section {
             text-align: left;
-            padding: 2rem;
+            padding: 1.2rem 2.5rem;
+            box-sizing: border-box;
+            height: 100%;
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .reveal .slides section[data-slide="title"] {
+        .reveal .slides section.center-slide {
             text-align: center;
+            align-items: center;
         }
 
-        .reveal h1, .reveal h2, .reveal h3 {
-            color: #ffffff;
-            text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
-            margin-bottom: 1rem;
-        }
+        /* Typography — compact */
+        .reveal h1 { font-size: 2.8em; font-weight: 800; margin: 0 0 0.4em; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .reveal h2 { font-size: 1.6em; font-weight: 700; color: #fff; margin: 0 0 0.8em; letter-spacing: -0.02em; }
+        .reveal h2 .emoji { margin-right: 0.3em; }
+        .reveal h3 { font-size: 1.15em; font-weight: 600; color: var(--c1); margin: 0 0 0.5em; }
+        .reveal p { font-size: 0.85em; line-height: 1.5; margin: 0 0 0.5em; }
+        .reveal li { font-size: 0.82em; line-height: 1.45; margin-bottom: 0.55em; }
 
-        .reveal h1 {
-            font-size: 3.5em;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+        .reveal ul { list-style: none; padding: 0; margin: 0; }
+        .reveal li { padding-left: 1.4em; position: relative; }
+        .reveal li:before { content: "▸"; position: absolute; left: 0; color: var(--c1); font-weight: 700; }
 
-        .reveal h2 {
-            font-size: 2.5em;
-            margin-bottom: 1.5rem;
-        }
+        /* Tagline */
+        .tagline { font-size: 1.2em; font-weight: 500; background: var(--grad-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0.3em 0; }
+        .subtitle { font-size: 1em; color: #999; margin-top: 0.3em; }
 
-        .reveal h3 {
-            font-size: 1.8em;
-            color: #667eea;
-        }
-
-        .reveal p, .reveal li {
-            font-size: 1.2em;
-            line-height: 1.6;
-            margin-bottom: 0.8rem;
-        }
-
-        .reveal ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .reveal li {
-            margin-bottom: 1rem;
-            padding-left: 2rem;
-            position: relative;
-        }
-
-        .reveal li:before {
-            content: "▶";
-            position: absolute;
-            left: 0;
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        .subtitle {
-            font-size: 1.5em;
-            color: #cccccc;
-            margin-bottom: 2rem;
-        }
-
-        .tagline {
-            font-size: 1.8em;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 600;
-            margin: 1rem 0;
-        }
-
-        .logo {
-            font-size: 4em;
-            margin-bottom: 0.5rem;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
+        /* Stats grid */
+        .stats-grid { display: grid; gap: 0.8rem; margin: 0.8rem 0; }
+        .stats-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+        .stats-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .stats-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
 
         .stat-card {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            border-radius: 12px;
-            padding: 1.5rem;
+            background: rgba(102, 126, 234, 0.08);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 10px;
+            padding: 0.8rem 0.6rem;
             text-align: center;
         }
+        .stat-number { font-size: 1.7em; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.2; }
+        .stat-label { color: #aaa; font-size: 0.7em; margin-top: 0.2em; }
+        .stat-desc { color: #777; font-size: 0.6em; margin-top: 0.15em; }
 
-        .stat-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+        /* Tables — compact */
+        table { width: 100%; border-collapse: collapse; margin: 0.6rem 0; font-size: 0.68em; }
+        th, td { padding: 0.45rem 0.5rem; text-align: center; border-bottom: 1px solid rgba(102,126,234,0.15); }
+        th { background: var(--grad); color: #fff; font-weight: 600; font-size: 0.9em; white-space: nowrap; }
+        td { white-space: nowrap; }
+        td:first-child, th:first-child { text-align: left; }
+        .highlight-col { background: rgba(102,126,234,0.12); }
+        .ck { color: #4ade80; }
+        .cx { color: #f87171; opacity: 0.6; }
 
-        .stat-label {
-            color: #cccccc;
-            font-size: 1em;
-            margin-top: 0.5rem;
-        }
+        /* Roadmap */
+        .roadmap { display: flex; flex-direction: column; gap: 0.7rem; margin: 0.6rem 0; }
+        .roadmap-item { background: rgba(102,126,234,0.08); border-left: 3px solid var(--c1); padding: 0.7rem 1rem; border-radius: 0 8px 8px 0; }
+        .roadmap-item strong { color: var(--c1); font-size: 0.9em; }
+        .roadmap-item span { font-size: 0.8em; color: #bbb; display: block; margin-top: 0.2em; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-            border-radius: 12px;
-            overflow: hidden;
-        }
+        /* Team */
+        .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 0.6rem 0; }
+        .team-card { background: rgba(102,126,234,0.08); border: 1px solid rgba(102,126,234,0.15); border-radius: 10px; padding: 1rem; }
+        .team-card h4 { color: var(--c1); font-size: 0.9em; margin: 0 0 0.3em; }
+        .team-card p { font-size: 0.75em; color: #aaa; margin: 0; }
 
-        th, td {
-            padding: 1rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
-        }
+        /* Risk table */
+        .risk-table td:first-child { font-weight: 500; color: #f59e0b; }
+        .risk-table td:last-child { color: #4ade80; }
 
-        th {
-            background: var(--primary-gradient);
-            color: white;
-            font-weight: 600;
-            font-size: 1.1em;
-        }
+        /* CTA */
+        .cta-block { margin-top: 1.5rem; }
+        .cta-button { display: inline-block; background: var(--grad); color: #fff; padding: 0.6rem 1.8rem; border-radius: 50px; font-size: 0.9em; font-weight: 600; text-decoration: none; box-shadow: 0 8px 25px rgba(102,126,234,0.3); }
 
-        td {
-            font-size: 1em;
-        }
+        /* Big number inline */
+        .big { font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-        .highlight {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
-            font-weight: bold;
-        }
+        /* Reveal overrides */
+        .reveal .progress { color: var(--c1); height: 3px; }
+        .reveal .controls { color: var(--c1); }
+        .reveal .slide-number { font-size: 0.6em; color: #555; }
 
-        .checkmark {
-            color: #4ade80;
-            font-size: 1.2em;
-        }
+        /* Separator line */
+        .sep { height: 1px; background: rgba(102,126,234,0.2); margin: 0.6rem 0; border: none; }
 
-        .cross {
-            color: #f87171;
-            font-size: 1.2em;
-        }
-
-        .roadmap-item {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border-left: 4px solid #667eea;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .roadmap-item strong {
-            color: #667eea;
-            font-size: 1.2em;
-        }
-
-        .team-member {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-        }
-
-        .team-member h4 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-
-        .cta {
-            text-align: center;
-            margin-top: 3rem;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: var(--primary-gradient);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 1.3em;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        .fragment {
-            opacity: 1;
-        }
-
-        .reveal .progress {
-            color: #667eea;
-        }
-
-        .reveal .controls {
-            color: #667eea;
-        }
-
-        .financial-table {
-            font-size: 0.9em;
-        }
-
-        .financial-table th {
-            font-size: 1em;
-        }
-
-        .big-number {
-            font-size: 2em;
-            font-weight: bold;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        @media (max-width: 768px) {
-            .reveal h1 {
-                font-size: 2.5em;
-            }
-            
-            .reveal h2 {
-                font-size: 2em;
-            }
-            
-            .reveal p, .reveal li {
-                font-size: 1em;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            table {
-                font-size: 0.8em;
-            }
-        }
+        /* Ensure no overflow */
+        .reveal .slides section { overflow: hidden; }
     </style>
 </head>
 <body>
     <div class="reveal">
         <div class="slides">
-            <!-- Слайд 1: Title -->
-            <section data-slide="title">
-                <div class="logo">⚡</div>
+
+            <!-- 1. Title -->
+            <section class="center-slide">
+                <div style="font-size:3em; margin-bottom:0.1em;">⚡</div>
                 <h1>NeuroGate</h1>
-                <div class="tagline">«Один API. Все модели. Полный контроль. Из России.»</div>
+                <div class="tagline">Один API. Все модели. Полный контроль. Из России.</div>
                 <div class="subtitle">Developer-first AI Gateway для РФ рынка</div>
             </section>
 
-            <!-- Слайд 2: Проблема -->
+            <!-- 2. Проблема -->
             <section>
-                <h2>🚫 Проблема</h2>
+                <h2><span class="emoji">🚫</span> Проблема</h2>
                 <ul>
-                    <li>OpenAI/Anthropic/Google не принимают оплату из РФ</li>
-                    <li>Существующие РФ прокси — consumer-ориентированы, нет developer-grade фич</li>
-                    <li>Нет intelligent routing, prompt caching, observability, budget management</li>
-                    <li class="fragment">Запрос <strong>"нейросеть без ВПН"</strong> — <span class="big-number">3.7M/мес</span> в Яндексе</li>
+                    <li><strong>Нет оплаты из РФ</strong> — OpenAI, Anthropic, Google не принимают российские карты</li>
+                    <li><strong>Прокси — для потребителей</strong> — существующие сервисы не дают developer-grade инфраструктуру</li>
+                    <li><strong>Нет контроля</strong> — ни routing, ни caching, ни аналитики, ни бюджетов</li>
+                </ul>
+                <hr class="sep">
+                <p style="text-align:center; margin-top:0.5em;">
+                    Запрос <strong>«нейросеть без ВПН»</strong> в Яндексе — <span class="big" style="font-size:1.8em;">3.7M/мес</span>
+                </p>
+            </section>
+
+            <!-- 3. Решение -->
+            <section>
+                <h2><span class="emoji">✨</span> Решение</h2>
+                <ul>
+                    <li><strong>Unified API</strong> — один ключ для 100+ моделей (OpenAI, Anthropic, Google, DeepSeek)</li>
+                    <li><strong>Smart Router</strong> — автоматический fallback + выбор по цене/скорости</li>
+                    <li><strong>Prompt Cache</strong> — semantic caching, снижение затрат до 50%</li>
+                    <li><strong>Observability</strong> — расходы, latency, quality per key/team в реальном времени</li>
+                    <li><strong>Прозрачные цены</strong> — формула вместо чёрного ящика, оплата в ₽</li>
                 </ul>
             </section>
 
-            <!-- Слайд 3: Решение -->
+            <!-- 4. Рынок -->
             <section>
-                <h2>✨ Решение</h2>
-                <ul>
-                    <li>Unified API для <strong>100+ моделей</strong> (OpenAI, Anthropic, Google, DeepSeek)</li>
-                    <li><strong>Smart Router</strong> — автофоллбэк + выбор по цене/скорости</li>
-                    <li><strong>Prompt Cache</strong> — снижение costs до 50%</li>
-                    <li><strong>Observability</strong> — расходы, latency, quality per key/team</li>
-                    <li>Оплата в рублях, без VPN</li>
-                </ul>
-            </section>
-
-            <!-- Слайд 4: Рынок -->
-            <section>
-                <h2>📈 Рынок</h2>
-                <div class="stats-grid">
+                <h2><span class="emoji">📈</span> Рынок</h2>
+                <div class="stats-grid cols-4">
                     <div class="stat-card">
                         <div class="stat-number">15M+</div>
                         <div class="stat-label">MAU суммарно</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-number">10.7M</div>
-                        <div class="stat-label">GigaChat MAU</div>
+                        <div class="stat-label">GigaChat (Сбер)</div>
+                        <div class="stat-desc">только свои модели</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-number">1.9M</div>
-                        <div class="stat-label">Chad MAU</div>
+                        <div class="stat-label">Chad</div>
+                        <div class="stat-desc">consumer, нет API</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">650K</div>
-                        <div class="stat-label">GPTunnel MAU</div>
+                        <div class="stat-number">123M₽</div>
+                        <div class="stat-label">GPTunnel выручка</div>
+                        <div class="stat-desc">x6.5 рост за год</div>
                     </div>
                 </div>
-                <p><strong>Developer-grade ниша ПУСТА</strong> — ни один конкурент не предлагает routing + caching + observability</p>
+                <hr class="sep">
+                <p style="text-align:center;"><strong>Developer-grade ниша пуста</strong> — ни один конкурент не даёт routing + caching + observability</p>
             </section>
 
-            <!-- Слайд 5: Конкурентный ландшафт -->
+            <!-- 5. Конкуренты -->
             <section>
-                <h2>⚔️ Конкуренты</h2>
+                <h2><span class="emoji">⚔️</span> Конкурентный ландшафт</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>Фича</th>
                             <th>Chad</th>
                             <th>GPTunnel</th>
                             <th>GenAPI</th>
                             <th>GigaChat</th>
-                            <th class="highlight">NeuroGate</th>
+                            <th class="highlight-col">NeuroGate</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><strong>UI чат</strong></td>
-                            <td><span class="checkmark">✅</span></td>
-                            <td><span class="checkmark">✅</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="checkmark">✅</span></td>
-                            <td class="highlight"><span class="checkmark">✅</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>API</strong></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="checkmark">✅</span></td>
-                            <td><span class="checkmark">✅</span></td>
-                            <td><span class="checkmark">✅</span></td>
-                            <td class="highlight"><span class="checkmark">✅</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Smart Routing</strong></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td class="highlight"><span class="checkmark">✅</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Prompt Cache</strong></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td class="highlight"><span class="checkmark">✅</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Observability</strong></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td class="highlight"><span class="checkmark">✅</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Budget Controls</strong></td>
-                            <td><span class="cross">❌</span></td>
-                            <td>Частично</td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td class="highlight"><span class="checkmark">✅</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Self-hosted</strong></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td><span class="cross">❌</span></td>
-                            <td class="highlight">✅ (v2)</td>
-                        </tr>
+                        <tr><td>UI чат</td><td><span class="ck">✅</span></td><td><span class="ck">✅</span></td><td><span class="cx">—</span></td><td><span class="ck">✅</span></td><td class="highlight-col"><span class="ck">✅</span></td></tr>
+                        <tr><td>API</td><td><span class="cx">—</span></td><td><span class="ck">✅</span></td><td><span class="ck">✅</span></td><td><span class="ck">✅</span></td><td class="highlight-col"><span class="ck">✅</span></td></tr>
+                        <tr><td>Smart Routing</td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td class="highlight-col"><span class="ck">✅</span></td></tr>
+                        <tr><td>Prompt Cache</td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td class="highlight-col"><span class="ck">✅</span></td></tr>
+                        <tr><td>Observability</td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td class="highlight-col"><span class="ck">✅</span></td></tr>
+                        <tr><td>Budget Controls</td><td><span class="cx">—</span></td><td>~</td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td class="highlight-col"><span class="ck">✅</span></td></tr>
+                        <tr><td>Self-hosted</td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td class="highlight-col">v2</td></tr>
+                        <tr><td>Прозрачные цены</td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="ck">✅</span></td><td><span class="ck">✅</span></td><td class="highlight-col"><span class="ck">✅</span></td></tr>
                     </tbody>
                 </table>
             </section>
 
-            <!-- Слайд 6: Бизнес-модель -->
+            <!-- 6. Бизнес-модель -->
             <section>
-                <h2>💰 Бизнес-модель</h2>
-                <ul>
-                    <li><strong>Pay-as-you-go:</strong> наценка X% + НДС</li>
-                    <li><strong>Pro $19/мес:</strong> скидка + приоритет</li>
-                    <li><strong>Team $49/мес:</strong> budget controls, shared billing</li>
-                    <li><strong>Enterprise:</strong> custom, self-hosted, SLA</li>
-                </ul>
-                <div class="stats-grid" style="margin-top: 2rem;">
+                <h2><span class="emoji">💰</span> Бизнес-модель</h2>
+                <div class="stats-grid cols-4" style="margin-bottom:0.8rem;">
                     <div class="stat-card">
-                        <div class="stat-number">~3,000₽</div>
+                        <div class="stat-label" style="margin-bottom:0.3em;">FREE</div>
+                        <div style="font-size:1.1em; font-weight:700; color:#fff;">Pay-as-you-go</div>
+                        <div class="stat-desc">Наценка X% + НДС</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" style="font-size:1.3em;">$19/мес</div>
+                        <div style="font-size:0.8em; font-weight:600; color:#fff;">Pro</div>
+                        <div class="stat-desc">Скидка + приоритет</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" style="font-size:1.3em;">$49/мес</div>
+                        <div style="font-size:0.8em; font-weight:600; color:#fff;">Team</div>
+                        <div class="stat-desc">Budget controls, billing</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label" style="margin-bottom:0.3em;">Custom</div>
+                        <div style="font-size:0.8em; font-weight:600; color:#fff;">Enterprise</div>
+                        <div class="stat-desc">Self-hosted, SLA</div>
+                    </div>
+                </div>
+                <div class="stats-grid cols-3">
+                    <div class="stat-card">
+                        <div class="stat-number" style="font-size:1.4em;">~3,000₽</div>
                         <div class="stat-label">ARPU/мес</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">40-50%</div>
+                        <div class="stat-number" style="font-size:1.4em;">40-50%</div>
                         <div class="stat-label">Gross Margin</div>
                     </div>
-                </div>
-            </section>
-
-            <!-- Слайд 7: Финансы -->
-            <section>
-                <h2>📊 Финансы</h2>
-                <table class="financial-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Месяц 3</th>
-                            <th>Месяц 6</th>
-                            <th>Месяц 12</th>
-                            <th>Месяц 24</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Visits</strong></td>
-                            <td>5K</td>
-                            <td>25K</td>
-                            <td>80K</td>
-                            <td>200K</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Платящих</strong></td>
-                            <td>35</td>
-                            <td>190</td>
-                            <td>600</td>
-                            <td>1,500</td>
-                        </tr>
-                        <tr>
-                            <td><strong>MRR</strong></td>
-                            <td>52K₽</td>
-                            <td>475K₽</td>
-                            <td>1.8M₽</td>
-                            <td>6M₽</td>
-                        </tr>
-                        <tr class="highlight">
-                            <td><strong>ARR</strong></td>
-                            <td>—</td>
-                            <td>5.7M₽</td>
-                            <td>21.6M₽</td>
-                            <td>72M₽</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-number">43x</div>
-                        <div class="stat-label">LTV/CAC</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">&lt;1</div>
-                        <div class="stat-label">Payback (мес)</div>
+                        <div class="stat-number" style="font-size:1.4em;">43x</div>
+                        <div class="stat-label">LTV / CAC</div>
                     </div>
                 </div>
             </section>
 
-            <!-- Слайд 8: Целевые сегменты -->
+            <!-- 7. Финансы -->
             <section>
-                <h2>🎯 Целевые сегменты</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number">70%</div>
-                        <div class="stat-label">Разработчики/стартапы</div>
-                        <p style="margin-top: 1rem; font-size: 0.9em; color: #ccc;">API для продуктов</p>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">20%</div>
-                        <div class="stat-label">Средний бизнес</div>
-                        <p style="margin-top: 1rem; font-size: 0.9em; color: #ccc;">AI для команд с контролем</p>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">10%</div>
-                        <div class="stat-label">Enterprise</div>
-                        <p style="margin-top: 1rem; font-size: 0.9em; color: #ccc;">Self-hosted, compliance</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Слайд 9: Roadmap -->
-            <section>
-                <h2>🗺️ Roadmap</h2>
-                <div class="roadmap-item">
-                    <strong>MVP (2-3 мес):</strong> Unified API + Dashboard + Virtual Keys + Billing RU
-                </div>
-                <div class="roadmap-item">
-                    <strong>v1.1 (4-6 мес):</strong> Smart Router + Prompt Cache + BYOK + Arena
-                </div>
-                <div class="roadmap-item">
-                    <strong>v2.0 (7-12 мес):</strong> Self-hosted + Guardrails + MCP + Team Mgmt
-                </div>
-            </section>
-
-            <!-- Слайд 10: Команда -->
-            <section>
-                <h2>👥 Команда</h2>
-                <div class="team-member">
-                    <h4>Максим Соловьёв — CEO</h4>
-                    <p>Маркетинг, go-to-market, партнёрства</p>
-                </div>
-                <div class="team-member">
-                    <h4>Юлия — CTO</h4>
-                    <p>Техническая архитектура и реализация</p>
-                </div>
-                <div style="margin-top: 2rem;">
-                    <h4>Стек:</h4>
-                    <p>Node.js (Fastify), React, PostgreSQL, Redis, Docker</p>
-                </div>
-            </section>
-
-            <!-- Слайд 11: Риски -->
-            <section>
-                <h2>⚠️ Риски и митигация</h2>
+                <h2><span class="emoji">📊</span> Финансовый прогноз</h2>
                 <table>
                     <thead>
-                        <tr>
-                            <th>Risk</th>
-                            <th>Mitigation</th>
-                        </tr>
+                        <tr><th></th><th>Месяц 3</th><th>Месяц 6</th><th>Месяц 12</th><th>Месяц 24</th></tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Провайдеры блокируют proxy</td>
-                            <td>Multi-region infra, ротация</td>
-                        </tr>
-                        <tr>
-                            <td>GPTunnel копирует фичи</td>
-                            <td>Скорость + open-source community</td>
-                        </tr>
-                        <tr>
-                            <td>Ценовая война</td>
-                            <td>Конкуренция фичами, не ценой</td>
-                        </tr>
+                        <tr><td><strong>Visits</strong></td><td>5K</td><td>25K</td><td>80K</td><td>200K</td></tr>
+                        <tr><td><strong>Платящих</strong></td><td>35</td><td>190</td><td>600</td><td>1,500</td></tr>
+                        <tr><td><strong>MRR</strong></td><td>52K ₽</td><td>475K ₽</td><td>1.8M ₽</td><td>6M ₽</td></tr>
+                        <tr style="background:rgba(102,126,234,0.1);"><td><strong>ARR</strong></td><td>630K ₽</td><td>5.7M ₽</td><td><strong>21.6M ₽</strong></td><td><strong>72M ₽</strong></td></tr>
+                    </tbody>
+                </table>
+                <hr class="sep">
+                <h3 style="margin-top:0.5em;">Сценарии (Месяц 12)</h3>
+                <div class="stats-grid cols-3">
+                    <div class="stat-card" style="border-color:rgba(239,68,68,0.3);">
+                        <div class="stat-label">🔴 Пессимистичный</div>
+                        <div class="stat-number" style="font-size:1.2em;">800K ₽</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">🟡 Базовый</div>
+                        <div class="stat-number" style="font-size:1.2em;">1.8M ₽</div>
+                    </div>
+                    <div class="stat-card" style="border-color:rgba(74,222,128,0.3);">
+                        <div class="stat-label">🟢 Оптимистичный</div>
+                        <div class="stat-number" style="font-size:1.2em;">4M ₽</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. Сегменты -->
+            <section>
+                <h2><span class="emoji">🎯</span> Целевые сегменты</h2>
+                <div class="stats-grid cols-3">
+                    <div class="stat-card" style="padding:1.2rem;">
+                        <div class="stat-number" style="font-size:2em;">70%</div>
+                        <div style="font-size:0.85em; font-weight:600; color:#fff; margin:0.4em 0 0.2em;">Разработчики & стартапы</div>
+                        <div class="stat-desc" style="font-size:0.7em;">API для продуктов, indie-хакеры, фрилансеры</div>
+                    </div>
+                    <div class="stat-card" style="padding:1.2rem;">
+                        <div class="stat-number" style="font-size:2em;">20%</div>
+                        <div style="font-size:0.85em; font-weight:600; color:#fff; margin:0.4em 0 0.2em;">Средний бизнес</div>
+                        <div class="stat-desc" style="font-size:0.7em;">AI для команд, контроль бюджетов, юрлицо</div>
+                    </div>
+                    <div class="stat-card" style="padding:1.2rem;">
+                        <div class="stat-number" style="font-size:2em;">10%</div>
+                        <div style="font-size:0.85em; font-weight:600; color:#fff; margin:0.4em 0 0.2em;">Enterprise</div>
+                        <div class="stat-desc" style="font-size:0.7em;">Self-hosted, compliance, SLA, ЭДО</div>
+                    </div>
+                </div>
+                <hr class="sep">
+                <p style="text-align:center; font-size:0.8em; color:#888; margin-top:0.6em;">
+                    Бенчмарк: GPTunnel — 410₽ средний чек (consumer) &nbsp;|&nbsp; NeuroGate — 3,000₽ (developer, x7 ARPU)
+                </p>
+            </section>
+
+            <!-- 9. Roadmap -->
+            <section>
+                <h2><span class="emoji">🗺️</span> Roadmap</h2>
+                <div class="roadmap">
+                    <div class="roadmap-item">
+                        <strong>MVP — 2-3 месяца</strong>
+                        <span>Unified API • Dashboard • Virtual Keys • Web Playground • Billing в рублях (YooKassa, СБП)</span>
+                    </div>
+                    <div class="roadmap-item" style="border-color:#a78bfa;">
+                        <strong style="color:#a78bfa;">v1.1 — 4-6 месяцев</strong>
+                        <span>Smart Router • Prompt Cache • BYOK • Model Arena • Streaming</span>
+                    </div>
+                    <div class="roadmap-item" style="border-color:#c084fc;">
+                        <strong style="color:#c084fc;">v2.0 — 7-12 месяцев</strong>
+                        <span>Self-hosted (Docker) • Guardrails • MCP Server • Team Management • Audit Log</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 10. Команда -->
+            <section>
+                <h2><span class="emoji">👥</span> Команда</h2>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <h4>Максим Соловьёв — CEO</h4>
+                        <p>Маркетинг, go-to-market, партнёрства, продукт</p>
+                    </div>
+                    <div class="team-card">
+                        <h4>Юлия — CTO</h4>
+                        <p>Техническая архитектура, разработка, инфраструктура</p>
+                    </div>
+                </div>
+                <hr class="sep">
+                <h3>Технологический стек</h3>
+                <div class="stats-grid cols-3" style="margin-top:0.4rem;">
+                    <div class="stat-card"><div style="font-size:0.8em; font-weight:600; color:#fff;">Backend</div><div class="stat-desc">Node.js, Fastify</div></div>
+                    <div class="stat-card"><div style="font-size:0.8em; font-weight:600; color:#fff;">Frontend</div><div class="stat-desc">React, Vite</div></div>
+                    <div class="stat-card"><div style="font-size:0.8em; font-weight:600; color:#fff;">Infra</div><div class="stat-desc">PostgreSQL, Redis, Docker</div></div>
+                </div>
+            </section>
+
+            <!-- 11. Риски -->
+            <section>
+                <h2><span class="emoji">⚠️</span> Риски и митигация</h2>
+                <table class="risk-table">
+                    <thead>
+                        <tr><th style="text-align:left;">Риск</th><th style="text-align:left;">Митигация</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Провайдеры блокируют proxy</td><td>Multi-region инфраструктура, ротация endpoints</td></tr>
+                        <tr><td>GPTunnel копирует developer-фичи</td><td>Скорость execution + open-source community moat</td></tr>
+                        <tr><td>Ценовая война</td><td>Конкуренция фичами (caching, routing), не ценой</td></tr>
+                        <tr><td>Регуляторные риски РФ</td><td>Юр. compliance, ЭДО, реестр Минцифры</td></tr>
                     </tbody>
                 </table>
             </section>
 
-            <!-- Слайд 12: CTA -->
-            <section data-slide="title">
-                <h2>🚀 Ready to build</h2>
-                <div class="tagline">the developer infrastructure for AI in Russia</div>
-                <div class="cta">
-                    <h3>Контакт: Максим Соловьёв</h3>
-                    <p>Email/Telegram</p>
-                    <div style="margin-top: 3rem;">
-                        <div class="logo">⚡</div>
-                        <h1 style="font-size: 2.5em;">NeuroGate</h1>
-                    </div>
+            <!-- 12. CTA -->
+            <section class="center-slide">
+                <div style="font-size:2.5em; margin-bottom:0.2em;">⚡</div>
+                <h1 style="font-size:2.2em;">NeuroGate</h1>
+                <div class="tagline">Developer infrastructure for AI in Russia</div>
+                <hr class="sep" style="width:60%; margin:1rem auto;">
+                <p style="font-size:1em; color:#fff; font-weight:500;">Максим Соловьёв</p>
+                <p style="font-size:0.8em; color:#aaa;">CEO & Co-founder</p>
+                <div class="cta-block">
+                    <a class="cta-button" href="https://t.me/msoloviev" target="_blank">Telegram →</a>
                 </div>
             </section>
+
         </div>
     </div>
 
@@ -585,13 +390,15 @@
             center: false,
             transition: 'slide',
             transitionSpeed: 'default',
-            backgroundTransition: 'fade',
-            fragments: true,
             width: 1280,
             height: 720,
-            margin: 0.1,
+            margin: 0.04,
             minScale: 0.2,
-            maxScale: 2.0
+            maxScale: 1.5,
+            slideNumber: 'c/t',
+            keyboard: true,
+            overview: true,
+            touch: true
         });
     </script>
 </body>
