@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💌</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0a0a0a;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts */
+        .hearts-bg {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 1.2em;
+            opacity: 0;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 0; transform: translateY(100vh) rotate(0deg) scale(0.5); }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.3; }
+            100% { opacity: 0; transform: translateY(-10vh) rotate(360deg) scale(1); }
+        }
+
+        /* Card */
+        .card {
+            position: relative;
+            z-index: 1;
+            max-width: 520px;
+            width: 90%;
+            background: linear-gradient(145deg, #1a1015 0%, #120a10 50%, #1a0a15 100%);
+            border: 1px solid rgba(200, 100, 120, 0.15);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            box-shadow:
+                0 0 80px rgba(180, 60, 90, 0.08),
+                0 30px 60px rgba(0,0,0,0.5);
+            animation: cardAppear 1.5s ease-out;
+        }
+
+        @keyframes cardAppear {
+            0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .heart-icon {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+            animation: pulse 2s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8em;
+            font-weight: 600;
+            color: #e8c4c8;
+            margin-bottom: 0.3em;
+            letter-spacing: 0.03em;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(200,120,140,0.5), transparent);
+            margin: 1em auto;
+        }
+
+        .message {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35em;
+            font-style: italic;
+            color: #c8a0a8;
+            line-height: 1.7;
+            margin: 1em 0;
+            font-weight: 400;
+        }
+
+        .message p {
+            margin-bottom: 0.8em;
+        }
+
+        .signature {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85em;
+            color: #886870;
+            margin-top: 1.5em;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+        }
+
+        /* Glow effect */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px; right: -1px; bottom: -1px;
+            border-radius: 24px;
+            background: linear-gradient(145deg, rgba(200,100,120,0.1), transparent, rgba(180,80,120,0.08));
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hearts-bg" id="hearts"></div>
+
+    <div class="card">
+        <div class="heart-icon">❤️</div>
+        <div class="name">Юля</div>
+        <div class="divider"></div>
+        <div class="message">
+            <p>Ты — мой дом, моя тишина и мой смех.</p>
+            <p>С тобой каждый день становится тем самым днём, ради которого стоит просыпаться.</p>
+            <p>Спасибо, что ты рядом. Спасибо за Милу и Василису. Спасибо, что ты — это ты.</p>
+            <p>Люблю тебя. Сегодня, завтра и всегда. 💕</p>
+        </div>
+        <div class="divider"></div>
+        <div class="signature">НАВСЕГДА ТВОЙ МАКС</div>
+    </div>
+
+    <script>
+        // Floating hearts
+        const container = document.getElementById('hearts');
+        const heartSymbols = ['♥', '❤', '💕', '♡', '❥'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = (0.6 + Math.random() * 1.2) + 'em';
+            heart.style.color = `hsl(${340 + Math.random() * 30}, ${50 + Math.random() * 30}%, ${40 + Math.random() * 25}%)`;
+            heart.style.animationDuration = (6 + Math.random() * 8) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            container.appendChild(heart);
+            setTimeout(() => heart.remove(), 16000);
+        }
+
+        // Initial batch
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createHeart, i * 300);
+        }
+        // Continuous
+        setInterval(createHeart, 800);
+    </script>
+</body>
+</html>
