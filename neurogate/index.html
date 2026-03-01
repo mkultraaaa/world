@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroGate — AI-трансформация для вашего бизнеса</title>
+    <meta name="description" content="Получите AI-аудит ваших бизнес-процессов за 2 минуты. Узнайте где автоматизировать и сэкономить 15+ часов в неделю.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0f0f14;
+            --bg-secondary: #1a1a20;
+            --bg-tertiary: #252530;
+            --text-primary: #ffffff;
+            --text-secondary: #b4b4b9;
+            --text-muted: #8d8d96;
+            --accent-purple: #7c5cfc;
+            --accent-green: #34d399;
+            --gradient-primary: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-green) 100%);
+            --gradient-section: linear-gradient(to bottom, transparent 0%, rgba(124, 92, 252, 0.02) 50%, transparent 100%);
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 20, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            background: radial-gradient(ellipse at center, rgba(124, 92, 252, 0.1) 0%, transparent 70%);
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 5vw, 64px);
+            font-weight: 700;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+
+        .hero .highlight {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(124, 92, 252, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(124, 92, 252, 0.4);
+        }
+
+        /* Section */
+        .section {
+            padding: 80px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            line-height: 1.2;
+        }
+
+        /* Problems Section */
+        .problems {
+            background: var(--gradient-section);
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .problem-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-purple);
+        }
+
+        .problem-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .problem-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--accent-purple);
+        }
+
+        /* Solution Section */
+        .solution-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 auto 24px;
+        }
+
+        .step h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .step p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Examples Section */
+        .examples {
+            background: var(--gradient-section);
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .example-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .example-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-green);
+        }
+
+        .example-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .example-icon {
+            font-size: 24px;
+            margin-right: 12px;
+            color: var(--accent-green);
+        }
+
+        .example-card h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .example-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .saving {
+            background: rgba(52, 211, 153, 0.1);
+            color: var(--accent-green);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Analysis Form Section */
+        .analysis-form {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-button {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(124, 92, 252, 0.3);
+        }
+
+        .submit-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(124, 92, 252, 0.4);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* FAQ Section */
+        .faq {
+            background: var(--gradient-section);
+        }
+
+        .faq-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .faq-question h4 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .faq-arrow {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-arrow {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 24px 24px;
+            max-height: 200px;
+        }
+
+        .faq-answer p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+        }
+
+        .modal-content .success-icon {
+            font-size: 64px;
+            color: var(--accent-green);
+            margin-bottom: 24px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-subtle);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .problems-grid,
+            .solution-steps,
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .form-container {
+                margin: 40px 20px 0;
+                padding: 24px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="container nav">
+            <div class="logo">NeuroGate</div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Ваши конкуренты уже экономят <span class="highlight">15 часов в неделю</span> с AI</h1>
+            <p>Получите персональный AI-аудит ваших бизнес-процессов за 2 минуты. Узнайте где автоматизировать и на сколько увеличить прибыль.</p>
+            <a href="#analysis" class="cta-button">Получить бесплатный аудит</a>
+        </div>
+    </section>
+
+    <!-- Problems Section -->
+    <section class="section problems">
+        <div class="container">
+            <h2 class="section-title">Пока вы думаете, другие действуют</h2>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <span class="problem-icon">😰</span>
+                    <h3>FOMO от AI-новостей</h3>
+                    <p>Каждый день читаете "AI заменил 500 сотрудников" и понимаете — надо что-то делать. Но что именно в ВАШЕМ бизнесе?</p>
+                </div>
+                <div class="problem-card">
+                    <span class="problem-icon">🤔</span>
+                    <h3>Не знаете с чего начать</h3>
+                    <p>ChatGPT, промпты, API, модели — много букв, мало понимания. Нужно готовое решение, а не очередной инструмент.</p>
+                </div>
+                <div class="problem-card">
+                    <span class="problem-icon">⏰</span>
+                    <h3>Время = деньги</h3>
+                    <p>Нет времени разбираться в технологиях. Нужен результат сегодня, а не через полгода изучения нейросетей.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Мы превращаем ваши процессы в AI-машину прибыли</h2>
+            <div class="solution-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Опишите процесс</h3>
+                    <p>Расскажите как работаете сейчас: продажи, маркетинг, поддержка клиентов. Текстом или голосом — как удобно.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Получите AI-аудит</h3>
+                    <p>Наш анализатор найдёт точки автоматизации, посчитает ROI и выдаст готовые промпты для внедрения.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Внедряете и экономите</h3>
+                    <p>Используете готовые решения на платформе NeuroGate. Результат: 15+ часов экономии в неделю.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works (Examples) -->
+    <section class="section examples">
+        <div class="container">
+            <h2 class="section-title">Что найдёт AI-анализатор в вашем бизнесе</h2>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-header">
+                        <span class="example-icon">📈</span>
+                        <h4>Маркетинг</h4>
+                    </div>
+                    <p>Автоматизация написания постов для соцсетей, создание рекламных креативов, анализ конкурентов</p>
+                    <span class="saving">Экономия: 12 часов/неделю</span>
+                </div>
+                <div class="example-card">
+                    <div class="example-header">
+                        <span class="example-icon">👥</span>
+                        <h4>HR и найм</h4>
+                    </div>
+                    <p>Автоматический скрининг резюме, составление вакансий, проведение первичных интервью</p>
+                    <span class="saving">Экономия: 8 часов/неделю</span>
+                </div>
+                <div class="example-card">
+                    <div class="example-header">
+                        <span class="example-icon">💬</span>
+                        <h4>Поддержка клиентов</h4>
+                    </div>
+                    <p>Ответы на типовые вопросы, обработка заявок, создание базы знаний</p>
+                    <span class="saving">Экономия: 20 часов/неделю</span>
+                </div>
+                <div class="example-card">
+                    <div class="example-header">
+                        <span class="example-icon">✍️</span>
+                        <h4>Контент и документы</h4>
+                    </div>
+                    <p>Создание коммерческих предложений, отчётов, презентаций, технической документации</p>
+                    <span class="saving">Экономия: 15 часов/неделю</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analysis Form -->
+    <section class="section analysis-form" id="analysis">
+        <div class="container">
+            <h2 class="section-title">Получите персональный AI-аудит бесплатно</h2>
+            <div class="form-container">
+                <form id="analysisForm">
+                    <div class="form-group">
+                        <label for="process">Опишите ваш бизнес-процесс</label>
+                        <textarea 
+                            id="process" 
+                            name="process" 
+                            class="form-control" 
+                            placeholder="Например: Занимаюсь интернет-маркетингом. Каждый день создаю 10 постов для клиентов в соцсетях, пишу тексты для рекламы в Яндекс.Директ, отвечаю на вопросы клиентов в WhatsApp..."
+                            required
+                        ></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email для отправки аудита</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-control" 
+                            placeholder="your@company.ru"
+                            required
+                        >
+                    </div>
+                    <button type="submit" class="submit-button">
+                        Получить AI-аудит бесплатно
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq">
+        <div class="container">
+            <h2 class="section-title">Частые вопросы</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h4>Сколько стоит аудит и платформа?</h4>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>AI-аудит бесплатный. Доступ к платформе NeuroGate — от 2990₽/месяц. Окупается экономией времени за первую неделю.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h4>Подходит ли для малого бизнеса?</h4>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Да, особенно для малого бизнеса. AI помогает конкурировать с крупными компаниями без найма большой команды.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h4>Нужны ли технические знания?</h4>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Нет. NeuroGate создан специально для бизнеса без технической команды. Всё работает через простой интерфейс.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h4>Как быстро увижу результат?</h4>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Аудит готов за 2 минуты. Первые процессы можно автоматизировать уже в день получения аудита.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h4>Что если AI не найдёт точки автоматизации?</h4>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Такого не бывает. В любом бизнесе есть рутинные задачи, которые AI выполняет лучше человека.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 NeuroGate. AI-трансформация для бизнеса.</p>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="success-icon">✅</div>
+            <h3>Спасибо!</h3>
+            <p>Ваш запрос отправлен. Персональный AI-аудит придёт на email в течение 2 минут.</p>
+            <br>
+            <button class="cta-button" onclick="closeModal()">Понятно</button>
+        </div>
+    </div>
+
+    <script>
+        // Scroll animations
+        function observeElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { 
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.section').forEach(section => {
+                observer.observe(section);
+            });
+        }
+
+        // FAQ toggle
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        }
+
+        // Form submission
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const submitButton = event.target.querySelector('.submit-button');
+            const originalText = submitButton.textContent;
+            
+            // Disable button and show loading
+            submitButton.disabled = true;
+            submitButton.textContent = 'Анализируем процесс...';
+            
+            // Simulate API call
+            setTimeout(() => {
+                showSuccessModal();
+                
+                // Reset form
+                event.target.reset();
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }, 2000);
+        }
+
+        function showSuccessModal() {
+            document.getElementById('successModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        // Smooth scroll to anchor
+        function smoothScrollToAnchor() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Close modal on outside click
+        function setupModalEvents() {
+            document.getElementById('successModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+
+            // Close modal on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            observeElements();
+            smoothScrollToAnchor();
+            setupModalEvents();
+            
+            // Add form event listener
+            document.getElementById('analysisForm').addEventListener('submit', handleFormSubmit);
+            
+            // Add initial animation to hero
+            document.querySelector('.hero').classList.add('animate-fadeInUp');
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(15, 15, 20, 0.95)';
+            } else {
+                header.style.background = 'rgba(15, 15, 20, 0.9)';
+            }
+        });
+    </script>
+</body>
+</html>
