@@ -14,7 +14,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px 0;
+    padding: 24px 16px;
     background: #0a0a0a;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
@@ -22,7 +22,6 @@
     position: relative;
   }
   
-  /* Animated background */
   body::before {
     content: '';
     position: fixed;
@@ -32,6 +31,7 @@
       radial-gradient(circle at 80% 20%, rgba(255, 0, 120, 0.1) 0%, transparent 50%),
       radial-gradient(circle at 50% 80%, rgba(0, 200, 255, 0.1) 0%, transparent 50%);
     animation: bgPulse 8s ease-in-out infinite alternate;
+    z-index: 0;
   }
   
   @keyframes bgPulse {
@@ -41,12 +41,13 @@
   
   .card {
     position: relative;
+    z-index: 1;
     width: 90vw;
-    max-width: 520px;
-    background: rgba(20, 20, 30, 0.9);
+    max-width: 560px;
+    background: rgba(20, 20, 30, 0.92);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 24px;
-    padding: 40px 32px;
+    padding: 48px 36px;
     text-align: center;
     backdrop-filter: blur(20px);
     box-shadow: 0 25px 60px rgba(0,0,0,0.5);
@@ -68,55 +69,41 @@
     letter-spacing: 2px;
     padding: 6px 16px;
     border-radius: 20px;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
   
-  .photo-container {
+  .photo-wrapper {
     position: relative;
-    width: 200px;
-    height: 200px;
-    margin: 0 auto 24px;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 32px;
   }
   
-  .photo {
-    width: 200px;
-    height: 200px;
+  .photo-wrapper img {
+    display: block;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     object-fit: cover;
     object-position: center top;
-    border: 3px solid rgba(255,255,255,0.15);
-    filter: grayscale(0%);
+    border: 3px solid rgba(255,255,255,0.2);
     transition: all 0.4s;
   }
   
-  .photo:hover {
+  .photo-wrapper img:hover {
     transform: scale(1.05) rotate(2deg);
     border-color: #ff006e;
     box-shadow: 0 0 40px rgba(255, 0, 110, 0.3);
   }
   
-  /* Floating tshirt emoji */
-  .tshirt {
-    position: absolute;
-    font-size: 48px;
-    bottom: -5px;
-    right: -10px;
-    animation: float 3s ease-in-out infinite;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0) rotate(-10deg); }
-    50% { transform: translateY(-10px) rotate(5deg); }
-  }
-  
   .crown {
     position: absolute;
-    font-size: 40px;
-    top: -20px;
+    font-size: 36px;
+    top: -24px;
     left: 50%;
     transform: translateX(-50%);
     animation: crownBob 2s ease-in-out infinite;
+    z-index: 2;
   }
   
   @keyframes crownBob {
@@ -124,30 +111,46 @@
     50% { transform: translateX(-50%) translateY(-8px); }
   }
   
+  .tshirt {
+    position: absolute;
+    font-size: 44px;
+    bottom: -8px;
+    right: -14px;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    z-index: 2;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-10deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+  }
+  
   h1 {
     font-family: 'Caveat', cursive;
-    font-size: 42px;
+    font-size: 44px;
     color: white;
     margin-bottom: 8px;
-    line-height: 1.1;
+    line-height: 1.2;
   }
   
   h1 span {
     background: linear-gradient(135deg, #ff006e, #ffbe0b);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   .subtitle {
     font-size: 18px;
     color: rgba(255,255,255,0.5);
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     font-style: italic;
   }
   
   .message {
     font-size: 16px;
-    line-height: 1.7;
+    line-height: 1.8;
     color: rgba(255,255,255,0.8);
     margin-bottom: 24px;
     padding: 0 8px;
@@ -162,21 +165,18 @@
     border-left: 3px solid #8338ec;
     padding: 16px 20px;
     border-radius: 0 12px 12px 0;
-    margin: 20px 0;
+    margin: 24px 0;
     font-size: 14px;
     color: rgba(255,255,255,0.6);
     text-align: left;
+    line-height: 1.6;
   }
   
   .stats {
     display: flex;
     justify-content: center;
-    gap: 32px;
-    margin: 24px 0;
-  }
-  
-  .stat {
-    text-align: center;
+    gap: 36px;
+    margin: 28px 0;
   }
   
   .stat-value {
@@ -194,7 +194,7 @@
   }
   
   .footer {
-    margin-top: 24px;
+    margin-top: 28px;
     font-size: 12px;
     color: rgba(255,255,255,0.25);
   }
@@ -202,8 +202,6 @@
   /* Confetti */
   .confetti {
     position: fixed;
-    width: 10px;
-    height: 10px;
     border-radius: 2px;
     animation: confettiFall linear infinite;
     opacity: 0.7;
@@ -214,11 +212,19 @@
     0% { transform: translateY(-100vh) rotate(0deg); }
     100% { transform: translateY(100vh) rotate(720deg); }
   }
+
+  @media (max-width: 480px) {
+    .card { padding: 32px 20px; }
+    h1 { font-size: 36px; }
+    .photo-wrapper { width: 140px; height: 140px; }
+    .photo-wrapper img { width: 140px; height: 140px; }
+    .stats { gap: 20px; }
+    .stat-value { font-size: 24px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- Confetti particles -->
 <script>
 const colors = ['#ff006e','#ffbe0b','#8338ec','#3a86ff','#00f5d4'];
 for(let i = 0; i < 30; i++) {
@@ -237,9 +243,9 @@ for(let i = 0; i < 30; i++) {
 <div class="card">
   <div class="badge">Официальная благодарность</div>
   
-  <div class="photo-container">
+  <div class="photo-wrapper">
     <span class="crown">👑</span>
-    <img src="andrey.jpg" alt="Андрей" class="photo">
+    <img src="andrey.jpg" alt="Андрей" width="180" height="180">
     <span class="tshirt">👕</span>
   </div>
   
