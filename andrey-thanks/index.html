@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Спасибо, Андрей! 👕</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@400;700;900&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a0a;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(120, 0, 255, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 0, 120, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 50% 80%, rgba(0, 200, 255, 0.1) 0%, transparent 50%);
+    animation: bgPulse 8s ease-in-out infinite alternate;
+  }
+  
+  @keyframes bgPulse {
+    0% { opacity: 0.7; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.1); }
+  }
+  
+  .card {
+    position: relative;
+    width: 90vw;
+    max-width: 520px;
+    background: rgba(20, 20, 30, 0.9);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 40px 32px;
+    text-align: center;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    animation: cardIn 0.8s ease-out;
+  }
+  
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff006e, #8338ec);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+  
+  .photo-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 24px;
+  }
+  
+  .photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 3px solid rgba(255,255,255,0.15);
+    filter: grayscale(0%);
+    transition: all 0.4s;
+  }
+  
+  .photo:hover {
+    transform: scale(1.05) rotate(2deg);
+    border-color: #ff006e;
+    box-shadow: 0 0 40px rgba(255, 0, 110, 0.3);
+  }
+  
+  /* Floating tshirt emoji */
+  .tshirt {
+    position: absolute;
+    font-size: 48px;
+    bottom: -5px;
+    right: -10px;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-10deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+  }
+  
+  .crown {
+    position: absolute;
+    font-size: 40px;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: crownBob 2s ease-in-out infinite;
+  }
+  
+  @keyframes crownBob {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-8px); }
+  }
+  
+  h1 {
+    font-family: 'Caveat', cursive;
+    font-size: 42px;
+    color: white;
+    margin-bottom: 8px;
+    line-height: 1.1;
+  }
+  
+  h1 span {
+    background: linear-gradient(135deg, #ff006e, #ffbe0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .subtitle {
+    font-size: 18px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+  
+  .message {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 24px;
+    padding: 0 8px;
+  }
+  
+  .message strong {
+    color: #ffbe0b;
+  }
+  
+  .quote {
+    background: rgba(255,255,255,0.05);
+    border-left: 3px solid #8338ec;
+    padding: 16px 20px;
+    border-radius: 0 12px 12px 0;
+    margin: 20px 0;
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    text-align: left;
+  }
+  
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin: 24px 0;
+  }
+  
+  .stat {
+    text-align: center;
+  }
+  
+  .stat-value {
+    font-size: 28px;
+    font-weight: 900;
+    color: white;
+  }
+  
+  .stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  
+  .footer {
+    margin-top: 24px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+  }
+  
+  /* Confetti */
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confettiFall linear infinite;
+    opacity: 0.7;
+    z-index: 0;
+  }
+  
+  @keyframes confettiFall {
+    0% { transform: translateY(-100vh) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(720deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Confetti particles -->
+<script>
+const colors = ['#ff006e','#ffbe0b','#8338ec','#3a86ff','#00f5d4'];
+for(let i = 0; i < 30; i++) {
+  const c = document.createElement('div');
+  c.className = 'confetti';
+  c.style.left = Math.random()*100 + 'vw';
+  c.style.background = colors[Math.floor(Math.random()*colors.length)];
+  c.style.width = (4 + Math.random()*8) + 'px';
+  c.style.height = (4 + Math.random()*8) + 'px';
+  c.style.animationDuration = (3 + Math.random()*5) + 's';
+  c.style.animationDelay = Math.random()*5 + 's';
+  document.body.appendChild(c);
+}
+</script>
+
+<div class="card">
+  <div class="badge">Официальная благодарность</div>
+  
+  <div class="photo-container">
+    <span class="crown">👑</span>
+    <img src="andrey.jpg" alt="Андрей" class="photo">
+    <span class="tshirt">👕</span>
+  </div>
+  
+  <h1>Спасибо, <span>Андрей!</span></h1>
+  <p class="subtitle">За легендарную футболку</p>
+  
+  <p class="message">
+    Этот человек не просто подарил футболку — он <strong>инвестировал в мой дресс-код</strong>. 
+    Теперь я выгляжу на 47% профессиональнее на созвонах. Продажи растут, клиенты доверяют, 
+    всё благодаря одной футболке.
+  </p>
+  
+  <div class="quote">
+    "Хорошая футболка — это не просто ткань. Это состояние души, бизнес-стратегия 
+    и инвестиция в будущее одновременно." — Андрей, вероятно
+  </div>
+  
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">+47%</div>
+      <div class="stat-label">Уверенность</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">∞</div>
+      <div class="stat-label">Благодарность</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">1</div>
+      <div class="stat-label">Футболка</div>
+    </div>
+  </div>
+  
+  <p class="footer">Сертификат выдан msolo.me • Март 2026 • Навсегда действителен</p>
+</div>
+
+</body>
+</html>
