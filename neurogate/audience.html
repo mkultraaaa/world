@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroGate — Портреты целевой аудитории</title>
+    <meta name="description" content="Детальные портреты целевой аудитории NeuroGate: B2C, B2B, Developer. Методология JTBD + Empathy Map + Value Proposition Canvas.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #16161f;
+            --bg-card-hover: #1c1c28;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --text-muted: #6a6a7a;
+            --accent: #7c5cfc;
+            --accent-light: #9b7eff;
+            --green: #34d399;
+            --green-dark: #059669;
+            --orange: #f59e0b;
+            --red: #ef4444;
+            --blue: #3b82f6;
+            --pink: #ec4899;
+            --cyan: #06b6d4;
+            --border: rgba(255,255,255,0.08);
+            --border-accent: rgba(124,92,252,0.3);
+            --shadow: 0 4px 24px rgba(0,0,0,0.4);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Layout ── */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 100px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px; left: 50%; transform: translateX(-50%);
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(124,92,252,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 16px;
+            background: rgba(124,92,252,0.1);
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-size: 13px; font-weight: 500; color: var(--accent-light);
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 18px; color: var(--text-secondary);
+            max-width: 700px; margin: 0 auto 32px;
+        }
+
+        /* ── Methodology ── */
+        .methodology {
+            padding: 40px 0 60px;
+        }
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+        .method-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 24px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+        .method-card:hover { border-color: var(--border-accent); }
+        .method-icon { font-size: 32px; margin-bottom: 12px; }
+        .method-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+        .method-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+        /* ── Section titles ── */
+        .section-title {
+            font-size: clamp(24px, 3vw, 36px);
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .section-subtitle {
+            font-size: 16px; color: var(--text-secondary);
+            margin-bottom: 48px; max-width: 600px;
+        }
+
+        /* ── Segment Nav (tabs) ── */
+        .segment-nav {
+            display: flex; gap: 8px; flex-wrap: wrap;
+            margin-bottom: 48px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .seg-tab {
+            padding: 10px 20px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 14px; font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-family: inherit;
+        }
+        .seg-tab:hover { border-color: var(--accent); color: var(--text-primary); }
+        .seg-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        /* ── Persona Card ── */
+        .persona-section { display: none; animation: fadeUp 0.4s ease; }
+        .persona-section.active { display: block; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .persona-header {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 32px;
+            align-items: center;
+            margin-bottom: 48px;
+            padding: 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+        .persona-avatar {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 56px;
+            border: 3px solid var(--border-accent);
+        }
+        .persona-name { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+        .persona-role { font-size: 15px; color: var(--accent-light); font-weight: 600; margin-bottom: 8px; }
+        .persona-quote {
+            font-size: 15px; color: var(--text-secondary);
+            font-style: italic;
+            border-left: 3px solid var(--accent);
+            padding-left: 16px;
+            margin-top: 12px;
+        }
+
+        .persona-tags {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;
+        }
+        .persona-tag {
+            padding: 4px 12px;
+            background: rgba(124,92,252,0.1);
+            border: 1px solid rgba(124,92,252,0.2);
+            border-radius: 100px;
+            font-size: 12px; font-weight: 500; color: var(--accent-light);
+        }
+
+        /* ── Grid layouts ── */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .detail-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: border-color 0.3s;
+        }
+        .detail-card:hover { border-color: var(--border-accent); }
+        .detail-card h4 {
+            font-size: 14px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.05em; color: var(--text-muted);
+            margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+        }
+        .detail-card h4 span { font-size: 18px; }
+
+        .detail-list { list-style: none; }
+        .detail-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 14px; color: var(--text-secondary);
+            display: flex; align-items: flex-start; gap: 10px;
+        }
+        .detail-list li:last-child { border-bottom: none; }
+        .detail-list li::before {
+            content: '';
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+            margin-top: 8px;
+        }
+
+        /* ── Empathy Map ── */
+        .empathy-map {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 2px;
+            margin-bottom: 40px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .empathy-cell {
+            background: var(--bg-card);
+            padding: 24px;
+        }
+        .empathy-cell h4 {
+            font-size: 13px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.06em; margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .empathy-cell.thinks h4 { color: var(--blue); }
+        .empathy-cell.feels h4 { color: var(--pink); }
+        .empathy-cell.says h4 { color: var(--green); }
+        .empathy-cell.does h4 { color: var(--orange); }
+        .empathy-cell ul { list-style: none; }
+        .empathy-cell li {
+            font-size: 13px; color: var(--text-secondary);
+            padding: 4px 0; line-height: 1.5;
+        }
+        .empathy-cell li::before { content: '→ '; color: var(--text-muted); }
+
+        /* ── JTBD ── */
+        .jtbd-list { margin-bottom: 40px; }
+        .jtbd-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 20px 24px;
+            margin-bottom: 10px;
+            display: grid;
+            grid-template-columns: 40px 1fr auto;
+            align-items: center;
+            gap: 16px;
+        }
+        .jtbd-num {
+            width: 36px; height: 36px;
+            background: rgba(124,92,252,0.15);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 800; color: var(--accent-light);
+        }
+        .jtbd-text { font-size: 14px; color: var(--text-secondary); }
+        .jtbd-text strong { color: var(--text-primary); font-weight: 600; }
+        .jtbd-priority {
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 11px; font-weight: 700;
+            text-transform: uppercase;
+        }
+        .jtbd-priority.high { background: rgba(239,68,68,0.15); color: #f87171; }
+        .jtbd-priority.medium { background: rgba(245,158,11,0.15); color: #fbbf24; }
+        .jtbd-priority.low { background: rgba(52,211,153,0.15); color: #6ee7b7; }
+
+        /* ── Value Prop ── */
+        .value-prop {
+            background: linear-gradient(135deg, rgba(124,92,252,0.08) 0%, rgba(52,211,153,0.05) 100%);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius);
+            padding: 32px;
+            margin-bottom: 40px;
+        }
+        .value-prop h3 {
+            font-size: 18px; font-weight: 700; margin-bottom: 16px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .vp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .vp-col h5 {
+            font-size: 12px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 10px;
+        }
+        .vp-col.gains h5 { color: var(--green); }
+        .vp-col.pains h5 { color: var(--red); }
+
+        /* ── Metrics ── */
+        .metrics-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+        .metric {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 24px; font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-light), var(--green));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .metric-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+
+        /* ── Channels ── */
+        .channels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+        .channel-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            display: flex; align-items: center; gap: 12px;
+            font-size: 13px; color: var(--text-secondary);
+        }
+        .channel-icon { font-size: 20px; flex-shrink: 0; }
+        .channel-eff {
+            margin-left: auto;
+            padding: 2px 8px;
+            border-radius: 100px;
+            font-size: 11px; font-weight: 700;
+        }
+        .channel-eff.high { background: rgba(52,211,153,0.15); color: #6ee7b7; }
+        .channel-eff.med { background: rgba(245,158,11,0.15); color: #fbbf24; }
+
+        /* ── Summary table ── */
+        .summary-section { padding: 60px 0 80px; }
+        .summary-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            font-size: 13px;
+        }
+        .summary-table thead { background: var(--bg-card); }
+        .summary-table th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border);
+        }
+        .summary-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            color: var(--text-secondary);
+        }
+        .summary-table tr:last-child td { border-bottom: none; }
+        .summary-table tr:hover td { background: rgba(124,92,252,0.03); }
+        .priority-dot {
+            width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+        }
+        .priority-dot.p1 { background: var(--red); }
+        .priority-dot.p2 { background: var(--orange); }
+        .priority-dot.p3 { background: var(--green); }
+
+        /* ── Footer ── */
+        .page-footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        .page-footer p { font-size: 13px; color: var(--text-muted); }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .persona-header { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+            .empathy-map { grid-template-columns: 1fr; }
+            .vp-grid { grid-template-columns: 1fr; }
+            .jtbd-item { grid-template-columns: 36px 1fr; }
+            .jtbd-priority { display: none; }
+            .summary-table { font-size: 11px; }
+            .summary-table th, .summary-table td { padding: 10px 8px; }
+            .hero { padding: 80px 0 40px; }
+        }
+
+        @media (max-width: 480px) {
+            .segment-nav { gap: 6px; }
+            .seg-tab { padding: 8px 14px; font-size: 12px; }
+            .metrics-bar { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-badge">📊 Исследование аудитории</div>
+        <h1>Портреты целевой аудитории NeuroGate</h1>
+        <p>7 детальных портретов по методологии JTBD + Empathy Map + Value Proposition Canvas. На основе анализа 10 конкурентов рынка РФ.</p>
+    </div>
+</section>
+
+<!-- ═══════ METHODOLOGY ═══════ -->
+<section class="methodology">
+    <div class="container">
+        <h2 class="section-title">Методология</h2>
+        <p class="section-subtitle">Каждый портрет построен с использованием трёх фреймворков</p>
+        <div class="method-grid">
+            <div class="method-card">
+                <div class="method-icon">🎯</div>
+                <h3>Buyer Persona Canvas</h3>
+                <p>Демография, психографика, контекст использования, барьеры к покупке, триггеры решения</p>
+            </div>
+            <div class="method-card">
+                <div class="method-icon">🔄</div>
+                <h3>Jobs-to-be-Done</h3>
+                <p>Функциональные, эмоциональные и социальные задачи, которые клиент «нанимает» продукт решить</p>
+            </div>
+            <div class="method-card">
+                <div class="method-icon">🧠</div>
+                <h3>Empathy Map</h3>
+                <p>Думает, чувствует, говорит, делает — погружение в голову каждого сегмента</p>
+            </div>
+            <div class="method-card">
+                <div class="method-icon">💎</div>
+                <h3>Value Proposition Canvas</h3>
+                <p>Gains vs Pains: что именно наш продукт даёт каждому сегменту и какую боль снимает</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ PERSONAS ═══════ -->
+<section style="padding: 40px 0 60px;">
+    <div class="container">
+        <h2 class="section-title">Портреты аудитории</h2>
+        <p class="section-subtitle">Нажмите на сегмент, чтобы открыть детальный портрет</p>
+
+        <div class="segment-nav">
+            <button class="seg-tab active" data-target="p1">👩‍🎨 Креатор</button>
+            <button class="seg-tab" data-target="p2">🎓 Студент</button>
+            <button class="seg-tab" data-target="p3">📈 Head of Marketing</button>
+            <button class="seg-tab" data-target="p4">👔 CEO / Владелец</button>
+            <button class="seg-tab" data-target="p5">⚙️ CTO / Developer</button>
+            <button class="seg-tab" data-target="p6">🏢 HR-директор</button>
+            <button class="seg-tab" data-target="p7">🚀 AI-агентство</button>
+        </div>
+
+<!-- ────── PERSONA 1: Креатор ────── -->
+<div class="persona-section active" id="p1">
+    <div class="persona-header">
+        <div class="persona-avatar" style="background: linear-gradient(135deg, rgba(236,72,153,0.15), rgba(124,92,252,0.15));">👩‍🎨</div>
+        <div>
+            <div class="persona-name">Анна, 28 лет</div>
+            <div class="persona-role">Фрилансер · SMM-менеджер · Контент-мейкер</div>
+            <div class="persona-quote">«Мне нужен Midjourney и ChatGPT прямо сейчас, без VPN и танцев с бубном — у меня дедлайн через 2 часа»</div>
+            <div class="persona-tags">
+                <span class="persona-tag">B2C</span>
+                <span class="persona-tag">Фриланс</span>
+                <span class="persona-tag">22-35 лет</span>
+                <span class="persona-tag">50-150K ₽/мес</span>
+                <span class="persona-tag">Москва / удалёнка</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="metrics-bar">
+        <div class="metric"><div class="metric-value">500-800₽</div><div class="metric-label">Средний чек / мес</div></div>
+        <div class="metric"><div class="metric-value">4-8 мес</div><div class="metric-label">LTV</div></div>
+        <div class="metric"><div class="metric-value">~5 мин</div><div class="metric-label">Цикл решения</div></div>
+        <div class="metric"><div class="metric-value">Высокий</div><div class="metric-label">Объём рынка</div></div>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-card">
+            <h4><span>👤</span> Демография и контекст</h4>
+            <ul class="detail-list">
+                <li>60% женщины, 40% мужчины — SMM, копирайтинг, дизайн</li>
+                <li>Ведёт 3-10 клиентов параллельно, постоянные дедлайны</li>
+                <li>Зарабатывает на контенте: тексты, визуалы, рилзы, сторис</li>
+                <li>Высшее/неоконченное высшее, часто гуманитарное</li>
+                <li>Продвинутый пользователь, но не программист</li>
+            </ul>
+        </div>
+        <div class="detail-card">
+            <h4><span>🧬</span> Психографика</h4>
+            <ul class="detail-list">
+                <li><strong>Мотивация:</strong> скорость → больше клиентов → больше денег</li>
+                <li><strong>Ценности:</strong> креативность, свобода, «делать красиво»</li>
+                <li><strong>Страх:</strong> конкуренты работают быстрее с AI, а я — нет</li>
+                <li><strong>Триггер:</strong> увидела у коллеги генерацию Midjourney в сторис</li>
+                <li>Чувствительна к цене — каждые 100₽ считает</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Empathy Map -->
+    <div class="empathy-map">
+        <div class="empathy-cell thinks">
+            <h4>🧠 Думает</h4>
+            <ul>
+                <li>«Конкуренты уже генерят контент в 3 раза быстрее»</li>
+                <li>«Если я не начну использовать AI — останусь без заказов»</li>
+                <li>«Подписка на каждую нейросеть отдельно — слишком дорого»</li>
+                <li>«А вдруг качество хуже оригинала?»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell feels">
+            <h4>❤️ Чувствует</h4>
+            <ul>
+                <li>Тревогу — рынок меняется, нужно не отстать</li>
+                <li>Раздражение — VPN тормозит, карта не проходит</li>
+                <li>Азарт — AI открывает новые возможности для креатива</li>
+                <li>Сомнение — промпт-инженерия кажется сложной</li>
+            </ul>
+        </div>
+        <div class="empathy-cell says">
+            <h4>💬 Говорит</h4>
+            <ul>
+                <li>«Скинь ссылку, где Midjourney без VPN работает»</li>
+                <li>«Мне нужно 20 вариантов визуала к понедельнику»</li>
+                <li>«За сколько подписка? А бесплатно попробовать можно?»</li>
+                <li>«Это я сама сгенерила или нейросеть — клиент не узнает»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell does">
+            <h4>⚡ Делает</h4>
+            <ul>
+                <li>Гуглит «chatgpt без vpn», «midjourney из россии»</li>
+                <li>Пробует бесплатные тарифы у 3-4 сервисов</li>
+                <li>Спрашивает рекомендации в профессиональных чатах</li>
+                <li>Сравнивает цены в таблице перед оплатой</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- JTBD -->
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎯 Jobs-to-be-Done</h3>
+    <div class="jtbd-list">
+        <div class="jtbd-item">
+            <div class="jtbd-num">1</div>
+            <div class="jtbd-text"><strong>Когда</strong> у меня дедлайн на визуалы для клиента, <strong>я хочу</strong> быстро сгенерировать 10+ вариантов картинок, <strong>чтобы</strong> выбрать лучший и сдать вовремя</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">2</div>
+            <div class="jtbd-text"><strong>Когда</strong> мне нужно написать 5 постов для SMM-плана, <strong>я хочу</strong> ChatGPT на русском без VPN, <strong>чтобы</strong> не тратить 2 часа на тексты вручную</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">3</div>
+            <div class="jtbd-text"><strong>Когда</strong> я оплачиваю инструменты, <strong>я хочу</strong> платить в рублях через СБП, <strong>чтобы</strong> не искать иностранную карту и не терять на конвертации</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">4</div>
+            <div class="jtbd-text"><strong>Когда</strong> я сравниваю ChatGPT vs Claude vs Gemini, <strong>я хочу</strong> попробовать все в одном месте, <strong>чтобы</strong> не заводить 5 аккаунтов</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">5</div>
+            <div class="jtbd-text"><strong>Когда</strong> клиент просит видео-контент, <strong>я хочу</strong> сгенерировать ролик через Sora/Kling, <strong>чтобы</strong> расширить спектр услуг и поднять чек</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+    </div>
+
+    <!-- Value Proposition -->
+    <div class="value-prop">
+        <h3>💎 Ценностное предложение NeuroGate → Анна</h3>
+        <div class="vp-grid">
+            <div class="vp-col pains">
+                <h5>🔴 Боли, которые снимаем</h5>
+                <ul class="detail-list">
+                    <li>VPN нестабильный, страницы не грузятся</li>
+                    <li>Иностранная карта — сложно получить или нет</li>
+                    <li>5 подписок = 5 биллингов = головная боль</li>
+                    <li>Страх что данные клиентов утекут</li>
+                </ul>
+            </div>
+            <div class="vp-col gains">
+                <h5>🟢 Выгоды, которые даём</h5>
+                <ul class="detail-list">
+                    <li>Все модели в одном окне — ChatGPT + Midjourney + Sora</li>
+                    <li>Оплата СБП за 30 секунд, чеки в рублях</li>
+                    <li>Pay-as-you-go — платишь только за использование</li>
+                    <li>Готовые промпт-шаблоны для контент-мейкеров</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📡 Каналы привлечения</h3>
+    <div class="channels-grid">
+        <div class="channel-item"><span class="channel-icon">🔍</span> Яндекс «chatgpt без vpn»<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">📱</span> Telegram AI-каналы<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">▶️</span> YouTube обзоры<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">📸</span> Instagram / Reels<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">💬</span> Чаты фрилансеров<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">🎵</span> TikTok примеры<span class="channel-eff med">Med</span></div>
+    </div>
+</div>
+
+<!-- ────── PERSONA 2: Студент ────── -->
+<div class="persona-section" id="p2">
+    <div class="persona-header">
+        <div class="persona-avatar" style="background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(6,182,212,0.15));">🎓</div>
+        <div>
+            <div class="persona-name">Дмитрий, 21 год</div>
+            <div class="persona-role">Студент IT / начинающий специалист</div>
+            <div class="persona-quote">«Мне нужен ChatGPT для курсовой и кода, но $20 в месяц за Plus — это весь мой бюджет на еду за неделю»</div>
+            <div class="persona-tags">
+                <span class="persona-tag">B2C</span>
+                <span class="persona-tag">Gen Z</span>
+                <span class="persona-tag">17-24 года</span>
+                <span class="persona-tag">0-40K ₽/мес</span>
+                <span class="persona-tag">Любой город РФ</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="metrics-bar">
+        <div class="metric"><div class="metric-value">200-400₽</div><div class="metric-label">Средний чек / мес</div></div>
+        <div class="metric"><div class="metric-value">6-12 мес</div><div class="metric-label">LTV</div></div>
+        <div class="metric"><div class="metric-value">~2 мин</div><div class="metric-label">Цикл решения</div></div>
+        <div class="metric"><div class="metric-value">🔥 Виральный</div><div class="metric-label">Тип роста</div></div>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-card">
+            <h4><span>👤</span> Демография и контекст</h4>
+            <ul class="detail-list">
+                <li>55% мужчины, 45% женщины — IT, экономика, маркетинг, дизайн</li>
+                <li>Стипендия или подработка, бюджет ограничен</li>
+                <li>Активно использует AI для учёбы: рефераты, курсовые, код</li>
+                <li>Технически грамотный, пробует всё новое первым</li>
+                <li>65% пользователей ИИ — миллениалы или Gen Z (Digital Silk 2026)</li>
+            </ul>
+        </div>
+        <div class="detail-card">
+            <h4><span>🧬</span> Психографика</h4>
+            <ul class="detail-list">
+                <li><strong>Мотивация:</strong> хакнуть учёбу, выделиться на старте карьеры</li>
+                <li><strong>Ценности:</strong> эффективность, хайп, быть «впереди»</li>
+                <li><strong>Страх:</strong> остаться «обычным», не найти работу без AI-навыков</li>
+                <li><strong>Триггер:</strong> однокурсник сдал курсовую за вечер с помощью ChatGPT</li>
+                <li>Готов терпеть ограничения ради бесплатного доступа</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="empathy-map">
+        <div class="empathy-cell thinks">
+            <h4>🧠 Думает</h4>
+            <ul>
+                <li>«Промптинг — это навык будущего, надо учиться сейчас»</li>
+                <li>«Если другие пишут код с AI, а я нет — меня не возьмут на работу»</li>
+                <li>«GPT-5 vs Claude vs Gemini — какой лучше для кода?»</li>
+                <li>«$20/мес за Plus — нереально, нужна альтернатива»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell feels">
+            <h4>❤️ Чувствует</h4>
+            <ul>
+                <li>Азарт от новых возможностей — «я могу всё!»</li>
+                <li>Фрустрация от лимитов бесплатных тарифов</li>
+                <li>Гордость когда получается крутой результат с AI</li>
+                <li>FOMO — все уже используют, а у меня нет доступа</li>
+            </ul>
+        </div>
+        <div class="empathy-cell says">
+            <h4>💬 Говорит</h4>
+            <ul>
+                <li>«Кто-нибудь знает бесплатный ChatGPT без VPN?»</li>
+                <li>«Я написал курсовую за ночь с помощью нейросети»</li>
+                <li>«Скинь промпт, который ты использовал»</li>
+                <li>«Там есть бесплатные запросы? Сколько в день?»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell does">
+            <h4>⚡ Делает</h4>
+            <ul>
+                <li>Регистрируется на всех бесплатных AI-сервисах</li>
+                <li>Делится находками в чатах с однокурсниками</li>
+                <li>Смотрит YouTube/TikTok «как использовать ChatGPT для учёбы»</li>
+                <li>Заводит несколько аккаунтов ради лимитов</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎯 Jobs-to-be-Done</h3>
+    <div class="jtbd-list">
+        <div class="jtbd-item">
+            <div class="jtbd-num">1</div>
+            <div class="jtbd-text"><strong>Когда</strong> у меня дедлайн на курсовую, <strong>я хочу</strong> быстро получить структуру, аргументы и текст, <strong>чтобы</strong> сдать вовремя и получить хорошую оценку</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">2</div>
+            <div class="jtbd-text"><strong>Когда</strong> я учусь программировать, <strong>я хочу</strong> AI-помощника для кода, <strong>чтобы</strong> разобраться в ошибках и учиться быстрее</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">3</div>
+            <div class="jtbd-text"><strong>Когда</strong> я выбираю AI-инструмент, <strong>я хочу</strong> попробовать бесплатно, <strong>чтобы</strong> понять стоит ли платить</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">4</div>
+            <div class="jtbd-text"><strong>Когда</strong> я нашёл крутой сервис, <strong>я хочу</strong> поделиться с друзьями, <strong>чтобы</strong> получить бонус или быть «тем кто знает»</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">5</div>
+            <div class="jtbd-text"><strong>Когда</strong> я ищу стажировку/работу, <strong>я хочу</strong> показать навыки работы с AI, <strong>чтобы</strong> выделиться среди кандидатов</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+    </div>
+
+    <div class="value-prop">
+        <h3>💎 Ценностное предложение NeuroGate → Дмитрий</h3>
+        <div class="vp-grid">
+            <div class="vp-col pains">
+                <h5>🔴 Боли, которые снимаем</h5>
+                <ul class="detail-list">
+                    <li>Нет денег на $20/мес подписку ChatGPT Plus</li>
+                    <li>VPN + иностранная карта = барьер входа</li>
+                    <li>Бесплатные тарифы кончаются за 3 запроса</li>
+                    <li>Не понимает разницу между моделями</li>
+                </ul>
+            </div>
+            <div class="vp-col gains">
+                <h5>🟢 Выгоды, которые даём</h5>
+                <ul class="detail-list">
+                    <li>Щедрый бесплатный тариф — хватит для учёбы</li>
+                    <li>Все модели — попробуй и сравни в одном окне</li>
+                    <li>Реферальная программа — приведи друга, получи бонус</li>
+                    <li>Telegram-бот — не нужно даже регистрироваться</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📡 Каналы привлечения</h3>
+    <div class="channels-grid">
+        <div class="channel-item"><span class="channel-icon">🎵</span> TikTok «AI для учёбы»<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">▶️</span> YouTube Shorts<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">📱</span> Telegram студ. чаты<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">🔗</span> Реферальная программа<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">🔍</span> Яндекс «chatgpt бесплатно»<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">💻</span> vc.ru / DTF рейтинги<span class="channel-eff med">Med</span></div>
+    </div>
+</div>
+
+<!-- ────── PERSONA 3: Head of Marketing ────── -->
+<div class="persona-section" id="p3">
+    <div class="persona-header">
+        <div class="persona-avatar" style="background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(239,68,68,0.15));">📈</div>
+        <div>
+            <div class="persona-name">Марина, 34 года</div>
+            <div class="persona-role">Head of Marketing · Компания 50 человек · E-commerce</div>
+            <div class="persona-quote">«Конкуренты уже генерят контент с AI, а мои копирайтеры сидят в Google Docs. Мне нужно решение на всю команду, но с контролем расходов»</div>
+            <div class="persona-tags">
+                <span class="persona-tag">B2B</span>
+                <span class="persona-tag">ЛПР среднего уровня</span>
+                <span class="persona-tag">28-42 года</span>
+                <span class="persona-tag">150-400K ₽/мес</span>
+                <span class="persona-tag">Москва / СПб</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="metrics-bar">
+        <div class="metric"><div class="metric-value">10-50K₽</div><div class="metric-label">Средний чек / мес</div></div>
+        <div class="metric"><div class="metric-value">12-24 мес</div><div class="metric-label">LTV</div></div>
+        <div class="metric"><div class="metric-value">2-4 нед</div><div class="metric-label">Цикл продажи</div></div>
+        <div class="metric"><div class="metric-value">💰 Деньги</div><div class="metric-label">Тип ценности</div></div>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-card">
+            <h4><span>👤</span> Демография и контекст</h4>
+            <ul class="detail-list">
+                <li>Управляет командой 3-15 человек (копирайтеры, дизайнеры, SMM)</li>
+                <li>Бюджет маркетинга 200K-2M ₽/мес — есть что потратить на AI</li>
+                <li>Отчитывается перед CEO по ROI — нужны цифры</li>
+                <li>Давление: «конкуренты уже используют, а мы — нет»</li>
+                <li>57% малого бизнеса используют нейросети для маркетинга (Digital Silk)</li>
+            </ul>
+        </div>
+        <div class="detail-card">
+            <h4><span>🧬</span> Психографика</h4>
+            <ul class="detail-list">
+                <li><strong>Мотивация:</strong> показать результат руководству, не отстать от рынка</li>
+                <li><strong>Ценности:</strong> эффективность команды, масштабируемость, контроль</li>
+                <li><strong>Страх:</strong> сотрудники сольют данные в ChatGPT, не обосную ROI</li>
+                <li><strong>Триггер:</strong> CEO после конференции: «а почему мы не используем AI?»</li>
+                <li>Нужна демонстрация и кейсы из своей отрасли</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="empathy-map">
+        <div class="empathy-cell thinks">
+            <h4>🧠 Думает</h4>
+            <ul>
+                <li>«72% компаний уже используют AI — мы в отстающих»</li>
+                <li>«Как контролировать, что сотрудники не сольют NDA?»</li>
+                <li>«Нужно обосновать расход перед финдиректором»</li>
+                <li>«Хочу один инструмент на всех, а не 10 подписок»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell feels">
+            <h4>❤️ Чувствует</h4>
+            <ul>
+                <li>Давление сверху — CEO хочет «AI-трансформацию»</li>
+                <li>Неуверенность — какой инструмент выбрать из десятка?</li>
+                <li>Надежду — «если внедрим, KPI полетят вверх»</li>
+                <li>Ответственность — если выберу плохой сервис, виновата я</li>
+            </ul>
+        </div>
+        <div class="empathy-cell says">
+            <h4>💬 Говорит</h4>
+            <ul>
+                <li>«Нам нужен один аккаунт на всю команду с лимитами»</li>
+                <li>«А можно оплатить от юрлица? Нужен акт и счёт-фактура»</li>
+                <li>«Покажите кейсы — сколько экономят похожие команды?»</li>
+                <li>«Давайте пилот на 2 недели, потом решим»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell does">
+            <h4>⚡ Делает</h4>
+            <ul>
+                <li>Читает кейсы на vc.ru «AI в маркетинге»</li>
+                <li>Спрашивает коллег из других компаний в LinkedIn</li>
+                <li>Запрашивает демо у 2-3 сервисов, сравнивает</li>
+                <li>Делает презентацию для CEO с ROI-расчётом</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎯 Jobs-to-be-Done</h3>
+    <div class="jtbd-list">
+        <div class="jtbd-item">
+            <div class="jtbd-num">1</div>
+            <div class="jtbd-text"><strong>Когда</strong> CEO требует внедрить AI, <strong>я хочу</strong> подключить всю команду за день с единым биллингом, <strong>чтобы</strong> не тратить месяц на согласования</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">2</div>
+            <div class="jtbd-text"><strong>Когда</strong> финдиректор спрашивает «зачем мы платим?», <strong>я хочу</strong> показать дашборд использования + экономию часов, <strong>чтобы</strong> обосновать расходы</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">3</div>
+            <div class="jtbd-text"><strong>Когда</strong> копирайтер работает с клиентскими данными, <strong>я хочу</strong> быть уверена, что данные не уходят в обучение модели, <strong>чтобы</strong> не нарушить NDA</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">4</div>
+            <div class="jtbd-text"><strong>Когда</strong> команда не знает как использовать AI эффективно, <strong>я хочу</strong> готовые шаблоны промптов под маркетинг, <strong>чтобы</strong> быстро получить эффект</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">5</div>
+            <div class="jtbd-text"><strong>Когда</strong> нужно масштабировать контент (сезон, акция), <strong>я хочу</strong> увеличить лимиты на лету, <strong>чтобы</strong> не переплачивать в обычное время</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+    </div>
+
+    <div class="value-prop">
+        <h3>💎 Ценностное предложение NeuroGate → Марина</h3>
+        <div class="vp-grid">
+            <div class="vp-col pains">
+                <h5>🔴 Боли, которые снимаем</h5>
+                <ul class="detail-list">
+                    <li>Нет контроля — кто сколько тратит, на что</li>
+                    <li>Оплата от юрлица — квест с иностранными сервисами</li>
+                    <li>Команда не умеет пользоваться AI эффективно</li>
+                    <li>Страх утечки конфиденциальных данных</li>
+                </ul>
+            </div>
+            <div class="vp-col gains">
+                <h5>🟢 Выгоды, которые даём</h5>
+                <ul class="detail-list">
+                    <li>Дашборд: кто, сколько, на какие задачи — отчёт в 1 клик</li>
+                    <li>Оплата от юрлица, ЭДО, акты, счёт-фактура</li>
+                    <li>Обучение + шаблоны промптов для маркетинга</li>
+                    <li>Данные не уходят в обучение моделей (бизнес-лицензия)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📡 Каналы привлечения</h3>
+    <div class="channels-grid">
+        <div class="channel-item"><span class="channel-icon">📝</span> vc.ru кейсы «AI в маркетинге»<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">🎤</span> Вебинары для маркетологов<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">💼</span> LinkedIn рекомендации<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">🔍</span> Яндекс «chatgpt для команды»<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">🎪</span> Конференции (РИФ, YaC)<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">📱</span> Telegram бизнес-каналы<span class="channel-eff med">Med</span></div>
+    </div>
+</div>
+
+<!-- ────── PERSONA 4: CEO ────── -->
+<div class="persona-section" id="p4">
+    <div class="persona-header">
+        <div class="persona-avatar" style="background: linear-gradient(135deg, rgba(52,211,153,0.15), rgba(59,130,246,0.15));">👔</div>
+        <div>
+            <div class="persona-name">Алексей, 42 года</div>
+            <div class="persona-role">CEO · Владелец e-commerce компании · 80 сотрудников</div>
+            <div class="persona-quote">«Все говорят про AI, конкуренты уже внедрили, а я даже не понимаю с чего начать. Мне нужен не инструмент — мне нужен партнёр»</div>
+            <div class="persona-tags">
+                <span class="persona-tag">B2B</span>
+                <span class="persona-tag">ЛПР высшего уровня</span>
+                <span class="persona-tag">32-50 лет</span>
+                <span class="persona-tag">300K-2M+ ₽/мес</span>
+                <span class="persona-tag">Якорный сегмент 🎯</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="metrics-bar">
+        <div class="metric"><div class="metric-value">30-150K₽</div><div class="metric-label">Средний чек / мес</div></div>
+        <div class="metric"><div class="metric-value">18-36 мес</div><div class="metric-label">LTV</div></div>
+        <div class="metric"><div class="metric-value">1-2 мес</div><div class="metric-label">Цикл продажи</div></div>
+        <div class="metric"><div class="metric-value">🎯 Якорь</div><div class="metric-label">Стратегия</div></div>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-card">
+            <h4><span>👤</span> Демография и контекст</h4>
+            <ul class="detail-list">
+                <li>Владелец или CEO компании 10-200 человек</li>
+                <li>Отрасли: e-com, услуги, digital-агентства, IT, производство, HoReCa</li>
+                <li>Лично пробовал ChatGPT — понимает потенциал, но не глубоко</li>
+                <li>Не техничен — не будет настраивать API сам</li>
+                <li>79% бизнес-лидеров считают AI необходимым для конкурентоспособности</li>
+            </ul>
+        </div>
+        <div class="detail-card">
+            <h4><span>🧬</span> Психографика</h4>
+            <ul class="detail-list">
+                <li><strong>Мотивация:</strong> конкурентное преимущество, сокращение ФОТ, масштаб без найма</li>
+                <li><strong>Ценности:</strong> скорость, ROI, контроль, статус «технологичной компании»</li>
+                <li><strong>Страх:</strong> потратить деньги впустую, зависеть от одного сервиса</li>
+                <li><strong>Триггер:</strong> статья Forbes «как CEO X сократил расходы на 40% с AI»</li>
+                <li>Решения принимает быстро если видит ROI и доверяет партнёру</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="empathy-map">
+        <div class="empathy-cell thinks">
+            <h4>🧠 Думает</h4>
+            <ul>
+                <li>«Конкуренты внедрили AI — их маркетинг в 3 раза быстрее»</li>
+                <li>«Мне нужен не инструмент, а план: что и как внедрять»</li>
+                <li>«Если сервис закроется — мы зависнем?»</li>
+                <li>«Сколько реально можно сэкономить? Хочу цифры»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell feels">
+            <h4>❤️ Чувствует</h4>
+            <ul>
+                <li>FOMO — «все уже в AI, а я только думаю»</li>
+                <li>Недоверие — «95% AI-хайпа — маркетинговый шум»</li>
+                <li>Ответственность — «я должен привести компанию в будущее»</li>
+                <li>Усталость от выбора — «слишком много вариантов»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell says">
+            <h4>💬 Говорит</h4>
+            <ul>
+                <li>«Покажите мне кейс из моей отрасли»</li>
+                <li>«Сколько это будет стоить на 80 человек?»</li>
+                <li>«Кто будет обучать моих людей? Я не буду»</li>
+                <li>«Давайте пилот на месяц — если покажете ROI, масштабируем»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell does">
+            <h4>⚡ Делает</h4>
+            <ul>
+                <li>Читает РБК, Forbes, vc.ru — ищет кейсы с цифрами</li>
+                <li>Спрашивает знакомых CEO: «вы уже внедрили AI?»</li>
+                <li>Поручает «разобраться» CTO или HRD</li>
+                <li>Приходит на вебинар / конференцию по AI для бизнеса</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎯 Jobs-to-be-Done</h3>
+    <div class="jtbd-list">
+        <div class="jtbd-item">
+            <div class="jtbd-num">1</div>
+            <div class="jtbd-text"><strong>Когда</strong> я вижу что конкуренты обгоняют с AI, <strong>я хочу</strong> понять где AI реально поможет моему бизнесу, <strong>чтобы</strong> инвестировать точечно, а не «во всё подряд»</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">2</div>
+            <div class="jtbd-text"><strong>Когда</strong> я решил внедрять AI, <strong>я хочу</strong> одного партнёра, который «сделает всё», <strong>чтобы</strong> я не собирал пазл из 5 сервисов</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">3</div>
+            <div class="jtbd-text"><strong>Когда</strong> совет директоров спросит про ROI, <strong>я хочу</strong> показать цифры: часы, рубли, задачи, <strong>чтобы</strong> обосновать продление подписки</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">4</div>
+            <div class="jtbd-text"><strong>Когда</strong> растёт команда, <strong>я хочу</strong> масштабировать AI без пропорционального роста затрат, <strong>чтобы</strong> unit economics улучшалась</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">5</div>
+            <div class="jtbd-text"><strong>Когда</strong> GigaChat от Сбера «не тянет», <strong>я хочу</strong> доступ к GPT-5 и Claude из России легально, <strong>чтобы</strong> не рисковать с серыми схемами</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+    </div>
+
+    <div class="value-prop">
+        <h3>💎 Ценностное предложение NeuroGate → Алексей</h3>
+        <div class="vp-grid">
+            <div class="vp-col pains">
+                <h5>🔴 Боли, которые снимаем</h5>
+                <ul class="detail-list">
+                    <li>«Не знаю с чего начать» — нет плана внедрения AI</li>
+                    <li>Некому обучить команду — AI-специалиста нет в штате</li>
+                    <li>Боязнь потратить деньги без измеримого результата</li>
+                    <li>Оплата западных сервисов из РФ = юридический риск</li>
+                </ul>
+            </div>
+            <div class="vp-col gains">
+                <h5>🟢 Выгоды, которые даём</h5>
+                <ul class="detail-list">
+                    <li>Бесплатный AI-аудит: «покажем, где сэкономите 500K ₽/мес»</li>
+                    <li>Подключение + обучение + ongoing поддержка = 1 партнёр</li>
+                    <li>ROI-дашборд: сэкономленные часы и рубли</li>
+                    <li>Счёт от юрлица, ЭДО, полная легальность</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📡 Каналы привлечения</h3>
+    <div class="channels-grid">
+        <div class="channel-item"><span class="channel-icon">📰</span> РБК / Forbes / vc.ru кейсы<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">🎤</span> Вебинары «AI для CEO»<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">🤝</span> Нетворкинг / рекомендации<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">📱</span> Telegram бизнес-каналы<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">🎪</span> Бизнес-конференции<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">📧</span> Cold outreach LinkedIn<span class="channel-eff med">Med</span></div>
+    </div>
+</div>
+
+<!-- ────── PERSONA 5: CTO / Developer ────── -->
+<div class="persona-section" id="p5">
+    <div class="persona-header">
+        <div class="persona-avatar" style="background: linear-gradient(135deg, rgba(124,92,252,0.15), rgba(6,182,212,0.15));">⚙️</div>
+        <div>
+            <div class="persona-name">Кирилл, 31 год</div>
+            <div class="persona-role">CTO стартапа · Full-stack разработчик · Команда 12 человек</div>
+            <div class="persona-quote">«Мне нужен надёжный API к 10 моделям через один endpoint. С fallback, мониторингом и оплатой в рублях. Без VPN-костылей»</div>
+            <div class="persona-tags">
+                <span class="persona-tag">Developer</span>
+                <span class="persona-tag">B2B Tech</span>
+                <span class="persona-tag">25-40 лет</span>
+                <span class="persona-tag">200-600K ₽/мес</span>
+                <span class="persona-tag">Sticky revenue 🔒</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="metrics-bar">
+        <div class="metric"><div class="metric-value">5-50K₽</div><div class="metric-label">Средний чек / мес</div></div>
+        <div class="metric"><div class="metric-value">24-36 мес</div><div class="metric-label">LTV</div></div>
+        <div class="metric"><div class="metric-value">1-3 дня</div><div class="metric-label">Цикл решения</div></div>
+        <div class="metric"><div class="metric-value">🔒 Sticky</div><div class="metric-label">Тип ценности</div></div>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-card">
+            <h4><span>👤</span> Демография и контекст</h4>
+            <ul class="detail-list">
+                <li>85% мужчины — CTO, тимлид, senior-разработчик</li>
+                <li>Интегрирует AI в продукт: чат-боты, рекомендации, генерация</li>
+                <li>Уже использует API OpenAI/Anthropic через VPN + иностранную карту</li>
+                <li>Знает OpenRouter, LiteLLM, Helicone — сравнивает решения</li>
+                <li>Принимает технические решения, влияет на бюджет</li>
+            </ul>
+        </div>
+        <div class="detail-card">
+            <h4><span>🧬</span> Психографика</h4>
+            <ul class="detail-list">
+                <li><strong>Мотивация:</strong> надёжный API без костылей, снижение costs</li>
+                <li><strong>Ценности:</strong> стабильность, DX, прозрачность, документация</li>
+                <li><strong>Страх:</strong> downtime, наценка 200%+, vendor lock-in</li>
+                <li><strong>Триггер:</strong> VPN упал в пятницу вечером → продакшн лёг</li>
+                <li>Решение принимает за 1-3 дня: документация → тест → подключение</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="empathy-map">
+        <div class="empathy-cell thinks">
+            <h4>🧠 Думает</h4>
+            <ul>
+                <li>«GPTunnel берёт +280% наценку — это грабёж»</li>
+                <li>«Нужен fallback: если Claude лёг — автоматом на GPT»</li>
+                <li>«Хочу видеть latency и стоимость каждого запроса»</li>
+                <li>«OpenAI-совместимый API — замени base_url и работай»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell feels">
+            <h4>❤️ Чувствует</h4>
+            <ul>
+                <li>Раздражение от VPN-костылей и сбоев</li>
+                <li>Скептицизм к РФ-сервисам — «наверняка нестабильно»</li>
+                <li>Интерес к smart routing — «это может сэкономить 30-50%»</li>
+                <li>Уважение к прозрачности — «покажите цены, а не скрывайте»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell says">
+            <h4>💬 Говорит</h4>
+            <ul>
+                <li>«Покажите документацию и pricing до регистрации»</li>
+                <li>«Какой SLA? А что с uptime за последний месяц?»</li>
+                <li>«Можно BYOK — свои ключи через proxy?»</li>
+                <li>«Есть SDK для Python? А для TypeScript?»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell does">
+            <h4>⚡ Делает</h4>
+            <ul>
+                <li>Сравнивает цены в таблице: GenAPI vs GPTunnel vs direct</li>
+                <li>Тестирует API за 5 минут через curl / playground</li>
+                <li>Читает Хабр, GitHub issues, отзывы на Т-Банке</li>
+                <li>Если работает — подключает в продакшн за день</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎯 Jobs-to-be-Done</h3>
+    <div class="jtbd-list">
+        <div class="jtbd-item">
+            <div class="jtbd-num">1</div>
+            <div class="jtbd-text"><strong>Когда</strong> я подключаю AI в продукт, <strong>я хочу</strong> один endpoint для 10+ моделей с автофоллбэком, <strong>чтобы</strong> не писать свой прокси и не мониторить 5 API</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">2</div>
+            <div class="jtbd-text"><strong>Когда</strong> бухгалтерия просит документы, <strong>я хочу</strong> платить в рублях от юрлица с актами, <strong>чтобы</strong> не держать иностранную карту и не объяснять валютный контроль</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">3</div>
+            <div class="jtbd-text"><strong>Когда</strong> расходы на API растут, <strong>я хочу</strong> smart routing по цене/качеству, <strong>чтобы</strong> снизить costs на 30-50% без потери качества</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">4</div>
+            <div class="jtbd-text"><strong>Когда</strong> CEO спрашивает «сколько мы тратим на AI?», <strong>я хочу</strong> видеть дашборд расходов по проектам/ключам, <strong>чтобы</strong> ответить за 10 секунд</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">5</div>
+            <div class="jtbd-text"><strong>Когда</strong> клиент требует SLA, <strong>я хочу</strong> быть уверен в uptime провайдера, <strong>чтобы</strong> не просыпаться в 3 ночи от алертов</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+    </div>
+
+    <div class="value-prop">
+        <h3>💎 Ценностное предложение NeuroGate → Кирилл</h3>
+        <div class="vp-grid">
+            <div class="vp-col pains">
+                <h5>🔴 Боли, которые снимаем</h5>
+                <ul class="detail-list">
+                    <li>VPN-костыли в продакшне = точка отказа</li>
+                    <li>Иностранная карта + валютный контроль = головная боль</li>
+                    <li>Наценка 200-300% у РФ-прокси</li>
+                    <li>Нет мониторинга расходов по проектам</li>
+                </ul>
+            </div>
+            <div class="vp-col gains">
+                <h5>🟢 Выгоды, которые даём</h5>
+                <ul class="detail-list">
+                    <li>OpenAI-совместимый API — замени base_url</li>
+                    <li>Smart Router: auto-fallback + routing по цене/скорости</li>
+                    <li>Прозрачные цены на сайте — формула, не чёрный ящик</li>
+                    <li>Dashboard расходов по API-ключам / проектам</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📡 Каналы привлечения</h3>
+    <div class="channels-grid">
+        <div class="channel-item"><span class="channel-icon">💻</span> Хабр — статьи + кейсы<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">🐙</span> GitHub / SDK<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">📱</span> Telegram dev-чаты<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">🔍</span> Яндекс «openai api россия»<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">📝</span> vc.ru тех. кейсы<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">🏆</span> Product Hunt launch<span class="channel-eff med">Med</span></div>
+    </div>
+</div>
+
+<!-- ────── PERSONA 6: HR Director ────── -->
+<div class="persona-section" id="p6">
+    <div class="persona-header">
+        <div class="persona-avatar" style="background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(52,211,153,0.15));">🏢</div>
+        <div>
+            <div class="persona-name">Елена, 38 лет</div>
+            <div class="persona-role">HR-директор · L&D · Компания 120 человек</div>
+            <div class="persona-quote">«CEO сказал: к следующему кварталу вся компания должна использовать AI. А я даже не знаю, какой инструмент выбрать»</div>
+            <div class="persona-tags">
+                <span class="persona-tag">B2B</span>
+                <span class="persona-tag">Внутренний чемпион</span>
+                <span class="persona-tag">30-45 лет</span>
+                <span class="persona-tag">150-350K ₽/мес</span>
+                <span class="persona-tag">Upsell-сегмент</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="metrics-bar">
+        <div class="metric"><div class="metric-value">20-80K₽</div><div class="metric-label">Средний чек / мес</div></div>
+        <div class="metric"><div class="metric-value">18-36 мес</div><div class="metric-label">LTV</div></div>
+        <div class="metric"><div class="metric-value">1-2 мес</div><div class="metric-label">Цикл продажи</div></div>
+        <div class="metric"><div class="metric-value">📈 Upsell</div><div class="metric-label">Тип ценности</div></div>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-card">
+            <h4><span>👤</span> Демография и контекст</h4>
+            <ul class="detail-list">
+                <li>70% женщины — HR-директор, руководитель L&D (обучение и развитие)</li>
+                <li>Компания 30-300 человек, разные отделы</li>
+                <li>Получила задачу от CEO: «внедри AI в компанию»</li>
+                <li>Не техничная — нужен партнёр, который проведёт за руку</li>
+                <li>29% компаний уже повысили квалификацию ≥25% сотрудников в AI</li>
+            </ul>
+        </div>
+        <div class="detail-card">
+            <h4><span>🧬</span> Психографика</h4>
+            <ul class="detail-list">
+                <li><strong>Мотивация:</strong> выполнить задачу CEO, стать «инноватором» в компании</li>
+                <li><strong>Ценности:</strong> обучение людей, процессный подход, снижение рутины</li>
+                <li><strong>Страх:</strong> выберу не тот инструмент, люди не будут пользоваться</li>
+                <li><strong>Триггер:</strong> 48% работников считают, что нужно формальное AI-обучение</li>
+                <li>Нужны готовые материалы — не будет создавать курс с нуля</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="empathy-map">
+        <div class="empathy-cell thinks">
+            <h4>🧠 Думает</h4>
+            <ul>
+                <li>«Нужно выбрать платформу, которую смогу раскатать за неделю»</li>
+                <li>«Как сделать так, чтобы люди реально пользовались, а не забили?»</li>
+                <li>«CEO хочет отчёт: сколько часов сэкономили с AI»</li>
+                <li>«Безопасность: а если кто-то сольёт зарплатную ведомость в ChatGPT?»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell feels">
+            <h4>❤️ Чувствует</h4>
+            <ul>
+                <li>Давление — «к следующему кварталу должно работать»</li>
+                <li>Неуверенность — «я не технарь, вдруг ошибусь»</li>
+                <li>Энтузиазм — «если получится, это будет мой проект-звезда»</li>
+                <li>Тревога — «а если сотрудники воспримут AI как угрозу?»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell says">
+            <h4>💬 Говорит</h4>
+            <ul>
+                <li>«Мне нужен не инструмент, а программа: обучение + шаблоны»</li>
+                <li>«Есть ли у вас курс для сотрудников? Или хотя бы гайд?»</li>
+                <li>«Как мне отчитаться перед CEO о результатах?»</li>
+                <li>«Нам нужен персональный менеджер — я не справлюсь одна»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell does">
+            <h4>⚡ Делает</h4>
+            <ul>
+                <li>Гуглит «AI для компании обучение сотрудников»</li>
+                <li>Спрашивает HR-коллег в профессиональных чатах</li>
+                <li>Запрашивает пилот у 2-3 платформ</li>
+                <li>Готовит презентацию «план внедрения AI» для CEO</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎯 Jobs-to-be-Done</h3>
+    <div class="jtbd-list">
+        <div class="jtbd-item">
+            <div class="jtbd-num">1</div>
+            <div class="jtbd-text"><strong>Когда</strong> CEO ставит задачу внедрить AI, <strong>я хочу</strong> получить готовую программу (платформа + обучение + шаблоны), <strong>чтобы</strong> не собирать всё с нуля</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">2</div>
+            <div class="jtbd-text"><strong>Когда</strong> подключаю 120 человек, <strong>я хочу</strong> контролировать кто и как использует, <strong>чтобы</strong> данные не утекли и бюджет не улетел</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">3</div>
+            <div class="jtbd-text"><strong>Когда</strong> CEO просит отчёт, <strong>я хочу</strong> показать дашборд: часы, задачи, экономия, <strong>чтобы</strong> доказать ROI внедрения</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">4</div>
+            <div class="jtbd-text"><strong>Когда</strong> сотрудники не знают как использовать AI, <strong>я хочу</strong> готовые промпт-шаблоны по отделам, <strong>чтобы</strong> быстро запустить без длинного обучения</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">5</div>
+            <div class="jtbd-text"><strong>Когда</strong> нужна помощь, <strong>я хочу</strong> персонального менеджера, <strong>чтобы</strong> не разбираться самой в технических вопросах</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+    </div>
+
+    <div class="value-prop">
+        <h3>💎 Ценностное предложение NeuroGate → Елена</h3>
+        <div class="vp-grid">
+            <div class="vp-col pains">
+                <h5>🔴 Боли, которые снимаем</h5>
+                <ul class="detail-list">
+                    <li>«Не знаю какой инструмент выбрать из десятка»</li>
+                    <li>Нет готовых материалов для обучения команды</li>
+                    <li>Нет контроля — кто что делает, утечки данных</li>
+                    <li>Не технарь — нужен менеджер, не документация</li>
+                </ul>
+            </div>
+            <div class="vp-col gains">
+                <h5>🟢 Выгоды, которые даём</h5>
+                <ul class="detail-list">
+                    <li>Раскатка на всю компанию за 3 дня + обучение включено</li>
+                    <li>Промпт-шаблоны по отделам: маркетинг, HR, продажи, финансы</li>
+                    <li>Дашборд использования → отчёт для CEO в 1 клик</li>
+                    <li>Персональный менеджер + чат поддержки</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📡 Каналы привлечения</h3>
+    <div class="channels-grid">
+        <div class="channel-item"><span class="channel-icon">🎤</span> Вебинары «AI-грамотность»<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">🤝</span> HR-конференции<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">📱</span> Telegram HR-сообщества<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">💼</span> LinkedIn HR-нетворк<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">📝</span> Кейсы на vc.ru<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">📧</span> Email от менеджера<span class="channel-eff med">Med</span></div>
+    </div>
+</div>
+
+<!-- ────── PERSONA 7: AI Agency ────── -->
+<div class="persona-section" id="p7">
+    <div class="persona-header">
+        <div class="persona-avatar" style="background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(245,158,11,0.15));">🚀</div>
+        <div>
+            <div class="persona-name">Артём, 29 лет</div>
+            <div class="persona-role">Основатель AI-агентства · 8 человек · Digital-интеграции</div>
+            <div class="persona-quote">«У меня 12 клиентов на разных моделях — 5 подписок, 5 биллингов, 5 точек отказа. Мне нужен один провайдер с white-label и sub-billing»</div>
+            <div class="persona-tags">
+                <span class="persona-tag">B2B / Partner</span>
+                <span class="persona-tag">Power User</span>
+                <span class="persona-tag">25-38 лет</span>
+                <span class="persona-tag">200-800K ₽/мес</span>
+                <span class="persona-tag">Мультипликатор 🔥</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="metrics-bar">
+        <div class="metric"><div class="metric-value">30-200K₽</div><div class="metric-label">Средний чек / мес</div></div>
+        <div class="metric"><div class="metric-value">24-48 мес</div><div class="metric-label">LTV</div></div>
+        <div class="metric"><div class="metric-value">1-2 нед</div><div class="metric-label">Цикл решения</div></div>
+        <div class="metric"><div class="metric-value">🔥 ×10</div><div class="metric-label">Мультипликатор</div></div>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-card">
+            <h4><span>👤</span> Демография и контекст</h4>
+            <ul class="detail-list">
+                <li>Основатель или партнёр AI/digital-агентства (2-15 человек)</li>
+                <li>Строит AI-решения для клиентов: чат-боты, автоматизация, пайплайны</li>
+                <li>Использует 5-10 разных моделей под разные задачи клиентов</li>
+                <li>Ищет единого провайдера вместо 5 подписок</li>
+                <li>Может перепродавать доступ клиентам (white-label)</li>
+            </ul>
+        </div>
+        <div class="detail-card">
+            <h4><span>🧬</span> Психографика</h4>
+            <ul class="detail-list">
+                <li><strong>Мотивация:</strong> снизить COGS, дать клиентам лучший сервис</li>
+                <li><strong>Ценности:</strong> маржинальность, гибкость, «один инструмент на все случаи»</li>
+                <li><strong>Страх:</strong> vendor lock-in, непредсказуемые расходы, downtime</li>
+                <li><strong>Поведение:</strong> power user — сравнивает цены до копейки</li>
+                <li>Тестирует все сервисы на рынке, принимает решение по ROI</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="empathy-map">
+        <div class="empathy-cell thinks">
+            <h4>🧠 Думает</h4>
+            <ul>
+                <li>«GPTunnel +280% наценка — это жрёт мою маржу»</li>
+                <li>«Мне нужен sub-billing: отдельный счёт на каждого клиента»</li>
+                <li>«Если провайдер ляжет — все мои клиенты встанут»</li>
+                <li>«Партнёрка с % от оборота — вот это интересно»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell feels">
+            <h4>❤️ Чувствует</h4>
+            <ul>
+                <li>Фрустрация от управления 5 подписками</li>
+                <li>Азарт — «AI-рынок растёт, надо забрать долю сейчас»</li>
+                <li>Осторожность — «проверю SLA прежде чем подключать клиентов»</li>
+                <li>Жадность (в хорошем смысле) — «каждый % наценки = мои деньги»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell says">
+            <h4>💬 Говорит</h4>
+            <ul>
+                <li>«Какая наценка? Покажите формулу»</li>
+                <li>«Есть white-label? Клиент не должен видеть ваш бренд»</li>
+                <li>«Мне нужен отдельный API-ключ на каждого клиента»</li>
+                <li>«Какие оптовые скидки при $5K+/мес?»</li>
+            </ul>
+        </div>
+        <div class="empathy-cell does">
+            <h4>⚡ Делает</h4>
+            <ul>
+                <li>Считает unit economics по каждому клиенту</li>
+                <li>Тестирует API, замеряет latency и uptime</li>
+                <li>Подключает 1 клиента на тест → если ОК, переводит всех</li>
+                <li>Ищет партнёрские программы — % от оборота</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎯 Jobs-to-be-Done</h3>
+    <div class="jtbd-list">
+        <div class="jtbd-item">
+            <div class="jtbd-num">1</div>
+            <div class="jtbd-text"><strong>Когда</strong> я обслуживаю 12 клиентов на разных моделях, <strong>я хочу</strong> один API для всех, <strong>чтобы</strong> не жонглировать 5 подписками и 5 биллингами</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">2</div>
+            <div class="jtbd-text"><strong>Когда</strong> клиент спрашивает «сколько мы потратили?», <strong>я хочу</strong> отдельный биллинг по каждому клиенту, <strong>чтобы</strong> точно считать маржу</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">3</div>
+            <div class="jtbd-text"><strong>Когда</strong> мой оборот растёт, <strong>я хочу</strong> оптовые скидки + партнёрку, <strong>чтобы</strong> увеличивать маржу с каждым новым клиентом</div>
+            <div class="jtbd-priority high">Критичная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">4</div>
+            <div class="jtbd-text"><strong>Когда</strong> клиент хочет «свою платформу», <strong>я хочу</strong> white-label решение, <strong>чтобы</strong> продавать под своим брендом</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+        <div class="jtbd-item">
+            <div class="jtbd-num">5</div>
+            <div class="jtbd-text"><strong>Когда</strong> один провайдер падает, <strong>я хочу</strong> автоматический fallback, <strong>чтобы</strong> мои клиенты не заметили downtime</div>
+            <div class="jtbd-priority medium">Важная</div>
+        </div>
+    </div>
+
+    <div class="value-prop">
+        <h3>💎 Ценностное предложение NeuroGate → Артём</h3>
+        <div class="vp-grid">
+            <div class="vp-col pains">
+                <h5>🔴 Боли, которые снимаем</h5>
+                <ul class="detail-list">
+                    <li>5 подписок = 5 биллингов = операционный ад</li>
+                    <li>Наценка 200%+ у текущих провайдеров жрёт маржу</li>
+                    <li>Нет sub-billing — считает маржу в Excel</li>
+                    <li>Если провайдер ляжет — все клиенты встанут</li>
+                </ul>
+            </div>
+            <div class="vp-col gains">
+                <h5>🟢 Выгоды, которые даём</h5>
+                <ul class="detail-list">
+                    <li>Партнёрская программа: % от оборота клиентов</li>
+                    <li>Sub-accounts: отдельный ключ + биллинг на клиента</li>
+                    <li>Оптовые скидки при объёме</li>
+                    <li>White-label возможности + приоритетная поддержка</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📡 Каналы привлечения</h3>
+    <div class="channels-grid">
+        <div class="channel-item"><span class="channel-icon">🤝</span> Прямые продажи top-50<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">💰</span> Партнёрская программа<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">📱</span> Telegram AI-агентства<span class="channel-eff high">High</span></div>
+        <div class="channel-item"><span class="channel-icon">💻</span> Хабр / GitHub<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">🎪</span> AI Journey / Стачка<span class="channel-eff med">Med</span></div>
+        <div class="channel-item"><span class="channel-icon">🔗</span> Реферальная программа<span class="channel-eff med">Med</span></div>
+    </div>
+</div>
+
+    </div>
+</section>
+
+<!-- ═══════ SUMMARY TABLE ═══════ -->
+<section class="summary-section">
+    <div class="container">
+        <h2 class="section-title">Сводная матрица сегментов</h2>
+        <p class="section-subtitle">Приоритизация по потенциалу revenue × стратегической ценности</p>
+
+        <div style="overflow-x: auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>Портрет</th>
+                    <th>Тип</th>
+                    <th>Средний чек</th>
+                    <th>LTV</th>
+                    <th>Цикл</th>
+                    <th>Ценность</th>
+                    <th>Фаза</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>👩‍🎨 Креатор Анна</strong></td>
+                    <td>B2C</td>
+                    <td>500-800₽</td>
+                    <td>4-8 мес</td>
+                    <td>5 мин</td>
+                    <td>Объём + виральность</td>
+                    <td><span class="priority-dot p1"></span> Фаза 1</td>
+                </tr>
+                <tr>
+                    <td><strong>🎓 Студент Дмитрий</strong></td>
+                    <td>B2C</td>
+                    <td>200-400₽</td>
+                    <td>6-12 мес</td>
+                    <td>2 мин</td>
+                    <td>Виральность + рост</td>
+                    <td><span class="priority-dot p1"></span> Фаза 1</td>
+                </tr>
+                <tr>
+                    <td><strong>⚙️ CTO Кирилл</strong></td>
+                    <td>Dev</td>
+                    <td>5-50K₽</td>
+                    <td>24-36 мес</td>
+                    <td>1-3 дня</td>
+                    <td>Sticky revenue</td>
+                    <td><span class="priority-dot p1"></span> Фаза 1</td>
+                </tr>
+                <tr>
+                    <td><strong>📈 Марина (Marketing)</strong></td>
+                    <td>B2B</td>
+                    <td>10-50K₽</td>
+                    <td>12-24 мес</td>
+                    <td>2-4 нед</td>
+                    <td>Деньги + масштаб</td>
+                    <td><span class="priority-dot p2"></span> Фаза 2</td>
+                </tr>
+                <tr>
+                    <td><strong>👔 CEO Алексей</strong></td>
+                    <td>B2B</td>
+                    <td>30-150K₽</td>
+                    <td>18-36 мес</td>
+                    <td>1-2 мес</td>
+                    <td>🎯 Якорный сегмент</td>
+                    <td><span class="priority-dot p2"></span> Фаза 2</td>
+                </tr>
+                <tr>
+                    <td><strong>🏢 HR Елена</strong></td>
+                    <td>B2B</td>
+                    <td>20-80K₽</td>
+                    <td>18-36 мес</td>
+                    <td>1-2 мес</td>
+                    <td>Точка входа в корп.</td>
+                    <td><span class="priority-dot p3"></span> Фаза 3</td>
+                </tr>
+                <tr>
+                    <td><strong>🚀 AI-агентство Артём</strong></td>
+                    <td>Partner</td>
+                    <td>30-200K₽</td>
+                    <td>24-48 мес</td>
+                    <td>1-2 нед</td>
+                    <td>🔥 Мультипликатор ×10</td>
+                    <td><span class="priority-dot p3"></span> Фаза 3</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div style="margin-top: 48px;">
+            <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">🏁 Стратегия по фазам</h3>
+            <div class="detail-grid">
+                <div class="detail-card" style="border-color: rgba(239,68,68,0.3);">
+                    <h4><span>🔴</span> Фаза 1 — Запуск (0-3 мес)</h4>
+                    <ul class="detail-list">
+                        <li><strong>Креатор + Студент</strong> → трафик, виральность, социальное доказательство</li>
+                        <li><strong>CTO / Developer</strong> → sticky API revenue, техническое сообщество</li>
+                        <li>Две воронки: B2C (быстрая регистрация) + Dev (документация + playground)</li>
+                    </ul>
+                </div>
+                <div class="detail-card" style="border-color: rgba(245,158,11,0.3);">
+                    <h4><span>🟡</span> Фаза 2 — Рост (3-6 мес)</h4>
+                    <ul class="detail-list">
+                        <li><strong>Head of Marketing + CEO</strong> → B2B деньги, корпоративные тарифы</li>
+                        <li>Дифференциатор: не просто доступ, а <strong>обучение + шаблоны + поддержка</strong></li>
+                        <li>Оплата от юрлица, ЭДО, дашборд расходов</li>
+                    </ul>
+                </div>
+                <div class="detail-card" style="border-color: rgba(52,211,153,0.3);">
+                    <h4><span>🟢</span> Фаза 3 — Масштаб (6-12 мес)</h4>
+                    <ul class="detail-list">
+                        <li><strong>AI-агентства</strong> → мультипликатор: чужие руки продают ваш продукт</li>
+                        <li><strong>HR-директор</strong> → точка входа в крупные компании (100+ чел)</li>
+                        <li>Партнёрская программа, white-label, enterprise SLA</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 32px; padding: 32px; background: linear-gradient(135deg, rgba(124,92,252,0.08), rgba(52,211,153,0.05)); border: 1px solid var(--border-accent); border-radius: var(--radius);">
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">⚡ Ключевой дифференциатор NeuroGate</h3>
+            <p style="font-size: 16px; color: var(--text-secondary); line-height: 1.7;">
+                <strong style="color: var(--text-primary);">Chad, GPTunnel, GenAPI дают доступ к нейросетям. Всё.</strong><br><br>
+                NeuroGate = доступ + обучение + промпт-шаблоны + ongoing поддержка внедрения.<br>
+                Клиент подсаживается на процесс, а не на инструмент → <strong style="color: var(--green);">LTV ×3, churn ÷2.</strong>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ SOURCES ═══════ -->
+<section style="padding: 0 0 40px;">
+    <div class="container">
+        <details style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px;">
+            <summary style="cursor: pointer; font-weight: 600; font-size: 14px; color: var(--text-muted);">📚 Источники и методология</summary>
+            <div style="margin-top: 16px; font-size: 13px; color: var(--text-muted); line-height: 1.8;">
+                <strong>Конкурентный анализ (10 сервисов):</strong> ChadGPT, GPTunnel, GigaChat, MashaGPT, ChatAIBot, AI Bro, GenAPI, APIHost, Midjo, GPT-Chatbot<br>
+                <strong>Рыночная статистика:</strong> Digital Silk AI Statistics 2026, TAdviser «Рынок ИИ в России», vc.ru аналитика<br>
+                <strong>B2B-кейсы:</strong> Chad Business (chadgpt.ru/business), GPTunnel кейс на Хабр (habr.com/ru/companies/gptunnel)<br>
+                <strong>Методология:</strong> Buyer Persona Canvas (HubSpot), Jobs-to-be-Done (Clayton Christensen), Empathy Map (Dave Gray / XPLANE), Value Proposition Canvas (Strategyzer)<br>
+                <strong>Дата:</strong> Март 2026
+            </div>
+        </details>
+    </div>
+</section>
+
+<footer class="page-footer">
+    <div class="container">
+        <p>NeuroGate · Audience Research · Март 2026</p>
+    </div>
+</footer>
+
+<script>
+document.querySelectorAll('.seg-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.seg-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.persona-section').forEach(s => s.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.target).classList.add('active');
+    });
+});
+</script>
+
+</body>
+</html>
