@@ -2,10 +2,7 @@
   "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
-  "functions": {
-    "api/sheets.js": {
-      "runtime": "@vercel/node@3",
-      "maxDuration": 15
-    }
-  }
+  "routes": [
+    { "src": "/api/sheets", "dest": "/api/sheets.js" }
+  ]
 }
