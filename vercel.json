@@ -2,7 +2,9 @@
   "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
-  "routes": [
-    { "src": "/api/sheets", "dest": "/api/sheets.js" }
-  ]
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs22.x"
+    }
+  }
 }
