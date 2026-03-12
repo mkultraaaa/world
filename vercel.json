@@ -1,5 +1,11 @@
 {
   "version": 2,
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "functions": {
+    "api/sheets.js": {
+      "runtime": "@vercel/node@3",
+      "maxDuration": 15
+    }
+  }
 }
