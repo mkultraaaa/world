@@ -20,18 +20,7 @@ async function unlock(){
     var k=await crypto.subtle.deriveKey({name:"PBKDF2",hash:"SHA-256",salt:salt,iterations:100000},km,{name:"AES-GCM",length:256},false,["decrypt"]);
     var dec=await crypto.subtle.decrypt({name:"AES-GCM",iv:iv},k,ct);
     var html=new TextDecoder().decode(dec);
-    var doc=new DOMParser().parseFromString(html,"text/html");
-    // Apply styles
-    document.head.innerHTML=doc.head.innerHTML;
-    document.body.innerHTML=doc.body.innerHTML;
-    // Execute scripts in order
-    var scripts=Array.from(doc.querySelectorAll("script"));
-    for(var idx=0;idx<scripts.length;idx++){
-      var old=scripts[idx];
-      var s=document.createElement("script");
-      if(old.src){s.src=old.src;await new Promise(function(r,j){s.onload=r;s.onerror=j;document.body.appendChild(s)})}
-      else{s.textContent=old.textContent;document.body.appendChild(s)}
-    }
+    document.open();document.write(html);document.close();
   }catch(x){e.textContent="Неверный пароль"}
 }
 </script>
