@@ -2,7 +2,7 @@
 // GET /api/sheets?url=<encoded-google-sheets-url>
 // Returns JSON: { csv: "..." } with CORS headers
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  const url = req.query.url;
+  var url = req.query.url;
   if (!url) {
     return res.status(400).json({ error: 'Missing url parameter' });
   }
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch(url, {
+    var response = await fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 MU-Dashboard-Proxy/1.0'
       },
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
       return res.status(response.status).json({ error: 'Google Sheets returned ' + response.status });
     }
 
-    const csv = await response.text();
+    var csv = await response.text();
     
     // Cache for 10 minutes
     res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=300');
@@ -43,4 +43,4 @@ export default async function handler(req, res) {
   } catch (e) {
     return res.status(500).json({ error: e.message || 'Fetch failed' });
   }
-}
+};
