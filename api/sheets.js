@@ -1,8 +1,14 @@
-// Vercel Serverless Function (plain Node): proxy Google Sheets CSV export
+// Vercel Serverless Function: proxy Google Sheets CSV export
 // GET /api/sheets?url=<encoded-google-sheets-url>
-// Returns: JSON { csv: "..." } with CORS headers
+// Returns JSON: { csv: "..." } with CORS headers
 
-module.exports = async (req, res) => {
+function sendJson(res, statusCode, obj) {
+  res.statusCode = statusCode;
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.end(JSON.stringify(obj));
+}
+
+module.exports = async function handler(req, res) {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -13,41 +19,41 @@ module.exports = async (req, res) => {
     return res.end();
   }
 
-  const url = (req.query && req.query.url) || null;
+  // Vercel provides req.query; fall back to parsing URL
+  var url = (req.query && req.query.url) || null;
   if (!url) {
-    res.statusCode = 400;
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    return res.end(JSON.stringify({ error: 'Missing url parameter' }));
+    try {
+      var u = new URL(req.url, 'http://localhost');
+      url = u.searchParams.get('url');
+    } catch (e) {}
   }
 
-  if (!String(url).startsWith('https://docs.google.com/spreadsheets/')) {
-    res.statusCode = 403;
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    return res.end(JSON.stringify({ error: 'Only Google Sheets URLs allowed' }));
+  if (!url) {
+    return sendJson(res, 400, { error: 'Missing url parameter' });
+  }
+
+  // Only allow Google Sheets URLs
+  if (typeof url !== 'string' || !url.startsWith('https://docs.google.com/spreadsheets/')) {
+    return sendJson(res, 403, { error: 'Only Google Sheets URLs allowed' });
   }
 
   try {
-    const response = await fetch(url, {
+    var response = await fetch(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 MU-Dashboard-Proxy/1.0' },
-      redirect: 'follow',
+      redirect: 'follow'
     });
 
+    var csv = await response.text();
+
     if (!response.ok) {
-      res.statusCode = response.status;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      return res.end(JSON.stringify({ error: 'Google Sheets returned ' + response.status }));
+      return sendJson(res, response.status, { error: 'Google Sheets returned ' + response.status, csv: csv });
     }
 
-    const csv = await response.text();
-
-    // Cache at edge (Vercel)
+    // Cache for 10 minutes
     res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=300');
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    return res.end(JSON.stringify({ csv }));
+
+    return sendJson(res, 200, { csv: csv });
   } catch (e) {
-    res.statusCode = 500;
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    return res.end(JSON.stringify({ error: e && e.message ? e.message : 'Fetch failed' }));
+    return sendJson(res, 500, { error: e && e.message ? e.message : 'Fetch failed' });
   }
 };
