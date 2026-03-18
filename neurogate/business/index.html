@@ -1,0 +1,2101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroGate для бизнеса — AI для всей команды | Один кабинет, один счёт</title>
+    <meta name="description" content="100+ нейросетей для маркетинга, продаж, HR и разработки. Контроль расходов, безопасность данных, оплата от юрлица.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A78BFA;
+            --purple-bg: #F5F3FF;
+            --orange: #F97316;
+            --pink: #EC4899;
+            --green: #059669;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --white: #FFFFFF;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 25px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.05);
+            --radius: 16px;
+            --radius-sm: 12px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--gray-800);
+            line-height: 1.6;
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== NAVBAR (Vercel-style) ===== */
+        .navbar {
+            position: relative;
+            background: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            z-index: 100;
+        }
+
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--gray-900);
+            text-decoration: none;
+        }
+
+        .logo svg { flex-shrink: 0; }
+
+        .nav-tabs {
+            display: none;
+            align-items: center;
+            gap: 0;
+            list-style: none;
+            height: 100%;
+        }
+
+        .nav-tabs a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0 16px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid transparent;
+            transition: color 0.15s;
+            margin-bottom: -1px;
+        }
+
+        .nav-tabs a:hover { color: var(--gray-900); }
+
+        .nav-tabs a.active {
+            color: var(--gray-900);
+            font-weight: 600;
+            border-bottom-color: var(--gray-900);
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-links {
+            display: none;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .navbar-link:hover { color: var(--gray-900); }
+
+        .navbar-cta {
+            display: none;
+            align-items: center;
+        }
+
+        .navbar-cta .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            background: var(--purple);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .navbar-cta .btn-nav:hover {
+            background: var(--purple-dark);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 56px;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            padding: 12px 24px 16px;
+            flex-direction: column;
+            gap: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .mobile-menu.open { display: flex; }
+
+        .mobile-menu a {
+            display: block;
+            padding: 10px 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: #666;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .mobile-menu a:last-child { border-bottom: none; }
+        .mobile-menu a:hover { color: var(--gray-900); }
+        .mobile-menu a.active { color: var(--gray-900); font-weight: 600; }
+
+        .mobile-menu .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--purple);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            margin-top: 8px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: 2px solid transparent;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--purple);
+            color: white;
+            padding: 10px 24px;
+            border-color: var(--purple);
+        }
+
+        .btn-primary:hover {
+            background: var(--purple-dark);
+            border-color: var(--purple-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(124,58,237,0.35);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--purple);
+            padding: 10px 24px;
+            border-color: var(--purple);
+        }
+
+        .btn-outline:hover { background: var(--purple-bg); }
+
+        .btn-lg {
+            padding: 16px 40px;
+            font-size: 16px;
+            border-radius: 14px;
+        }
+
+        .btn-glow {
+            background: white;
+            color: var(--purple);
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 14px;
+            border: 2px solid white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 60px rgba(124,58,237,0.2);
+            animation: glowPulse 2s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 0 30px rgba(255,255,255,0.5), 0 0 80px rgba(124,58,237,0.35);
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -100%;
+            width: 60%; height: calc(100% + 4px);
+            background: linear-gradient(90deg, transparent, rgba(124,58,237,0.15), transparent);
+            animation: glowSweep 3s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 60px rgba(124,58,237,0.15); }
+            50% { box-shadow: 0 0 30px rgba(255,255,255,0.45), 0 0 80px rgba(124,58,237,0.25); }
+        }
+
+        @keyframes glowSweep {
+            0% { left: -60%; }
+            100% { left: 120%; }
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            padding: 60px 0 60px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #4c1d95 50%, #7c3aed 75%, #6d28d9 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 40%, rgba(124,58,237,0.4) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 30%, rgba(99,102,241,0.25) 0%, transparent 50%);
+        }
+
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .hero-particles span {
+            position: absolute;
+            display: block;
+            width: 6px; height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: particleFloat linear infinite;
+        }
+
+        .hero-particles span:nth-child(1) { left: 5%; width: 4px; height: 4px; animation-duration: 14s; top: 90%; }
+        .hero-particles span:nth-child(2) { left: 15%; width: 8px; height: 8px; animation-duration: 18s; animation-delay: 1s; top: 95%; }
+        .hero-particles span:nth-child(3) { left: 30%; width: 5px; height: 5px; animation-duration: 12s; animation-delay: 3s; top: 85%; }
+        .hero-particles span:nth-child(4) { left: 45%; width: 3px; height: 3px; animation-duration: 15s; animation-delay: 2s; top: 88%; }
+        .hero-particles span:nth-child(5) { left: 60%; width: 7px; height: 7px; animation-duration: 16s; animation-delay: 4s; top: 92%; }
+        .hero-particles span:nth-child(6) { left: 75%; width: 4px; height: 4px; animation-duration: 13s; animation-delay: 1.5s; top: 96%; }
+        .hero-particles span:nth-child(7) { left: 88%; width: 6px; height: 6px; animation-duration: 17s; animation-delay: 3.5s; top: 87%; }
+        .hero-particles span:nth-child(8) { left: 50%; width: 3px; height: 3px; animation-duration: 11s; animation-delay: 6s; top: 91%; }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(720deg); opacity: 0; }
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 900;
+            line-height: 1.1;
+            color: white;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 16px;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.6;
+            max-width: 540px;
+            margin-bottom: 28px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .hero-proof-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .proof-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .hero-visual { position: relative; }
+
+        /* ===== HERO DASHBOARD MOCKUP ===== */
+        .dash-mockup {
+            width: 100%;
+            background: #1a1a2e;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .dash-titlebar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .dash-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+        }
+
+        .dash-dot:nth-child(1) { background: #ef4444; }
+        .dash-dot:nth-child(2) { background: #f59e0b; }
+        .dash-dot:nth-child(3) { background: #22c55e; }
+
+        .dash-titlebar-text {
+            flex: 1;
+            text-align: center;
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            margin-right: 30px;
+        }
+
+        .dash-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .dash-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .dash-metric {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .dash-metric-value {
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        .dash-metric-value.purple { color: var(--purple-light); }
+        .dash-metric-value.green { color: #4ade80; }
+        .dash-metric-value.blue { color: #60a5fa; }
+
+        .dash-metric-label {
+            font-size: 10px;
+            color: rgba(255,255,255,0.45);
+            font-weight: 500;
+        }
+
+        .dash-chart-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .dash-chart {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .dash-chart-title {
+            font-size: 10px;
+            color: rgba(255,255,255,0.4);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .dash-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 60px;
+        }
+
+        .dash-bar {
+            flex: 1;
+            border-radius: 4px 4px 0 0;
+            min-height: 8px;
+        }
+
+        .dash-bar.purple { background: var(--purple-light); }
+        .dash-bar.pink { background: var(--pink); }
+        .dash-bar.orange { background: var(--orange); }
+        .dash-bar.blue { background: #60a5fa; }
+
+        .dash-bar-label {
+            font-size: 7px;
+            color: rgba(255,255,255,0.3);
+            text-align: center;
+            margin-top: 4px;
+        }
+
+        .dash-dept-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .dash-dept-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dash-dept-name {
+            font-size: 10px;
+            color: rgba(255,255,255,0.5);
+            width: 70px;
+            flex-shrink: 0;
+        }
+
+        .dash-dept-bar-bg {
+            flex: 1;
+            height: 8px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .dash-dept-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .dash-dept-value {
+            font-size: 9px;
+            color: rgba(255,255,255,0.4);
+            width: 30px;
+            text-align: right;
+        }
+
+        /* ===== SECTIONS COMMON ===== */
+        section { padding: 64px 0; }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--gray-900);
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            color: var(--gray-500);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 48px;
+        }
+
+        /* ===== PROBLEMS ===== */
+        .problems-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .problem-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-100);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .problem-pain {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .problem-pain-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #dc2626;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .problem-pain p {
+            font-size: 15px;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+
+        .problem-solution-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .problem-solution p {
+            font-size: 15px;
+            color: var(--gray-700);
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        /* ===== FEATURES (6 cards) ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-100);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-card li {
+            font-size: 14px;
+            color: var(--gray-600);
+            line-height: 1.6;
+            padding-left: 18px;
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+        .feature-card li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 9px;
+            width: 6px;
+            height: 6px;
+            background: var(--purple-light);
+            border-radius: 50%;
+        }
+
+        /* ===== ROI CALCULATOR ===== */
+        .roi-section { background: var(--gray-50); }
+
+        .roi-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .roi-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-100);
+            text-align: center;
+        }
+
+        .roi-card.highlight {
+            border: 2px solid var(--purple);
+            box-shadow: 0 4px 20px rgba(124,58,237,0.12);
+            position: relative;
+        }
+
+        .roi-card.highlight::before {
+            content: 'Популярный';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--purple);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 14px;
+            border-radius: 100px;
+        }
+
+        .roi-card-team {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-500);
+            margin-bottom: 4px;
+        }
+
+        .roi-card-size {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+        }
+
+        .roi-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-100);
+            font-size: 14px;
+        }
+
+        .roi-row:last-child { border-bottom: none; }
+
+        .roi-label { color: var(--gray-500); }
+
+        .roi-value {
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+
+        .roi-value.green { color: var(--green); }
+        .roi-value.purple { color: var(--purple); }
+
+        .roi-result {
+            margin-top: 16px;
+            padding: 14px;
+            background: var(--purple-bg);
+            border-radius: var(--radius-sm);
+        }
+
+        .roi-result-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--purple);
+            margin-bottom: 2px;
+        }
+
+        .roi-result-value {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--purple);
+        }
+
+        /* ===== CASES ===== */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .case-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-100);
+            border-left: 4px solid var(--purple-light);
+        }
+
+        .case-card:nth-child(2) { border-left-color: var(--pink); }
+        .case-card:nth-child(3) { border-left-color: var(--orange); }
+
+        .case-card-type {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .case-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+        }
+
+        .case-before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .case-col-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .case-col-label.before { color: #dc2626; }
+        .case-col-label.after { color: var(--green); }
+
+        .case-col p {
+            font-size: 14px;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+
+        .case-result {
+            padding: 12px 16px;
+            background: var(--purple-bg);
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--purple);
+        }
+
+        /* ===== PRICING ===== */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-100);
+        }
+
+        .pricing-card.highlight {
+            border: 2px solid var(--purple);
+            box-shadow: 0 4px 20px rgba(124,58,237,0.12);
+            position: relative;
+        }
+
+        .pricing-card.highlight::before {
+            content: 'Рекомендуем';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--purple);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 14px;
+            border-radius: 100px;
+        }
+
+        .pricing-name {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .pricing-price {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--purple);
+            margin-bottom: 4px;
+        }
+
+        .pricing-period {
+            font-size: 13px;
+            color: var(--gray-500);
+            margin-bottom: 20px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 24px;
+        }
+
+        .pricing-features li {
+            font-size: 14px;
+            color: var(--gray-600);
+            padding: 6px 0;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pricing-features li:last-child { border-bottom: none; }
+
+        .pricing-features .check { color: var(--green); font-weight: 700; }
+
+        .pricing-card .btn { width: 100%; }
+
+        /* ===== API BLOCK ===== */
+        .api-section { background: var(--gray-900); color: white; }
+
+        .api-section .section-title { color: white; }
+        .api-section .section-subtitle { color: var(--gray-400); }
+
+        .api-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .api-code {
+            background: #0d1117;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .api-code-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .api-code-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+        }
+
+        .api-code-dot:nth-child(1) { background: #ef4444; }
+        .api-code-dot:nth-child(2) { background: #f59e0b; }
+        .api-code-dot:nth-child(3) { background: #22c55e; }
+
+        .api-code-lang {
+            flex: 1;
+            text-align: center;
+            font-size: 11px;
+            color: rgba(255,255,255,0.35);
+            margin-right: 30px;
+        }
+
+        .api-code pre {
+            padding: 20px;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #e6edf3;
+            overflow-x: auto;
+            margin: 0;
+        }
+
+        .api-code .kw { color: #ff7b72; }
+        .api-code .str { color: #a5d6ff; }
+        .api-code .fn { color: #d2a8ff; }
+        .api-code .cm { color: #8b949e; font-style: italic; }
+        .api-code .op { color: #79c0ff; }
+
+        .api-features {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .api-feature {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .api-feature-icon {
+            width: 36px; height: 36px;
+            background: rgba(124,58,237,0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .api-feature h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        .api-feature p {
+            font-size: 13px;
+            color: var(--gray-400);
+            line-height: 1.5;
+        }
+
+        /* ===== COMPARISON TABLE ===== */
+        .comparison-table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .comparison-table {
+            width: 100%;
+            min-width: 650px;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 14px 16px;
+            font-size: 14px;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .comparison-table th {
+            background: var(--gray-50);
+            font-weight: 700;
+            color: var(--gray-700);
+            font-size: 13px;
+        }
+
+        .comparison-table th:first-child,
+        .comparison-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .comparison-table td:nth-child(2) {
+            background: var(--purple-bg);
+            font-weight: 600;
+            color: var(--purple);
+        }
+
+        .comparison-table th:nth-child(2) {
+            background: var(--purple);
+            color: white;
+        }
+
+        .check { color: var(--green); font-weight: 700; }
+        .cross { color: #DC2626; font-weight: 700; }
+
+        /* ===== FAQ ===== */
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-100);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--gray-800);
+            transition: color 0.2s;
+        }
+
+        .faq-question:hover { color: var(--purple); }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 20px;
+            font-weight: 300;
+            color: var(--gray-400);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.open .faq-question::after {
+            transform: rotate(45deg);
+            color: var(--purple);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+            padding: 0 20px 18px;
+        }
+
+        .faq-answer p {
+            font-size: 14px;
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+
+        /* ===== FINAL CTA ===== */
+        .final-cta {
+            text-align: center;
+            background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #7c3aed 100%);
+            color: white;
+            padding: 80px 0;
+        }
+
+        .final-cta h2 {
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .final-cta p {
+            font-size: 16px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta-note {
+            margin-top: 16px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .final-cta-links {
+            margin-top: 16px;
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .final-cta-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .final-cta-links a:hover { color: white; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--gray-900);
+            color: var(--gray-300);
+            padding: 48px 0 24px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .footer-brand .logo {
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.6;
+        }
+
+        .footer-col h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .footer-col ul { list-style: none; }
+
+        .footer-col li { margin-bottom: 10px; }
+
+        .footer-col a {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover { color: var(--purple-light); }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            text-align: center;
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+
+        .footer-bottom a {
+            color: var(--gray-400);
+            text-decoration: none;
+        }
+
+        .footer-bottom a:hover { color: var(--purple-light); }
+
+        /* ===== MOBILE NAV ===== */
+        .mobile-menu-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu-btn span {
+            width: 20px;
+            height: 2px;
+            background: var(--gray-600);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* ===== MOBILE (375px target) ===== */
+        @media (max-width: 639px) {
+            .container { padding: 0 16px; }
+
+            .navbar-inner { padding: 0 16px; }
+            .logo svg { width: 26px; height: 26px; }
+
+            .hero {
+                padding: 40px 0 40px;
+                min-height: auto;
+            }
+
+            .hero h1 { font-size: 28px; line-height: 1.15; }
+
+            .hero-subtitle { font-size: 15px; margin-bottom: 20px; }
+
+            .hero-badge {
+                font-size: 12px;
+                padding: 6px 12px;
+                margin-bottom: 12px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                margin-bottom: 24px;
+            }
+
+            .hero-buttons .btn-glow,
+            .hero-buttons .btn-lg {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+                padding: 14px 24px;
+                font-size: 15px;
+            }
+
+            .hero-proof-badges {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .proof-badge {
+                font-size: 12px;
+                padding: 7px 10px;
+                justify-content: center;
+            }
+
+            .dash-metrics { grid-template-columns: 1fr; gap: 8px; }
+            .dash-metric-value { font-size: 18px; }
+            .dash-chart-area { grid-template-columns: 1fr; }
+            .dash-body { padding: 12px; }
+
+            section { padding: 48px 0; }
+
+            .section-title {
+                font-size: 24px;
+                margin-bottom: 8px;
+            }
+
+            .section-subtitle {
+                font-size: 14px;
+                margin-bottom: 32px;
+            }
+
+            .problems-grid,
+            .features-grid,
+            .roi-cards,
+            .cases-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .problem-card,
+            .feature-card,
+            .roi-card,
+            .case-card,
+            .pricing-card {
+                padding: 20px 18px;
+            }
+
+            .case-before-after { grid-template-columns: 1fr; gap: 12px; }
+
+            .api-code pre { font-size: 11px; padding: 14px; }
+
+            .faq-question { font-size: 14px; padding: 14px 16px; }
+            .faq-answer p { font-size: 13px; }
+
+            .final-cta { padding: 56px 0; }
+            .final-cta h2 { font-size: 24px; }
+            .final-cta .btn-glow {
+                width: 100%;
+                padding: 14px 24px;
+                font-size: 15px;
+            }
+
+            .footer-grid { gap: 24px; }
+        }
+
+        /* ===== TABLET ===== */
+        @media (min-width: 640px) {
+            .problems-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .roi-cards { grid-template-columns: repeat(3, 1fr); }
+            .cases-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: repeat(3, 1fr); }
+            .api-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* ===== DESKTOP ===== */
+        @media (min-width: 768px) {
+            section { padding: 80px 0; }
+            .hero { padding: 80px 0 80px; }
+            .hero h1 { font-size: 48px; }
+            .hero-subtitle { font-size: 18px; }
+            .section-title { font-size: 36px; }
+            .problems-grid { grid-template-columns: repeat(3, 1fr); }
+            .cases-grid { grid-template-columns: repeat(3, 1fr); }
+            .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero-inner { grid-template-columns: 1fr 1fr; }
+            .hero h1 { font-size: 44px; }
+
+            .nav-tabs { display: flex; }
+            .navbar-links { display: flex; }
+            .navbar-cta { display: flex; }
+            .mobile-menu-btn { display: none; }
+
+            .final-cta h2 { font-size: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+        <a href="#" class="logo">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="0" width="14" height="14" rx="3.5" fill="#7C3AED"/>
+                <rect x="18" y="0" width="14" height="14" rx="3.5" fill="#7C3AED"/>
+                <rect x="0" y="18" width="14" height="14" rx="3.5" fill="#7C3AED"/>
+                <rect x="18" y="18" width="14" height="14" rx="3.5" fill="#7C3AED"/>
+            </svg>
+            NeuroGate
+        </a>
+        <ul class="nav-tabs">
+            <li><a href="/neurogate">Личное</a></li>
+            <li><a href="/neurogate/business" class="active">Для бизнеса</a></li>
+        </ul>
+        <div class="navbar-right">
+            <div class="navbar-links">
+                <a href="#pricing" class="navbar-link">Тарифы</a>
+                <a href="#" class="navbar-link">Войти</a>
+            </div>
+            <div class="navbar-cta">
+                <a href="#" class="btn-nav">Начать бесплатно</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Меню" onclick="document.getElementById('mobile-menu').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="/neurogate">Личное</a>
+        <a href="/neurogate/business" class="active">Для бизнеса</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="#">Войти</a>
+        <a href="#" class="btn-nav">Начать бесплатно</a>
+    </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="hero-particles">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="container">
+        <div class="hero-inner">
+            <div class="hero-content">
+                <div class="hero-badge">Для бизнеса</div>
+                <h1>AI для всей команды.<br>Один кабинет. Один счёт.</h1>
+                <p class="hero-subtitle">100+ нейросетей для маркетинга, продаж, HR и разработки. Контроль расходов, безопасность данных, оплата от юрлица.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-glow">Получить бесплатный AI-аудит</a>
+                    <a href="#pricing" class="btn btn-lg btn-outline" style="border-color:rgba(255,255,255,0.3);color:white;">Посмотреть тарифы &#8595;</a>
+                </div>
+                <div class="hero-proof-badges">
+                    <div class="proof-badge">100+ моделей</div>
+                    <div class="proof-badge">Оплата от юрлица</div>
+                    <div class="proof-badge">Данные под защитой</div>
+                    <div class="proof-badge">Дашборд расходов</div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="dash-mockup">
+                    <div class="dash-titlebar">
+                        <div class="dash-dot"></div>
+                        <div class="dash-dot"></div>
+                        <div class="dash-dot"></div>
+                        <div class="dash-titlebar-text">neurogate.ai/dashboard</div>
+                    </div>
+                    <div class="dash-body">
+                        <div class="dash-metrics">
+                            <div class="dash-metric">
+                                <div class="dash-metric-value purple">1,247</div>
+                                <div class="dash-metric-label">Запросов сегодня</div>
+                            </div>
+                            <div class="dash-metric">
+                                <div class="dash-metric-value green">89 ч</div>
+                                <div class="dash-metric-label">Сэкономлено часов</div>
+                            </div>
+                            <div class="dash-metric">
+                                <div class="dash-metric-value blue">34</div>
+                                <div class="dash-metric-label">Активных пользователей</div>
+                            </div>
+                        </div>
+                        <div class="dash-chart-area">
+                            <div class="dash-chart">
+                                <div class="dash-chart-title">Запросы по дням</div>
+                                <div class="dash-bars">
+                                    <div style="flex:1;text-align:center;">
+                                        <div class="dash-bar purple" style="height:35px;"></div>
+                                        <div class="dash-bar-label">Пн</div>
+                                    </div>
+                                    <div style="flex:1;text-align:center;">
+                                        <div class="dash-bar purple" style="height:50px;"></div>
+                                        <div class="dash-bar-label">Вт</div>
+                                    </div>
+                                    <div style="flex:1;text-align:center;">
+                                        <div class="dash-bar purple" style="height:42px;"></div>
+                                        <div class="dash-bar-label">Ср</div>
+                                    </div>
+                                    <div style="flex:1;text-align:center;">
+                                        <div class="dash-bar purple" style="height:58px;"></div>
+                                        <div class="dash-bar-label">Чт</div>
+                                    </div>
+                                    <div style="flex:1;text-align:center;">
+                                        <div class="dash-bar purple" style="height:48px;"></div>
+                                        <div class="dash-bar-label">Пт</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dash-chart">
+                                <div class="dash-chart-title">По отделам</div>
+                                <div class="dash-dept-list">
+                                    <div class="dash-dept-row">
+                                        <div class="dash-dept-name">Маркетинг</div>
+                                        <div class="dash-dept-bar-bg"><div class="dash-dept-bar-fill" style="width:78%;background:var(--purple-light);"></div></div>
+                                        <div class="dash-dept-value">412</div>
+                                    </div>
+                                    <div class="dash-dept-row">
+                                        <div class="dash-dept-name">Продажи</div>
+                                        <div class="dash-dept-bar-bg"><div class="dash-dept-bar-fill" style="width:55%;background:var(--pink);"></div></div>
+                                        <div class="dash-dept-value">289</div>
+                                    </div>
+                                    <div class="dash-dept-row">
+                                        <div class="dash-dept-name">Разработка</div>
+                                        <div class="dash-dept-bar-bg"><div class="dash-dept-bar-fill" style="width:68%;background:var(--orange);"></div></div>
+                                        <div class="dash-dept-value">358</div>
+                                    </div>
+                                    <div class="dash-dept-row">
+                                        <div class="dash-dept-name">HR</div>
+                                        <div class="dash-dept-bar-bg"><div class="dash-dept-bar-fill" style="width:35%;background:#60a5fa;"></div></div>
+                                        <div class="dash-dept-value">188</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== PROBLEMS (FOMO) ===== -->
+<section id="problems">
+    <div class="container">
+        <h2 class="section-title">72% компаний уже используют AI. А ваша?</h2>
+        <p class="section-subtitle">Три главных боли бизнеса при работе с нейросетями — и как мы их решаем</p>
+        <div class="problems-grid">
+            <div class="problem-card">
+                <div class="problem-pain">
+                    <div class="problem-pain-label">Проблема</div>
+                    <p>Сотрудники пользуются ChatGPT хаотично — нет контроля, данные утекают</p>
+                </div>
+                <div class="problem-solution">
+                    <div class="problem-solution-label">Решение NeuroGate</div>
+                    <p>Единый кабинет с дашбордом: кто, сколько, на что тратит. Данные не уходят в обучение моделей</p>
+                </div>
+            </div>
+            <div class="problem-card">
+                <div class="problem-pain">
+                    <div class="problem-pain-label">Проблема</div>
+                    <p>5 подписок на разные AI-сервисы, каждую оплачивает кто-то по-своему</p>
+                </div>
+                <div class="problem-solution">
+                    <div class="problem-solution-label">Решение NeuroGate</div>
+                    <p>Один счёт от юрлица, ЭДО, акты. Все модели в одном месте</p>
+                </div>
+            </div>
+            <div class="problem-card">
+                <div class="problem-pain">
+                    <div class="problem-pain-label">Проблема</div>
+                    <p>Хотим внедрить AI, но не знаем с чего начать</p>
+                </div>
+                <div class="problem-solution">
+                    <div class="problem-solution-label">Решение NeuroGate</div>
+                    <p>Бесплатный AI-аудит: покажем где AI сэкономит вам 500K+ рублей в месяц</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FEATURES (6 cards) ===== -->
+<section id="features" style="background: var(--gray-50);">
+    <div class="container">
+        <h2 class="section-title">Всё что нужно для внедрения AI в компанию</h2>
+        <p class="section-subtitle">Контроль, безопасность, масштабирование — из коробки</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">&#128202;</div>
+                <h3>Дашборд и контроль</h3>
+                <ul>
+                    <li>Кто из сотрудников использует AI и сколько тратит</li>
+                    <li>Лимиты по отделам и сотрудникам</li>
+                    <li>Отчёт для CFO: экономия в часах и рублях</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128274;</div>
+                <h3>Безопасность данных</h3>
+                <ul>
+                    <li>Промпты не уходят в обучение моделей</li>
+                    <li>Корпоративная политика использования</li>
+                    <li>Контроль доступа: роли, группы, ограничения</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#129504;</div>
+                <h3>100+ моделей — один интерфейс</h3>
+                <ul>
+                    <li>GPT-5, Claude, Gemini, Midjourney, Sora</li>
+                    <li>Smart Router: авто-выбор лучшей модели</li>
+                    <li>Переключение между моделями в один клик</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128188;</div>
+                <h3>Оплата для бизнеса</h3>
+                <ul>
+                    <li>Счёт от юрлица, НДС, ЭДО, акты</li>
+                    <li>Пополнение баланса без подписки</li>
+                    <li>Прозрачный биллинг по отделам</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128640;</div>
+                <h3>Быстрый старт</h3>
+                <ul>
+                    <li>Подключение команды за 10 минут</li>
+                    <li>Готовые промпт-шаблоны по отделам</li>
+                    <li>Обучение команды включено</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128268;</div>
+                <h3>API для разработчиков</h3>
+                <ul>
+                    <li>OpenAI-совместимый API — замени base_url</li>
+                    <li>SDK: Python, Node.js</li>
+                    <li>Webhook-уведомления, fallback</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== ROI CALCULATOR ===== -->
+<section class="roi-section" id="roi">
+    <div class="container">
+        <h2 class="section-title">Сколько сэкономит AI вашей команде?</h2>
+        <p class="section-subtitle">Реальные цифры экономии по размеру команды</p>
+        <div class="roi-cards">
+            <div class="roi-card">
+                <div class="roi-card-team">Малая команда</div>
+                <div class="roi-card-size">10 человек</div>
+                <div class="roi-row">
+                    <span class="roi-label">Экономия часов</span>
+                    <span class="roi-value">~200 ч/мес</span>
+                </div>
+                <div class="roi-row">
+                    <span class="roi-label">Экономия на ФОТ</span>
+                    <span class="roi-value green">~120 000 &#8381;/мес</span>
+                </div>
+                <div class="roi-row">
+                    <span class="roi-label">Стоимость NeuroGate</span>
+                    <span class="roi-value">15 000 &#8381;/мес</span>
+                </div>
+                <div class="roi-result">
+                    <div class="roi-result-label">ROI</div>
+                    <div class="roi-result-value">700%</div>
+                </div>
+            </div>
+            <div class="roi-card highlight">
+                <div class="roi-card-team">Средняя команда</div>
+                <div class="roi-card-size">30 человек</div>
+                <div class="roi-row">
+                    <span class="roi-label">Экономия часов</span>
+                    <span class="roi-value">~580 ч/мес</span>
+                </div>
+                <div class="roi-row">
+                    <span class="roi-label">Экономия на ФОТ</span>
+                    <span class="roi-value green">~350 000 &#8381;/мес</span>
+                </div>
+                <div class="roi-row">
+                    <span class="roi-label">Стоимость NeuroGate</span>
+                    <span class="roi-value">45 000 &#8381;/мес</span>
+                </div>
+                <div class="roi-result">
+                    <div class="roi-result-label">ROI</div>
+                    <div class="roi-result-value">680%</div>
+                </div>
+            </div>
+            <div class="roi-card">
+                <div class="roi-card-team">Большая команда</div>
+                <div class="roi-card-size">100 человек</div>
+                <div class="roi-row">
+                    <span class="roi-label">Экономия часов</span>
+                    <span class="roi-value">~1 900 ч/мес</span>
+                </div>
+                <div class="roi-row">
+                    <span class="roi-label">Экономия на ФОТ</span>
+                    <span class="roi-value green">~1 200 000 &#8381;/мес</span>
+                </div>
+                <div class="roi-row">
+                    <span class="roi-label">Стоимость NeuroGate</span>
+                    <span class="roi-value">По запросу</span>
+                </div>
+                <div class="roi-result">
+                    <div class="roi-result-label">Персональный расчёт</div>
+                    <div class="roi-result-value" style="font-size:18px;">Запросить &#8594;</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CASES ===== -->
+<section id="cases">
+    <div class="container">
+        <h2 class="section-title">Как бизнес использует NeuroGate</h2>
+        <p class="section-subtitle">Реальные сценарии внедрения AI в работу компаний</p>
+        <div class="cases-grid">
+            <div class="case-card">
+                <div class="case-card-type">Маркетинг-агентство</div>
+                <h3>15 человек</h3>
+                <div class="case-before-after">
+                    <div class="case-col">
+                        <div class="case-col-label before">Было</div>
+                        <p>5 подписок, 45K &#8381;/мес, хаос с доступами</p>
+                    </div>
+                    <div class="case-col">
+                        <div class="case-col-label after">Стало</div>
+                        <p>1 кабинет, 25K &#8381;/мес, дашборд по клиентам</p>
+                    </div>
+                </div>
+                <div class="case-result">Экономия 240K &#8381;/год, скорость &#215;3</div>
+            </div>
+            <div class="case-card">
+                <div class="case-card-type">E-commerce</div>
+                <h3>40 человек</h3>
+                <div class="case-before-after">
+                    <div class="case-col">
+                        <div class="case-col-label before">Было</div>
+                        <p>Маркетологи и поддержка сидят в бесплатных ChatGPT, нет контроля</p>
+                    </div>
+                    <div class="case-col">
+                        <div class="case-col-label after">Стало</div>
+                        <p>Корпоративный доступ, шаблоны по отделам, отчёты</p>
+                    </div>
+                </div>
+                <div class="case-result">-30% нагрузка на поддержку, +50% контента в месяц</div>
+            </div>
+            <div class="case-card">
+                <div class="case-card-type">IT-стартап</div>
+                <h3>10 разработчиков</h3>
+                <div class="case-before-after">
+                    <div class="case-col">
+                        <div class="case-col-label before">Было</div>
+                        <p>Каждый платит за API сам, VPN, иностранные карты</p>
+                    </div>
+                    <div class="case-col">
+                        <div class="case-col-label after">Стало</div>
+                        <p>Один API endpoint, оплата от юрлица, smart routing</p>
+                    </div>
+                </div>
+                <div class="case-result">-40% на API-расходах, zero downtime (fallback)</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section id="pricing" style="background: var(--gray-50);">
+    <div class="container">
+        <h2 class="section-title">Простые тарифы для бизнеса</h2>
+        <p class="section-subtitle">Все тарифы включают 100+ моделей и API-доступ</p>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-name">Команда</div>
+                <div class="pricing-price">15 000 &#8381;</div>
+                <div class="pricing-period">в месяц, до 10 пользователей</div>
+                <ul class="pricing-features">
+                    <li><span class="check">&#10003;</span> Все 100+ моделей</li>
+                    <li><span class="check">&#10003;</span> Базовый дашборд</li>
+                    <li><span class="check">&#10003;</span> API-доступ</li>
+                    <li><span class="check">&#10003;</span> Видео-курс обучения</li>
+                    <li><span class="check">&#10003;</span> Чат-поддержка</li>
+                    <li><span class="check">&#10003;</span> Оплата СБП / карта</li>
+                </ul>
+                <a href="#" class="btn btn-outline">Попробовать</a>
+            </div>
+            <div class="pricing-card highlight">
+                <div class="pricing-name">Бизнес</div>
+                <div class="pricing-price">45 000 &#8381;</div>
+                <div class="pricing-period">в месяц, до 50 пользователей</div>
+                <ul class="pricing-features">
+                    <li><span class="check">&#10003;</span> Все 100+ моделей</li>
+                    <li><span class="check">&#10003;</span> Расширенный дашборд</li>
+                    <li><span class="check">&#10003;</span> API-доступ</li>
+                    <li><span class="check">&#10003;</span> Вебинар + шаблоны</li>
+                    <li><span class="check">&#10003;</span> Персональный менеджер</li>
+                    <li><span class="check">&#10003;</span> Юрлицо + ЭДО</li>
+                </ul>
+                <a href="#" class="btn btn-primary">Получить демо</a>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-name">Корпоративный</div>
+                <div class="pricing-price">По запросу</div>
+                <div class="pricing-period">безлимит пользователей</div>
+                <ul class="pricing-features">
+                    <li><span class="check">&#10003;</span> Все 100+ моделей</li>
+                    <li><span class="check">&#10003;</span> Кастомный дашборд</li>
+                    <li><span class="check">&#10003;</span> API + SLA</li>
+                    <li><span class="check">&#10003;</span> Персональный тренер</li>
+                    <li><span class="check">&#10003;</span> Dedicated менеджер</li>
+                    <li><span class="check">&#10003;</span> Юрлицо + ЭДО</li>
+                </ul>
+                <a href="#" class="btn btn-outline">Связаться</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== API ===== -->
+<section class="api-section" id="api">
+    <div class="container">
+        <h2 class="section-title">API для тех, кто строит продукты с AI</h2>
+        <p class="section-subtitle">Одна строка — и вы подключены. OpenAI-совместимый API.</p>
+        <div class="api-grid">
+            <div class="api-code">
+                <div class="api-code-header">
+                    <div class="api-code-dot"></div>
+                    <div class="api-code-dot"></div>
+                    <div class="api-code-dot"></div>
+                    <div class="api-code-lang">Python</div>
+                </div>
+                <pre><span class="kw">import</span> openai
+
+client = openai.<span class="fn">OpenAI</span>(
+    <span class="op">base_url</span>=<span class="str">"https://api.neurogate.ru/v1"</span>
+)
+
+<span class="cm"># Smart Router сам выберет лучшую модель</span>
+response = client.chat.completions.<span class="fn">create</span>(
+    <span class="op">model</span>=<span class="str">"auto"</span>,
+    <span class="op">messages</span>=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Привет!"</span>}]
+)</pre>
+            </div>
+            <div class="api-features">
+                <div class="api-feature">
+                    <div class="api-feature-icon">&#9889;</div>
+                    <div>
+                        <h4>OpenAI-совместимый</h4>
+                        <p>Замени base_url — и работай с привычным SDK. Никаких изменений в коде.</p>
+                    </div>
+                </div>
+                <div class="api-feature">
+                    <div class="api-feature-icon">&#129504;</div>
+                    <div>
+                        <h4>Smart Router</h4>
+                        <p>Авто-выбор модели по цене, скорости и качеству. model="auto" для оптимального результата.</p>
+                    </div>
+                </div>
+                <div class="api-feature">
+                    <div class="api-feature-icon">&#128737;</div>
+                    <div>
+                        <h4>Fallback и надёжность</h4>
+                        <p>Если модель недоступна — автоматическое переключение. Zero downtime.</p>
+                    </div>
+                </div>
+                <div class="api-feature">
+                    <div class="api-feature-icon">&#128202;</div>
+                    <div>
+                        <h4>Dashboard расходов</h4>
+                        <p>Контроль расходов по API-ключам, отчёты для бухгалтерии.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== COMPARISON ===== -->
+<section id="comparison">
+    <div class="container">
+        <h2 class="section-title">Почему бизнес выбирает NeuroGate</h2>
+        <p class="section-subtitle">Сравнение с альтернативами на рынке</p>
+        <div class="comparison-table-wrap">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>NeuroGate</th>
+                        <th>ChatGPT Enterprise</th>
+                        <th>GigaChat Pro</th>
+                        <th>ChadGPT B2B</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Моделей</td>
+                        <td>100+</td>
+                        <td>Только OpenAI</td>
+                        <td>Только Сбер</td>
+                        <td>55</td>
+                    </tr>
+                    <tr>
+                        <td>Оплата от юрлица</td>
+                        <td class="check">&#10003;</td>
+                        <td class="cross">&#10007; ($$$)</td>
+                        <td class="check">&#10003;</td>
+                        <td class="check">&#10003;</td>
+                    </tr>
+                    <tr>
+                        <td>Дашборд расходов</td>
+                        <td class="check">&#10003;</td>
+                        <td>Ограниченный</td>
+                        <td class="cross">&#10007;</td>
+                        <td class="cross">&#10007;</td>
+                    </tr>
+                    <tr>
+                        <td>API</td>
+                        <td>OpenAI-совместимый</td>
+                        <td class="check">&#10003;</td>
+                        <td>Свой формат</td>
+                        <td class="cross">&#10007;</td>
+                    </tr>
+                    <tr>
+                        <td>Обучение команды</td>
+                        <td>Включено</td>
+                        <td class="cross">&#10007;</td>
+                        <td class="cross">&#10007;</td>
+                        <td class="cross">&#10007;</td>
+                    </tr>
+                    <tr>
+                        <td>Smart routing</td>
+                        <td class="check">&#10003;</td>
+                        <td class="cross">&#10007;</td>
+                        <td class="cross">&#10007;</td>
+                        <td class="cross">&#10007;</td>
+                    </tr>
+                    <tr>
+                        <td>Цена от</td>
+                        <td>15K &#8381;/мес</td>
+                        <td>~$60/чел/мес</td>
+                        <td>По запросу</td>
+                        <td>?</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq" style="background: var(--gray-50);">
+    <div class="container">
+        <h2 class="section-title">Частые вопросы</h2>
+        <p class="section-subtitle">Всё что нужно знать перед подключением</p>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">Как оплатить от юрлица?</div>
+                <div class="faq-answer"><p>Выставляем счёт, работаем через ЭДО (Контур, СБИС). НДС включён. Акты закрытия каждый месяц.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Данные в безопасности?</div>
+                <div class="faq-answer"><p>Промпты не используются для обучения моделей. Можем подписать NDA. Данные обрабатываются в защищённом контуре.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Сколько времени занимает подключение?</div>
+                <div class="faq-answer"><p>От 10 минут для команды до 1 дня для полной интеграции с API. Поможем на каждом этапе.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Есть обучение для команды?</div>
+                <div class="faq-answer"><p>Да, включено в тариф: видео-курс, шаблоны промптов по отделам, вебинар для команды.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Можно попробовать бесплатно?</div>
+                <div class="faq-answer"><p>Да, бесплатный пилот на 2 недели для команды до 10 человек. Без обязательств.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Что если нам нужна специфичная модель?</div>
+                <div class="faq-answer"><p>Подключим любую модель по запросу. Smart Router подберёт оптимальную по соотношению цены, скорости и качества.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="final-cta">
+    <div class="container">
+        <h2>Узнайте, где AI сэкономит вашему бизнесу</h2>
+        <p>Бесплатный аудит за 30 минут. Покажем ROI для вашей компании.</p>
+        <a href="#" class="btn btn-glow">Получить бесплатный AI-аудит</a>
+        <div class="final-cta-note">Бесплатно · 30 минут · Покажем ROI для вашей компании</div>
+        <div class="final-cta-links">
+            <a href="#">Написать в Telegram</a>
+            <a href="#">Позвонить</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0" y="0" width="14" height="14" rx="3.5" fill="#A78BFA"/>
+                        <rect x="18" y="0" width="14" height="14" rx="3.5" fill="#A78BFA"/>
+                        <rect x="0" y="18" width="14" height="14" rx="3.5" fill="#A78BFA"/>
+                        <rect x="18" y="18" width="14" height="14" rx="3.5" fill="#A78BFA"/>
+                    </svg>
+                    NeuroGate
+                </a>
+                <p>AI для всей команды.<br>Один кабинет. Один счёт.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Продукт</h4>
+                <ul>
+                    <li><a href="#features">Возможности</a></li>
+                    <li><a href="#pricing">Тарифы</a></li>
+                    <li><a href="#api">API</a></li>
+                    <li><a href="#">Документация</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Для бизнеса</h4>
+                <ul>
+                    <li><a href="#roi">ROI-калькулятор</a></li>
+                    <li><a href="#cases">Кейсы</a></li>
+                    <li><a href="#">AI-аудит</a></li>
+                    <li><a href="#">Партнёрство</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <ul>
+                    <li><a href="#">b2b@neurogate.ru</a></li>
+                    <li><a href="#">Telegram</a></li>
+                    <li><a href="#">+7 (495) 000-00-00</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 NeuroGate. ООО &laquo;НейроГейт&raquo;, ИНН 7700000000</span>
+            <div>
+                <a href="#">Политика конфиденциальности</a> · <a href="#">Оферта</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(q => {
+        q.addEventListener('click', () => {
+            const item = q.parentElement;
+            const wasOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            if (!wasOpen) item.classList.add('open');
+        });
+    });
+</script>
+</body>
+</html>
