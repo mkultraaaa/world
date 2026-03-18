@@ -147,6 +147,24 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 @media (min-width: 769px) and (max-width: 1024px) {
   .cards-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+
+/* --- NeuroGate Onboarding (v1) --- */
+.ng-onboard-backdrop{position:fixed;inset:0;background:rgba(17,24,39,.55);z-index:2000;display:none;}
+.ng-onboard{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,calc(100vw - 32px));background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25);z-index:2001;display:none;overflow:hidden;}
+.ng-onboard header{padding:18px 18px 10px;border-bottom:1px solid #eee;}
+.ng-onboard header h3{font-size:18px;margin:0;color:#111827;}
+.ng-onboard .body{padding:16px 18px 18px;color:#374151;font-size:14px;line-height:1.45;}
+.ng-onboard .missions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px;}
+.ng-mission{border:1px solid #E5E7EB;border-radius:12px;padding:12px 12px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;}
+.ng-mission:hover{border-color:#C4B5FD;box-shadow:0 6px 16px rgba(124,58,237,.12);}
+.ng-mission .ic{width:36px;height:36px;border-radius:10px;background:#F5F3FF;color:#7C3AED;display:flex;align-items:center;justify-content:center;font-weight:700;}
+.ng-mission .t{font-weight:700;color:#111827;margin-bottom:2px;}
+.ng-onboard footer{padding:12px 18px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.ng-link{color:#6B7280;text-decoration:none;font-size:13px;}
+.ng-btn{background:#7C3AED;color:#fff;border:none;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer;}
+.ng-btn:hover{background:#6D28D9;}
+
 </style>
 </head>
 <body>
@@ -278,5 +296,73 @@ function toggleSidebar() {
   document.getElementById('overlay').classList.toggle('open');
 }
 </script>
+
+
+<div class="ng-onboard-backdrop" id="ngObBack"></div>
+<div class="ng-onboard" id="ngOb">
+  <header>
+    <h3>Быстрый старт: первая победа за 60 секунд</h3>
+  </header>
+  <div class="body">
+    Выбери, что хочешь сделать первым — я открою нужный экран и подставлю стартовый промпт.
+    <div class="missions">
+      <div class="ng-mission" data-mission="text">
+        <div class="ic">Т</div>
+        <div>
+          <div class="t">Сделать пост / текст</div>
+          <div>Открою чат и подставлю промпт.</div>
+        </div>
+      </div>
+      <div class="ng-mission" data-mission="img">
+        <div class="ic">И</div>
+        <div>
+          <div class="t">Сгенерировать картинку</div>
+          <div>Открою «Изображения» и подставлю промпт.</div>
+        </div>
+      </div>
+      <div class="ng-mission" data-mission="vid">
+        <div class="ic">В</div>
+        <div>
+          <div class="t">Сгенерировать видео</div>
+          <div>Открою «Видео» и подставлю промпт.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <a class="ng-link" href="#" id="ngObSkip">Пропустить</a>
+    <button class="ng-btn" id="ngObLater">Позже</button>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const KEY='ng_onboard_done_v1';
+  const back=document.getElementById('ngObBack');
+  const box=document.getElementById('ngOb');
+  const show=()=>{back.style.display='block';box.style.display='block';};
+  const hide=()=>{back.style.display='none';box.style.display='none';};
+  if(!localStorage.getItem(KEY)) setTimeout(show, 450);
+
+  function go(url){
+    localStorage.setItem(KEY,'1');
+    window.location.href=url;
+  }
+
+  box.addEventListener('click', (e)=>{
+    const m=e.target.closest('[data-mission]');
+    if(!m) return;
+    const mission=m.getAttribute('data-mission');
+    if(mission==='text') go('/neurogate/app/cabinet/chat.html?tour=1');
+    if(mission==='img') go('/neurogate/app/cabinet/images.html?tour=1');
+    if(mission==='vid') go('/neurogate/app/cabinet/video.html?tour=1');
+  });
+
+  document.getElementById('ngObSkip').addEventListener('click',(e)=>{e.preventDefault(); localStorage.setItem(KEY,'1'); hide();});
+  document.getElementById('ngObLater').addEventListener('click',()=>hide());
+  back.addEventListener('click',()=>hide());
+})();
+</script>
+
 </body>
 </html>

@@ -198,6 +198,18 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
   .main { margin-left: 0; padding: 24px 16px; padding-top: 60px; }
   .generations-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+
+/* --- Tour hint --- */
+.ng-tour-hint{position:fixed;right:18px;bottom:92px;z-index:2100;width:min(420px,calc(100vw - 36px));background:#111827;color:#fff;border-radius:14px;padding:12px 12px;box-shadow:0 18px 50px rgba(0,0,0,.25);display:none;}
+.ng-tour-hint .t{font-weight:800;margin-bottom:6px;}
+.ng-tour-hint .p{opacity:.9;font-size:13px;line-height:1.35;}
+.ng-tour-hint .a{display:flex;justify-content:flex-end;gap:10px;margin-top:10px;}
+.ng-tour-hint button{border:none;border-radius:10px;padding:9px 12px;font-weight:800;cursor:pointer;}
+.ng-tour-hint .ok{background:#7C3AED;color:#fff;}
+.ng-tour-hint .ok:hover{background:#6D28D9;}
+.ng-tour-hint .skip{background:rgba(255,255,255,.14);color:#fff;}
+
 </style>
 </head>
 <body>
@@ -378,5 +390,38 @@ function toggleSidebar() {
   document.getElementById('overlay').classList.toggle('open');
 }
 </script>
+
+
+<div class="ng-tour-hint" id="ngTourHint">
+  <div class="t">Шаг 1/1 — сделай первый результат</div>
+  <div class="p">Я подставил стартовый промпт. Нажми кнопку, чтобы увидеть результат (в прототипе — мок).</div>
+  <div class="a">
+    <button class="skip" id="ngTourSkip">Ок, понял</button>
+    <button class="ok" id="ngTourGo">Сделать</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const params=new URLSearchParams(location.search);
+  if(params.get('tour')!=='1') return;
+  const hint=document.getElementById('ngTourHint');
+  hint.style.display='block';
+
+  // Try to prefill prompt
+  const promptText='Минималистичный логотип в 4 квадратах, стиль SaaS, белый фон, фиолетовый акцент';
+  const ta=document.querySelector('textarea') || document.querySelector('input[type="text"]') || document.querySelector('input');
+  if(ta && !ta.value) ta.value=promptText;
+
+  // Try to find primary action button
+  const buttons=[...document.querySelectorAll('button')];
+  const primary=buttons.find(b=>/отправ|сгенер/i.test(b.textContent)) || buttons.find(b=>b.type==='submit') || buttons[0];
+
+  const close=()=>{ hint.style.display='none'; history.replaceState(null,'',location.pathname); };
+  document.getElementById('ngTourSkip').addEventListener('click',close);
+  document.getElementById('ngTourGo').addEventListener('click',()=>{ if(primary) primary.click(); close(); });
+})();
+</script>
+
 </body>
 </html>
