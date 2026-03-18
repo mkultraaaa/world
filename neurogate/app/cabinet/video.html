@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroGate — Видео</title>
+<style>
+:root {
+  --purple: #7C3AED;
+  --purple-dark: #6D28D9;
+  --purple-light: #A78BFA;
+  --purple-bg: #EDE9FE;
+  --gray-50: #F9FAFB;
+  --gray-100: #F3F4F6;
+  --gray-500: #6B7280;
+  --gray-600: #4B5563;
+  --gray-900: #111827;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #F5F5F3; color: var(--gray-900); }
+
+/* Sidebar */
+.sidebar {
+  position: fixed; top: 0; left: 0; width: 220px; height: 100vh;
+  background: #F7F7F5; display: flex; flex-direction: column;
+  z-index: 100; transition: transform 0.3s ease;
+}
+.sidebar-logo {
+  display: flex; align-items: center; gap: 10px;
+  padding: 20px 16px 24px;
+}
+.sidebar-logo span { font-weight: 800; font-size: 16px; color: var(--gray-900); }
+.sidebar-nav { flex: 1; display: flex; flex-direction: column; padding: 0 8px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; border-radius: 8px; font-size: 14px;
+  color: #666; text-decoration: none; cursor: pointer;
+  transition: background 0.15s, color 0.15s; margin-bottom: 2px;
+}
+.nav-item:hover { background: var(--gray-100); }
+.nav-item.active { background: var(--purple-bg); color: var(--purple); font-weight: 600; }
+.nav-item .icon { width: 20px; text-align: center; font-size: 16px; }
+.sidebar-bottom { padding: 8px; border-top: 1px solid var(--gray-100); }
+.sidebar-bottom .nav-item { margin-bottom: 0; }
+.sidebar-section-label {
+  font-size: 11px; color: #999; padding: 16px 16px 6px;
+  font-weight: 600; letter-spacing: 0.05em;
+}
+
+/* Burger */
+.burger {
+  display: none; position: fixed; top: 12px; left: 12px; z-index: 1001;
+  background: white; border: 1px solid var(--gray-100); border-radius: 8px;
+  width: 40px; height: 40px; cursor: pointer; align-items: center; justify-content: center;
+  font-size: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+  z-index: 99;
+}
+
+/* Main */
+.main { margin-left: 220px; min-height: 100vh; padding: 32px; max-width: 900px; }
+
+/* Prompt area */
+.prompt-card {
+  background: white; border-radius: 16px; padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 24px;
+}
+.prompt-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.prompt-label { font-weight: 700; font-size: 14px; }
+.inspire-link {
+  color: var(--purple); font-size: 13px; cursor: pointer;
+  text-decoration: none; display: flex; align-items: center; gap: 4px;
+}
+.inspire-link:hover { text-decoration: underline; }
+.prompt-textarea {
+  width: 100%; border: 1px solid #E5E7EB; border-radius: 12px;
+  padding: 14px 16px; font-size: 14px; font-family: inherit;
+  resize: vertical; min-height: 80px; outline: none;
+  transition: border-color 0.2s;
+}
+.prompt-textarea:focus { border-color: var(--purple-light); }
+.prompt-textarea::placeholder { color: #bbb; }
+.prompt-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 12px;
+}
+.model-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--gray-50); border: 1px solid var(--gray-100);
+  border-radius: 100px; padding: 6px 14px; font-size: 13px;
+  color: var(--gray-600); cursor: pointer;
+}
+.model-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #111;
+}
+.btn-send-prompt {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--gray-100); color: var(--gray-500); border: none;
+  cursor: pointer; display: flex; align-items: center;
+  justify-content: center; font-size: 16px;
+  transition: background 0.15s;
+}
+.btn-send-prompt:hover { background: var(--purple-bg); color: var(--purple); }
+
+/* Settings */
+.reset-link {
+  font-size: 13px; color: #ccc; cursor: pointer; text-align: right;
+  margin-bottom: 20px;
+}
+.reset-link:hover { color: var(--purple); }
+.settings-section { margin-bottom: 20px; }
+.settings-label { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.settings-desc { font-size: 12px; color: #999; margin-bottom: 10px; }
+
+/* Aspect dropdown */
+.aspect-select {
+  width: 100%; padding: 10px 14px; border: 1px solid #E5E7EB;
+  border-radius: 8px; font-size: 14px; font-family: inherit;
+  background: white; cursor: pointer; outline: none;
+  appearance: auto; color: var(--gray-900);
+}
+.aspect-select:focus { border-color: var(--purple-light); }
+
+/* Duration control */
+.duration-control {
+  display: flex; align-items: center; gap: 16px;
+}
+.duration-slider {
+  flex: 1; -webkit-appearance: none; appearance: none;
+  height: 4px; border-radius: 2px; background: var(--gray-100);
+  outline: none;
+}
+.duration-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 20px; height: 20px;
+  border-radius: 50%; background: white; border: 2px solid var(--purple);
+  cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+.duration-slider::-moz-range-thumb {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: white; border: 2px solid var(--purple);
+  cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+.duration-value {
+  display: flex; align-items: baseline; gap: 4px;
+  min-width: 50px;
+}
+.duration-number {
+  font-size: 20px; font-weight: 700; color: var(--gray-900);
+}
+.duration-unit { font-size: 13px; color: #999; }
+.duration-range {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: #ccc; margin-top: 4px;
+}
+
+/* Pill group */
+.pill-group { display: flex; gap: 8px; }
+.pill-btn {
+  padding: 8px 18px; border-radius: 8px; border: 1px solid #E5E7EB;
+  background: white; font-size: 13px; color: var(--gray-600);
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.pill-btn:hover { border-color: var(--purple-light); }
+.pill-btn.active {
+  border-color: var(--purple); color: var(--purple);
+  background: var(--purple-bg); font-weight: 600;
+}
+
+/* Toggle switch */
+.toggle-row {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; margin-bottom: 20px;
+}
+.toggle-info { flex: 1; }
+.toggle-label { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.toggle-desc { font-size: 12px; color: #999; line-height: 1.4; }
+.toggle-switch {
+  position: relative; width: 44px; height: 24px; flex-shrink: 0; margin-top: 2px;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-track {
+  position: absolute; inset: 0; background: #ddd; border-radius: 12px;
+  cursor: pointer; transition: background 0.2s;
+}
+.toggle-track::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transition: transform 0.2s;
+}
+.toggle-switch input:checked + .toggle-track { background: var(--purple); }
+.toggle-switch input:checked + .toggle-track::after { transform: translateX(20px); }
+
+/* Generate button */
+.btn-generate {
+  width: 100%; padding: 14px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+  color: white; font-size: 16px; font-weight: 700;
+  cursor: pointer; transition: opacity 0.2s; font-family: inherit;
+  margin-bottom: 32px; height: 48px;
+  display: flex; align-items: center; justify-content: center;
+}
+.btn-generate:hover { opacity: 0.9; }
+.btn-generate:disabled { opacity: 0.6; cursor: not-allowed; }
+.spinner {
+  width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white; border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Generations section */
+.generations-header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.generations-title { font-size: 18px; font-weight: 700; }
+.generations-count { font-size: 14px; color: #999; }
+.generations-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.gen-card {
+  border-radius: 12px; height: 160px; overflow: hidden;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+.gen-card:hover { transform: scale(1.03); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+.gen-card.g1 { background: linear-gradient(135deg, #1a1a2e, #16213e); }
+.gen-card.g2 { background: linear-gradient(135deg, #0f3460, #533483); }
+.gen-card.g3 { background: linear-gradient(135deg, #e94560, #0f3460); }
+.gen-card.g4 { background: linear-gradient(135deg, #16213e, #e94560); }
+.gen-card.g5 { background: linear-gradient(135deg, #533483, #1a1a2e); }
+.gen-card.g6 { background: linear-gradient(135deg, #0f3460, #1a1a2e); }
+
+/* Play button overlay */
+.play-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.2); opacity: 0;
+  transition: opacity 0.2s;
+}
+.gen-card:hover .play-overlay { opacity: 1; }
+.play-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.9); display: flex;
+  align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.play-icon {
+  width: 0; height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 16px solid var(--gray-900);
+  margin-left: 3px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .burger { display: flex; }
+  .overlay.open { display: block; }
+  .main { margin-left: 0; padding: 24px 16px; padding-top: 60px; }
+  .generations-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- Burger -->
+<button class="burger" onclick="toggleSidebar()">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <rect x="1" y="1" width="11" height="11" rx="3.5" fill="#7C3AED"/>
+      <rect x="16" y="1" width="11" height="11" rx="3.5" fill="#7C3AED"/>
+      <rect x="1" y="16" width="11" height="11" rx="3.5" fill="#7C3AED"/>
+      <rect x="16" y="16" width="11" height="11" rx="3.5" fill="#7C3AED"/>
+    </svg>
+    <span>NeuroGate</span>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item" href="index.html"><span class="icon">🏠</span> Главная</a>
+    <a class="nav-item" href="chat.html"><span class="icon">💬</span> Чат</a>
+    <a class="nav-item" href="images.html"><span class="icon">🖼</span> Изображения</a>
+    <a class="nav-item active" href="video.html"><span class="icon">🎬</span> Видео</a>
+    <a class="nav-item" href="gallery.html"><span class="icon">📸</span> Галерея</a>
+    <a class="nav-item" href="prompts.html"><span class="icon">📋</span> Промпты</a>
+    <a class="nav-item" href="models.html"><span class="icon">🤖</span> Модели</a>
+    <div class="sidebar-section-label">История чатов</div>
+  </div>
+  <div class="sidebar-bottom">
+    <a class="nav-item" href="settings.html"><span class="icon">⚙️</span> Настройки</a>
+  </div>
+</nav>
+
+<!-- Main content -->
+<main class="main">
+  <!-- Prompt card -->
+  <div class="prompt-card">
+    <div class="prompt-header">
+      <div class="prompt-label">Промпт</div>
+      <a class="inspire-link">✨ Вдохновиться</a>
+    </div>
+    <textarea class="prompt-textarea" id="promptInput" placeholder="Опишите видео, которое хотите создать..."></textarea>
+    <div class="prompt-bottom">
+      <div class="model-pill">
+        <span class="model-dot"></span>
+        Grok Imagine Video
+        <span style="font-size:10px;color:#bbb;">▾</span>
+      </div>
+      <button class="btn-send-prompt" title="Отправить">↑</button>
+    </div>
+  </div>
+
+  <!-- Settings -->
+  <div class="reset-link">Сбросить всё</div>
+
+  <div class="settings-section">
+    <div class="settings-label">Aspect</div>
+    <select class="aspect-select" id="aspectSelect">
+      <option value="16:9" selected>16:9</option>
+      <option value="9:16">9:16</option>
+      <option value="1:1">1:1</option>
+      <option value="4:3">4:3</option>
+      <option value="3:4">3:4</option>
+    </select>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-label">Duration</div>
+    <div class="duration-control">
+      <input type="range" class="duration-slider" id="durationSlider" min="1" max="100" value="8">
+      <div class="duration-value">
+        <span class="duration-number" id="durationValue">8</span>
+        <span class="duration-unit">сек</span>
+      </div>
+    </div>
+    <div class="duration-range">
+      <span>0</span>
+      <span>100</span>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-label">Resolution</div>
+    <div class="settings-desc">Resolution of the output video.</div>
+    <div class="pill-group" data-group="resolution">
+      <button class="pill-btn active" data-value="auto">auto</button>
+      <button class="pill-btn" data-value="480p">480p</button>
+      <button class="pill-btn" data-value="720p">720p</button>
+    </div>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle-info">
+      <div class="toggle-label">Auto Aspect</div>
+      <div class="toggle-desc">Toggle to automatically select the aspect ratio based on the input image/video. Only works with image/video attachments.</div>
+    </div>
+    <label class="toggle-switch">
+      <input type="checkbox">
+      <span class="toggle-track"></span>
+    </label>
+  </div>
+
+  <!-- Generate button -->
+  <button class="btn-generate" id="btnGenerate">Сгенерировать</button>
+
+  <!-- Generations -->
+  <div class="generations-header">
+    <div class="generations-title">Мои генерации</div>
+    <div class="generations-count" id="genCount">19 генераций</div>
+  </div>
+
+  <div class="generations-grid" id="genGrid">
+    <div class="gen-card g1"><div class="play-overlay"><div class="play-btn"><div class="play-icon"></div></div></div></div>
+    <div class="gen-card g2"><div class="play-overlay"><div class="play-btn"><div class="play-icon"></div></div></div></div>
+    <div class="gen-card g3"><div class="play-overlay"><div class="play-btn"><div class="play-icon"></div></div></div></div>
+    <div class="gen-card g4"><div class="play-overlay"><div class="play-btn"><div class="play-icon"></div></div></div></div>
+    <div class="gen-card g5"><div class="play-overlay"><div class="play-btn"><div class="play-icon"></div></div></div></div>
+    <div class="gen-card g6"><div class="play-overlay"><div class="play-btn"><div class="play-icon"></div></div></div></div>
+  </div>
+</main>
+
+<script>
+// Duration slider
+const slider = document.getElementById('durationSlider');
+const durationValue = document.getElementById('durationValue');
+slider.addEventListener('input', () => {
+  durationValue.textContent = slider.value;
+});
+
+// Pill group toggle
+document.querySelectorAll('.pill-group').forEach(group => {
+  group.addEventListener('click', (e) => {
+    const btn = e.target.closest('.pill-btn');
+    if (!btn) return;
+    group.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// Inspire link
+document.querySelector('.inspire-link').addEventListener('click', () => {
+  const prompts = [
+    'Плавный полёт дрона над горным озером на рассвете, кинематографичное освещение',
+    'Анимация логотипа: фиолетовые частицы собираются в 3D-текст, тёмный фон',
+    'Таймлапс: город переходит от дня к ночи, огни зажигаются одна за другой',
+    'Рекламный ролик: кофе наливается в белую чашку в слоумо, пар поднимается',
+    'Анимированная инфографика: данные появляются на экране с плавными переходами'
+  ];
+  document.getElementById('promptInput').value = prompts[Math.floor(Math.random() * prompts.length)];
+});
+
+// Generate button
+const gradients = [
+  'linear-gradient(135deg, #1a1a2e, #16213e)',
+  'linear-gradient(135deg, #0f3460, #533483)',
+  'linear-gradient(135deg, #e94560, #0f3460)',
+  'linear-gradient(135deg, #16213e, #e94560)',
+  'linear-gradient(135deg, #533483, #1a1a2e)',
+  'linear-gradient(135deg, #0f3460, #1a1a2e)',
+  'linear-gradient(135deg, #2d1b69, #11998e)',
+  'linear-gradient(135deg, #fc5c7d, #6a82fb)'
+];
+let genCount = 19;
+
+document.getElementById('btnGenerate').addEventListener('click', function() {
+  const btn = this;
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div>';
+
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.textContent = 'Сгенерировать';
+
+    const card = document.createElement('div');
+    card.className = 'gen-card';
+    card.style.background = gradients[Math.floor(Math.random() * gradients.length)];
+    card.style.height = '160px';
+    card.style.animation = 'fadeIn 0.3s ease';
+    card.innerHTML = '<div class="play-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>';
+
+    const grid = document.getElementById('genGrid');
+    grid.insertBefore(card, grid.firstChild);
+
+    genCount++;
+    document.getElementById('genCount').textContent = genCount + ' генераций';
+  }, 2000);
+});
+
+// Fade in animation
+const style = document.createElement('style');
+style.textContent = '@keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }';
+document.head.appendChild(style);
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+</script>
+</body>
+</html>

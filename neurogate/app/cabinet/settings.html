@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Настройки — NeuroGate</title>
+<style>
+:root {
+  --purple: #7C3AED;
+  --purple-dark: #6D28D9;
+  --purple-light: #A78BFA;
+  --purple-bg: #EDE9FE;
+  --gray-50: #F9FAFB;
+  --gray-100: #F3F4F6;
+  --gray-500: #6B7280;
+  --gray-600: #4B5563;
+  --gray-900: #111827;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #F5F5F3; color: var(--gray-900); }
+
+/* Sidebar */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: 220px; background: #F7F7F5;
+  border-right: 1px solid #E5E5E3;
+  display: flex; flex-direction: column;
+  z-index: 100;
+  transition: transform 0.25s ease;
+}
+.sidebar-logo {
+  display: flex; align-items: center; gap: 10px;
+  padding: 20px 16px 24px;
+}
+.sidebar-logo svg { flex-shrink: 0; }
+.sidebar-logo span { font-weight: 800; font-size: 16px; color: var(--gray-900); }
+.sidebar-nav { flex: 1; display: flex; flex-direction: column; padding: 0 8px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; border-radius: 8px;
+  font-size: 14px; color: #666;
+  text-decoration: none; cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  margin-bottom: 2px;
+}
+.nav-item:hover { background: #EEEEEC; color: var(--gray-900); }
+.nav-item.active { background: var(--purple-bg); color: var(--purple); font-weight: 600; }
+.nav-item-icon { font-size: 16px; width: 20px; text-align: center; }
+.sidebar-bottom { padding: 8px; border-top: 1px solid #E5E5E3; }
+.sidebar-bottom .nav-item { margin-bottom: 0; }
+
+/* Burger */
+.burger {
+  display: none; position: fixed; top: 12px; left: 12px;
+  z-index: 1001; background: #fff; border: 1px solid #E5E5E3;
+  border-radius: 8px; width: 40px; height: 40px;
+  cursor: pointer; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.3); z-index: 999;
+}
+.overlay.show { display: block; }
+
+/* Main */
+.main { margin-left: 220px; min-height: 100vh; padding: 32px; }
+.page-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; }
+
+/* Settings Tabs */
+.settings-tabs {
+  display: flex; gap: 4px; margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.settings-tab {
+  padding: 10px 18px; font-size: 14px; color: var(--gray-500);
+  cursor: pointer; border: 1px solid #E5E5E3; border-radius: 8px;
+  transition: all 0.15s; display: flex; align-items: center; gap: 6px;
+  user-select: none; background: #fff;
+}
+.settings-tab:hover { border-color: var(--purple-light); }
+.settings-tab.active { border-color: var(--purple); color: var(--gray-900); font-weight: 600; }
+
+/* Tab content */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Balance Section */
+.balance-card {
+  background: #fff; border-radius: 12px; padding: 32px;
+  text-align: center; margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.balance-label { font-size: 12px; color: var(--gray-500); margin-bottom: 8px; }
+.balance-amount { font-size: 48px; font-weight: 900; color: var(--gray-900); }
+.balance-currency { font-size: 24px; font-weight: 400; color: var(--gray-500); }
+
+/* Topup Section */
+.section-card {
+  background: #fff; border-radius: 12px; padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.section-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.section-subtitle { font-size: 13px; color: var(--gray-500); margin-bottom: 20px; }
+
+/* Amount buttons */
+.amount-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 12px; margin-bottom: 24px;
+}
+.amount-btn {
+  position: relative;
+  padding: 20px 16px; border: 2px solid #E5E5E3; border-radius: 12px;
+  background: #fff; cursor: pointer; text-align: center;
+  transition: all 0.15s; font-size: 16px; font-weight: 700;
+  color: var(--gray-900);
+}
+.amount-btn:hover { border-color: var(--purple-light); }
+.amount-btn.selected { border-color: var(--purple); background: #FDFCFE; }
+.amount-btn .wallet-icon {
+  display: block; margin: 0 auto 8px; font-size: 20px; color: var(--gray-500);
+}
+.amount-badge {
+  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+  background: var(--purple); color: #fff; font-size: 10px; font-weight: 600;
+  padding: 2px 10px; border-radius: 10px; white-space: nowrap;
+}
+
+/* Topup button */
+.topup-btn {
+  width: 100%; height: 48px; border: none; border-radius: 10px;
+  background: var(--purple); color: #fff; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+}
+.topup-btn:hover { background: var(--purple-dark); }
+
+/* History */
+.history-list { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.history-row {
+  display: flex; align-items: center; padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-100);
+  gap: 12px;
+}
+.history-row:last-child { border-bottom: none; }
+.history-icon {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: #FEE2E2; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.history-icon-arrow { color: #EF4444; font-size: 14px; font-weight: 700; }
+.history-info { flex: 1; min-width: 0; }
+.history-label { font-size: 13px; font-weight: 600; color: var(--gray-900); }
+.history-desc { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+.history-right { text-align: right; flex-shrink: 0; }
+.history-amount { font-size: 13px; font-weight: 600; color: #EF4444; }
+.history-date { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+
+/* Placeholder */
+.placeholder {
+  text-align: center; padding: 80px 20px;
+  color: var(--gray-500); font-size: 16px;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .burger { display: flex; }
+  .main { margin-left: 0; padding: 20px; padding-top: 60px; }
+  .amount-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<button class="burger" onclick="toggleSidebar()">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <rect x="1" y="1" width="11" height="11" rx="3.5" fill="#7C3AED"/>
+      <rect x="16" y="1" width="11" height="11" rx="3.5" fill="#7C3AED"/>
+      <rect x="1" y="16" width="11" height="11" rx="3.5" fill="#7C3AED"/>
+      <rect x="16" y="16" width="11" height="11" rx="3.5" fill="#7C3AED"/>
+    </svg>
+    <span>NeuroGate</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a class="nav-item" href="index.html"><span class="nav-item-icon">&#127968;</span> Главная</a>
+    <a class="nav-item" href="chat.html"><span class="nav-item-icon">&#128172;</span> Чат</a>
+    <a class="nav-item" href="images.html"><span class="nav-item-icon">&#128444;</span> Изображения</a>
+    <a class="nav-item" href="video.html"><span class="nav-item-icon">&#127916;</span> Видео</a>
+    <a class="nav-item" href="gallery.html"><span class="nav-item-icon">&#128248;</span> Галерея</a>
+    <a class="nav-item" href="prompts.html"><span class="nav-item-icon">&#128203;</span> Промпты</a>
+    <a class="nav-item" href="models.html"><span class="nav-item-icon">&#129302;</span> Модели</a>
+  </nav>
+  <div class="sidebar-bottom">
+    <a class="nav-item active" href="settings.html"><span class="nav-item-icon">&#9881;</span> Настройки</a>
+  </div>
+</aside>
+
+<main class="main">
+  <h1 class="page-title">Настройки</h1>
+
+  <div class="settings-tabs">
+    <div class="settings-tab active" data-tab="balance">Баланс</div>
+    <div class="settings-tab" data-tab="team">Команда</div>
+    <div class="settings-tab" data-tab="profile">Профиль</div>
+    <div class="settings-tab" data-tab="security">Безопасность</div>
+    <div class="settings-tab" data-tab="models">Модели</div>
+  </div>
+
+  <!-- Balance Tab -->
+  <div class="tab-content active" id="tab-balance">
+    <div class="balance-card">
+      <div class="balance-label">Текущий баланс</div>
+      <div class="balance-amount">491.77 <span class="balance-currency">&#8381;</span></div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">Пополнение</div>
+      <div class="section-subtitle">Выберите пакет для пополнения баланса</div>
+
+      <div class="amount-grid" id="amountGrid">
+        <div class="amount-btn" data-amount="100">
+          <span class="wallet-icon">&#128179;</span>
+          100 &#8381;
+        </div>
+        <div class="amount-btn" data-amount="300">
+          <span class="wallet-icon">&#128179;</span>
+          300 &#8381;
+        </div>
+        <div class="amount-btn selected" data-amount="500">
+          <div class="amount-badge">Рекомендуемый</div>
+          <span class="wallet-icon">&#128179;</span>
+          500 &#8381;
+        </div>
+        <div class="amount-btn" data-amount="1000">
+          <span class="wallet-icon">&#128179;</span>
+          1 000 &#8381;
+        </div>
+      </div>
+
+      <button class="topup-btn">Пополнить</button>
+    </div>
+
+    <div class="section-title" style="margin-bottom: 16px;">История операций</div>
+    <div class="history-list">
+      <div class="history-row">
+        <div class="history-icon"><span class="history-icon-arrow">&#8595;</span></div>
+        <div class="history-info">
+          <div class="history-label">Списание</div>
+          <div class="history-desc">Chat completion: deepseek-v3.1</div>
+        </div>
+        <div class="history-right">
+          <div class="history-amount">-0.40 &#8381;</div>
+          <div class="history-date">16 мар. 18:35</div>
+        </div>
+      </div>
+      <div class="history-row">
+        <div class="history-icon"><span class="history-icon-arrow">&#8595;</span></div>
+        <div class="history-info">
+          <div class="history-label">Списание</div>
+          <div class="history-desc">Chat completion: deepseek-v3.1</div>
+        </div>
+        <div class="history-right">
+          <div class="history-amount">-0.31 &#8381;</div>
+          <div class="history-date">16 мар. 18:35</div>
+        </div>
+      </div>
+      <div class="history-row">
+        <div class="history-icon"><span class="history-icon-arrow">&#8595;</span></div>
+        <div class="history-info">
+          <div class="history-label">Списание</div>
+          <div class="history-desc">Chat completion: deepseek-v3.1</div>
+        </div>
+        <div class="history-right">
+          <div class="history-amount">-0.86 &#8381;</div>
+          <div class="history-date">16 мар. 18:34</div>
+        </div>
+      </div>
+      <div class="history-row">
+        <div class="history-icon"><span class="history-icon-arrow">&#8595;</span></div>
+        <div class="history-info">
+          <div class="history-label">Списание</div>
+          <div class="history-desc">Chat completion: gemini-2.5-pro</div>
+        </div>
+        <div class="history-right">
+          <div class="history-amount">-0.38 &#8381;</div>
+          <div class="history-date">16 мар. 17:03</div>
+        </div>
+      </div>
+      <div class="history-row">
+        <div class="history-icon"><span class="history-icon-arrow">&#8595;</span></div>
+        <div class="history-info">
+          <div class="history-label">Списание</div>
+          <div class="history-desc">Chat completion: gpt-5.2-pro</div>
+        </div>
+        <div class="history-right">
+          <div class="history-amount">-1.20 &#8381;</div>
+          <div class="history-date">16 мар. 16:41</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Other tabs (placeholders) -->
+  <div class="tab-content" id="tab-team">
+    <div class="placeholder">Скоро</div>
+  </div>
+  <div class="tab-content" id="tab-profile">
+    <div class="placeholder">Скоро</div>
+  </div>
+  <div class="tab-content" id="tab-security">
+    <div class="placeholder">Скоро</div>
+  </div>
+  <div class="tab-content" id="tab-models">
+    <div class="placeholder">Скоро</div>
+  </div>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+
+// Amount button selection
+document.getElementById('amountGrid').addEventListener('click', function(e) {
+  const btn = e.target.closest('.amount-btn');
+  if (!btn) return;
+  this.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+});
+
+// Settings tab switching
+document.querySelectorAll('.settings-tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    const target = this.getAttribute('data-tab');
+    document.getElementById('tab-' + target).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

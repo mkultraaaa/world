@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroGate — Изображения</title>
+<style>
+:root {
+  --purple: #7C3AED;
+  --purple-dark: #6D28D9;
+  --purple-light: #A78BFA;
+  --purple-bg: #EDE9FE;
+  --gray-50: #F9FAFB;
+  --gray-100: #F3F4F6;
+  --gray-500: #6B7280;
+  --gray-600: #4B5563;
+  --gray-900: #111827;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #F5F5F3; color: var(--gray-900); }
+
+/* Sidebar */
+.sidebar {
+  position: fixed; top: 0; left: 0; width: 220px; height: 100vh;
+  background: #F7F7F5; display: flex; flex-direction: column;
+  z-index: 100; transition: transform 0.3s ease;
+}
+.sidebar-logo {
+  display: flex; align-items: center; gap: 10px;
+  padding: 20px 16px 24px;
+}
+.sidebar-logo span { font-weight: 800; font-size: 16px; color: var(--gray-900); }
+.sidebar-nav { flex: 1; display: flex; flex-direction: column; padding: 0 8px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; border-radius: 8px; font-size: 14px;
+  color: #666; text-decoration: none; cursor: pointer;
+  transition: background 0.15s, color 0.15s; margin-bottom: 2px;
+}
+.nav-item:hover { background: var(--gray-100); }
+.nav-item.active { background: var(--purple-bg); color: var(--purple); font-weight: 600; }
+.nav-item .icon { width: 20px; text-align: center; font-size: 16px; }
+.sidebar-bottom { padding: 8px; border-top: 1px solid var(--gray-100); }
+.sidebar-bottom .nav-item { margin-bottom: 0; }
+.sidebar-section-label {
+  font-size: 11px; color: #999; padding: 16px 16px 6px;
+  font-weight: 600; letter-spacing: 0.05em;
+}
+
+/* Burger */
+.burger {
+  display: none; position: fixed; top: 12px; left: 12px; z-index: 1001;
+  background: white; border: 1px solid var(--gray-100); border-radius: 8px;
+  width: 40px; height: 40px; cursor: pointer; align-items: center; justify-content: center;
+  font-size: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+  z-index: 99;
+}
+
+/* Main */
+.main { margin-left: 220px; min-height: 100vh; padding: 32px; max-width: 900px; }
+
+/* Prompt area */
+.prompt-card {
+  background: white; border-radius: 16px; padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 20px;
+}
+.prompt-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.prompt-label { font-weight: 700; font-size: 14px; }
+.inspire-link {
+  color: var(--purple); font-size: 13px; cursor: pointer;
+  text-decoration: none; display: flex; align-items: center; gap: 4px;
+}
+.inspire-link:hover { text-decoration: underline; }
+.prompt-textarea {
+  width: 100%; border: 1px solid #E5E7EB; border-radius: 12px;
+  padding: 14px 16px; font-size: 14px; font-family: inherit;
+  resize: vertical; min-height: 80px; outline: none;
+  transition: border-color 0.2s;
+}
+.prompt-textarea:focus { border-color: var(--purple-light); }
+.prompt-textarea::placeholder { color: #bbb; }
+.prompt-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 12px;
+}
+.model-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--gray-50); border: 1px solid var(--gray-100);
+  border-radius: 100px; padding: 6px 14px; font-size: 13px;
+  color: var(--gray-600); cursor: pointer;
+}
+.model-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #10B981;
+}
+.btn-send-prompt {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--gray-100); color: var(--gray-500); border: none;
+  cursor: pointer; display: flex; align-items: center;
+  justify-content: center; font-size: 16px;
+  transition: background 0.15s;
+}
+.btn-send-prompt:hover { background: var(--purple-bg); color: var(--purple); }
+
+/* Upload area */
+.upload-area {
+  background: white; border: 2px dashed #E5E7EB; border-radius: 12px;
+  padding: 40px 20px; text-align: center; cursor: pointer;
+  transition: border-color 0.2s, background 0.2s; margin-bottom: 24px;
+  min-height: 180px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.upload-area:hover { border-color: var(--purple-light); background: var(--purple-bg); }
+.upload-icon { font-size: 40px; margin-bottom: 12px; color: var(--purple); opacity: 0.7; }
+.upload-text { font-size: 14px; color: var(--gray-600); margin-bottom: 4px; }
+.upload-hint { font-size: 12px; color: #999; margin-bottom: 4px; }
+.upload-gallery-link { font-size: 12px; color: var(--purple); cursor: pointer; }
+
+/* Settings */
+.settings-section { margin-bottom: 20px; }
+.settings-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+.settings-label { font-weight: 600; font-size: 14px; margin-bottom: 10px; }
+.reset-link {
+  font-size: 13px; color: #ccc; cursor: pointer; text-align: right;
+  margin-bottom: 16px;
+}
+.reset-link:hover { color: var(--purple); }
+.pill-group { display: flex; gap: 8px; }
+.pill-btn {
+  padding: 8px 18px; border-radius: 8px; border: 1px solid #E5E7EB;
+  background: white; font-size: 13px; color: var(--gray-600);
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.pill-btn:hover { border-color: var(--purple-light); }
+.pill-btn.active {
+  border-color: var(--purple); color: var(--purple);
+  background: var(--purple-bg); font-weight: 600;
+}
+
+/* Generate button */
+.btn-generate {
+  width: 100%; padding: 14px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+  color: white; font-size: 16px; font-weight: 700;
+  cursor: pointer; transition: opacity 0.2s; font-family: inherit;
+  margin-bottom: 32px; height: 48px;
+  display: flex; align-items: center; justify-content: center;
+}
+.btn-generate:hover { opacity: 0.9; }
+.btn-generate:disabled { opacity: 0.6; cursor: not-allowed; }
+.spinner {
+  width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white; border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Generations section */
+.generations-header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.generations-title { font-size: 18px; font-weight: 700; }
+.generations-count { font-size: 14px; color: #999; }
+.generations-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.gen-card {
+  border-radius: 12px; height: 160px; overflow: hidden;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+.gen-card:hover { transform: scale(1.03); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+.gen-card.g1 { background: linear-gradient(135deg, #667eea, #764ba2); }
+.gen-card.g2 { background: linear-gradient(135deg, #f093fb, #f5576c); }
+.gen-card.g3 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+.gen-card.g4 { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+.gen-card.g5 { background: linear-gradient(135deg, #fa709a, #fee140); }
+.gen-card.g6 { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+.gen-card.g7 { background: linear-gradient(135deg, #fccb90, #d57eeb); }
+.gen-card.g8 { background: linear-gradient(135deg, #e0c3fc, #8ec5fc); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .burger { display: flex; }
+  .overlay.open { display: block; }
+  .main { margin-left: 0; padding: 24px 16px; padding-top: 60px; }
+  .generations-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- Burger -->
+<button class="burger" onclick="toggleSidebar()">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <rect x="1" y="1" width="11" height="11" rx="3.5" fill="#7C3AED"/>
+      <rect x="16" y="1" width="11" height="11" rx="3.5" fill="#7C3AED"/>
+      <rect x="1" y="16" width="11" height="11" rx="3.5" fill="#7C3AED"/>
+      <rect x="16" y="16" width="11" height="11" rx="3.5" fill="#7C3AED"/>
+    </svg>
+    <span>NeuroGate</span>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item" href="index.html"><span class="icon">🏠</span> Главная</a>
+    <a class="nav-item" href="chat.html"><span class="icon">💬</span> Чат</a>
+    <a class="nav-item active" href="images.html"><span class="icon">🖼</span> Изображения</a>
+    <a class="nav-item" href="video.html"><span class="icon">🎬</span> Видео</a>
+    <a class="nav-item" href="gallery.html"><span class="icon">📸</span> Галерея</a>
+    <a class="nav-item" href="prompts.html"><span class="icon">📋</span> Промпты</a>
+    <a class="nav-item" href="models.html"><span class="icon">🤖</span> Модели</a>
+    <div class="sidebar-section-label">История чатов</div>
+  </div>
+  <div class="sidebar-bottom">
+    <a class="nav-item" href="settings.html"><span class="icon">⚙️</span> Настройки</a>
+  </div>
+</nav>
+
+<!-- Main content -->
+<main class="main">
+  <!-- Prompt card -->
+  <div class="prompt-card">
+    <div class="prompt-header">
+      <div class="prompt-label">Промпт</div>
+      <a class="inspire-link">✨ Вдохновиться</a>
+    </div>
+    <textarea class="prompt-textarea" id="promptInput" placeholder="Опишите изображение, которое хотите создать..."></textarea>
+    <div class="prompt-bottom">
+      <div class="model-pill">
+        <span class="model-dot"></span>
+        GPT Image 1.5
+        <span style="font-size:10px;color:#bbb;">▾</span>
+      </div>
+      <button class="btn-send-prompt" title="Отправить">↑</button>
+    </div>
+  </div>
+
+  <!-- Upload area -->
+  <div class="upload-area" id="uploadArea">
+    <div class="upload-icon">🖼</div>
+    <div class="upload-text">Перетащите изображение сюда или нажмите для загрузки</div>
+    <div class="upload-hint">PNG, JPG, WebP — до 10 МБ</div>
+    <div class="upload-gallery-link">или перетащите генерацию из галереи</div>
+  </div>
+
+  <!-- Settings -->
+  <div class="reset-link">Сбросить всё</div>
+
+  <div class="settings-section">
+    <div class="settings-label">Aspect</div>
+    <div class="pill-group" data-group="aspect">
+      <button class="pill-btn active" data-value="1:1">1:1</button>
+      <button class="pill-btn" data-value="3:2">3:2</button>
+      <button class="pill-btn" data-value="2:3">2:3</button>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-label">Quality</div>
+    <div class="pill-group" data-group="quality">
+      <button class="pill-btn" data-value="low">low</button>
+      <button class="pill-btn active" data-value="medium">medium</button>
+      <button class="pill-btn" data-value="high">high</button>
+    </div>
+  </div>
+
+  <!-- Generate button -->
+  <button class="btn-generate" id="btnGenerate">Сгенерировать</button>
+
+  <!-- Generations -->
+  <div class="generations-header">
+    <div class="generations-title">Мои генерации</div>
+    <div class="generations-count" id="genCount">19 генераций</div>
+  </div>
+
+  <div class="generations-grid" id="genGrid">
+    <div class="gen-card g1"></div>
+    <div class="gen-card g2"></div>
+    <div class="gen-card g3"></div>
+    <div class="gen-card g4"></div>
+    <div class="gen-card g5"></div>
+    <div class="gen-card g6"></div>
+  </div>
+</main>
+
+<script>
+// Pill group toggle
+document.querySelectorAll('.pill-group').forEach(group => {
+  group.addEventListener('click', (e) => {
+    const btn = e.target.closest('.pill-btn');
+    if (!btn) return;
+    group.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// Upload area click
+document.getElementById('uploadArea').addEventListener('click', () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/png,image/jpeg,image/webp';
+  input.click();
+});
+
+// Inspire link — fill with random prompt
+document.querySelector('.inspire-link').addEventListener('click', () => {
+  const prompts = [
+    'Футуристический город на закате, неоновые огни, киберпанк стиль',
+    'Уютная кофейня в дождливый день, акварельный стиль',
+    'Космический корабль на орбите Юпитера, реалистичный рендер',
+    'Логотип для tech-стартапа, минималистичный, фиолетовый градиент',
+    'Фото продукта: белые наушники на мраморном столе, студийный свет'
+  ];
+  document.getElementById('promptInput').value = prompts[Math.floor(Math.random() * prompts.length)];
+});
+
+// Generate button
+const gradients = [
+  'linear-gradient(135deg, #667eea, #764ba2)',
+  'linear-gradient(135deg, #f093fb, #f5576c)',
+  'linear-gradient(135deg, #4facfe, #00f2fe)',
+  'linear-gradient(135deg, #43e97b, #38f9d7)',
+  'linear-gradient(135deg, #fa709a, #fee140)',
+  'linear-gradient(135deg, #a18cd1, #fbc2eb)',
+  'linear-gradient(135deg, #fccb90, #d57eeb)',
+  'linear-gradient(135deg, #e0c3fc, #8ec5fc)',
+  'linear-gradient(135deg, #ff9a9e, #fecfef)',
+  'linear-gradient(135deg, #a1c4fd, #c2e9fb)'
+];
+let genCount = 19;
+
+document.getElementById('btnGenerate').addEventListener('click', function() {
+  const btn = this;
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div>';
+
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.textContent = 'Сгенерировать';
+
+    const card = document.createElement('div');
+    card.className = 'gen-card';
+    card.style.background = gradients[Math.floor(Math.random() * gradients.length)];
+    card.style.height = '160px';
+    card.style.animation = 'fadeIn 0.3s ease';
+
+    const grid = document.getElementById('genGrid');
+    grid.insertBefore(card, grid.firstChild);
+
+    genCount++;
+    document.getElementById('genCount').textContent = genCount + ' генераций';
+  }, 2000);
+});
+
+// Fade in animation (reuse from chat)
+const style = document.createElement('style');
+style.textContent = '@keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }';
+document.head.appendChild(style);
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+</script>
+</body>
+</html>
