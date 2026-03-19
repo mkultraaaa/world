@@ -266,11 +266,20 @@
 }
 
 @media (max-width: 768px) {
-    .page-header { padding: 68px 20px 0; }
-    .page-body { padding: 20px 20px 100px; }
+    .page-header { padding: 60px 16px 0; }
+    .page-body { padding: 20px 16px 100px; }
     .models-grid { grid-template-columns: 1fr; }
     .recommended-row { gap: 12px; }
     .recommended-row .model-card { min-width: 240px; }
+    .filter-row {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .filter-row .chip {
+        flex-shrink: 0;
+    }
 }
 </style>
 </head>

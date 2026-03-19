@@ -288,14 +288,22 @@
 }
 
 @media (max-width: 768px) {
-    .page-header { padding: 68px 20px 0; }
-    .page-body { padding: 20px 20px 100px; }
-    .packages-grid { grid-template-columns: repeat(2, 1fr); }
+    .page-header { padding: 60px 16px 0; }
+    .page-body { padding: 20px 16px 100px; }
+    .packages-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .balance-inner { flex-direction: column; }
+    .balance-amount { font-size: 28px; }
     .history-header, .history-row {
-        grid-template-columns: 90px 1fr 80px;
-        padding: 10px 14px;
-        font-size: 13px;
+        grid-template-columns: 80px 1fr 70px;
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+    .profile-actions {
+        flex-direction: column;
+    }
+    .profile-actions .btn-primary,
+    .profile-actions .btn-secondary {
+        width: 100%;
     }
 }
 </style>

@@ -649,25 +649,42 @@
         flex-direction: column;
         height: auto;
         min-height: 100vh;
+        overflow: visible;
     }
     .create-left {
         width: 100%;
-        min-width: auto;
-        max-width: none;
+        min-width: unset;
+        max-width: unset;
         border-right: none;
         border-bottom: 1px solid var(--border);
-        padding: 16px;
+        padding: 60px 16px 16px;
+        overflow-y: visible;
     }
     .create-right {
         padding: 16px;
         min-height: 50vh;
+        overflow-y: visible;
     }
     .examples-grid {
         grid-template-columns: repeat(2, 1fr);
         max-width: none;
     }
+    .example-card {
+        padding: 14px 12px;
+    }
+    .mode-tabs {
+        margin-bottom: 16px;
+    }
+    .mode-tab {
+        padding: 7px 8px;
+        font-size: 12px;
+    }
     .model-dropdown {
-        min-width: 280px;
+        min-width: calc(100vw - 64px);
+        max-width: calc(100vw - 32px);
+    }
+    .prompt-textarea {
+        min-height: 100px;
     }
 }
 </style>
