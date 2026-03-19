@@ -3,690 +3,578 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<base href="/neurogate/app/cabinet/">
-<title>NeuroGate — Создать</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<base href="/neurogate/app/cabinet/">
+<title>NeuroGate — Чат</title>
 <link rel="stylesheet" href="/neurogate/app/cabinet/shared.css">
 <style>
-/* ===== CREATE PAGE SPECIFIC ===== */
+/* ===== CHAT PAGE ===== */
 
-/* Two-panel layout */
-.create-layout {
+/* Chat area fills viewport */
+.chat-container {
     display: flex;
-    height: calc(100vh - 0px);
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
     overflow: hidden;
 }
 
-.create-left {
-    width: 42%;
-    min-width: 380px;
-    max-width: 520px;
-    border-right: 1px solid var(--border);
-    background: var(--surface);
-    display: flex;
-    flex-direction: column;
-    padding: 28px 28px 20px;
-    overflow-y: auto;
-}
-
-.create-right {
-    flex: 1;
-    background: var(--bg-secondary);
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    padding: 28px 32px;
-}
-
-/* Mode tabs */
-.mode-tabs {
-    display: flex;
-    gap: 4px;
-    background: #F8F9FC;
-    border-radius: 10px;
-    padding: 3px;
-    margin-bottom: 24px;
-}
-.mode-tab {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
-    background: transparent;
-    color: var(--text-secondary);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all var(--transition);
-}
-.mode-tab:hover { color: var(--text-primary); }
-.mode-tab.active {
-    background: var(--surface);
-    color: var(--text-primary);
-    box-shadow: var(--shadow-sm);
-}
-.mode-tab svg { width: 16px; height: 16px; }
-
-/* Prompt area */
-.prompt-section { margin-bottom: 20px; }
-.prompt-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.prompt-textarea {
-    width: 100%;
-    min-height: 120px;
-    max-height: 200px;
-    padding: 14px 16px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--text-primary);
-    background: var(--surface);
-    resize: vertical;
-    outline: none;
-    font-family: var(--font);
-    transition: border-color var(--transition);
-}
-.prompt-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
-.prompt-textarea::placeholder { color: var(--text-tertiary); }
-
-/* Presets */
-.presets-section { margin-bottom: 20px; }
-.presets-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-.preset-chip {
-    padding: 6px 14px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-pill);
-    background: var(--surface);
-    color: var(--text-secondary);
-    font-size: 13px;
-    cursor: pointer;
-    transition: all var(--transition);
-    white-space: nowrap;
-}
-.preset-chip:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-}
-.preset-chip.active {
-    background: var(--accent-light);
-    border-color: var(--accent);
-    color: var(--accent);
-    font-weight: 500;
-}
-.inspire-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 6px 14px;
-    border: 1px dashed var(--border);
-    border-radius: var(--radius-pill);
-    background: transparent;
-    color: var(--accent);
-    font-size: 13px;
-    cursor: pointer;
-    transition: all var(--transition);
-}
-.inspire-btn:hover {
-    background: var(--accent-50);
-    border-color: var(--accent);
-}
-
-/* Model selector */
-.model-section { margin-bottom: 20px; }
-.model-section-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-}
-.model-pill-wrap { position: relative; }
-.model-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-pill);
-    background: var(--surface);
-    color: var(--text-primary);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all var(--transition);
-}
-.model-pill:hover { border-color: var(--accent); }
-.model-pill .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-}
-.model-pill .chevron {
-    color: var(--text-tertiary);
-    font-size: 10px;
-}
-
-/* Model dropdown */
-.model-dropdown {
-    display: none;
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    min-width: 320px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-lg);
-    z-index: 50;
-    padding: 8px;
-    animation: fadeIn 0.15s ease;
-}
-.model-dropdown.show { display: block; }
-.model-dropdown-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 8px 10px 4px;
-}
-.model-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: background var(--transition);
-}
-.model-dropdown-item:hover { background: var(--bg); }
-.model-dropdown-item.selected { background: var(--accent-light); }
-.model-dd-icon {
-    width: 32px; height: 32px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    flex-shrink: 0;
-}
-.model-dd-info { flex: 1; min-width: 0; }
-.model-dd-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-.model-dd-meta {
-    font-size: 12px;
-    color: var(--text-tertiary);
-}
-.model-dd-badges { display: flex; gap: 4px; flex-shrink: 0; }
-.model-dd-badge {
-    font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-weight: 500;
-}
-.model-dd-badge.quality { background: #DBEAFE; color: #1D4ED8; }
-.model-dd-badge.speed { background: var(--green-light); color: var(--green); }
-.model-dd-badge.price { background: #FEF3C7; color: #B45309; }
-
-.model-dropdown-search {
-    margin: 4px 4px 8px;
-    padding: 8px 12px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-size: 13px;
-    width: calc(100% - 8px);
-    outline: none;
-    font-family: var(--font);
-}
-.model-dropdown-search:focus { border-color: var(--accent); }
-.model-dropdown-more {
-    display: block;
-    width: 100%;
-    padding: 8px;
-    border: none;
-    background: none;
-    color: var(--accent);
-    font-size: 13px;
-    cursor: pointer;
-    text-align: center;
-    border-radius: var(--radius-sm);
-}
-.model-dropdown-more:hover { background: var(--accent-50); }
-
-/* Advanced settings */
-.advanced-section { margin-bottom: 20px; }
-.advanced-toggle {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 0;
-    border: none;
-    background: none;
-    color: var(--text-secondary);
-    font-size: 13px;
-    cursor: pointer;
-    transition: color var(--transition);
-}
-.advanced-toggle:hover { color: var(--text-primary); }
-.advanced-toggle svg {
-    transition: transform 0.2s ease;
-}
-.advanced-toggle.open svg {
-    transform: rotate(180deg);
-}
-.advanced-body {
-    display: none;
-    padding: 12px 0 0;
-}
-.advanced-body.show { display: block; }
-.advanced-row {
-    margin-bottom: 16px;
-}
-.advanced-row-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-}
-.pill-group {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-.pill-btn {
-    padding: 7px 16px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    background: var(--surface);
-    color: var(--text-secondary);
-    font-size: 13px;
-    cursor: pointer;
-    transition: all var(--transition);
-    font-family: var(--font);
-}
-.pill-btn:hover { border-color: var(--text-tertiary); }
-.pill-btn.active {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: var(--accent-light);
-    font-weight: 500;
-}
-
-/* Generate button */
-.generate-section {
-    margin-top: auto;
-    padding-top: 16px;
-}
-.btn-generate {
-    width: 100%;
-    padding: 13px;
-    border: none;
-    border-radius: var(--radius-md);
-    background: var(--accent);
-    color: var(--text-inverse);
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background var(--transition);
-    font-family: var(--font);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-.btn-generate:hover { background: var(--accent-hover); }
-.btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
-.cost-hint {
-    text-align: center;
-    font-size: 12px;
-    color: var(--text-tertiary);
-    margin-top: 8px;
-}
-
-/* ===== RIGHT PANEL ===== */
-
-/* Empty state */
-.empty-state {
+/* ---- State 1: Welcome screen ---- */
+.welcome-screen {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 40px 24px 120px;
     text-align: center;
-    padding: 40px 20px;
+    animation: fadeIn 0.4s ease;
 }
-.empty-state-icon {
-    width: 64px; height: 64px;
-    border-radius: var(--radius-lg);
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-tertiary);
-    margin-bottom: 16px;
-}
-.empty-state h3 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-.empty-state p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    max-width: 320px;
-    margin-bottom: 24px;
-}
+.welcome-screen.hidden { display: none; }
 
-/* Example cards */
-.examples-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    max-width: 420px;
-    width: 100%;
-}
-.example-card {
-    background: #F8F9FC;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 18px 16px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-}
-.example-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--accent);
-}
-.example-card-icon {
-    width: 36px; height: 36px;
-    border-radius: var(--radius-sm);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent);
-}
-.example-card-label {
-    font-size: 13px;
-    font-weight: 500;
+.welcome-title {
+    font-size: 28px;
+    font-weight: 700;
     color: var(--text-primary);
-}
-.example-card-desc {
-    font-size: 12px;
-    color: var(--text-tertiary);
+    margin-bottom: 8px;
     line-height: 1.3;
 }
+.welcome-subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+}
 
-/* Result area */
-.result-area { display: none; flex-direction: column; flex: 1; }
-.result-area.show { display: flex; }
-
-.result-display {
-    flex: 1;
+/* Starter chips */
+.starter-chips {
     display: flex;
-    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
     justify-content: center;
-    padding: 20px;
+    max-width: 600px;
+    margin-bottom: 0;
 }
-.result-image {
-    max-width: 100%;
-    max-height: 60vh;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-}
-.result-text {
-    max-width: 640px;
-    width: 100%;
-    background: var(--surface);
+.starter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
     border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 24px;
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--text-secondary);
     font-size: 14px;
-    line-height: 1.7;
-    white-space: pre-wrap;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: var(--font);
+    white-space: nowrap;
+}
+.starter-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+.starter-chip .chip-emoji { font-size: 16px; }
+
+/* ---- State 2: Chat messages ---- */
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 80px 0 0;
+    display: none;
+    flex-direction: column;
+}
+.chat-messages.show { display: flex; }
+
+.chat-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 0 16px;
+}
+
+.msg-list {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Message bubbles */
+.msg {
+    display: flex;
+    gap: 12px;
     animation: fadeIn 0.3s ease;
 }
-.result-video {
-    max-width: 560px;
-    width: 100%;
-    aspect-ratio: 16/9;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    position: relative;
+.msg.user { justify-content: flex-end; }
+.msg.assistant { justify-content: flex-start; }
+
+.msg-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-lg);
+    font-size: 14px;
+    flex-shrink: 0;
 }
-.result-video .play-overlay {
-    width: 56px; height: 56px;
+.msg.user .msg-avatar {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 600;
+    order: 2;
+}
+.msg.assistant .msg-avatar {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.msg-bubble {
+    max-width: 75%;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.65;
+    word-break: break-word;
+}
+.msg.user .msg-bubble {
+    background: var(--accent-light);
+    border-radius: 16px 16px 4px 16px;
+    color: var(--text-primary);
+}
+.msg.assistant .msg-bubble {
+    background: #F8F9FC;
+    border-radius: 16px 16px 16px 4px;
+    color: var(--text-primary);
+}
+
+/* Image in chat */
+.msg-image-wrap {
+    margin-top: 12px;
+}
+.msg-image {
+    max-width: 400px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    transition: transform var(--transition);
+    display: block;
+}
+.msg-image:hover { transform: scale(1.01); }
+
+/* Video placeholder in chat */
+.msg-video-wrap {
+    margin-top: 12px;
+    max-width: 400px;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+}
+.msg-video-wrap .play-btn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.msg-video-wrap .play-circle {
+    width: 52px; height: 52px;
     border-radius: 50%;
     background: rgba(255,255,255,0.9);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     transition: transform var(--transition);
 }
-.result-video .play-overlay:hover { transform: scale(1.1); }
+.msg-video-wrap:hover .play-circle { transform: scale(1.1); }
 
-/* Result actions */
-.result-actions {
+/* Action bar under generated content */
+.msg-actions {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 16px 0;
+    gap: 6px;
+    margin-top: 10px;
     flex-wrap: wrap;
 }
-.result-action-btn {
+.msg-action-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
+    gap: 5px;
+    padding: 6px 12px;
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     background: var(--surface);
     color: var(--text-secondary);
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
     transition: all var(--transition);
+    font-family: var(--font);
 }
-.result-action-btn:hover {
+.msg-action-btn:hover {
     border-color: var(--accent);
     color: var(--accent);
 }
-.result-action-btn svg { width: 16px; height: 16px; }
+.msg-action-btn svg { width: 14px; height: 14px; }
 
-/* Session timeline */
-.session-timeline {
-    border-top: 1px solid var(--border);
-    padding: 16px 0 0;
-    margin-top: auto;
+/* Typing indicator */
+.typing-indicator {
+    display: none;
+    gap: 12px;
+    animation: fadeIn 0.3s ease;
+    padding: 0 24px;
+    max-width: 768px;
+    margin: 0 auto;
+    width: 100%;
 }
-.session-label {
+.typing-indicator.show { display: flex; }
+.typing-dots {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 14px 18px;
+    background: #F8F9FC;
+    border-radius: 16px 16px 16px 4px;
+}
+.typing-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--text-tertiary);
+    animation: typingBounce 1.4s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ---- Prompt bar (sticky bottom) ---- */
+.prompt-bar {
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 12px 16px;
+    z-index: 50;
+}
+.prompt-bar-inner {
+    max-width: 768px;
+    margin: 0 auto;
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+.prompt-input-wrap {
+    flex: 1;
+    position: relative;
+}
+.prompt-input {
+    width: 100%;
+    min-height: 44px;
+    max-height: 160px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    resize: none;
+    outline: none;
+    font-family: var(--font);
+    transition: border-color var(--transition), box-shadow var(--transition);
+    overflow-y: auto;
+}
+.prompt-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+    background: var(--surface);
+}
+.prompt-input::placeholder { color: var(--text-tertiary); }
+
+.send-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--text-inverse);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background var(--transition), transform var(--transition);
+    flex-shrink: 0;
+}
+.send-btn:hover { background: var(--accent-hover); transform: scale(1.05); }
+.send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.send-btn svg { width: 20px; height: 20px; }
+
+/* Model selector in prompt bar */
+.prompt-model-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 768px;
+    margin: 8px auto 0;
+    padding: 0 4px;
+}
+.model-selector-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--text-secondary);
     font-size: 12px;
     font-weight: 500;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 10px;
-}
-.session-items { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
-.session-item {
-    width: 64px; height: 64px;
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    flex-shrink: 0;
     cursor: pointer;
-    border: 2px solid transparent;
-    transition: border-color var(--transition);
+    transition: all var(--transition);
+    position: relative;
+    font-family: var(--font);
 }
-.session-item:hover { border-color: var(--accent); }
-.session-item.active { border-color: var(--accent); }
+.model-selector-pill:hover { border-color: var(--accent); color: var(--accent); }
+.model-selector-pill .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+}
+.model-selector-pill .chevron {
+    font-size: 9px;
+    color: var(--text-tertiary);
+}
+.char-count {
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
 
-/* Loading state */
-.generating-state {
+/* Model dropdown from prompt bar */
+.prompt-model-dropdown {
     display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    min-width: 300px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    padding: 8px;
+    animation: fadeIn 0.15s ease;
+}
+.prompt-model-dropdown.show { display: block; }
+
+/* ---- State 3: Preview panel ---- */
+.preview-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40%;
+    max-width: 560px;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    box-shadow: -4px 0 24px rgba(0,0,0,0.06);
+    z-index: 60;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+.preview-panel.open { transform: translateX(0); }
+
+.preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+}
+.preview-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+.preview-close {
+    width: 32px; height: 32px;
+    border: none;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: background var(--transition);
+}
+.preview-close:hover { background: var(--border); }
+
+.preview-body {
+    flex: 1;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex: 1;
-    gap: 16px;
+    padding: 24px;
+    gap: 20px;
 }
-.generating-state.show { display: flex; }
-.gen-spinner {
-    width: 48px; height: 48px;
-    border: 3px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+.preview-body img,
+.preview-body .preview-video-wrap {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
 }
-.gen-text {
-    font-size: 14px;
-    color: var(--text-secondary);
-}
-.gen-progress {
-    width: 200px;
-    height: 4px;
-    background: var(--border);
-    border-radius: 2px;
+.preview-video-wrap {
+    width: 100%;
+    aspect-ratio: 16/9;
+    position: relative;
     overflow: hidden;
 }
-.gen-progress-bar {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 2px;
-    width: 0%;
-    transition: width 0.3s ease;
+
+.preview-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 20px 20px;
 }
 
-/* Auto/Manual toggle */
-.model-mode-toggle {
-    display: flex;
-    gap: 2px;
-    background: #F8F9FC;
-    border-radius: 10px;
-    padding: 2px;
-    margin-bottom: 8px;
+/* When preview is open, squeeze chat */
+body.preview-open .main-content { margin-right: 40%; }
+
+/* ---- Sidebar additions ---- */
+.sidebar-new-chat {
+    margin: 0 8px 4px;
 }
-.model-mode-btn {
-    flex: 1;
-    padding: 6px 14px;
-    border: none;
-    border-radius: 6px;
-    background: transparent;
-    color: var(--text-secondary);
-    font-size: 12px;
+.new-chat-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     transition: all var(--transition);
     font-family: var(--font);
 }
-.model-mode-btn:hover { color: var(--text-primary); }
-.model-mode-btn.active {
-    background: var(--surface);
-    color: var(--text-primary);
-    box-shadow: var(--shadow-sm);
-}
+.new-chat-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.new-chat-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-/* Auto badge */
-.auto-badge {
-    display: none;
-    align-items: center;
-    gap: 6px;
-    margin-top: 6px;
-    font-size: 12px;
-    color: var(--green);
-    background: var(--green-light);
-    padding: 6px 10px;
-    border-radius: var(--radius-sm);
+.chat-history-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 12px 12px 6px;
 }
-.auto-badge.show { display: flex; }
-.auto-badge svg { width: 14px; height: 14px; flex-shrink: 0; }
-.auto-badge-reason {
-    font-weight: 500;
+.chat-history-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.chat-history-item:hover { background: #F8F9FC; color: var(--text-primary); }
+.chat-history-item.active { background: var(--accent-light); color: var(--accent); }
+.chat-history-item svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.5; }
+
+/* ---- Mobile header ---- */
+.mobile-top-bar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    z-index: 90;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+}
+.mobile-top-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 1024px) {
-    .create-left { min-width: 320px; width: 45%; }
+@media (max-width: 1100px) {
+    .preview-panel { width: 45%; }
+    body.preview-open .main-content { margin-right: 45%; }
 }
 
 @media (max-width: 768px) {
-    .create-layout {
-        flex-direction: column;
-        height: auto;
-        min-height: 100vh;
-        overflow: visible;
+    .mobile-top-bar { display: flex; }
+    .chat-messages { padding-top: 56px; }
+    .welcome-screen { padding-top: 56px; }
+
+    /* No preview panel on mobile */
+    .preview-panel { display: none !important; }
+    body.preview-open .main-content { margin-right: 0; }
+
+    /* Prompt bar */
+    .prompt-bar { padding: 8px 12px; }
+    .prompt-input { font-size: 16px; padding: 10px 14px; }
+
+    /* Messages */
+    .msg-list { padding: 0 12px; }
+    .msg-bubble { max-width: 85%; padding: 12px 14px; }
+    .msg-image { max-width: 100%; }
+    .msg-video-wrap { max-width: 100%; }
+    .msg-avatar { width: 28px; height: 28px; font-size: 12px; }
+
+    /* Starter chips scroll */
+    .starter-chips {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+        padding: 0 16px;
+        max-width: 100%;
+        scrollbar-width: none;
     }
-    .create-left {
-        width: 100%;
-        min-width: unset;
-        max-width: unset;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        padding: 60px 16px 16px;
-        overflow-y: visible;
-    }
-    .create-right {
-        padding: 16px;
-        min-height: 50vh;
-        overflow-y: visible;
-    }
-    .examples-grid {
-        grid-template-columns: repeat(2, 1fr);
-        max-width: none;
-    }
-    .example-card {
-        padding: 14px 12px;
-    }
-    .mode-tabs {
-        margin-bottom: 16px;
-    }
-    .mode-tab {
-        padding: 7px 8px;
-        font-size: 12px;
-    }
-    .model-dropdown {
-        min-width: calc(100vw - 64px);
-        max-width: calc(100vw - 32px);
-    }
-    .prompt-textarea {
-        min-height: 100px;
-    }
+    .starter-chips::-webkit-scrollbar { display: none; }
+    .starter-chip { flex-shrink: 0; font-size: 13px; padding: 8px 16px; }
+    .welcome-title { font-size: 22px; }
+
+    /* Bottom bar spacing */
+    .prompt-bar { padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); }
+
+    /* Hide mobile bottom bar on chat page — prompt bar is the nav */
+    .mobile-bar { display: none !important; }
+}
+
+@media (max-width: 480px) {
+    .welcome-title { font-size: 20px; }
+    .welcome-subtitle { font-size: 13px; }
 }
 </style>
 </head>
@@ -697,6 +585,17 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
 </button>
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Mobile top bar -->
+<div class="mobile-top-bar">
+    <button class="burger" style="position:static;box-shadow:none;border:none;background:none;display:flex;width:auto;height:auto;padding:4px;" onclick="toggleSidebar()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <span class="mobile-top-title">NeuroGate</span>
+    <button style="background:none;border:none;padding:4px;cursor:pointer;color:var(--text-secondary);" onclick="startNewChat()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+</div>
 
 <!-- ===== SIDEBAR ===== -->
 <aside class="sidebar" id="sidebar">
@@ -709,10 +608,44 @@
         </svg>
         <span>NeuroGate</span>
     </div>
+
+    <!-- New chat button -->
+    <div class="sidebar-new-chat">
+        <button class="new-chat-btn" onclick="startNewChat()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Новый чат
+        </button>
+    </div>
+
+    <!-- Chat history -->
+    <div style="padding: 0 8px; flex: 0 0 auto;">
+        <div class="chat-history-label">Недавние</div>
+        <div id="chatHistoryList">
+            <div class="chat-history-item active" data-chat="current">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Новый чат
+            </div>
+            <div class="chat-history-item" data-chat="demo1">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Логотип для кофейни
+            </div>
+            <div class="chat-history-item" data-chat="demo2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Пост про AI-тренды
+            </div>
+            <div class="chat-history-item" data-chat="demo3">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Рилс о продукте
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar-sep"></div>
+
     <nav class="sidebar-nav">
         <a class="nav-item active" href="index.html">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/><circle cx="12" cy="12" r="3"/></svg>
-            Создать
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Чат
         </a>
         <a class="nav-item" href="templates.html">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
@@ -751,181 +684,106 @@
 
 <!-- ===== MAIN CONTENT ===== -->
 <div class="main-content">
-    <div class="create-layout">
+    <div class="chat-container">
 
-        <!-- LEFT PANEL: Controls -->
-        <div class="create-left">
-            <!-- Mode tabs: Text / Image / Video -->
-            <div class="mode-tabs">
-                <button class="mode-tab active" data-mode="text">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    Текст
-                </button>
-                <button class="mode-tab" data-mode="image">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                    Картинка
-                </button>
-                <button class="mode-tab" data-mode="video">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                    Видео
-                </button>
+        <!-- State 1: Welcome -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <div style="margin-bottom: 32px;">
+                <svg width="48" height="48" viewBox="0 0 28 28" fill="none" style="margin-bottom: 16px;">
+                    <rect x="1" y="1" width="12" height="12" rx="3" fill="#7C3AED"/>
+                    <rect x="15" y="1" width="12" height="12" rx="3" fill="#7C3AED" opacity="0.7"/>
+                    <rect x="1" y="15" width="12" height="12" rx="3" fill="#7C3AED" opacity="0.7"/>
+                    <rect x="15" y="15" width="12" height="12" rx="3" fill="#7C3AED" opacity="0.4"/>
+                </svg>
             </div>
-
-            <!-- Prompt -->
-            <div class="prompt-section">
-                <div class="prompt-label">
-                    <span>Промпт</span>
-                    <span id="charCount" style="font-size:12px; color: var(--text-tertiary);">0 / 4000</span>
-                </div>
-                <textarea class="prompt-textarea" id="promptInput" placeholder="Опишите, что хотите создать..."></textarea>
-            </div>
-
-            <!-- Presets (dynamic per mode) -->
-            <div class="presets-section" id="presetsSection">
-                <div class="presets-row" id="presetsRow">
-                    <!-- Filled by JS per mode -->
-                </div>
-            </div>
-
-            <!-- Model selector -->
-            <div class="model-section">
-                <div class="model-section-label">Модель</div>
-                <div class="model-mode-toggle">
-                    <button class="model-mode-btn active" id="modeAutoBtn" onclick="setModelMode('auto')">Auto</button>
-                    <button class="model-mode-btn" id="modeManualBtn" onclick="setModelMode('manual')">Вручную</button>
-                </div>
-                <div class="model-pill-wrap">
-                    <div class="model-pill" id="modelPill" onclick="toggleModelDropdown()" style="display:none;">
-                        <span class="dot"></span>
-                        <span id="modelName">GPT-5</span>
-                        <span class="chevron">&#9662;</span>
-                    </div>
-                    <div class="auto-badge show" id="autoBadge">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/></svg>
-                        <span>Auto выбрал: <span class="auto-badge-reason" id="autoModelName">GPT-5</span> — <span id="autoModelReason">лучшее качество для текста</span></span>
-                    </div>
-                    <div class="model-dropdown" id="modelDropdown">
-                        <div class="model-dropdown-label">Рекомендуемые</div>
-                        <div id="recommendedModels"></div>
-                        <div class="model-dropdown-more" id="showAllModels">Все модели</div>
-                        <div id="allModelsSection" style="display:none;">
-                            <div class="model-dropdown-label">Все модели</div>
-                            <input class="model-dropdown-search" type="text" placeholder="Поиск..." id="modelSearch">
-                            <div id="allModelsList"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Advanced settings (collapsed) -->
-            <div class="advanced-section" id="advancedSection">
-                <button class="advanced-toggle" id="advancedToggle" onclick="toggleAdvanced()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                    Дополнительно
+            <h1 class="welcome-title">Чем могу помочь?</h1>
+            <p class="welcome-subtitle">Создавайте тексты, картинки и видео с помощью AI</p>
+            <div class="starter-chips">
+                <button class="starter-chip" data-prompt="Сделай картинку: " data-type="image">
+                    <span class="chip-emoji">🎨</span> Сделать картинку
                 </button>
-                <div class="advanced-body" id="advancedBody">
-                    <!-- Filled by JS per mode -->
-                </div>
-            </div>
-
-            <!-- Generate -->
-            <div class="generate-section">
-                <button class="btn-generate" id="btnGenerate" onclick="handleGenerate()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                    Сгенерировать
+                <button class="starter-chip" data-prompt="Напиши текст: " data-type="text">
+                    <span class="chip-emoji">📝</span> Написать текст
                 </button>
-                <div class="cost-hint" id="costHint">~5 &#8381; за генерацию</div>
+                <button class="starter-chip" data-prompt="Создай видео: " data-type="video">
+                    <span class="chip-emoji">🎬</span> Создать видео
+                </button>
+                <button class="starter-chip" data-prompt="" data-type="chat">
+                    <span class="chip-emoji">💬</span> Просто спросить
+                </button>
+                <button class="starter-chip" data-prompt="Переведи на английский: " data-type="text">
+                    <span class="chip-emoji">🌍</span> Перевести
+                </button>
             </div>
         </div>
 
-        <!-- RIGHT PANEL: Result -->
-        <div class="create-right">
-            <!-- Empty state -->
-            <div class="empty-state" id="emptyState">
-                <div class="empty-state-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/><circle cx="12" cy="12" r="3"/></svg>
+        <!-- State 2: Chat messages -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-scroll" id="chatScroll">
+                <div class="msg-list" id="msgList">
+                    <!-- Messages injected here -->
                 </div>
-                <h3>Начните творить</h3>
-                <p>Напишите промпт слева или выберите один из примеров ниже</p>
-                <div class="examples-grid" id="examplesGrid">
-                    <div class="example-card" data-prompt="Футуристический город на закате, неоновые огни, киберпанк" data-mode="image">
-                        <div class="example-card-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        </div>
-                        <span class="example-card-label">Киберпанк город</span>
-                        <span class="example-card-desc">Изображение</span>
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="msg-avatar" style="background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-secondary);">
+                        <svg width="16" height="16" viewBox="0 0 28 28" fill="none"><rect x="1" y="1" width="12" height="12" rx="3" fill="#7C3AED"/><rect x="15" y="1" width="12" height="12" rx="3" fill="#7C3AED" opacity="0.6"/><rect x="1" y="15" width="12" height="12" rx="3" fill="#7C3AED" opacity="0.6"/><rect x="15" y="15" width="12" height="12" rx="3" fill="#7C3AED" opacity="0.3"/></svg>
                     </div>
-                    <div class="example-card" data-prompt="Напиши пост для Instagram о запуске нового продукта" data-mode="text">
-                        <div class="example-card-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                        </div>
-                        <span class="example-card-label">Instagram-пост</span>
-                        <span class="example-card-desc">Текст</span>
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
                     </div>
-                    <div class="example-card" data-prompt="Уютная кофейня в дождливый день, акварель" data-mode="image">
-                        <div class="example-card-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        </div>
-                        <span class="example-card-label">Акварельная кофейня</span>
-                        <span class="example-card-desc">Изображение</span>
-                    </div>
-                    <div class="example-card" data-prompt="Плавный переход от рассвета к закату над горами, 4 секунды" data-mode="video">
-                        <div class="example-card-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                        </div>
-                        <span class="example-card-label">Видео: рассвет</span>
-                        <span class="example-card-desc">Видео</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Generating state -->
-            <div class="generating-state" id="generatingState">
-                <div class="gen-spinner"></div>
-                <div class="gen-text" id="genText">Генерируем...</div>
-                <div class="gen-progress">
-                    <div class="gen-progress-bar" id="genProgressBar"></div>
-                </div>
-            </div>
-
-            <!-- Result area -->
-            <div class="result-area" id="resultArea">
-                <div class="result-display" id="resultDisplay">
-                    <!-- Filled by JS -->
-                </div>
-                <div class="result-actions" id="resultActions">
-                    <button class="result-action-btn" onclick="handleMoreVariations()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                        Варианты
-                    </button>
-                    <button class="result-action-btn" onclick="handleDownload()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        Скачать
-                    </button>
-                    <button class="result-action-btn" id="favBtn" onclick="handleFavorite()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                        В избранное
-                    </button>
-                    <button class="result-action-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                        Редактировать
-                    </button>
-                </div>
-                <!-- Session timeline -->
-                <div class="session-timeline" id="sessionTimeline" style="display: none;">
-                    <div class="session-label">Текущая сессия</div>
-                    <div class="session-items" id="sessionItems"></div>
                 </div>
             </div>
         </div>
+
+        <!-- Prompt bar (always visible) -->
+        <div class="prompt-bar" id="promptBar">
+            <div class="prompt-bar-inner">
+                <div class="prompt-input-wrap">
+                    <textarea class="prompt-input" id="promptInput" placeholder="Напишите сообщение..." rows="1"></textarea>
+                </div>
+                <button class="send-btn" id="sendBtn" onclick="handleSend()" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </button>
+            </div>
+            <div class="prompt-model-row">
+                <div class="model-selector-pill" id="modelPill" onclick="toggleModelDropdown()">
+                    <span class="dot"></span>
+                    <span id="modelPillName">Auto</span>
+                    <span class="chevron">&#9662;</span>
+                    <!-- Dropdown -->
+                    <div class="prompt-model-dropdown" id="modelDropdown">
+                        <div class="model-dropdown-label">Модель</div>
+                        <div id="modelDropdownList"></div>
+                    </div>
+                </div>
+                <span class="char-count" id="charCount">0 / 4000</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== PREVIEW PANEL (desktop only) ===== -->
+<div class="preview-panel" id="previewPanel">
+    <div class="preview-header">
+        <span class="preview-title" id="previewTitle">Результат</span>
+        <button class="preview-close" onclick="closePreview()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+    </div>
+    <div class="preview-body" id="previewBody">
+        <!-- Filled by JS -->
+    </div>
+    <div class="preview-actions" id="previewActions">
+        <!-- Filled by JS -->
     </div>
 </div>
 
 <!-- ===== ONBOARDING MODAL ===== -->
 <div class="modal-backdrop" id="onboardingModal" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
     <div class="modal" id="onboardingDialog">
-        <h2 id="onboardingTitle">Что хотите создать?</h2>
-        <p>Выберите, с чего начать, и мы настроим рабочее пространство</p>
+        <h2 id="onboardingTitle">Что вы хотите создать?</h2>
+        <p>Выберите, с чего начать — AI подстроится под вашу задачу</p>
         <div class="modal-options">
             <button class="modal-option" onclick="selectOnboarding('text')" type="button">
                 <div class="modal-option-icon">
@@ -975,8 +833,8 @@
 <div class="mobile-bar">
     <div class="mobile-bar-inner">
         <a class="mobile-tab active" href="index.html">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/><circle cx="12" cy="12" r="3"/></svg>
-            <span>Создать</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>Чат</span>
         </a>
         <a class="mobile-tab" href="templates.html">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
@@ -994,615 +852,441 @@
 </div>
 
 <script>
-// ===== DATA =====
-var currentMode = 'text';
+// ===== STATE =====
+var messages = []; // { role: 'user'|'assistant', text: '', type: 'text'|'image'|'video', imageUrl: '' }
 var currentModel = 'auto';
-var modelMode = 'auto'; // 'auto' or 'manual'
-var sessionHistory = [];
+var isGenerating = false;
+var chatId = 'current';
 
-var autoModels = {
-    text: { name: 'GPT-5', reason: 'лучшее качество для текста' },
-    image: { name: 'Midjourney v6', reason: 'лучшее качество для изображений' },
-    video: { name: 'Sora', reason: 'кинематографичное видео' }
-};
-
-function setModelMode(mode) {
-    modelMode = mode;
-    document.getElementById('modeAutoBtn').classList.toggle('active', mode === 'auto');
-    document.getElementById('modeManualBtn').classList.toggle('active', mode === 'manual');
-    document.getElementById('modelPill').style.display = mode === 'manual' ? '' : 'none';
-    document.getElementById('autoBadge').classList.toggle('show', mode === 'auto');
-    if (mode === 'auto') {
-        currentModel = 'auto';
-        updateAutoModelBadge();
-        closeModelDropdown();
-    } else {
-        // Restore last manual pick or default to first recommended
-        var saved = localStorage.getItem('ng_model_' + currentMode);
-        if (saved && saved !== 'auto') {
-            currentModel = saved;
-        } else {
-            var rec = models[currentMode].recommended;
-            currentModel = rec.length > 1 ? rec[1].id : rec[0].id;
-        }
-        updateModelPillText();
-    }
-}
-
-function updateAutoModelBadge() {
-    var auto = autoModels[currentMode];
-    document.getElementById('autoModelName').textContent = auto.name;
-    document.getElementById('autoModelReason').textContent = auto.reason;
-}
-
-var presets = {
-    text: [
-        { label: 'Пост', prompt: 'Напиши пост для социальных сетей о ' },
-        { label: 'Письмо', prompt: 'Напиши профессиональное деловое письмо о ' },
-        { label: 'Статья', prompt: 'Напиши статью на тему ' },
-        { label: 'Код', prompt: 'Напиши функцию на JavaScript, которая ' },
-        { label: 'Перевод', prompt: 'Переведи на английский: ' }
-    ],
-    image: [
-        { label: 'Реалистичный', prompt: 'Фотореалистичное изображение, ' },
-        { label: 'Аниме', prompt: 'В стиле аниме, ' },
-        { label: 'Киберпанк', prompt: 'Киберпанк стиль, неоновые огни, ' },
-        { label: 'Минимализм', prompt: 'Минималистичный стиль, чистые линии, ' },
-        { label: '3D рендер', prompt: '3D рендер, объёмный, студийный свет, ' }
-    ],
-    video: [
-        { label: 'Пейзаж', prompt: 'Плавное движение камеры по живописному пейзажу, ' },
-        { label: 'Продукт', prompt: 'Рекламное видео продукта на белом фоне, ' },
-        { label: 'Анимация', prompt: '2D анимация в стиле motion graphics, ' },
-        { label: 'Timelapse', prompt: 'Таймлапс видео: ' }
-    ]
-};
-
-var models = {
-    text: {
-        recommended: [
-            { id: 'gpt5', name: 'GPT-5', desc: 'OpenAI, универсальная', color: '#10B981', badges: ['точная'] },
-            { id: 'claude-opus', name: 'Claude Opus 4', desc: 'Anthropic, глубокий анализ', color: '#F59E0B', badges: ['точная'] },
-            { id: 'gemini', name: 'Gemini 2.5 Pro', desc: 'Google, быстрая', color: '#3B82F6', badges: ['быстрая'] }
-        ],
-        all: [
-            { id: 'gpt41', name: 'GPT-4.1', desc: 'OpenAI, экономичная', color: '#6366F1', badges: ['дешёвая'] },
-            { id: 'claude-sonnet', name: 'Claude Sonnet 4', desc: 'Anthropic, быстрая', color: '#0EA5E9', badges: ['быстрая', 'дешёвая'] },
-            { id: 'llama', name: 'Llama 4', desc: 'Meta, open-source', color: '#64748B', badges: ['дешёвая'] }
-        ]
-    },
-    image: {
-        recommended: [
-            { id: 'gpt-image', name: 'GPT Image 1.5', desc: 'OpenAI, фотореализм', color: '#10B981', badges: ['точная'] },
-            { id: 'midjourney', name: 'Midjourney v6', desc: 'Арт и дизайн', color: '#EC4899', badges: ['точная'] },
-            { id: 'sdxl', name: 'Stable Diffusion XL', desc: 'Open-source', color: '#14B8A6', badges: ['дешёвая'] }
-        ],
-        all: [
-            { id: 'dalle3', name: 'DALL-E 3', desc: 'OpenAI, универсальная', color: '#22C55E', badges: [] },
-            { id: 'flux', name: 'Flux Pro', desc: 'Black Forest Labs', color: '#8B5CF6', badges: ['быстрая'] }
-        ]
-    },
-    video: {
-        recommended: [
-            { id: 'sora', name: 'Sora', desc: 'OpenAI, кинематограф', color: '#8B5CF6', badges: ['точная'] },
-            { id: 'runway', name: 'Runway Gen-3', desc: 'Профессиональное видео', color: '#EF4444', badges: ['точная'] },
-            { id: 'kling', name: 'Kling v2', desc: 'Motion и динамика', color: '#D946EF', badges: ['быстрая'] }
-        ],
-        all: [
-            { id: 'pika', name: 'Pika', desc: 'Быстрая генерация', color: '#F97316', badges: ['быстрая', 'дешёвая'] }
-        ]
-    }
-};
-
-var advancedSettings = {
-    text: '',
-    image: '<div class="advanced-row"><div class="advanced-row-label">Соотношение сторон</div><div class="pill-group" data-group="aspect"><button class="pill-btn active" data-value="1:1">1:1</button><button class="pill-btn" data-value="3:2">3:2</button><button class="pill-btn" data-value="2:3">2:3</button><button class="pill-btn" data-value="16:9">16:9</button><button class="pill-btn" data-value="9:16">9:16</button></div></div><div class="advanced-row"><div class="advanced-row-label">Качество</div><div class="pill-group" data-group="quality"><button class="pill-btn" data-value="low">Быстрое</button><button class="pill-btn active" data-value="medium">Стандарт</button><button class="pill-btn" data-value="high">Высокое</button></div></div>',
-    video: '<div class="advanced-row"><div class="advanced-row-label">Длительность</div><div class="pill-group" data-group="duration"><button class="pill-btn active" data-value="4">4 сек</button><button class="pill-btn" data-value="8">8 сек</button><button class="pill-btn" data-value="16">16 сек</button></div></div><div class="advanced-row"><div class="advanced-row-label">Соотношение сторон</div><div class="pill-group" data-group="aspect"><button class="pill-btn active" data-value="16:9">16:9</button><button class="pill-btn" data-value="9:16">9:16</button><button class="pill-btn" data-value="1:1">1:1</button></div></div><div class="advanced-row"><div class="advanced-row-label">Качество</div><div class="pill-group" data-group="quality"><button class="pill-btn" data-value="720p">720p</button><button class="pill-btn active" data-value="1080p">1080p</button></div></div>'
-};
-
-var mockResults = {
-    text: 'Вот ваш текст:\n\nИскусственный интеллект (ИИ) стремительно трансформирует все аспекты нашей жизни. От персонализированных рекомендаций в стриминговых сервисах до автоматизации сложных бизнес-процессов.\n\nКлючевые тренды 2026 года:\n\n1. Мультимодальные модели - AI, которые понимают текст, изображения, видео и аудио одновременно\n2. AI-агенты - автономные системы, выполняющие сложные задачи\n3. Персонализация - AI адаптируется под каждого пользователя\n4. Этика и безопасность - новые стандарты ответственного AI\n\nИспользуйте эти тренды для развития вашего бизнеса.',
-    image: null,
-    video: null
-};
-
-var imagePlaceholders = [
-    '#F8F9FC',
-    '#F1F3F9',
-    '#FAFBFD',
-    '#F5F3FF',
-    '#F8F9FC',
-    '#F1F3F9'
+// Models for dropdown
+var modelOptions = [
+    { id: 'auto', name: 'Auto', desc: 'Лучшая модель для задачи' },
+    { id: 'gpt5', name: 'GPT-5', desc: 'OpenAI, универсальная' },
+    { id: 'claude-opus', name: 'Claude Opus 4', desc: 'Anthropic, глубокий анализ' },
+    { id: 'midjourney', name: 'Midjourney v6', desc: 'Арт и дизайн' },
+    { id: 'sora', name: 'Sora', desc: 'OpenAI, видео' },
+    { id: 'gemini', name: 'Gemini 2.5 Pro', desc: 'Google, быстрая' }
 ];
 
-// ===== MODE SWITCHING =====
-function setMode(mode) {
-    currentMode = mode;
-    document.querySelectorAll('.mode-tab').forEach(function(tab) {
-        tab.classList.toggle('active', tab.dataset.mode === mode);
-    });
-    renderPresets();
-    renderAdvanced();
-    updateModelSelector();
-    updateCostHint();
-    updateAutoModelBadge();
-    // Restore last model for this mode
-    if (modelMode === 'manual') {
-        var saved = localStorage.getItem('ng_model_' + mode);
-        if (saved && saved !== 'auto') {
-            currentModel = saved;
-        } else {
-            var rec = models[mode].recommended;
-            currentModel = rec.length > 1 ? rec[1].id : rec[0].id;
-        }
-        updateModelPillText();
-    }
+// Placeholder images (colored gradients as mock)
+var placeholderImages = [
+    'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7C3AED;stop-opacity:0.3"/><stop offset="50%" style="stop-color:#EC4899;stop-opacity:0.4"/><stop offset="100%" style="stop-color:#F59E0B;stop-opacity:0.3"/></linearGradient></defs><rect width="512" height="512" fill="url(#g)"/><text x="256" y="240" text-anchor="middle" font-family="Inter,sans-serif" font-size="24" fill="#7C3AED" opacity="0.6">AI Generated</text><text x="256" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="16" fill="#64748B" opacity="0.5">Placeholder Image</text></svg>'),
+    'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512"><defs><linearGradient id="g" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#06B6D4;stop-opacity:0.3"/><stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:0.4"/><stop offset="100%" style="stop-color:#EC4899;stop-opacity:0.3"/></linearGradient></defs><rect width="512" height="512" fill="url(#g)"/><text x="256" y="240" text-anchor="middle" font-family="Inter,sans-serif" font-size="24" fill="#8B5CF6" opacity="0.6">AI Generated</text><text x="256" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="16" fill="#64748B" opacity="0.5">Variation #2</text></svg>')
+];
+
+var placeholderVideoThumb = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1E1B4B;stop-opacity:0.8"/><stop offset="100%" style="stop-color:#7C3AED;stop-opacity:0.6"/></linearGradient></defs><rect width="640" height="360" fill="url(#g)"/><text x="320" y="170" text-anchor="middle" font-family="Inter,sans-serif" font-size="20" fill="white" opacity="0.7">AI Video</text><text x="320" y="200" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" fill="white" opacity="0.4">4 секунды</text></svg>');
+
+// Mock AI responses
+var mockTextResponses = [
+    'Вот ваш текст:\n\nИскусственный интеллект стремительно трансформирует все аспекты нашей жизни. От персонализированных рекомендаций до автоматизации бизнес-процессов.\n\nКлючевые тренды 2026:\n• Мультимодальные модели — AI понимает текст, картинки и видео одновременно\n• AI-агенты — автономные системы для сложных задач\n• Персонализация — AI адаптируется под каждого\n• Этика и безопасность — новые стандарты',
+    'Готово! Вот что получилось:\n\nЗаголовок привлекает внимание, основной текст раскрывает тему, а призыв к действию мотивирует читателя. Я использовал короткие предложения и эмоджи для лучшей читаемости в соцсетях.\n\nХотите, чтобы я что-то изменил?',
+    'Конечно! Вот перевод:\n\nArtificial intelligence is rapidly transforming every aspect of our lives. From personalized recommendations to business process automation.\n\nWould you like me to adjust the tone or style?'
+];
+
+// ===== SIDEBAR =====
+function toggleSidebar() {
+    var sb = document.getElementById('sidebar');
+    var ov = document.getElementById('overlay');
+    sb.classList.toggle('open');
+    ov.classList.toggle('show');
 }
 
-document.querySelectorAll('.mode-tab').forEach(function(tab) {
-    tab.addEventListener('click', function() {
-        setMode(this.dataset.mode);
+// ===== PROMPT INPUT =====
+var promptInput = document.getElementById('promptInput');
+var sendBtn = document.getElementById('sendBtn');
+
+promptInput.addEventListener('input', function() {
+    // Auto-resize
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 160) + 'px';
+    // Enable/disable send
+    sendBtn.disabled = !this.value.trim() || isGenerating;
+    // Char count
+    document.getElementById('charCount').textContent = this.value.length + ' / 4000';
+});
+
+promptInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (!sendBtn.disabled) handleSend();
+    }
+});
+
+// ===== STARTER CHIPS =====
+document.querySelectorAll('.starter-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+        var prompt = this.dataset.prompt;
+        promptInput.value = prompt;
+        promptInput.focus();
+        promptInput.dispatchEvent(new Event('input'));
+        // Place cursor at end
+        promptInput.selectionStart = promptInput.selectionEnd = prompt.length;
     });
 });
 
-// ===== PRESETS =====
-function renderPresets() {
-    var row = document.getElementById('presetsRow');
-    var items = presets[currentMode] || [];
-    row.innerHTML = '';
-    items.forEach(function(p) {
-        var chip = document.createElement('button');
-        chip.className = 'preset-chip';
-        chip.textContent = p.label;
-        chip.addEventListener('click', function() {
-            document.getElementById('promptInput').value = p.prompt;
-            document.getElementById('promptInput').focus();
-            updateCharCount();
-            row.querySelectorAll('.preset-chip').forEach(function(c) { c.classList.remove('active'); });
-            chip.classList.add('active');
-        });
-        row.appendChild(chip);
-    });
-    // Inspire button
-    var inspire = document.createElement('button');
-    inspire.className = 'inspire-btn';
-    inspire.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/></svg> Вдохнови меня';
-    inspire.addEventListener('click', function() {
-        var items = presets[currentMode];
-        var random = items[Math.floor(Math.random() * items.length)];
-        var suffixes = { text: 'искусственном интеллекте', image: 'закат над горами, масляная живопись', video: 'полёт над облаками на рассвете' };
-        document.getElementById('promptInput').value = random.prompt + (suffixes[currentMode] || '');
-        document.getElementById('promptInput').focus();
-        updateCharCount();
-    });
-    row.appendChild(inspire);
+// ===== SEND MESSAGE =====
+function handleSend() {
+    var text = promptInput.value.trim();
+    if (!text || isGenerating) return;
+
+    // Switch to chat mode
+    var welcome = document.getElementById('welcomeScreen');
+    var chatArea = document.getElementById('chatMessages');
+    if (!welcome.classList.contains('hidden')) {
+        welcome.classList.add('hidden');
+        chatArea.classList.add('show');
+    }
+
+    // Add user message
+    addMessage('user', text);
+    promptInput.value = '';
+    promptInput.style.height = 'auto';
+    sendBtn.disabled = true;
+    document.getElementById('charCount').textContent = '0 / 4000';
+
+    // Detect intent
+    var type = detectType(text);
+
+    // Show typing
+    showTyping(true);
+    isGenerating = true;
+
+    // Simulate AI response
+    var delay = type === 'text' ? 1200 : 2500;
+    setTimeout(function() {
+        showTyping(false);
+        isGenerating = false;
+
+        if (type === 'image') {
+            var imgUrl = placeholderImages[Math.floor(Math.random() * placeholderImages.length)];
+            addMessage('assistant', 'Вот ваше изображение! Если хотите изменить — просто напишите, например "сделай ярче" или "добавь закат".', 'image', imgUrl);
+            openPreview(imgUrl, 'image');
+        } else if (type === 'video') {
+            addMessage('assistant', 'Видео готово! Оно длится 4 секунды. Хотите изменить длительность или стиль?', 'video', placeholderVideoThumb);
+            openPreview(placeholderVideoThumb, 'video');
+        } else {
+            var response = mockTextResponses[Math.floor(Math.random() * mockTextResponses.length)];
+            addMessage('assistant', response, 'text');
+        }
+
+        sendBtn.disabled = !promptInput.value.trim();
+        scrollToBottom();
+        saveChat();
+        updateChatTitle();
+    }, delay);
+
+    scrollToBottom();
+    saveChat();
 }
 
-// ===== ADVANCED =====
-function renderAdvanced() {
-    var body = document.getElementById('advancedBody');
-    body.innerHTML = advancedSettings[currentMode] || '';
-    body.classList.remove('show');
-    document.getElementById('advancedToggle').classList.remove('open');
-    // Hide advanced section for text mode
-    document.getElementById('advancedSection').style.display = currentMode === 'text' ? 'none' : 'block';
-    // Pill toggle
-    body.querySelectorAll('.pill-group').forEach(function(group) {
-        group.addEventListener('click', function(e) {
-            var btn = e.target.closest('.pill-btn');
-            if (!btn) return;
-            group.querySelectorAll('.pill-btn').forEach(function(b) { b.classList.remove('active'); });
-            btn.classList.add('active');
-        });
-    });
+function detectType(text) {
+    var lower = text.toLowerCase();
+    if (/картинк|изображен|нарисуй|сделай картинк|фото|logo|лого|иллюстрац|сгенерируй.*карт/i.test(lower)) return 'image';
+    if (/видео|клип|рилс|анимаци|motion|timelapse|создай видео/i.test(lower)) return 'video';
+    return 'text';
 }
 
-function toggleAdvanced() {
-    var body = document.getElementById('advancedBody');
-    var toggle = document.getElementById('advancedToggle');
-    body.classList.toggle('show');
-    toggle.classList.toggle('open');
+// ===== ADD MESSAGE =====
+function addMessage(role, text, type, mediaUrl) {
+    type = type || 'text';
+    var msg = { role: role, text: text, type: type, mediaUrl: mediaUrl || null, ts: Date.now() };
+    messages.push(msg);
+    renderMessage(msg);
+}
+
+function renderMessage(msg) {
+    var list = document.getElementById('msgList');
+    var div = document.createElement('div');
+    div.className = 'msg ' + msg.role;
+
+    var avatarContent = msg.role === 'user' ? 'М' :
+        '<svg width="16" height="16" viewBox="0 0 28 28" fill="none"><rect x="1" y="1" width="12" height="12" rx="3" fill="#7C3AED"/><rect x="15" y="1" width="12" height="12" rx="3" fill="#7C3AED" opacity="0.6"/><rect x="1" y="15" width="12" height="12" rx="3" fill="#7C3AED" opacity="0.6"/><rect x="15" y="15" width="12" height="12" rx="3" fill="#7C3AED" opacity="0.3"/></svg>';
+
+    var bubbleContent = '<div class="msg-bubble">' + escapeHtml(msg.text).replace(/\n/g, '<br>') + '</div>';
+
+    // Media content
+    var mediaHtml = '';
+    if (msg.role === 'assistant' && msg.type === 'image' && msg.mediaUrl) {
+        mediaHtml = '<div class="msg-image-wrap"><img class="msg-image" src="' + msg.mediaUrl + '" alt="AI Generated" onclick="openPreview(\'' + msg.mediaUrl + '\', \'image\')"></div>';
+        mediaHtml += buildActionBar('image');
+    } else if (msg.role === 'assistant' && msg.type === 'video' && msg.mediaUrl) {
+        mediaHtml = '<div class="msg-video-wrap" style="background:url(' + msg.mediaUrl + ') center/cover;" onclick="openPreview(\'' + msg.mediaUrl + '\', \'video\')"><div class="play-btn"><div class="play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#7C3AED"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div></div>';
+        mediaHtml += buildActionBar('video');
+    }
+
+    if (msg.role === 'assistant') {
+        div.innerHTML =
+            '<div class="msg-avatar">' + avatarContent + '</div>' +
+            '<div>' + bubbleContent + mediaHtml + '</div>';
+    } else {
+        div.innerHTML =
+            '<div>' + bubbleContent + '</div>' +
+            '<div class="msg-avatar">' + avatarContent + '</div>';
+    }
+
+    list.appendChild(div);
+}
+
+function buildActionBar(type) {
+    var html = '<div class="msg-actions">';
+    html += '<button class="msg-action-btn" onclick="mockAction(\'download\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Скачать</button>';
+    html += '<button class="msg-action-btn" onclick="mockAction(\'variants\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Варианты</button>';
+    html += '<button class="msg-action-btn" onclick="mockAction(\'favorite\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> В избранное</button>';
+    if (type === 'image') {
+        html += '<button class="msg-action-btn" onclick="mockAction(\'edit\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Редактировать</button>';
+    }
+    html += '</div>';
+    return html;
+}
+
+function mockAction(action) {
+    var labels = { download: 'Скачивание...', variants: 'Генерируем варианты...', favorite: 'Добавлено в избранное!', edit: 'Открываем редактор...' };
+    // Simple toast-like feedback
+    var toast = document.createElement('div');
+    toast.textContent = labels[action] || action;
+    toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--text-primary);color:white;padding:10px 20px;border-radius:8px;font-size:13px;z-index:1000;animation:fadeIn 0.2s ease;';
+    document.body.appendChild(toast);
+    setTimeout(function() { toast.remove(); }, 2000);
+}
+
+function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
+
+// ===== TYPING INDICATOR =====
+function showTyping(show) {
+    document.getElementById('typingIndicator').classList.toggle('show', show);
+    if (show) scrollToBottom();
+}
+
+// ===== SCROLL =====
+function scrollToBottom() {
+    var scroll = document.getElementById('chatScroll');
+    setTimeout(function() {
+        scroll.scrollTop = scroll.scrollHeight;
+    }, 50);
+}
+
+// ===== PREVIEW PANEL (desktop) =====
+function openPreview(url, type) {
+    // Only on desktop
+    if (window.innerWidth < 768) return;
+
+    var panel = document.getElementById('previewPanel');
+    var body = document.getElementById('previewBody');
+    var actions = document.getElementById('previewActions');
+    var title = document.getElementById('previewTitle');
+
+    title.textContent = type === 'image' ? 'Изображение' : 'Видео';
+
+    if (type === 'image') {
+        body.innerHTML = '<img src="' + url + '" alt="Preview" style="max-width:100%;border-radius:12px;box-shadow:var(--shadow-lg);">';
+    } else {
+        body.innerHTML = '<div class="preview-video-wrap" style="background:url(' + url + ') center/cover;width:100%;"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="#7C3AED"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div></div>';
+    }
+
+    actions.innerHTML =
+        '<button class="msg-action-btn" onclick="mockAction(\'download\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Скачать</button>' +
+        '<button class="msg-action-btn" onclick="mockAction(\'variants\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Варианты</button>' +
+        (type === 'image' ? '<button class="msg-action-btn" onclick="mockAction(\'upscale\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Upscale</button>' : '') +
+        '<button class="msg-action-btn" onclick="mockAction(\'favorite\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> В избранное</button>';
+
+    panel.classList.add('open');
+    document.body.classList.add('preview-open');
+}
+
+function closePreview() {
+    document.getElementById('previewPanel').classList.remove('open');
+    document.body.classList.remove('preview-open');
 }
 
 // ===== MODEL SELECTOR =====
-function updateModelSelector() {
-    var rec = document.getElementById('recommendedModels');
-    var allList = document.getElementById('allModelsList');
-    var modeModels = models[currentMode];
-    rec.innerHTML = '';
-    allList.innerHTML = '';
-
-    modeModels.recommended.forEach(function(m) {
-        rec.appendChild(createModelItem(m));
-    });
-    modeModels.all.forEach(function(m) {
-        allList.appendChild(createModelItem(m));
-    });
-}
-
-function createModelItem(m) {
-    var div = document.createElement('div');
-    div.className = 'model-dropdown-item' + (m.id === currentModel ? ' selected' : '');
-    var badgeStyles = { 'точная': 'quality', 'быстрая': 'speed', 'дешёвая': 'price' };
-    var badgesHtml = m.badges.map(function(b) {
-        return '<span class="model-dd-badge ' + (badgeStyles[b] || '') + '">' + b + '</span>';
-    }).join('');
-    div.innerHTML =
-        '<div class="model-dd-icon">' + m.name.charAt(0) + '</div>' +
-        '<div class="model-dd-info"><div class="model-dd-name">' + m.name + '</div><div class="model-dd-meta">' + m.desc + '</div></div>' +
-        '<div class="model-dd-badges">' + badgesHtml + '</div>';
-    div.addEventListener('click', function() {
-        currentModel = m.id;
-        modelMode = 'manual';
-        document.getElementById('modeAutoBtn').classList.remove('active');
-        document.getElementById('modeManualBtn').classList.add('active');
-        document.getElementById('modelPill').style.display = '';
-        localStorage.setItem('ng_model_' + currentMode, m.id);
-        updateModelPillText();
-        closeModelDropdown();
-        updateAutoBadge();
-    });
-    return div;
-}
-
-function updateModelPillText() {
-    var modeModels = models[currentMode];
-    var all = modeModels.recommended.concat(modeModels.all);
-    var found = all.find(function(m) { return m.id === currentModel; });
-    document.getElementById('modelName').textContent = found ? found.name : 'Auto';
-    updateAutoBadge();
-}
-
-function updateAutoBadge() {
-    var badge = document.getElementById('autoBadge');
-    badge.classList.toggle('show', modelMode === 'auto');
-    if (modelMode === 'auto') updateAutoModelBadge();
-}
-
-function toggleModelDropdown() {
+function toggleModelDropdown(e) {
+    if (e) e.stopPropagation();
     var dd = document.getElementById('modelDropdown');
     dd.classList.toggle('show');
     if (dd.classList.contains('show')) {
-        updateModelSelector();
+        renderModelDropdown();
         document.addEventListener('click', closeModelDropdownOutside);
-    } else {
+    }
+}
+
+function closeModelDropdownOutside(e) {
+    if (!e.target.closest('#modelPill')) {
+        document.getElementById('modelDropdown').classList.remove('show');
         document.removeEventListener('click', closeModelDropdownOutside);
     }
 }
 
-function closeModelDropdown() {
-    document.getElementById('modelDropdown').classList.remove('show');
-    document.removeEventListener('click', closeModelDropdownOutside);
-}
-
-function closeModelDropdownOutside(e) {
-    if (!e.target.closest('.model-pill-wrap')) {
-        closeModelDropdown();
-    }
-}
-
-document.getElementById('showAllModels').addEventListener('click', function() {
-    var section = document.getElementById('allModelsSection');
-    section.style.display = section.style.display === 'none' ? 'block' : 'none';
-    this.textContent = section.style.display === 'none' ? 'Все модели' : 'Скрыть';
-});
-
-document.getElementById('modelSearch').addEventListener('input', function() {
-    var val = this.value.toLowerCase();
-    document.querySelectorAll('#allModelsList .model-dropdown-item').forEach(function(item) {
-        var name = item.querySelector('.model-dd-name').textContent.toLowerCase();
-        item.style.display = !val || name.indexOf(val) !== -1 ? '' : 'none';
+function renderModelDropdown() {
+    var list = document.getElementById('modelDropdownList');
+    list.innerHTML = '';
+    modelOptions.forEach(function(m) {
+        var div = document.createElement('div');
+        div.className = 'model-dropdown-item' + (m.id === currentModel ? ' selected' : '');
+        div.innerHTML =
+            '<div class="model-dd-icon">' + m.name.charAt(0) + '</div>' +
+            '<div class="model-dd-info"><div class="model-dd-name">' + m.name + '</div><div class="model-dd-meta">' + m.desc + '</div></div>';
+        div.addEventListener('click', function(e) {
+            e.stopPropagation();
+            currentModel = m.id;
+            document.getElementById('modelPillName').textContent = m.name;
+            document.getElementById('modelDropdown').classList.remove('show');
+        });
+        list.appendChild(div);
     });
-});
-
-// ===== COST HINT =====
-function updateCostHint() {
-    var costs = { text: '~5', image: '~8', video: '~15' };
-    document.getElementById('costHint').innerHTML = (costs[currentMode] || '~5') + ' &#8381; за генерацию';
 }
 
-// ===== CHAR COUNT =====
-function updateCharCount() {
-    var len = document.getElementById('promptInput').value.length;
-    document.getElementById('charCount').textContent = len + ' / 4000';
+// ===== CHAT PERSISTENCE (localStorage) =====
+function saveChat() {
+    try {
+        var data = { messages: messages, model: currentModel, id: chatId };
+        localStorage.setItem('ng_chat_' + chatId, JSON.stringify(data));
+    } catch(e) {}
 }
-document.getElementById('promptInput').addEventListener('input', updateCharCount);
 
-// ===== GENERATE =====
-function handleGenerate() {
-    var prompt = document.getElementById('promptInput').value.trim();
-    if (!prompt) {
-        document.getElementById('promptInput').focus();
-        return;
+function loadChat(id) {
+    try {
+        var raw = localStorage.getItem('ng_chat_' + id);
+        if (raw) {
+            var data = JSON.parse(raw);
+            messages = data.messages || [];
+            currentModel = data.model || 'auto';
+            document.getElementById('modelPillName').textContent =
+                (modelOptions.find(function(m) { return m.id === currentModel; }) || { name: 'Auto' }).name;
+        }
+    } catch(e) {}
+}
+
+function updateChatTitle() {
+    if (messages.length === 1) {
+        var first = messages[0].text.substring(0, 30);
+        if (messages[0].text.length > 30) first += '...';
+        var currentItem = document.querySelector('.chat-history-item[data-chat="current"]');
+        if (currentItem) currentItem.textContent = first;
     }
-
-    var btn = document.getElementById('btnGenerate');
-    btn.disabled = true;
-    btn.innerHTML = '<div class="spinner"></div> Генерируем...';
-
-    // Show generating state
-    document.getElementById('emptyState').style.display = 'none';
-    document.getElementById('resultArea').style.display = 'none';
-    var genState = document.getElementById('generatingState');
-    genState.classList.add('show');
-
-    var genTexts = { text: 'Генерируем текст...', image: 'Генерируем изображение...', video: 'Генерируем видео...' };
-    document.getElementById('genText').textContent = genTexts[currentMode] || 'Генерируем...';
-
-    // Animate progress
-    var bar = document.getElementById('genProgressBar');
-    bar.style.width = '0%';
-    var progress = 0;
-    var interval = setInterval(function() {
-        progress += Math.random() * 15;
-        if (progress > 90) progress = 90;
-        bar.style.width = progress + '%';
-    }, 300);
-
-    var delay = currentMode === 'video' ? 3000 : currentMode === 'image' ? 2000 : 1500;
-
-    setTimeout(function() {
-        clearInterval(interval);
-        bar.style.width = '100%';
-
-        setTimeout(function() {
-            btn.disabled = false;
-            btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Сгенерировать';
-
-            genState.classList.remove('show');
-            showResult(prompt);
-        }, 300);
-    }, delay);
 }
 
-function showResult(prompt) {
-    var display = document.getElementById('resultDisplay');
-    var area = document.getElementById('resultArea');
-    display.innerHTML = '';
-
-    if (currentMode === 'text') {
-        var textEl = document.createElement('div');
-        textEl.className = 'result-text';
-        textEl.textContent = mockResults.text;
-        display.appendChild(textEl);
-    } else if (currentMode === 'image') {
-        var bg = imagePlaceholders[Math.floor(Math.random() * imagePlaceholders.length)];
-        var imgEl = document.createElement('div');
-        imgEl.className = 'result-image';
-        imgEl.style.cssText = 'width:400px;height:400px;background:' + bg + ';border:1px solid #E8EBF0;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#94A3B8;';
-        imgEl.innerHTML = '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>';
-        display.appendChild(imgEl);
-        addToSession(bg);
-    } else if (currentMode === 'video') {
-        var bg = imagePlaceholders[Math.floor(Math.random() * imagePlaceholders.length)];
-        var vidEl = document.createElement('div');
-        vidEl.className = 'result-video';
-        vidEl.style.background = bg;
-        vidEl.style.border = '1px solid #E8EBF0';
-        vidEl.innerHTML = '<div class="play-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="#374151" stroke="none"><polygon points="8 5 20 12 8 19"/></svg></div>';
-        display.appendChild(vidEl);
-        addToSession(bg);
-    }
-
-    area.style.display = 'flex';
-    area.classList.add('show');
-    display.style.animation = 'fadeIn 0.4s ease';
+// ===== NEW CHAT =====
+function startNewChat() {
+    messages = [];
+    chatId = 'chat_' + Date.now();
+    document.getElementById('msgList').innerHTML = '';
+    document.getElementById('welcomeScreen').classList.remove('hidden');
+    document.getElementById('chatMessages').classList.remove('show');
+    closePreview();
+    promptInput.value = '';
+    promptInput.style.height = 'auto';
+    sendBtn.disabled = true;
+    document.getElementById('charCount').textContent = '0 / 4000';
+    // Close sidebar on mobile
+    var sb = document.getElementById('sidebar');
+    if (sb.classList.contains('open')) toggleSidebar();
+    // Update sidebar
+    var list = document.getElementById('chatHistoryList');
+    list.querySelectorAll('.chat-history-item').forEach(function(item) { item.classList.remove('active'); });
+    var newItem = document.createElement('div');
+    newItem.className = 'chat-history-item active';
+    newItem.dataset.chat = chatId;
+    newItem.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Новый чат';
+    list.insertBefore(newItem, list.firstChild);
 }
-
-function addToSession(bg) {
-    sessionHistory.push(bg);
-    var timeline = document.getElementById('sessionTimeline');
-    var items = document.getElementById('sessionItems');
-    timeline.style.display = 'block';
-    var item = document.createElement('div');
-    item.className = 'session-item';
-    item.style.background = bg;
-    item.style.border = '1px solid #E8EBF0';
-    items.appendChild(item);
-}
-
-// ===== RESULT ACTIONS =====
-function handleMoreVariations() {
-    handleGenerate();
-}
-
-function handleDownload() {
-    alert('Файл скачан (демо)');
-}
-
-function handleFavorite() {
-    var btn = document.getElementById('favBtn');
-    btn.style.color = btn.style.color === 'var(--accent)' ? '' : 'var(--accent)';
-    btn.style.borderColor = btn.style.borderColor === 'var(--accent)' ? '' : 'var(--accent)';
-}
-
-// ===== EXAMPLE CARDS =====
-document.querySelectorAll('.example-card').forEach(function(card) {
-    card.addEventListener('click', function() {
-        var mode = card.dataset.mode;
-        var prompt = card.dataset.prompt;
-        setMode(mode);
-        document.getElementById('promptInput').value = prompt;
-        updateCharCount();
-    });
-});
 
 // ===== ONBOARDING =====
 function checkOnboarding() {
-    if (!localStorage.getItem('ng_onboarded')) {
-        var modal = document.getElementById('onboardingModal');
-        modal.classList.add('show');
-        // Focus first option for keyboard a11y
-        setTimeout(function() {
-            var first = modal.querySelector('.modal-option');
-            if (first) first.focus();
-        }, 100);
-        // Focus trap
-        modal.addEventListener('keydown', trapFocus);
+    if (!localStorage.getItem('ng_onboarded_v2')) {
+        document.getElementById('onboardingModal').classList.add('show');
     }
 }
 
-function trapFocus(e) {
-    if (e.key === 'Tab') {
-        var modal = document.getElementById('onboardingDialog');
-        var focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        if (focusable.length === 0) return;
-        var first = focusable[0];
-        var last = focusable[focusable.length - 1];
-        if (e.shiftKey) {
-            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
-        } else {
-            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
-        }
-    }
-    if (e.key === 'Escape') {
-        // Allow ESC to dismiss modal (select default text mode)
-        selectOnboarding('text');
-    }
-}
+function selectOnboarding(type) {
+    localStorage.setItem('ng_onboarded_v2', '1');
+    document.getElementById('onboardingModal').classList.remove('show');
 
-function selectOnboarding(mode) {
-    localStorage.setItem('ng_onboarded', '1');
-    var modal = document.getElementById('onboardingModal');
-    modal.classList.remove('show');
-    modal.removeEventListener('keydown', trapFocus);
-    setMode(mode);
-
-    // Set preset prompt
-    var defaultPrompts = {
-        text: 'Напиши пост для Instagram о запуске нового продукта',
-        image: 'Футуристический город на закате, неоновые огни, киберпанк стиль',
-        video: 'Плавный полёт камеры над облаками на рассвете, кинематографичный'
+    var prompts = {
+        text: 'Напиши пост для Instagram о ',
+        image: 'Сделай картинку: ',
+        video: 'Создай видео: '
     };
-    document.getElementById('promptInput').value = defaultPrompts[mode] || '';
-    updateCharCount();
+    promptInput.value = prompts[type] || '';
+    promptInput.focus();
+    promptInput.dispatchEvent(new Event('input'));
+    promptInput.selectionStart = promptInput.selectionEnd = promptInput.value.length;
 
-    // Start mini-tour after short delay
+    // Start tour after short delay
     setTimeout(startTour, 500);
 }
 
-// ===== MINI-TOUR =====
+// ===== TOUR =====
 var tourSteps = [
-    {
-        title: 'Промпт',
-        text: 'Опишите здесь, что хотите создать. Чем подробнее, тем лучше результат.',
-        target: '.prompt-textarea'
-    },
-    {
-        title: 'Модель',
-        text: 'По умолчанию стоит Auto. Нажмите, чтобы выбрать модель вручную.',
-        target: '.model-pill'
-    },
-    {
-        title: 'Генерация',
-        text: 'Нажмите, чтобы создать. Результат появится справа.',
-        target: '.btn-generate'
-    },
-    {
-        title: 'Сохранение',
-        text: 'Все результаты автоматически сохраняются в Библиотеке.',
-        target: '.sidebar-nav a:nth-child(3)'
-    }
+    { title: 'Чат с AI', text: 'Просто напишите что хотите создать — текст, картинку или видео. AI сам выберет лучшую модель.', el: '#promptBar' },
+    { title: 'Быстрые действия', text: 'Используйте чипы-подсказки для быстрого старта.', el: '.starter-chips' },
+    { title: 'Выбор модели', text: 'По умолчанию Auto — AI сам выберет. Можете переключить вручную.', el: '#modelPill' },
+    { title: 'Итерация', text: 'После генерации просто напишите "сделай ярче" или "добавь текст" — результат обновится в чате.', el: '#promptBar' }
 ];
-var currentTourStep = 0;
+var tourIndex = 0;
 
 function startTour() {
-    if (localStorage.getItem('ng_tour_done')) return;
-    currentTourStep = 0;
+    if (localStorage.getItem('ng_tour_done_v2')) return;
+    tourIndex = 0;
     showTourStep();
 }
 
 function showTourStep() {
-    if (currentTourStep >= tourSteps.length) {
-        endTour();
-        return;
-    }
-    var step = tourSteps[currentTourStep];
-    var target = document.querySelector(step.target);
-    if (!target) { nextTourStep(); return; }
-
-    var tooltip = document.getElementById('tourTooltip');
+    if (tourIndex >= tourSteps.length) { endTour(); return; }
+    var step = tourSteps[tourIndex];
+    var el = document.querySelector(step.el);
+    var tt = document.getElementById('tourTooltip');
     document.getElementById('tourTitle').textContent = step.title;
     document.getElementById('tourText').textContent = step.text;
-    document.getElementById('tourStep').textContent = (currentTourStep + 1) + ' / ' + tourSteps.length;
-
-    var rect = target.getBoundingClientRect();
-    var tooltipH = 130; // approximate tooltip height
-    var spaceBelow = window.innerHeight - rect.bottom;
-    // Smart placement: below if fits, otherwise above
-    if (spaceBelow > tooltipH + 20) {
-        tooltip.style.top = (rect.bottom + 10) + 'px';
-        tooltip.style.bottom = '';
+    document.getElementById('tourStep').textContent = (tourIndex + 1) + ' / ' + tourSteps.length;
+    if (tourIndex === tourSteps.length - 1) {
+        document.querySelector('.tour-tooltip-next').textContent = 'Готово';
     } else {
-        tooltip.style.top = '';
-        tooltip.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
+        document.querySelector('.tour-tooltip-next').textContent = 'Далее';
     }
-    // Horizontal: clamp within viewport
-    var left = Math.max(10, Math.min(rect.left, window.innerWidth - 300));
-    tooltip.style.left = left + 'px';
-    tooltip.classList.add('show');
 
-    target.style.outline = '2px solid var(--accent)';
-    target.style.outlineOffset = '4px';
-    target.style.borderRadius = target.style.borderRadius || '8px';
-    target.dataset.tourHighlight = '1';
+    if (el) {
+        var rect = el.getBoundingClientRect();
+        tt.style.top = Math.max(10, rect.top - tt.offsetHeight - 12) + 'px';
+        tt.style.left = Math.max(10, Math.min(rect.left, window.innerWidth - 300)) + 'px';
+    }
+    tt.classList.add('show');
 }
 
 function nextTourStep() {
-    clearTourHighlight();
-    currentTourStep++;
-    showTourStep();
+    tourIndex++;
+    if (tourIndex >= tourSteps.length) {
+        endTour();
+    } else {
+        showTourStep();
+    }
 }
 
 function endTour() {
-    clearTourHighlight();
+    localStorage.setItem('ng_tour_done_v2', '1');
     document.getElementById('tourTooltip').classList.remove('show');
-    localStorage.setItem('ng_tour_done', '1');
-}
-
-function clearTourHighlight() {
-    document.querySelectorAll('[data-tour-highlight]').forEach(function(el) {
-        el.style.outline = '';
-        el.style.outlineOffset = '';
-        delete el.dataset.tourHighlight;
-    });
-}
-
-// ===== SIDEBAR TOGGLE =====
-function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('show');
 }
 
 // ===== INIT =====
-// Read ?mode= from URL and set tab
-(function() {
-    var params = new URLSearchParams(window.location.search);
-    var modeParam = params.get('mode');
-    if (modeParam && ['text', 'image', 'video'].indexOf(modeParam) !== -1) {
-        currentMode = modeParam;
-        document.querySelectorAll('.mode-tab').forEach(function(tab) {
-            tab.classList.toggle('active', tab.dataset.mode === modeParam);
-        });
+(function init() {
+    // Load saved chat
+    loadChat('current');
+    if (messages.length > 0) {
+        document.getElementById('welcomeScreen').classList.add('hidden');
+        document.getElementById('chatMessages').classList.add('show');
+        messages.forEach(renderMessage);
+        scrollToBottom();
     }
-    // Pick up template prompt from session storage
-    var tplPrompt = sessionStorage.getItem('ng_tpl_prompt');
-    if (tplPrompt) {
-        document.getElementById('promptInput').value = tplPrompt;
-        sessionStorage.removeItem('ng_tpl_prompt');
-    }
-})();
 
-renderPresets();
-renderAdvanced();
-updateModelSelector();
-updateCostHint();
-updateCharCount();
-
-// Check onboarding on load
-window.addEventListener('load', function() {
+    // Check onboarding
     checkOnboarding();
-});
+
+    // Focus prompt
+    promptInput.focus();
+})();
 </script>
 </body>
 </html>
