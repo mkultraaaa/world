@@ -457,55 +457,6 @@
 /* When preview is open, squeeze chat */
 body.preview-open .main-content { margin-right: 40%; }
 
-/* ---- Sidebar additions ---- */
-.sidebar-new-chat {
-    margin: 0 8px 4px;
-}
-.new-chat-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    background: var(--surface);
-    color: var(--text-primary);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all var(--transition);
-    font-family: var(--font);
-}
-.new-chat-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
-.new-chat-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
-
-.chat-history-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 12px 12px 6px;
-}
-.chat-history-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    border-radius: var(--radius-sm);
-    font-size: 13px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: background var(--transition), color var(--transition);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.chat-history-item:hover { background: #F8F9FC; color: var(--text-primary); }
-.chat-history-item.active { background: var(--accent-light); color: var(--accent); }
-.chat-history-item svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.5; }
-
 /* ---- Mobile header ---- */
 .mobile-top-bar {
     display: none;
@@ -608,16 +559,10 @@ body.preview-open .main-content { margin-right: 40%; }
         </svg>
         <span>NeuroGate</span>
     </div>
-
-    <!-- Main nav (consistent across all pages) -->
     <nav class="sidebar-nav">
-        <a class="nav-item" href="index.html">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        <a class="nav-item create-btn active" href="index.html?new=1" onclick="if(location.pathname.endsWith('index.html')){event.preventDefault();startNewChat();}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Создать
-        </a>
-        <a class="nav-item active" href="index.html">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            Чат
         </a>
         <a class="nav-item" href="templates.html">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
@@ -632,34 +577,21 @@ body.preview-open .main-content { margin-right: 40%; }
             Модели
         </a>
     </nav>
-
     <div class="sidebar-sep"></div>
-
-    <!-- New chat + history (below main nav) -->
-    <div style="padding: 0 8px; flex: 1 1 auto; overflow-y: auto;">
-        <button class="new-chat-btn" onclick="startNewChat()" style="width:100%;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text-primary);font-size:13px;font-weight:500;cursor:pointer;margin-bottom:8px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Новый чат
-        </button>
-        <div class="chat-history-label">Недавние</div>
-        <div id="chatHistoryList">
-            <div class="chat-history-item active" data-chat="current">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                Новый чат
-            </div>
-            <div class="chat-history-item" data-chat="demo1">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                Логотип для кофейни
-            </div>
-            <div class="chat-history-item" data-chat="demo2">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                Пост про AI-тренды
-            </div>
-            <div class="chat-history-item" data-chat="demo3">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                Рилс о продукте
-            </div>
-        </div>
+    <div class="sidebar-recent">
+        <div class="sidebar-recent-label">Недавние</div>
+        <a class="sidebar-recent-item" href="index.html">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Логотип для кофейни
+        </a>
+        <a class="sidebar-recent-item" href="index.html">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Пост про AI-тренды
+        </a>
+        <a class="sidebar-recent-item" href="index.html">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Рилс о продукте
+        </a>
     </div>
     <div class="sidebar-sep"></div>
     <div style="padding: 0 8px 8px; display: flex; flex-direction: column; gap: 2px;">
@@ -833,9 +765,9 @@ body.preview-open .main-content { margin-right: 40%; }
 <!-- ===== MOBILE BOTTOM BAR ===== -->
 <div class="mobile-bar">
     <div class="mobile-bar-inner">
-        <a class="mobile-tab active" href="index.html">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span>Чат</span>
+        <a class="mobile-tab active" href="index.html?new=1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Создать</span>
         </a>
         <a class="mobile-tab" href="templates.html">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
@@ -1273,13 +1205,21 @@ function endTour() {
 
 // ===== INIT =====
 (function init() {
-    // Load saved chat
-    loadChat('current');
-    if (messages.length > 0) {
-        document.getElementById('welcomeScreen').classList.add('hidden');
-        document.getElementById('chatMessages').classList.add('show');
-        messages.forEach(renderMessage);
-        scrollToBottom();
+    // If ?new=1 — always reset to welcome screen
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('new') === '1') {
+        // Clean URL without reload
+        history.replaceState(null, '', window.location.pathname);
+        startNewChat();
+    } else {
+        // Load saved chat
+        loadChat('current');
+        if (messages.length > 0) {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('chatMessages').classList.add('show');
+            messages.forEach(renderMessage);
+            scrollToBottom();
+        }
     }
 
     // Check onboarding
