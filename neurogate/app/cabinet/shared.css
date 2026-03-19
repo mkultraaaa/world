@@ -85,7 +85,7 @@ input, textarea, select { font-family: var(--font); }
 }
 
 .sidebar-nav {
-    flex: 1;
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     padding: 0 8px;
@@ -114,6 +114,56 @@ input, textarea, select { font-family: var(--font); }
     font-weight: 500;
 }
 .nav-item svg { flex-shrink: 0; width: 18px; height: 18px; }
+
+/* Create button accent style */
+.nav-item.create-btn {
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+.nav-item.create-btn:hover {
+    background: var(--accent-light);
+}
+.nav-item.create-btn.active {
+    background: var(--accent);
+    color: var(--text-inverse);
+    border-color: var(--accent);
+}
+
+/* Sidebar recent chats section */
+.sidebar-recent {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 0 8px;
+    min-height: 0;
+}
+.sidebar-recent-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 12px 12px 6px;
+}
+.sidebar-recent-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+}
+.sidebar-recent-item:hover { background: #F8F9FC; color: var(--text-primary); }
+.sidebar-recent-item svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.5; }
 
 .sidebar-sep {
     height: 1px;
