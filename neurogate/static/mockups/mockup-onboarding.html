@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1280">
+    <title>NeuroGate — Подключение команды</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .onboarding-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            height: calc(100% - 80px);
+        }
+        .progress-bar-wrap {
+            height: 6px;
+            background: var(--gray-100);
+            border-radius: 3px;
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 50%;
+            background: var(--purple);
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+        .progress-label {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .step {
+            display: flex;
+            gap: 14px;
+            padding: 18px 20px;
+            border-radius: 12px;
+            position: relative;
+        }
+        .step.active {
+            background: var(--purple-bg);
+            border: 1.5px solid var(--purple-light);
+        }
+        .step.completed { opacity: 0.7; }
+        .step.upcoming { opacity: 0.5; }
+        .step-connector {
+            position: absolute;
+            left: 36px;
+            top: 54px;
+            width: 2px;
+            height: 18px;
+            background: var(--gray-200);
+        }
+        .step.active .step-connector { background: var(--purple-light); }
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .step-icon.done { background: var(--green-bg); color: var(--green); }
+        .step-icon.current { background: var(--purple); color: #fff; }
+        .step-icon.pending { background: var(--gray-100); color: var(--gray-400); }
+        .step-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        .step.active .step-title { color: var(--purple); }
+        .step-desc {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-top: 2px;
+        }
+        .step-content {
+            margin-top: 12px;
+        }
+        .invite-input-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .invite-input {
+            flex: 1;
+            padding: 9px 14px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            color: var(--gray-800);
+        }
+        .invite-input:focus { border-color: var(--purple-light); }
+        .invite-input::placeholder { color: var(--gray-400); }
+        .invited-list {
+            margin-top: 12px;
+        }
+        .invited-person {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+        .invited-person .invited-check {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--green-bg);
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        .email-preview {
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            overflow: hidden;
+            height: fit-content;
+        }
+        .email-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .email-meta {
+            font-size: 11.5px;
+            color: var(--gray-400);
+        }
+        .email-meta strong {
+            color: var(--gray-700);
+        }
+        .email-subject {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        .email-body {
+            padding: 20px;
+        }
+        .email-body p {
+            font-size: 13px;
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+        .email-btn {
+            display: inline-block;
+            padding: 10px 24px;
+            background: var(--purple);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 4px;
+        }
+        .email-footer {
+            padding: 14px 20px;
+            border-top: 1px solid var(--gray-100);
+            font-size: 11px;
+            color: var(--gray-400);
+        }
+        .preview-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="mockup-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">N</div>
+            NeuroGate
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#"><span class="nav-icon">💬</span> Новый чат</a>
+            <a href="#"><span class="nav-icon">📋</span> Шаблоны</a>
+            <a href="#"><span class="nav-icon">🧠</span> Модели</a>
+            <a href="#"><span class="nav-icon">📊</span> Дашборд</a>
+            <a href="#" class="active"><span class="nav-icon">👥</span> Команда</a>
+            <a href="#"><span class="nav-icon">🔒</span> Безопасность</a>
+            <a href="#"><span class="nav-icon">💳</span> Биллинг</a>
+            <a href="#"><span class="nav-icon">⚙️</span> Настройки</a>
+        </nav>
+    </div>
+
+    <!-- Main -->
+    <div class="main-content">
+        <div class="page-header">
+            <div class="page-title">Подключение команды</div>
+            <div class="page-subtitle">Настройте доступ для сотрудников за 4 простых шага</div>
+        </div>
+
+        <div class="progress-label">Шаг 2 из 4</div>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill"></div>
+        </div>
+
+        <div class="onboarding-layout">
+            <!-- Steps -->
+            <div>
+                <div class="steps">
+                    <div class="step completed">
+                        <div class="step-icon done">✓</div>
+                        <div>
+                            <div class="step-title">Создать аккаунт компании</div>
+                            <div class="step-desc">ООО «Технолоджи Про» · создан 18.03.2026</div>
+                        </div>
+                        <div class="step-connector"></div>
+                    </div>
+                    <div class="step active">
+                        <div class="step-icon current">2</div>
+                        <div>
+                            <div class="step-title">Пригласить сотрудников</div>
+                            <div class="step-desc">Отправьте приглашения по email</div>
+                            <div class="step-content">
+                                <div class="invite-input-row">
+                                    <input type="email" class="invite-input" placeholder="email@company.ru" value="petrov@techpro.ru">
+                                    <button class="btn btn-primary" style="font-size: 13px; white-space: nowrap;">Отправить</button>
+                                </div>
+                                <div class="invited-list">
+                                    <div class="invited-person">
+                                        <span class="invited-check">✓</span>
+                                        ivanova@techpro.ru — приглашение отправлено
+                                    </div>
+                                    <div class="invited-person">
+                                        <span class="invited-check">✓</span>
+                                        sidorov@techpro.ru — приглашение принято
+                                    </div>
+                                    <div class="invited-person">
+                                        <span class="invited-check">✓</span>
+                                        kozlova@techpro.ru — приглашение отправлено
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-connector"></div>
+                    </div>
+                    <div class="step upcoming">
+                        <div class="step-icon pending">3</div>
+                        <div>
+                            <div class="step-title">Настроить роли и лимиты</div>
+                            <div class="step-desc">Назначьте роли и установите лимиты</div>
+                        </div>
+                        <div class="step-connector"></div>
+                    </div>
+                    <div class="step upcoming">
+                        <div class="step-icon pending">4</div>
+                        <div>
+                            <div class="step-title">Выбрать тариф и оплатить</div>
+                            <div class="step-desc">Счёт от юрлица или оплата картой</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Preview -->
+            <div>
+                <div class="preview-label">Превью приглашения</div>
+                <div class="email-preview">
+                    <div class="email-header">
+                        <div class="email-meta"><strong>От:</strong> NeuroGate &lt;noreply@neurogate.ai&gt;</div>
+                        <div class="email-meta"><strong>Кому:</strong> petrov@techpro.ru</div>
+                        <div class="email-subject">Вас пригласили в NeuroGate</div>
+                    </div>
+                    <div class="email-body">
+                        <p>Здравствуйте!</p>
+                        <p>Компания <strong>ООО «Технолоджи Про»</strong> приглашает вас в NeuroGate — единый кабинет для работы с AI-моделями.</p>
+                        <p>Вам будут доступны: ChatGPT, Claude, Gemini, Midjourney и ещё 100+ моделей. Все расходы оплачивает компания.</p>
+                        <a href="#" class="email-btn">Принять приглашение</a>
+                    </div>
+                    <div class="email-footer">
+                        Это автоматическое письмо от NeuroGate. Если вы не ожидали это приглашение — проигнорируйте его.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

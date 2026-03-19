@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1280">
+    <title>NeuroGate — Дашборд</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .chart-area {
+            display: flex;
+            gap: 16px;
+        }
+        .chart-card {
+            flex: 1;
+        }
+        .chart-bars {
+            padding: 20px;
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 140px;
+        }
+        .chart-bar-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            height: 100%;
+            justify-content: flex-end;
+        }
+        .chart-bar {
+            width: 100%;
+            max-width: 28px;
+            border-radius: 4px 4px 0 0;
+            background: var(--purple);
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .chart-bar.highlight {
+            opacity: 1;
+        }
+        .chart-bar-label {
+            font-size: 9.5px;
+            color: var(--gray-400);
+            font-weight: 500;
+        }
+        .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .employee-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dept-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .dept-marketing { background: #FDF2F8; color: #DB2777; }
+        .dept-dev { background: #EFF6FF; color: #2563EB; }
+        .dept-hr { background: #ECFDF5; color: #059669; }
+        .dept-sales { background: #FFF7ED; color: #EA580C; }
+        .dept-support { background: #F5F3FF; color: #7C3AED; }
+        .model-tag {
+            font-size: 11.5px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            font-weight: 500;
+        }
+        .table-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--gray-100);
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+    </style>
+</head>
+<body>
+<div class="mockup-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">N</div>
+            NeuroGate
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#"><span class="nav-icon">💬</span> Новый чат</a>
+            <a href="#"><span class="nav-icon">📋</span> Шаблоны</a>
+            <a href="#"><span class="nav-icon">🧠</span> Модели</a>
+            <a href="#" class="active"><span class="nav-icon">📊</span> Дашборд</a>
+            <a href="#"><span class="nav-icon">👥</span> Команда</a>
+            <a href="#"><span class="nav-icon">🔒</span> Безопасность</a>
+            <a href="#"><span class="nav-icon">💳</span> Биллинг</a>
+            <a href="#"><span class="nav-icon">⚙️</span> Настройки</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <div class="page-title">Использование AI — Март 2026</div>
+            <div class="page-subtitle">Обзор расходов и активности команды</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stat-cards">
+            <div class="stat-card">
+                <div class="stat-label">Всего запросов</div>
+                <div class="stat-value">12,450</div>
+                <div class="stat-change">+18% vs февраль</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Расход за месяц</div>
+                <div class="stat-value">45,200 ₽</div>
+                <div class="stat-change">+12% vs февраль</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Активных юзеров</div>
+                <div class="stat-value">32</div>
+                <div class="stat-change">из 40 приглашённых</div>
+            </div>
+        </div>
+
+        <div class="chart-area">
+            <!-- Table -->
+            <div class="card chart-card" style="flex: 2;">
+                <div class="card-header">
+                    <div class="card-title">Расходы по сотрудникам</div>
+                    <button class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">Экспорт CSV</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Сотрудник</th>
+                            <th>Отдел</th>
+                            <th>Запросов</th>
+                            <th>Расход</th>
+                            <th>Топ-модель</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="employee-name">
+                                    <div class="avatar" style="background: #DB2777;">МИ</div>
+                                    Мария И.
+                                </div>
+                            </td>
+                            <td><span class="dept-badge dept-marketing">Маркетинг</span></td>
+                            <td>1,240</td>
+                            <td><strong>4,800 ₽</strong></td>
+                            <td><span class="model-tag">Claude 4</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="employee-name">
+                                    <div class="avatar" style="background: #2563EB;">АК</div>
+                                    Алексей К.
+                                </div>
+                            </td>
+                            <td><span class="dept-badge dept-dev">Разработка</span></td>
+                            <td>980</td>
+                            <td><strong>3,200 ₽</strong></td>
+                            <td><span class="model-tag">GPT-5</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="employee-name">
+                                    <div class="avatar" style="background: #059669;">ЕС</div>
+                                    Елена С.
+                                </div>
+                            </td>
+                            <td><span class="dept-badge dept-hr">HR</span></td>
+                            <td>560</td>
+                            <td><strong>1,800 ₽</strong></td>
+                            <td><span class="model-tag">GPT-5</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="employee-name">
+                                    <div class="avatar" style="background: #EA580C;">ДВ</div>
+                                    Дмитрий В.
+                                </div>
+                            </td>
+                            <td><span class="dept-badge dept-sales">Продажи</span></td>
+                            <td>420</td>
+                            <td><strong>1,400 ₽</strong></td>
+                            <td><span class="model-tag">Claude 4</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="employee-name">
+                                    <div class="avatar" style="background: #7C3AED;">АП</div>
+                                    Анна П.
+                                </div>
+                            </td>
+                            <td><span class="dept-badge dept-support">Поддержка</span></td>
+                            <td>380</td>
+                            <td><strong>1,200 ₽</strong></td>
+                            <td><span class="model-tag">Claude 4</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="table-footer">Показано 5 из 32 сотрудников</div>
+            </div>
+
+            <!-- Chart -->
+            <div class="card chart-card" style="flex: 1;">
+                <div class="card-header">
+                    <div class="card-title">Расход по дням</div>
+                </div>
+                <div class="chart-bars">
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 45%;"></div><span class="chart-bar-label">1</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 52%;"></div><span class="chart-bar-label">2</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 38%;"></div><span class="chart-bar-label">3</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 65%;"></div><span class="chart-bar-label">4</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 58%;"></div><span class="chart-bar-label">5</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 20%;"></div><span class="chart-bar-label">6</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 15%;"></div><span class="chart-bar-label">7</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 70%;"></div><span class="chart-bar-label">8</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 62%;"></div><span class="chart-bar-label">9</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 55%;"></div><span class="chart-bar-label">10</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 78%;"></div><span class="chart-bar-label">11</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 82%;"></div><span class="chart-bar-label">12</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 48%;"></div><span class="chart-bar-label">13</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 72%;"></div><span class="chart-bar-label">14</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 68%;"></div><span class="chart-bar-label">15</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 25%;"></div><span class="chart-bar-label">16</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar" style="height: 18%;"></div><span class="chart-bar-label">17</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar highlight" style="height: 90%;"></div><span class="chart-bar-label">18</span></div>
+                    <div class="chart-bar-col"><div class="chart-bar highlight" style="height: 85%;"></div><span class="chart-bar-label">19</span></div>
+                </div>
+                <div style="padding: 0 20px 16px; font-size: 11px; color: var(--gray-400);">Март 2026 · ₽/день</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
