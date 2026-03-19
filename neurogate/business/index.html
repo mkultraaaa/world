@@ -710,6 +710,23 @@
             border-radius: 50%;
         }
 
+        /* ===== FEATURE SCREENSHOTS ===== */
+        .feature-screenshot {
+            margin-top: 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            display: none;
+        }
+        .feature-screenshot img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+        }
+
         /* ===== ROI CALCULATOR ===== */
         .roi-section { background: var(--gray-50); }
 
@@ -1414,6 +1431,7 @@
                 flex-direction: row;
                 justify-content: space-between;
             }
+            .feature-screenshot { display: block; }
         }
 
         @media (min-width: 1024px) {
@@ -1628,6 +1646,9 @@
                     <li>Лимиты по отделам и сотрудникам</li>
                     <li>Отчёт для CFO: экономия в часах и рублях</li>
                 </ul>
+                <div class="feature-screenshot">
+                    <img src="/neurogate/static/screen-billing.png" alt="Дашборд расходов NeuroGate" loading="lazy">
+                </div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">&#128274;</div>
@@ -1646,6 +1667,9 @@
                     <li>Smart Router: авто-выбор лучшей модели</li>
                     <li>Переключение между моделями в один клик</li>
                 </ul>
+                <div class="feature-screenshot">
+                    <img src="/neurogate/static/screen-models.jpg" alt="100+ AI моделей NeuroGate" loading="lazy">
+                </div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">&#128188;</div>
@@ -1655,6 +1679,9 @@
                     <li>Пополнение баланса без подписки</li>
                     <li>Прозрачный биллинг по отделам</li>
                 </ul>
+                <div class="feature-screenshot">
+                    <img src="/neurogate/static/screen-billing.png" alt="Биллинг и тарифы NeuroGate" loading="lazy">
+                </div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">&#128640;</div>
@@ -1664,6 +1691,9 @@
                     <li>Готовые промпт-шаблоны по отделам</li>
                     <li>Обучение команды включено</li>
                 </ul>
+                <div class="feature-screenshot">
+                    <img src="/neurogate/static/screen-create.png" alt="Быстрый старт NeuroGate" loading="lazy">
+                </div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">&#128268;</div>
