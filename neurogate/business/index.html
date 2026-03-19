@@ -870,6 +870,59 @@
             color: var(--purple);
         }
 
+        /* ===== TRUSTED BAR ===== */
+        .trusted-bar {
+            text-align: center;
+            margin-bottom: 48px;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .trusted-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 20px;
+        }
+
+        .trusted-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .trusted-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+
+        .trusted-logo:hover { opacity: 0.8; }
+
+        .trusted-logo span {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--gray-500);
+        }
+
+        .case-card-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--purple-bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--purple);
+            margin-bottom: 12px;
+        }
+
         /* ===== PRICING ===== */
         .pricing-grid {
             display: grid;
@@ -1045,59 +1098,6 @@
             color: var(--gray-400);
             line-height: 1.5;
         }
-
-        /* ===== COMPARISON TABLE ===== */
-        .comparison-table-wrap {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
-
-        .comparison-table {
-            width: 100%;
-            min-width: 650px;
-            border-collapse: collapse;
-            background: white;
-            border-radius: var(--radius);
-            overflow: hidden;
-        }
-
-        .comparison-table th,
-        .comparison-table td {
-            padding: 14px 16px;
-            font-size: 14px;
-            text-align: center;
-            border-bottom: 1px solid var(--gray-100);
-        }
-
-        .comparison-table th {
-            background: var(--gray-50);
-            font-weight: 700;
-            color: var(--gray-700);
-            font-size: 13px;
-        }
-
-        .comparison-table th:first-child,
-        .comparison-table td:first-child {
-            text-align: left;
-            font-weight: 600;
-            color: var(--gray-700);
-        }
-
-        .comparison-table td:nth-child(2) {
-            background: var(--purple-bg);
-            font-weight: 600;
-            color: var(--purple);
-        }
-
-        .comparison-table th:nth-child(2) {
-            background: var(--purple);
-            color: white;
-        }
-
-        .check { color: var(--green); font-weight: 700; }
-        .cross { color: #DC2626; font-weight: 700; }
 
         /* ===== FAQ ===== */
         .faq-list {
@@ -1434,7 +1434,7 @@
 <!-- ===== NAVBAR ===== -->
 <nav class="navbar" id="navbar">
     <div class="navbar-inner">
-        <a href="/neurogate/app/" class="logo">
+        <a href="#" class="logo">
             <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="0" y="0" width="14" height="14" rx="3.5" fill="#7C3AED"/>
                 <rect x="18" y="0" width="14" height="14" rx="3.5" fill="#7C3AED"/>
@@ -1444,16 +1444,16 @@
             NeuroGate
         </a>
         <ul class="nav-tabs">
-            <li><a href="/neurogate">Личное</a></li>
-            <li><a href="/neurogate/business" class="active">Для бизнеса</a></li>
+            <li><a href="neurogate-b2c.html">Личное</a></li>
+            <li><a href="neurogate-b2b.html" class="active">Для бизнеса</a></li>
         </ul>
         <div class="navbar-right">
             <div class="navbar-links">
                 <a href="#pricing" class="navbar-link">Тарифы</a>
-                <a href="/neurogate/app/" class="navbar-link">Войти</a>
+                <a href="#" class="navbar-link">Войти</a>
             </div>
             <div class="navbar-cta">
-                <a href="/neurogate/app/" class="btn-nav">Начать бесплатно</a>
+                <a href="#" class="btn-nav">Начать бесплатно</a>
             </div>
             <button class="mobile-menu-btn" aria-label="Меню" onclick="document.getElementById('mobile-menu').classList.toggle('open')">
                 <span></span><span></span><span></span>
@@ -1461,11 +1461,11 @@
         </div>
     </div>
     <div class="mobile-menu" id="mobile-menu">
-        <a href="/neurogate">Личное</a>
-        <a href="/neurogate/business" class="active">Для бизнеса</a>
+        <a href="neurogate-b2c.html">Личное</a>
+        <a href="neurogate-b2b.html" class="active">Для бизнеса</a>
         <a href="#pricing">Тарифы</a>
-        <a href="/neurogate/app/">Войти</a>
-        <a href="/neurogate/app/" class="btn-nav">Начать бесплатно</a>
+        <a href="#">Войти</a>
+        <a href="#" class="btn-nav">Начать бесплатно</a>
     </div>
 </nav>
 
@@ -1482,7 +1482,7 @@
                 <h1>AI для всей команды.<br>Один кабинет. Один счёт.</h1>
                 <p class="hero-subtitle">100+ нейросетей для маркетинга, продаж, HR и разработки. Контроль расходов, безопасность данных, оплата от юрлица.</p>
                 <div class="hero-buttons">
-                    <a href="/neurogate/app/" class="btn btn-glow">Получить бесплатный AI-аудит</a>
+                    <a href="#" class="btn btn-glow">Получить бесплатный AI-аудит</a>
                     <a href="#pricing" class="btn btn-lg btn-outline" style="border-color:rgba(255,255,255,0.3);color:white;">Посмотреть тарифы &#8595;</a>
                 </div>
                 <div class="hero-proof-badges">
@@ -1748,56 +1748,93 @@
     </div>
 </section>
 
-<!-- ===== CASES ===== -->
+<!-- ===== TRUSTED BY + CASES ===== -->
 <section id="cases">
     <div class="container">
+        <!-- Trusted logos -->
+        <div class="trusted-bar">
+            <p class="trusted-label">Используют в работе</p>
+            <div class="trusted-logos">
+                <div class="trusted-logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="15" stroke="#9CA3AF" stroke-width="1"/>
+                        <text x="16" y="21" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#9CA3AF">U</text>
+                    </svg>
+                    <span>Unisender</span>
+                </div>
+                <div class="trusted-logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="15" stroke="#9CA3AF" stroke-width="1"/>
+                        <text x="16" y="21" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#9CA3AF">МУ</text>
+                    </svg>
+                    <span>Моя Удалёнка</span>
+                </div>
+                <div class="trusted-logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="15" fill="#22C55E"/>
+                        <text x="16" y="21" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="800" fill="white">W</text>
+                    </svg>
+                    <span>Wooton</span>
+                </div>
+            </div>
+        </div>
+
         <h2 class="section-title">Как бизнес использует NeuroGate</h2>
-        <p class="section-subtitle">Реальные сценарии внедрения AI в работу компаний</p>
+        <p class="section-subtitle">Реальные кейсы внедрения AI в работу компаний</p>
         <div class="cases-grid">
             <div class="case-card">
-                <div class="case-card-type">Маркетинг-агентство</div>
+                <div class="case-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                </div>
+                <div class="case-card-type">Email-маркетинг платформа</div>
+                <h3>40+ сотрудников</h3>
+                <div class="case-before-after">
+                    <div class="case-col">
+                        <div class="case-col-label before">Было</div>
+                        <p>Маркетологи и поддержка использовали бесплатные версии ChatGPT, каждый со своего аккаунта</p>
+                    </div>
+                    <div class="case-col">
+                        <div class="case-col-label after">Стало</div>
+                        <p>Единый кабинет NeuroGate, доступ к Claude и GPT-5, шаблоны промптов по отделам</p>
+                    </div>
+                </div>
+                <div class="case-result">Скорость подготовки рассылок ×2, экономия 35K &#8381;/мес на подписках</div>
+            </div>
+            <div class="case-card">
+                <div class="case-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="case-card-type">HR-платформа для удалённой работы</div>
                 <h3>15 человек</h3>
                 <div class="case-before-after">
                     <div class="case-col">
                         <div class="case-col-label before">Было</div>
-                        <p>5 подписок, 45K &#8381;/мес, хаос с доступами</p>
+                        <p>4 разных подписки на AI-сервисы, оплата с личных карт, нет контроля</p>
                     </div>
                     <div class="case-col">
                         <div class="case-col-label after">Стало</div>
-                        <p>1 кабинет, 25K &#8381;/мес, дашборд по клиентам</p>
+                        <p>Один счёт от юрлица, дашборд расходов, лимиты по сотрудникам</p>
                     </div>
                 </div>
-                <div class="case-result">Экономия 240K &#8381;/год, скорость &#215;3</div>
+                <div class="case-result">-60% на AI-расходах, полная прозрачность для бухгалтерии</div>
             </div>
             <div class="case-card">
-                <div class="case-card-type">E-commerce</div>
-                <h3>40 человек</h3>
+                <div class="case-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <div class="case-card-type">Платформа для фрилансеров, стартап</div>
+                <h3>Растущая команда</h3>
                 <div class="case-before-after">
                     <div class="case-col">
                         <div class="case-col-label before">Было</div>
-                        <p>Маркетологи и поддержка сидят в бесплатных ChatGPT, нет контроля</p>
+                        <p>Разработчики тратили по 2-3 часа на написание описаний и модерацию контента</p>
                     </div>
                     <div class="case-col">
                         <div class="case-col-label after">Стало</div>
-                        <p>Корпоративный доступ, шаблоны по отделам, отчёты</p>
+                        <p>Интеграция NeuroGate API, автоматическая генерация и проверка текстов</p>
                     </div>
                 </div>
-                <div class="case-result">-30% нагрузка на поддержку, +50% контента в месяц</div>
-            </div>
-            <div class="case-card">
-                <div class="case-card-type">IT-стартап</div>
-                <h3>10 разработчиков</h3>
-                <div class="case-before-after">
-                    <div class="case-col">
-                        <div class="case-col-label before">Было</div>
-                        <p>Каждый платит за API сам, VPN, иностранные карты</p>
-                    </div>
-                    <div class="case-col">
-                        <div class="case-col-label after">Стало</div>
-                        <p>Один API endpoint, оплата от юрлица, smart routing</p>
-                    </div>
-                </div>
-                <div class="case-result">-40% на API-расходах, zero downtime (fallback)</div>
+                <div class="case-result">Автоматизировали 70% рутинного контента, экономия 80 чел-часов/мес</div>
             </div>
         </div>
     </div>
@@ -1821,7 +1858,7 @@
                     <li><span class="check">&#10003;</span> Чат-поддержка</li>
                     <li><span class="check">&#10003;</span> Оплата СБП / карта</li>
                 </ul>
-                <a href="/neurogate/app/" class="btn btn-outline">Попробовать</a>
+                <a href="#" class="btn btn-outline">Попробовать</a>
             </div>
             <div class="pricing-card highlight">
                 <div class="pricing-name">Бизнес</div>
@@ -1835,7 +1872,7 @@
                     <li><span class="check">&#10003;</span> Персональный менеджер</li>
                     <li><span class="check">&#10003;</span> Юрлицо + ЭДО</li>
                 </ul>
-                <a href="/neurogate/app/" class="btn btn-primary">Получить демо</a>
+                <a href="#" class="btn btn-primary">Получить демо</a>
             </div>
             <div class="pricing-card">
                 <div class="pricing-name">Корпоративный</div>
@@ -1849,7 +1886,7 @@
                     <li><span class="check">&#10003;</span> Dedicated менеджер</li>
                     <li><span class="check">&#10003;</span> Юрлицо + ЭДО</li>
                 </ul>
-                <a href="/neurogate/app/" class="btn btn-outline">Связаться</a>
+                <a href="#" class="btn btn-outline">Связаться</a>
             </div>
         </div>
     </div>
@@ -1914,78 +1951,6 @@ response = client.chat.completions.<span class="fn">create</span>(
     </div>
 </section>
 
-<!-- ===== COMPARISON ===== -->
-<section id="comparison">
-    <div class="container">
-        <h2 class="section-title">Почему бизнес выбирает NeuroGate</h2>
-        <p class="section-subtitle">Сравнение с альтернативами на рынке</p>
-        <div class="comparison-table-wrap">
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>NeuroGate</th>
-                        <th>ChatGPT Enterprise</th>
-                        <th>GigaChat Pro</th>
-                        <th>ChadGPT B2B</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Моделей</td>
-                        <td>100+</td>
-                        <td>Только OpenAI</td>
-                        <td>Только Сбер</td>
-                        <td>55</td>
-                    </tr>
-                    <tr>
-                        <td>Оплата от юрлица</td>
-                        <td class="check">&#10003;</td>
-                        <td class="cross">&#10007; ($$$)</td>
-                        <td class="check">&#10003;</td>
-                        <td class="check">&#10003;</td>
-                    </tr>
-                    <tr>
-                        <td>Дашборд расходов</td>
-                        <td class="check">&#10003;</td>
-                        <td>Ограниченный</td>
-                        <td class="cross">&#10007;</td>
-                        <td class="cross">&#10007;</td>
-                    </tr>
-                    <tr>
-                        <td>API</td>
-                        <td>OpenAI-совместимый</td>
-                        <td class="check">&#10003;</td>
-                        <td>Свой формат</td>
-                        <td class="cross">&#10007;</td>
-                    </tr>
-                    <tr>
-                        <td>Обучение команды</td>
-                        <td>Включено</td>
-                        <td class="cross">&#10007;</td>
-                        <td class="cross">&#10007;</td>
-                        <td class="cross">&#10007;</td>
-                    </tr>
-                    <tr>
-                        <td>Smart routing</td>
-                        <td class="check">&#10003;</td>
-                        <td class="cross">&#10007;</td>
-                        <td class="cross">&#10007;</td>
-                        <td class="cross">&#10007;</td>
-                    </tr>
-                    <tr>
-                        <td>Цена от</td>
-                        <td>15K &#8381;/мес</td>
-                        <td>~$60/чел/мес</td>
-                        <td>По запросу</td>
-                        <td>?</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
 <!-- ===== FAQ ===== -->
 <section id="faq" style="background: var(--gray-50);">
     <div class="container">
@@ -2025,11 +1990,11 @@ response = client.chat.completions.<span class="fn">create</span>(
     <div class="container">
         <h2>Узнайте, где AI сэкономит вашему бизнесу</h2>
         <p>Бесплатный аудит за 30 минут. Покажем ROI для вашей компании.</p>
-        <a href="/neurogate/app/" class="btn btn-glow">Получить бесплатный AI-аудит</a>
+        <a href="#" class="btn btn-glow">Получить бесплатный AI-аудит</a>
         <div class="final-cta-note">Бесплатно · 30 минут · Покажем ROI для вашей компании</div>
         <div class="final-cta-links">
-            <a href="/neurogate/app/">Написать в Telegram</a>
-            <a href="/neurogate/app/">Позвонить</a>
+            <a href="#">Написать в Telegram</a>
+            <a href="#">Позвонить</a>
         </div>
     </div>
 </section>
@@ -2039,7 +2004,7 @@ response = client.chat.completions.<span class="fn">create</span>(
     <div class="container">
         <div class="footer-grid">
             <div class="footer-brand">
-                <a href="/neurogate/app/" class="logo">
+                <a href="#" class="logo">
                     <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="0" y="0" width="14" height="14" rx="3.5" fill="#A78BFA"/>
                         <rect x="18" y="0" width="14" height="14" rx="3.5" fill="#A78BFA"/>
@@ -2056,7 +2021,7 @@ response = client.chat.completions.<span class="fn">create</span>(
                     <li><a href="#features">Возможности</a></li>
                     <li><a href="#pricing">Тарифы</a></li>
                     <li><a href="#api">API</a></li>
-                    <li><a href="/neurogate/app/">Документация</a></li>
+                    <li><a href="#">Документация</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -2064,23 +2029,23 @@ response = client.chat.completions.<span class="fn">create</span>(
                 <ul>
                     <li><a href="#roi">ROI-калькулятор</a></li>
                     <li><a href="#cases">Кейсы</a></li>
-                    <li><a href="/neurogate/app/">AI-аудит</a></li>
-                    <li><a href="/neurogate/app/">Партнёрство</a></li>
+                    <li><a href="#">AI-аудит</a></li>
+                    <li><a href="#">Партнёрство</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Контакты</h4>
                 <ul>
-                    <li><a href="/neurogate/app/">b2b@neurogate.ru</a></li>
-                    <li><a href="/neurogate/app/">Telegram</a></li>
-                    <li><a href="/neurogate/app/">+7 (495) 000-00-00</a></li>
+                    <li><a href="#">b2b@neurogate.ru</a></li>
+                    <li><a href="#">Telegram</a></li>
+                    <li><a href="#">+7 (495) 000-00-00</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
             <span>&copy; 2026 NeuroGate. ООО &laquo;НейроГейт&raquo;, ИНН 7700000000</span>
             <div>
-                <a href="/neurogate/app/">Политика конфиденциальности</a> · <a href="/neurogate/app/">Оферта</a>
+                <a href="#">Политика конфиденциальности</a> · <a href="#">Оферта</a>
             </div>
         </div>
     </div>

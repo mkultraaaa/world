@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroGate — Шаблоны</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ===== TEMPLATES PAGE SPECIFIC ===== */
+
+.templates-body {
+    padding: 28px 32px 40px;
+}
+
+/* Search */
+.templates-search {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.templates-search .input {
+    padding: 14px 16px 14px 48px;
+    font-size: 15px;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--border-light);
+}
+.templates-search .input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
+}
+.templates-search svg {
+    left: 18px;
+    width: 20px;
+    height: 20px;
+}
+
+/* Filters */
+.filters-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.filter-sep {
+    width: 1px;
+    height: 24px;
+    background: var(--border);
+    margin: 0 6px;
+    flex-shrink: 0;
+}
+
+/* Grid */
+.templates-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+/* Card */
+.tpl-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
+    animation: fadeIn 0.3s ease backwards;
+}
+.tpl-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: transparent;
+    transform: translateY(-2px);
+}
+.tpl-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+.tpl-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.tpl-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+.tpl-tag--category {
+    background: var(--accent-light);
+    color: var(--accent);
+}
+.tpl-tag--type {
+    background: var(--bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+}
+.tpl-fav {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: var(--text-tertiary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color var(--transition), background var(--transition);
+    flex-shrink: 0;
+    margin: -4px -4px 0 0;
+}
+.tpl-fav:hover {
+    color: #EF4444;
+    background: rgba(239, 68, 68, 0.06);
+}
+.tpl-fav.liked {
+    color: #EF4444;
+}
+.tpl-fav.liked svg {
+    fill: #EF4444;
+}
+.tpl-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+.tpl-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+    margin-bottom: 16px;
+}
+.tpl-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+.tpl-models {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
+.tpl-models svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+.tpl-use-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    color: var(--text-inverse);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background var(--transition);
+}
+.tpl-use-btn:hover {
+    background: var(--accent-hover);
+}
+.tpl-use-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Empty state */
+.templates-empty {
+    text-align: center;
+    padding: 64px 20px;
+    color: var(--text-secondary);
+}
+.templates-empty-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    background: var(--bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-tertiary);
+}
+.templates-empty h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+.templates-empty p {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* ===== Drawer overrides ===== */
+.drawer-section {
+    margin-bottom: 24px;
+}
+.drawer-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-tertiary);
+    margin-bottom: 10px;
+}
+.drawer-prompt-box {
+    background: var(--bg);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+.drawer-prompt-box .var-highlight {
+    display: inline;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 13px;
+}
+.drawer-preview {
+    width: 100%;
+    height: 160px;
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-tertiary);
+    font-size: 13px;
+    font-weight: 500;
+}
+.drawer-models-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.drawer-model-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    color: var(--text-primary);
+    background: var(--surface);
+}
+.drawer-model-chip svg {
+    width: 14px;
+    height: 14px;
+    color: var(--green);
+}
+.drawer-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .templates-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 768px) {
+    .templates-body {
+        padding: 16px 16px 32px;
+    }
+    .page-header {
+        padding: 68px 16px 0;
+    }
+    .templates-grid {
+        grid-template-columns: 1fr;
+    }
+    .filters-row {
+        gap: 6px;
+    }
+    .filter-sep {
+        display: none;
+    }
+    .chip {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Burger -->
+<button class="burger" id="burger" onclick="toggleSidebar()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+</button>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="1" y="1" width="12" height="12" rx="3" fill="#7C3AED"/>
+            <rect x="15" y="1" width="12" height="12" rx="3" fill="#7C3AED"/>
+            <rect x="1" y="15" width="12" height="12" rx="3" fill="#7C3AED"/>
+            <rect x="15" y="15" width="12" height="12" rx="3" fill="#7C3AED"/>
+        </svg>
+        <span>NeuroGate</span>
+    </div>
+    <nav class="sidebar-nav">
+        <a class="nav-item" href="index.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/><circle cx="12" cy="12" r="3"/></svg>
+            Создать
+        </a>
+        <a class="nav-item active" href="templates.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Шаблоны
+        </a>
+        <a class="nav-item" href="library.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Библиотека
+        </a>
+        <a class="nav-item" href="models.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+            Модели
+        </a>
+    </nav>
+    <div class="sidebar-sep"></div>
+    <div style="padding: 0 8px 8px; display: flex; flex-direction: column; gap: 2px;">
+        <a class="nav-item" href="billing.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Баланс
+        </a>
+        <a class="nav-item" href="settings.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Настройки
+        </a>
+    </div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user">
+            <div class="user-avatar">М</div>
+            <div class="user-info">
+                <div class="user-name">Макс</div>
+                <span class="user-plan">Бизнес</span>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="page-header">
+        <h1 class="page-title">Шаблоны</h1>
+        <p class="page-subtitle">Готовые промпты для быстрого старта</p>
+    </div>
+
+    <div class="templates-body">
+        <!-- Search -->
+        <div class="templates-search search-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input class="input" type="text" id="searchInput" placeholder="Поиск шаблонов..." oninput="filterTemplates()">
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-row">
+            <div class="filter-group" id="categoryFilters">
+                <button class="chip active" data-category="all" onclick="setCategory(this)">Все</button>
+                <button class="chip" data-category="Написание" onclick="setCategory(this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    Написание
+                </button>
+                <button class="chip" data-category="Маркетинг" onclick="setCategory(this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    Маркетинг
+                </button>
+                <button class="chip" data-category="Код" onclick="setCategory(this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    Код
+                </button>
+                <button class="chip" data-category="Бизнес" onclick="setCategory(this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    Бизнес
+                </button>
+                <button class="chip" data-category="Креатив" onclick="setCategory(this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"/><circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"/><circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"/><circle cx="6.5" cy="12.5" r="0.5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                    Креатив
+                </button>
+            </div>
+            <div class="filter-sep"></div>
+            <div class="filter-group" id="typeFilters">
+                <button class="chip active" data-type="all" onclick="setType(this)">Все типы</button>
+                <button class="chip" data-type="text" onclick="setType(this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    Текст
+                </button>
+                <button class="chip" data-type="image" onclick="setType(this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    Изображения
+                </button>
+                <button class="chip" data-type="video" onclick="setType(this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                    Видео
+                </button>
+            </div>
+        </div>
+
+        <!-- Templates Grid -->
+        <div class="templates-grid" id="templatesGrid"></div>
+
+        <!-- Empty state -->
+        <div class="templates-empty" id="emptyState" style="display:none;">
+            <div class="templates-empty-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+            </div>
+            <h3>Ничего не найдено</h3>
+            <p>Попробуйте изменить запрос или сбросить фильтры</p>
+        </div>
+    </div>
+</div>
+
+<!-- Drawer Backdrop -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+
+<!-- Drawer -->
+<div class="drawer" id="drawer">
+    <div class="drawer-header">
+        <h2 class="drawer-title" id="drawerTitle"></h2>
+        <button class="drawer-close" onclick="closeDrawer()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+    </div>
+    <div class="drawer-body">
+        <div class="drawer-tags" id="drawerTags"></div>
+
+        <div class="drawer-section">
+            <div class="drawer-section-title">Промпт</div>
+            <div class="drawer-prompt-box" id="drawerPrompt"></div>
+        </div>
+
+        <div class="drawer-section">
+            <div class="drawer-section-title">Пример результата</div>
+            <div class="drawer-preview">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                Предпросмотр результата
+            </div>
+        </div>
+
+        <div class="drawer-section">
+            <div class="drawer-section-title">Совместимые модели</div>
+            <div class="drawer-models-list" id="drawerModels"></div>
+        </div>
+    </div>
+    <div class="drawer-footer">
+        <button class="btn-primary" style="width:100%; padding: 12px 20px;" id="drawerUseBtn" onclick="useTemplate()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+            </svg>
+            Использовать шаблон
+        </button>
+    </div>
+</div>
+
+<!-- Mobile Bottom Bar -->
+<div class="mobile-bar">
+    <div class="mobile-bar-inner">
+        <a class="mobile-tab" href="index.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/><circle cx="12" cy="12" r="3"/></svg>
+            Создать
+        </a>
+        <a class="mobile-tab active" href="templates.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Шаблоны
+        </a>
+        <a class="mobile-tab" href="library.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Библиотека
+        </a>
+        <a class="mobile-tab" href="settings.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Настройки
+        </a>
+    </div>
+</div>
+
+<script>
+/* ===== Template Data ===== */
+var templates = [
+    { title: 'Instagram-пост', category: 'Маркетинг', type: 'text', desc: 'Продающий пост для Instagram с хештегами', prompt: 'Напиши пост для Instagram о {тема}. Добавь эмоции, призыв к действию и 5-10 релевантных хештегов. Тон: дружелюбный и вовлекающий.', models: ['GPT-5', 'Claude Opus 4'] },
+    { title: 'SEO-статья', category: 'Написание', type: 'text', desc: 'Оптимизированная статья для блога', prompt: 'Напиши SEO-оптимизированную статью на тему {тема}. Структура: H1, H2, H3. Длина: 1500-2000 слов. Ключевые слова: {ключевые слова}.', models: ['GPT-5', 'Claude Opus 4'] },
+    { title: 'Логотип', category: 'Креатив', type: 'image', desc: 'Минималистичный логотип для бренда', prompt: 'Минималистичный логотип для {бренд}, {стиль}. Чистый фон, простые формы, современный дизайн.', models: ['Midjourney v6', 'DALL-E 3'] },
+    { title: 'Продуктовое фото', category: 'Маркетинг', type: 'image', desc: 'Студийное фото товара для маркетплейса', prompt: 'Студийное фото {продукт} на белом фоне, мягкий свет, коммерческая фотография, высокое разрешение.', models: ['GPT Image 1.5', 'Midjourney v6'] },
+    { title: 'Рекламный ролик', category: 'Маркетинг', type: 'video', desc: 'Короткий видеоролик для рекламы', prompt: 'Рекламное видео {продукт}: динамичные ракурсы, профессиональная съёмка, {стиль}. 4 секунды.', models: ['Sora', 'Runway Gen-3'] },
+    { title: 'Деловое письмо', category: 'Бизнес', type: 'text', desc: 'Профессиональное деловое письмо', prompt: 'Напиши деловое письмо от {компания} к {получатель} по теме {тема}. Тон: формальный, уважительный.', models: ['GPT-5', 'Claude Opus 4'] },
+    { title: 'JavaScript функция', category: 'Код', type: 'text', desc: 'Чистая функция с типами и тестами', prompt: 'Напиши функцию на JavaScript/TypeScript: {описание}. Добавь JSDoc, обработку ошибок и unit-тесты.', models: ['Claude Opus 4', 'GPT-5'] },
+    { title: 'Обложка YouTube', category: 'Креатив', type: 'image', desc: 'Яркая обложка для YouTube видео', prompt: 'Обложка для YouTube видео на тему {тема}, яркие цвета, крупный текст {текст}, 16:9.', models: ['Midjourney v6', 'DALL-E 3'] },
+    { title: 'Контент-план', category: 'Маркетинг', type: 'text', desc: 'План публикаций на месяц', prompt: 'Составь контент-план на месяц для {бренд} в {платформа}. 3-4 поста в неделю. Темы: {темы}. Формат: таблица с датой, темой, форматом.', models: ['GPT-5', 'Claude Opus 4'] },
+    { title: 'Анимация логотипа', category: 'Креатив', type: 'video', desc: 'Плавная анимация появления логотипа', prompt: 'Плавная анимация появления логотипа {бренд}, минималистичный стиль, тёмный фон, {цвет}. 4 секунды.', models: ['Sora', 'Kling v2'] },
+    { title: 'Описание товара', category: 'Написание', type: 'text', desc: 'Продающее описание для карточки товара', prompt: 'Напиши описание товара для маркетплейса: {товар}. Характеристики: {характеристики}. Выдели преимущества, добавь эмоции.', models: ['GPT-5', 'Claude Sonnet 4'] },
+    { title: 'Иллюстрация для блога', category: 'Креатив', type: 'image', desc: 'Абстрактная иллюстрация к статье', prompt: 'Абстрактная иллюстрация для статьи о {тема}, пастельные тона, минимализм, плоский дизайн.', models: ['Midjourney v6', 'Stable Diffusion XL'] }
+];
+
+/* ===== State ===== */
+var activeCategory = 'all';
+var activeType = 'all';
+var favorites = JSON.parse(localStorage.getItem('ng_tpl_favs') || '[]');
+var currentDrawerIndex = -1;
+
+/* ===== Type Labels ===== */
+var typeLabels = { text: 'Текст', image: 'Изображение', video: 'Видео' };
+
+/* ===== Type Icons (inline SVG) ===== */
+function typeIconSvg(type) {
+    if (type === 'text') return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
+    if (type === 'image') return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>';
+    if (type === 'video') return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>';
+    return '';
+}
+
+/* ===== Render ===== */
+function renderTemplates() {
+    var grid = document.getElementById('templatesGrid');
+    var empty = document.getElementById('emptyState');
+    var query = document.getElementById('searchInput').value.toLowerCase().trim();
+
+    var filtered = templates.filter(function(t) {
+        var matchCategory = activeCategory === 'all' || t.category === activeCategory;
+        var matchType = activeType === 'all' || t.type === activeType;
+        var matchSearch = !query || t.title.toLowerCase().indexOf(query) !== -1 || t.desc.toLowerCase().indexOf(query) !== -1 || t.category.toLowerCase().indexOf(query) !== -1;
+        return matchCategory && matchType && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+    }
+
+    empty.style.display = 'none';
+    var html = '';
+    for (var i = 0; i < filtered.length; i++) {
+        var t = filtered[i];
+        var origIdx = templates.indexOf(t);
+        var isFav = favorites.indexOf(origIdx) !== -1;
+        html += '<div class="tpl-card" data-index="' + origIdx + '" onclick="openDrawer(' + origIdx + ')" style="animation-delay:' + (i * 0.04) + 's">';
+        html += '<div class="tpl-card-top">';
+        html += '<div class="tpl-tags">';
+        html += '<span class="tpl-tag tpl-tag--category">' + t.category + '</span>';
+        html += '<span class="tpl-tag tpl-tag--type">' + typeIconSvg(t.type) + ' ' + typeLabels[t.type] + '</span>';
+        html += '</div>';
+        html += '<button class="tpl-fav' + (isFav ? ' liked' : '') + '" onclick="toggleFav(event, ' + origIdx + ')" title="В избранное">';
+        html += '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+        html += '</button>';
+        html += '</div>';
+        html += '<div class="tpl-title">' + t.title + '</div>';
+        html += '<div class="tpl-desc">' + t.desc + '</div>';
+        html += '<div class="tpl-card-footer">';
+        html += '<div class="tpl-models"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg> ' + t.models[0] + '</div>';
+        html += '<button class="tpl-use-btn" onclick="useFromCard(event, ' + origIdx + ')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Использовать</button>';
+        html += '</div>';
+        html += '</div>';
+    }
+    grid.innerHTML = html;
+}
+
+/* ===== Filters ===== */
+function setCategory(el) {
+    activeCategory = el.getAttribute('data-category');
+    var chips = document.querySelectorAll('#categoryFilters .chip');
+    for (var i = 0; i < chips.length; i++) chips[i].classList.remove('active');
+    el.classList.add('active');
+    filterTemplates();
+}
+
+function setType(el) {
+    activeType = el.getAttribute('data-type');
+    var chips = document.querySelectorAll('#typeFilters .chip');
+    for (var i = 0; i < chips.length; i++) chips[i].classList.remove('active');
+    el.classList.add('active');
+    filterTemplates();
+}
+
+function filterTemplates() {
+    renderTemplates();
+}
+
+/* ===== Favorites ===== */
+function toggleFav(e, idx) {
+    e.stopPropagation();
+    var pos = favorites.indexOf(idx);
+    if (pos !== -1) {
+        favorites.splice(pos, 1);
+    } else {
+        favorites.push(idx);
+    }
+    localStorage.setItem('ng_tpl_favs', JSON.stringify(favorites));
+    renderTemplates();
+}
+
+/* ===== Drawer ===== */
+function openDrawer(idx) {
+    currentDrawerIndex = idx;
+    var t = templates[idx];
+    document.getElementById('drawerTitle').textContent = t.title;
+
+    // Tags
+    var tagsHtml = '<span class="tpl-tag tpl-tag--category">' + t.category + '</span>';
+    tagsHtml += '<span class="tpl-tag tpl-tag--type">' + typeIconSvg(t.type) + ' ' + typeLabels[t.type] + '</span>';
+    document.getElementById('drawerTags').innerHTML = tagsHtml;
+
+    // Prompt with highlighted variables
+    var promptHtml = t.prompt.replace(/\{([^}]+)\}/g, '<span class="var-highlight">{$1}</span>');
+    document.getElementById('drawerPrompt').innerHTML = promptHtml;
+
+    // Models
+    var modelsHtml = '';
+    for (var i = 0; i < t.models.length; i++) {
+        modelsHtml += '<div class="drawer-model-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> ' + t.models[i] + '</div>';
+    }
+    document.getElementById('drawerModels').innerHTML = modelsHtml;
+
+    document.getElementById('drawerBackdrop').classList.add('show');
+    document.getElementById('drawer').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer() {
+    document.getElementById('drawerBackdrop').classList.remove('show');
+    document.getElementById('drawer').classList.remove('open');
+    document.body.style.overflow = '';
+    currentDrawerIndex = -1;
+}
+
+function useTemplate() {
+    if (currentDrawerIndex >= 0) {
+        var t = templates[currentDrawerIndex];
+        // Store prompt for the Create page to pick up
+        try { sessionStorage.setItem('ng_tpl_prompt', t.prompt); } catch(e) {}
+        window.location.href = 'index.html';
+    }
+}
+
+function useFromCard(e, idx) {
+    e.stopPropagation();
+    var t = templates[idx];
+    try { sessionStorage.setItem('ng_tpl_prompt', t.prompt); } catch(e) {}
+    window.location.href = 'index.html';
+}
+
+/* ===== Sidebar toggle ===== */
+function toggleSidebar() {
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+}
+
+/* ===== Keyboard ===== */
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        if (document.getElementById('drawer').classList.contains('open')) {
+            closeDrawer();
+        }
+    }
+});
+
+/* ===== Init ===== */
+renderTemplates();
+</script>
+</body>
+</html>

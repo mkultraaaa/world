@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Библиотека — NeuroGate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ===== Library Page Styles ===== */
+
+/* Sub-tabs */
+.lib-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 24px 32px 0;
+    border-bottom: 1px solid var(--border);
+}
+.lib-tab {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color var(--transition), border-color var(--transition);
+    margin-bottom: -1px;
+}
+.lib-tab:hover {
+    color: var(--text-primary);
+}
+.lib-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.lib-panel {
+    display: none;
+    padding: 24px 32px 32px;
+    animation: fadeIn 0.25s ease;
+}
+.lib-panel.active {
+    display: block;
+}
+
+/* ===== History Tab ===== */
+.history-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.history-toolbar .search-wrap {
+    flex: 1;
+    max-width: 400px;
+}
+
+.history-list {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: background var(--transition);
+}
+.history-item:last-child {
+    border-bottom: none;
+}
+.history-item:hover {
+    background: var(--accent-50);
+}
+
+.history-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--text-secondary);
+}
+
+.history-prompt {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.history-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.model-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.history-time {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: right;
+}
+
+.history-arrow {
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+}
+
+/* ===== Generations Tab ===== */
+.gen-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.gen-filters {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    flex-wrap: wrap;
+}
+.gen-count {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.gen-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.gen-card {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: box-shadow var(--transition), border-color var(--transition), transform 0.2s ease;
+}
+.gen-card:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
+    transform: translateY(-2px);
+}
+
+.gen-card-bg {
+    width: 100%;
+    height: 100%;
+}
+
+.gen-card-fav {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-tertiary);
+    z-index: 2;
+}
+.gen-card-fav.is-fav {
+    color: #EF4444;
+}
+
+.gen-card-type {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 3px 8px;
+    border-radius: var(--radius-pill);
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(4px);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.gen-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 14px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 1;
+}
+.gen-card:hover .gen-overlay {
+    opacity: 1;
+}
+
+.gen-overlay-prompt {
+    font-size: 12px;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.4;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.gen-overlay-actions {
+    display: flex;
+    gap: 6px;
+}
+.gen-overlay-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    transition: background var(--transition);
+}
+.gen-overlay-btn:hover {
+    background: rgba(255,255,255,0.35);
+}
+
+/* ===== Placeholder backgrounds for mock images ===== */
+.grad-1 { background: #F8F9FC; }
+.grad-2 { background: #F1F3F9; }
+.grad-3 { background: #FAFBFD; }
+.grad-4 { background: #F5F3FF; }
+.grad-5 { background: #F8F9FC; }
+.grad-6 { background: #F1F3F9; }
+.grad-7 { background: #FAFBFD; }
+.grad-8 { background: #F5F3FF; }
+.grad-9 { background: #F8F9FC; }
+.grad-10 { background: #F1F3F9; }
+.grad-11 { background: #FAFBFD; }
+.grad-12 { background: #F5F3FF; }
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .gen-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .lib-tabs {
+        padding: 16px 16px 0;
+    }
+    .lib-panel {
+        padding: 16px 16px 24px;
+    }
+    .gen-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    .history-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .history-toolbar .search-wrap {
+        max-width: none;
+    }
+    .history-meta {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+    }
+    .history-time {
+        min-width: auto;
+    }
+    .page-header {
+        padding: 60px 16px 0;
+    }
+    .gen-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .gen-count {
+        margin-left: 0;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Burger -->
+<button class="burger" id="burger" onclick="toggleSidebar()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+</button>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="1" y="1" width="12" height="12" rx="3" fill="#7C3AED"/>
+            <rect x="15" y="1" width="12" height="12" rx="3" fill="#7C3AED"/>
+            <rect x="1" y="15" width="12" height="12" rx="3" fill="#7C3AED"/>
+            <rect x="15" y="15" width="12" height="12" rx="3" fill="#7C3AED"/>
+        </svg>
+        <span>NeuroGate</span>
+    </div>
+    <nav class="sidebar-nav">
+        <a class="nav-item" href="index.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/><circle cx="12" cy="12" r="3"/></svg>
+            Создать
+        </a>
+        <a class="nav-item" href="templates.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Шаблоны
+        </a>
+        <a class="nav-item active" href="library.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Библиотека
+        </a>
+        <a class="nav-item" href="models.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+            Модели
+        </a>
+    </nav>
+    <div class="sidebar-sep"></div>
+    <div style="padding: 0 8px 8px; display: flex; flex-direction: column; gap: 2px;">
+        <a class="nav-item" href="billing.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Баланс
+        </a>
+        <a class="nav-item" href="settings.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Настройки
+        </a>
+    </div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user">
+            <div class="user-avatar">М</div>
+            <div class="user-info">
+                <div class="user-name">Макс</div>
+                <span class="user-plan">Бизнес</span>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- Main -->
+<main class="main-content">
+    <div class="page-header">
+        <h1 class="page-title">Библиотека</h1>
+        <p class="page-subtitle">История запросов и сохраненные генерации</p>
+    </div>
+
+    <!-- Sub-tabs -->
+    <div class="lib-tabs">
+        <button class="lib-tab active" data-tab="history" onclick="switchTab('history')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 6px;">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            История
+        </button>
+        <button class="lib-tab" data-tab="generations" onclick="switchTab('generations')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 6px;">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            Генерации
+        </button>
+    </div>
+
+    <!-- History Panel -->
+    <div class="lib-panel active" id="panel-history">
+        <div class="history-toolbar">
+            <div class="search-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input class="input" type="text" placeholder="Поиск по истории..." id="historySearch" oninput="filterHistory()">
+            </div>
+            <button class="btn-ghost" onclick="clearHistory()" style="color: var(--red);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+                Очистить
+            </button>
+        </div>
+        <div class="history-list" id="historyList"></div>
+    </div>
+
+    <!-- Generations Panel -->
+    <div class="lib-panel" id="panel-generations">
+        <div class="gen-toolbar">
+            <div class="gen-filters">
+                <button class="chip active" data-filter="all" onclick="filterGen('all', this)">Все</button>
+                <button class="chip" data-filter="image" onclick="filterGen('image', this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    Изображения
+                </button>
+                <button class="chip" data-filter="video" onclick="filterGen('video', this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                    Видео
+                </button>
+                <button class="chip" data-filter="fav" onclick="filterGen('fav', this)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                    Избранное
+                </button>
+            </div>
+            <span class="gen-count" id="genCount">12 элементов</span>
+        </div>
+        <div class="gen-grid" id="genGrid"></div>
+    </div>
+</main>
+
+<!-- Mobile Bottom Bar -->
+<nav class="mobile-bar">
+    <div class="mobile-bar-inner">
+        <a class="mobile-tab" href="index.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/><circle cx="12" cy="12" r="3"/></svg>
+            Создать
+        </a>
+        <a class="mobile-tab" href="templates.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Шаблоны
+        </a>
+        <a class="mobile-tab active" href="library.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Библиотека
+        </a>
+        <a class="mobile-tab" href="settings.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Настройки
+        </a>
+    </div>
+</nav>
+
+<script>
+/* ===== Data ===== */
+var historyItems = [
+    { type: 'text', prompt: 'Напиши пост для Instagram о запуске нового продукта', model: 'GPT-5', time: '2ч назад' },
+    { type: 'image', prompt: 'Футуристический город на закате, неоновые огни', model: 'Midjourney v6', time: '3ч назад' },
+    { type: 'text', prompt: 'Деловое письмо партнёру о начале сотрудничества', model: 'Claude Opus 4', time: '5ч назад' },
+    { type: 'video', prompt: 'Плавный полёт камеры над облаками на рассвете', model: 'Sora', time: 'Вчера' },
+    { type: 'image', prompt: 'Минималистичный логотип для tech-стартапа', model: 'DALL-E 3', time: 'Вчера' },
+    { type: 'text', prompt: 'Анализ конкурентов для маркетплейса электроники', model: 'GPT-5', time: 'Вчера' },
+    { type: 'image', prompt: 'Уютная кофейня в дождливый день, акварель', model: 'Midjourney v6', time: '2 дня назад' },
+    { type: 'text', prompt: 'JavaScript функция для сортировки массива объектов', model: 'Claude Opus 4', time: '2 дня назад' },
+    { type: 'video', prompt: 'Рекламное видео наушников на белом фоне', model: 'Runway Gen-3', time: '3 дня назад' },
+    { type: 'image', prompt: 'Космический пейзаж с кольцами Сатурна', model: 'Stable Diffusion XL', time: '3 дня назад' }
+];
+
+var generationItems = [
+    { type: 'image', prompt: 'Футуристический город на закате', model: 'Midjourney v6', grad: 'grad-1', fav: true },
+    { type: 'image', prompt: 'Минималистичный логотип для tech-стартапа', model: 'DALL-E 3', grad: 'grad-2', fav: false },
+    { type: 'video', prompt: 'Плавный полёт камеры над облаками', model: 'Sora', grad: 'grad-3', fav: false },
+    { type: 'image', prompt: 'Уютная кофейня в дождливый день, акварель', model: 'Midjourney v6', grad: 'grad-4', fav: true },
+    { type: 'image', prompt: 'Космический пейзаж с кольцами Сатурна', model: 'Stable Diffusion XL', grad: 'grad-5', fav: false },
+    { type: 'video', prompt: 'Рекламное видео наушников на белом фоне', model: 'Runway Gen-3', grad: 'grad-6', fav: true },
+    { type: 'image', prompt: 'Портрет кота в стиле Ренессанс', model: 'Midjourney v6', grad: 'grad-7', fav: false },
+    { type: 'image', prompt: 'Абстрактная геометрия в фиолетовых тонах', model: 'DALL-E 3', grad: 'grad-8', fav: false },
+    { type: 'video', prompt: 'Таймлапс заката над горами', model: 'Sora', grad: 'grad-9', fav: false },
+    { type: 'image', prompt: 'Неоновые вывески в ночном Токио', model: 'Stable Diffusion XL', grad: 'grad-10', fav: true },
+    { type: 'image', prompt: 'Подводный мир с коралловыми рифами', model: 'Midjourney v6', grad: 'grad-11', fav: false },
+    { type: 'image', prompt: 'Минималистичный интерьер в скандинавском стиле', model: 'DALL-E 3', grad: 'grad-12', fav: false }
+];
+
+/* ===== SVG Icons ===== */
+var typeIcons = {
+    text: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+    image: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
+    video: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>'
+};
+
+var typeLabels = {
+    image: 'Изображение',
+    video: 'Видео'
+};
+
+/* ===== Render History ===== */
+function renderHistory(items) {
+    var list = document.getElementById('historyList');
+    if (items.length === 0) {
+        list.innerHTML = '<div style="padding: 40px; text-align: center; color: var(--text-tertiary);">Ничего не найдено</div>';
+        return;
+    }
+    var html = '';
+    for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        html += '<div class="history-item" onclick="openHistoryItem(' + i + ')">';
+        html += '  <div class="history-icon ' + item.type + '">' + typeIcons[item.type] + '</div>';
+        html += '  <div class="history-prompt">' + escapeHtml(item.prompt) + '</div>';
+        html += '  <div class="history-meta">';
+        html += '    <span class="model-pill">' + escapeHtml(item.model) + '</span>';
+        html += '    <span class="history-time">' + item.time + '</span>';
+        html += '  </div>';
+        html += '  <div class="history-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>';
+        html += '</div>';
+    }
+    list.innerHTML = html;
+}
+
+/* ===== Render Generations ===== */
+function renderGenerations(items) {
+    var grid = document.getElementById('genGrid');
+    var count = document.getElementById('genCount');
+    count.textContent = items.length + ' ' + pluralize(items.length, 'элемент', 'элемента', 'элементов');
+    if (items.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1 / -1; padding: 60px; text-align: center; color: var(--text-tertiary);">Нет генераций</div>';
+        return;
+    }
+    var html = '';
+    for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        html += '<div class="gen-card" data-type="' + item.type + '" data-fav="' + item.fav + '">';
+        html += '  <div class="gen-card-bg ' + item.grad + '"></div>';
+
+        /* Type badge */
+        html += '  <div class="gen-card-type">';
+        if (item.type === 'video') {
+            html += '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+        }
+        html += typeLabels[item.type] || '';
+        html += '  </div>';
+
+        /* Favorite badge */
+        html += '  <div class="gen-card-fav' + (item.fav ? ' is-fav' : '') + '" onclick="event.stopPropagation(); toggleFav(this)">';
+        if (item.fav) {
+            html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+        } else {
+            html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+        }
+        html += '  </div>';
+
+        /* Hover overlay */
+        html += '  <div class="gen-overlay">';
+        html += '    <div class="gen-overlay-prompt">' + escapeHtml(item.prompt) + '</div>';
+        html += '    <div class="gen-overlay-actions">';
+        html += '      <button class="gen-overlay-btn" title="Скачать"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>';
+        html += '      <button class="gen-overlay-btn" title="Копировать"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>';
+        html += '      <button class="gen-overlay-btn" title="В избранное" onclick="event.stopPropagation(); toggleFav(this.closest(\'.gen-card\').querySelector(\'.gen-card-fav\'))"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>';
+        html += '      <button class="gen-overlay-btn" title="Использовать повторно"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></button>';
+        html += '    </div>';
+        html += '  </div>';
+
+        html += '</div>';
+    }
+    grid.innerHTML = html;
+}
+
+/* ===== Tab Switching ===== */
+function switchTab(tab) {
+    var tabs = document.querySelectorAll('.lib-tab');
+    var panels = document.querySelectorAll('.lib-panel');
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.toggle('active', tabs[i].getAttribute('data-tab') === tab);
+    }
+    for (var i = 0; i < panels.length; i++) {
+        panels[i].classList.toggle('active', panels[i].id === 'panel-' + tab);
+    }
+}
+
+/* ===== History Search ===== */
+function filterHistory() {
+    var query = document.getElementById('historySearch').value.toLowerCase();
+    if (!query) {
+        renderHistory(historyItems);
+        return;
+    }
+    var filtered = historyItems.filter(function(item) {
+        return item.prompt.toLowerCase().indexOf(query) !== -1 ||
+               item.model.toLowerCase().indexOf(query) !== -1;
+    });
+    renderHistory(filtered);
+}
+
+/* ===== Generation Filters ===== */
+function filterGen(filter, btn) {
+    var chips = document.querySelectorAll('.gen-filters .chip');
+    for (var i = 0; i < chips.length; i++) {
+        chips[i].classList.toggle('active', chips[i] === btn);
+    }
+    var filtered;
+    if (filter === 'all') {
+        filtered = generationItems;
+    } else if (filter === 'fav') {
+        filtered = generationItems.filter(function(item) { return item.fav; });
+    } else {
+        filtered = generationItems.filter(function(item) { return item.type === filter; });
+    }
+    renderGenerations(filtered);
+}
+
+/* ===== Toggle Favorite ===== */
+function toggleFav(el) {
+    el.classList.toggle('is-fav');
+    var isFav = el.classList.contains('is-fav');
+    if (isFav) {
+        el.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+    } else {
+        el.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+    }
+}
+
+/* ===== Placeholder actions ===== */
+function openHistoryItem(index) {
+    /* In a real app, this would open the session detail */
+}
+
+function clearHistory() {
+    if (confirm('Очистить всю историю?')) {
+        historyItems = [];
+        renderHistory([]);
+    }
+}
+
+/* ===== Sidebar Toggle ===== */
+function toggleSidebar() {
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+}
+
+/* ===== Helpers ===== */
+function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
+
+function pluralize(n, one, few, many) {
+    var mod10 = n % 10;
+    var mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return one;
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
+    return many;
+}
+
+/* ===== Init ===== */
+renderHistory(historyItems);
+renderGenerations(generationItems);
+</script>
+</body>
+</html>

@@ -1643,150 +1643,12 @@
             color: var(--gray-700);
         }
 
-        /* ===== COMPARISON ===== */
-        .comparison {
-            background: var(--gray-50);
-        }
-
-        .comparison-table-wrap {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
-
-        .comparison-table {
-            width: 100%;
-            min-width: 600px;
-            border-collapse: collapse;
-            background: white;
-            border-radius: var(--radius);
-            overflow: hidden;
-        }
-
-        .comparison-table th,
-        .comparison-table td {
-            padding: 14px 16px;
-            font-size: 14px;
-            text-align: center;
-            border-bottom: 1px solid var(--gray-100);
-        }
-
-        .comparison-table th {
-            background: var(--gray-50);
-            font-weight: 700;
-            color: var(--gray-700);
-            font-size: 13px;
-        }
-
-        .comparison-table th:first-child,
-        .comparison-table td:first-child {
-            text-align: left;
-            font-weight: 600;
-            color: var(--gray-700);
-        }
-
-        .comparison-table td:nth-child(2) {
-            background: var(--purple-bg);
-            font-weight: 600;
-            color: var(--purple);
-        }
-
-        .comparison-table th:nth-child(2) {
-            background: var(--purple);
-            color: white;
-        }
-
-        .check { color: #059669; font-weight: 700; }
-        .cross { color: #DC2626; font-weight: 700; }
-
-        /* Comparison mobile cards */
-        .comparison-cards {
-            display: none;
-        }
-
-        @media (max-width: 639px) {
-            .comparison-table-wrap {
-                display: none;
-            }
-
-            .comparison-cards {
-                display: flex;
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            .comparison-card {
-                background: white;
-                border-radius: var(--radius);
-                padding: 20px;
-                box-shadow: var(--shadow);
-            }
-
-            .comparison-card.highlight {
-                border: 2px solid var(--purple);
-                box-shadow: 0 4px 20px rgba(124,58,237,0.12);
-            }
-
-            .comparison-card-name {
-                font-size: 16px;
-                font-weight: 700;
-                color: var(--gray-900);
-                margin-bottom: 12px;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-
-            .comparison-card.highlight .comparison-card-name {
-                color: var(--purple);
-            }
-
-            .comparison-card-badge {
-                font-size: 10px;
-                font-weight: 600;
-                padding: 2px 8px;
-                background: var(--purple);
-                color: white;
-                border-radius: 100px;
-            }
-
-            .comparison-card-rows {
-                display: flex;
-                flex-direction: column;
-                gap: 0;
-            }
-
-            .comparison-card-row {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 8px 0;
-                border-bottom: 1px solid var(--gray-100);
-                font-size: 13px;
-            }
-
-            .comparison-card-row:last-child {
-                border-bottom: none;
-            }
-
-            .comparison-card-row .row-label {
-                color: var(--gray-500);
-                font-weight: 500;
-            }
-
-            .comparison-card-row .row-value {
-                font-weight: 600;
-                color: var(--gray-800);
-            }
-        }
-
         /* ===== SOCIAL PROOF ===== */
         .social-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
-            margin-bottom: 40px;
+            margin-bottom: 48px;
         }
 
         .stat-card {
@@ -1817,43 +1679,22 @@
 
         .testimonial-card {
             background: white;
-            border-radius: var(--radius);
-            padding: 24px 24px 24px 28px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
-            border-left: 4px solid var(--purple-light);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .testimonial-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.04);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
         }
 
-        .testimonial-card:nth-child(1) { border-left-color: var(--purple); }
-        .testimonial-card:nth-child(2) { border-left-color: var(--pink); }
-        .testimonial-card:nth-child(3) { border-left-color: var(--orange); }
-
-        .testimonial-stars {
-            color: #FBBF24;
-            font-size: 16px;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
-        }
-
-        .testimonial-text {
-            font-size: 14px;
-            color: var(--gray-600);
-            line-height: 1.7;
-            margin-bottom: 20px;
-            font-style: italic;
-        }
-
-        .testimonial-author {
+        .testimonial-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding-top: 16px;
-            border-top: 1px solid var(--gray-100);
+            margin-bottom: 12px;
         }
 
         .testimonial-avatar {
@@ -1867,7 +1708,6 @@
             font-weight: 700;
             font-size: 17px;
             flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .testimonial-card:nth-child(1) .testimonial-avatar {
@@ -1879,6 +1719,9 @@
         .testimonial-card:nth-child(3) .testimonial-avatar {
             background: linear-gradient(135deg, #F97316, #FBBF24);
         }
+        .testimonial-card:nth-child(4) .testimonial-avatar {
+            background: linear-gradient(135deg, #059669, #34D399);
+        }
 
         .testimonial-name {
             font-size: 14px;
@@ -1889,6 +1732,20 @@
         .testimonial-role {
             font-size: 12px;
             color: var(--gray-500);
+            font-weight: 500;
+        }
+
+        .testimonial-text {
+            font-size: 14px;
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .testimonial-badge {
+            font-size: 11px;
+            color: var(--gray-400);
             font-weight: 500;
         }
 
@@ -2412,7 +2269,7 @@
             }
 
             .stat-number {
-                font-size: 28px;
+                font-size: 24px;
             }
 
             .stat-label {
@@ -2425,7 +2282,7 @@
             }
 
             .testimonial-card {
-                padding: 20px 20px 20px 22px;
+                padding: 20px;
             }
 
             .testimonial-text {
@@ -2512,7 +2369,7 @@
             }
 
             .testimonials {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .chat-mockup-sidebar {
@@ -2599,7 +2456,7 @@
 <!-- ===== NAVBAR ===== -->
 <nav class="navbar" id="navbar">
     <div class="navbar-inner">
-        <a href="/neurogate/app/" class="logo">
+        <a href="#" class="logo">
             <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="0" y="0" width="14" height="14" rx="3.5" fill="#7C3AED"/>
                 <rect x="18" y="0" width="14" height="14" rx="3.5" fill="#7C3AED"/>
@@ -2609,16 +2466,16 @@
             NeuroGate
         </a>
         <ul class="nav-tabs">
-            <li><a href="/neurogate" class="active">Личное</a></li>
-            <li><a href="/neurogate/business">Для бизнеса</a></li>
+            <li><a href="neurogate-b2c.html" class="active">Личное</a></li>
+            <li><a href="neurogate-b2b.html">Для бизнеса</a></li>
         </ul>
         <div class="navbar-right">
             <div class="navbar-links">
                 <a href="#pricing" class="navbar-link">Тарифы</a>
-                <a href="/neurogate/app/" class="navbar-link">Войти</a>
+                <a href="#" class="navbar-link">Войти</a>
             </div>
             <div class="navbar-cta">
-                <a href="/neurogate/app/" class="btn-nav">Начать бесплатно</a>
+                <a href="#" class="btn-nav">Начать бесплатно</a>
             </div>
             <button class="mobile-menu-btn" aria-label="Меню" onclick="document.getElementById('mobile-menu').classList.toggle('open')">
                 <span></span><span></span><span></span>
@@ -2626,11 +2483,11 @@
         </div>
     </div>
     <div class="mobile-menu" id="mobile-menu">
-        <a href="/neurogate" class="active">Личное</a>
-        <a href="/neurogate/business">Для бизнеса</a>
+        <a href="neurogate-b2c.html" class="active">Личное</a>
+        <a href="neurogate-b2b.html">Для бизнеса</a>
         <a href="#pricing">Тарифы</a>
-        <a href="/neurogate/app/">Войти</a>
-        <a href="/neurogate/app/" class="btn-nav">Начать бесплатно</a>
+        <a href="#">Войти</a>
+        <a href="#" class="btn-nav">Начать бесплатно</a>
     </div>
 </nav>
 
@@ -2656,7 +2513,7 @@
                     ChatGPT, Claude, Midjourney, Sora и ещё 100+ моделей — без VPN, без иностранных карт. Начните бесплатно.
                 </p>
                 <div class="hero-buttons">
-                    <a href="/neurogate/app/" class="btn btn-glow">Попробовать бесплатно &#8594;</a>
+                    <a href="#" class="btn btn-glow">Попробовать бесплатно &#8594;</a>
                     <a href="#pricing" class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:white;border-color:rgba(255,255,255,0.3);">Узнать тарифы &#8595;</a>
                 </div>
                 <div class="hero-proof-badges">
@@ -2694,7 +2551,7 @@
                                         <div class="prompt-send"></div>
                                     </div>
                                     <div class="mockup-imggen-result">
-                                        <img src="static/neurogate-hero-pooh.png" alt="Винни-Пух и Пятачок на закате">
+                                        <img src="/static/neurogate-hero-pooh.png" alt="Винни-Пух и Пятачок на закате">
                                         <div class="mockup-imggen-label">Midjourney v6</div>
                                         <div class="mockup-imggen-status">Готово</div>
                                     </div>
@@ -2732,7 +2589,7 @@
                                         <div class="prompt-send"></div>
                                     </div>
                                     <div class="mockup-imggen-result">
-                                        <img src="static/neurogate-hero-pooh.png" alt="Винни-Пух и Пятачок на закате">
+                                        <img src="/static/neurogate-hero-pooh.png" alt="Винни-Пух и Пятачок на закате">
                                         <div class="mockup-imggen-label">Midjourney v6</div>
                                         <div class="mockup-imggen-status">Готово</div>
                                     </div>
@@ -3028,7 +2885,7 @@
             </div>
         </div>
         <div style="text-align:center;">
-            <a href="/neurogate/app/" class="btn btn-primary btn-lg">Начать бесплатно &#8594;</a>
+            <a href="#" class="btn btn-primary btn-lg">Начать бесплатно &#8594;</a>
         </div>
     </div>
 </section>
@@ -3051,7 +2908,7 @@
                     <li class="disabled">Видео-генерация</li>
                     <li class="disabled">Приоритетная очередь</li>
                 </ul>
-                <a href="/neurogate/app/" class="btn btn-outline">Начать бесплатно</a>
+                <a href="#" class="btn btn-outline">Начать бесплатно</a>
             </div>
             <!-- START -->
             <div class="price-card popular">
@@ -3066,7 +2923,7 @@
                     <li>10 видео в месяц</li>
                     <li class="disabled">Приоритетная очередь</li>
                 </ul>
-                <a href="/neurogate/app/" class="btn btn-primary">Выбрать Старт</a>
+                <a href="#" class="btn btn-primary">Выбрать Старт</a>
             </div>
             <!-- PRO -->
             <div class="price-card">
@@ -3080,133 +2937,10 @@
                     <li>50 видео в месяц</li>
                     <li>Приоритетная очередь</li>
                 </ul>
-                <a href="/neurogate/app/" class="btn btn-outline">Выбрать Про</a>
+                <a href="#" class="btn btn-outline">Выбрать Про</a>
             </div>
         </div>
         <p class="pricing-note">&#128179; Оплата <strong>СБП</strong>, картой любого банка. Можно пополнять баланс без подписки.</p>
-    </div>
-</section>
-
-<!-- ===== COMPARISON ===== -->
-<section class="comparison" id="comparison">
-    <div class="container">
-        <h2 class="section-title">Почему NeuroGate, <em>а не...</em></h2>
-        <p class="section-subtitle">Честное сравнение с альтернативами</p>
-        <div class="comparison-table-wrap">
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>NeuroGate</th>
-                        <th>ChadGPT</th>
-                        <th>GPTunnel</th>
-                        <th>ChatGPT напрямую</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Моделей</td>
-                        <td>100+</td>
-                        <td>55</td>
-                        <td>100+</td>
-                        <td>Только OpenAI</td>
-                    </tr>
-                    <tr>
-                        <td>Оплата в рублях</td>
-                        <td><span class="check">&#10003; СБП</span></td>
-                        <td><span class="check">&#10003;</span></td>
-                        <td><span class="check">&#10003;</span></td>
-                        <td><span class="cross">&#10007;</span></td>
-                    </tr>
-                    <tr>
-                        <td>Без VPN</td>
-                        <td><span class="check">&#10003;</span></td>
-                        <td><span class="check">&#10003;</span></td>
-                        <td><span class="check">&#10003;</span></td>
-                        <td><span class="cross">&#10007;</span></td>
-                    </tr>
-                    <tr>
-                        <td>Бесплатный тариф</td>
-                        <td><span class="check">&#10003;</span></td>
-                        <td>триал</td>
-                        <td><span class="cross">&#10007;</span></td>
-                        <td><span class="cross">&#10007;</span></td>
-                    </tr>
-                    <tr>
-                        <td>Видео-генерация</td>
-                        <td><span class="check">&#10003;</span></td>
-                        <td><span class="check">&#10003;</span></td>
-                        <td><span class="cross">&#10007;</span></td>
-                        <td>дорого</td>
-                    </tr>
-                    <tr>
-                        <td>API для разработчиков</td>
-                        <td><span class="check">&#10003;</span></td>
-                        <td><span class="cross">&#10007;</span></td>
-                        <td><span class="check">&#10003;</span></td>
-                        <td><span class="check">&#10003;</span></td>
-                    </tr>
-                    <tr>
-                        <td>Цена от</td>
-                        <td><strong>290&#8381;</strong></td>
-                        <td>290&#8381;</td>
-                        <td>~500&#8381;</td>
-                        <td>$20 (~2000&#8381;)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <!-- Mobile comparison cards -->
-        <div class="comparison-cards">
-            <div class="comparison-card highlight">
-                <div class="comparison-card-name">NeuroGate <span class="comparison-card-badge">Наш выбор</span></div>
-                <div class="comparison-card-rows">
-                    <div class="comparison-card-row"><span class="row-label">Моделей</span><span class="row-value" style="color:var(--purple);">100+</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Оплата в рублях</span><span class="row-value check">&#10003; СБП</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Без VPN</span><span class="row-value check">&#10003;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Бесплатный тариф</span><span class="row-value check">&#10003;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Видео-генерация</span><span class="row-value check">&#10003;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">API</span><span class="row-value check">&#10003;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Цена от</span><span class="row-value" style="color:var(--purple);font-weight:800;">290&#8381;</span></div>
-                </div>
-            </div>
-            <div class="comparison-card">
-                <div class="comparison-card-name">ChadGPT</div>
-                <div class="comparison-card-rows">
-                    <div class="comparison-card-row"><span class="row-label">Моделей</span><span class="row-value">55</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Оплата в рублях</span><span class="row-value check">&#10003;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Без VPN</span><span class="row-value check">&#10003;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Бесплатный тариф</span><span class="row-value" style="color:var(--gray-500);">триал</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Видео-генерация</span><span class="row-value check">&#10003;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">API</span><span class="row-value cross">&#10007;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Цена от</span><span class="row-value">290&#8381;</span></div>
-                </div>
-            </div>
-            <div class="comparison-card">
-                <div class="comparison-card-name">GPTunnel</div>
-                <div class="comparison-card-rows">
-                    <div class="comparison-card-row"><span class="row-label">Моделей</span><span class="row-value">100+</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Оплата в рублях</span><span class="row-value check">&#10003;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Без VPN</span><span class="row-value check">&#10003;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Бесплатный тариф</span><span class="row-value cross">&#10007;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Видео-генерация</span><span class="row-value cross">&#10007;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">API</span><span class="row-value check">&#10003;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Цена от</span><span class="row-value">~500&#8381;</span></div>
-                </div>
-            </div>
-            <div class="comparison-card">
-                <div class="comparison-card-name">ChatGPT напрямую</div>
-                <div class="comparison-card-rows">
-                    <div class="comparison-card-row"><span class="row-label">Моделей</span><span class="row-value">Только OpenAI</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Оплата в рублях</span><span class="row-value cross">&#10007;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Без VPN</span><span class="row-value cross">&#10007;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Бесплатный тариф</span><span class="row-value cross">&#10007;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Видео-генерация</span><span class="row-value" style="color:var(--gray-500);">дорого</span></div>
-                    <div class="comparison-card-row"><span class="row-label">API</span><span class="row-value check">&#10003;</span></div>
-                    <div class="comparison-card-row"><span class="row-label">Цена от</span><span class="row-value">$20 (~2000&#8381;)</span></div>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
@@ -3217,55 +2951,66 @@
         <p class="section-subtitle">Присоединяйтесь к тем, кто уже работает умнее</p>
         <div class="social-stats">
             <div class="stat-card">
-                <div class="stat-number">100+</div>
-                <div class="stat-label">AI-моделей</div>
+                <div class="stat-number">1,200+</div>
+                <div class="stat-label">пользователей</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">50K+</div>
+                <div class="stat-number">50,000+</div>
                 <div class="stat-label">генераций</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">4.8</div>
-                <div class="stat-label">средняя оценка</div>
+                <div class="stat-number">100+</div>
+                <div class="stat-label">моделей</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">&lt;3с</div>
-                <div class="stat-label">время ответа</div>
+                <div class="stat-number">4.8/5</div>
+                <div class="stat-label">рейтинг</div>
             </div>
         </div>
         <div class="testimonials">
             <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">&#171;Наконец-то всё в одном месте! Раньше платила за ChatGPT и Midjourney отдельно — теперь экономлю 1500&#8381; в месяц.&#187;</p>
-                <div class="testimonial-author">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">Д</div>
+                    <div>
+                        <div class="testimonial-name">Дмитрий</div>
+                        <div class="testimonial-role">студент-разработчик</div>
+                    </div>
+                </div>
+                <p class="testimonial-text">&laquo;Раньше платил $20 за ChatGPT + ещё за Midjourney отдельно. Тут всё в одном за 290&#8381;. Серьёзно, зачем платить больше?&raquo;</p>
+                <div class="testimonial-badge">бета-тестер NeuroGate</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-header">
                     <div class="testimonial-avatar">А</div>
                     <div>
-                        <div class="testimonial-name">Анна К.</div>
+                        <div class="testimonial-name">Анна</div>
                         <div class="testimonial-role">SMM-менеджер</div>
                     </div>
                 </div>
+                <p class="testimonial-text">&laquo;Веду 4 клиентов. Посты, сторис, картинки — всё через NeuroGate. Переключаюсь между Claude и GPT за секунду. Экономлю часа 2 в день.&raquo;</p>
+                <div class="testimonial-badge">бета-тестер NeuroGate</div>
             </div>
             <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">&#171;Подключили команду из 15 человек. Удобный контроль расходов, все модели доступны сразу. Оплата в рублях — огромный плюс.&#187;</p>
-                <div class="testimonial-author">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">К</div>
+                    <div>
+                        <div class="testimonial-name">Кирилл</div>
+                        <div class="testimonial-role">фрилансер-дизайнер</div>
+                    </div>
+                </div>
+                <p class="testimonial-text">&laquo;Midjourney + Flux + DALL-E в одном месте. Не нужен VPN, оплатил через СБП за минуту. Качество генераций — топ.&raquo;</p>
+                <div class="testimonial-badge">бета-тестер NeuroGate</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-header">
                     <div class="testimonial-avatar">М</div>
                     <div>
-                        <div class="testimonial-name">Максим Д.</div>
-                        <div class="testimonial-role">Руководитель маркетинга</div>
+                        <div class="testimonial-name">Мария</div>
+                        <div class="testimonial-role">копирайтер</div>
                     </div>
                 </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">&#171;Smart Router — это магия. Не думаю какую модель выбрать, система сама подбирает лучшую под задачу.&#187;</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">Д</div>
-                    <div>
-                        <div class="testimonial-name">Дмитрий В.</div>
-                        <div class="testimonial-role">Фрилансер-копирайтер</div>
-                    </div>
-                </div>
+                <p class="testimonial-text">&laquo;Перенесла все рабочие промпты в шаблоны. Теперь открываю кабинет, кликаю шаблон — и через 10 секунд текст готов.&raquo;</p>
+                <div class="testimonial-badge">бета-тестер NeuroGate</div>
             </div>
         </div>
     </div>
@@ -3340,7 +3085,7 @@
     <div class="container">
         <h2>Все нейросети мира.<br>Прямо из России.</h2>
         <p>Присоединяйтесь к тысячам пользователей, которые уже работают с AI без ограничений</p>
-        <a href="/neurogate/app/" class="btn btn-glow">Начать бесплатно &#8594;</a>
+        <a href="#" class="btn btn-glow">Начать бесплатно &#8594;</a>
         <div class="final-cta-note">Без карты · Без VPN · 20 бесплатных запросов в день</div>
     </div>
 </section>
@@ -3350,7 +3095,7 @@
     <div class="container">
         <div class="footer-grid">
             <div class="footer-brand">
-                <a href="/neurogate/app/" class="logo">
+                <a href="#" class="logo">
                     <!-- Footer logo: 4 purple squares -->
                     <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="0" y="0" width="14" height="14" rx="3.5" fill="#A78BFA"/>
@@ -3367,33 +3112,33 @@
                 <ul>
                     <li><a href="#features">Возможности</a></li>
                     <li><a href="#pricing">Тарифы</a></li>
-                    <li><a href="/neurogate/app/">API</a></li>
-                    <li><a href="/neurogate/business">Для бизнеса</a></li>
+                    <li><a href="#">API</a></li>
+                    <li><a href="#">Для бизнеса</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Поддержка</h4>
                 <ul>
                     <li><a href="#faq">FAQ</a></li>
-                    <li><a href="/neurogate/app/">Telegram</a></li>
-                    <li><a href="/neurogate/app/">Email</a></li>
-                    <li><a href="/neurogate/app/">Документация</a></li>
+                    <li><a href="#">Telegram</a></li>
+                    <li><a href="#">Email</a></li>
+                    <li><a href="#">Документация</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Компания</h4>
                 <ul>
-                    <li><a href="/neurogate/app/">О нас</a></li>
-                    <li><a href="/neurogate/app/">Блог</a></li>
-                    <li><a href="/neurogate/app/">Контакты</a></li>
-                    <li><a href="/neurogate/app/">Партнёрам</a></li>
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Блог</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Партнёрам</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
             <span>&#169; 2026 NeuroGate. Все права защищены.</span>
             <div>
-                <a href="/neurogate/app/">Политика конфиденциальности</a> · <a href="/neurogate/app/">Оферта</a>
+                <a href="#">Политика конфиденциальности</a> · <a href="#">Оферта</a>
             </div>
         </div>
     </div>

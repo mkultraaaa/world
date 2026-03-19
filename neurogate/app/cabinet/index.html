@@ -3,366 +3,1588 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NeuroGate — Главная</title>
+<title>NeuroGate — Создать</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
 <style>
-:root {
-  --purple: #7C3AED;
-  --purple-dark: #6D28D9;
-  --purple-light: #A78BFA;
-  --purple-bg: #EDE9FE;
-  --gray-50: #F9FAFB;
-  --gray-100: #F3F4F6;
-  --gray-500: #6B7280;
-  --gray-600: #4B5563;
-  --gray-900: #111827;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #F5F5F3; color: var(--gray-900); }
+/* ===== CREATE PAGE SPECIFIC ===== */
 
-/* Sidebar */
-.sidebar {
-  position: fixed; top: 0; left: 0; width: 220px; height: 100vh;
-  background: #F7F7F5; display: flex; flex-direction: column;
-  z-index: 100; transition: transform 0.3s ease;
-}
-.sidebar-logo {
-  display: flex; align-items: center; gap: 10px;
-  padding: 20px 16px 24px;
-}
-.sidebar-logo span { font-weight: 800; font-size: 16px; color: var(--gray-900); }
-.sidebar-nav { flex: 1; display: flex; flex-direction: column; padding: 0 8px; }
-.nav-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 16px; border-radius: 8px; font-size: 14px;
-  color: #666; text-decoration: none; cursor: pointer;
-  transition: background 0.15s, color 0.15s; margin-bottom: 2px;
-}
-.nav-item:hover { background: var(--gray-100); }
-.nav-item.active { background: var(--purple-bg); color: var(--purple); font-weight: 600; }
-.nav-item .icon { width: 20px; text-align: center; font-size: 16px; }
-.sidebar-bottom { padding: 8px; border-top: 1px solid var(--gray-100); }
-.sidebar-bottom .nav-item { margin-bottom: 0; }
-.sidebar-section-label {
-  font-size: 11px; color: #999; padding: 16px 16px 6px;
-  font-weight: 600; letter-spacing: 0.05em;
+/* Two-panel layout */
+.create-layout {
+    display: flex;
+    height: calc(100vh - 0px);
+    overflow: hidden;
 }
 
-/* Burger */
-.burger {
-  display: none; position: fixed; top: 12px; left: 12px; z-index: 1001;
-  background: white; border: 1px solid var(--gray-100); border-radius: 8px;
-  width: 40px; height: 40px; cursor: pointer; align-items: center; justify-content: center;
-  font-size: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-.overlay {
-  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3);
-  z-index: 99;
-}
-
-/* Main */
-.main { margin-left: 220px; min-height: 100vh; padding: 32px; }
-
-/* Section headers */
-.section-header {
-  font-size: 12px; font-weight: 700; color: #999;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  margin-bottom: 16px;
+.create-left {
+    width: 42%;
+    min-width: 380px;
+    max-width: 520px;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    padding: 28px 28px 20px;
+    overflow-y: auto;
 }
 
-/* Cards grid */
-.cards-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 20px; margin-bottom: 40px;
-}
-.card {
-  background: white; border-radius: 16px; overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  cursor: pointer; text-decoration: none; color: inherit;
-  transition: box-shadow 0.2s, transform 0.15s; display: block;
-}
-.card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
-.card-image {
-  height: 120px; display: flex; align-items: center; justify-content: center;
-  position: relative; overflow: hidden;
-}
-.card-image.text-gradient {
-  background: linear-gradient(135deg, #7C3AED, #3B82F6);
-}
-.card-image.image-gradient {
-  background: linear-gradient(135deg, #F59E0B, #10B981);
-}
-.card-image.video-gradient {
-  background: linear-gradient(135deg, #3B82F6, #14B8A6);
-}
-.card-image .card-icon {
-  font-size: 40px; color: white; opacity: 0.9;
-}
-/* Chat bubble decoration for text card */
-.chat-bubbles { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; padding: 16px; }
-.chat-bubble {
-  background: rgba(255,255,255,0.92); border-radius: 12px; padding: 8px 14px;
-  font-size: 11px; color: var(--gray-600); max-width: 85%;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-}
-.card-body { padding: 16px; }
-.card-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-.card-desc { font-size: 13px; color: var(--gray-500); margin-bottom: 12px; }
-.card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.tag {
-  background: var(--gray-100); color: #666; font-size: 11px;
-  border-radius: 100px; padding: 4px 10px; white-space: nowrap;
+.create-right {
+    flex: 1;
+    background: var(--bg-secondary);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 28px 32px;
 }
 
-/* Recent list */
-.recent-list {
-  background: white; border-radius: 12px; overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+/* Mode tabs */
+.mode-tabs {
+    display: flex;
+    gap: 4px;
+    background: #F8F9FC;
+    border-radius: 10px;
+    padding: 3px;
+    margin-bottom: 24px;
 }
-.recent-item {
-  display: flex; align-items: center; padding: 14px 20px;
-  border-bottom: 1px solid var(--gray-100); cursor: pointer;
-  text-decoration: none; color: inherit; transition: background 0.15s;
+.mode-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
 }
-.recent-item:last-child { border-bottom: none; }
-.recent-item:hover { background: var(--gray-50); }
-.recent-icon {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--gray-100); display: flex; align-items: center;
-  justify-content: center; font-size: 14px; font-weight: 600;
-  color: var(--gray-500); margin-right: 14px; flex-shrink: 0;
+.mode-tab:hover { color: var(--text-primary); }
+.mode-tab.active {
+    background: var(--surface);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
 }
-.recent-name { flex: 1; font-size: 14px; color: var(--gray-900); }
-.recent-time { font-size: 13px; color: #999; margin-right: 8px; }
-.recent-arrow { color: #ccc; font-size: 14px; }
+.mode-tab svg { width: 16px; height: 16px; }
 
-/* Responsive */
+/* Prompt area */
+.prompt-section { margin-bottom: 20px; }
+.prompt-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.prompt-textarea {
+    width: 100%;
+    min-height: 120px;
+    max-height: 200px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--surface);
+    resize: vertical;
+    outline: none;
+    font-family: var(--font);
+    transition: border-color var(--transition);
+}
+.prompt-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+.prompt-textarea::placeholder { color: var(--text-tertiary); }
+
+/* Presets */
+.presets-section { margin-bottom: 20px; }
+.presets-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.preset-chip {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+.preset-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+.preset-chip.active {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 500;
+}
+.inspire-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--accent);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+.inspire-btn:hover {
+    background: var(--accent-50);
+    border-color: var(--accent);
+}
+
+/* Model selector */
+.model-section { margin-bottom: 20px; }
+.model-section-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+.model-pill-wrap { position: relative; }
+.model-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+.model-pill:hover { border-color: var(--accent); }
+.model-pill .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+}
+.model-pill .chevron {
+    color: var(--text-tertiary);
+    font-size: 10px;
+}
+
+/* Model dropdown */
+.model-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 320px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 50;
+    padding: 8px;
+    animation: fadeIn 0.15s ease;
+}
+.model-dropdown.show { display: block; }
+.model-dropdown-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 8px 10px 4px;
+}
+.model-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--transition);
+}
+.model-dropdown-item:hover { background: var(--bg); }
+.model-dropdown-item.selected { background: var(--accent-light); }
+.model-dd-icon {
+    width: 32px; height: 32px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+}
+.model-dd-info { flex: 1; min-width: 0; }
+.model-dd-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+.model-dd-meta {
+    font-size: 12px;
+    color: var(--text-tertiary);
+}
+.model-dd-badges { display: flex; gap: 4px; flex-shrink: 0; }
+.model-dd-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+.model-dd-badge.quality { background: #DBEAFE; color: #1D4ED8; }
+.model-dd-badge.speed { background: var(--green-light); color: var(--green); }
+.model-dd-badge.price { background: #FEF3C7; color: #B45309; }
+
+.model-dropdown-search {
+    margin: 4px 4px 8px;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    width: calc(100% - 8px);
+    outline: none;
+    font-family: var(--font);
+}
+.model-dropdown-search:focus { border-color: var(--accent); }
+.model-dropdown-more {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: none;
+    background: none;
+    color: var(--accent);
+    font-size: 13px;
+    cursor: pointer;
+    text-align: center;
+    border-radius: var(--radius-sm);
+}
+.model-dropdown-more:hover { background: var(--accent-50); }
+
+/* Advanced settings */
+.advanced-section { margin-bottom: 20px; }
+.advanced-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 0;
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: color var(--transition);
+}
+.advanced-toggle:hover { color: var(--text-primary); }
+.advanced-toggle svg {
+    transition: transform 0.2s ease;
+}
+.advanced-toggle.open svg {
+    transform: rotate(180deg);
+}
+.advanced-body {
+    display: none;
+    padding: 12px 0 0;
+}
+.advanced-body.show { display: block; }
+.advanced-row {
+    margin-bottom: 16px;
+}
+.advanced-row-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+.pill-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.pill-btn {
+    padding: 7px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: var(--font);
+}
+.pill-btn:hover { border-color: var(--text-tertiary); }
+.pill-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-light);
+    font-weight: 500;
+}
+
+/* Generate button */
+.generate-section {
+    margin-top: auto;
+    padding-top: 16px;
+}
+.btn-generate {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--accent);
+    color: var(--text-inverse);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition);
+    font-family: var(--font);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.btn-generate:hover { background: var(--accent-hover); }
+.btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
+.cost-hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 8px;
+}
+
+/* ===== RIGHT PANEL ===== */
+
+/* Empty state */
+.empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+}
+.empty-state-icon {
+    width: 64px; height: 64px;
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+}
+.empty-state h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.empty-state p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 320px;
+    margin-bottom: 24px;
+}
+
+/* Example cards */
+.examples-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 420px;
+    width: 100%;
+}
+.example-card {
+    background: #F8F9FC;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.example-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent);
+}
+.example-card-icon {
+    width: 36px; height: 36px;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+}
+.example-card-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+.example-card-desc {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    line-height: 1.3;
+}
+
+/* Result area */
+.result-area { display: none; flex-direction: column; flex: 1; }
+.result-area.show { display: flex; }
+
+.result-display {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.result-image {
+    max-width: 100%;
+    max-height: 60vh;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+.result-text {
+    max-width: 640px;
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    font-size: 14px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    animation: fadeIn 0.3s ease;
+}
+.result-video {
+    max-width: 560px;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+}
+.result-video .play-overlay {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform var(--transition);
+}
+.result-video .play-overlay:hover { transform: scale(1.1); }
+
+/* Result actions */
+.result-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 0;
+    flex-wrap: wrap;
+}
+.result-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+.result-action-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+.result-action-btn svg { width: 16px; height: 16px; }
+
+/* Session timeline */
+.session-timeline {
+    border-top: 1px solid var(--border);
+    padding: 16px 0 0;
+    margin-top: auto;
+}
+.session-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+}
+.session-items { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
+.session-item {
+    width: 64px; height: 64px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color var(--transition);
+}
+.session-item:hover { border-color: var(--accent); }
+.session-item.active { border-color: var(--accent); }
+
+/* Loading state */
+.generating-state {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 16px;
+}
+.generating-state.show { display: flex; }
+.gen-spinner {
+    width: 48px; height: 48px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+.gen-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+.gen-progress {
+    width: 200px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.gen-progress-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Auto/Manual toggle */
+.model-mode-toggle {
+    display: flex;
+    gap: 2px;
+    background: #F8F9FC;
+    border-radius: 10px;
+    padding: 2px;
+    margin-bottom: 8px;
+}
+.model-mode-btn {
+    flex: 1;
+    padding: 6px 14px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: var(--font);
+}
+.model-mode-btn:hover { color: var(--text-primary); }
+.model-mode-btn.active {
+    background: var(--surface);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Auto badge */
+.auto-badge {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--green);
+    background: var(--green-light);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+}
+.auto-badge.show { display: flex; }
+.auto-badge svg { width: 14px; height: 14px; flex-shrink: 0; }
+.auto-badge-reason {
+    font-weight: 500;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+    .create-left { min-width: 320px; width: 45%; }
+}
+
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); }
-  .sidebar.open { transform: translateX(0); }
-  .burger { display: flex; }
-  .overlay.open { display: block; }
-  .main { margin-left: 0; padding: 24px 16px; padding-top: 60px; }
-  .cards-grid { grid-template-columns: 1fr; }
+    .create-layout {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+    .create-left {
+        width: 100%;
+        min-width: auto;
+        max-width: none;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 16px;
+    }
+    .create-right {
+        padding: 16px;
+        min-height: 50vh;
+    }
+    .examples-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: none;
+    }
+    .model-dropdown {
+        min-width: 280px;
+    }
 }
-@media (min-width: 769px) and (max-width: 1024px) {
-  .cards-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-
-/* --- NeuroGate Onboarding (v1) --- */
-.ng-onboard-backdrop{position:fixed;inset:0;background:rgba(17,24,39,.55);z-index:2000;display:none;}
-.ng-onboard{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,calc(100vw - 32px));background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25);z-index:2001;display:none;overflow:hidden;}
-.ng-onboard header{padding:18px 18px 10px;border-bottom:1px solid #eee;}
-.ng-onboard header h3{font-size:18px;margin:0;color:#111827;}
-.ng-onboard .body{padding:16px 18px 18px;color:#374151;font-size:14px;line-height:1.45;}
-.ng-onboard .missions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px;}
-.ng-mission{border:1px solid #E5E7EB;border-radius:12px;padding:12px 12px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;}
-.ng-mission:hover{border-color:#C4B5FD;box-shadow:0 6px 16px rgba(124,58,237,.12);}
-.ng-mission .ic{width:36px;height:36px;border-radius:10px;background:#F5F3FF;color:#7C3AED;display:flex;align-items:center;justify-content:center;font-weight:700;}
-.ng-mission .t{font-weight:700;color:#111827;margin-bottom:2px;}
-.ng-onboard footer{padding:12px 18px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;gap:10px;}
-.ng-link{color:#6B7280;text-decoration:none;font-size:13px;}
-.ng-btn{background:#7C3AED;color:#fff;border:none;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer;}
-.ng-btn:hover{background:#6D28D9;}
-
 </style>
 </head>
 <body>
 
-<!-- Burger -->
-<button class="burger" onclick="toggleSidebar()">&#9776;</button>
+<!-- Burger (mobile) -->
+<button class="burger" aria-label="Открыть меню" onclick="toggleSidebar()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-<!-- Sidebar -->
-<nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo">
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-      <rect x="1" y="1" width="11" height="11" rx="3.5" fill="#7C3AED"/>
-      <rect x="16" y="1" width="11" height="11" rx="3.5" fill="#7C3AED"/>
-      <rect x="1" y="16" width="11" height="11" rx="3.5" fill="#7C3AED"/>
-      <rect x="16" y="16" width="11" height="11" rx="3.5" fill="#7C3AED"/>
-    </svg>
-    <span>NeuroGate</span>
-  </div>
-  <div class="sidebar-nav">
-    <a class="nav-item active" href="/neurogate/app/cabinet/"><span class="icon">🏠</span> Главная</a>
-    <a class="nav-item" href="/neurogate/app/cabinet/chat.html"><span class="icon">💬</span> Чат</a>
-    <a class="nav-item" href="/neurogate/app/cabinet/images.html"><span class="icon">🖼</span> Изображения</a>
-    <a class="nav-item" href="/neurogate/app/cabinet/video.html"><span class="icon">🎬</span> Видео</a>
-    <a class="nav-item" href="/neurogate/app/cabinet/gallery.html"><span class="icon">📸</span> Галерея</a>
-    <a class="nav-item" href="/neurogate/app/cabinet/prompts.html"><span class="icon">📋</span> Промпты</a>
-    <a class="nav-item" href="/neurogate/app/cabinet/models.html"><span class="icon">🤖</span> Модели</a>
-    <div class="sidebar-section-label">История чатов</div>
-  </div>
-  <div class="sidebar-bottom">
-    <a class="nav-item" href="/neurogate/app/cabinet/settings.html"><span class="icon">⚙️</span> Настройки</a>
-  </div>
-</nav>
-
-<!-- Main content -->
-<main class="main">
-  <div class="section-header">НАЧАТЬ</div>
-
-  <div class="cards-grid">
-    <!-- Card 1: Text -->
-    <a class="card" href="/neurogate/app/cabinet/chat.html">
-      <div class="card-image text-gradient">
-        <div class="chat-bubbles">
-          <div class="chat-bubble">Как оптимизировать производительность React?</div>
-          <div class="chat-bubble">Здесь 5 ключевых стратегий...</div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Написать текст</div>
-        <div class="card-desc">Письма, посты, код, рерайт</div>
-        <div class="card-tags">
-          <span class="tag">Пост для блога</span>
-          <span class="tag">Письмо клиенту</span>
-          <span class="tag">ТЗ</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- Card 2: Image -->
-    <a class="card" href="/neurogate/app/cabinet/images.html">
-      <div class="card-image image-gradient">
-        <div class="card-icon">🖼</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Создать изображение</div>
-        <div class="card-desc">Логотипы, фото товара, стили</div>
-        <div class="card-tags">
-          <span class="tag">Фото продукта</span>
-          <span class="tag">Постер</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- Card 3: Video -->
-    <a class="card" href="/neurogate/app/cabinet/video.html">
-      <div class="card-image video-gradient">
-        <div class="card-icon">🎬</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Создать видео</div>
-        <div class="card-desc">Рекламные ролики, сторис, клипы</div>
-        <div class="card-tags">
-          <span class="tag">Реклама</span>
-          <span class="tag">Сценарий</span>
-        </div>
-      </div>
-    </a>
-  </div>
-
-  <div class="section-header">НЕДАВНЕЕ</div>
-
-  <div class="recent-list">
-    <a class="recent-item" href="/neurogate/app/cabinet/chat.html">
-      <div class="recent-icon">T</div>
-      <div class="recent-name">привет</div>
-      <div class="recent-time">20 ч</div>
-      <div class="recent-arrow">›</div>
-    </a>
-    <a class="recent-item" href="/neurogate/app/cabinet/chat.html">
-      <div class="recent-icon">T</div>
-      <div class="recent-name">Новый чат</div>
-      <div class="recent-time">22 ч</div>
-      <div class="recent-arrow">›</div>
-    </a>
-    <a class="recent-item" href="/neurogate/app/cabinet/chat.html">
-      <div class="recent-icon">T</div>
-      <div class="recent-name">роллтон</div>
-      <div class="recent-time">22 ч</div>
-      <div class="recent-arrow">›</div>
-    </a>
-    <a class="recent-item" href="/neurogate/app/cabinet/chat.html">
-      <div class="recent-icon">T</div>
-      <div class="recent-name">Новый чат</div>
-      <div class="recent-time">23 ч</div>
-      <div class="recent-arrow">›</div>
-    </a>
-    <a class="recent-item" href="/neurogate/app/cabinet/chat.html">
-      <div class="recent-icon">T</div>
-      <div class="recent-name">Создать маркетинговый план...</div>
-      <div class="recent-time">1 д</div>
-      <div class="recent-arrow">›</div>
-    </a>
-  </div>
-</main>
-
-<script>
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('overlay').classList.toggle('open');
-}
-</script>
-
-
-<div class="ng-onboard-backdrop" id="ngObBack"></div>
-<div class="ng-onboard" id="ngOb">
-  <header>
-    <h3>Быстрый старт: первая победа за 60 секунд</h3>
-  </header>
-  <div class="body">
-    Выбери, что хочешь сделать первым — я открою нужный экран и подставлю стартовый промпт.
-    <div class="missions">
-      <div class="ng-mission" data-mission="text">
-        <div class="ic">Т</div>
-        <div>
-          <div class="t">Сделать пост / текст</div>
-          <div>Открою чат и подставлю промпт.</div>
-        </div>
-      </div>
-      <div class="ng-mission" data-mission="img">
-        <div class="ic">И</div>
-        <div>
-          <div class="t">Сгенерировать картинку</div>
-          <div>Открою «Изображения» и подставлю промпт.</div>
-        </div>
-      </div>
-      <div class="ng-mission" data-mission="vid">
-        <div class="ic">В</div>
-        <div>
-          <div class="t">Сгенерировать видео</div>
-          <div>Открою «Видео» и подставлю промпт.</div>
-        </div>
-      </div>
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="1" y="1" width="12" height="12" rx="3" fill="#7C3AED"/>
+            <rect x="15" y="1" width="12" height="12" rx="3" fill="#7C3AED"/>
+            <rect x="1" y="15" width="12" height="12" rx="3" fill="#7C3AED"/>
+            <rect x="15" y="15" width="12" height="12" rx="3" fill="#7C3AED"/>
+        </svg>
+        <span>NeuroGate</span>
     </div>
-  </div>
-  <footer>
-    <a class="ng-link" href="#" id="ngObSkip">Пропустить</a>
-    <button class="ng-btn" id="ngObLater">Позже</button>
-  </footer>
+    <nav class="sidebar-nav">
+        <a class="nav-item active" href="index.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/><circle cx="12" cy="12" r="3"/></svg>
+            Создать
+        </a>
+        <a class="nav-item" href="templates.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Шаблоны
+        </a>
+        <a class="nav-item" href="library.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Библиотека
+        </a>
+        <a class="nav-item" href="models.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+            Модели
+        </a>
+    </nav>
+    <div class="sidebar-sep"></div>
+    <div style="padding: 0 8px 8px; display: flex; flex-direction: column; gap: 2px;">
+        <a class="nav-item" href="billing.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Баланс
+        </a>
+        <a class="nav-item" href="settings.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Настройки
+        </a>
+    </div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user">
+            <div class="user-avatar">М</div>
+            <div class="user-info">
+                <div class="user-name">Макс</div>
+                <span class="user-plan">Бизнес</span>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main-content">
+    <div class="create-layout">
+
+        <!-- LEFT PANEL: Controls -->
+        <div class="create-left">
+            <!-- Mode tabs: Text / Image / Video -->
+            <div class="mode-tabs">
+                <button class="mode-tab active" data-mode="text">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    Текст
+                </button>
+                <button class="mode-tab" data-mode="image">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    Картинка
+                </button>
+                <button class="mode-tab" data-mode="video">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                    Видео
+                </button>
+            </div>
+
+            <!-- Prompt -->
+            <div class="prompt-section">
+                <div class="prompt-label">
+                    <span>Промпт</span>
+                    <span id="charCount" style="font-size:12px; color: var(--text-tertiary);">0 / 4000</span>
+                </div>
+                <textarea class="prompt-textarea" id="promptInput" placeholder="Опишите, что хотите создать..."></textarea>
+            </div>
+
+            <!-- Presets (dynamic per mode) -->
+            <div class="presets-section" id="presetsSection">
+                <div class="presets-row" id="presetsRow">
+                    <!-- Filled by JS per mode -->
+                </div>
+            </div>
+
+            <!-- Model selector -->
+            <div class="model-section">
+                <div class="model-section-label">Модель</div>
+                <div class="model-mode-toggle">
+                    <button class="model-mode-btn active" id="modeAutoBtn" onclick="setModelMode('auto')">Auto</button>
+                    <button class="model-mode-btn" id="modeManualBtn" onclick="setModelMode('manual')">Вручную</button>
+                </div>
+                <div class="model-pill-wrap">
+                    <div class="model-pill" id="modelPill" onclick="toggleModelDropdown()" style="display:none;">
+                        <span class="dot"></span>
+                        <span id="modelName">GPT-5</span>
+                        <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="auto-badge show" id="autoBadge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Auto выбрал: <span class="auto-badge-reason" id="autoModelName">GPT-5</span> — <span id="autoModelReason">лучшее качество для текста</span></span>
+                    </div>
+                    <div class="model-dropdown" id="modelDropdown">
+                        <div class="model-dropdown-label">Рекомендуемые</div>
+                        <div id="recommendedModels"></div>
+                        <div class="model-dropdown-more" id="showAllModels">Все модели</div>
+                        <div id="allModelsSection" style="display:none;">
+                            <div class="model-dropdown-label">Все модели</div>
+                            <input class="model-dropdown-search" type="text" placeholder="Поиск..." id="modelSearch">
+                            <div id="allModelsList"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced settings (collapsed) -->
+            <div class="advanced-section" id="advancedSection">
+                <button class="advanced-toggle" id="advancedToggle" onclick="toggleAdvanced()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    Дополнительно
+                </button>
+                <div class="advanced-body" id="advancedBody">
+                    <!-- Filled by JS per mode -->
+                </div>
+            </div>
+
+            <!-- Generate -->
+            <div class="generate-section">
+                <button class="btn-generate" id="btnGenerate" onclick="handleGenerate()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    Сгенерировать
+                </button>
+                <div class="cost-hint" id="costHint">~5 &#8381; за генерацию</div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: Result -->
+        <div class="create-right">
+            <!-- Empty state -->
+            <div class="empty-state" id="emptyState">
+                <div class="empty-state-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <h3>Начните творить</h3>
+                <p>Напишите промпт слева или выберите один из примеров ниже</p>
+                <div class="examples-grid" id="examplesGrid">
+                    <div class="example-card" data-prompt="Футуристический город на закате, неоновые огни, киберпанк" data-mode="image">
+                        <div class="example-card-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        </div>
+                        <span class="example-card-label">Киберпанк город</span>
+                        <span class="example-card-desc">Изображение</span>
+                    </div>
+                    <div class="example-card" data-prompt="Напиши пост для Instagram о запуске нового продукта" data-mode="text">
+                        <div class="example-card-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        </div>
+                        <span class="example-card-label">Instagram-пост</span>
+                        <span class="example-card-desc">Текст</span>
+                    </div>
+                    <div class="example-card" data-prompt="Уютная кофейня в дождливый день, акварель" data-mode="image">
+                        <div class="example-card-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        </div>
+                        <span class="example-card-label">Акварельная кофейня</span>
+                        <span class="example-card-desc">Изображение</span>
+                    </div>
+                    <div class="example-card" data-prompt="Плавный переход от рассвета к закату над горами, 4 секунды" data-mode="video">
+                        <div class="example-card-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                        </div>
+                        <span class="example-card-label">Видео: рассвет</span>
+                        <span class="example-card-desc">Видео</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generating state -->
+            <div class="generating-state" id="generatingState">
+                <div class="gen-spinner"></div>
+                <div class="gen-text" id="genText">Генерируем...</div>
+                <div class="gen-progress">
+                    <div class="gen-progress-bar" id="genProgressBar"></div>
+                </div>
+            </div>
+
+            <!-- Result area -->
+            <div class="result-area" id="resultArea">
+                <div class="result-display" id="resultDisplay">
+                    <!-- Filled by JS -->
+                </div>
+                <div class="result-actions" id="resultActions">
+                    <button class="result-action-btn" onclick="handleMoreVariations()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                        Варианты
+                    </button>
+                    <button class="result-action-btn" onclick="handleDownload()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Скачать
+                    </button>
+                    <button class="result-action-btn" id="favBtn" onclick="handleFavorite()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        В избранное
+                    </button>
+                    <button class="result-action-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        Редактировать
+                    </button>
+                </div>
+                <!-- Session timeline -->
+                <div class="session-timeline" id="sessionTimeline" style="display: none;">
+                    <div class="session-label">Текущая сессия</div>
+                    <div class="session-items" id="sessionItems"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== ONBOARDING MODAL ===== -->
+<div class="modal-backdrop" id="onboardingModal" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
+    <div class="modal" id="onboardingDialog">
+        <h2 id="onboardingTitle">Что хотите создать?</h2>
+        <p>Выберите, с чего начать, и мы настроим рабочее пространство</p>
+        <div class="modal-options">
+            <button class="modal-option" onclick="selectOnboarding('text')" type="button">
+                <div class="modal-option-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <div class="modal-option-text">
+                    <div class="modal-option-title">Написать текст</div>
+                    <div class="modal-option-desc">Посты, статьи, письма, код</div>
+                </div>
+            </button>
+            <button class="modal-option" onclick="selectOnboarding('image')" type="button">
+                <div class="modal-option-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+                <div class="modal-option-text">
+                    <div class="modal-option-title">Сделать картинку</div>
+                    <div class="modal-option-desc">Иллюстрации, логотипы, фото</div>
+                </div>
+            </button>
+            <button class="modal-option" onclick="selectOnboarding('video')" type="button">
+                <div class="modal-option-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                </div>
+                <div class="modal-option-text">
+                    <div class="modal-option-title">Сделать видео</div>
+                    <div class="modal-option-desc">Клипы, анимации, рилсы</div>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== TOUR TOOLTIP ===== -->
+<div class="tour-tooltip" id="tourTooltip">
+    <div class="tour-tooltip-title" id="tourTitle"></div>
+    <div class="tour-tooltip-text" id="tourText"></div>
+    <div class="tour-tooltip-actions">
+        <span class="tour-tooltip-step" id="tourStep"></span>
+        <div style="display:flex;gap:8px;">
+            <button class="tour-tooltip-skip" onclick="endTour()">Пропустить</button>
+            <button class="tour-tooltip-next" onclick="nextTourStep()">Далее</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MOBILE BOTTOM BAR ===== -->
+<div class="mobile-bar">
+    <div class="mobile-bar-inner">
+        <a class="mobile-tab active" href="index.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Создать</span>
+        </a>
+        <a class="mobile-tab" href="templates.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <span>Шаблоны</span>
+        </a>
+        <a class="mobile-tab" href="library.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>Библиотека</span>
+        </a>
+        <a class="mobile-tab" href="settings.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Настройки</span>
+        </a>
+    </div>
 </div>
 
 <script>
-(function(){
-  const KEY='ng_onboard_done_v1';
-  const back=document.getElementById('ngObBack');
-  const box=document.getElementById('ngOb');
-  const show=()=>{back.style.display='block';box.style.display='block';};
-  const hide=()=>{back.style.display='none';box.style.display='none';};
-  if(!localStorage.getItem(KEY)) setTimeout(show, 450);
+// ===== DATA =====
+var currentMode = 'text';
+var currentModel = 'auto';
+var modelMode = 'auto'; // 'auto' or 'manual'
+var sessionHistory = [];
 
-  function go(url){
-    localStorage.setItem(KEY,'1');
-    window.location.href=url;
-  }
+var autoModels = {
+    text: { name: 'GPT-5', reason: 'лучшее качество для текста' },
+    image: { name: 'Midjourney v6', reason: 'лучшее качество для изображений' },
+    video: { name: 'Sora', reason: 'кинематографичное видео' }
+};
 
-  box.addEventListener('click', (e)=>{
-    const m=e.target.closest('[data-mission]');
-    if(!m) return;
-    const mission=m.getAttribute('data-mission');
-    if(mission==='text') go('/neurogate/app/cabinet/chat.html?tour=1');
-    if(mission==='img') go('/neurogate/app/cabinet/images.html?tour=1');
-    if(mission==='vid') go('/neurogate/app/cabinet/video.html?tour=1');
-  });
+function setModelMode(mode) {
+    modelMode = mode;
+    document.getElementById('modeAutoBtn').classList.toggle('active', mode === 'auto');
+    document.getElementById('modeManualBtn').classList.toggle('active', mode === 'manual');
+    document.getElementById('modelPill').style.display = mode === 'manual' ? '' : 'none';
+    document.getElementById('autoBadge').classList.toggle('show', mode === 'auto');
+    if (mode === 'auto') {
+        currentModel = 'auto';
+        updateAutoModelBadge();
+        closeModelDropdown();
+    } else {
+        // Restore last manual pick or default to first recommended
+        var saved = localStorage.getItem('ng_model_' + currentMode);
+        if (saved && saved !== 'auto') {
+            currentModel = saved;
+        } else {
+            var rec = models[currentMode].recommended;
+            currentModel = rec.length > 1 ? rec[1].id : rec[0].id;
+        }
+        updateModelPillText();
+    }
+}
 
-  document.getElementById('ngObSkip').addEventListener('click',(e)=>{e.preventDefault(); localStorage.setItem(KEY,'1'); hide();});
-  document.getElementById('ngObLater').addEventListener('click',()=>hide());
-  back.addEventListener('click',()=>hide());
+function updateAutoModelBadge() {
+    var auto = autoModels[currentMode];
+    document.getElementById('autoModelName').textContent = auto.name;
+    document.getElementById('autoModelReason').textContent = auto.reason;
+}
+
+var presets = {
+    text: [
+        { label: 'Пост', prompt: 'Напиши пост для социальных сетей о ' },
+        { label: 'Письмо', prompt: 'Напиши профессиональное деловое письмо о ' },
+        { label: 'Статья', prompt: 'Напиши статью на тему ' },
+        { label: 'Код', prompt: 'Напиши функцию на JavaScript, которая ' },
+        { label: 'Перевод', prompt: 'Переведи на английский: ' }
+    ],
+    image: [
+        { label: 'Реалистичный', prompt: 'Фотореалистичное изображение, ' },
+        { label: 'Аниме', prompt: 'В стиле аниме, ' },
+        { label: 'Киберпанк', prompt: 'Киберпанк стиль, неоновые огни, ' },
+        { label: 'Минимализм', prompt: 'Минималистичный стиль, чистые линии, ' },
+        { label: '3D рендер', prompt: '3D рендер, объёмный, студийный свет, ' }
+    ],
+    video: [
+        { label: 'Пейзаж', prompt: 'Плавное движение камеры по живописному пейзажу, ' },
+        { label: 'Продукт', prompt: 'Рекламное видео продукта на белом фоне, ' },
+        { label: 'Анимация', prompt: '2D анимация в стиле motion graphics, ' },
+        { label: 'Timelapse', prompt: 'Таймлапс видео: ' }
+    ]
+};
+
+var models = {
+    text: {
+        recommended: [
+            { id: 'gpt5', name: 'GPT-5', desc: 'OpenAI, универсальная', color: '#10B981', badges: ['точная'] },
+            { id: 'claude-opus', name: 'Claude Opus 4', desc: 'Anthropic, глубокий анализ', color: '#F59E0B', badges: ['точная'] },
+            { id: 'gemini', name: 'Gemini 2.5 Pro', desc: 'Google, быстрая', color: '#3B82F6', badges: ['быстрая'] }
+        ],
+        all: [
+            { id: 'gpt41', name: 'GPT-4.1', desc: 'OpenAI, экономичная', color: '#6366F1', badges: ['дешёвая'] },
+            { id: 'claude-sonnet', name: 'Claude Sonnet 4', desc: 'Anthropic, быстрая', color: '#0EA5E9', badges: ['быстрая', 'дешёвая'] },
+            { id: 'llama', name: 'Llama 4', desc: 'Meta, open-source', color: '#64748B', badges: ['дешёвая'] }
+        ]
+    },
+    image: {
+        recommended: [
+            { id: 'gpt-image', name: 'GPT Image 1.5', desc: 'OpenAI, фотореализм', color: '#10B981', badges: ['точная'] },
+            { id: 'midjourney', name: 'Midjourney v6', desc: 'Арт и дизайн', color: '#EC4899', badges: ['точная'] },
+            { id: 'sdxl', name: 'Stable Diffusion XL', desc: 'Open-source', color: '#14B8A6', badges: ['дешёвая'] }
+        ],
+        all: [
+            { id: 'dalle3', name: 'DALL-E 3', desc: 'OpenAI, универсальная', color: '#22C55E', badges: [] },
+            { id: 'flux', name: 'Flux Pro', desc: 'Black Forest Labs', color: '#8B5CF6', badges: ['быстрая'] }
+        ]
+    },
+    video: {
+        recommended: [
+            { id: 'sora', name: 'Sora', desc: 'OpenAI, кинематограф', color: '#8B5CF6', badges: ['точная'] },
+            { id: 'runway', name: 'Runway Gen-3', desc: 'Профессиональное видео', color: '#EF4444', badges: ['точная'] },
+            { id: 'kling', name: 'Kling v2', desc: 'Motion и динамика', color: '#D946EF', badges: ['быстрая'] }
+        ],
+        all: [
+            { id: 'pika', name: 'Pika', desc: 'Быстрая генерация', color: '#F97316', badges: ['быстрая', 'дешёвая'] }
+        ]
+    }
+};
+
+var advancedSettings = {
+    text: '',
+    image: '<div class="advanced-row"><div class="advanced-row-label">Соотношение сторон</div><div class="pill-group" data-group="aspect"><button class="pill-btn active" data-value="1:1">1:1</button><button class="pill-btn" data-value="3:2">3:2</button><button class="pill-btn" data-value="2:3">2:3</button><button class="pill-btn" data-value="16:9">16:9</button><button class="pill-btn" data-value="9:16">9:16</button></div></div><div class="advanced-row"><div class="advanced-row-label">Качество</div><div class="pill-group" data-group="quality"><button class="pill-btn" data-value="low">Быстрое</button><button class="pill-btn active" data-value="medium">Стандарт</button><button class="pill-btn" data-value="high">Высокое</button></div></div>',
+    video: '<div class="advanced-row"><div class="advanced-row-label">Длительность</div><div class="pill-group" data-group="duration"><button class="pill-btn active" data-value="4">4 сек</button><button class="pill-btn" data-value="8">8 сек</button><button class="pill-btn" data-value="16">16 сек</button></div></div><div class="advanced-row"><div class="advanced-row-label">Соотношение сторон</div><div class="pill-group" data-group="aspect"><button class="pill-btn active" data-value="16:9">16:9</button><button class="pill-btn" data-value="9:16">9:16</button><button class="pill-btn" data-value="1:1">1:1</button></div></div><div class="advanced-row"><div class="advanced-row-label">Качество</div><div class="pill-group" data-group="quality"><button class="pill-btn" data-value="720p">720p</button><button class="pill-btn active" data-value="1080p">1080p</button></div></div>'
+};
+
+var mockResults = {
+    text: 'Вот ваш текст:\n\nИскусственный интеллект (ИИ) стремительно трансформирует все аспекты нашей жизни. От персонализированных рекомендаций в стриминговых сервисах до автоматизации сложных бизнес-процессов.\n\nКлючевые тренды 2026 года:\n\n1. Мультимодальные модели - AI, которые понимают текст, изображения, видео и аудио одновременно\n2. AI-агенты - автономные системы, выполняющие сложные задачи\n3. Персонализация - AI адаптируется под каждого пользователя\n4. Этика и безопасность - новые стандарты ответственного AI\n\nИспользуйте эти тренды для развития вашего бизнеса.',
+    image: null,
+    video: null
+};
+
+var imagePlaceholders = [
+    '#F8F9FC',
+    '#F1F3F9',
+    '#FAFBFD',
+    '#F5F3FF',
+    '#F8F9FC',
+    '#F1F3F9'
+];
+
+// ===== MODE SWITCHING =====
+function setMode(mode) {
+    currentMode = mode;
+    document.querySelectorAll('.mode-tab').forEach(function(tab) {
+        tab.classList.toggle('active', tab.dataset.mode === mode);
+    });
+    renderPresets();
+    renderAdvanced();
+    updateModelSelector();
+    updateCostHint();
+    updateAutoModelBadge();
+    // Restore last model for this mode
+    if (modelMode === 'manual') {
+        var saved = localStorage.getItem('ng_model_' + mode);
+        if (saved && saved !== 'auto') {
+            currentModel = saved;
+        } else {
+            var rec = models[mode].recommended;
+            currentModel = rec.length > 1 ? rec[1].id : rec[0].id;
+        }
+        updateModelPillText();
+    }
+}
+
+document.querySelectorAll('.mode-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+        setMode(this.dataset.mode);
+    });
+});
+
+// ===== PRESETS =====
+function renderPresets() {
+    var row = document.getElementById('presetsRow');
+    var items = presets[currentMode] || [];
+    row.innerHTML = '';
+    items.forEach(function(p) {
+        var chip = document.createElement('button');
+        chip.className = 'preset-chip';
+        chip.textContent = p.label;
+        chip.addEventListener('click', function() {
+            document.getElementById('promptInput').value = p.prompt;
+            document.getElementById('promptInput').focus();
+            updateCharCount();
+            row.querySelectorAll('.preset-chip').forEach(function(c) { c.classList.remove('active'); });
+            chip.classList.add('active');
+        });
+        row.appendChild(chip);
+    });
+    // Inspire button
+    var inspire = document.createElement('button');
+    inspire.className = 'inspire-btn';
+    inspire.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/></svg> Вдохнови меня';
+    inspire.addEventListener('click', function() {
+        var items = presets[currentMode];
+        var random = items[Math.floor(Math.random() * items.length)];
+        var suffixes = { text: 'искусственном интеллекте', image: 'закат над горами, масляная живопись', video: 'полёт над облаками на рассвете' };
+        document.getElementById('promptInput').value = random.prompt + (suffixes[currentMode] || '');
+        document.getElementById('promptInput').focus();
+        updateCharCount();
+    });
+    row.appendChild(inspire);
+}
+
+// ===== ADVANCED =====
+function renderAdvanced() {
+    var body = document.getElementById('advancedBody');
+    body.innerHTML = advancedSettings[currentMode] || '';
+    body.classList.remove('show');
+    document.getElementById('advancedToggle').classList.remove('open');
+    // Hide advanced section for text mode
+    document.getElementById('advancedSection').style.display = currentMode === 'text' ? 'none' : 'block';
+    // Pill toggle
+    body.querySelectorAll('.pill-group').forEach(function(group) {
+        group.addEventListener('click', function(e) {
+            var btn = e.target.closest('.pill-btn');
+            if (!btn) return;
+            group.querySelectorAll('.pill-btn').forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+        });
+    });
+}
+
+function toggleAdvanced() {
+    var body = document.getElementById('advancedBody');
+    var toggle = document.getElementById('advancedToggle');
+    body.classList.toggle('show');
+    toggle.classList.toggle('open');
+}
+
+// ===== MODEL SELECTOR =====
+function updateModelSelector() {
+    var rec = document.getElementById('recommendedModels');
+    var allList = document.getElementById('allModelsList');
+    var modeModels = models[currentMode];
+    rec.innerHTML = '';
+    allList.innerHTML = '';
+
+    modeModels.recommended.forEach(function(m) {
+        rec.appendChild(createModelItem(m));
+    });
+    modeModels.all.forEach(function(m) {
+        allList.appendChild(createModelItem(m));
+    });
+}
+
+function createModelItem(m) {
+    var div = document.createElement('div');
+    div.className = 'model-dropdown-item' + (m.id === currentModel ? ' selected' : '');
+    var badgeStyles = { 'точная': 'quality', 'быстрая': 'speed', 'дешёвая': 'price' };
+    var badgesHtml = m.badges.map(function(b) {
+        return '<span class="model-dd-badge ' + (badgeStyles[b] || '') + '">' + b + '</span>';
+    }).join('');
+    div.innerHTML =
+        '<div class="model-dd-icon">' + m.name.charAt(0) + '</div>' +
+        '<div class="model-dd-info"><div class="model-dd-name">' + m.name + '</div><div class="model-dd-meta">' + m.desc + '</div></div>' +
+        '<div class="model-dd-badges">' + badgesHtml + '</div>';
+    div.addEventListener('click', function() {
+        currentModel = m.id;
+        modelMode = 'manual';
+        document.getElementById('modeAutoBtn').classList.remove('active');
+        document.getElementById('modeManualBtn').classList.add('active');
+        document.getElementById('modelPill').style.display = '';
+        localStorage.setItem('ng_model_' + currentMode, m.id);
+        updateModelPillText();
+        closeModelDropdown();
+        updateAutoBadge();
+    });
+    return div;
+}
+
+function updateModelPillText() {
+    var modeModels = models[currentMode];
+    var all = modeModels.recommended.concat(modeModels.all);
+    var found = all.find(function(m) { return m.id === currentModel; });
+    document.getElementById('modelName').textContent = found ? found.name : 'Auto';
+    updateAutoBadge();
+}
+
+function updateAutoBadge() {
+    var badge = document.getElementById('autoBadge');
+    badge.classList.toggle('show', modelMode === 'auto');
+    if (modelMode === 'auto') updateAutoModelBadge();
+}
+
+function toggleModelDropdown() {
+    var dd = document.getElementById('modelDropdown');
+    dd.classList.toggle('show');
+    if (dd.classList.contains('show')) {
+        updateModelSelector();
+        document.addEventListener('click', closeModelDropdownOutside);
+    } else {
+        document.removeEventListener('click', closeModelDropdownOutside);
+    }
+}
+
+function closeModelDropdown() {
+    document.getElementById('modelDropdown').classList.remove('show');
+    document.removeEventListener('click', closeModelDropdownOutside);
+}
+
+function closeModelDropdownOutside(e) {
+    if (!e.target.closest('.model-pill-wrap')) {
+        closeModelDropdown();
+    }
+}
+
+document.getElementById('showAllModels').addEventListener('click', function() {
+    var section = document.getElementById('allModelsSection');
+    section.style.display = section.style.display === 'none' ? 'block' : 'none';
+    this.textContent = section.style.display === 'none' ? 'Все модели' : 'Скрыть';
+});
+
+document.getElementById('modelSearch').addEventListener('input', function() {
+    var val = this.value.toLowerCase();
+    document.querySelectorAll('#allModelsList .model-dropdown-item').forEach(function(item) {
+        var name = item.querySelector('.model-dd-name').textContent.toLowerCase();
+        item.style.display = !val || name.indexOf(val) !== -1 ? '' : 'none';
+    });
+});
+
+// ===== COST HINT =====
+function updateCostHint() {
+    var costs = { text: '~5', image: '~8', video: '~15' };
+    document.getElementById('costHint').innerHTML = (costs[currentMode] || '~5') + ' &#8381; за генерацию';
+}
+
+// ===== CHAR COUNT =====
+function updateCharCount() {
+    var len = document.getElementById('promptInput').value.length;
+    document.getElementById('charCount').textContent = len + ' / 4000';
+}
+document.getElementById('promptInput').addEventListener('input', updateCharCount);
+
+// ===== GENERATE =====
+function handleGenerate() {
+    var prompt = document.getElementById('promptInput').value.trim();
+    if (!prompt) {
+        document.getElementById('promptInput').focus();
+        return;
+    }
+
+    var btn = document.getElementById('btnGenerate');
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner"></div> Генерируем...';
+
+    // Show generating state
+    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('resultArea').style.display = 'none';
+    var genState = document.getElementById('generatingState');
+    genState.classList.add('show');
+
+    var genTexts = { text: 'Генерируем текст...', image: 'Генерируем изображение...', video: 'Генерируем видео...' };
+    document.getElementById('genText').textContent = genTexts[currentMode] || 'Генерируем...';
+
+    // Animate progress
+    var bar = document.getElementById('genProgressBar');
+    bar.style.width = '0%';
+    var progress = 0;
+    var interval = setInterval(function() {
+        progress += Math.random() * 15;
+        if (progress > 90) progress = 90;
+        bar.style.width = progress + '%';
+    }, 300);
+
+    var delay = currentMode === 'video' ? 3000 : currentMode === 'image' ? 2000 : 1500;
+
+    setTimeout(function() {
+        clearInterval(interval);
+        bar.style.width = '100%';
+
+        setTimeout(function() {
+            btn.disabled = false;
+            btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Сгенерировать';
+
+            genState.classList.remove('show');
+            showResult(prompt);
+        }, 300);
+    }, delay);
+}
+
+function showResult(prompt) {
+    var display = document.getElementById('resultDisplay');
+    var area = document.getElementById('resultArea');
+    display.innerHTML = '';
+
+    if (currentMode === 'text') {
+        var textEl = document.createElement('div');
+        textEl.className = 'result-text';
+        textEl.textContent = mockResults.text;
+        display.appendChild(textEl);
+    } else if (currentMode === 'image') {
+        var bg = imagePlaceholders[Math.floor(Math.random() * imagePlaceholders.length)];
+        var imgEl = document.createElement('div');
+        imgEl.className = 'result-image';
+        imgEl.style.cssText = 'width:400px;height:400px;background:' + bg + ';border:1px solid #E8EBF0;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#94A3B8;';
+        imgEl.innerHTML = '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>';
+        display.appendChild(imgEl);
+        addToSession(bg);
+    } else if (currentMode === 'video') {
+        var bg = imagePlaceholders[Math.floor(Math.random() * imagePlaceholders.length)];
+        var vidEl = document.createElement('div');
+        vidEl.className = 'result-video';
+        vidEl.style.background = bg;
+        vidEl.style.border = '1px solid #E8EBF0';
+        vidEl.innerHTML = '<div class="play-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="#374151" stroke="none"><polygon points="8 5 20 12 8 19"/></svg></div>';
+        display.appendChild(vidEl);
+        addToSession(bg);
+    }
+
+    area.style.display = 'flex';
+    area.classList.add('show');
+    display.style.animation = 'fadeIn 0.4s ease';
+}
+
+function addToSession(bg) {
+    sessionHistory.push(bg);
+    var timeline = document.getElementById('sessionTimeline');
+    var items = document.getElementById('sessionItems');
+    timeline.style.display = 'block';
+    var item = document.createElement('div');
+    item.className = 'session-item';
+    item.style.background = bg;
+    item.style.border = '1px solid #E8EBF0';
+    items.appendChild(item);
+}
+
+// ===== RESULT ACTIONS =====
+function handleMoreVariations() {
+    handleGenerate();
+}
+
+function handleDownload() {
+    alert('Файл скачан (демо)');
+}
+
+function handleFavorite() {
+    var btn = document.getElementById('favBtn');
+    btn.style.color = btn.style.color === 'var(--accent)' ? '' : 'var(--accent)';
+    btn.style.borderColor = btn.style.borderColor === 'var(--accent)' ? '' : 'var(--accent)';
+}
+
+// ===== EXAMPLE CARDS =====
+document.querySelectorAll('.example-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+        var mode = card.dataset.mode;
+        var prompt = card.dataset.prompt;
+        setMode(mode);
+        document.getElementById('promptInput').value = prompt;
+        updateCharCount();
+    });
+});
+
+// ===== ONBOARDING =====
+function checkOnboarding() {
+    if (!localStorage.getItem('ng_onboarded')) {
+        var modal = document.getElementById('onboardingModal');
+        modal.classList.add('show');
+        // Focus first option for keyboard a11y
+        setTimeout(function() {
+            var first = modal.querySelector('.modal-option');
+            if (first) first.focus();
+        }, 100);
+        // Focus trap
+        modal.addEventListener('keydown', trapFocus);
+    }
+}
+
+function trapFocus(e) {
+    if (e.key === 'Tab') {
+        var modal = document.getElementById('onboardingDialog');
+        var focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusable.length === 0) return;
+        var first = focusable[0];
+        var last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+    }
+    if (e.key === 'Escape') {
+        // Allow ESC to dismiss modal (select default text mode)
+        selectOnboarding('text');
+    }
+}
+
+function selectOnboarding(mode) {
+    localStorage.setItem('ng_onboarded', '1');
+    var modal = document.getElementById('onboardingModal');
+    modal.classList.remove('show');
+    modal.removeEventListener('keydown', trapFocus);
+    setMode(mode);
+
+    // Set preset prompt
+    var defaultPrompts = {
+        text: 'Напиши пост для Instagram о запуске нового продукта',
+        image: 'Футуристический город на закате, неоновые огни, киберпанк стиль',
+        video: 'Плавный полёт камеры над облаками на рассвете, кинематографичный'
+    };
+    document.getElementById('promptInput').value = defaultPrompts[mode] || '';
+    updateCharCount();
+
+    // Start mini-tour after short delay
+    setTimeout(startTour, 500);
+}
+
+// ===== MINI-TOUR =====
+var tourSteps = [
+    {
+        title: 'Промпт',
+        text: 'Опишите здесь, что хотите создать. Чем подробнее, тем лучше результат.',
+        target: '.prompt-textarea'
+    },
+    {
+        title: 'Модель',
+        text: 'По умолчанию стоит Auto. Нажмите, чтобы выбрать модель вручную.',
+        target: '.model-pill'
+    },
+    {
+        title: 'Генерация',
+        text: 'Нажмите, чтобы создать. Результат появится справа.',
+        target: '.btn-generate'
+    },
+    {
+        title: 'Сохранение',
+        text: 'Все результаты автоматически сохраняются в Библиотеке.',
+        target: '.sidebar-nav a:nth-child(3)'
+    }
+];
+var currentTourStep = 0;
+
+function startTour() {
+    if (localStorage.getItem('ng_tour_done')) return;
+    currentTourStep = 0;
+    showTourStep();
+}
+
+function showTourStep() {
+    if (currentTourStep >= tourSteps.length) {
+        endTour();
+        return;
+    }
+    var step = tourSteps[currentTourStep];
+    var target = document.querySelector(step.target);
+    if (!target) { nextTourStep(); return; }
+
+    var tooltip = document.getElementById('tourTooltip');
+    document.getElementById('tourTitle').textContent = step.title;
+    document.getElementById('tourText').textContent = step.text;
+    document.getElementById('tourStep').textContent = (currentTourStep + 1) + ' / ' + tourSteps.length;
+
+    var rect = target.getBoundingClientRect();
+    var tooltipH = 130; // approximate tooltip height
+    var spaceBelow = window.innerHeight - rect.bottom;
+    // Smart placement: below if fits, otherwise above
+    if (spaceBelow > tooltipH + 20) {
+        tooltip.style.top = (rect.bottom + 10) + 'px';
+        tooltip.style.bottom = '';
+    } else {
+        tooltip.style.top = '';
+        tooltip.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
+    }
+    // Horizontal: clamp within viewport
+    var left = Math.max(10, Math.min(rect.left, window.innerWidth - 300));
+    tooltip.style.left = left + 'px';
+    tooltip.classList.add('show');
+
+    target.style.outline = '2px solid var(--accent)';
+    target.style.outlineOffset = '4px';
+    target.style.borderRadius = target.style.borderRadius || '8px';
+    target.dataset.tourHighlight = '1';
+}
+
+function nextTourStep() {
+    clearTourHighlight();
+    currentTourStep++;
+    showTourStep();
+}
+
+function endTour() {
+    clearTourHighlight();
+    document.getElementById('tourTooltip').classList.remove('show');
+    localStorage.setItem('ng_tour_done', '1');
+}
+
+function clearTourHighlight() {
+    document.querySelectorAll('[data-tour-highlight]').forEach(function(el) {
+        el.style.outline = '';
+        el.style.outlineOffset = '';
+        delete el.dataset.tourHighlight;
+    });
+}
+
+// ===== SIDEBAR TOGGLE =====
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('show');
+}
+
+// ===== INIT =====
+// Read ?mode= from URL and set tab
+(function() {
+    var params = new URLSearchParams(window.location.search);
+    var modeParam = params.get('mode');
+    if (modeParam && ['text', 'image', 'video'].indexOf(modeParam) !== -1) {
+        currentMode = modeParam;
+        document.querySelectorAll('.mode-tab').forEach(function(tab) {
+            tab.classList.toggle('active', tab.dataset.mode === modeParam);
+        });
+    }
+    // Pick up template prompt from session storage
+    var tplPrompt = sessionStorage.getItem('ng_tpl_prompt');
+    if (tplPrompt) {
+        document.getElementById('promptInput').value = tplPrompt;
+        sessionStorage.removeItem('ng_tpl_prompt');
+    }
 })();
-</script>
 
+renderPresets();
+renderAdvanced();
+updateModelSelector();
+updateCostHint();
+updateCharCount();
+
+// Check onboarding on load
+window.addEventListener('load', function() {
+    checkOnboarding();
+});
+</script>
 </body>
 </html>

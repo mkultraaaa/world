@@ -3,274 +3,526 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Модели — NeuroGate</title>
+<title>NeuroGate — Модели</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
 <style>
-:root {
-  --purple: #7C3AED;
-  --purple-dark: #6D28D9;
-  --purple-light: #A78BFA;
-  --purple-bg: #EDE9FE;
-  --gray-50: #F9FAFB;
-  --gray-100: #F3F4F6;
-  --gray-500: #6B7280;
-  --gray-600: #4B5563;
-  --gray-900: #111827;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #F5F5F3; color: var(--gray-900); }
+/* ===== Models Page Specific ===== */
 
-/* Sidebar */
-.sidebar {
-  position: fixed; top: 0; left: 0; bottom: 0;
-  width: 220px; background: #F7F7F5;
-  border-right: 1px solid #E5E5E3;
-  display: flex; flex-direction: column;
-  z-index: 100;
-  transition: transform 0.25s ease;
+.page-body {
+    padding: 24px 32px 48px;
 }
-.sidebar-logo {
-  display: flex; align-items: center; gap: 10px;
-  padding: 20px 16px 24px;
-}
-.sidebar-logo svg { flex-shrink: 0; }
-.sidebar-logo span { font-weight: 800; font-size: 16px; color: var(--gray-900); }
-.sidebar-nav { flex: 1; display: flex; flex-direction: column; padding: 0 8px; }
-.nav-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 16px; border-radius: 8px;
-  font-size: 14px; color: #666;
-  text-decoration: none; cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-  margin-bottom: 2px;
-}
-.nav-item:hover { background: #EEEEEC; color: var(--gray-900); }
-.nav-item.active { background: var(--purple-bg); color: var(--purple); font-weight: 600; }
-.nav-item-icon { font-size: 16px; width: 20px; text-align: center; }
-.sidebar-bottom { padding: 8px; border-top: 1px solid #E5E5E3; }
-.sidebar-bottom .nav-item { margin-bottom: 0; }
-
-/* Burger */
-.burger {
-  display: none; position: fixed; top: 12px; left: 12px;
-  z-index: 1001; background: #fff; border: 1px solid #E5E5E3;
-  border-radius: 8px; width: 40px; height: 40px;
-  cursor: pointer; align-items: center; justify-content: center;
-  font-size: 20px;
-}
-.overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.3); z-index: 999;
-}
-.overlay.show { display: block; }
-
-/* Main */
-.main { margin-left: 220px; min-height: 100vh; padding: 32px; }
-.page-title { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
-.page-subtitle { font-size: 14px; color: var(--gray-500); margin-bottom: 24px; }
-
-/* Tabs */
-.tabs {
-  display: flex; gap: 4px; margin-bottom: 20px;
-}
-.tab-item {
-  padding: 10px 16px; font-size: 14px; color: var(--gray-500);
-  cursor: pointer; border: 1px solid #E5E5E3; border-radius: 8px;
-  transition: all 0.15s; display: flex; align-items: center; gap: 6px;
-  user-select: none; background: #fff;
-}
-.tab-item:hover { border-color: var(--purple-light); }
-.tab-item.active { border-color: var(--purple); color: var(--gray-900); font-weight: 600; }
-.tab-badge {
-  background: var(--purple-bg); color: var(--purple); font-size: 11px;
-  padding: 1px 7px; border-radius: 10px; font-weight: 600;
-}
-
-/* Filters */
-.filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
-.filter-pill {
-  padding: 7px 16px; border-radius: 20px; font-size: 13px;
-  border: 1px solid #E5E5E3; background: #fff; color: var(--gray-600);
-  cursor: pointer; transition: all 0.15s; user-select: none;
-}
-.filter-pill:hover { border-color: var(--purple-light); }
-.filter-pill.active { background: var(--purple); color: #fff; border-color: var(--purple); }
 
 /* Search */
-.search-input {
-  width: 300px; max-width: 100%; padding: 10px 14px 10px 36px;
-  border: 1px solid #E5E5E3; border-radius: 10px; font-size: 14px;
-  background: #fff; color: var(--gray-900);
-  outline: none; transition: border-color 0.15s;
-  margin-bottom: 24px;
-}
-.search-input:focus { border-color: var(--purple-light); }
-.search-wrap {
-  position: relative; margin-bottom: 24px;
-}
-.search-icon {
-  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-  color: var(--gray-500); font-size: 14px; pointer-events: none;
+.search-row {
+    margin-bottom: 16px;
 }
 
-/* Model Cards Grid */
-.models-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+/* Filter pills */
+.filter-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
 }
+
+/* Section header */
+.section-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+}
+
+/* Recommended row */
+.recommended-row {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 40px;
+    -webkit-overflow-scrolling: touch;
+}
+.recommended-row::-webkit-scrollbar { height: 4px; }
+.recommended-row::-webkit-scrollbar-track { background: transparent; }
+.recommended-row::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.recommended-row .model-card {
+    min-width: 260px;
+    flex: 1;
+}
+
+/* Models grid */
+.models-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* Model card */
 .model-card {
-  border-radius: 12px; overflow: hidden;
-  cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
-  position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: box-shadow var(--transition), border-color var(--transition), transform 0.2s ease;
+    cursor: default;
 }
 .model-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-}
-.model-card-gradient {
-  height: 140px; padding: 16px;
-  display: flex; flex-direction: column; justify-content: flex-end;
-}
-.model-provider {
-  font-size: 10px; color: rgba(255,255,255,0.7);
-  text-transform: uppercase; letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-.model-name {
-  font-size: 18px; font-weight: 700; color: #fff;
-}
-.model-tags {
-  padding: 12px 16px;
-  background: #fff;
-  display: flex; gap: 8px; flex-wrap: wrap;
-}
-.model-tag {
-  font-size: 11px; color: var(--gray-500);
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
+    transform: translateY(-2px);
 }
 
-/* Mobile */
-@media (max-width: 767px) {
-  .sidebar { transform: translateX(-100%); }
-  .sidebar.open { transform: translateX(0); }
-  .burger { display: flex; }
-  .main { margin-left: 0; padding: 20px; padding-top: 60px; }
-  .models-grid { grid-template-columns: 1fr; }
-  .search-input { width: 100%; }
+.model-gradient {
+    height: 80px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+}
+
+.model-gradient-letter {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.model-provider {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 3px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.model-body {
+    padding: 16px;
+}
+
+.model-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.model-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-bottom: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Metric bars */
+.model-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.metric-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.metric-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    width: 60px;
+    flex-shrink: 0;
+}
+
+.metric-track {
+    flex: 1;
+    height: 4px;
+    background: var(--border-light);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.metric-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.4s ease;
+}
+
+.metric-fill.quality { background: var(--accent); }
+.metric-fill.speed { background: #3B82F6; }
+.metric-fill.price { background: var(--green); }
+
+/* Best for */
+.model-bestfor {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.model-bestfor svg {
+    flex-shrink: 0;
+    color: var(--text-tertiary);
+}
+
+/* Tags */
+.model-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.model-tag {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+}
+
+/* Footer / status */
+.model-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-light);
+}
+
+.status-connected {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--green);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+}
+
+.btn-use {
+    padding: 7px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-family: var(--font);
+    font-weight: 500;
+    background: var(--accent);
+    color: var(--text-inverse);
+    border: none;
+    cursor: pointer;
+    transition: background var(--transition);
+}
+.btn-use:hover {
+    background: var(--accent-hover);
+}
+
+/* Empty state */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-tertiary);
+    font-size: 14px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .models-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .page-header { padding: 68px 20px 0; }
+    .page-body { padding: 20px 20px 100px; }
+    .models-grid { grid-template-columns: 1fr; }
+    .recommended-row { gap: 12px; }
+    .recommended-row .model-card { min-width: 240px; }
 }
 </style>
 </head>
 <body>
 
-<button class="burger" onclick="toggleSidebar()">&#9776;</button>
+<button class="burger" onclick="toggleSidebar()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
 <aside class="sidebar" id="sidebar">
-  <div class="sidebar-logo">
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-      <rect x="1" y="1" width="11" height="11" rx="3.5" fill="#7C3AED"/>
-      <rect x="16" y="1" width="11" height="11" rx="3.5" fill="#7C3AED"/>
-      <rect x="1" y="16" width="11" height="11" rx="3.5" fill="#7C3AED"/>
-      <rect x="16" y="16" width="11" height="11" rx="3.5" fill="#7C3AED"/>
-    </svg>
-    <span>NeuroGate</span>
-  </div>
-  <nav class="sidebar-nav">
-    <a class="nav-item" href="/neurogate/app/cabinet/"><span class="nav-item-icon">&#127968;</span> Главная</a>
-    <a class="nav-item" href="/neurogate/app/cabinet/chat.html"><span class="nav-item-icon">&#128172;</span> Чат</a>
-    <a class="nav-item" href="/neurogate/app/cabinet/images.html"><span class="nav-item-icon">&#128444;</span> Изображения</a>
-    <a class="nav-item" href="/neurogate/app/cabinet/video.html"><span class="nav-item-icon">&#127916;</span> Видео</a>
-    <a class="nav-item" href="/neurogate/app/cabinet/gallery.html"><span class="nav-item-icon">&#128248;</span> Галерея</a>
-    <a class="nav-item" href="/neurogate/app/cabinet/prompts.html"><span class="nav-item-icon">&#128203;</span> Промпты</a>
-    <a class="nav-item active" href="/neurogate/app/cabinet/models.html"><span class="nav-item-icon">&#129302;</span> Модели</a>
-  </nav>
-  <div class="sidebar-bottom">
-    <a class="nav-item" href="/neurogate/app/cabinet/settings.html"><span class="nav-item-icon">&#9881;</span> Настройки</a>
-  </div>
+    <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="1" y="1" width="12" height="12" rx="3" fill="#7C3AED"/>
+            <rect x="15" y="1" width="12" height="12" rx="3" fill="#7C3AED"/>
+            <rect x="1" y="15" width="12" height="12" rx="3" fill="#7C3AED"/>
+            <rect x="15" y="15" width="12" height="12" rx="3" fill="#7C3AED"/>
+        </svg>
+        <span>NeuroGate</span>
+    </div>
+    <nav class="sidebar-nav">
+        <a class="nav-item" href="index.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/><circle cx="12" cy="12" r="3"/></svg>
+            Создать
+        </a>
+        <a class="nav-item" href="templates.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Шаблоны
+        </a>
+        <a class="nav-item" href="library.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Библиотека
+        </a>
+        <a class="nav-item active" href="models.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+            Модели
+        </a>
+    </nav>
+    <div class="sidebar-sep"></div>
+    <div style="padding: 0 8px 8px; display: flex; flex-direction: column; gap: 2px;">
+        <a class="nav-item" href="billing.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Баланс
+        </a>
+        <a class="nav-item" href="settings.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Настройки
+        </a>
+    </div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user">
+            <div class="user-avatar">М</div>
+            <div class="user-info">
+                <div class="user-name">Макс</div>
+                <span class="user-plan">Бизнес</span>
+            </div>
+        </div>
+    </div>
 </aside>
 
-<main class="main">
-  <h1 class="page-title">Коллекция моделей</h1>
-  <p class="page-subtitle">Выберите модель для чата, генерации изображений или видео</p>
+<div class="main-content">
+    <div class="page-header">
+        <h1 class="page-title">Модели</h1>
+        <p class="page-subtitle">Доступные AI модели</p>
+    </div>
 
-  <div class="tabs">
-    <div class="tab-item active">Тип генерации</div>
-    <div class="tab-item">Провайдеры <span class="tab-badge">0</span></div>
-  </div>
+    <div class="page-body">
+        <!-- Search -->
+        <div class="search-row">
+            <div class="search-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input class="input" type="text" placeholder="Поиск моделей..." id="searchInput">
+            </div>
+        </div>
 
-  <div class="filter-row" id="typeFilters">
-    <div class="filter-pill active">Все</div>
-    <div class="filter-pill">Текст</div>
-    <div class="filter-pill">Изображение</div>
-    <div class="filter-pill">Видео</div>
-  </div>
+        <!-- Filter pills -->
+        <div class="filter-row" id="filterRow">
+            <button class="chip active" data-category="all">Все</button>
+            <button class="chip" data-category="Текст">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Текст
+            </button>
+            <button class="chip" data-category="Изображения">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                Изображения
+            </button>
+            <button class="chip" data-category="Видео">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                Видео
+            </button>
+            <button class="chip" data-category="Аудио">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                Аудио
+            </button>
+        </div>
 
-  <div class="search-wrap">
-    <span class="search-icon">&#128269;</span>
-    <input class="search-input" type="text" placeholder="Поиск моделей..." id="searchInput">
-  </div>
+        <!-- Recommended section -->
+        <div id="recommendedSection">
+            <div class="section-label">Рекомендуемые</div>
+            <div class="recommended-row" id="recommendedGrid"></div>
+        </div>
 
-  <div class="models-grid" id="modelsGrid"></div>
-</main>
+        <!-- All models section -->
+        <div id="allModelsSection">
+            <div class="section-label">Все модели</div>
+            <div class="models-grid" id="modelsGrid"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile bottom bar -->
+<div class="mobile-bar">
+    <div class="mobile-bar-inner">
+        <a class="mobile-tab" href="index.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-1.5-2.5L12 .5l1.5 2L12 5z"/><path d="M5 12l-2.5 1.5L.5 12l2-1.5L5 12z"/><path d="M19 12l2.5 1.5 2-1.5-2-1.5L19 12z"/><path d="M12 19l1.5 2.5L12 23.5l-1.5-2L12 19z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Создать</span>
+        </a>
+        <a class="mobile-tab" href="templates.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <span>Шаблоны</span>
+        </a>
+        <a class="mobile-tab" href="library.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>Библиотека</span>
+        </a>
+        <a class="mobile-tab active" href="settings.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Настройки</span>
+        </a>
+    </div>
+</div>
 
 <script>
+/* Toggle sidebar (mobile) */
 function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('overlay').classList.toggle('show');
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('show');
 }
 
-const models = [
-  { name: 'Grok Imagine Video', provider: 'xAI', tags: ['Текст \u2192 Видео'], gradient: 'linear-gradient(135deg, #1a1a2e, #2d4a7a)' },
-  { name: 'Gemini 3 pro', provider: 'Google', tags: ['Текст \u2192 Текст', 'Изображение \u2192 Текст'], gradient: 'linear-gradient(135deg, #1a2e1a, #2a7a4a)' },
-  { name: 'GPT 5.2 Codex', provider: 'OpenAI', tags: ['Текст \u2192 Текст', 'Код'], gradient: 'linear-gradient(135deg, #2e1a2e, #7a2a6a)' },
-  { name: 'GPT 5.2', provider: 'OpenAI', tags: ['Текст \u2192 Текст'], gradient: 'linear-gradient(135deg, #1a1a1a, #4a4a4a)' },
-  { name: 'GPT 5.2 PRO', provider: 'OpenAI', tags: ['Текст \u2192 Текст', 'Аудио'], gradient: 'linear-gradient(135deg, #2e2e1a, #6a6a2a)' },
-  { name: 'Claude 4 Sonnet', provider: 'Anthropic', tags: ['Текст \u2192 Текст'], gradient: 'linear-gradient(135deg, #1a1a2e, #4a3a7a)' },
-  { name: 'GPT 4o', provider: 'OpenAI', tags: ['Текст \u2192 Текст', 'Изображение'], gradient: 'linear-gradient(135deg, #1a2e2e, #2a6a6a)' },
-  { name: 'GPT 5.3 Codex', provider: 'OpenAI', tags: ['Текст \u2192 Текст', 'Код'], gradient: 'linear-gradient(135deg, #2e1a1a, #7a3a3a)' },
-  { name: 'Midjourney v6', provider: 'Midjourney', tags: ['Текст \u2192 Изображение'], gradient: 'linear-gradient(135deg, #1a1a2e, #3a3a7a)' },
+/* Model data */
+var models = [
+    { name: 'GPT-5', provider: 'OpenAI', desc: 'Самая мощная языковая модель OpenAI', bestFor: 'Сложные тексты и анализ', tags: ['Текст', 'Код'], quality: 5, speed: 3, price: 2, connected: true, recommended: true },
+    { name: 'Claude Opus 4', provider: 'Anthropic', desc: 'Глубокий анализ и длинный контекст', bestFor: 'Аналитика и документы', tags: ['Текст', 'Код'], quality: 5, speed: 3, price: 2, connected: true, recommended: true },
+    { name: 'Gemini 2.5 Pro', provider: 'Google', desc: 'Мультимодальная модель от Google', bestFor: 'Мультимодальные задачи', tags: ['Текст', 'Изображения'], quality: 4, speed: 4, price: 3, connected: true, recommended: true },
+    { name: 'Midjourney v6', provider: 'Midjourney', desc: 'Фотореалистичные изображения и арт', bestFor: 'Арт и дизайн', tags: ['Изображения'], quality: 5, speed: 3, price: 3, connected: true, recommended: true },
+    { name: 'Sora', provider: 'OpenAI', desc: 'Генерация видео из текста', bestFor: 'Кинематографичное видео', tags: ['Видео'], quality: 5, speed: 2, price: 1, connected: true, recommended: true },
+    { name: 'GPT-4.1', provider: 'OpenAI', desc: 'Надёжная и экономичная модель', bestFor: 'Быстрые задачи', tags: ['Текст', 'Код'], quality: 4, speed: 5, price: 5, connected: true, recommended: false },
+    { name: 'Claude Sonnet 4', provider: 'Anthropic', desc: 'Быстрая и точная модель', bestFor: 'Баланс скорости и качества', tags: ['Текст', 'Код'], quality: 4, speed: 5, price: 4, connected: true, recommended: false },
+    { name: 'DALL-E 3', provider: 'OpenAI', desc: 'Генерация изображений по описанию', bestFor: 'Реалистичные изображения', tags: ['Изображения'], quality: 4, speed: 4, price: 4, connected: true, recommended: false },
+    { name: 'Stable Diffusion XL', provider: 'Stability', desc: 'Open-source генерация изображений', bestFor: 'Бюджетная генерация', tags: ['Изображения'], quality: 3, speed: 5, price: 5, connected: true, recommended: false },
+    { name: 'Runway Gen-3', provider: 'Runway', desc: 'Профессиональная генерация видео', bestFor: 'Профессиональное видео', tags: ['Видео'], quality: 4, speed: 3, price: 2, connected: false, recommended: false },
+    { name: 'Kling v2', provider: 'Kuaishou', desc: 'Генерация видео, motion', bestFor: 'Динамичные ролики', tags: ['Видео'], quality: 4, speed: 4, price: 3, connected: false, recommended: false },
+    { name: 'Whisper v3', provider: 'OpenAI', desc: 'Распознавание речи', bestFor: 'Транскрибация', tags: ['Аудио'], quality: 5, speed: 5, price: 5, connected: true, recommended: false }
 ];
 
-const grid = document.getElementById('modelsGrid');
-function renderModels(filter) {
-  grid.innerHTML = '';
-  const filtered = filter ? models.filter(m => m.name.toLowerCase().includes(filter.toLowerCase())) : models;
-  filtered.forEach(m => {
-    const card = document.createElement('div');
-    card.className = 'model-card';
-    card.innerHTML = `
-      <div class="model-card-gradient" style="background: ${m.gradient};">
-        <div class="model-provider">${m.provider}</div>
-        <div class="model-name">${m.name}</div>
-      </div>
-      <div class="model-tags">
-        ${m.tags.map(t => `<span class="model-tag">${t}</span>`).join('')}
-      </div>
-    `;
-    grid.appendChild(card);
-  });
+var activeCategory = 'all';
+
+function buildMetricBar(label, value, cls) {
+    var pct = (value / 5) * 100;
+    return '<div class="metric-row">' +
+        '<span class="metric-label">' + label + '</span>' +
+        '<div class="metric-track"><div class="metric-fill ' + cls + '" style="width:' + pct + '%"></div></div>' +
+    '</div>';
 }
-renderModels('');
 
-document.getElementById('searchInput').addEventListener('input', function() {
-  renderModels(this.value);
-});
+function buildCard(m) {
+    var statusHtml = m.connected
+        ? '<span class="status-connected"><span class="status-dot"></span>Подключено</span>'
+        : '<button class="btn-use" onclick="event.stopPropagation()">Использовать</button>';
 
-// Filter pills
-document.querySelectorAll('.filter-row').forEach(row => {
-  row.addEventListener('click', e => {
-    const pill = e.target.closest('.filter-pill');
+    return '<div class="model-card">' +
+        '<div class="model-gradient">' +
+            '<div class="model-gradient-letter">' + m.name.charAt(0) + '</div>' +
+            '<span class="model-provider">' + m.provider + '</span>' +
+        '</div>' +
+        '<div class="model-body">' +
+            '<div class="model-name">' + m.name + '</div>' +
+            '<div class="model-desc">' + m.desc + '</div>' +
+            '<div class="model-metrics">' +
+                buildMetricBar('Качество', m.quality, 'quality') +
+                buildMetricBar('Скорость', m.speed, 'speed') +
+                buildMetricBar('Цена', m.price, 'price') +
+            '</div>' +
+            '<div class="model-bestfor">' +
+                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
+                m.bestFor +
+            '</div>' +
+            '<div class="model-tags">' +
+                m.tags.map(function(t) { return '<span class="model-tag">' + t + '</span>'; }).join('') +
+            '</div>' +
+            '<div class="model-footer">' + statusHtml + '</div>' +
+        '</div>' +
+    '</div>';
+}
+
+function renderModels() {
+    var searchVal = document.getElementById('searchInput').value.toLowerCase();
+
+    var recommended = [];
+    var rest = [];
+
+    models.forEach(function(m) {
+        var matchesSearch = !searchVal ||
+            m.name.toLowerCase().indexOf(searchVal) !== -1 ||
+            m.provider.toLowerCase().indexOf(searchVal) !== -1 ||
+            m.desc.toLowerCase().indexOf(searchVal) !== -1;
+        var matchesCategory = activeCategory === 'all' || m.tags.indexOf(activeCategory) !== -1;
+
+        if (!matchesSearch || !matchesCategory) return;
+
+        if (m.recommended) {
+            recommended.push(m);
+        } else {
+            rest.push(m);
+        }
+    });
+
+    // Recommended section
+    var recSection = document.getElementById('recommendedSection');
+    var recGrid = document.getElementById('recommendedGrid');
+    if (recommended.length > 0) {
+        recSection.style.display = '';
+        recGrid.innerHTML = recommended.map(buildCard).join('');
+    } else {
+        recSection.style.display = 'none';
+    }
+
+    // All models section
+    var allSection = document.getElementById('allModelsSection');
+    var allGrid = document.getElementById('modelsGrid');
+    if (rest.length > 0) {
+        allSection.style.display = '';
+        allGrid.innerHTML = rest.map(buildCard).join('');
+    } else if (recommended.length === 0) {
+        allSection.style.display = '';
+        allGrid.innerHTML = '<div class="empty-state">Ничего не найдено</div>';
+    } else {
+        allSection.style.display = 'none';
+    }
+}
+
+renderModels();
+
+document.getElementById('searchInput').addEventListener('input', renderModels);
+
+document.getElementById('filterRow').addEventListener('click', function(e) {
+    var pill = e.target.closest('.chip');
     if (!pill) return;
-    row.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    this.querySelectorAll('.chip').forEach(function(p) { p.classList.remove('active'); });
     pill.classList.add('active');
-  });
-});
-
-// Tabs
-document.querySelectorAll('.tab-item').forEach(tab => {
-  tab.addEventListener('click', function() {
-    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-    this.classList.add('active');
-  });
+    activeCategory = pill.getAttribute('data-category');
+    renderModels();
 });
 </script>
 </body>
