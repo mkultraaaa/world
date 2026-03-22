@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroGate &mdash; Политика конфиденциальности</title>
+    <meta name="description" content="Политика конфиденциальности в отношении обработки персональных данных пользователей сервиса NeuroGate.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A78BFA;
+            --purple-bg: #F5F3FF;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --white: #FFFFFF;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--gray-800);
+            line-height: 1.6;
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: relative;
+            background: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            z-index: 100;
+        }
+
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--gray-900);
+            text-decoration: none;
+        }
+
+        .logo svg { flex-shrink: 0; }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .navbar-link:hover { color: var(--gray-900); }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            background: var(--purple);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .btn-nav:hover { background: var(--purple-dark); }
+
+        /* ===== LEGAL CONTENT ===== */
+        .legal-hero {
+            background: linear-gradient(135deg, #7C3AED 0%, #A855F7 50%, #EC4899 100%);
+            padding: 48px 20px 40px;
+            text-align: center;
+        }
+
+        .legal-hero h1 {
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .legal-hero p {
+            color: rgba(255,255,255,0.85);
+            font-size: 16px;
+        }
+
+        .legal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 48px 24px 64px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--gray-700);
+        }
+
+        .legal-content h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-top: 48px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--purple-bg);
+        }
+
+        .legal-content h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+
+        .legal-content p {
+            margin-bottom: 12px;
+        }
+
+        .legal-content strong {
+            color: var(--gray-900);
+        }
+
+        .legal-content ul, .legal-content ol {
+            margin-bottom: 12px;
+            padding-left: 24px;
+        }
+
+        .legal-content li {
+            margin-bottom: 6px;
+        }
+
+        .legal-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .legal-content table th,
+        .legal-content table td {
+            border: 1px solid var(--gray-200);
+            padding: 10px 14px;
+            text-align: left;
+        }
+
+        .legal-content table th {
+            background: var(--gray-50);
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+
+        .legal-content table td:first-child {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .legal-content hr {
+            border: none;
+            border-top: 1px solid var(--gray-200);
+            margin: 32px 0;
+        }
+
+        .legal-content a {
+            color: var(--purple);
+            text-decoration: none;
+        }
+
+        .legal-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Cross-links */
+        .cross-links {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px 48px;
+            text-align: center;
+        }
+
+        .cross-links-box {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .cross-links-box p {
+            font-size: 14px;
+            color: var(--gray-500);
+            margin-bottom: 8px;
+        }
+
+        .cross-links-box a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--purple);
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .cross-links-box a:hover {
+            color: var(--purple-dark);
+            text-decoration: underline;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--gray-900);
+            color: var(--gray-300);
+            padding: 48px 0 24px;
+        }
+
+        .footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .footer-brand .logo {
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.6;
+        }
+
+        .footer-col h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .footer-col ul { list-style: none; }
+
+        .footer-col li { margin-bottom: 10px; }
+
+        .footer-col a {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover { color: var(--purple-light); }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            text-align: center;
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+
+        .footer-bottom a {
+            color: var(--gray-400);
+            text-decoration: none;
+        }
+
+        .footer-bottom a:hover { color: var(--purple-light); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 639px) {
+            .legal-hero { padding: 36px 16px 32px; }
+            .legal-hero h1 { font-size: 24px; }
+            .legal-hero p { font-size: 14px; }
+            .legal-content { padding: 32px 16px 48px; font-size: 14px; }
+            .legal-content h2 { font-size: 19px; margin-top: 36px; }
+            .legal-content h3 { font-size: 16px; }
+            .legal-content table td:first-child { white-space: normal; }
+            .navbar-inner { padding: 0 16px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+            .footer-brand { grid-column: 1 / -1; }
+        }
+
+        @media (min-width: 768px) {
+            .legal-hero h1 { font-size: 36px; }
+            .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+            .footer-bottom { flex-direction: row; justify-content: space-between; }
+        }
+    
+        /* ===== NAVBAR (unified) ===== */
+        .navbar {
+            position: relative;
+            background: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            z-index: 100;
+        }
+
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--gray-900);
+            text-decoration: none;
+        }
+
+        .logo svg { flex-shrink: 0; }
+
+        .nav-tabs {
+            display: none;
+            align-items: center;
+            gap: 0;
+            list-style: none;
+            height: 100%;
+        }
+
+        .nav-tabs a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0 16px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid transparent;
+            transition: color 0.15s;
+            margin-bottom: -1px;
+        }
+
+        .nav-tabs a:hover { color: var(--gray-900); }
+
+        .nav-tabs a.active {
+            color: var(--gray-900);
+            font-weight: 600;
+            border-bottom-color: var(--gray-900);
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-links {
+            display: none;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .navbar-link:hover { color: var(--gray-900); }
+
+        .navbar-cta {
+            display: none;
+            align-items: center;
+        }
+
+        .navbar-cta .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            background: var(--purple);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .navbar-cta .btn-nav:hover {
+            background: var(--purple-dark);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 56px;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            padding: 12px 24px 16px;
+            flex-direction: column;
+            gap: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .mobile-menu.open { display: flex; }
+
+        .mobile-menu a {
+            display: block;
+            padding: 10px 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: #666;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .mobile-menu a:last-child { border-bottom: none; }
+        .mobile-menu a:hover { color: var(--gray-900); }
+        .mobile-menu a.active { color: var(--gray-900); font-weight: 600; }
+
+        .mobile-menu .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--purple);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            margin-top: 8px;
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu-btn span {
+            width: 20px;
+            height: 2px;
+            background: var(--gray-600);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        @media (min-width: 1024px) {
+            .nav-tabs { display: flex; }
+            .navbar-links { display: flex; }
+            .navbar-cta { display: flex; }
+            .mobile-menu-btn { display: none; }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+        <a href="landing-b2c.html" class="logo">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="0" width="14" height="14" rx="3.5" fill="#7C3AED"/>
+                <rect x="18" y="0" width="14" height="14" rx="3.5" fill="#7C3AED"/>
+                <rect x="0" y="18" width="14" height="14" rx="3.5" fill="#7C3AED"/>
+                <rect x="18" y="18" width="14" height="14" rx="3.5" fill="#7C3AED"/>
+            </svg>
+            NeuroGate
+        </a>
+        <ul class="nav-tabs">
+            <li><a href="landing-b2c.html">Личное</a></li>
+            <li><a href="landing-b2b.html">Для бизнеса</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+        <div class="navbar-right">
+            <div class="navbar-links">
+                <a href="landing-b2c.html#pricing" class="navbar-link">Тарифы</a>
+                <a href="#" class="navbar-link">Войти</a>
+            </div>
+            <div class="navbar-cta">
+                <a href="#" class="btn-nav">Начать бесплатно</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Меню" onclick="document.getElementById('mobile-menu').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="landing-b2c.html">Личное</a>
+        <a href="landing-b2b.html">Для бизнеса</a>
+        <a href="about.html">О нас</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="landing-b2c.html#pricing">Тарифы</a>
+        <a href="#">Войти</a>
+        <a href="#" class="btn-nav">Начать бесплатно</a>
+    </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="legal-hero">
+    <h1>Политика конфиденциальности</h1>
+    <p>В отношении обработки персональных данных пользователей сервиса NeuroGate</p>
+</div>
+
+<!-- ===== CONTENT ===== -->
+<div class="legal-content">
+
+    <p><strong>Редакция от &laquo;___&raquo; _______ 2026 года</strong></p>
+
+    <hr>
+
+    <h2>1. Общие положения</h2>
+
+    <p>1.1. Настоящая Политика конфиденциальности (далее &mdash; &laquo;Политика&raquo;) разработана в соответствии с Федеральным законом от 27.07.2006 &#8470;&nbsp;152&#8209;ФЗ &laquo;О персональных данных&raquo; (далее &mdash; 152&#8209;ФЗ) и иными нормативными правовыми актами РФ.</p>
+
+    <p>1.2. Политика определяет порядок обработки персональных данных и меры по обеспечению их безопасности, предпринимаемые Оператором &mdash; Индивидуальным предпринимателем <strong>[ФИО]</strong> (ИНН: <strong>[ИНН]</strong>, ОГРНИП: <strong>[ОГРНИП]</strong>), осуществляющим деятельность посредством сервиса NeuroGate, расположенного по адресу: <strong>[домен]</strong> (далее &mdash; &laquo;Сервис&raquo;).</p>
+
+    <p>1.3. Используя Сервис, Пользователь выражает согласие с условиями настоящей Политики.</p>
+
+    <hr>
+
+    <h2>2. Основные понятия</h2>
+
+    <p>Термины используются в значениях, определённых 152&#8209;ФЗ, включая: персональные данные, обработка, оператор, конфиденциальность, автоматизированная обработка.</p>
+
+    <hr>
+
+    <h2>3. Какие данные мы обрабатываем</h2>
+
+    <p>3.1. Данные, предоставляемые Пользователем:</p>
+    <ul>
+        <li>email</li>
+        <li>имя/никнейм (если указан)</li>
+    </ul>
+
+    <p>3.2. Контент взаимодействия:</p>
+    <ul>
+        <li>содержание запросов к Моделям (промпты) и результаты генерации (история запросов)</li>
+    </ul>
+
+    <p>3.3. Данные, собираемые автоматически:</p>
+    <ul>
+        <li>IP&#8209;адрес</li>
+        <li>cookies</li>
+        <li>браузер, устройство, ОС, язык</li>
+        <li>дата/время доступа, URL страниц, реферер</li>
+        <li>события использования (аналитика)</li>
+    </ul>
+
+    <p>3.4. Платёжные данные:</p>
+    <ul>
+        <li>Оператор не хранит данные банковских карт.</li>
+        <li>Оператор хранит идентификатор транзакции, сумму и статус оплаты &mdash; для учёта Баланса.</li>
+    </ul>
+
+    <p>3.5. Оператор не обрабатывает специальные категории ПДн (здоровье, интимная жизнь и т.п.).</p>
+
+    <hr>
+
+    <h2>4. Цели обработки</h2>
+
+    <ul>
+        <li>регистрация и аутентификация</li>
+        <li>предоставление функциональности Сервиса</li>
+        <li>исполнение договора (публичной оферты)</li>
+        <li>биллинг и учёт Баланса</li>
+        <li>безопасность и предотвращение злоупотреблений</li>
+        <li>техническая поддержка</li>
+        <li>аналитика улучшения Сервиса</li>
+        <li>коммуникация</li>
+        <li>соблюдение требований законодательства РФ</li>
+    </ul>
+
+    <hr>
+
+    <h2>5. Правовые основания</h2>
+
+    <p>Обработка осуществляется на основаниях, предусмотренных ст.&nbsp;6 152&#8209;ФЗ, включая:</p>
+    <ul>
+        <li>согласие Пользователя</li>
+        <li>исполнение договора</li>
+        <li>законные интересы Оператора (безопасность/аналитика)</li>
+        <li>исполнение требований закона</li>
+    </ul>
+
+    <hr>
+
+    <h2>6. Принципы обработки</h2>
+
+    <p>Оператор соблюдает принципы законности, справедливости, минимизации, целевого ограничения, точности и ограниченности сроков хранения.</p>
+
+    <hr>
+
+    <h2>7. Локализация и сроки хранения</h2>
+
+    <p>7.1. Обработка и хранение персональных данных осуществляется на серверах, расположенных на территории РФ (ч.&nbsp;5 ст.&nbsp;18 152&#8209;ФЗ).</p>
+
+    <p>7.2. Сроки хранения:</p>
+
+    <table>
+        <thead>
+            <tr><th>Категория</th><th>Срок</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Данные аккаунта</td><td>до удаления аккаунта или отзыва согласия</td></tr>
+            <tr><td>История запросов (контент взаимодействия)</td><td>до 90 дней или до удаления Пользователем в интерфейсе</td></tr>
+            <tr><td>Технические/аналитические данные</td><td>до 12 месяцев</td></tr>
+            <tr><td>Платёжные данные (ID транзакции, сумма, статус)</td><td>не менее 5 лет (в рамках требований налогового/бухучёта)</td></tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <h2>8. Передача третьим лицам</h2>
+
+    <p>8.1. Оператор может передавать данные третьим лицам в объёме, необходимом для функционирования Сервиса:</p>
+    <ul>
+        <li>платёжный провайдер (<strong>Тинькофф / CloudPayments</strong> &mdash; уточняется)</li>
+        <li>хостинг&#8209;провайдер</li>
+        <li>сервисы аналитики (например, Яндекс.Метрика)</li>
+        <li>поставщики технологических решений (в том числе для выполнения запросов Пользователя)</li>
+    </ul>
+
+    <p>8.2. Передача также возможна по требованию закона.</p>
+
+    <hr>
+
+    <h2>9. Права Пользователя</h2>
+
+    <p>Пользователь вправе запросить сведения об обработке, потребовать уточнения/блокирования/удаления ПДн, отозвать согласие, удалить историю запросов и/или аккаунт.</p>
+
+    <p>Запросы направляются на <strong>[support@neurogate.ai]</strong>.</p>
+
+    <p>Срок ответа на запрос &mdash; до 10&nbsp;рабочих дней. Удаление/прекращение обработки по отзыву согласия &mdash; до 30&nbsp;дней (если не требуется хранение по закону).</p>
+
+    <p>Также Пользователь вправе обратиться с жалобой в уполномоченный орган (Роскомнадзор) и/или в суд.</p>
+
+    <hr>
+
+    <h2>10. Инциденты безопасности</h2>
+
+    <p>При выявлении инцидента, повлекшего неправомерную передачу (раскрытие) персональных данных, Оператор действует в соответствии с требованиями законодательства РФ (включая уведомления уполномоченного органа в установленные сроки).</p>
+
+    <hr>
+
+    <h2>11. Маркетинговые и информационные рассылки</h2>
+
+    <p>11.1. Оператор может направлять Пользователю:</p>
+    <ul>
+        <li>сервисные уведомления (без отдельного согласия);</li>
+        <li>онбординг&#8209;письма и маркетинговые сообщения (анонсы, новости, подсказки) &mdash; <strong>только при наличии согласия Пользователя</strong>.</li>
+    </ul>
+
+    <p>11.2. Пользователь может отказаться от маркетинговых сообщений в любое время:</p>
+    <ul>
+        <li>по ссылке &laquo;Отписаться&raquo; в каждом письме; и/или</li>
+        <li>через обращение в поддержку.</li>
+    </ul>
+
+    <hr>
+
+    <h2>12. Cookies</h2>
+
+    <p>Сервис использует cookies для работы и аналитики. Отключение cookies может повлиять на функциональность.</p>
+
+    <hr>
+
+    <h2>13. Несовершеннолетние</h2>
+
+    <p>Сервис не предназначен для лиц младше 16 лет.</p>
+
+    <hr>
+
+    <h2>14. Изменения Политики</h2>
+
+    <p>Оператор вправе обновлять Политику, публикуя новую редакцию на сайте.</p>
+
+    <hr>
+
+    <h2>15. Контакты</h2>
+
+    <p>Оператор: ИП <strong>[ФИО]</strong> (ИНН <strong>[ИНН]</strong>, ОГРНИП <strong>[ОГРНИП]</strong>)</p>
+
+    <p>Email: <strong>[support@neurogate.ai]</strong></p>
+
+    <p>Адрес: <strong>[адрес]</strong></p>
+
+</div>
+
+<!-- ===== CROSS-LINKS ===== -->
+<div class="cross-links">
+    <div class="cross-links-box">
+        <p>Смотрите также:</p>
+        <a href="/offer.html">&#128196; Публичная оферта (пользовательское соглашение) &rarr;</a>
+    </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="landing-b2c.html" class="logo">
+                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0" y="0" width="14" height="14" rx="3.5" fill="#A78BFA"/>
+                        <rect x="18" y="0" width="14" height="14" rx="3.5" fill="#A78BFA"/>
+                        <rect x="0" y="18" width="14" height="14" rx="3.5" fill="#A78BFA"/>
+                        <rect x="18" y="18" width="14" height="14" rx="3.5" fill="#A78BFA"/>
+                    </svg>
+                    NeuroGate
+                </a>
+                <p>Все нейросети в одном месте.<br>Без VPN. Оплата в рублях.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Продукт</h4>
+                <ul>
+                    <li><a href="landing-b2c.html#features">Возможности</a></li>
+                    <li><a href="landing-b2c.html#pricing">Тарифы</a></li>
+                    <li><a href="landing-b2c.html">Личное</a></li>
+                    <li><a href="landing-b2b.html">Для бизнеса</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Поддержка</h4>
+                <ul>
+                    <li><a href="landing-b2c.html#faq">FAQ</a></li>
+                    <li><a href="mailto:support@neurogate.ru">Email</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Компания</h4>
+                <ul>
+                    <li><a href="about.html">О нас</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&#169; 2026 NeuroGate. Все права защищены.</span>
+            <div>
+                <a href="privacy.html">Политика конфиденциальности</a> &middot; <a href="offer.html">Оферта</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

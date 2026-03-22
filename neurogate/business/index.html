@@ -1116,6 +1116,105 @@
             line-height: 1.5;
         }
 
+        /* ===== TESTIMONIALS ===== */
+        .b2b-testimonials {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .b2b-testimonial-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .b2b-testimonial-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .b2b-testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .b2b-testimonial-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 17px;
+            flex-shrink: 0;
+        }
+
+        .b2b-testimonial-card:nth-child(1) .b2b-testimonial-avatar { background: linear-gradient(135deg, #7C3AED, #A855F7); }
+        .b2b-testimonial-card:nth-child(2) .b2b-testimonial-avatar { background: linear-gradient(135deg, #3B82F6, #60A5FA); }
+        .b2b-testimonial-card:nth-child(3) .b2b-testimonial-avatar { background: linear-gradient(135deg, #F97316, #FBBF24); }
+        .b2b-testimonial-card:nth-child(4) .b2b-testimonial-avatar { background: linear-gradient(135deg, #059669, #34D399); }
+
+        .b2b-testimonial-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+
+        .b2b-testimonial-handle {
+            font-size: 12px;
+            color: var(--purple);
+            font-weight: 500;
+        }
+
+        .b2b-testimonial-role {
+            font-size: 12px;
+            color: var(--gray-500);
+            font-weight: 500;
+        }
+
+        .b2b-testimonial-quote {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .b2b-testimonial-text {
+            font-size: 14px;
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .b2b-testimonial-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .b2b-testimonial-badge {
+            font-size: 11px;
+            color: var(--purple);
+            font-weight: 600;
+            background: rgba(124,58,237,0.08);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .b2b-testimonial-date {
+            font-size: 11px;
+            color: var(--gray-400);
+            font-weight: 500;
+        }
+
         /* ===== FAQ ===== */
         .faq-list {
             max-width: 800px;
@@ -1393,6 +1492,8 @@
 
             .api-code pre { font-size: 11px; padding: 14px; }
 
+            .b2b-testimonials { grid-template-columns: 1fr; gap: 16px; }
+            .b2b-testimonial-card { padding: 20px; }
             .faq-question { font-size: 14px; padding: 14px 16px; }
             .faq-answer p { font-size: 13px; }
 
@@ -1496,18 +1597,22 @@
     <div class="container">
         <div class="hero-inner">
             <div class="hero-content">
-                <div class="hero-badge">Для бизнеса</div>
+                <div class="hero-badge">&#127479;&#127482; Работает из России без VPN</div>
                 <h1>AI для всей команды.<br>Один кабинет. Один счёт.</h1>
                 <p class="hero-subtitle">100+ нейросетей для маркетинга, продаж, HR и разработки. Контроль расходов, безопасность данных, оплата от юрлица.</p>
                 <div class="hero-buttons">
-                    <a href="/neurogate/app/cabinet/?new=1" class="btn btn-glow">Получить бесплатный AI-аудит</a>
-                    <a href="#pricing" class="btn btn-lg btn-outline" style="border-color:rgba(255,255,255,0.3);color:white;">Посмотреть тарифы &#8595;</a>
+                    <a href="/neurogate/app/cabinet/?new=1" class="btn btn-glow">Попробовать бесплатно</a>
+                    <a href="#audit" class="btn btn-lg btn-outline" style="border-color:rgba(255,255,255,0.3);color:white;">Получить AI-аудит процессов</a>
                 </div>
-                <div class="hero-proof-badges">
-                    <div class="proof-badge">100+ моделей</div>
-                    <div class="proof-badge">Оплата от юрлица</div>
-                    <div class="proof-badge">Данные под защитой</div>
-                    <div class="proof-badge">Дашборд расходов</div>
+
+                <div style="margin-top:24px;">
+                    <p style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">Уже используют в работе</p>
+                    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+                        <span style="display:flex;align-items:center;gap:6px;opacity:0.6;"><img src="/neurogate/static/logo-moyaudalenka.svg" alt="Моя Удалёнка" style="height:24px;width:auto;"><span style="font-size:13px;font-weight:500;color:white;">Моя Удалёнка</span></span>
+                        <span style="display:flex;align-items:center;gap:6px;opacity:0.6;"><img src="/neurogate/static/logo-unisender-icon.png" alt="Unisender" style="height:24px;width:24px;border-radius:6px;"><span style="font-size:13px;font-weight:500;color:white;">Unisender</span></span>
+                        <span style="display:flex;align-items:center;gap:6px;opacity:0.6;"><img src="/neurogate/static/logo-wooton.jpg" alt="Wooton" style="height:24px;width:auto;border-radius:4px;"><span style="font-size:13px;font-weight:500;color:white;">Wooton</span></span>
+                        <span style="display:flex;align-items:center;gap:6px;opacity:0.6;"><span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.15);color:white;font-size:11px;font-weight:600;">+30</span><span style="font-size:13px;font-weight:500;color:white;">компаний</span></span>
+                    </div>
                 </div>
             </div>
             <div class="hero-visual">
@@ -1598,34 +1703,31 @@
         <h2 class="section-title">72% компаний уже используют AI. А ваша?</h2>
         <p class="section-subtitle">Три главных боли бизнеса при работе с нейросетями — и как мы их решаем</p>
         <div class="problems-grid">
-            <div class="problem-card">
-                <div class="problem-pain">
-                    <div class="problem-pain-label">Проблема</div>
-                    <p>Сотрудники пользуются ChatGPT хаотично — нет контроля, данные утекают</p>
-                </div>
-                <div class="problem-solution">
-                    <div class="problem-solution-label">Решение NeuroGate</div>
-                    <p>Единый кабинет с дашбордом: кто, сколько, на что тратит. Данные не уходят в обучение моделей</p>
-                </div>
-            </div>
-            <div class="problem-card">
-                <div class="problem-pain">
-                    <div class="problem-pain-label">Проблема</div>
-                    <p>5 подписок на разные AI-сервисы, каждую оплачивает кто-то по-своему</p>
-                </div>
-                <div class="problem-solution">
-                    <div class="problem-solution-label">Решение NeuroGate</div>
-                    <p>Один счёт от юрлица, ЭДО, акты. Все модели в одном месте</p>
+            <div class="problem-card" style="border:1px solid var(--gray-200);box-shadow:none;background:white;padding:32px 24px;display:flex;flex-direction:column;border-radius:16px;">
+                <div style="width:48px;height:48px;border-radius:12px;background:var(--purple-bg);display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></div>
+                <h3 style="font-size:17px;font-weight:700;color:var(--gray-800);margin-bottom:6px;">Хаос с доступами</h3>
+                <p style="font-size:14px;color:var(--gray-400);margin-bottom:0;">Каждый сам покупает подписку, данные утекают</p>
+                <div style="border-top:1px solid var(--gray-100);padding-top:16px;margin-top:auto;display:flex;align-items:flex-start;gap:8px;min-height:56px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span style="font-size:14px;color:var(--gray-800);font-weight:500;">Единый кабинет, контроль расходов и данных</span>
                 </div>
             </div>
-            <div class="problem-card">
-                <div class="problem-pain">
-                    <div class="problem-pain-label">Проблема</div>
-                    <p>Хотим внедрить AI, но не знаем с чего начать</p>
+            <div class="problem-card" style="border:1px solid var(--gray-200);box-shadow:none;background:white;padding:32px 24px;display:flex;flex-direction:column;border-radius:16px;">
+                <div style="width:48px;height:48px;border-radius:12px;background:var(--purple-bg);display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg></div>
+                <h3 style="font-size:17px;font-weight:700;color:var(--gray-800);margin-bottom:6px;">5 подписок, 5 счетов</h3>
+                <p style="font-size:14px;color:var(--gray-400);margin-bottom:0;">Каждый отдел платит по-своему, бухгалтерия страдает</p>
+                <div style="border-top:1px solid var(--gray-100);padding-top:16px;margin-top:auto;display:flex;align-items:flex-start;gap:8px;min-height:56px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span style="font-size:14px;color:var(--gray-800);font-weight:500;">Один счёт от юрлица, ЭДО, акты</span>
                 </div>
-                <div class="problem-solution">
-                    <div class="problem-solution-label">Решение NeuroGate</div>
-                    <p>Бесплатный AI-аудит: покажем где AI сэкономит вам 500K+ рублей в месяц</p>
+            </div>
+            <div class="problem-card" style="border:1px solid var(--gray-200);box-shadow:none;background:white;padding:32px 24px;display:flex;flex-direction:column;border-radius:16px;">
+                <div style="width:48px;height:48px;border-radius:12px;background:var(--purple-bg);display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                <h3 style="font-size:17px;font-weight:700;color:var(--gray-800);margin-bottom:6px;">Не знаем с чего начать</h3>
+                <p style="font-size:14px;color:var(--gray-400);margin-bottom:0;">Хотим AI, но нет экспертизы внутри команды</p>
+                <div style="border-top:1px solid var(--gray-100);padding-top:16px;margin-top:auto;display:flex;align-items:flex-start;gap:8px;min-height:56px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span style="font-size:14px;color:var(--gray-800);font-weight:500;">Бесплатный AI-аудит + обучение команды</span>
                 </div>
             </div>
         </div>
@@ -1639,32 +1741,36 @@
         <p class="section-subtitle">Контроль, безопасность, масштабирование — из коробки</p>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">&#128202;</div>
-                <h3>Дашборд и контроль</h3>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:var(--purple-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                    <h3 style="margin:0;">Быстрый старт</h3>
+                </div>
+                <ul>
+                    <li>Подключение команды за 10 минут</li>
+                    <li>Готовые промпт-шаблоны по отделам</li>
+                </ul>
+                <div class="feature-screenshot">
+                    <img src="/neurogate/static/screen-onboarding.png" alt="Быстрый старт NeuroGate" loading="lazy">
+                </div>
+            </div>
+            <div class="feature-card">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:var(--purple-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
+                    <h3 style="margin:0;">Дашборд и контроль</h3>
+                </div>
                 <ul>
                     <li>Кто из сотрудников использует AI и сколько тратит</li>
                     <li>Лимиты по отделам и сотрудникам</li>
-                    <li>Отчёт для CFO: экономия в часах и рублях</li>
                 </ul>
                 <div class="feature-screenshot">
                     <img src="/neurogate/static/screen-dashboard.png" alt="Дашборд расходов NeuroGate" loading="lazy">
                 </div>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">&#128274;</div>
-                <h3>Безопасность данных</h3>
-                <ul>
-                    <li>Промпты не уходят в обучение моделей</li>
-                    <li>Корпоративная политика использования</li>
-                    <li>Контроль доступа: роли, группы, ограничения</li>
-                </ul>
-                <div class="feature-screenshot">
-                    <img src="/neurogate/static/screen-security.png" alt="Безопасность данных NeuroGate" loading="lazy">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:var(--purple-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg></div>
+                    <h3 style="margin:0;">100+ моделей — один интерфейс</h3>
                 </div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">&#129504;</div>
-                <h3>100+ моделей — один интерфейс</h3>
                 <ul>
                     <li>GPT-5, Claude, Gemini, Midjourney, Sora</li>
                     <li>Smart Router: авто-выбор лучшей модели</li>
@@ -1675,8 +1781,10 @@
                 </div>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">&#128188;</div>
-                <h3>Оплата для бизнеса</h3>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:var(--purple-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+                    <h3 style="margin:0;">Оплата для бизнеса</h3>
+                </div>
                 <ul>
                     <li>Счёт от юрлица, НДС, ЭДО, акты</li>
                     <li>Пополнение баланса без подписки</li>
@@ -1687,233 +1795,173 @@
                 </div>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">&#128640;</div>
-                <h3>Быстрый старт</h3>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:var(--purple-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                    <h3 style="margin:0;">Безопасность данных</h3>
+                </div>
                 <ul>
-                    <li>Подключение команды за 10 минут</li>
-                    <li>Готовые промпт-шаблоны по отделам</li>
-                    <li>Обучение команды включено</li>
+                    <li>Промпты не уходят в обучение моделей</li>
+                    <li>Контроль доступа: роли, группы, ограничения</li>
                 </ul>
                 <div class="feature-screenshot">
-                    <img src="/neurogate/static/screen-onboarding.png" alt="Быстрый старт NeuroGate" loading="lazy">
+                    <img src="/neurogate/static/screen-security.png" alt="Безопасность данных NeuroGate" loading="lazy">
                 </div>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">&#128268;</div>
-                <h3>API для разработчиков</h3>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:var(--purple-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+                    <h3 style="margin:0;">API для разработчиков</h3>
+                </div>
                 <ul>
                     <li>OpenAI-совместимый API — замени base_url</li>
-                    <li>SDK: Python, Node.js</li>
-                    <li>Webhook-уведомления, fallback</li>
+                    <li>Fallback между моделями, SDK для Python и Node.js</li>
                 </ul>
+                <div class="feature-screenshot">
+                    <img src="/neurogate/static/screen-api.png" alt="API NeuroGate" loading="lazy">
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+
 
 <!-- ===== ROI CALCULATOR ===== -->
-<section class="roi-section" id="roi">
-    <div class="container">
-        <h2 class="section-title">Сколько сэкономит AI вашей команде?</h2>
-        <p class="section-subtitle">Реальные цифры экономии по размеру команды</p>
-        <div class="roi-cards">
-            <div class="roi-card">
-                <div class="roi-card-team">Малая команда</div>
-                <div class="roi-card-size">10 человек</div>
-                <div class="roi-row">
-                    <span class="roi-label">Экономия часов</span>
-                    <span class="roi-value">~200 ч/мес</span>
-                </div>
-                <div class="roi-row">
-                    <span class="roi-label">Экономия на ФОТ</span>
-                    <span class="roi-value green">~120 000 &#8381;/мес</span>
-                </div>
-                <div class="roi-row">
-                    <span class="roi-label">Стоимость NeuroGate</span>
-                    <span class="roi-value">15 000 &#8381;/мес</span>
-                </div>
-                <div class="roi-result">
-                    <div class="roi-result-label">ROI</div>
-                    <div class="roi-result-value">700%</div>
-                </div>
-            </div>
-            <div class="roi-card highlight">
-                <div class="roi-card-team">Средняя команда</div>
-                <div class="roi-card-size">30 человек</div>
-                <div class="roi-row">
-                    <span class="roi-label">Экономия часов</span>
-                    <span class="roi-value">~580 ч/мес</span>
-                </div>
-                <div class="roi-row">
-                    <span class="roi-label">Экономия на ФОТ</span>
-                    <span class="roi-value green">~350 000 &#8381;/мес</span>
-                </div>
-                <div class="roi-row">
-                    <span class="roi-label">Стоимость NeuroGate</span>
-                    <span class="roi-value">45 000 &#8381;/мес</span>
-                </div>
-                <div class="roi-result">
-                    <div class="roi-result-label">ROI</div>
-                    <div class="roi-result-value">680%</div>
-                </div>
-            </div>
-            <div class="roi-card">
-                <div class="roi-card-team">Большая команда</div>
-                <div class="roi-card-size">100 человек</div>
-                <div class="roi-row">
-                    <span class="roi-label">Экономия часов</span>
-                    <span class="roi-value">~1 900 ч/мес</span>
-                </div>
-                <div class="roi-row">
-                    <span class="roi-label">Экономия на ФОТ</span>
-                    <span class="roi-value green">~1 200 000 &#8381;/мес</span>
-                </div>
-                <div class="roi-row">
-                    <span class="roi-label">Стоимость NeuroGate</span>
-                    <span class="roi-value">По запросу</span>
-                </div>
-                <div class="roi-result">
-                    <div class="roi-result-label">Персональный расчёт</div>
-                    <div class="roi-result-value" style="font-size:18px;">Запросить &#8594;</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 <!-- ===== TRUSTED BY + CASES ===== -->
-<section id="cases">
-    <div class="container">
-        <!-- Trusted logos -->
-        <div class="trusted-bar">
-            <p class="trusted-label">Используют в работе</p>
-            <div class="trusted-logos">
-                <div class="trusted-logo">
-                    <img src="/neurogate/static/logo-unisender.svg" alt="Unisender" style="height:28px;width:auto;filter:grayscale(100%);opacity:0.6;">
-                </div>
-                <div class="trusted-logo">
-                    <img src="/neurogate/static/logo-moyaudalenka.png" alt="Моя Удалёнка" style="height:28px;width:auto;filter:grayscale(100%);opacity:0.6;">
-                    <span>Моя Удалёнка</span>
-                </div>
-                <div class="trusted-logo">
-                    <img src="/neurogate/static/logo-wooton.svg" alt="Wooton" style="height:28px;width:auto;">
-                    <span>Wooton</span>
-                </div>
-                <div class="trusted-logo trusted-more">
-                    <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#F3F4F6;color:#6B7280;font-size:13px;font-weight:600;">+30</span>
-                    <span>компаний</span>
-                </div>
-            </div>
-        </div>
 
-        <h2 class="section-title">Как бизнес использует NeuroGate</h2>
-        <p class="section-subtitle">Реальные кейсы внедрения AI в работу компаний</p>
-        <div class="cases-grid">
-            <div class="case-card">
-                <div class="case-card-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-                </div>
-                <div class="case-card-type">Email-маркетинг платформа</div>
-                <h3>40+ сотрудников</h3>
-                <div class="case-before-after">
-                    <div class="case-col">
-                        <div class="case-col-label before">Было</div>
-                        <p>Маркетологи и поддержка использовали бесплатные версии ChatGPT, каждый со своего аккаунта</p>
-                    </div>
-                    <div class="case-col">
-                        <div class="case-col-label after">Стало</div>
-                        <p>Единый кабинет NeuroGate, доступ к Claude и GPT-5, шаблоны промптов по отделам</p>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section id="testimonials">
+    <div class="container">
+        <h2 class="section-title">Что говорят <em>руководители</em></h2>
+        <p class="section-subtitle">Компании, которые уже перевели команды на NeuronGate</p>
+        <div class="b2b-testimonials">
+            <!-- 1. CEO / логистика -->
+            <div class="b2b-testimonial-card">
+                <div class="b2b-testimonial-header">
+                    <div class="b2b-testimonial-avatar">А</div>
+                    <div>
+                        <div class="b2b-testimonial-name">Андрей Русанов</div>
+                        <div class="b2b-testimonial-role">Гендиректор, «РусЛогистик» (45 чел.) · Екатеринбург</div>
                     </div>
                 </div>
-                <div class="case-result">Скорость подготовки рассылок ×2, экономия 35K &#8381;/мес на подписках</div>
+                <div class="b2b-testimonial-quote">«Три месяца мучились — потом перевели всех за день»</div>
+                <p class="b2b-testimonial-text">Кто-то через прокси, кто-то через карту жены в&nbsp;Казахстане, кто-то вообще забил. В&nbsp;итоге AI пользовались три энтузиаста. Перевели всех на&nbsp;NeuronGate за&nbsp;день — оплатили счётом, настроили лимиты на&nbsp;отделы. Через неделю реально ВСЕ пользовались&nbsp;— и&nbsp;склад, и&nbsp;продажники.</p>
+                <div class="b2b-testimonial-footer">
+                    <div class="b2b-testimonial-badge">логистика · 45 сотр.</div>
+                    <div class="b2b-testimonial-date">январь 2026</div>
+                </div>
             </div>
-            <div class="case-card">
-                <div class="case-card-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                </div>
-                <div class="case-card-type">HR-платформа для удалённой работы</div>
-                <h3>15 человек</h3>
-                <div class="case-before-after">
-                    <div class="case-col">
-                        <div class="case-col-label before">Было</div>
-                        <p>4 разных подписки на AI-сервисы, оплата с личных карт, нет контроля</p>
-                    </div>
-                    <div class="case-col">
-                        <div class="case-col-label after">Стало</div>
-                        <p>Один счёт от юрлица, дашборд расходов, лимиты по сотрудникам</p>
+            <!-- 2. CTO / EdTech -->
+            <div class="b2b-testimonial-card">
+                <div class="b2b-testimonial-header">
+                    <div class="b2b-testimonial-avatar">А</div>
+                    <div>
+                        <div class="b2b-testimonial-name">Артём Волков</div>
+                        <div class="b2b-testimonial-role">CTO, EdTech-стартап (15 чел.) · Казань</div>
                     </div>
                 </div>
-                <div class="case-result">-60% на AI-расходах, полная прозрачность для бухгалтерии</div>
+                <div class="b2b-testimonial-quote">«Перевели API за полдня — ничего не сломалось»</div>
+                <p class="b2b-testimonial-text">Эндпоинты совместимые с&nbsp;OpenAI, latency в&nbsp;норме, за&nbsp;два месяца один даунтайм на&nbsp;8&nbsp;минут. Бухгалтерия впервые не&nbsp;страдает&nbsp;— счёт в&nbsp;рублях, акт закрытия, всё как положено.</p>
+                <div class="b2b-testimonial-footer">
+                    <div class="b2b-testimonial-badge">разработка · API</div>
+                    <div class="b2b-testimonial-date">февраль 2026</div>
+                </div>
             </div>
-            <div class="case-card">
-                <div class="case-card-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                </div>
-                <div class="case-card-type">Платформа для фрилансеров, стартап</div>
-                <h3>Растущая команда</h3>
-                <div class="case-before-after">
-                    <div class="case-col">
-                        <div class="case-col-label before">Было</div>
-                        <p>Разработчики тратили по 2-3 часа на написание описаний и модерацию контента</p>
-                    </div>
-                    <div class="case-col">
-                        <div class="case-col-label after">Стало</div>
-                        <p>Интеграция NeuroGate API, автоматическая генерация и проверка текстов</p>
+            <!-- 3. Head of Content / агентство -->
+            <div class="b2b-testimonial-card">
+                <div class="b2b-testimonial-header">
+                    <div class="b2b-testimonial-avatar">Д</div>
+                    <div>
+                        <div class="b2b-testimonial-name">Дарья Левченко</div>
+                        <div class="b2b-testimonial-role">Head of Content, «Медиасфера» · Новосибирск</div>
                     </div>
                 </div>
-                <div class="case-result">Автоматизировали 70% рутинного контента, экономия 80 чел-часов/мес</div>
+                <div class="b2b-testimonial-quote">«Сэкономили часов 35-40 за первый месяц на команду из 5»</div>
+                <p class="b2b-testimonial-text">Каждый со&nbsp;своим логином, видно кто сколько потратил. До&nbsp;этого каждый покупал подписки сам&nbsp;— бардак с&nbsp;оплатой. Тут залогинился и&nbsp;работаешь. Одно пожелание&nbsp;— добавьте готовых промтов под маркетинг.</p>
+                <div class="b2b-testimonial-footer">
+                    <div class="b2b-testimonial-badge">маркетинг · 5 чел.</div>
+                    <div class="b2b-testimonial-date">март 2026</div>
+                </div>
+            </div>
+            <!-- 4. HR / производство -->
+            <div class="b2b-testimonial-card">
+                <div class="b2b-testimonial-header">
+                    <div class="b2b-testimonial-avatar">Е</div>
+                    <div>
+                        <div class="b2b-testimonial-name">Елена Крылова</div>
+                        <div class="b2b-testimonial-role">HR-директор, «СтройГрупп» (200+ чел.) · Краснодар</div>
+                    </div>
+                </div>
+                <div class="b2b-testimonial-quote">«Половина отваливалась на этапе "поставьте VPN"»</div>
+                <p class="b2b-testimonial-text">Запустили обучение нейросетям для 30&nbsp;менеджеров. Раньше первый шаг&nbsp;— «скачайте VPN, привяжите зарубежную карту», и&nbsp;15&nbsp;человек говорили «не, спасибо». Сейчас кидаю ссылку&nbsp;— человек заходит и&nbsp;пробует. Через две недели три четверти реально стали пользоваться в&nbsp;работе.</p>
+                <div class="b2b-testimonial-footer">
+                    <div class="b2b-testimonial-badge">HR · обучение</div>
+                    <div class="b2b-testimonial-date">март 2026</div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- ===== PRICING ===== -->
-<section id="pricing" style="background: var(--gray-50);">
+<section id="pricing" style="background:var(--gray-50);">
     <div class="container">
-        <h2 class="section-title">Простые тарифы для бизнеса</h2>
-        <p class="section-subtitle">Все тарифы включают 100+ моделей и API-доступ</p>
-        <div class="pricing-grid">
-            <div class="pricing-card">
-                <div class="pricing-name">Команда</div>
-                <div class="pricing-price">15 000 &#8381;</div>
-                <div class="pricing-period">в месяц, до 10 пользователей</div>
-                <ul class="pricing-features">
-                    <li><span class="check">&#10003;</span> Все 100+ моделей</li>
-                    <li><span class="check">&#10003;</span> Базовый дашборд</li>
-                    <li><span class="check">&#10003;</span> API-доступ</li>
-                    <li><span class="check">&#10003;</span> Видео-курс обучения</li>
-                    <li><span class="check">&#10003;</span> Чат-поддержка</li>
-                    <li><span class="check">&#10003;</span> Оплата СБП / карта</li>
+        <h2 class="section-title">Прозрачные цены без подписок</h2>
+        <p class="section-subtitle">Платите только за использование. Баланс не сгорает.</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin:0 auto;">
+            <!-- Self-service -->
+            <div style="background:white;border-radius:20px;padding:32px;border:2px solid var(--purple);position:relative;box-shadow:0 4px 24px rgba(124,58,237,0.1);">
+                <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--purple);color:white;font-size:11px;font-weight:800;padding:3px 14px;border-radius:100px;">Self‑service</div>
+                <h3 style="font-size:22px;font-weight:900;color:var(--gray-900);margin-bottom:6px;">Pay as you go</h3>
+                <p style="font-size:14px;color:var(--gray-500);margin-bottom:18px;">Пополняете баланс — используете. Без подписок, без лимитов по времени.</p>
+
+                <div style="border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;margin-bottom:18px;">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;padding:10px 16px;background:var(--gray-50);font-size:11px;font-weight:800;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.05em;">
+                        <span>Операция</span><span>от</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;padding:13px 16px;border-top:1px solid var(--gray-100);font-size:14px;color:var(--gray-700);">
+                        <span style="font-weight:600;">Текстовый запрос</span><span style="font-weight:900;color:var(--purple);">~2 ₽</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;padding:13px 16px;border-top:1px solid var(--gray-100);font-size:14px;color:var(--gray-700);">
+                        <span style="font-weight:600;">Генерация картинки</span><span style="font-weight:900;color:var(--purple);">~8 ₽</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;padding:13px 16px;border-top:1px solid var(--gray-100);font-size:14px;color:var(--gray-700);">
+                        <span style="font-weight:600;">Генерация видео</span><span style="font-weight:900;color:var(--purple);">~80 ₽</span>
+                    </div>
+                </div>
+
+                <p style="font-size:12px;color:var(--gray-400);margin-bottom:18px;">Цена зависит от модели. Доступны 100+ моделей: GPT-5, Claude, Gemini, Midjourney, Sora и другие.</p>
+
+                <ul style="list-style:none;padding:0;margin:0 0 20px;">
+                    <li style="font-size:14px;color:var(--gray-600);padding:8px 0;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Дашборд расходов + лимиты</li>
+                    <li style="font-size:14px;color:var(--gray-600);padding:8px 0;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Единый кабинет для команды</li>
+                    <li style="font-size:14px;color:var(--gray-600);padding:8px 0;display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> API-доступ + Smart Router</li>
                 </ul>
-                <a href="/neurogate/app/cabinet/?new=1" class="btn btn-outline">Попробовать</a>
+
+                <a href="/neurogate/app/cabinet/index.html?new=1" class="btn btn-primary" style="width:100%;justify-content:center;">Начать бесплатно</a>
+                <p style="text-align:center;font-size:12px;color:var(--gray-400);margin-top:10px;">Пополнение от 3 000 ₽ для юрлиц · от 300 ₽ для физлиц</p>
             </div>
-            <div class="pricing-card highlight">
-                <div class="pricing-name">Бизнес</div>
-                <div class="pricing-price">45 000 &#8381;</div>
-                <div class="pricing-period">в месяц, до 50 пользователей</div>
-                <ul class="pricing-features">
-                    <li><span class="check">&#10003;</span> Все 100+ моделей</li>
-                    <li><span class="check">&#10003;</span> Расширенный дашборд</li>
-                    <li><span class="check">&#10003;</span> API-доступ</li>
-                    <li><span class="check">&#10003;</span> Вебинар + шаблоны</li>
-                    <li><span class="check">&#10003;</span> Персональный менеджер</li>
-                    <li><span class="check">&#10003;</span> Юрлицо + ЭДО</li>
+
+            <!-- Enterprise -->
+            <div style="background:white;border-radius:20px;padding:32px;border:1px solid var(--gray-200);display:flex;flex-direction:column;">
+                <div style="font-size:13px;font-weight:800;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Enterprise</div>
+                <h3 style="font-size:22px;font-weight:900;color:var(--gray-900);margin-bottom:6px;">Внедрение AI в компанию</h3>
+                <p style="font-size:14px;color:var(--gray-500);margin-bottom:18px;">Бесплатный аудит процессов, онбординг команды, персональные условия и скидки на объём.</p>
+
+                <ul style="list-style:none;padding:0;margin:0 0 20px;flex:1;">
+                    <li style="font-size:14px;color:var(--gray-600);padding:8px 0;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Всё из Self-service</li>
+                    <li style="font-size:14px;color:var(--gray-600);padding:8px 0;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Выделенный менеджер</li>
+                    <li style="font-size:14px;color:var(--gray-600);padding:8px 0;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> AI-аудит процессов + обучение</li>
+                    <li style="font-size:14px;color:var(--gray-600);padding:8px 0;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> SLA + NDA</li>
+                    <li style="font-size:14px;color:var(--gray-600);padding:8px 0;display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Оплата от юрлица + ЭДО</li>
                 </ul>
-                <a href="/neurogate/app/cabinet/?new=1" class="btn btn-primary">Получить демо</a>
-            </div>
-            <div class="pricing-card">
-                <div class="pricing-name">Корпоративный</div>
-                <div class="pricing-price">По запросу</div>
-                <div class="pricing-period">безлимит пользователей</div>
-                <ul class="pricing-features">
-                    <li><span class="check">&#10003;</span> Все 100+ моделей</li>
-                    <li><span class="check">&#10003;</span> Кастомный дашборд</li>
-                    <li><span class="check">&#10003;</span> API + SLA</li>
-                    <li><span class="check">&#10003;</span> Персональный тренер</li>
-                    <li><span class="check">&#10003;</span> Dedicated менеджер</li>
-                    <li><span class="check">&#10003;</span> Юрлицо + ЭДО</li>
-                </ul>
-                <a href="#" class="btn btn-outline">Связаться</a>
+
+                <a href="#audit" class="btn btn-outline" style="width:100%;justify-content:center;" id="audit">Получить бесплатный AI-аудит</a>
+                <p style="text-align:center;font-size:12px;color:var(--gray-400);margin-top:10px;">30 минут · Покажем ROI по отделам</p>
             </div>
         </div>
     </div>
@@ -2015,14 +2063,11 @@ response = client.chat.completions.<span class="fn">create</span>(
 <!-- ===== FINAL CTA ===== -->
 <section class="final-cta">
     <div class="container">
-        <h2>Узнайте, где AI сэкономит вашему бизнесу</h2>
-        <p>Бесплатный аудит за 30 минут. Покажем ROI для вашей компании.</p>
-        <a href="/neurogate/app/cabinet/?new=1" class="btn btn-glow">Получить бесплатный AI-аудит</a>
-        <div class="final-cta-note">Бесплатно · 30 минут · Покажем ROI для вашей компании</div>
-        <div class="final-cta-links">
-            <a href="#">Написать в Telegram</a>
-            <a href="#">Позвонить</a>
-        </div>
+        <h2>Подключите AI для команды за 10 минут</h2>
+        <p>Бесплатный старт. Все модели. Контроль расходов из коробки.</p>
+        <a href="/neurogate/app/cabinet/?new=1" class="btn btn-glow">Начать бесплатно</a>
+        <div class="final-cta-note" id="audit" style="margin-top:24px;font-size:15px;color:rgba(255,255,255,0.85);">Хотите разобраться, где AI даст максимум? <a href="#" style="color:white;text-decoration:underline;font-weight:600;">Закажите бесплатный AI-аудит →</a></div>
+
     </div>
 </section>
 
@@ -2031,7 +2076,7 @@ response = client.chat.completions.<span class="fn">create</span>(
     <div class="container">
         <div class="footer-grid">
             <div class="footer-brand">
-                <a href="#" class="logo">
+                <a href="/neurogate/" class="logo">
                     <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="0" y="0" width="14" height="14" rx="3.5" fill="#A78BFA"/>
                         <rect x="18" y="0" width="14" height="14" rx="3.5" fill="#A78BFA"/>
@@ -2040,39 +2085,35 @@ response = client.chat.completions.<span class="fn">create</span>(
                     </svg>
                     NeuroGate
                 </a>
-                <p>AI для всей команды.<br>Один кабинет. Один счёт.</p>
+                <p>Все нейросети в одном месте.<br>Без VPN. Оплата в рублях.</p>
             </div>
             <div class="footer-col">
                 <h4>Продукт</h4>
                 <ul>
                     <li><a href="#features">Возможности</a></li>
                     <li><a href="#pricing">Тарифы</a></li>
-                    <li><a href="#api">API</a></li>
-                    <li><a href="#">Документация</a></li>
+                    <li><a href="/neurogate/">Личное</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Для бизнеса</h4>
+                <h4>Поддержка</h4>
                 <ul>
-                    <li><a href="#roi">ROI-калькулятор</a></li>
-                    <li><a href="#cases">Кейсы</a></li>
-                    <li><a href="#">AI-аудит</a></li>
-                    <li><a href="#">Партнёрство</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="mailto:support@neurogate.ru">Email</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Контакты</h4>
+                <h4>Компания</h4>
                 <ul>
-                    <li><a href="#">b2b@neurogate.ru</a></li>
-                    <li><a href="#">Telegram</a></li>
-                    <li><a href="#">+7 (495) 000-00-00</a></li>
+                    <li><a href="/neurogate/about.html">О нас</a></li>
+                    <li><a href="/neurogate/contacts.html">Контакты</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <span>&copy; 2026 NeuroGate. ООО &laquo;НейроГейт&raquo;, ИНН 7700000000</span>
+            <span>&#169; 2026 NeuroGate. Все права защищены.</span>
             <div>
-                <a href="#">Политика конфиденциальности</a> · <a href="#">Оферта</a>
+                <a href="/neurogate/privacy.html">Политика конфиденциальности</a> &middot; <a href="/neurogate/offer.html">Оферта</a>
             </div>
         </div>
     </div>
