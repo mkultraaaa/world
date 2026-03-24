@@ -157,220 +157,315 @@ def render_views(views):
     return ""
 
 
+PALETTES = [
+    ("#6df01e", "#6b5cff"),  # lime -> purple
+    ("#ff6a3d", "#ffd84d"),  # orange -> yellow
+    ("#41d7ff", "#1A2DC3"),  # cyan -> blue
+    ("#ff4fd8", "#7c3aed"),  # pink -> violet
+    ("#a3ff6b", "#00c2a8"),  # green -> teal
+]
+
+
+def pick_palette(seed: str):
+    h = 0
+    for ch in seed:
+        h = (h * 31 + ord(ch)) % 10_000
+    c1, c2 = PALETTES[h % len(PALETTES)]
+    return c1, c2
+
+
+def make_summary(text: str, has_media: bool = False) -> str:
+    """Heuristic summary for collapsed card."""
+    t = (text or "").strip()
+    if not t:
+        return "Медиа" if has_media else "Пост без текста"
+
+    # Prefer first line
+    first_line = t.split("\n", 1)[0].strip()
+    base = first_line if len(first_line) >= 18 else t
+
+    # Cut at first sentence boundary if it's long
+    cut_points = [base.find(x) for x in [". ", "! ", "? "] if base.find(x) != -1]
+    if cut_points:
+        idx = min(cut_points) + 1
+        if 40 <= idx <= 140:
+            base = base[:idx]
+
+    if len(base) > 140:
+        base = base[:140].rstrip() + "…"
+    return base
+
+
+def make_preview(text: str) -> str:
+    t = (text or "").strip().replace("\n", " ")
+    t = " ".join(t.split())
+    if len(t) > 220:
+        t = t[:220].rstrip() + "…"
+    return t
+
+
 def render_post(post):
-    """Render a single post card"""
+    """Render a single post card in expandable format (details/summary)."""
     ts = parse_ts(post['ts'])
     time_str = format_time(ts)
-    channel = escape(post.get('peer_title', 'Unknown'))
-    text = post.get('text', '')
-    
-    parts = []
-    parts.append('<article class="card">')
-    parts.append('  <div class="card-header">')
-    parts.append(f'    <span class="channel">{channel}</span>')
-    
-    # Right side: views + time
-    right_parts = []
-    views_html = render_views(post.get('views'))
-    if views_html:
-        right_parts.append(views_html)
-    right_parts.append(f'<span class="time">{time_str}</span>')
-    parts.append(f'    <div class="card-meta">{" ".join(right_parts)}</div>')
-    parts.append('  </div>')
-    
-    # Forward info
+    channel_raw = post.get('peer_title', 'Unknown')
+    channel = escape(channel_raw)
+    text = post.get('text', '') or ""
+
+    c1, c2 = pick_palette(channel_raw)
+
+    summary_title = escape(make_summary(text, bool(post.get('has_media'))))
+    preview = escape(make_preview(text))
+
+    # Content blocks
     forward_html = render_forward(post.get('forward_from'))
-    if forward_html:
-        parts.append(f'  {forward_html}')
-    
-    # Media
     media_html = render_media(post)
-    if media_html:
-        parts.append(f'  {media_html}')
-    
-    # Text
-    if text.strip():
-        parts.append(f'  <div class="post-text">{render_text(text)}</div>')
-    elif post.get('has_media'):
-        parts.append('  <p class="empty-post">[Медиа-пост без текста]</p>')
-    
-    # Links
     links_html = render_links(post.get('links'))
-    if links_html:
-        parts.append(f'  {links_html}')
-    
-    # Buttons
     buttons_html = render_buttons(post.get('buttons'))
+
+    # Text body
+    if text.strip():
+        body_html = f'<div class="post-text">{render_text(text)}</div>'
+    elif post.get('has_media'):
+        body_html = '<p class="post-text"><em>[Медиа-пост без текста]</em></p>'
+    else:
+        body_html = '<p class="post-text"><em>[Пустой пост]</em></p>'
+
+    views_html = render_views(post.get('views'))
+    views_part = views_html if views_html else ""
+
+    parts = []
+    parts.append(f'<details class="post" style="--c1:{c1}; --c2:{c2};">')
+    parts.append('  <summary>')
+    parts.append('    <div class="post-summary">')
+    parts.append('      <div class="sum-top">')
+    parts.append(f'        <div class="source">{channel}</div>')
+    parts.append(f'        <div class="meta">{views_part}<span>{time_str}</span></div>')
+    parts.append('      </div>')
+    parts.append(f'      <div class="title">{summary_title}</div>')
+    if preview:
+        parts.append(f'      <div class="preview">{preview}</div>')
+    parts.append('      <div class="actions">')
+    parts.append('        <span class="btn">Read</span>')
+    parts.append('        <span class="btn secondary">Collapse</span>')
+    parts.append('      </div>')
+    parts.append('    </div>')
+    parts.append('  </summary>')
+
+    parts.append('  <div class="post-content">')
+    if forward_html:
+        parts.append(f'    {forward_html}')
+    if media_html:
+        # In new CSS we use badge class
+        parts.append(str(media_html).replace('media-badge', 'badge'))
+    parts.append(f'    {body_html}')
+    if links_html:
+        parts.append(f'    {links_html}')
     if buttons_html:
-        parts.append(f'  {buttons_html}')
-    
-    parts.append('</article>')
-    return '\n'.join(parts)
+        parts.append(f'    {buttons_html}')
+    parts.append('  </div>')
+    parts.append('</details>')
+
+    return "\n".join(parts)
 
 
 CSS = """
 * { margin: 0; padding: 0; box-sizing: border-box; }
+:root{
+  --bg: #f6f7fb;
+  --text: #0c0f14;
+  --muted: rgba(12, 15, 20, 0.55);
+  --cardRadius: 22px;
+}
 body {
-  background: #0d1117;
-  color: #e6edf3;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  line-height: 1.6;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.35;
   padding: 0 16px;
 }
 .container {
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
-  padding: 40px 0 60px;
+  padding: 22px 0 56px;
+}
+header{
+  margin-bottom: 18px;
 }
 h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: #f0f6fc;
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
 }
 .subtitle {
-  color: #8b949e;
+  color: var(--muted);
   font-size: 0.95rem;
-  margin-bottom: 32px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid #21262d;
 }
-.card {
-  background: #161b22;
-  border: 1px solid #21262d;
-  border-radius: 10px;
-  padding: 20px 24px;
-  margin-bottom: 16px;
-  transition: border-color 0.15s;
+
+/* Feed cards (Dribbble-ish) */
+.post {
+  --c1: #6df01e;
+  --c2: #6b5cff;
+  --c3: #ff6a3d;
+  border-radius: var(--cardRadius);
+  overflow: hidden;
+  margin-bottom: 14px;
+  box-shadow: 0 6px 18px rgba(10, 12, 20, 0.06);
 }
-.card:hover {
-  border-color: #30363d;
+.post > summary{
+  list-style: none;
+  cursor: pointer;
 }
-.card-header {
-  display: flex;
+.post > summary::-webkit-details-marker{ display:none; }
+
+.post-summary{
+  padding: 18px 18px 16px;
+  background:
+    radial-gradient(1200px 500px at 15% 15%, rgba(255,255,255,0.55), rgba(255,255,255,0) 60%),
+    linear-gradient(135deg, var(--c1), var(--c2));
+  color: rgba(0,0,0,0.88);
+  position: relative;
+}
+
+.sum-top{
+  display:flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
-}
-.card-meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.channel {
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: #58a6ff;
-}
-.time {
-  font-size: 0.8rem;
-  color: #8b949e;
-  font-variant-numeric: tabular-nums;
-}
-.views {
-  font-size: 0.75rem;
-  color: #8b949e;
-}
-.media-badge {
-  display: inline-block;
-  font-size: 0.75rem;
-  color: #d2a8ff;
-  background: rgba(210,168,255,0.1);
-  padding: 2px 8px;
-  border-radius: 4px;
+  gap: 12px;
   margin-bottom: 10px;
 }
-.post-text {
+
+.source{
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+  opacity: 0.9;
+}
+.meta{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size: 0.82rem;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+
+.title{
+  font-size: 1.15rem;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.preview{
   font-size: 0.92rem;
-  color: #c9d1d9;
+  line-height: 1.25;
+  opacity: 0.82;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.actions{
+  margin-top: 14px;
+  display:flex;
+  gap:10px;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  border: 0;
+  background: rgba(255,255,255,0.6);
+  color: rgba(0,0,0,0.88);
+}
+.btn.secondary{
+  background: rgba(255,255,255,0.25);
+  display: none;
+}
+.post[open] .btn.secondary{ display: inline-flex; }
+.post[open] .btn:first-child{ opacity: 0.85; }
+
+/* Expanded content */
+.post-content{
+  background: white;
+  padding: 16px 18px 18px;
+}
+.post-text{
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: rgba(12, 15, 20, 0.9);
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
-.post-text a {
-  color: #58a6ff;
-  text-decoration: none;
-  word-break: break-all;
-}
-.post-text a:hover {
-  text-decoration: underline;
-}
-.empty-post {
-  font-style: italic;
-  color: #8b949e;
-  font-size: 0.9rem;
-}
-.forward-info {
-  font-size: 0.82rem;
-  color: #8b949e;
-  margin-bottom: 10px;
-  padding: 6px 10px;
-  background: rgba(88,166,255,0.06);
-  border-left: 3px solid #58a6ff;
-  border-radius: 4px;
-}
-.post-media {
-  margin-bottom: 12px;
-}
-.post-media img {
-  max-width: 100%;
-  border-radius: 8px;
-  display: block;
-}
-.post-media video {
-  max-width: 100%;
-  border-radius: 8px;
-  display: block;
-}
-.file-link {
-  color: #58a6ff;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-.post-links {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.post-links a {
-  color: #58a6ff;
+.post-text a{ color: #1A2DC3; text-decoration: none; }
+.post-text a:hover{ text-decoration: underline; }
+
+.forward-info{
+  margin: 0 0 10px;
+  color: rgba(12, 15, 20, 0.62);
   font-size: 0.85rem;
-  text-decoration: none;
 }
-.post-links a:hover {
-  text-decoration: underline;
+
+.post-media{ margin: 12px 0 12px; }
+.post-media img,
+.post-media video{
+  width: 100%;
+  border-radius: 16px;
+  display:block;
 }
-.post-buttons {
+
+.badge{
+  display:inline-block;
   margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.btn-chip {
-  display: inline-block;
-  padding: 6px 14px;
-  background: rgba(88,166,255,0.1);
-  color: #58a6ff;
-  border: 1px solid rgba(88,166,255,0.3);
-  border-radius: 20px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(12,15,20,0.06);
+  color: rgba(12,15,20,0.7);
   font-size: 0.82rem;
-  text-decoration: none;
-  transition: background 0.15s;
+  font-weight: 700;
 }
-.btn-chip:hover {
-  background: rgba(88,166,255,0.2);
+
+.post-links,
+.post-buttons{
+  margin-top: 12px;
+  display:flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-footer {
-  text-align: center;
-  color: #484f58;
-  font-size: 0.8rem;
-  padding: 32px 0 24px;
-  border-top: 1px solid #21262d;
+.post-links a,
+.btn-chip{
+  display:inline-flex;
+  align-items:center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(26,45,195,0.07);
+  border: 1px solid rgba(26,45,195,0.18);
+  color: #1A2DC3;
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-decoration:none;
 }
-@media (max-width: 480px) {
-  h1 { font-size: 1.35rem; }
-  .card { padding: 16px; }
-  .container { padding: 24px 0 40px; }
+
+footer{
+  text-align:center;
+  color: rgba(12,15,20,0.45);
+  font-size: 0.85rem;
+  padding-top: 18px;
+  margin-top: 22px;
+}
+
+@media (max-width: 480px){
+  body{ padding: 0 14px; }
+  h1{ font-size: 1.35rem; }
+  .post-summary{ padding: 16px; }
+  .title{ font-size: 1.05rem; }
 }
 """
 
@@ -400,6 +495,21 @@ def build():
     # Generate HTML
     cards = '\n'.join(render_post(p) for p in posts)
     
+    JS = """
+<script>
+// Mobile-friendly accordion: keep only one post expanded
+document.addEventListener('toggle', (e) => {
+  const el = e.target;
+  if (!el || el.tagName !== 'DETAILS') return;
+  if (el.open) {
+    document.querySelectorAll('details.post[open]').forEach(d => {
+      if (d !== el) d.removeAttribute('open');
+    });
+  }
+}, true);
+</script>
+"""
+
     html = f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -413,11 +523,14 @@ def build():
 </head>
 <body>
 <div class="container">
-  <h1>AI News Digest — {date_str}</h1>
-  <p class="subtitle">{len(posts)} постов из Telegram-каналов</p>
+  <header>
+    <h1>AI News Digest — {date_str}</h1>
+    <p class="subtitle">{len(posts)} постов из Telegram-каналов • тапни карточку чтобы раскрыть</p>
+  </header>
 {cards}
-  <footer>Собрано автоматически &bull; Telegram Daemon &bull; msolo.me</footer>
+  <footer>Собрано автоматически • Telegram Daemon • msolo.me</footer>
 </div>
+{JS}
 </body>
 </html>
 """
