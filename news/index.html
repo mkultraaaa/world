@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base href="/news/">
 <title>AI News Digest — 24 марта 2026</title>
 <style>
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   background: #0d1117;
@@ -48,6 +50,11 @@ h1 {
   align-items: center;
   margin-bottom: 12px;
 }
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .channel {
   font-weight: 600;
   font-size: 0.9rem;
@@ -57,6 +64,10 @@ h1 {
   font-size: 0.8rem;
   color: #8b949e;
   font-variant-numeric: tabular-nums;
+}
+.views {
+  font-size: 0.75rem;
+  color: #8b949e;
 }
 .media-badge {
   display: inline-block;
@@ -86,6 +97,67 @@ h1 {
   color: #8b949e;
   font-size: 0.9rem;
 }
+.forward-info {
+  font-size: 0.82rem;
+  color: #8b949e;
+  margin-bottom: 10px;
+  padding: 6px 10px;
+  background: rgba(88,166,255,0.06);
+  border-left: 3px solid #58a6ff;
+  border-radius: 4px;
+}
+.post-media {
+  margin-bottom: 12px;
+}
+.post-media img {
+  max-width: 100%;
+  border-radius: 8px;
+  display: block;
+}
+.post-media video {
+  max-width: 100%;
+  border-radius: 8px;
+  display: block;
+}
+.file-link {
+  color: #58a6ff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.post-links {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.post-links a {
+  color: #58a6ff;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.post-links a:hover {
+  text-decoration: underline;
+}
+.post-buttons {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.btn-chip {
+  display: inline-block;
+  padding: 6px 14px;
+  background: rgba(88,166,255,0.1);
+  color: #58a6ff;
+  border: 1px solid rgba(88,166,255,0.3);
+  border-radius: 20px;
+  font-size: 0.82rem;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.btn-chip:hover {
+  background: rgba(88,166,255,0.2);
+}
 footer {
   text-align: center;
   color: #484f58;
@@ -98,18 +170,59 @@ footer {
   .card { padding: 16px; }
   .container { padding: 24px 0 40px; }
 }
+
 </style>
 </head>
 <body>
 <div class="container">
   <h1>AI News Digest — 24 марта 2026</h1>
-  <p class="subtitle">13 постов из Telegram-каналов</p>
+  <p class="subtitle">16 постов из Telegram-каналов</p>
+<article class="card">
+  <div class="card-header">
+    <span class="channel">Тимур Хахалев про AI Coding</span>
+    <div class="card-meta"><span class="time">21:12</span></div>
+  </div>
+  <div class="post-text">Anthropic выпустили статью о том как их разраб создал себе harness для выполнения длительных задач по кодингу.<br>
+<br>
+Harness design for long-running application development<br>
+<br>
+Думаю, те кто находятся на таком же уровне владения ai coding как я, уже сталкивались с проблемами, описанными в статье.<br>
+<br>
+Автор рассказывает о том, как он пришёл к такому сетапу выполнения больших задач: planner (создает спеки по задаче из промпта пользователя), generator (пишет код) и evaluator (проводит независимое тестирование предыдущего шага).<br>
+<br>
+Вот что мне показалось примечательным:<br>
+◾️ <br>
+Out of the box, Claude is a poor QA agent. In early runs, I watched it identify legitimate issues, then talk itself into deciding they weren&#x27;t a big deal and approve the work anyway. It also tended to test superficially, rather than probing edge cases, so more subtle bugs often slipped through<br>
+<br>
+Автор статьи признает, что Claude из коробки склонен сглаживать углы, поэтому даже evaluator (у которого свой контекст!) пропускал многие баги.<br>
+<br>
+Кто бы мог подумать! А мог бы просто пересесть на codex с GPT 5.4 ))<br>
+<br>
+◾️ Автор говорит, что в начале ему приходилось сильно декомпозировать задачи (с поколением 4.5), а с выходом Opus 4.6 надобность в этом отпала.<br>
+Тут соглашусь - даже с предыдущим поколением GPT 5.2-5.3 необходимость в сильной декомпозиции задач действительно отпала<br>
+<br>
+◾️ Ну и конечно же сам факт того, что ребята пришли к той системе, с которой я работаю примерно с сентября 🙂 В декабре видос об этом записывал.<br>
+Сейчас я уже на второй версии этого подхода — собрал в skill для codex, результат шикарный, каждая задача выполняется ровно так, как было задумано!<br>
+<br>
+#aicoding@the_ai_architect<br>
+<br>
+Лайк, репост,<br>
+✔️ Тимур Хахалев про AI Coding, подписывайтесь!</div>
+</article>
+<article class="card">
+  <div class="card-header">
+    <span class="channel">Вайб-кодинг</span>
+    <div class="card-meta"><span class="time">21:10</span></div>
+  </div>
+  <div class="post-media"><img src="media/-1001555418015_2856.jpg" alt="" loading="lazy"></div>
+
+  <div class="post-text">Нежданчик 😂</div>
+</article>
 <article class="card">
   <div class="card-header">
     <span class="channel">Молянов</span>
-    <span class="time">20:23</span>
+    <div class="card-meta"><span class="time">19:23</span></div>
   </div>
-  
   <div class="post-text">Кстати, статью из поста выше написал Claude Code<br>
 <br>
 Целиком.<br>
@@ -141,17 +254,19 @@ footer {
 <article class="card">
   <div class="card-header">
     <span class="channel">Поляков считает: AI, код и кейсы</span>
-    <span class="time">20:10</span>
+    <div class="card-meta"><span class="time">19:10</span></div>
   </div>
-  <span class="media-badge">📎 Медиа</span>
+  <span class="media-badge">📎 Медиа (не скачано)</span>
+
   <p class="empty-post">[Медиа-пост без текста]</p>
 </article>
 <article class="card">
   <div class="card-header">
     <span class="channel">AI Product | Igor Akimov</span>
-    <span class="time">19:38</span>
+    <div class="card-meta"><span class="time">18:38</span></div>
   </div>
-  <span class="media-badge">📎 Медиа</span>
+  <span class="media-badge">📎 Медиа (не скачано)</span>
+
   <div class="post-text">Эм... Чего??? Miro покупает Reforge? 😱<br>
 <a href="https://www.reforge.com/blog/reforge-is-joining-miro" target="_blank" rel="noopener">https://www.reforge.com/blog/reforge-is-joining-miro</a><br>
 <br>
@@ -161,9 +276,10 @@ Reforge - это были лучшие курсы от топовых прода
 <article class="card">
   <div class="card-header">
     <span class="channel">Уставший техдир</span>
-    <span class="time">19:23</span>
+    <div class="card-meta"><span class="time">18:23</span></div>
   </div>
-  <span class="media-badge">📎 Медиа</span>
+  <span class="media-badge">📎 Медиа (не скачано)</span>
+
   <div class="post-text">Наши ребята выпустили новую версию гигачата!<br>
 <br>
 - Ускорили в два раза генерацию ответа за счет MoE-архитектуры<br>
@@ -176,9 +292,10 @@ Reforge - это были лучшие курсы от топовых прода
 <article class="card">
   <div class="card-header">
     <span class="channel">Метаверсище и ИИще</span>
-    <span class="time">19:03</span>
+    <div class="card-meta"><span class="time">18:03</span></div>
   </div>
-  <span class="media-badge">📎 Медиа</span>
+  <span class="media-badge">📎 Медиа (не скачано)</span>
+
   <div class="post-text">#Нейропрожарка<br>
 <br>
 Море волнуется раз<br>
@@ -215,9 +332,10 @@ Rutube<br>
 <article class="card">
   <div class="card-header">
     <span class="channel">AI Product | Igor Akimov</span>
-    <span class="time">18:34</span>
+    <div class="card-meta"><span class="time">17:34</span></div>
   </div>
-  <span class="media-badge">📎 Медиа</span>
+  <span class="media-badge">📎 Медиа (не скачано)</span>
+
   <div class="post-text">Прикольно, на следующей неделе буду рассказывать продуктовой команде крупного мобильного приложения про ИИшку в создании протототипов и интеграцию Figma и Codex/Claude Code, и тут фигак, вышло сегодня обновление Figma MCP<br>
 <br>
 Теперь ИИ-агенты могут напрямую создавать и редактировать дизайн на канвасе. Не генерить картинки в стороне, а работать с реальными компонентами, переменными и auto layout внутри ваших файлов.<br>
@@ -246,9 +364,35 @@ Rutube<br>
 <article class="card">
   <div class="card-header">
     <span class="channel">NGI | Влад Корнышев про AI и создание AI-продуктов</span>
-    <span class="time">18:13</span>
+    <div class="card-meta"><span class="time">17:13</span></div>
   </div>
-  <span class="media-badge">📎 Медиа</span>
+  <span class="media-badge">📎 Медиа (не скачано)</span>
+
+  <div class="post-text">Обзор очков Oakley HSTN с AI от Цукенберга<br>
+<br>
+Помните, я как-то писал про анонс умных очков от компании запрещенного в России рептилоида?<br>
+<br>
+Думал о покупке сугубо спортивных Vanguard для велика, но в процессе понял, что мой текущий сетап из экшн-камеры, наушников Shokz и проверенных фотохромных очков меня устраивает на все 100%. Менять шило на мыло не стал.<br>
+<br>
+А вот с обычными, повседневными очками история вышла другая. Настало время проверять зрение и менять оправу. Оказалось, что доплата за смарт-версию не такая уж и большая. В итоге я не удержался и взял прозрачные Oakley HSTN со встроенным AI!<br>
+<br>
+Собственно, я походил с ними, собрал впечатления и записал для вас большой честный обзор. Постарался рассмотреть их не просто как очередной гаджет, а подошел со стороны своей экспертизы работы в индустрии ИИ:<br>
+<br>
+• Показал, как работает режим Live AI в быту (да, я заставил очки подбирать мне чай к ананасу).<br>
+• Разобрал лютые костыли от разработчиков: почему очки заставляют страдать с милями и фаренгейтами, зачем нужен VPN для скачивания английского языка даже в США и как криво работают интеграции со здоровьем.<br>
+• Сравнил звук очков с костной проводимостью Shokz и оценил, насколько вообще приватно и безопасно носить камеры прямо на лице.<br>
+<br>
+Видео уже выложил на канале нашем с женой лайвстайл канале. Залетайте смотреть, старался сделать обзор глубоким и не похожим на обычные техобзоры.<br>
+<br>
+Смотрите, делитесь мнением в комментариях и не забывайте подписываться <br>
+<br>
+🚀 Влад Корнышев про AI и создание AI-продуктов</div>
+</article>
+<article class="card">
+  <div class="card-header">
+    <span class="channel">NGI | Влад Корнышев про AI и создание AI-продуктов</span>
+    <div class="card-meta"><span class="time">17:12</span></div>
+  </div>
   <div class="post-text">Обзор очков Oakley HSTN с AI от Цукенберга<br>
 <br>
 Помните, я как-то писал про анонс умных очков от компании запрещенного в России рептилоида?<br>
@@ -272,9 +416,10 @@ Rutube<br>
 <article class="card">
   <div class="card-header">
     <span class="channel">Вайб-кодинг</span>
-    <span class="time">18:10</span>
+    <div class="card-meta"><span class="time">17:10</span></div>
   </div>
-  <span class="media-badge">📎 Медиа</span>
+  <span class="media-badge">📎 Медиа (не скачано)</span>
+
   <div class="post-text">Команда Claude Code тестирует новую команду /init, созданную на основе отзывов сообщества.<br>
 <br>
 Если хотите попробовать, просто добавьте в settings.json:<br>
@@ -286,17 +431,19 @@ Rutube<br>
 <article class="card">
   <div class="card-header">
     <span class="channel">ClawTimes</span>
-    <span class="time">18:09</span>
+    <div class="card-meta"><span class="time">17:09</span></div>
   </div>
-  <span class="media-badge">📎 Медиа</span>
+  <span class="media-badge">📎 Медиа (не скачано)</span>
+
   <div class="post-text">🎙️ ClawTimes Podcast — March 24, 2026</div>
 </article>
 <article class="card">
   <div class="card-header">
     <span class="channel">ClawTimes</span>
-    <span class="time">18:09</span>
+    <div class="card-meta"><span class="time">17:09</span></div>
   </div>
-  <span class="media-badge">📎 Медиа</span>
+  <span class="media-badge">📎 Медиа (не скачано)</span>
+
   <div class="post-text">🦞 ClawTimes — March 24, 2026<br>
 <br>
 Anthropic dropped Claude Cowork and the entire timeline lost its mind. Today was one giant debate: is OpenClaw dead, is it thriving, and does anyone actually care about functionality or are we all just here for the vibes? Meanwhile, the project shipped a fat update and the numbers say agentic AI isn&#x27;t slowing down.<br>
@@ -346,9 +493,10 @@ The Cowork launch turned today into the most contentious day in OpenClaw&#x27;s 
 <article class="card">
   <div class="card-header">
     <span class="channel">Всеволод Устинов (канал про ai и стартапы)</span>
-    <span class="time">18:03</span>
+    <div class="card-meta"><span class="time">17:03</span></div>
   </div>
-  <span class="media-badge">📎 Медиа</span>
+  <span class="media-badge">📎 Медиа (не скачано)</span>
+
   <div class="post-text">Новое интервью Andrej Karpathy!!!<br>
 <br>
 У него хорошо получается назвать, что именно меняется в способе работать и думать.<br>
@@ -407,9 +555,10 @@ Karpathy рассказывает, как собрал домашнего аге
 <article class="card">
   <div class="card-header">
     <span class="channel">AI Product | Igor Akimov</span>
-    <span class="time">17:45</span>
+    <div class="card-meta"><span class="time">16:45</span></div>
   </div>
-  <span class="media-badge">📎 Медиа</span>
+  <span class="media-badge">📎 Медиа (не скачано)</span>
+
   <div class="post-text">2) Про AI трансформацию от Harvard Busines Review<br>
 <br>
 Опубликовали исследование профессора Гарварда Карима Лахани, главы направления AI at Work в Microsoft Джареда Спатаро и директора института D3 Джен Стейв. Пишут, что компании вложили миллиарды в AI-инструменты, раскатили сотни пилотов, но ожидаемая революция продуктивности так и не случилась. И проблема не в качестве моделей и даже не в данных. Проблема в организационном дизайне.<br>
@@ -441,9 +590,10 @@ Karpathy рассказывает, как собрал домашнего аге
 <article class="card">
   <div class="card-header">
     <span class="channel">AI Product | Igor Akimov</span>
-    <span class="time">17:27</span>
+    <div class="card-meta"><span class="time">16:27</span></div>
   </div>
-  <span class="media-badge">📎 Медиа</span>
+  <span class="media-badge">📎 Медиа (не скачано)</span>
+
   <p class="empty-post">[Медиа-пост без текста]</p>
 </article>
   <footer>Собрано автоматически &bull; Telegram Daemon &bull; msolo.me</footer>
