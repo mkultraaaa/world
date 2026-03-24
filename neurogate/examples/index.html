@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <base href="/neurogate/examples/">
     <meta charset="UTF-8">
+    <base href="/neurogate/examples/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeuroGate — Примеры для кабинета</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -105,6 +105,38 @@
             text-decoration: none; transition: background 0.2s;
         }
         .itv-dl:hover { background: rgba(124,58,237,0.7); }
+
+        .ba-media {
+            display: flex; gap: 0; position: relative;
+            min-height: 200px;
+        }
+        .ba-side {
+            flex: 1; position: relative; overflow: hidden;
+        }
+        .ba-side img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .ba-divider {
+            width: 3px; background: #7c3aed; flex-shrink: 0;
+            position: relative; z-index: 2;
+        }
+        .ba-label {
+            position: absolute; bottom: 8px;
+            background: rgba(0,0,0,0.75); color: #aaa;
+            font-size: 11px; padding: 2px 8px; border-radius: 4px;
+        }
+        .ba-label-before { left: 8px; }
+        .ba-label-after { right: 8px; }
+
+        .usecase-badge {
+            display: inline-block; background: #16a34a22; color: #4ade80;
+            border: 1px solid #16a34a44; padding: 3px 12px; border-radius: 6px;
+            font-size: 13px; font-weight: 600;
+        }
+
+        .single-img-card .card-media {
+            max-height: none;
+        }
 
         @media (max-width: 600px) {
             .examples-grid { grid-template-columns: 1fr; }
@@ -524,6 +556,235 @@
                 </div>
             </div>
 
+        </div>
+
+        <!-- ==================== КЕЙСЫ ИСПОЛЬЗОВАНИЯ ==================== -->
+        <div class="section-title">Удаление фона</div>
+        <div class="examples-grid">
+            <div class="card">
+                <div class="card-media ba-media">
+                    <div class="ba-side">
+                        <img src="assets/bg-before.jpg" alt="До: фото с фоном">
+                        <span class="ba-label ba-label-before">До</span>
+                    </div>
+                    <div class="ba-divider"></div>
+                    <div class="ba-side">
+                        <img src="assets/bg-after.png" alt="После: фон удалён" style="background:repeating-conic-gradient(#222 0% 25%, #333 0% 50%) 50%/16px 16px;">
+                        <span class="ba-label ba-label-after">После</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Кейс</div>
+                        <div class="card-value"><span class="usecase-badge">Удаление фона</span></div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">rembg (U2-Net)</span>
+                            <button class="copy-btn" onclick="copyText('rembg', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-bg">Удали фон с фотографии, оставь только человека на прозрачном фоне</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-bg', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Удаление объектов (инпейнтинг)</div>
+        <div class="examples-grid">
+            <div class="card">
+                <div class="card-media ba-media">
+                    <div class="ba-side">
+                        <img src="assets/remove-before.png" alt="До: лишний человек в кадре">
+                        <span class="ba-label ba-label-before">До</span>
+                    </div>
+                    <div class="ba-divider"></div>
+                    <div class="ba-side">
+                        <img src="assets/remove-after.png" alt="После: человек удалён">
+                        <span class="ba-label ba-label-after">После</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Кейс</div>
+                        <div class="card-value"><span class="usecase-badge">Удаление объектов</span></div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Inpaint-Anything (SAM + LaMa)</span>
+                            <button class="copy-btn" onclick="copyText('Inpaint-Anything', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-remove">Убери случайного прохожего из кадра, восстанови фон за ним естественно</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-remove', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Перенос стиля</div>
+        <div class="examples-grid">
+            <div class="card">
+                <div class="card-media ba-media">
+                    <div class="ba-side">
+                        <img src="assets/style-before.jpg" alt="До: обычное фото города">
+                        <span class="ba-label ba-label-before">Оригинал</span>
+                    </div>
+                    <div class="ba-divider"></div>
+                    <div class="ba-side">
+                        <img src="assets/style-after.png" alt="После: в стиле Звёздной ночи">
+                        <span class="ba-label ba-label-after">«Звёздная ночь»</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Кейс</div>
+                        <div class="card-value"><span class="usecase-badge">Перенос стиля</span></div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Neural Style Transfer</span>
+                            <button class="copy-btn" onclick="copyText('Neural Style Transfer', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-style">Перерисуй эту фотографию города в стиле картины Ван Гога «Звёздная ночь» — сохрани композицию, но замени текстуры на вихревые мазки маслом</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-style', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Объединение картинок (AI-мерж)</div>
+        <div class="examples-grid">
+            <div class="card single-img-card">
+                <div class="card-media">
+                    <img src="assets/merge-1.png" alt="Виртуальная примерка одежды">
+                    <a class="download-btn" href="assets/merge-1.png" download>Скачать</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Кейс</div>
+                        <div class="card-value"><span class="usecase-badge">Объединение: человек + одежда</span></div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">AI Image Combiner</span>
+                            <button class="copy-btn" onclick="copyText('AI Image Combiner', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-merge-1">Объедини фото модели и фото одежды: покажи эту девушку в этой кофте, студийное фото, естественное освещение, виртуальная примерка</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-merge-1', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card single-img-card">
+                <div class="card-media">
+                    <img src="assets/merge-2.png" alt="Объединение робот + динозавр">
+                    <a class="download-btn" href="assets/merge-2.png" download>Скачать</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Кейс</div>
+                        <div class="card-value"><span class="usecase-badge">Объединение: два объекта</span></div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">AI Image Combiner</span>
+                            <button class="copy-btn" onclick="copyText('AI Image Combiner', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-merge-2">Объедини робота и динозавра в одно существо: механический раптор с бронёй, в джунглях, детализированный концепт-арт</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-merge-2', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Улучшение качества (апскейл)</div>
+        <div class="examples-grid">
+            <div class="card single-img-card">
+                <div class="card-media">
+                    <img src="assets/upscale-compare.jpg" alt="Сравнение до/после апскейла">
+                    <a class="download-btn" href="assets/upscale-compare.jpg" download>Скачать</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Кейс</div>
+                        <div class="card-value"><span class="usecase-badge">Апскейл / улучшение качества</span></div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Real-ESRGAN</span>
+                            <button class="copy-btn" onclick="copyText('Real-ESRGAN', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-upscale">Увеличь разрешение фотографии в 4 раза, восстанови детали, убери размытие и шум, сохрани естественность</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-upscale', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Расширение кадра (аутпейнтинг)</div>
+        <div class="examples-grid">
+            <div class="card single-img-card">
+                <div class="card-media">
+                    <img src="assets/outpaint-pearl.jpg" alt="Расширенная Девушка с жемчужной серёжкой">
+                    <a class="download-btn" href="assets/outpaint-pearl.jpg" download>Скачать</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Кейс</div>
+                        <div class="card-value"><span class="usecase-badge">Расширение кадра</span></div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">DALL-E 2</span>
+                            <button class="copy-btn" onclick="copyText('DALL-E 2', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-outpaint">Расширь картину Вермеера «Девушка с жемчужной серёжкой» за пределы оригинального холста — дорисуй комнату, мебель и окружение в стиле голландской живописи XVII века</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-outpaint', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
