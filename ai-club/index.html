@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Клуб — Трансформация специалистов</title>
+<meta name="description" content="Клуб AI-трансформации: автоматизируем до 80% рутины маркетинг-, sales- и операционных лидеров. Внедрение AI-агентов, кураторство, инфраструктура.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#09090b;--surface:#18181b;--surface2:#27272a;
+  --text:#fafafa;--text2:#a1a1aa;--text3:#71717a;
+  --accent:#a78bfa;--accent2:#818cf8;--accent-glow:rgba(167,139,250,.15);
+  --green:#34d399;--blue:#60a5fa;--pink:#f472b6;--orange:#fb923c;
+  --radius:16px;--max:720px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* Grain overlay */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;opacity:.03;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:9999}
+
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 24px 60px;max-width:var(--max);margin:0 auto;position:relative}
+.hero::after{content:'';position:absolute;top:10%;right:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(167,139,250,.08),transparent 70%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-glow);border:1px solid rgba(167,139,250,.2);border-radius:100px;padding:6px 16px;font-size:.8rem;color:var(--accent);font-weight:600;margin-bottom:24px;width:fit-content;letter-spacing:.02em}
+.badge::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-size:clamp(2.2rem,6vw,3.5rem);font-weight:900;line-height:1.1;letter-spacing:-.03em;margin-bottom:24px}
+.hero h1 .gradient{background:linear-gradient(135deg,var(--accent),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero .sub{font-size:1.15rem;color:var(--text2);max-width:540px;margin-bottom:40px;line-height:1.7}
+.hero .sub strong{color:var(--text);font-weight:600}
+
+.bullets{display:flex;flex-direction:column;gap:14px;margin-bottom:48px}
+.bullets li{list-style:none;display:flex;align-items:flex-start;gap:12px;font-size:1.05rem;color:var(--text2)}
+.bullets li .icon{font-size:1.2rem;flex-shrink:0;margin-top:2px}
+.bullets li strong{color:var(--text);font-weight:600}
+
+.cta-group{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 32px;border-radius:12px;font-size:1rem;font-weight:700;text-decoration:none;transition:all .2s;cursor:pointer;border:none}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 0 30px rgba(167,139,250,.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(167,139,250,.45)}
+.btn-secondary{background:var(--surface);color:var(--text);border:1px solid var(--surface2)}
+.btn-secondary:hover{border-color:var(--accent);background:var(--accent-glow)}
+
+/* ANTI-COURSE */
+.anti{padding:80px 24px;max-width:var(--max);margin:0 auto}
+.anti .label{font-size:.85rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.anti h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;margin-bottom:16px;letter-spacing:-.02em}
+.anti p{color:var(--text2);font-size:1.05rem;max-width:560px;line-height:1.7}
+.anti .highlight{margin-top:24px;padding:20px 24px;background:var(--accent-glow);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;color:var(--text);font-weight:600;font-size:1.05rem}
+
+/* STEPS */
+.steps{padding:80px 24px;max-width:var(--max);margin:0 auto}
+.steps .label{font-size:.85rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.steps h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;margin-bottom:48px;letter-spacing:-.02em}
+.step-grid{display:flex;flex-direction:column;gap:20px}
+.step{background:var(--surface);border:1px solid var(--surface2);border-radius:var(--radius);padding:28px;transition:border-color .2s;position:relative;overflow:hidden}
+.step:hover{border-color:rgba(167,139,250,.3)}
+.step::before{content:attr(data-num);position:absolute;top:20px;right:24px;font-size:4rem;font-weight:900;color:rgba(167,139,250,.06);line-height:1}
+.step-icon{font-size:1.8rem;margin-bottom:14px}
+.step h3{font-size:1.15rem;font-weight:700;margin-bottom:8px}
+.step p{color:var(--text2);font-size:.95rem;line-height:1.6}
+
+/* FOR WHOM */
+.audience{padding:80px 24px;max-width:var(--max);margin:0 auto}
+.audience .label{font-size:.85rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.audience h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;margin-bottom:48px;letter-spacing:-.02em}
+.persona-grid{display:flex;flex-direction:column;gap:16px}
+.persona{background:var(--surface);border:1px solid var(--surface2);border-radius:var(--radius);padding:24px;display:flex;gap:16px;align-items:flex-start}
+.persona-emoji{font-size:2rem;flex-shrink:0}
+.persona h3{font-size:1rem;font-weight:700;margin-bottom:4px}
+.persona p{color:var(--text2);font-size:.9rem}
+
+/* RESULT */
+.result{padding:80px 24px;max-width:var(--max);margin:0 auto}
+.result .label{font-size:.85rem;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.result h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;margin-bottom:32px;letter-spacing:-.02em}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.result-card{background:var(--surface);border:1px solid var(--surface2);border-radius:var(--radius);padding:24px;text-align:center}
+.result-card .num{font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--green),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.result-card p{color:var(--text2);font-size:.85rem}
+
+/* CTA BOTTOM */
+.cta-bottom{padding:80px 24px 100px;max-width:var(--max);margin:0 auto;text-align:center}
+.cta-bottom h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin-bottom:16px;letter-spacing:-.02em}
+.cta-bottom p{color:var(--text2);font-size:1.05rem;margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto}
+.cta-bottom .btn{font-size:1.1rem;padding:16px 40px}
+
+/* FOOTER */
+footer{padding:32px 24px;text-align:center;color:var(--text3);font-size:.8rem;border-top:1px solid var(--surface2)}
+
+@media(max-width:480px){
+  .hero{padding:60px 20px 40px}
+  .anti,.steps,.audience,.result,.cta-bottom{padding:60px 20px}
+  .result-grid{grid-template-columns:1fr}
+  .btn{width:100%;text-align:center}
+  .cta-group{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="badge">Набор открыт</div>
+  <h1>Клуб <span class="gradient">AI-трансформации</span> специалистов</h1>
+  <p class="sub">Помогаем маркетинг-, sales- и операционным лидерам <strong>автоматизировать до 80% рутины</strong>, заменить процессы AI-агентами и выйти на новый уровень дохода.</p>
+  
+  <ul class="bullets">
+    <li><span class="icon">⚡</span><span><strong>Автоматизация 50–80%</strong> повседневной работы</span></li>
+    <li><span class="icon">🤖</span><span><strong>AI-агенты</strong> вместо рутинных процессов</span></li>
+    <li><span class="icon">📉</span><span><strong>Меньше команда</strong> — тот же результат</span></li>
+    <li><span class="icon">💰</span><span><strong>Новый уровень дохода</strong> через экспертизу в AI</span></li>
+  </ul>
+
+  <div class="cta-group">
+    <a href="#apply" class="btn btn-primary">Хочу в клуб</a>
+    <a href="#steps" class="btn btn-secondary">Как это работает</a>
+  </div>
+</section>
+
+<section class="anti">
+  <div class="label">Не курс</div>
+  <h2>Вместо обучения — внедрение AI в твою реальную работу</h2>
+  <p>Никаких записанных уроков и домашек. Мы берём твои процессы, находим точки автоматизации и внедряем AI-агентов — с куратором, инструментами и готовой инфраструктурой.</p>
+  <div class="highlight">Клуб + практическая программа внедрения AI в работу</div>
+</section>
+
+<section class="steps" id="steps">
+  <div class="label">Что внутри</div>
+  <h2>5 этапов трансформации</h2>
+  <div class="step-grid">
+    <div class="step" data-num="01">
+      <div class="step-icon">🔍</div>
+      <h3>Диагностика</h3>
+      <p>Разбор твоих процессов: где теряется время, что можно автоматизировать, где максимальный ROI от AI.</p>
+    </div>
+    <div class="step" data-num="02">
+      <div class="step-icon">🛠</div>
+      <h3>Внедрение</h3>
+      <p>Создание AI-агентов под твои задачи. Автоматизация процессов, настройка пайплайнов — всё руками.</p>
+    </div>
+    <div class="step" data-num="03">
+      <div class="step-icon">🏗</div>
+      <h3>Инфраструктура</h3>
+      <p>Готовые инструменты: ChatGPT, AI-агенты, базы данных. Без DevOps-боли — всё настроено и работает.</p>
+    </div>
+    <div class="step" data-num="04">
+      <div class="step-icon">🎯</div>
+      <h3>Куратор</h3>
+      <p>Персональный куратор помогает внедрять, держит фокус на результате и не даёт застрять.</p>
+    </div>
+    <div class="step" data-num="05">
+      <div class="step-icon">🚀</div>
+      <h3>Трансформация карьеры</h3>
+      <p>Как перейти на контракт, обосновать ценность и начать брать больше денег за свою экспертизу.</p>
+    </div>
+  </div>
+</section>
+
+<section class="audience">
+  <div class="label">Для кого</div>
+  <h2>Клуб подходит, если ты</h2>
+  <div class="persona-grid">
+    <div class="persona">
+      <span class="persona-emoji">📊</span>
+      <div>
+        <h3>Маркетинг-лид</h3>
+        <p>Тонешь в отчётах, контенте и рутине. AI заберёт 80% — ты фокусируешься на стратегии.</p>
+      </div>
+    </div>
+    <div class="persona">
+      <span class="persona-emoji">🤝</span>
+      <div>
+        <h3>Sales-лид</h3>
+        <p>CRM, follow-up, квалификация лидов — всё это делает агент. Ты закрываешь сделки.</p>
+      </div>
+    </div>
+    <div class="persona">
+      <span class="persona-emoji">⚙️</span>
+      <div>
+        <h3>Операционный лидер</h3>
+        <p>Процессы, отчёты, координация команды. AI-пайплайны сокращают команду без потери результата.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="result">
+  <div class="label">Результат</div>
+  <h2>Что получаешь</h2>
+  <div class="result-grid">
+    <div class="result-card">
+      <div class="num">50–80%</div>
+      <p>рутины автоматизировано</p>
+    </div>
+    <div class="result-card">
+      <div class="num">AI-агенты</div>
+      <p>работают за тебя 24/7</p>
+    </div>
+    <div class="result-card">
+      <div class="num">×2–3</div>
+      <p>рост дохода через экспертизу</p>
+    </div>
+    <div class="result-card">
+      <div class="num">0 DevOps</div>
+      <p>всё настроено и работает</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-bottom" id="apply">
+  <h2>Готов трансформировать свою работу?</h2>
+  <p>Оставь заявку — обсудим, подходит ли клуб под твои задачи.</p>
+  <a href="https://t.me/msoloviev" class="btn btn-primary">Написать в Telegram →</a>
+</section>
+
+<footer>
+  <div class="container">© 2026 AI-Клуб</div>
+</footer>
+
+</body>
+</html>
