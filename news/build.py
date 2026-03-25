@@ -5,8 +5,8 @@ Reads feed.jsonl from Telethon daemon, generates index.html
 """
 import json
 import os
+import re
 import shutil
-import sys
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from html import escape
@@ -18,45 +18,61 @@ SCRIPT_DIR = Path(__file__).parent
 MEDIA_DST = SCRIPT_DIR / "media"
 OUTPUT = SCRIPT_DIR / "index.html"
 
-# Timezone: Europe/Nicosia = UTC+2 (winter) / UTC+3 (summer)
-# March 2026 = EET+3 (DST active from last Sunday of March)
-TZ_OFFSET = timedelta(hours=2)  # EET; adjust if needed
+# Europe/Nicosia: UTC+2 (EET). DST starts last Sunday of March.
+# March 25 2026 is before March 29 (last Sunday) => still UTC+2.
+TZ_OFFSET = timedelta(hours=2)
+TZ_NICOSIA = timezone(TZ_OFFSET)
 
 IMAGE_EXTS = {'.jpg', '.jpeg', '.png', '.webp', '.gif'}
 VIDEO_EXTS = {'.mp4', '.mov', '.avi', '.mkv', '.webm'}
 
+COLORS = [
+    "--c1:#ff6a3d; --c2:#ffd84d",
+    "--c1:#41d7ff; --c2:#1A2DC3",
+    "--c1:#a3ff6b; --c2:#00c2a8",
+    "--c1:#ff4fd8; --c2:#7c3aed",
+    "--c1:#6df01e; --c2:#6b5cff",
+]
+
+URL_RE = re.compile(r'(https?://[^\s<>&]+)')
+
+MONTHS_RU = {
+    1: "января", 2: "февраля", 3: "марта", 4: "апреля",
+    5: "мая", 6: "июня", 7: "июля", 8: "августа",
+    9: "сентября", 10: "октября", 11: "ноября", 12: "декабря",
+}
+
 
 def parse_ts(ts_str):
-    """Parse UTC timestamp string to datetime"""
+    """Parse UTC timestamp string to aware datetime."""
     ts_str = ts_str.replace('Z', '+00:00')
     try:
         return datetime.fromisoformat(ts_str)
-    except:
+    except Exception:
         return datetime.now(timezone.utc)
 
 
 def to_local(dt):
-    """Convert UTC datetime to local time"""
-    return dt + TZ_OFFSET
+    """Convert to Nicosia local time."""
+    return dt.astimezone(TZ_NICOSIA)
 
 
 def format_time(dt):
-    local = to_local(dt)
-    return local.strftime("%H:%M")
+    return to_local(dt).strftime("%H:%M")
 
 
-def format_date(dt):
+def format_date_ru(dt):
     local = to_local(dt)
-    months_ru = {
-        1: "января", 2: "февраля", 3: "марта", 4: "апреля",
-        5: "мая", 6: "июня", 7: "июля", 8: "августа",
-        9: "сентября", 10: "октября", 11: "ноября", 12: "декабря"
-    }
-    return f"{local.day} {months_ru[local.month]} {local.year}"
+    return f"{local.day} {MONTHS_RU[local.month]} {local.year}"
+
+
+def format_date_num(dt):
+    local = to_local(dt)
+    return local.strftime("%d.%m.%Y %H:%M")
 
 
 def sync_media():
-    """Copy media files from daemon output to news/media/"""
+    """Copy media files from daemon output to news/media/."""
     MEDIA_DST.mkdir(exist_ok=True)
     if not os.path.isdir(MEDIA_SRC):
         return
@@ -67,209 +83,171 @@ def sync_media():
             shutil.copy2(src, dst)
 
 
+def linkify(text_escaped):
+    """Convert URLs in already-escaped text to <a> tags."""
+    return URL_RE.sub(
+        r'<a href="\1" target="_blank" rel="noopener">\1</a>',
+        text_escaped,
+    )
+
+
 def render_text(text):
-    """Escape HTML and convert newlines to <br>, preserve URLs as links"""
+    """Escape HTML, linkify URLs, convert newlines to <br>."""
     if not text:
         return ""
-    text = escape(text)
-    # Convert URLs to clickable links
-    import re
-    url_pattern = re.compile(r'(https?://[^\s<>&]+)')
-    text = url_pattern.sub(r'<a href="\1" target="_blank" rel="noopener">\1</a>', text)
-    text = text.replace('\n', '<br>\n')
-    return text
+    escaped = escape(text)
+    linked = linkify(escaped)
+    return linked.replace('\n', '<br>\n')
 
 
-def render_links(links):
-    """Render links block"""
-    if not links:
+def get_title(text):
+    """First line of text, up to 150 chars. If no text, return 'Медиа'."""
+    t = (text or "").strip()
+    if not t:
+        return "Медиа"
+    first_line = t.split("\n")[0].strip()
+    if len(first_line) > 150:
+        return first_line[:147] + "..."
+    return first_line
+
+
+def get_preview(text):
+    """Flatten text to single line, truncate to ~200 chars."""
+    t = (text or "").strip()
+    if not t:
         return ""
-    html = '<div class="post-links">\n'
-    for link in links:
-        url = escape(link.get('url', ''))
-        label = escape(link.get('text', '')) or url
-        if url:
-            html += f'  <a href="{url}" target="_blank" rel="noopener">{label}</a>\n'
-    html += '</div>\n'
-    return html
-
-
-def render_buttons(buttons):
-    """Render inline buttons as chips"""
-    if not buttons:
-        return ""
-    html = '<div class="post-buttons">\n'
-    for btn in buttons:
-        url = escape(btn.get('url', ''))
-        label = escape(btn.get('text', 'Ссылка'))
-        if url:
-            html += f'  <a href="{url}" target="_blank" rel="noopener" class="btn-chip">{label}</a>\n'
-    html += '</div>\n'
-    return html
-
-
-def render_forward(forward_from):
-    """Render forward/repost info"""
-    if not forward_from:
-        return ""
-    name = escape(forward_from.get('name', 'Unknown'))
-    date = forward_from.get('date', '')
-    date_str = ""
-    if date:
-        dt = parse_ts(date)
-        date_str = f" · {format_time(dt)}"
-    return f'<div class="forward-info">↪️ репост из <strong>{name}</strong>{date_str}</div>\n'
+    flat = " ".join(t.split())
+    if len(flat) > 200:
+        return flat[:197] + "..."
+    return flat
 
 
 def render_media(post):
-    """Render media element"""
+    """Render media element."""
     if not post.get('has_media'):
         return ""
 
     media_path = post.get('media_path')
     if not media_path:
-        return '<span class="media-badge">📎 Медиа (не скачано)</span>\n'
+        return '<span class="badge">Медиа (не скачано)</span>\n'
 
-    # media_path is relative like "media/-100xxx_123.jpg"
     filename = os.path.basename(media_path)
     local_path = MEDIA_DST / filename
     ext = os.path.splitext(filename)[1].lower()
 
     if not local_path.exists():
-        return '<span class="media-badge">📎 Медиа (не скачано)</span>\n'
+        return '<span class="badge">Медиа (не скачано)</span>\n'
 
     if ext in IMAGE_EXTS:
         return f'<div class="post-media"><img src="media/{escape(filename)}" alt="" loading="lazy"></div>\n'
     elif ext in VIDEO_EXTS:
-        return f'<div class="post-media"><video src="media/{escape(filename)}" controls preload="none"></video></div>\n'
+        return f'<div class="post-media"><video src="media/{escape(filename)}" controls preload="metadata"></video></div>\n'
     else:
-        return f'<div class="post-media"><a href="media/{escape(filename)}" class="file-link">📄 {escape(filename)}</a></div>\n'
+        return f'<div class="post-media"><a href="media/{escape(filename)}">{escape(filename)}</a></div>\n'
 
 
-def render_views(views):
-    """Render view count"""
-    if not views:
+def render_forward(forward_from):
+    """Render forward/repost info."""
+    if not forward_from:
         return ""
-    if isinstance(views, int):
-        if views >= 1000:
-            return f'<span class="views">👁 {views/1000:.1f}K</span>'
-        return f'<span class="views">👁 {views}</span>'
-    return ""
+    if isinstance(forward_from, dict):
+        name = escape(forward_from.get('name', str(forward_from)))
+    else:
+        name = escape(str(forward_from))
+    return f'<p class="forward-info">Переслано из: {name}</p>\n'
 
 
-PALETTES = [
-    ("#6df01e", "#6b5cff"),  # lime -> purple
-    ("#ff6a3d", "#ffd84d"),  # orange -> yellow
-    ("#41d7ff", "#1A2DC3"),  # cyan -> blue
-    ("#ff4fd8", "#7c3aed"),  # pink -> violet
-    ("#a3ff6b", "#00c2a8"),  # green -> teal
-]
+def render_links(links):
+    """Render links block."""
+    if not links:
+        return ""
+    parts = []
+    for link in links:
+        url = escape(link.get('url', ''))
+        label = escape(link.get('text', '')) or url
+        if url:
+            parts.append(f'<a href="{url}" target="_blank" rel="noopener">{label}</a>')
+    if not parts:
+        return ""
+    return '<div class="post-links">' + ''.join(parts) + '</div>\n'
 
 
-def pick_palette(seed: str):
-    h = 0
-    for ch in seed:
-        h = (h * 31 + ord(ch)) % 10_000
-    c1, c2 = PALETTES[h % len(PALETTES)]
-    return c1, c2
+def render_buttons(buttons):
+    """Render inline buttons as chips."""
+    if not buttons:
+        return ""
+    parts = []
+    for btn in buttons:
+        url = escape(btn.get('url', ''))
+        label = escape(btn.get('text', 'Ссылка'))
+        if url:
+            parts.append(f'<a href="{url}" target="_blank" rel="noopener" class="btn-chip">{label}</a>')
+    if not parts:
+        return ""
+    return '<div class="post-buttons">' + ''.join(parts) + '</div>\n'
 
 
-def make_summary(text: str, has_media: bool = False) -> str:
-    """Heuristic summary for collapsed card."""
-    t = (text or "").strip()
-    if not t:
-        return "Медиа" if has_media else "Пост без текста"
-
-    # Prefer first line
-    first_line = t.split("\n", 1)[0].strip()
-    base = first_line if len(first_line) >= 18 else t
-
-    # Cut at first sentence boundary if it's long
-    cut_points = [base.find(x) for x in [". ", "! ", "? "] if base.find(x) != -1]
-    if cut_points:
-        idx = min(cut_points) + 1
-        if 40 <= idx <= 140:
-            base = base[:idx]
-
-    if len(base) > 140:
-        base = base[:140].rstrip() + "…"
-    return base
-
-
-def make_preview(text: str) -> str:
-    t = (text or "").strip().replace("\n", " ")
-    t = " ".join(t.split())
-    if len(t) > 220:
-        t = t[:220].rstrip() + "…"
-    return t
-
-
-def render_post(post):
-    """Render a single post card in expandable format (details/summary)."""
+def render_post(post, index):
+    """Render a single post card."""
+    color_style = COLORS[index % len(COLORS)]
     ts = parse_ts(post['ts'])
     time_str = format_time(ts)
-    channel_raw = post.get('peer_title', 'Unknown')
-    channel = escape(channel_raw)
+    channel = escape(post.get('peer_title', 'Unknown'))
     text = post.get('text', '') or ""
 
-    c1, c2 = pick_palette(channel_raw)
-
-    summary_title = escape(make_summary(text, bool(post.get('has_media'))))
-    preview = escape(make_preview(text))
+    title = escape(get_title(text))
+    preview = escape(get_preview(text))
 
     # Content blocks
-    forward_html = render_forward(post.get('forward_from'))
     media_html = render_media(post)
+    forward_html = render_forward(post.get('forward_from'))
     links_html = render_links(post.get('links'))
     buttons_html = render_buttons(post.get('buttons'))
 
     # Text body
     if text.strip():
         body_html = f'<div class="post-text">{render_text(text)}</div>'
-    elif post.get('has_media'):
-        body_html = '<p class="post-text"><em>[Медиа-пост без текста]</em></p>'
     else:
-        body_html = '<p class="post-text"><em>[Пустой пост]</em></p>'
+        body_html = '<p class="post-text"><em>[Медиа-пост без текста]</em></p>'
 
-    views_html = render_views(post.get('views'))
-    views_part = views_html if views_html else ""
+    # Build preview div
+    preview_line = f'\n      <div class="preview">{preview}</div>' if preview else ''
 
-    parts = []
-    parts.append(f'<details class="post" style="--c1:{c1}; --c2:{c2};">')
-    parts.append('  <summary>')
-    parts.append('    <div class="post-summary">')
-    parts.append('      <div class="sum-top">')
-    parts.append(f'        <div class="source">{channel}</div>')
-    parts.append(f'        <div class="meta">{views_part}<span>{time_str}</span></div>')
-    parts.append('      </div>')
-    parts.append(f'      <div class="title">{summary_title}</div>')
-    if preview:
-        parts.append(f'      <div class="preview">{preview}</div>')
-    parts.append('      <div class="actions">')
-    parts.append('        <span class="btn">Read</span>')
-    parts.append('        <span class="btn secondary">Collapse</span>')
-    parts.append('      </div>')
-    parts.append('    </div>')
-    parts.append('  </summary>')
-
-    parts.append('  <div class="post-content">')
-    if forward_html:
-        parts.append(f'    {forward_html}')
+    # Build content area
+    content_parts = []
     if media_html:
-        # In new CSS we use badge class
-        parts.append(str(media_html).replace('media-badge', 'badge'))
-    parts.append(f'    {body_html}')
+        content_parts.append(media_html)
+    if forward_html:
+        content_parts.append(forward_html)
+    content_parts.append(f'    {body_html}')
     if links_html:
-        parts.append(f'    {links_html}')
+        content_parts.append(links_html)
     if buttons_html:
-        parts.append(f'    {buttons_html}')
-    parts.append('  </div>')
-    parts.append('</details>')
+        content_parts.append(buttons_html)
 
-    return "\n".join(parts)
+    content_inner = '\n'.join(content_parts)
+
+    return f'''<details class="post" style="{color_style}">
+  <summary>
+    <div class="post-summary">
+      <div class="sum-top">
+        <div class="source">{channel}</div>
+        <div class="meta"><span>{time_str}</span></div>
+      </div>
+      <div class="title">{title}</div>{preview_line}
+      <div class="actions">
+        <span class="btn">Read</span>
+        <span class="btn secondary">Collapse</span>
+      </div>
+    </div>
+  </summary>
+  <div class="post-content">
+{content_inner}
+  </div>
+</details>'''
 
 
-CSS = """
+CSS = """\
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root{
   --bg: #f6f7fb;
@@ -469,34 +447,7 @@ footer{
 }
 """
 
-
-def build():
-    # Sync media
-    sync_media()
-    
-    # Read feed
-    posts = []
-    with open(FEED_PATH, 'r') as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                posts.append(json.loads(line))
-    
-    # Sort: newest first
-    posts.sort(key=lambda p: p.get('ts', ''), reverse=True)
-    
-    # Determine date from newest post
-    if posts:
-        newest_ts = parse_ts(posts[0]['ts'])
-        date_str = format_date(newest_ts)
-    else:
-        date_str = "—"
-    
-    # Generate HTML
-    cards = '\n'.join(render_post(p) for p in posts)
-    
-    JS = """
-<script>
+JS = """\
 // Mobile-friendly accordion: keep only one post expanded
 document.addEventListener('toggle', (e) => {
   const el = e.target;
@@ -507,16 +458,45 @@ document.addEventListener('toggle', (e) => {
     });
   }
 }, true);
-</script>
 """
 
-    html = f"""<!DOCTYPE html>
+
+def build():
+    # Sync media files
+    sync_media()
+
+    # Read feed
+    posts = []
+    with open(FEED_PATH, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                posts.append(json.loads(line))
+
+    # Sort: newest first
+    posts.sort(key=lambda p: p.get('ts', ''), reverse=True)
+
+    n = len(posts)
+
+    # Determine dates
+    if posts:
+        newest_ts = parse_ts(posts[0]['ts'])
+        date_ru = format_date_ru(newest_ts)
+        updated_str = format_date_num(newest_ts)
+    else:
+        date_ru = "—"
+        updated_str = "—"
+
+    # Render cards
+    cards = '\n'.join(render_post(p, i) for i, p in enumerate(posts))
+
+    html_out = f'''<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <base href="/news/">
-<title>AI News Digest — {date_str}</title>
+<title>AI News Digest &mdash; {date_ru}</title>
 <style>
 {CSS}
 </style>
@@ -524,20 +504,25 @@ document.addEventListener('toggle', (e) => {
 <body>
 <div class="container">
   <header>
-    <h1>AI News Digest — {date_str}</h1>
-    <p class="subtitle">{len(posts)} постов из Telegram-каналов • тапни карточку чтобы раскрыть</p>
+    <h1>AI News Digest &mdash; {date_ru}</h1>
+    <p class="subtitle">{n} постов из Telegram-каналов &bull; обновлено {updated_str} &bull; тапни карточку чтобы раскрыть</p>
   </header>
 {cards}
-  <footer>Собрано автоматически • Telegram Daemon • msolo.me</footer>
+  <footer>Собрано автоматически &bull; Telegram Daemon &bull; msolo.me</footer>
 </div>
+
+<script>
 {JS}
+</script>
+
 </body>
 </html>
-"""
-    
-    OUTPUT.write_text(html, encoding='utf-8')
-    print(f"✅ Generated {OUTPUT} — {len(posts)} posts, date: {date_str}")
-    print(f"   Media files: {len(list(MEDIA_DST.iterdir())) if MEDIA_DST.exists() else 0}")
+'''
+
+    OUTPUT.write_text(html_out, encoding='utf-8')
+    media_count = len(list(MEDIA_DST.iterdir())) if MEDIA_DST.exists() else 0
+    print(f"Generated {OUTPUT} — {n} posts, date: {date_ru}")
+    print(f"Media files: {media_count}")
 
 
 if __name__ == '__main__':
