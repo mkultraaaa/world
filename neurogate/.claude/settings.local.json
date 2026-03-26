@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Bash(curl:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(ffprobe:*)",
+      "Bash(python3:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(cat:*)",
+      "Bash(echo:*)",
+      "Bash(cd:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(open:*)",
+      "Bash(git:*)",
+      "Bash(jq:*)",
+      "WebFetch",
+      "WebSearch",
+      "Agent"
+    ]
+  }
+}
