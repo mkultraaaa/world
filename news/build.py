@@ -151,9 +151,10 @@ def render_forward(forward_from):
     if not forward_from:
         return ""
     if isinstance(forward_from, dict):
-        name = escape(forward_from.get('name', str(forward_from)))
+        raw_name = forward_from.get('name') or str(forward_from)
+        name = escape(str(raw_name))
     else:
-        name = escape(str(forward_from))
+        name = escape(str(forward_from or ''))
     return f'<p class="forward-info">Переслано из: {name}</p>\n'
 
 
