@@ -9,6 +9,9 @@
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1.js" },
     { "handle": "filesystem" },
+    { "src": "/neurogate/campaign$", "dest": "/neurogate/campaign/index.html" },
+    { "src": "/neurogate/business$", "dest": "/neurogate/business/index.html" },
+    { "src": "/neurogate/examples$", "dest": "/neurogate/examples/index.html" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 }

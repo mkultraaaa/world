@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroGate — Примеры для кабинета</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f0f13;
+            color: #e0e0e6;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+        .page-subtitle { color: #888; font-size: 15px; margin-bottom: 48px; }
+
+        .section-title {
+            font-size: 20px; font-weight: 700; color: #a78bfa;
+            margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid #2a2a35;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+            gap: 24px; margin-bottom: 56px;
+        }
+
+        .card {
+            background: #1a1a24; border: 1px solid #2a2a35;
+            border-radius: 16px; overflow: hidden; transition: border-color 0.2s;
+        }
+        .card:hover { border-color: #7c3aed; }
+
+        .card-media {
+            position: relative; background: #111118;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 260px; max-height: 420px; overflow: hidden;
+        }
+        .card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .card-media video { width: 100%; display: block; }
+        .card-media .download-btn {
+            position: absolute; top: 12px; right: 12px;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+            color: #fff; border: 1px solid rgba(255,255,255,0.15);
+            padding: 6px 14px; border-radius: 8px; font-size: 13px;
+            cursor: pointer; text-decoration: none; transition: background 0.2s;
+        }
+        .card-media .download-btn:hover { background: rgba(124,58,237,0.7); }
+
+        .card-body { padding: 20px; }
+        .card-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+        .card-row:last-child { margin-bottom: 0; }
+        .card-label {
+            flex-shrink: 0; font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            color: #666; width: 70px; padding-top: 3px;
+        }
+        .card-value { flex: 1; font-size: 14px; color: #ccc; position: relative; }
+
+        .model-badge {
+            display: inline-block; background: #7c3aed22; color: #a78bfa;
+            border: 1px solid #7c3aed44; padding: 3px 12px; border-radius: 6px;
+            font-size: 13px; font-weight: 600;
+        }
+
+        .copy-btn {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: transparent; border: 1px solid #333; color: #888;
+            padding: 4px 10px; border-radius: 6px; font-size: 12px;
+            cursor: pointer; margin-left: 8px; transition: all 0.2s; vertical-align: middle;
+        }
+        .copy-btn:hover { border-color: #7c3aed; color: #a78bfa; }
+        .copy-btn.copied { border-color: #22c55e; color: #22c55e; }
+
+        .note {
+            background: #1a1a24; border: 1px solid #2a2a35;
+            border-radius: 12px; padding: 20px; margin-bottom: 48px;
+            font-size: 14px; color: #888;
+        }
+        .note strong { color: #ccc; }
+
+        .itv-media { display: flex; gap: 0; }
+        .itv-side {
+            flex-shrink: 0; width: 180px; position: relative; background: #111118;
+        }
+        .itv-side img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .itv-main { flex: 1; position: relative; }
+        .itv-label {
+            position: absolute; bottom: 8px; left: 8px;
+            background: rgba(0,0,0,0.75); color: #aaa;
+            font-size: 11px; padding: 2px 8px; border-radius: 4px;
+        }
+        .itv-dl {
+            position: absolute; top: 8px; left: 8px;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+            color: #fff; border: 1px solid rgba(255,255,255,0.15);
+            padding: 4px 8px; border-radius: 8px; font-size: 11px;
+            text-decoration: none; transition: background 0.2s;
+        }
+        .itv-dl:hover { background: rgba(124,58,237,0.7); }
+
+        @media (max-width: 600px) {
+            .examples-grid { grid-template-columns: 1fr; }
+            .card-row { flex-direction: column; gap: 4px; }
+            .card-label { width: auto; }
+            .itv-side { width: 120px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NeuroGate — Примеры для кабинета</h1>
+        <p class="page-subtitle">Референсы: промт + модель + результат. Для Юли. Копируй текст кнопкой, скачивай файлы.</p>
+
+        <div class="note">
+            <strong>Как использовать:</strong> Каждая карточка — готовый пример для кабинета. Промт на русском, модель указана бейджем.
+            Картинки и видео — скачивай кнопкой в правом верхнем углу превью. Тексты — копируй кнопкой рядом с промтом.
+        </div>
+
+        <!-- ==================== КАРТИНКИ ==================== -->
+        <div class="section-title">Генерация картинок (текст &rarr; картинка)</div>
+        <div class="examples-grid">
+
+            <!-- Image 1: Midjourney -->
+            <div class="card">
+                <div class="card-media">
+                    <img src="/examples/assets/midjourney-1.png" alt="Инопланетный пейзаж">
+                    <a class="download-btn" href="/examples/assets/midjourney-1.png" download>Скачать</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Midjourney v5</span>
+                            <button class="copy-btn" onclick="copyText('Midjourney v5', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-img-1">Инопланетный пейзаж с двумя огромными планетами на горизонте, скалистая пустыня с острыми утёсами, тёплый закатный свет пробивается сквозь облака, эпическая атмосфера, концепт-арт, 8K</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-img-1', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 2: DALL-E 3 -->
+            <div class="card">
+                <div class="card-media">
+                    <img src="/examples/assets/dalle3-starrynight.png" alt="Звёздная ночь в будущем">
+                    <a class="download-btn" href="/examples/assets/dalle3-starrynight.png" download>Скачать</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">DALL-E 3</span>
+                            <button class="copy-btn" onclick="copyText('DALL-E 3', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-img-2">«Звёздная ночь» Ван Гога переосмысленная в футуристическом стиле: вместо деревни — неоновый мегаполис, голограммы и свет небоскрёбов сливаются с вихревым небом, сохранить фирменные мазки оригинала</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-img-2', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 3: FLUX.2 — Apollo -->
+            <div class="card">
+                <div class="card-media">
+                    <img src="/examples/assets/flux-apollo.png" alt="Лунный модуль Аполлон">
+                    <a class="download-btn" href="/examples/assets/flux-apollo.png" download>Скачать</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">FLUX.2</span>
+                            <button class="copy-btn" onclick="copyText('FLUX.2', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-img-3a">Детальный разрез лунного модуля «Аполлон» с астронавтами внутри, вид спереди, стоит на поверхности Луны, фотореалистичная 3D-визуализация, чёрный космический фон, музейное качество</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-img-3a', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 4: FLUX.2 -->
+            <div class="card">
+                <div class="card-media">
+                    <img src="/examples/assets/flux-car.png" alt="Спорткар в ночном городе">
+                    <a class="download-btn" href="/examples/assets/flux-car.png" download>Скачать</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">FLUX.2</span>
+                            <button class="copy-btn" onclick="copyText('FLUX.2', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-img-3">Красный спортивный автомобиль на мокрой ночной улице мегаполиса, неоновые вывески, следы света фар, длинная выдержка, кинематографичный кадр, дождь, отражения на асфальте</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-img-3', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 4: DALL-E 3 -->
+            <div class="card">
+                <div class="card-media">
+                    <img src="/examples/assets/dalle3-creation.png" alt="Сотворение Адама с роботом">
+                    <a class="download-btn" href="/examples/assets/dalle3-creation.png" download>Скачать</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">DALL-E 3</span>
+                            <button class="copy-btn" onclick="copyText('DALL-E 3', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-img-4">«Сотворение Адама» Микеланджело, но вместо божественной руки — механическая рука робота тянется к человеческой, символ создания ИИ, стиль классической живописи, трещины на фреске, драматичное освещение</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-img-4', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 6: Nano Banana 2 — Epic fantasy landscape -->
+            <div class="card">
+                <div class="card-media">
+                    <img src="/examples/assets/nb2-fantasy.png" alt="Фэнтези-город в скалах">
+                    <a class="download-btn" href="/examples/assets/nb2-fantasy.png" download>Скачать</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Nano Banana 2</span>
+                            <button class="copy-btn" onclick="copyText('Nano Banana 2', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-img-6">Эпический фэнтези-пейзаж: древний город, высеченный в отвесных скалах, каменные мосты и арки соединяют утёсы, мощный водопад справа, одинокий путник на подвесном мосту, рассветный свет пробивается сквозь туман, панорамный формат 21:9</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-img-6', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 7: Nano Banana 2 — Russian market -->
+            <div class="card">
+                <div class="card-media">
+                    <img src="/examples/assets/nb2-market.png" alt="Фермерский рынок">
+                    <a class="download-btn" href="/examples/assets/nb2-market.png" download>Скачать</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Nano Banana 2</span>
+                            <button class="copy-btn" onclick="copyText('Nano Banana 2', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-img-7">Документальная фотография: пожилой мужчина на фермерском рынке протягивает бумажный пакет с яблоками маленькой девочке в жёлтом комбинезоне, тёплый солнечный свет, прилавки с овощами и фруктами на фоне, уличная атмосфера</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-img-7', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== ВИДЕО: ТЕКСТ → ВИДЕО ==================== -->
+        <div class="section-title">Генерация видео (текст &rarr; видео)</div>
+        <div class="examples-grid">
+
+            <!-- Video T2V 1: Sora -->
+            <div class="card">
+                <div class="card-media">
+                    <video src="/examples/assets/sora-mammoth.mp4" autoplay loop muted playsinline></video>
+                    <a class="download-btn" href="/examples/assets/sora-mammoth.mp4" download>Скачать видео</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Sora</span>
+                            <button class="copy-btn" onclick="copyText('Sora', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-vid-1">Стадо шерстистых мамонтов идёт по заснеженной долине, горные вершины на фоне, снежная пыль поднимается из-под ног, реалистичная шерсть развевается на ветру, кинематографичная съёмка с вертолёта, золотистый зимний свет</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-vid-1', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video T2V 2: Runway Gen-3 -->
+            <div class="card">
+                <div class="card-media">
+                    <video src="/examples/assets/runway-astronaut.mp4" autoplay loop muted playsinline></video>
+                    <a class="download-btn" href="/examples/assets/runway-astronaut.mp4" download>Скачать видео</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Runway Gen-3</span>
+                            <button class="copy-btn" onclick="copyText('Runway Gen-3', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-vid-2">Астронавт в полном скафандре бежит по узкому переулку с яркими граффити в Рио-де-Жанейро, камера динамично следует за ним, солнечный свет пробивается сверху, реалистичное движение</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-vid-2', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video T2V 3: Google Veo 2 — F1 -->
+            <div class="card">
+                <div class="card-media">
+                    <video src="/examples/assets/veo2-f1.mp4" autoplay loop muted playsinline></video>
+                    <a class="download-btn" href="/examples/assets/veo2-f1.mp4" download>Скачать видео</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Google Veo 2</span>
+                            <button class="copy-btn" onclick="copyText('Google Veo 2', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-vid-5">Болид Формулы 1 мчится по трассе, вид спереди, эффект старой VHS-кассеты с полосами развёртки и глитчами, ретро-стилизация под аналоговое видео</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-vid-5', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video T2V 4: Google Veo 2 — Farmer -->
+            <div class="card">
+                <div class="card-media">
+                    <video src="/examples/assets/veo2-farmer.mp4" autoplay loop muted playsinline></video>
+                    <a class="download-btn" href="/examples/assets/veo2-farmer.mp4" download>Скачать видео</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Google Veo 2</span>
+                            <button class="copy-btn" onclick="copyText('Google Veo 2', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-vid-6">Пожилой пасечник в защитном костюме держит банку мёда на фоне разноцветных ульев, подсолнухи на заднем плане, тёплый золотистый вечерний свет, документальная кинематография</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-vid-6', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video T2V 5: Luma Ray 3 — Sea creature -->
+            <div class="card">
+                <div class="card-media">
+                    <video src="/examples/assets/luma-film.mp4" autoplay loop muted playsinline></video>
+                    <a class="download-btn" href="/examples/assets/luma-film.mp4" download>Скачать видео</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Luma Dream Machine</span>
+                            <button class="copy-btn" onclick="copyText('Luma Dream Machine', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-vid-7">Синее фантастическое существо с чешуёй и плавниками выходит из воды, капли стекают по лицу, портрет крупным планом, пасмурное небо на фоне, кинематографичное освещение, стиль фэнтези-фильма</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-vid-7', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video T2V 6: Luma Ray 3 — Fighter jets -->
+            <div class="card">
+                <div class="card-media">
+                    <video src="/examples/assets/luma-ray3.mp4" autoplay loop muted playsinline></video>
+                    <a class="download-btn" href="/examples/assets/luma-ray3.mp4" download>Скачать видео</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Luma Ray 3</span>
+                            <button class="copy-btn" onclick="copyText('Luma Ray 3', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-vid-8">Вид из кабины истребителя: воздушный бой в грозовых облаках, два вражеских самолёта маневрируют впереди, лазерные трассеры рассекают небо, кинематографичная динамичная камера, стиль блокбастера</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-vid-8', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== ВИДЕО: КАРТИНКА → ВИДЕО ==================== -->
+        <div class="section-title">Генерация видео (картинка &rarr; видео)</div>
+        <div class="examples-grid">
+
+            <!-- Video I2V 1: Kling — man in flowers (verified pair) -->
+            <div class="card">
+                <div class="card-media itv-media">
+                    <div class="itv-side">
+                        <img src="/examples/assets/kling-itv-source.png" alt="Исходник: человек в цветочном поле">
+                        <span class="itv-label">Исходник</span>
+                        <a class="itv-dl" href="/examples/assets/kling-itv-source.png" download>Скачать</a>
+                    </div>
+                    <div class="itv-main">
+                        <video src="/examples/assets/kling-video-2.mp4" autoplay loop muted playsinline style="width:100%;display:block;"></video>
+                        <span class="itv-label">Результат</span>
+                        <a class="download-btn" href="/examples/assets/kling-video-2.mp4" download>Скачать видео</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Kling 2.0</span>
+                            <button class="copy-btn" onclick="copyText('Kling 2.0', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Тип</div>
+                        <div class="card-value" style="color:#888;">Картинка &rarr; Видео (image-to-video)</div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-vid-3">Человек в чёрной одежде парит над полем оранжевых цветов, камера медленно поднимается вверх, лепестки взлетают в воздух, яркий солнечный день, кинематографичное замедленное движение</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-vid-3', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video I2V 2: Kling — woman in cafe -->
+            <div class="card">
+                <div class="card-media itv-media">
+                    <div class="itv-side">
+                        <img src="/examples/assets/kling-cafe-source.jpg" alt="Исходник: девушка в кафе">
+                        <span class="itv-label">Исходник</span>
+                        <a class="itv-dl" href="/examples/assets/kling-cafe-source.jpg" download>Скачать</a>
+                    </div>
+                    <div class="itv-main">
+                        <video src="/examples/assets/kling-video-4.mp4" autoplay loop muted playsinline style="width:100%;display:block;"></video>
+                        <span class="itv-label">Результат</span>
+                        <a class="download-btn" href="/examples/assets/kling-video-4.mp4" download>Скачать видео</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-row">
+                        <div class="card-label">Модель</div>
+                        <div class="card-value">
+                            <span class="model-badge">Kling 2.0</span>
+                            <button class="copy-btn" onclick="copyText('Kling 2.0', this)">Скопировать</button>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Тип</div>
+                        <div class="card-value" style="color:#888;">Картинка &rarr; Видео (image-to-video)</div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-label">Промт</div>
+                        <div class="card-value">
+                            <span class="prompt-text" id="prompt-vid-4">Девушка в уютном вязаном свитере сидит у окна в кафе, медленно поворачивает голову, мягкая улыбка, тёплый свет ламп на фоне, лёгкое движение волос, портретная съёмка крупным планом</span>
+                            <button class="copy-btn" onclick="copyFrom('prompt-vid-4', this)">Скопировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function copyText(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                btn.classList.add('copied');
+                btn.textContent = 'Скопировано!';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.textContent = 'Скопировать';
+                }, 1500);
+            });
+        }
+
+        function copyFrom(id, btn) {
+            const el = document.getElementById(id);
+            copyText(el.textContent.trim(), btn);
+        }
+    </script>
+</body>
+</html>
