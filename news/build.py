@@ -138,6 +138,25 @@ def render_media(post):
     return ""
 
 
+def render_full_media(post):
+    """Full-width media for expanded view."""
+    if not post.get('has_media'):
+        return ""
+    media_path = post.get('media_path')
+    if not media_path:
+        return ""
+    filename = os.path.basename(media_path)
+    local_path = MEDIA_DST / filename
+    ext = os.path.splitext(filename)[1].lower()
+    if not local_path.exists():
+        return ""
+    if ext in IMAGE_EXTS:
+        return f'<img class="full-media" src="media/{escape(filename)}" alt="" loading="lazy">\n'
+    elif ext in VIDEO_EXTS:
+        return f'<video class="full-media" src="media/{escape(filename)}" controls preload="metadata"></video>\n'
+    return ""
+
+
 def render_forward(forward_from):
     if not forward_from:
         return ""
@@ -177,12 +196,31 @@ def render_post(post):
     fwd_html = render_forward(post.get('forward_from'))
     links_html = render_links(post.get('links'), post.get('buttons'))
 
+    # Full text (skip first line = title)
+    lines = text.strip().split('\n')
+    body_text = '\n'.join(lines[1:]).strip() if len(lines) > 1 else ""
+    body_html = render_text(body_text) if body_text else ""
+
+    # Full media for expanded view
+    full_media = render_full_media(post)
+
     summary_block = f'\n    <p class="summary">{summary}</p>' if summary else ''
     links_block = f'\n    {links_html}' if links_html else ''
 
+    # Full body expandable (show if there's text OR full-size media)
+    has_expand = body_html or full_media
+    if has_expand:
+        expand_block = f'''
+    <details class="expand">
+      <summary>Read more</summary>
+      <div class="full-text">{full_media}{body_html}</div>
+    </details>'''
+    else:
+        expand_block = ''
+
     return f'''<div class="item">
   <div class="item-main">
-    <h3>{title}</h3>{summary_block}
+    <h3>{title}</h3>{summary_block}{expand_block}
     <div class="item-meta"><span class="src">{channel}</span> <span class="time">{time_str}</span>{fwd_html}{links_block}</div>
   </div>
   {media_html}</div>'''
@@ -336,6 +374,57 @@ h1 {
 
 .item-links a:hover {
   text-decoration: underline;
+}
+
+/* Expandable full text */
+.expand {
+  margin: 6px 0 4px;
+}
+
+.expand > summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  user-select: none;
+}
+
+.expand > summary::-webkit-details-marker { display: none; }
+
+.expand > summary::before {
+  content: '+ ';
+}
+
+.expand[open] > summary::before {
+  content: '- ';
+}
+
+.expand[open] .summary { display: none; }
+
+.full-text {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--secondary);
+  padding: 8px 0 4px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.full-text a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.full-text a:hover {
+  text-decoration: underline;
+}
+
+.full-media {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: block;
 }
 
 /* Thumbnail */
