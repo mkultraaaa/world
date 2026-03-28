@@ -254,6 +254,8 @@ CSS = r"""
   --ds-hover-row:       rgba(255, 255, 255, 0.03);
   --ds-scrollbar-thumb: rgba(255, 255, 255, 0.1);
   --ds-scrollbar-hover: rgba(255, 255, 255, 0.2);
+  --ds-title-weight:    600;
+  --ds-font-smoothing:  auto;
 }
 
 /* Light theme */
@@ -282,6 +284,8 @@ CSS = r"""
   --ds-hover-row:       rgba(0, 0, 0, 0.03);
   --ds-scrollbar-thumb: rgba(0, 0, 0, 0.12);
   --ds-scrollbar-hover: rgba(0, 0, 0, 0.2);
+  --ds-title-weight:    500;
+  --ds-font-smoothing:  antialiased;
 
   --ds-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --ds-font-mono: 'Fira Code', 'SF Mono', 'Roboto Mono', monospace;
@@ -293,8 +297,8 @@ body {
   font-family: var(--ds-font-sans);
   font-size: 14px;
   line-height: 1.4;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: var(--ds-font-smoothing);
+  -moz-osx-font-smoothing: var(--ds-font-smoothing);
 }
 
 /* Header bar — gold accent stripe */
@@ -412,7 +416,7 @@ body {
 .title-link {
   color: var(--ds-text-primary);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: var(--ds-title-weight);
 }
 
 .title-link:visited {
@@ -425,7 +429,7 @@ body {
 
 .title-text {
   color: var(--ds-text-primary);
-  font-weight: 500;
+  font-weight: var(--ds-title-weight);
 }
 
 .domain {
