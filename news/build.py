@@ -2,7 +2,7 @@
 """
 News page generator for msolo.me/news
 Reads feed.jsonl from Telethon daemon, generates index.html
-Editorial design — clean, typographic, no AI slop.
+Vibrant card-based design inspired by Purnweb streaming app redesign.
 """
 import json
 import os
@@ -40,6 +40,18 @@ MONTHS_RU_SHORT = {
     9: "сен", 10: "окт", 11: "ноя", 12: "дек",
 }
 
+# Card color palettes: (bg, text, accent-btn-bg, accent-btn-text)
+CARD_PALETTES = [
+    ("#FF6B35", "#1a1a1a", "#1a1a1a", "#ffffff"),   # warm orange
+    ("#FFD23F", "#1a1a1a", "#1a1a1a", "#FFD23F"),   # bold yellow
+    ("#7B2D8E", "#ffffff", "#ffffff", "#7B2D8E"),    # deep purple
+    ("#23C16B", "#1a1a1a", "#1a1a1a", "#ffffff"),    # vivid green
+    ("#FF4F8B", "#1a1a1a", "#1a1a1a", "#ffffff"),    # hot pink
+    ("#2D9CDB", "#ffffff", "#ffffff", "#2D9CDB"),    # sky blue
+    ("#1a1a1a", "#ffffff", "#FF6B35", "#1a1a1a"),    # dark card
+    ("#F25C54", "#ffffff", "#ffffff", "#F25C54"),     # coral red
+]
+
 
 def parse_ts(ts_str):
     ts_str = ts_str.replace('Z', '+00:00')
@@ -63,18 +75,12 @@ def format_date_ru(dt):
 
 
 def format_date_group(dt):
-    """Date string for grouping: '28 мар'."""
     local = to_local(dt)
     return f"{local.day} {MONTHS_RU_SHORT[local.month]}"
 
 
 def format_date_key(dt):
-    """Date key for grouping: 'YYYY-MM-DD'."""
     return to_local(dt).strftime("%Y-%m-%d")
-
-
-def format_date_num(dt):
-    return to_local(dt).strftime("%d.%m.%Y %H:%M")
 
 
 def sync_media():
@@ -106,10 +112,10 @@ def render_text(text):
 def get_title(text):
     t = (text or "").strip()
     if not t:
-        return "Медиа"
+        return "Media"
     first_line = t.split("\n")[0].strip()
-    if len(first_line) > 150:
-        return first_line[:147] + "…"
+    if len(first_line) > 120:
+        return first_line[:117] + "..."
     return first_line
 
 
@@ -140,7 +146,7 @@ def render_forward(forward_from):
         name = escape(str(raw_name))
     else:
         name = escape(str(forward_from or ''))
-    return f'<span class="repost">via {name}</span>\n'
+    return f'<span class="repost">via {name}</span>'
 
 
 def render_links(links):
@@ -154,7 +160,7 @@ def render_links(links):
             parts.append(f'<a href="{url}" target="_blank" rel="noopener">{label}</a>')
     if not parts:
         return ""
-    return '<div class="links">' + ' '.join(parts) + '</div>\n'
+    return '<div class="card-links">' + ''.join(parts) + '</div>\n'
 
 
 def render_buttons(buttons):
@@ -163,213 +169,201 @@ def render_buttons(buttons):
     parts = []
     for btn in buttons:
         url = escape(btn.get('url', ''))
-        label = escape(btn.get('text', 'Ссылка'))
+        label = escape(btn.get('text', 'Link'))
         if url:
             parts.append(f'<a href="{url}" target="_blank" rel="noopener">{label}</a>')
     if not parts:
         return ""
-    return '<div class="links">' + ' '.join(parts) + '</div>\n'
+    return '<div class="card-links">' + ''.join(parts) + '</div>\n'
 
 
-def render_post(post):
+def render_post(post, index):
     ts = parse_ts(post['ts'])
     time_str = format_time(ts)
     channel = escape(post.get('peer_title', ''))
     text = post.get('text', '') or ""
     title = escape(get_title(text))
+    palette = CARD_PALETTES[index % len(CARD_PALETTES)]
+    bg, fg, btn_bg, btn_fg = palette
 
     media_html = render_media(post)
     forward_html = render_forward(post.get('forward_from'))
     links_html = render_links(post.get('links'))
     buttons_html = render_buttons(post.get('buttons'))
 
-    # Body text (skip first line which is the title)
+    # Body text (skip first line = title)
     lines = text.strip().split('\n')
     body_text = '\n'.join(lines[1:]).strip() if len(lines) > 1 else ""
-    body_html = f'<div class="body">{render_text(body_text)}</div>' if body_text else ""
+    body_html = f'<div class="card-body">{render_text(body_text)}</div>' if body_text else ""
 
-    meta_parts = [f'<span class="channel">{channel}</span>', f'<time>{time_str}</time>']
-    if forward_html:
-        meta_parts.append(forward_html)
-    meta = ' '.join(meta_parts)
+    fwd = f' {forward_html}' if forward_html else ''
 
-    return f'''<article>
-  {media_html}<h3>{title}</h3>
-  <div class="meta">{meta}</div>
-  {body_html}
-  {links_html}{buttons_html}</article>'''
+    return f'''<article class="card" style="--card-bg:{bg};--card-fg:{fg};--btn-bg:{btn_bg};--btn-fg:{btn_fg}">
+  <div class="card-top">
+    <span class="card-channel">{channel}</span>
+    <time>{time_str}</time>
+  </div>
+  <h3>{title}</h3>
+  {media_html}{body_html}
+  <div class="card-footer">
+    {links_html}{buttons_html}<span class="card-meta">{fwd}</span>
+  </div>
+</article>'''
 
 
-CSS = """\
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Geist:wght@400;500;600&display=swap');
+CSS = r"""
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap');
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
+  --bg: #F4F0EB;
   --ink: #1a1a1a;
-  --paper: #faf9f7;
-  --mid: #6b6560;
-  --rule: #d4d0cb;
-  --accent: #c43d2e;
-  --serif: 'Newsreader', 'Georgia', serif;
-  --sans: 'Geist', 'Helvetica Neue', sans-serif;
+  --mid: #888;
+  --radius: 24px;
+  --head: 'Space Grotesk', sans-serif;
+  --body: 'DM Sans', sans-serif;
 }
 
 body {
-  background: var(--paper);
+  background: var(--bg);
   color: var(--ink);
-  font-family: var(--sans);
+  font-family: var(--body);
   font-size: 15px;
-  line-height: 1.55;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
 .wrap {
-  max-width: 680px;
+  max-width: 760px;
   margin: 0 auto;
-  padding: 48px 20px 80px;
+  padding: 40px 16px 80px;
 }
 
-/* Header — editorial masthead */
+/* ---- Header ---- */
 header {
   text-align: center;
-  padding-bottom: 32px;
-  margin-bottom: 8px;
-  border-bottom: 2px solid var(--ink);
+  margin-bottom: 36px;
 }
 
-header::before {
-  content: '';
-  display: block;
-  width: 40px;
-  height: 3px;
-  background: var(--accent);
-  margin: 0 auto 20px;
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin-bottom: 16px;
 }
 
 h1 {
-  font-family: var(--serif);
-  font-size: clamp(2rem, 5vw, 2.8rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  margin-bottom: 8px;
+  font-family: var(--head);
+  font-size: clamp(2.2rem, 6vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 10px;
 }
 
 .tagline {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--mid);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 400;
 }
 
-/* Date dividers */
-.date-divider {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 36px 0 20px;
-  font-family: var(--sans);
-  font-size: 0.8rem;
+/* ---- Date group ---- */
+.date-group {
+  font-family: var(--head);
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--mid);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  margin: 32px 0 14px;
+  padding-left: 4px;
 }
 
-.date-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--rule);
+/* ---- Cards ---- */
+.card {
+  background: var(--card-bg);
+  color: var(--card-fg);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Articles */
-article {
-  padding: 24px 0;
-  border-bottom: 1px solid var(--rule);
-  animation: fadeUp 0.4s ease both;
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-article h3 {
-  font-family: var(--serif);
-  font-size: 1.25rem;
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  margin-bottom: 6px;
-}
-
-.meta {
+.card-top {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
-  gap: 6px 12px;
+  margin-bottom: 14px;
   font-size: 0.82rem;
-  color: var(--mid);
+  opacity: 0.7;
+}
+
+.card-channel {
+  font-weight: 700;
+  font-family: var(--head);
+  letter-spacing: -0.01em;
+  opacity: 1;
+}
+
+.card h3 {
+  font-family: var(--head);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   margin-bottom: 12px;
 }
 
-.channel {
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.repost {
-  font-style: italic;
-}
-
-time {
-  font-variant-numeric: tabular-nums;
-}
-
-.body {
-  font-size: 0.95rem;
-  line-height: 1.65;
-  color: #333;
-  max-height: 320px;
+.card-body {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  opacity: 0.85;
+  max-height: 200px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
   transition: max-height 0.35s ease;
 }
 
-.body.expanded {
+.card-body.expanded {
   max-height: none;
+  opacity: 1;
 }
 
-.body:not(.expanded)::after {
+.card-body:not(.expanded)::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 80px;
-  background: linear-gradient(transparent, var(--paper));
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(transparent, var(--card-bg));
   pointer-events: none;
 }
 
-.body a {
-  color: var(--accent);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s;
+.card-body a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-.body a:hover {
-  border-bottom-color: var(--accent);
-}
-
-/* Media */
+/* Media inside cards */
 .media {
-  margin: 14px 0;
-  border-radius: 6px;
+  margin: 14px -24px;
   overflow: hidden;
 }
 
@@ -380,68 +374,96 @@ time {
 
 .file-link {
   display: inline-block;
-  padding: 8px 14px;
-  background: rgba(0,0,0,0.04);
-  border-radius: 6px;
+  margin: 0 24px;
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
   font-size: 0.85rem;
-  color: var(--mid);
   text-decoration: none;
+  color: inherit;
 }
 
-/* Links / buttons */
-.links {
-  margin-top: 10px;
+/* Footer of card */
+.card-footer {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-meta {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  margin-left: auto;
+}
+
+.repost {
+  font-style: italic;
+}
+
+/* Links as pill buttons */
+.card-links {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.links a {
+.card-links a {
   display: inline-block;
-  padding: 5px 12px;
-  border: 1px solid var(--rule);
-  border-radius: 4px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--head);
   font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--ink);
+  font-weight: 600;
   text-decoration: none;
-  transition: border-color 0.2s, color 0.2s;
+  transition: opacity 0.2s;
 }
 
-.links a:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+.card-links a:hover {
+  opacity: 0.8;
 }
 
-/* Footer */
+/* ---- Footer ---- */
 footer {
   text-align: center;
   padding-top: 32px;
-  margin-top: 16px;
   font-size: 0.82rem;
   color: var(--mid);
-  border-top: 1px solid var(--rule);
 }
 
-/* Mobile */
+/* ---- Animations ---- */
+.card {
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95) translateY(16px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ---- Mobile ---- */
 @media (max-width: 480px) {
-  .wrap { padding: 32px 16px 60px; }
-  h1 { font-size: 1.75rem; }
-  article h3 { font-size: 1.1rem; }
-  .date-divider { margin: 28px 0 16px; }
+  .wrap { padding: 28px 12px 60px; }
+  h1 { font-size: 2rem; }
+  .card { padding: 20px; border-radius: 20px; }
+  .card h3 { font-size: 1.15rem; }
+  .media { margin: 12px -20px; }
 }
 """
 
-JS = """\
-// Expand/collapse long post bodies
+JS = r"""
+// Expand/collapse card bodies
 document.addEventListener('click', (e) => {
-  const body = e.target.closest('.body');
+  const body = e.target.closest('.card-body');
   if (body) body.classList.toggle('expanded');
 });
 
-// Stagger fade-in
-document.querySelectorAll('article').forEach((el, i) => {
-  el.style.animationDelay = Math.min(i * 0.03, 0.6) + 's';
+// Stagger card animations
+document.querySelectorAll('.card').forEach((el, i) => {
+  el.style.animationDelay = Math.min(i * 0.04, 0.8) + 's';
 });
 """
 
@@ -477,11 +499,13 @@ def build():
 
     # Render
     feed_html = []
+    card_idx = 0
     for key in sorted(grouped.keys(), reverse=True):
         group = grouped[key]
-        feed_html.append(f'<div class="date-divider">{group["label"]}</div>')
+        feed_html.append(f'<div class="date-group">{group["label"]}</div>')
         for p in group['posts']:
-            feed_html.append(render_post(p))
+            feed_html.append(render_post(p, card_idx))
+            card_idx += 1
 
     cards = '\n'.join(feed_html)
 
@@ -499,11 +523,12 @@ def build():
 <body>
 <div class="wrap">
   <header>
+    <div class="logo">N</div>
     <h1>AI News</h1>
-    <p class="tagline">{n} posts &middot; Telegram channels &middot; {date_ru}</p>
+    <p class="tagline">{n} posts from 27+ Telegram channels &middot; {date_ru}</p>
   </header>
 {cards}
-  <footer>Collected automatically from 27+ AI/ML Telegram channels &middot; msolo.me</footer>
+  <footer>Collected automatically &middot; msolo.me</footer>
 </div>
 <script>
 {JS}
