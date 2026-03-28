@@ -225,8 +225,8 @@ CSS = r"""
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* Tony OS Design System tokens */
-:root {
+/* Tony OS Design System tokens — Dark (default) */
+:root, [data-theme="dark"] {
   --ds-bg-base:          hsl(230, 6%, 5%);
   --ds-bg-primary:       hsl(230, 6%, 8%);
   --ds-bg-surface:       hsl(230, 7%, 12%);
@@ -250,6 +250,38 @@ CSS = r"""
 
   --ds-radius-md:       6px;
   --ds-radius-lg:       8px;
+
+  --ds-hover-row:       rgba(255, 255, 255, 0.03);
+  --ds-scrollbar-thumb: rgba(255, 255, 255, 0.1);
+  --ds-scrollbar-hover: rgba(255, 255, 255, 0.2);
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --ds-bg-base:          hsl(40, 20%, 97%);
+  --ds-bg-primary:       hsl(40, 15%, 95%);
+  --ds-bg-surface:       #ffffff;
+  --ds-bg-surface-hover: hsl(40, 10%, 93%);
+  --ds-bg-elevated:      #ffffff;
+
+  --ds-text-primary:   hsl(230, 10%, 12%);
+  --ds-text-secondary: hsl(230, 5%, 42%);
+  --ds-text-tertiary:  hsl(230, 4%, 58%);
+
+  --ds-border-subtle:   rgba(0, 0, 0, 0.06);
+  --ds-border-default:  rgba(0, 0, 0, 0.10);
+  --ds-border-strong:   rgba(0, 0, 0, 0.18);
+
+  --ds-accent:          #96750a;
+  --ds-accent-dim:      #7a6008;
+  --ds-accent-subtle:   rgba(150, 117, 10, 0.08);
+  --ds-accent-muted:    rgba(150, 117, 10, 0.18);
+
+  --ds-info:            #2563eb;
+
+  --ds-hover-row:       rgba(0, 0, 0, 0.03);
+  --ds-scrollbar-thumb: rgba(0, 0, 0, 0.12);
+  --ds-scrollbar-hover: rgba(0, 0, 0, 0.2);
 
   --ds-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --ds-font-mono: 'Fira Code', 'SF Mono', 'Roboto Mono', monospace;
@@ -305,6 +337,29 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Theme toggle */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--ds-border-default);
+  border-radius: var(--ds-radius-md);
+  color: var(--ds-text-secondary);
+  font-size: 16px;
+  width: 32px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 150ms ease, color 150ms ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.theme-toggle:hover {
+  border-color: var(--ds-accent);
+  color: var(--ds-accent);
+}
+
 /* Date divider */
 .date-row td {
   padding: 16px 0 8px 40px;
@@ -335,7 +390,7 @@ body {
 }
 
 .item:hover td {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--ds-hover-row);
 }
 
 .num {
@@ -449,8 +504,8 @@ body {
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--ds-bg-base); }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+::-webkit-scrollbar-thumb { background: var(--ds-scrollbar-thumb); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ds-scrollbar-hover); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -527,11 +582,29 @@ def build():
   <a href="/news/" class="logo">N</a>
   <a href="/news/" class="site-name">AI News</a>
   <span class="nav">{n} posts | {date_ru}</span>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme"></button>
 </div>
 <table class="feed">
 {table}
 </table>
 <div class="footer">Collected from 27+ AI/ML Telegram channels &middot; msolo.me</div>
+<script>
+function toggleTheme() {{
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('news-theme', next);
+  document.querySelector('.theme-toggle').textContent = next === 'dark' ? '\\u2600' : '\\u263E';
+}}
+(function() {{
+  const saved = localStorage.getItem('news-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  document.addEventListener('DOMContentLoaded', () => {{
+    document.querySelector('.theme-toggle').textContent = saved === 'dark' ? '\\u2600' : '\\u263E';
+  }});
+}})();
+</script>
 </body>
 </html>
 '''
