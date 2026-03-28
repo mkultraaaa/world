@@ -484,8 +484,8 @@ body {
 }
 
 .full-img {
-  max-width: 360px;
-  max-height: 320px;
+  max-width: 100%;
+  max-height: 400px;
   width: auto;
   height: auto;
   object-fit: contain;
