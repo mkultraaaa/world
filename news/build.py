@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-News page generator for msolo.me/news
-Reads feed.jsonl from Telethon daemon, generates index.html
-Clean TLDR/Axios-style: scannable, dense, one accent color.
+News page generator — Hacker News style.
+Numbered list, title-only with expandable content, ultra-dense.
 """
 import json
 import os
@@ -33,12 +32,6 @@ MONTHS_RU = {
     9: "сентября", 10: "октября", 11: "ноября", 12: "декабря",
 }
 
-MONTHS_RU_SHORT = {
-    1: "янв", 2: "фев", 3: "мар", 4: "апр",
-    5: "май", 6: "июн", 7: "июл", 8: "авг",
-    9: "сен", 10: "окт", 11: "ноя", 12: "дек",
-}
-
 
 def parse_ts(ts_str):
     ts_str = ts_str.replace('Z', '+00:00')
@@ -61,13 +54,22 @@ def format_date_ru(dt):
     return f"{local.day} {MONTHS_RU[local.month]} {local.year}"
 
 
-def format_date_group(dt):
-    local = to_local(dt)
-    return f"{local.day} {MONTHS_RU[local.month]}"
-
-
 def format_date_key(dt):
     return to_local(dt).strftime("%Y-%m-%d")
+
+
+def ago(dt):
+    """Time ago string."""
+    now = datetime.now(timezone.utc)
+    delta = now - dt
+    mins = int(delta.total_seconds() / 60)
+    if mins < 60:
+        return f"{mins} min ago"
+    hours = mins // 60
+    if hours < 24:
+        return f"{hours}h ago"
+    days = hours // 24
+    return f"{days}d ago"
 
 
 def sync_media():
@@ -82,15 +84,12 @@ def sync_media():
 
 
 def linkify(text_escaped):
-    """Convert bare URLs to <a> tags, skipping URLs already inside href="..."."""
     def _replace(m):
         url = m.group(1)
-        # Check if this URL is already inside an href attribute
         start = m.start()
         before = text_escaped[max(0, start - 6):start]
         if 'href="' in before or "href='" in before:
             return m.group(0)
-        # Check if already wrapped in <a> tag (url appears as anchor text)
         after_end = text_escaped[m.end():m.end() + 4]
         if after_end.startswith('</a>'):
             return m.group(0)
@@ -99,12 +98,9 @@ def linkify(text_escaped):
 
 
 def render_text(text, links=None):
-    """Escape HTML, embed inline hyperlinks from entities, linkify remaining URLs."""
     if not text:
         return ""
     escaped = escape(text)
-    # Embed known links: find escaped anchor text and wrap with <a>
-    # Process longer anchors first to avoid partial matches
     if links:
         used = set()
         sorted_links = sorted(links, key=lambda l: len(l.get('text', '')), reverse=True)
@@ -116,10 +112,8 @@ def render_text(text, links=None):
             escaped_anchor = escape(anchor)
             if escaped_anchor in escaped:
                 a_tag = f'<a href="{escape(url)}" target="_blank" rel="noopener">{escaped_anchor}</a>'
-                # Replace only first occurrence
                 escaped = escaped.replace(escaped_anchor, a_tag, 1)
                 used.add(anchor)
-    # Linkify any remaining bare URLs (skip those already inside href="...")
     linked = linkify(escaped)
     return linked.replace('\n', '<br>\n')
 
@@ -134,21 +128,24 @@ def get_title(text):
     return first_line
 
 
-def get_summary(text):
-    """Get first 2-3 lines after title as summary."""
-    t = (text or "").strip()
-    if not t:
+def get_domain(links):
+    """Extract first link domain for display."""
+    if not links:
         return ""
-    lines = t.split("\n")
-    if len(lines) <= 1:
-        return ""
-    rest = " ".join(l.strip() for l in lines[1:] if l.strip())
-    if len(rest) > 280:
-        return rest[:277] + "..."
-    return rest
+    for l in links:
+        url = l.get('url', '')
+        if url.startswith('http'):
+            try:
+                from urllib.parse import urlparse
+                host = urlparse(url).hostname or ''
+                host = host.replace('www.', '')
+                return host
+            except:
+                pass
+    return ""
 
 
-def render_media(post):
+def render_media_full(post):
     if not post.get('has_media'):
         return ""
     media_path = post.get('media_path')
@@ -160,366 +157,264 @@ def render_media(post):
     if not local_path.exists():
         return ""
     if ext in IMAGE_EXTS:
-        return f'<img class="thumb" src="media/{escape(filename)}" alt="" loading="lazy">\n'
+        return f'<img class="full-img" src="media/{escape(filename)}" alt="" loading="lazy">\n'
     elif ext in VIDEO_EXTS:
-        return f'<video class="thumb" src="media/{escape(filename)}" controls preload="metadata"></video>\n'
+        return f'<video class="full-img" src="media/{escape(filename)}" controls preload="metadata"></video>\n'
     return ""
 
 
-def render_full_media(post):
-    """Full-width media for expanded view."""
-    if not post.get('has_media'):
-        return ""
-    media_path = post.get('media_path')
-    if not media_path:
-        return ""
-    filename = os.path.basename(media_path)
-    local_path = MEDIA_DST / filename
-    ext = os.path.splitext(filename)[1].lower()
-    if not local_path.exists():
-        return ""
-    if ext in IMAGE_EXTS:
-        return f'<img class="full-media" src="media/{escape(filename)}" alt="" loading="lazy">\n'
-    elif ext in VIDEO_EXTS:
-        return f'<video class="full-media" src="media/{escape(filename)}" controls preload="metadata"></video>\n'
-    return ""
-
-
-def render_forward(forward_from):
-    if not forward_from:
-        return ""
-    if isinstance(forward_from, dict):
-        raw_name = forward_from.get('name') or str(forward_from)
-        name = escape(str(raw_name))
-    else:
-        name = escape(str(forward_from or ''))
-    return f' <span class="via">via {name}</span>'
-
-
-def render_links(links, buttons):
-    all_links = []
-    for link in (links or []):
-        url = escape(link.get('url', ''))
-        label = escape(link.get('text', '')) or 'Link'
-        if url:
-            all_links.append(f'<a href="{url}" target="_blank" rel="noopener">{label}</a>')
-    for btn in (buttons or []):
-        url = escape(btn.get('url', ''))
-        label = escape(btn.get('text', 'Link'))
-        if url:
-            all_links.append(f'<a href="{url}" target="_blank" rel="noopener">{label}</a>')
-    if not all_links:
-        return ""
-    return '<span class="item-links">' + ' '.join(all_links) + '</span>'
-
-
-def render_post(post):
+def render_post(post, num):
     ts = parse_ts(post['ts'])
-    time_str = format_time(ts)
     channel = escape(post.get('peer_title', ''))
     text = post.get('text', '') or ""
     title = escape(get_title(text))
-    summary = escape(get_summary(text))
-    media_html = render_media(post)
-    fwd_html = render_forward(post.get('forward_from'))
+    time_ago = ago(ts)
+    time_str = format_time(ts)
 
-    post_links = post.get('links') or []
-    post_buttons = post.get('buttons') or []
-    all_entity_links = post_links + post_buttons
+    all_links = (post.get('links') or []) + (post.get('buttons') or [])
+    domain = get_domain(all_links)
+    domain_html = f' <span class="domain">({domain})</span>' if domain else ''
 
-    # Full text (skip first line = title) with inline links
+    # First link URL for title
+    first_url = ""
+    for l in all_links:
+        u = l.get('url', '')
+        if u.startswith('http'):
+            first_url = escape(u)
+            break
+
+    if first_url:
+        title_html = f'<a href="{first_url}" target="_blank" rel="noopener" class="title-link">{title}</a>'
+    else:
+        title_html = f'<span class="title-text">{title}</span>'
+
+    # Full body for expand
     lines = text.strip().split('\n')
     body_text = '\n'.join(lines[1:]).strip() if len(lines) > 1 else ""
-    body_html = render_text(body_text, all_entity_links) if body_text else ""
+    body_html = render_text(body_text, all_links) if body_text else ""
+    media_html = render_media_full(post)
 
-    # Full media for expanded view
-    full_media = render_full_media(post)
-
-    summary_block = f'\n    <p class="summary">{summary}</p>' if summary else ''
-
-    # Links that weren't embedded inline (no anchor text)
-    leftover_links = [l for l in all_entity_links if not l.get('text', '').strip() or l.get('text', '').strip() not in text]
-    if leftover_links:
-        parts = []
-        for l in leftover_links:
-            url = escape(l.get('url', ''))
-            label = escape(l.get('text', '')) or url
-            if url and url.startswith('http'):
-                parts.append(f'<a href="{url}" target="_blank" rel="noopener">{label}</a>')
-        links_block = '\n    <span class="item-links">' + ' '.join(parts) + '</span>' if parts else ''
-    else:
-        links_block = ''
-
-    # Full body expandable (show if there's text OR full-size media)
-    has_expand = body_html or full_media
+    has_expand = body_html or media_html
     if has_expand:
-        expand_block = f'''
-    <details class="expand">
-      <summary>Read more</summary>
-      <div class="full-text">{full_media}{body_html}</div>
-    </details>'''
+        expand = f'''<details class="expand"><summary class="expand-btn">text</summary><div class="expand-body">{media_html}{body_html}</div></details>'''
     else:
-        expand_block = ''
+        expand = ''
 
-    return f'''<div class="item">
-  <div class="item-main">
-    <h3>{title}</h3>{summary_block}{expand_block}
-    <div class="item-meta"><span class="src">{channel}</span> <span class="time">{time_str}</span>{fwd_html}{links_block}</div>
-  </div>
-  {media_html}</div>'''
+    # Forward info
+    fwd = ""
+    fwd_from = post.get('forward_from')
+    if fwd_from:
+        if isinstance(fwd_from, dict):
+            fname = escape(str(fwd_from.get('name') or ''))
+        else:
+            fname = escape(str(fwd_from or ''))
+        if fname:
+            fwd = f' | via {fname}'
+
+    return f'''<tr class="item">
+  <td class="num">{num}.</td>
+  <td class="content">
+    <div class="title-row">{title_html}{domain_html}</div>
+    <div class="sub">{channel} | {time_str} ({time_ago}){fwd} {expand}</div>
+  </td>
+</tr>'''
 
 
 CSS = r"""
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #ffffff;
-  --surface: #f8f9fa;
-  --ink: #111;
-  --secondary: #555;
-  --muted: #999;
-  --border: #e8e8e8;
-  --accent: #0066FF;
-  --font: 'Inter', -apple-system, system-ui, sans-serif;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111;
-    --surface: #1a1a1a;
-    --ink: #eee;
-    --secondary: #aaa;
-    --muted: #666;
-    --border: #2a2a2a;
-  }
+  --bg: #f6f6ef;
+  --header-bg: #ff6600;
+  --ink: #1a1a1a;
+  --link: #1a1a1a;
+  --visited: #828282;
+  --meta: #828282;
+  --font: 'IBM Plex Sans', Verdana, Geneva, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
 }
 
 body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Header bar */
+.header {
+  background: var(--header-bg);
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header .logo {
+  font-weight: 700;
   font-size: 15px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-
-.wrap {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* ---- Header ---- */
-header {
-  padding: 48px 0 24px;
-  border-bottom: 3px solid var(--ink);
-  margin-bottom: 0;
-}
-
-.header-top {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-.mark {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--accent);
-  flex-shrink: 0;
-}
-
-h1 {
-  font-size: 1.1rem;
-  font-weight: 800;
+  color: #000;
+  text-decoration: none;
+  border: 2px solid #fff;
+  padding: 1px 6px;
   letter-spacing: -0.02em;
-  text-transform: uppercase;
 }
 
-.edition {
-  font-size: 0.85rem;
-  color: var(--muted);
-  font-weight: 400;
-}
-
-/* ---- Date section ---- */
-.date-bar {
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.8rem;
+.header .site-name {
   font-weight: 700;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-/* ---- Items ---- */
-.item {
-  display: flex;
-  gap: 16px;
-  padding: 18px 0;
-  border-bottom: 1px solid var(--border);
-  align-items: flex-start;
-}
-
-.item-main {
-  flex: 1;
-  min-width: 0;
-}
-
-.item h3 {
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-  margin-bottom: 4px;
-}
-
-.summary {
-  font-size: 0.88rem;
-  color: var(--secondary);
-  line-height: 1.5;
-  margin-bottom: 6px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.item-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 10px;
-  font-size: 0.78rem;
-  color: var(--muted);
-}
-
-.src {
-  font-weight: 600;
-  color: var(--secondary);
-}
-
-.via {
-  font-style: italic;
-}
-
-.item-links a {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.78rem;
-}
-
-.item-links a:hover {
-  text-decoration: underline;
-}
-
-/* Expandable full text */
-.expand {
-  margin: 6px 0 4px;
-}
-
-.expand > summary {
-  list-style: none;
-  cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--accent);
-  user-select: none;
-}
-
-.expand > summary::-webkit-details-marker { display: none; }
-
-.expand > summary::before {
-  content: '+ ';
-}
-
-.expand[open] > summary::before {
-  content: '- ';
-}
-
-.expand[open] .summary { display: none; }
-
-.full-text {
-  font-size: 0.9rem;
-  line-height: 1.65;
-  color: var(--secondary);
-  padding: 8px 0 4px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-.full-text a {
-  color: var(--accent);
+  font-size: 14px;
+  color: #000;
   text-decoration: none;
 }
 
-.full-text a:hover {
+.header .nav {
+  font-size: 13px;
+  color: #000;
+}
+
+.header .nav a {
+  color: #000;
+  text-decoration: none;
+  margin: 0 4px;
+}
+
+.header .nav a:hover {
   text-decoration: underline;
 }
 
-.full-media {
+/* Date divider */
+.date-row td {
+  padding: 12px 0 6px 36px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--header-bg);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: var(--mono);
+}
+
+/* Main table */
+.feed {
   width: 100%;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  max-width: 780px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  padding: 8px 0;
+}
+
+.item td {
+  padding: 3px 0;
+  vertical-align: top;
+}
+
+.num {
+  width: 32px;
+  text-align: right;
+  padding-right: 8px !important;
+  color: var(--meta);
+  font-size: 13px;
+  font-family: var(--mono);
+}
+
+.title-row {
+  font-size: 14.5px;
+  line-height: 1.35;
+}
+
+.title-link {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.title-link:visited {
+  color: var(--visited);
+}
+
+.title-link:hover {
+  text-decoration: underline;
+}
+
+.title-text {
+  color: var(--ink);
+}
+
+.domain {
+  font-size: 11px;
+  color: var(--meta);
+  font-family: var(--mono);
+}
+
+.sub {
+  font-size: 11.5px;
+  color: var(--meta);
+  padding-top: 1px;
+  padding-bottom: 4px;
+}
+
+/* Expandable */
+.expand {
+  display: inline;
+}
+
+.expand-btn {
+  display: inline;
+  cursor: pointer;
+  list-style: none;
+  color: var(--meta);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.expand-btn::-webkit-details-marker { display: none; }
+
+.expand-body {
+  margin: 8px 0 6px;
+  padding: 10px 14px;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #e0ddd6;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #333;
+  max-width: 680px;
+}
+
+.expand-body a {
+  color: #1a6fb5;
+  text-decoration: none;
+}
+
+.expand-body a:hover {
+  text-decoration: underline;
+}
+
+.full-img {
+  max-width: 100%;
+  border-radius: 4px;
+  margin-bottom: 8px;
   display: block;
 }
 
-/* Thumbnail */
-.thumb {
-  width: 88px;
-  height: 88px;
-  border-radius: 10px;
-  object-fit: cover;
-  flex-shrink: 0;
-  background: var(--surface);
-}
-
-video.thumb {
-  width: 88px;
-  height: 88px;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-/* ---- Footer ---- */
-footer {
-  padding: 28px 0 48px;
+/* Footer */
+.footer {
   text-align: center;
-  font-size: 0.8rem;
-  color: var(--muted);
+  padding: 16px;
+  font-size: 12px;
+  color: var(--meta);
+  border-top: 2px solid var(--header-bg);
+  max-width: 780px;
+  margin: 8px auto 0;
 }
 
-/* ---- Counter badge ---- */
-.counter {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: var(--surface);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--secondary);
-}
-
-/* ---- Mobile ---- */
+/* Mobile */
 @media (max-width: 480px) {
-  header { padding: 32px 0 20px; }
-  h1 { font-size: 1rem; }
-  .item { gap: 12px; padding: 14px 0; }
-  .item h3 { font-size: 0.9rem; }
-  .thumb { width: 72px; height: 72px; border-radius: 8px; }
+  .feed { font-size: 13px; }
+  .title-row { font-size: 13.5px; }
+  .num { width: 28px; font-size: 12px; }
 }
-"""
-
-JS = r"""
-// Nothing fancy — let it be fast and clean
 """
 
 
@@ -547,20 +442,22 @@ def build():
     for p in posts:
         ts = parse_ts(p['ts'])
         key = format_date_key(ts)
-        label = format_date_group(ts)
+        local = to_local(ts)
+        label = f"{local.day} {MONTHS_RU[local.month]}"
         if key not in grouped:
             grouped[key] = {'label': label, 'posts': []}
         grouped[key]['posts'].append(p)
 
-    # Render
-    feed_html = []
+    rows = []
+    num = 1
     for key in sorted(grouped.keys(), reverse=True):
         group = grouped[key]
-        feed_html.append(f'<div class="date-bar">{group["label"]}</div>')
+        rows.append(f'<tr class="date-row"><td colspan="2">{group["label"]}</td></tr>')
         for p in group['posts']:
-            feed_html.append(render_post(p))
+            rows.append(render_post(p, num))
+            num += 1
 
-    cards = '\n'.join(feed_html)
+    table = '\n'.join(rows)
 
     html_out = f'''<!DOCTYPE html>
 <html lang="ru">
@@ -574,19 +471,15 @@ def build():
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="header-top">
-      <div class="mark"></div>
-      <h1>AI News</h1>
-      <span class="counter">{n} posts</span>
-    </div>
-    <p class="edition">{date_ru} &middot; 27+ Telegram channels</p>
-  </header>
-{cards}
-  <footer>Collected automatically &middot; msolo.me</footer>
+<div class="header">
+  <a href="/news/" class="logo">N</a>
+  <a href="/news/" class="site-name">AI News</a>
+  <span class="nav">{n} posts | {date_ru}</span>
 </div>
-<script>{JS}</script>
+<table class="feed">
+{table}
+</table>
+<div class="footer">Collected from 27+ AI/ML Telegram channels &middot; msolo.me</div>
 </body>
 </html>
 '''
