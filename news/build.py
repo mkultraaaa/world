@@ -196,7 +196,7 @@ def render_post(post, num):
 
     has_expand = body_html or media_html
     if has_expand:
-        expand = f'''<details class="expand"><summary class="expand-btn">text</summary><div class="expand-body">{media_html}{body_html}</div></details>'''
+        expand = f'''<details class="expand"><summary class="expand-btn">[+]</summary><div class="expand-body">{media_html}{body_html}</div></details>'''
     else:
         expand = ''
 
@@ -221,137 +221,224 @@ def render_post(post, num):
 
 
 CSS = r"""
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-:root {
-  --bg: #f6f6ef;
-  --header-bg: #ff6600;
-  --ink: #1a1a1a;
-  --link: #1a1a1a;
-  --visited: #828282;
-  --meta: #828282;
-  --font: 'IBM Plex Sans', Verdana, Geneva, sans-serif;
-  --mono: 'IBM Plex Mono', monospace;
+/* Tony OS Design System tokens — Dark (default) */
+:root, [data-theme="dark"] {
+  --ds-bg-base:          hsl(230, 6%, 5%);
+  --ds-bg-primary:       hsl(230, 6%, 8%);
+  --ds-bg-surface:       hsl(230, 7%, 12%);
+  --ds-bg-surface-hover: hsl(230, 7%, 15%);
+  --ds-bg-elevated:      hsl(230, 7%, 17%);
+
+  --ds-text-primary:   hsl(230, 10%, 90%);
+  --ds-text-secondary: hsl(230, 5%, 62%);
+  --ds-text-tertiary:  hsl(230, 4%, 42%);
+
+  --ds-border-subtle:   rgba(255, 255, 255, 0.08);
+  --ds-border-default:  rgba(255, 255, 255, 0.12);
+  --ds-border-strong:   rgba(255, 255, 255, 0.20);
+
+  --ds-accent:          #d4a843;
+  --ds-accent-dim:      #a8863a;
+  --ds-accent-subtle:   rgba(212, 168, 67, 0.12);
+  --ds-accent-muted:    rgba(212, 168, 67, 0.25);
+
+  --ds-info:            #60a5fa;
+
+  --ds-radius-md:       6px;
+  --ds-radius-lg:       8px;
+
+  --ds-hover-row:       rgba(255, 255, 255, 0.03);
+  --ds-scrollbar-thumb: rgba(255, 255, 255, 0.1);
+  --ds-scrollbar-hover: rgba(255, 255, 255, 0.2);
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --ds-bg-base:          hsl(40, 20%, 97%);
+  --ds-bg-primary:       hsl(40, 15%, 95%);
+  --ds-bg-surface:       #ffffff;
+  --ds-bg-surface-hover: hsl(40, 10%, 93%);
+  --ds-bg-elevated:      #ffffff;
+
+  --ds-text-primary:   hsl(230, 10%, 12%);
+  --ds-text-secondary: hsl(230, 5%, 42%);
+  --ds-text-tertiary:  hsl(230, 4%, 58%);
+
+  --ds-border-subtle:   rgba(0, 0, 0, 0.06);
+  --ds-border-default:  rgba(0, 0, 0, 0.10);
+  --ds-border-strong:   rgba(0, 0, 0, 0.18);
+
+  --ds-accent:          #96750a;
+  --ds-accent-dim:      #7a6008;
+  --ds-accent-subtle:   rgba(150, 117, 10, 0.08);
+  --ds-accent-muted:    rgba(150, 117, 10, 0.18);
+
+  --ds-info:            #2563eb;
+
+  --ds-hover-row:       rgba(0, 0, 0, 0.03);
+  --ds-scrollbar-thumb: rgba(0, 0, 0, 0.12);
+  --ds-scrollbar-hover: rgba(0, 0, 0, 0.2);
+
+  --ds-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ds-font-mono: 'Fira Code', 'SF Mono', 'Roboto Mono', monospace;
 }
 
 body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--font);
+  background: var(--ds-bg-base);
+  color: var(--ds-text-primary);
+  font-family: var(--ds-font-sans);
   font-size: 14px;
   line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Header bar */
+/* Header bar — gold accent stripe */
 .header {
-  background: var(--header-bg);
-  padding: 4px 8px;
+  background: var(--ds-bg-primary);
+  padding: 8px 16px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--ds-border-default);
 }
 
 .header .logo {
   font-weight: 700;
-  font-size: 15px;
-  color: #000;
+  font-size: 13px;
+  color: var(--ds-accent);
   text-decoration: none;
-  border: 2px solid #fff;
-  padding: 1px 6px;
+  background: var(--ds-accent-subtle);
+  border: 1px solid var(--ds-accent-muted);
+  border-radius: var(--ds-radius-md);
+  padding: 2px 8px;
   letter-spacing: -0.02em;
+  font-family: var(--ds-font-mono);
 }
 
 .header .site-name {
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
-  color: #000;
+  color: var(--ds-text-primary);
   text-decoration: none;
 }
 
 .header .nav {
-  font-size: 13px;
-  color: #000;
+  font-size: 12px;
+  color: var(--ds-text-secondary);
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
 }
 
-.header .nav a {
-  color: #000;
-  text-decoration: none;
-  margin: 0 4px;
+/* Theme toggle */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--ds-border-default);
+  border-radius: var(--ds-radius-md);
+  color: var(--ds-text-secondary);
+  font-size: 16px;
+  width: 32px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 150ms ease, color 150ms ease;
+  padding: 0;
+  line-height: 1;
 }
 
-.header .nav a:hover {
-  text-decoration: underline;
+.theme-toggle:hover {
+  border-color: var(--ds-accent);
+  color: var(--ds-accent);
 }
 
 /* Date divider */
 .date-row td {
-  padding: 12px 0 6px 36px;
-  font-size: 12px;
+  padding: 16px 0 8px 40px;
+  font-size: 11px;
   font-weight: 600;
-  color: var(--header-bg);
+  color: var(--ds-accent);
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  font-family: var(--mono);
+  font-family: var(--ds-font-mono);
+  border-bottom: 1px solid var(--ds-border-subtle);
 }
 
 /* Main table */
 .feed {
   width: 100%;
-  max-width: 780px;
+  max-width: 800px;
   margin: 0 auto;
   border-collapse: collapse;
-  padding: 8px 0;
 }
 
 .item td {
-  padding: 3px 0;
+  padding: 6px 0;
   vertical-align: top;
 }
 
+.item {
+  transition: background 150ms ease;
+}
+
+.item:hover td {
+  background: var(--ds-hover-row);
+}
+
 .num {
-  width: 32px;
+  width: 40px;
   text-align: right;
-  padding-right: 8px !important;
-  color: var(--meta);
-  font-size: 13px;
-  font-family: var(--mono);
+  padding-right: 12px !important;
+  color: var(--ds-text-tertiary);
+  font-size: 12px;
+  font-family: var(--ds-font-mono);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 
 .title-row {
-  font-size: 14.5px;
-  line-height: 1.35;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .title-link {
-  color: var(--link);
+  color: var(--ds-text-primary);
   text-decoration: none;
+  font-weight: 500;
 }
 
 .title-link:visited {
-  color: var(--visited);
+  color: var(--ds-text-secondary);
 }
 
 .title-link:hover {
-  text-decoration: underline;
+  color: var(--ds-accent);
 }
 
 .title-text {
-  color: var(--ink);
+  color: var(--ds-text-primary);
+  font-weight: 500;
 }
 
 .domain {
   font-size: 11px;
-  color: var(--meta);
-  font-family: var(--mono);
+  color: var(--ds-text-tertiary);
+  font-family: var(--ds-font-mono);
 }
 
 .sub {
-  font-size: 11.5px;
-  color: var(--meta);
-  padding-top: 1px;
-  padding-bottom: 4px;
+  font-size: 12px;
+  color: var(--ds-text-tertiary);
+  padding-top: 2px;
+  padding-bottom: 6px;
 }
 
 /* Expandable */
@@ -363,27 +450,32 @@ body {
   display: inline;
   cursor: pointer;
   list-style: none;
-  color: var(--meta);
-  text-decoration: underline;
-  text-decoration-style: dotted;
+  color: var(--ds-accent);
+  font-weight: 500;
+  font-size: 11px;
+  font-family: var(--ds-font-mono);
 }
 
 .expand-btn::-webkit-details-marker { display: none; }
 
+.expand-btn:hover {
+  color: var(--ds-accent-dim);
+}
+
 .expand-body {
   margin: 8px 0 6px;
-  padding: 10px 14px;
-  background: #fff;
-  border-radius: 4px;
-  border: 1px solid #e0ddd6;
-  font-size: 13.5px;
+  padding: 12px 16px;
+  background: var(--ds-bg-surface);
+  border-radius: var(--ds-radius-md);
+  border: 1px solid var(--ds-border-default);
+  font-size: 13px;
   line-height: 1.6;
-  color: #333;
-  max-width: 680px;
+  color: var(--ds-text-secondary);
+  max-width: 700px;
 }
 
 .expand-body a {
-  color: #1a6fb5;
+  color: var(--ds-accent);
   text-decoration: none;
 }
 
@@ -393,7 +485,7 @@ body {
 
 .full-img {
   max-width: 100%;
-  border-radius: 4px;
+  border-radius: var(--ds-radius-md);
   margin-bottom: 8px;
   display: block;
 }
@@ -402,18 +494,33 @@ body {
 .footer {
   text-align: center;
   padding: 16px;
-  font-size: 12px;
-  color: var(--meta);
-  border-top: 2px solid var(--header-bg);
-  max-width: 780px;
+  font-size: 11px;
+  color: var(--ds-text-tertiary);
+  border-top: 1px solid var(--ds-border-subtle);
+  max-width: 800px;
   margin: 8px auto 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--ds-bg-base); }
+::-webkit-scrollbar-thumb { background: var(--ds-scrollbar-thumb); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ds-scrollbar-hover); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Mobile */
 @media (max-width: 480px) {
+  .header { padding: 6px 8px; }
   .feed { font-size: 13px; }
-  .title-row { font-size: 13.5px; }
-  .num { width: 28px; font-size: 12px; }
+  .title-row { font-size: 13px; }
+  .num { width: 32px; font-size: 11px; }
+  .date-row td { padding-left: 32px; }
 }
 """
 
@@ -475,11 +582,29 @@ def build():
   <a href="/news/" class="logo">N</a>
   <a href="/news/" class="site-name">AI News</a>
   <span class="nav">{n} posts | {date_ru}</span>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme"></button>
 </div>
 <table class="feed">
 {table}
 </table>
 <div class="footer">Collected from 27+ AI/ML Telegram channels &middot; msolo.me</div>
+<script>
+function toggleTheme() {{
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('news-theme', next);
+  document.querySelector('.theme-toggle').textContent = next === 'dark' ? '\\u2600' : '\\u263E';
+}}
+(function() {{
+  const saved = localStorage.getItem('news-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+  document.addEventListener('DOMContentLoaded', () => {{
+    document.querySelector('.theme-toggle').textContent = saved === 'dark' ? '\\u2600' : '\\u263E';
+  }});
+}})();
+</script>
 </body>
 </html>
 '''
