@@ -2,7 +2,7 @@
 """
 News page generator for msolo.me/news
 Reads feed.jsonl from Telethon daemon, generates index.html
-Vibrant card-based design inspired by Purnweb streaming app redesign.
+Clean TLDR/Axios-style: scannable, dense, one accent color.
 """
 import json
 import os
@@ -19,7 +19,6 @@ SCRIPT_DIR = Path(__file__).parent
 MEDIA_DST = SCRIPT_DIR / "media"
 OUTPUT = SCRIPT_DIR / "index.html"
 
-# Europe/Nicosia: UTC+2 (EET)
 TZ_OFFSET = timedelta(hours=2)
 TZ_NICOSIA = timezone(TZ_OFFSET)
 
@@ -39,18 +38,6 @@ MONTHS_RU_SHORT = {
     5: "май", 6: "июн", 7: "июл", 8: "авг",
     9: "сен", 10: "окт", 11: "ноя", 12: "дек",
 }
-
-# Card color palettes: (bg, text, accent-btn-bg, accent-btn-text)
-CARD_PALETTES = [
-    ("#FF6B35", "#1a1a1a", "#1a1a1a", "#ffffff"),   # warm orange
-    ("#FFD23F", "#1a1a1a", "#1a1a1a", "#FFD23F"),   # bold yellow
-    ("#7B2D8E", "#ffffff", "#ffffff", "#7B2D8E"),    # deep purple
-    ("#23C16B", "#1a1a1a", "#1a1a1a", "#ffffff"),    # vivid green
-    ("#FF4F8B", "#1a1a1a", "#1a1a1a", "#ffffff"),    # hot pink
-    ("#2D9CDB", "#ffffff", "#ffffff", "#2D9CDB"),    # sky blue
-    ("#1a1a1a", "#ffffff", "#FF6B35", "#1a1a1a"),    # dark card
-    ("#F25C54", "#ffffff", "#ffffff", "#F25C54"),     # coral red
-]
 
 
 def parse_ts(ts_str):
@@ -76,7 +63,7 @@ def format_date_ru(dt):
 
 def format_date_group(dt):
     local = to_local(dt)
-    return f"{local.day} {MONTHS_RU_SHORT[local.month]}"
+    return f"{local.day} {MONTHS_RU[local.month]}"
 
 
 def format_date_key(dt):
@@ -114,9 +101,23 @@ def get_title(text):
     if not t:
         return "Media"
     first_line = t.split("\n")[0].strip()
-    if len(first_line) > 120:
-        return first_line[:117] + "..."
+    if len(first_line) > 140:
+        return first_line[:137] + "..."
     return first_line
+
+
+def get_summary(text):
+    """Get first 2-3 lines after title as summary."""
+    t = (text or "").strip()
+    if not t:
+        return ""
+    lines = t.split("\n")
+    if len(lines) <= 1:
+        return ""
+    rest = " ".join(l.strip() for l in lines[1:] if l.strip())
+    if len(rest) > 280:
+        return rest[:277] + "..."
+    return rest
 
 
 def render_media(post):
@@ -131,11 +132,10 @@ def render_media(post):
     if not local_path.exists():
         return ""
     if ext in IMAGE_EXTS:
-        return f'<div class="media"><img src="media/{escape(filename)}" alt="" loading="lazy"></div>\n'
+        return f'<img class="thumb" src="media/{escape(filename)}" alt="" loading="lazy">\n'
     elif ext in VIDEO_EXTS:
-        return f'<div class="media"><video src="media/{escape(filename)}" controls preload="metadata"></video></div>\n'
-    else:
-        return f'<div class="media"><a href="media/{escape(filename)}" class="file-link">{escape(filename)}</a></div>\n'
+        return f'<video class="thumb" src="media/{escape(filename)}" controls preload="metadata"></video>\n'
+    return ""
 
 
 def render_forward(forward_from):
@@ -146,325 +146,248 @@ def render_forward(forward_from):
         name = escape(str(raw_name))
     else:
         name = escape(str(forward_from or ''))
-    return f'<span class="repost">via {name}</span>'
+    return f' <span class="via">via {name}</span>'
 
 
-def render_links(links):
-    if not links:
-        return ""
-    parts = []
-    for link in links:
+def render_links(links, buttons):
+    all_links = []
+    for link in (links or []):
         url = escape(link.get('url', ''))
-        label = escape(link.get('text', '')) or url
+        label = escape(link.get('text', '')) or 'Link'
         if url:
-            parts.append(f'<a href="{url}" target="_blank" rel="noopener">{label}</a>')
-    if not parts:
-        return ""
-    return '<div class="card-links">' + ''.join(parts) + '</div>\n'
-
-
-def render_buttons(buttons):
-    if not buttons:
-        return ""
-    parts = []
-    for btn in buttons:
+            all_links.append(f'<a href="{url}" target="_blank" rel="noopener">{label}</a>')
+    for btn in (buttons or []):
         url = escape(btn.get('url', ''))
         label = escape(btn.get('text', 'Link'))
         if url:
-            parts.append(f'<a href="{url}" target="_blank" rel="noopener">{label}</a>')
-    if not parts:
+            all_links.append(f'<a href="{url}" target="_blank" rel="noopener">{label}</a>')
+    if not all_links:
         return ""
-    return '<div class="card-links">' + ''.join(parts) + '</div>\n'
+    return '<span class="item-links">' + ' '.join(all_links) + '</span>'
 
 
-def render_post(post, index):
+def render_post(post):
     ts = parse_ts(post['ts'])
     time_str = format_time(ts)
     channel = escape(post.get('peer_title', ''))
     text = post.get('text', '') or ""
     title = escape(get_title(text))
-    palette = CARD_PALETTES[index % len(CARD_PALETTES)]
-    bg, fg, btn_bg, btn_fg = palette
-
+    summary = escape(get_summary(text))
     media_html = render_media(post)
-    forward_html = render_forward(post.get('forward_from'))
-    links_html = render_links(post.get('links'))
-    buttons_html = render_buttons(post.get('buttons'))
+    fwd_html = render_forward(post.get('forward_from'))
+    links_html = render_links(post.get('links'), post.get('buttons'))
 
-    # Body text (skip first line = title)
-    lines = text.strip().split('\n')
-    body_text = '\n'.join(lines[1:]).strip() if len(lines) > 1 else ""
-    body_html = f'<div class="card-body">{render_text(body_text)}</div>' if body_text else ""
+    summary_block = f'\n    <p class="summary">{summary}</p>' if summary else ''
+    links_block = f'\n    {links_html}' if links_html else ''
 
-    fwd = f' {forward_html}' if forward_html else ''
-
-    return f'''<article class="card" style="--card-bg:{bg};--card-fg:{fg};--btn-bg:{btn_bg};--btn-fg:{btn_fg}">
-  <div class="card-top">
-    <span class="card-channel">{channel}</span>
-    <time>{time_str}</time>
+    return f'''<div class="item">
+  <div class="item-main">
+    <h3>{title}</h3>{summary_block}
+    <div class="item-meta"><span class="src">{channel}</span> <span class="time">{time_str}</span>{fwd_html}{links_block}</div>
   </div>
-  <h3>{title}</h3>
-  {media_html}{body_html}
-  <div class="card-footer">
-    {links_html}{buttons_html}<span class="card-meta">{fwd}</span>
-  </div>
-</article>'''
+  {media_html}</div>'''
 
 
 CSS = r"""
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #F4F0EB;
-  --ink: #1a1a1a;
-  --mid: #888;
-  --radius: 24px;
-  --head: 'Space Grotesk', sans-serif;
-  --body: 'DM Sans', sans-serif;
+  --bg: #ffffff;
+  --surface: #f8f9fa;
+  --ink: #111;
+  --secondary: #555;
+  --muted: #999;
+  --border: #e8e8e8;
+  --accent: #0066FF;
+  --font: 'Inter', -apple-system, system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111;
+    --surface: #1a1a1a;
+    --ink: #eee;
+    --secondary: #aaa;
+    --muted: #666;
+    --border: #2a2a2a;
+  }
 }
 
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--body);
+  font-family: var(--font);
   font-size: 15px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
 .wrap {
-  max-width: 760px;
+  max-width: 700px;
   margin: 0 auto;
-  padding: 40px 16px 80px;
+  padding: 0 20px;
 }
 
 /* ---- Header ---- */
 header {
-  text-align: center;
-  margin-bottom: 36px;
+  padding: 48px 0 24px;
+  border-bottom: 3px solid var(--ink);
+  margin-bottom: 0;
 }
 
-.logo {
-  display: inline-flex;
+.header-top {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 18px;
-  background: var(--ink);
-  color: #fff;
-  font-family: var(--head);
-  font-weight: 700;
-  font-size: 1.4rem;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
 }
 
 h1 {
-  font-family: var(--head);
-  font-size: clamp(2.2rem, 6vw, 3.2rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
-  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
 }
 
-.tagline {
-  font-size: 0.95rem;
-  color: var(--mid);
+.edition {
+  font-size: 0.85rem;
+  color: var(--muted);
   font-weight: 400;
 }
 
-/* ---- Date group ---- */
-.date-group {
-  font-family: var(--head);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--mid);
-  letter-spacing: 0.08em;
+/* ---- Date section ---- */
+.date-bar {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent);
   text-transform: uppercase;
-  margin: 32px 0 14px;
-  padding-left: 4px;
+  letter-spacing: 0.06em;
 }
 
-/* ---- Cards ---- */
-.card {
-  background: var(--card-bg);
-  color: var(--card-fg);
-  border-radius: var(--radius);
-  padding: 24px;
-  margin-bottom: 16px;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
-}
-
-.card-top {
+/* ---- Items ---- */
+.item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 14px;
-  font-size: 0.82rem;
-  opacity: 0.7;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
 }
 
-.card-channel {
+.item-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.item h3 {
+  font-size: 0.95rem;
   font-weight: 700;
-  font-family: var(--head);
+  line-height: 1.35;
   letter-spacing: -0.01em;
-  opacity: 1;
+  margin-bottom: 4px;
 }
 
-.card h3 {
-  font-family: var(--head);
-  font-size: 1.35rem;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  margin-bottom: 12px;
-}
-
-.card-body {
-  font-size: 0.92rem;
-  line-height: 1.6;
-  opacity: 0.85;
-  max-height: 200px;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  transition: max-height 0.35s ease;
-}
-
-.card-body.expanded {
-  max-height: none;
-  opacity: 1;
-}
-
-.card-body:not(.expanded)::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 60px;
-  background: linear-gradient(transparent, var(--card-bg));
-  pointer-events: none;
-}
-
-.card-body a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-/* Media inside cards */
-.media {
-  margin: 14px -24px;
+.summary {
+  font-size: 0.88rem;
+  color: var(--secondary);
+  line-height: 1.5;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.media img, .media video {
-  width: 100%;
-  display: block;
-}
-
-.file-link {
-  display: inline-block;
-  margin: 0 24px;
-  padding: 8px 16px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 12px;
-  font-size: 0.85rem;
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Footer of card */
-.card-footer {
-  margin-top: 14px;
+.item-meta {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 4px 10px;
+  font-size: 0.78rem;
+  color: var(--muted);
 }
 
-.card-meta {
-  font-size: 0.8rem;
-  opacity: 0.6;
-  margin-left: auto;
+.src {
+  font-weight: 600;
+  color: var(--secondary);
 }
 
-.repost {
+.via {
   font-style: italic;
 }
 
-/* Links as pill buttons */
-.card-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.card-links a {
-  display: inline-block;
-  padding: 8px 18px;
-  border-radius: 999px;
-  background: var(--btn-bg);
-  color: var(--btn-fg);
-  font-family: var(--head);
-  font-size: 0.82rem;
-  font-weight: 600;
+.item-links a {
+  color: var(--accent);
   text-decoration: none;
-  transition: opacity 0.2s;
+  font-weight: 600;
+  font-size: 0.78rem;
 }
 
-.card-links a:hover {
-  opacity: 0.8;
+.item-links a:hover {
+  text-decoration: underline;
+}
+
+/* Thumbnail */
+.thumb {
+  width: 88px;
+  height: 88px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--surface);
+}
+
+video.thumb {
+  width: 88px;
+  height: 88px;
+  border-radius: 10px;
+  object-fit: cover;
 }
 
 /* ---- Footer ---- */
 footer {
+  padding: 28px 0 48px;
   text-align: center;
-  padding-top: 32px;
-  font-size: 0.82rem;
-  color: var(--mid);
+  font-size: 0.8rem;
+  color: var(--muted);
 }
 
-/* ---- Animations ---- */
-.card {
-  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
-
-@keyframes popIn {
-  from { opacity: 0; transform: scale(0.95) translateY(16px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+/* ---- Counter badge ---- */
+.counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--surface);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--secondary);
 }
 
 /* ---- Mobile ---- */
 @media (max-width: 480px) {
-  .wrap { padding: 28px 12px 60px; }
-  h1 { font-size: 2rem; }
-  .card { padding: 20px; border-radius: 20px; }
-  .card h3 { font-size: 1.15rem; }
-  .media { margin: 12px -20px; }
+  header { padding: 32px 0 20px; }
+  h1 { font-size: 1rem; }
+  .item { gap: 12px; padding: 14px 0; }
+  .item h3 { font-size: 0.9rem; }
+  .thumb { width: 72px; height: 72px; border-radius: 8px; }
 }
 """
 
 JS = r"""
-// Expand/collapse card bodies
-document.addEventListener('click', (e) => {
-  const body = e.target.closest('.card-body');
-  if (body) body.classList.toggle('expanded');
-});
-
-// Stagger card animations
-document.querySelectorAll('.card').forEach((el, i) => {
-  el.style.animationDelay = Math.min(i * 0.04, 0.8) + 's';
-});
+// Nothing fancy — let it be fast and clean
 """
 
 
@@ -499,13 +422,11 @@ def build():
 
     # Render
     feed_html = []
-    card_idx = 0
     for key in sorted(grouped.keys(), reverse=True):
         group = grouped[key]
-        feed_html.append(f'<div class="date-group">{group["label"]}</div>')
+        feed_html.append(f'<div class="date-bar">{group["label"]}</div>')
         for p in group['posts']:
-            feed_html.append(render_post(p, card_idx))
-            card_idx += 1
+            feed_html.append(render_post(p))
 
     cards = '\n'.join(feed_html)
 
@@ -523,16 +444,17 @@ def build():
 <body>
 <div class="wrap">
   <header>
-    <div class="logo">N</div>
-    <h1>AI News</h1>
-    <p class="tagline">{n} posts from 27+ Telegram channels &middot; {date_ru}</p>
+    <div class="header-top">
+      <div class="mark"></div>
+      <h1>AI News</h1>
+      <span class="counter">{n} posts</span>
+    </div>
+    <p class="edition">{date_ru} &middot; 27+ Telegram channels</p>
   </header>
 {cards}
   <footer>Collected automatically &middot; msolo.me</footer>
 </div>
-<script>
-{JS}
-</script>
+<script>{JS}</script>
 </body>
 </html>
 '''
