@@ -82,35 +82,44 @@ def sync_media():
 
 
 def linkify(text_escaped):
-    return URL_RE.sub(
-        r'<a href="\1" target="_blank" rel="noopener">\1</a>',
-        text_escaped,
-    )
+    """Convert bare URLs to <a> tags, skipping URLs already inside href="..."."""
+    def _replace(m):
+        url = m.group(1)
+        # Check if this URL is already inside an href attribute
+        start = m.start()
+        before = text_escaped[max(0, start - 6):start]
+        if 'href="' in before or "href='" in before:
+            return m.group(0)
+        # Check if already wrapped in <a> tag (url appears as anchor text)
+        after_end = text_escaped[m.end():m.end() + 4]
+        if after_end.startswith('</a>'):
+            return m.group(0)
+        return f'<a href="{url}" target="_blank" rel="noopener">{url}</a>'
+    return URL_RE.sub(_replace, text_escaped)
 
 
 def render_text(text, links=None):
     """Escape HTML, embed inline hyperlinks from entities, linkify remaining URLs."""
     if not text:
         return ""
-    # First, embed known links by replacing anchor text with placeholder tokens
-    # We do this BEFORE escaping so we can find exact text matches
-    placeholders = {}
+    escaped = escape(text)
+    # Embed known links: find escaped anchor text and wrap with <a>
+    # Process longer anchors first to avoid partial matches
     if links:
-        for i, link in enumerate(links):
+        used = set()
+        sorted_links = sorted(links, key=lambda l: len(l.get('text', '')), reverse=True)
+        for link in sorted_links:
             anchor = link.get('text', '').strip()
             url = link.get('url', '')
-            if anchor and url and anchor in text:
-                token = f'\x00LINK{i}\x00'
+            if not anchor or not url or anchor in used:
+                continue
+            escaped_anchor = escape(anchor)
+            if escaped_anchor in escaped:
+                a_tag = f'<a href="{escape(url)}" target="_blank" rel="noopener">{escaped_anchor}</a>'
                 # Replace only first occurrence
-                text = text.replace(anchor, token, 1)
-                placeholders[token] = (url, anchor)
-    escaped = escape(text)
-    # Restore placeholders with actual <a> tags
-    for token, (url, anchor) in placeholders.items():
-        escaped_url = escape(url)
-        escaped_anchor = escape(anchor)
-        escaped = escaped.replace(escape(token), f'<a href="{escaped_url}" target="_blank" rel="noopener">{escaped_anchor}</a>')
-    # Linkify any remaining bare URLs
+                escaped = escaped.replace(escaped_anchor, a_tag, 1)
+                used.add(anchor)
+    # Linkify any remaining bare URLs (skip those already inside href="...")
     linked = linkify(escaped)
     return linked.replace('\n', '<br>\n')
 
