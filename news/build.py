@@ -88,10 +88,29 @@ def linkify(text_escaped):
     )
 
 
-def render_text(text):
+def render_text(text, links=None):
+    """Escape HTML, embed inline hyperlinks from entities, linkify remaining URLs."""
     if not text:
         return ""
+    # First, embed known links by replacing anchor text with placeholder tokens
+    # We do this BEFORE escaping so we can find exact text matches
+    placeholders = {}
+    if links:
+        for i, link in enumerate(links):
+            anchor = link.get('text', '').strip()
+            url = link.get('url', '')
+            if anchor and url and anchor in text:
+                token = f'\x00LINK{i}\x00'
+                # Replace only first occurrence
+                text = text.replace(anchor, token, 1)
+                placeholders[token] = (url, anchor)
     escaped = escape(text)
+    # Restore placeholders with actual <a> tags
+    for token, (url, anchor) in placeholders.items():
+        escaped_url = escape(url)
+        escaped_anchor = escape(anchor)
+        escaped = escaped.replace(escape(token), f'<a href="{escaped_url}" target="_blank" rel="noopener">{escaped_anchor}</a>')
+    # Linkify any remaining bare URLs
     linked = linkify(escaped)
     return linked.replace('\n', '<br>\n')
 
@@ -194,18 +213,33 @@ def render_post(post):
     summary = escape(get_summary(text))
     media_html = render_media(post)
     fwd_html = render_forward(post.get('forward_from'))
-    links_html = render_links(post.get('links'), post.get('buttons'))
 
-    # Full text (skip first line = title)
+    post_links = post.get('links') or []
+    post_buttons = post.get('buttons') or []
+    all_entity_links = post_links + post_buttons
+
+    # Full text (skip first line = title) with inline links
     lines = text.strip().split('\n')
     body_text = '\n'.join(lines[1:]).strip() if len(lines) > 1 else ""
-    body_html = render_text(body_text) if body_text else ""
+    body_html = render_text(body_text, all_entity_links) if body_text else ""
 
     # Full media for expanded view
     full_media = render_full_media(post)
 
     summary_block = f'\n    <p class="summary">{summary}</p>' if summary else ''
-    links_block = f'\n    {links_html}' if links_html else ''
+
+    # Links that weren't embedded inline (no anchor text)
+    leftover_links = [l for l in all_entity_links if not l.get('text', '').strip() or l.get('text', '').strip() not in text]
+    if leftover_links:
+        parts = []
+        for l in leftover_links:
+            url = escape(l.get('url', ''))
+            label = escape(l.get('text', '')) or url
+            if url and url.startswith('http'):
+                parts.append(f'<a href="{url}" target="_blank" rel="noopener">{label}</a>')
+        links_block = '\n    <span class="item-links">' + ' '.join(parts) + '</span>' if parts else ''
+    else:
+        links_block = ''
 
     # Full body expandable (show if there's text OR full-size media)
     has_expand = body_html or full_media
