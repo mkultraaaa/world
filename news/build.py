@@ -484,7 +484,11 @@ body {
 }
 
 .full-img {
-  max-width: 100%;
+  max-width: 360px;
+  max-height: 320px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
   border-radius: var(--ds-radius-md);
   margin-bottom: 8px;
   display: block;
