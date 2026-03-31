@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO-аудит ng-ai.ru — Рекомендации по структуре</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a2e;
+            --ink-light: #3d3d5c;
+            --ink-muted: #6b6b8a;
+            --paper: #faf9f7;
+            --paper-warm: #f5f3ef;
+            --accent: #c45d3e;
+            --accent-light: #e8725a;
+            --accent-bg: #fef0ec;
+            --green: #2d8a5e;
+            --green-bg: #edf7f1;
+            --blue: #3366cc;
+            --blue-bg: #eef3fc;
+            --border: #e0ddd8;
+            --border-dark: #c8c4bd;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            font-size: 17px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- HEADER --- */
+        .doc-header {
+            padding: 3rem 2rem 2.5rem;
+            border-bottom: 2px solid var(--ink);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .doc-meta {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--ink-muted);
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .doc-meta span { white-space: nowrap; }
+
+        .doc-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.8rem;
+            line-height: 1.15;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        .doc-subtitle {
+            font-size: 1.15rem;
+            color: var(--ink-light);
+            max-width: 600px;
+            line-height: 1.5;
+        }
+
+        /* --- NAV --- */
+        .doc-nav {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--paper);
+            z-index: 100;
+        }
+
+        .doc-nav ol {
+            list-style: none;
+            display: flex;
+            gap: 0.25rem 1.5rem;
+            flex-wrap: wrap;
+            font-size: 0.82rem;
+            counter-reset: nav-counter;
+        }
+
+        .doc-nav li { counter-increment: nav-counter; }
+
+        .doc-nav a {
+            color: var(--ink-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .doc-nav a::before {
+            content: counter(nav-counter) ". ";
+            font-weight: 600;
+            color: var(--border-dark);
+        }
+
+        .doc-nav a:hover { color: var(--accent); }
+
+        /* --- MAIN --- */
+        .doc-body {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        /* --- SECTIONS --- */
+        .section {
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section:last-child { border-bottom: none; }
+
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.9rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 1.75rem 0 0.6rem;
+            color: var(--ink);
+        }
+
+        h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 1.25rem 0 0.4rem;
+            color: var(--ink-light);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        p { margin-bottom: 0.9rem; }
+
+        .lead {
+            font-size: 1.05rem;
+            color: var(--ink-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* --- CALLOUTS --- */
+        .callout {
+            padding: 1.25rem 1.5rem;
+            border-radius: 6px;
+            margin: 1.25rem 0;
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+
+        .callout-problem {
+            background: var(--accent-bg);
+            border-left: 3px solid var(--accent);
+        }
+
+        .callout-solution {
+            background: var(--green-bg);
+            border-left: 3px solid var(--green);
+        }
+
+        .callout-info {
+            background: var(--blue-bg);
+            border-left: 3px solid var(--blue);
+        }
+
+        .callout strong { font-weight: 600; }
+
+        /* --- CODE / TREE --- */
+        .tree {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            line-height: 1.75;
+            background: var(--ink);
+            color: #e0ddd8;
+            padding: 1.75rem 2rem;
+            border-radius: 8px;
+            margin: 1.25rem 0;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .tree .highlight { color: var(--accent-light); font-weight: 500; }
+        .tree .comment { color: #7a7a9a; }
+        .tree .new { color: #6bcf8e; }
+        .tree .dim { color: #5a5a7a; }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            background: var(--paper-warm);
+            border: 1px solid var(--border);
+            padding: 0.15em 0.4em;
+            border-radius: 3px;
+        }
+
+        /* --- TABLES --- */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 1.25rem 0;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        thead {
+            background: var(--paper-warm);
+        }
+
+        th {
+            text-align: left;
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--ink-muted);
+        }
+
+        td {
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        .priority-urgent {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.15em 0.5em;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .priority-high {
+            display: inline-block;
+            background: #e8a23e;
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.15em 0.5em;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .priority-medium {
+            display: inline-block;
+            background: var(--blue);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.15em 0.5em;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- PHASE CARDS --- */
+        .phases {
+            display: grid;
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .phase {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            background: white;
+            position: relative;
+        }
+
+        .phase::before {
+            content: attr(data-phase);
+            position: absolute;
+            top: -0.6rem;
+            left: 1.25rem;
+            background: var(--ink);
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 0.2em 0.7em;
+            border-radius: 3px;
+            letter-spacing: 0.05em;
+        }
+
+        .phase-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-why {
+            font-size: 0.85rem;
+            color: var(--ink-muted);
+            font-style: italic;
+            margin-bottom: 0.75rem;
+        }
+
+        .phase ul {
+            list-style: none;
+            font-size: 0.88rem;
+        }
+
+        .phase li {
+            padding: 0.25rem 0 0.25rem 1.25rem;
+            position: relative;
+        }
+
+        .phase li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* --- LISTS --- */
+        .doc-body ul, .doc-body ol {
+            margin: 0.75rem 0 1rem 1.25rem;
+            font-size: 0.95rem;
+        }
+
+        .doc-body li { margin-bottom: 0.35rem; }
+
+        /* --- PAGE TEMPLATE --- */
+        .page-template {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .page-template h4 {
+            margin-top: 0;
+            color: var(--ink);
+            text-transform: none;
+            letter-spacing: 0;
+            font-size: 1rem;
+        }
+
+        .page-template .url {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .page-template ol {
+            font-size: 0.88rem;
+            color: var(--ink-light);
+        }
+
+        /* --- FUNNEL --- */
+        .funnel {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin: 1.5rem 0;
+        }
+
+        .funnel-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1.25rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            font-size: 0.88rem;
+        }
+
+        .funnel-step:first-child { border-radius: 8px 8px 0 0; }
+        .funnel-step:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 8px 8px; }
+
+        .funnel-num {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--ink);
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .funnel-label { font-weight: 500; flex: 1; }
+
+        .funnel-trigger {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--ink-muted);
+            text-align: right;
+        }
+
+        .funnel-arrow {
+            text-align: center;
+            color: var(--border-dark);
+            font-size: 0.8rem;
+            padding: 0.15rem 0;
+        }
+
+        /* --- FOOTER --- */
+        .doc-footer {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            border-top: 2px solid var(--ink);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            color: var(--ink-muted);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 680px) {
+            html { font-size: 15.5px; }
+            .doc-header { padding: 2rem 1.25rem 1.75rem; }
+            .doc-title { font-size: 2rem; }
+            .doc-nav { padding: 1rem 1.25rem; }
+            .doc-body { padding: 0 1.25rem 3rem; }
+            .tree { padding: 1.25rem; font-size: 0.72rem; }
+            .doc-meta { gap: 1rem; }
+            .doc-footer { padding: 1.5rem 1.25rem; }
+            .funnel-trigger { display: none; }
+        }
+
+        @media print {
+            .doc-nav { position: static; }
+            .tree { background: #f0f0f0; color: #333; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="doc-header">
+    <div class="doc-meta">
+        <span>SEO-аудит</span>
+        <span>ng-ai.ru</span>
+        <span>31 марта 2026</span>
+        <span>v1.0</span>
+    </div>
+    <h1 class="doc-title">Структура сайта и SEO-стратегия для NeuroGate</h1>
+    <p class="doc-subtitle">Рекомендации по архитектуре страниц, аналитике и поисковой оптимизации. Приоритизированный план внедрения.</p>
+</header>
+
+<nav class="doc-nav">
+    <ol>
+        <li><a href="#problem">Текущая проблема</a></li>
+        <li><a href="#structure">Структура сайта</a></li>
+        <li><a href="#pages">Ключевые страницы</a></li>
+        <li><a href="#funnel">Воронка и аналитика</a></li>
+        <li><a href="#technical">Техническое SEO</a></li>
+        <li><a href="#phases">План внедрения</a></li>
+    </ol>
+</nav>
+
+<main class="doc-body">
+
+    <!-- ====== 1. PROBLEM ====== -->
+    <section class="section" id="problem">
+        <div class="section-number">Раздел 01</div>
+        <h2>Что сейчас не так</h2>
+        <p class="lead">Сайт работает, лендинг убедительный, продукт качественный. Но структура мешает собирать органический трафик и строить аналитику.</p>
+
+        <div class="callout callout-problem">
+            <strong>Проблема 1: один URL — два экрана.</strong> Корень <code>/</code> показывает лендинг для незалогиненных и кабинет для залогиненных. Яндекс.Метрика не может отличить визит на лендинг от работы в кабинете — воронка не строится.
+        </div>
+
+        <div class="callout callout-problem">
+            <strong>Проблема 2: нет посадочных страниц.</strong> Весь SEO-трафик может попасть только на <code>/</code> и <code>/business/</code>. А люди ищут конкретное: «chatgpt без vpn», «аналог midjourney», «нейросети для картинок». Каждый такой запрос — это отдельная страница, которой нет.
+        </div>
+
+        <div class="callout callout-problem">
+            <strong>Проблема 3: <code>/pricing</code> = 404.</strong> Страница цен существует только как якорь <code>/#pricing</code> на лендинге. Поисковики не индексируют якоря как отдельные страницы, FAQ тоже теряет потенциал rich snippets.
+        </div>
+    </section>
+
+    <!-- ====== 2. STRUCTURE ====== -->
+    <section class="section" id="structure">
+        <div class="section-number">Раздел 02</div>
+        <h2>Рекомендуемая структура</h2>
+        <p class="lead">Разделяем публичные страницы (индексируемые, для SEO) и кабинет (закрытый, за авторизацией). Кабинет переезжает на <code>/app/</code>.</p>
+
+        <div class="tree"><span class="highlight">ng-ai.ru/</span>                          <span class="comment">← лендинг (ВСЕГДА, даже для залогиненных)</span>
+│
+├── <span class="highlight">/app/</span>                           <span class="comment">← кабинет (noindex, за авторизацией)</span>
+│   ├── /app/chat/                  <span class="dim">чат с моделью</span>
+│   ├── /app/models/                <span class="dim">каталог моделей</span>
+│   └── /app/settings/              <span class="dim">настройки</span>
+│
+├── <span class="new">/pricing/</span>                       <span class="comment">← цены (отдельная страница)</span>
+│
+├── <span class="comment">МОДЕЛИ (самый жирный SEO-кластер)</span>
+│   ├── <span class="new">/chatgpt/</span>                   «ChatGPT в России без VPN»
+│   ├── <span class="new">/claude/</span>                    «Claude AI в России»
+│   ├── <span class="new">/midjourney/</span>                «Аналог Midjourney без VPN»
+│   ├── <span class="new">/flux/</span>                      «Flux — генерация картинок»
+│   ├── <span class="new">/deepseek/</span>                  «DeepSeek в России»
+│   ├── <span class="new">/gemini/</span>                    «Gemini AI на русском»
+│   ├── <span class="new">/sora/</span>                      «Sora — генерация видео AI»
+│   └── <span class="new">/models/</span>                    <span class="comment">← хаб: каталог всех 80+ моделей</span>
+│
+├── <span class="comment">ЗАДАЧИ (use-case лендинги)</span>
+│   ├── <span class="new">/nejroseti-dlya-teksta/</span>     «нейросети для текста»
+│   ├── <span class="new">/nejroseti-dlya-kartinok/</span>   «генерация картинок AI»
+│   ├── <span class="new">/nejroseti-dlya-video/</span>      «генерация видео нейросетью»
+│   └── <span class="new">/nejroseti-dlya-koda/</span>       «AI для программирования»
+│
+├── <span class="comment">АУДИТОРИИ</span>
+│   ├── /business/                  <span class="dim">B2B (уже есть)</span>
+│   ├── <span class="new">/dlya-smm/</span>                  «нейросети для SMM»
+│   ├── <span class="new">/dlya-marketologov/</span>         «AI для маркетологов»
+│   └── <span class="new">/dlya-studentov/</span>            «нейросети для учёбы»
+│
+├── <span class="comment">БЛОГ</span>
+│   ├── <span class="new">/blog/</span>                      <span class="comment">← хаб блога</span>
+│   ├── /blog/kak-ispolzovat-chatgpt-v-rossii/
+│   ├── /blog/luchshie-nejroseti-2026/
+│   └── /blog/midjourney-vs-flux/
+│
+├── <span class="comment">ДОВЕРИЕ</span>
+│   ├── <span class="new">/about/</span>                     <span class="comment">← о компании + реквизиты</span>
+│   ├── /public-offer/              <span class="dim">оферта</span>
+│   └── /privacy/                   <span class="dim">политика</span>
+│
+├── <span class="new">/faq/</span>                           <span class="comment">← FAQ (отдельная, со Schema.org)</span>
+├── /register/
+└── /login/</div>
+
+        <h3>Почему <code>/app/</code> а не <code>/cabinet/</code></h3>
+        <ul>
+            <li>Стандарт для SaaS: Notion, Figma, Linear используют <code>/app/</code></li>
+            <li>Легко отсечь в Метрике и robots.txt: всё <code>/app/*</code> = кабинет</li>
+            <li>Короче, запоминаемо, не привязано к языку</li>
+        </ul>
+
+        <h3>Почему лендинг <code>/</code> всегда лендинг</h3>
+        <ul>
+            <li>Залогиненный пользователь может поделиться ссылкой — получатель увидит лендинг, не пустой кабинет</li>
+            <li>Яндекс всегда видит одну и ту же страницу — стабильная индексация</li>
+            <li>В Метрике чёткая точка входа воронки: визит на <code>/</code> ≠ работа в <code>/app/</code></li>
+        </ul>
+    </section>
+
+    <!-- ====== 3. KEY PAGES ====== -->
+    <section class="section" id="pages">
+        <div class="section-number">Раздел 03</div>
+        <h2>Ключевые страницы и зачем они нужны</h2>
+
+        <h3>Страницы моделей — главный SEO-актив</h3>
+        <p>Каждая популярная модель = тысячи поисковых запросов в месяц. Люди ищут «chatgpt в россии», «midjourney аналог», «claude ai» — и сейчас попадают на конкурентов.</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Страница</th>
+                        <th>Целевой запрос</th>
+                        <th>Оценка спроса</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>/chatgpt/</code></td>
+                        <td>chatgpt в россии без vpn</td>
+                        <td><span class="priority-urgent">10K+/мес</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>/midjourney/</code></td>
+                        <td>midjourney аналог / без vpn</td>
+                        <td><span class="priority-urgent">5K+/мес</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>/flux/</code></td>
+                        <td>flux генерация картинок</td>
+                        <td><span class="priority-high">3K+/мес</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>/claude/</code></td>
+                        <td>claude ai на русском</td>
+                        <td><span class="priority-high">2K+/мес</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>/deepseek/</code></td>
+                        <td>deepseek в россии</td>
+                        <td><span class="priority-high">2K+/мес</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>/sora/</code></td>
+                        <td>sora видео генерация</td>
+                        <td><span class="priority-medium">1K+/мес</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>/gemini/</code></td>
+                        <td>gemini ai на русском</td>
+                        <td><span class="priority-medium">1K+/мес</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="page-template">
+            <h4>Шаблон страницы модели</h4>
+            <div class="url">/chatgpt/</div>
+            <ol>
+                <li><strong>H1:</strong> «ChatGPT в России — без VPN, оплата в рублях»</li>
+                <li><strong>Описание модели</strong> — что умеет, для каких задач</li>
+                <li><strong>Живые примеры</strong> — скриншоты генерации через NeuroGate</li>
+                <li><strong>Сравнение цен:</strong> ChatGPT напрямую ($20/мес + VPN) vs через NeuroGate (от 290₽)</li>
+                <li><strong>Как начать</strong> — 3 шага + CTA «Попробовать бесплатно»</li>
+                <li><strong>FAQ по модели</strong> — с разметкой FAQPage Schema.org</li>
+                <li><strong>Внутренние ссылки</strong> на другие модели и use-case страницы</li>
+            </ol>
+        </div>
+
+        <h3>Use-case лендинги</h3>
+        <p>Таргетируют запросы «нейросети для [задача]». Структура: сравнение моделей под задачу + примеры + CTA.</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Страница</th>
+                        <th>Целевые запросы</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>/nejroseti-dlya-teksta/</code></td>
+                        <td>нейросети для текста, генерация текста ai, ai копирайтинг</td>
+                    </tr>
+                    <tr>
+                        <td><code>/nejroseti-dlya-kartinok/</code></td>
+                        <td>нейросети для картинок, генерация изображений, ai арт</td>
+                    </tr>
+                    <tr>
+                        <td><code>/nejroseti-dlya-video/</code></td>
+                        <td>генерация видео нейросетью, ai видео, text to video</td>
+                    </tr>
+                    <tr>
+                        <td><code>/nejroseti-dlya-koda/</code></td>
+                        <td>ai для программирования, нейросеть для кода</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Аудиторные лендинги</h3>
+        <p>Из UX-аудита персонами: Дима (SMM) сказал — «лендинг не говорит с SMM-специалистом». Отдельная страница решает это и ловит поисковый трафик.</p>
+        <ul>
+            <li><code>/dlya-smm/</code> — «нейросети для SMM», шаблоны под соцсети, примеры постов</li>
+            <li><code>/dlya-marketologov/</code> — «AI для маркетологов», кейсы с лендингами и рассылками</li>
+            <li><code>/dlya-studentov/</code> — «нейросети для учёбы», акцент на бесплатный тариф</li>
+        </ul>
+
+        <h3>Страницы доверия</h3>
+
+        <div class="callout callout-info">
+            <strong>Из UX-аудита:</strong> 2 из 3 тестовых персон отметили отсутствие юрлица как барьер к оплате. Сергей (владелец бизнеса): «платить не буду пока не увижу юрлицо». Страница <code>/about/</code> с реквизитами закрывает этот блокер и улучшает E-E-A-T сигналы для поисковиков.
+        </div>
+
+        <h3>FAQ — отдельная страница</h3>
+        <p>Сейчас FAQ — якорь <code>/#faq</code> на лендинге. Проблема: поисковики не индексируют якоря как отдельные сущности и не дают rich snippets.</p>
+
+        <div class="callout callout-solution">
+            <strong>Решение:</strong> вынести на <code>/faq/</code> с разметкой <code>FAQPage</code> Schema.org. Это даёт расширенные сниппеты в Яндексе — вопросы раскрываются прямо в выдаче, кликабельность растёт в 2-3 раза. FAQ на лендинге можно оставить как краткую версию со ссылкой «Все вопросы →».
+        </div>
+    </section>
+
+    <!-- ====== 4. FUNNEL ====== -->
+    <section class="section" id="funnel">
+        <div class="section-number">Раздел 04</div>
+        <h2>Воронка и аналитика</h2>
+        <p class="lead">С новой структурой каждый шаг воронки — отдельный URL или JS-событие. Метрика строит воронку автоматически.</p>
+
+        <div class="funnel">
+            <div class="funnel-step">
+                <div class="funnel-num">1</div>
+                <div class="funnel-label">Визит на лендинг</div>
+                <div class="funnel-trigger">URL: /</div>
+            </div>
+            <div class="funnel-step">
+                <div class="funnel-num">2</div>
+                <div class="funnel-label">Клик «Начать бесплатно»</div>
+                <div class="funnel-trigger">URL: /register</div>
+            </div>
+            <div class="funnel-step">
+                <div class="funnel-num">3</div>
+                <div class="funnel-label">Регистрация завершена</div>
+                <div class="funnel-trigger">URL: /app/ (первый визит)</div>
+            </div>
+            <div class="funnel-step">
+                <div class="funnel-num">4</div>
+                <div class="funnel-label">Первая генерация</div>
+                <div class="funnel-trigger">JS: first_generation</div>
+            </div>
+            <div class="funnel-step">
+                <div class="funnel-num">5</div>
+                <div class="funnel-label">Пополнение баланса</div>
+                <div class="funnel-trigger">JS: payment_success</div>
+            </div>
+        </div>
+
+        <h3>Настройка Яндекс.Метрики</h3>
+        <h4>Счётчик</h4>
+        <p>Один счётчик на весь домен. Код ставится на все страницы — и лендинг, и <code>/app/</code>.</p>
+
+        <h4>Цели</h4>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Цель</th>
+                        <th>Тип</th>
+                        <th>Условие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Открыл регистрацию</td>
+                        <td>URL</td>
+                        <td><code>url: содержит /register</code></td>
+                    </tr>
+                    <tr>
+                        <td>Зарегистрировался</td>
+                        <td>JS-событие</td>
+                        <td><code>ym(ID, 'reachGoal', 'registration_complete')</code></td>
+                    </tr>
+                    <tr>
+                        <td>Первая генерация</td>
+                        <td>JS-событие</td>
+                        <td><code>ym(ID, 'reachGoal', 'first_generation')</code></td>
+                    </tr>
+                    <tr>
+                        <td>Пополнил баланс</td>
+                        <td>JS-событие</td>
+                        <td><code>ym(ID, 'reachGoal', 'payment_success')</code></td>
+                    </tr>
+                    <tr>
+                        <td>Кликнул «Начать бесплатно»</td>
+                        <td>JS-событие</td>
+                        <td><code>ym(ID, 'reachGoal', 'cta_click')</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>Вебвизор</h4>
+        <p>Включить на <code>/</code>, <code>/register</code>, <code>/pricing/</code> — чтобы видеть как люди взаимодействуют с лендингом и где бросают регистрацию.</p>
+
+        <h4>Сегменты для анализа</h4>
+        <ul>
+            <li><strong>Органика → регистрация</strong> — конверсия SEO-трафика</li>
+            <li><strong>По страницам входа</strong> — какие посадочные приводят к регистрации</li>
+            <li><strong>/app/* визиты</strong> — retention, частота возвращения</li>
+        </ul>
+    </section>
+
+    <!-- ====== 5. TECHNICAL SEO ====== -->
+    <section class="section" id="technical">
+        <div class="section-number">Раздел 05</div>
+        <h2>Техническое SEO</h2>
+
+        <h3>robots.txt</h3>
+        <div class="tree">User-agent: *
+Disallow: /app/
+Disallow: /login
+Disallow: /register
+Allow: /
+
+Sitemap: https://ng-ai.ru/sitemap.xml</div>
+
+        <h3>Мета-теги — каждая публичная страница</h3>
+        <div class="tree"><span class="comment">&lt;!-- Уникальный title, до 60 символов --&gt;</span>
+&lt;title&gt;ChatGPT в России без VPN — NeuroGate&lt;/title&gt;
+
+<span class="comment">&lt;!-- Уникальный description, до 160 символов --&gt;</span>
+&lt;meta name="description" content="Используйте ChatGPT в России без VPN.
+Оплата в рублях, 80+ моделей AI в одном кабинете. Начните бесплатно."&gt;
+
+<span class="comment">&lt;!-- Canonical --&gt;</span>
+&lt;link rel="canonical" href="https://ng-ai.ru/chatgpt/"&gt;
+
+<span class="comment">&lt;!-- Open Graph --&gt;</span>
+&lt;meta property="og:title" content="ChatGPT в России без VPN"&gt;
+&lt;meta property="og:description" content="80+ AI-моделей, оплата в рублях"&gt;
+&lt;meta property="og:image" content="https://ng-ai.ru/og/chatgpt.png"&gt;
+&lt;meta property="og:url" content="https://ng-ai.ru/chatgpt/"&gt;</div>
+
+        <h3>Структурированные данные (JSON-LD)</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Страница</th>
+                        <th>Schema.org</th>
+                        <th>Что даёт</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Главная</td>
+                        <td><code>Organization</code> + <code>WebSite</code></td>
+                        <td>Сайтлинки в выдаче</td>
+                    </tr>
+                    <tr>
+                        <td>/faq/</td>
+                        <td><code>FAQPage</code></td>
+                        <td>Rich snippets с вопросами</td>
+                    </tr>
+                    <tr>
+                        <td>/pricing/</td>
+                        <td><code>Product</code> + <code>Offer</code></td>
+                        <td>Цены в выдаче</td>
+                    </tr>
+                    <tr>
+                        <td>/blog/*</td>
+                        <td><code>Article</code> + <code>BreadcrumbList</code></td>
+                        <td>Дата, автор, хлебные крошки</td>
+                    </tr>
+                    <tr>
+                        <td>/chatgpt/ и т.д.</td>
+                        <td><code>SoftwareApplication</code></td>
+                        <td>Карточка приложения</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Блог: рендеринг</h3>
+
+        <div class="callout callout-problem">
+            <strong>Важно:</strong> SPA-блог Яндекс индексирует плохо. Если кабинет — SPA (React/Vue), блог должен быть server-side rendered или статический HTML. Варианты: Next.js SSG, Astro, или простой HTML в <code>/blog/</code>.
+        </div>
+
+        <h3>Внутренняя перелинковка</h3>
+        <p>Каждая страница модели ссылается на:</p>
+        <ul>
+            <li>Другие модели в том же типе (ChatGPT → Claude, DeepSeek)</li>
+            <li>Use-case страницу (<code>/nejroseti-dlya-teksta/</code>)</li>
+            <li>Статьи блога по теме</li>
+            <li>Страницу цен</li>
+        </ul>
+        <p>Это создаёт кластеры тематической авторитетности — поисковик понимает что ng-ai.ru — экспертный ресурс по теме AI-моделей.</p>
+    </section>
+
+    <!-- ====== 6. PHASES ====== -->
+    <section class="section" id="phases">
+        <div class="section-number">Раздел 06</div>
+        <h2>План внедрения</h2>
+        <p class="lead">Четыре фазы. Каждая даёт самостоятельный результат — можно останавливаться после любой.</p>
+
+        <div class="phases">
+            <div class="phase" data-phase="Фаза 1 — Фундамент">
+                <div class="phase-title">Роутинг + аналитика + доверие</div>
+                <div class="phase-why">Фиксим текущие проблемы. Без этого остальное не работает.</div>
+                <ul>
+                    <li>Кабинет переезжает на <code>/app/</code>, корень <code>/</code> = всегда лендинг</li>
+                    <li>Создать <code>/pricing/</code> как отдельную страницу (сейчас 404)</li>
+                    <li>Создать <code>/faq/</code> с разметкой FAQPage Schema.org</li>
+                    <li>Создать <code>/about/</code> с реквизитами юрлица</li>
+                    <li>Поставить Яндекс.Метрику, настроить цели и воронку</li>
+                    <li>Настроить <code>robots.txt</code> и <code>sitemap.xml</code></li>
+                </ul>
+            </div>
+
+            <div class="phase" data-phase="Фаза 2 — SEO-ядро">
+                <div class="phase-title">Страницы моделей</div>
+                <div class="phase-why">Самый жирный поисковый трафик. Тысячи запросов/мес на каждую модель.</div>
+                <ul>
+                    <li>Создать шаблон страницы модели (переиспользуемый)</li>
+                    <li>Запустить топ-5: <code>/chatgpt/</code>, <code>/midjourney/</code>, <code>/claude/</code>, <code>/flux/</code>, <code>/deepseek/</code></li>
+                    <li>Создать хаб <code>/models/</code> — каталог всех моделей со ссылками</li>
+                    <li>Добавить внутреннюю перелинковку с лендинга</li>
+                </ul>
+            </div>
+
+            <div class="phase" data-phase="Фаза 3 — Расширение">
+                <div class="phase-title">Use-case и аудиторные лендинги</div>
+                <div class="phase-why">Расширяем охват: запросы по задачам и аудиториям.</div>
+                <ul>
+                    <li><code>/nejroseti-dlya-teksta/</code>, <code>/nejroseti-dlya-kartinok/</code>, <code>/nejroseti-dlya-video/</code></li>
+                    <li><code>/dlya-smm/</code>, <code>/dlya-marketologov/</code>, <code>/dlya-studentov/</code></li>
+                    <li>Добавить оставшиеся модели: <code>/gemini/</code>, <code>/sora/</code> и т.д.</li>
+                </ul>
+            </div>
+
+            <div class="phase" data-phase="Фаза 4 — Контент">
+                <div class="phase-title">Блог и контент-маркетинг</div>
+                <div class="phase-why">Длинный хвост запросов, экспертность, ссылочная масса.</div>
+                <ul>
+                    <li>Настроить SSR/SSG для <code>/blog/</code></li>
+                    <li>Написать первые 5-10 статей под целевые запросы</li>
+                    <li>Сравнения моделей: «Midjourney vs Flux», «ChatGPT vs Claude 2026»</li>
+                    <li>Гайды: «Как использовать нейросети для SMM», «AI для бизнеса»</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="doc-footer">
+    <span>Подготовлено для команды NeuroGate</span>
+    <span>31 марта 2026</span>
+</footer>
+
+</body>
+</html>
