@@ -1,0 +1,160 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-align: left; padding: 8px 12px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+td { padding: 10px 12px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); vertical-align: top; line-height: 1.6; }
+tr:last-child td { border-bottom: none; }
+.col-head { font-weight: 500; font-size: 13px; }
+.section { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); padding: 10px 12px 4px; background: var(--color-background-secondary); letter-spacing: 0.04em; }
+.badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+.badge-y { background: #EAF3DE; color: #3B6D11; }
+.badge-n { background: #FCEBEB; color: #A32D2D; }
+.badge-m { background: #FAEEDA; color: #854F0B; }
+.badge-b { background: #E6F1FB; color: #185FA5; }
+.highlight { border-left: 2px solid #1D9E75; }
+.code { font-family: var(--font-mono); font-size: 12px; background: var(--color-background-secondary); padding: 2px 6px; border-radius: 4px; color: var(--color-text-secondary); }
+@media (prefers-color-scheme: dark) {
+  .badge-y { background: #27500A; color: #C0DD97; }
+  .badge-n { background: #791F1F; color: #F7C1C1; }
+  .badge-m { background: #633806; color: #FAC775; }
+  .badge-b { background: #0C447C; color: #B5D4F4; }
+}
+</style>
+<div style="padding: 1rem 0;">
+<table>
+  <thead>
+    <tr>
+      <th style="width:160px">Параметр</th>
+      <th style="width:30%">Claude Team / Enterprise</th>
+      <th style="width:30%">ChatGPT Team / Enterprise</th>
+      <th class="highlight" style="width:30%">Кастом: VPS + 1 Team + роутер</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr><td colspan="4" class="section">Архитектура</td></tr>
+    <tr>
+      <td class="col-head">Схема</td>
+      <td>Каждый пользователь — своя учётка в workspace</td>
+      <td>Каждый пользователь — своя учётка в workspace</td>
+      <td class="highlight">1 Team-учётка → VPS в США → обратный прокси → роли и отделы</td>
+    </tr>
+    <tr>
+      <td class="col-head">Стек</td>
+      <td>SaaS, ничего настраивать не нужно</td>
+      <td>SaaS, ничего настраивать не нужно</td>
+      <td class="highlight"><span class="code">Nginx / Caddy</span> + роутер по заголовкам или субдоменам</td>
+    </tr>
+
+    <tr><td colspan="4" class="section">Стоимость (10 пользователей)</td></tr>
+    <tr>
+      <td class="col-head">Месячный cost</td>
+      <td>$250/мес (Team $25/user)</td>
+      <td>$300/мес (Team $30/user)</td>
+      <td class="highlight">~$30–40/мес (VPS ~$10 + 1 учётка $25) — <strong>экономия 6–8×</strong></td>
+    </tr>
+    <tr>
+      <td class="col-head">Лимиты</td>
+      <td>На каждого пользователя отдельно</td>
+      <td>На каждого пользователя отдельно</td>
+      <td class="highlight">Один пул лимитов делится на всех — риск исчерпания в пиках</td>
+    </tr>
+
+    <tr><td colspan="4" class="section">Управление доступом</td></tr>
+    <tr>
+      <td class="col-head">Роли и отделы</td>
+      <td>Через Projects и workspace permissions</td>
+      <td>Через workspace + Custom GPTs по ролям</td>
+      <td class="highlight">Полная свобода: субдомены по отделам, системные промпты по ролям, любая логика</td>
+    </tr>
+    <tr>
+      <td class="col-head">Онбординг нового сотрудника</td>
+      <td>Invite → готово</td>
+      <td>Invite → готово</td>
+      <td class="highlight">Выдать credentials на прокси — 2 минуты</td>
+    </tr>
+    <tr>
+      <td class="col-head">Offboarding</td>
+      <td>Revoke в admin panel</td>
+      <td>Revoke в admin panel</td>
+      <td class="highlight">Удалить пользователя на прокси</td>
+    </tr>
+
+    <tr><td colspan="4" class="section">Данные и безопасность</td></tr>
+    <tr>
+      <td class="col-head">Данные в обучение</td>
+      <td><span class="badge badge-y">Не идут (Team+)</span></td>
+      <td><span class="badge badge-y">Не идут (Team+)</span></td>
+      <td class="highlight"><span class="badge badge-y">Не идут</span> — трафик проходит через ваш VPS, не хранится</td>
+    </tr>
+    <tr>
+      <td class="col-head">Где данные</td>
+      <td>Серверы Anthropic (US/EU)</td>
+      <td>Серверы OpenAI (US)</td>
+      <td class="highlight">VPS в США + Anthropic API — контроль на вашей стороне</td>
+    </tr>
+    <tr>
+      <td class="col-head">Audit logs</td>
+      <td><span class="badge badge-m">Enterprise only</span></td>
+      <td><span class="badge badge-m">Enterprise only</span></td>
+      <td class="highlight"><span class="badge badge-y">Из коробки</span> — Nginx пишет все запросы, полный контроль</td>
+    </tr>
+
+    <tr><td colspan="4" class="section">Кастомизация</td></tr>
+    <tr>
+      <td class="col-head">Системные промпты по ролям</td>
+      <td>Через Projects (вручную)</td>
+      <td>Через Custom GPTs</td>
+      <td class="highlight">Программно: разные system prompts на каждый эндпоинт/субдомен</td>
+    </tr>
+    <tr>
+      <td class="col-head">Интеграция с внутренними системами</td>
+      <td><span class="badge badge-n">Нет</span></td>
+      <td><span class="badge badge-n">Нет (без Enterprise)</span></td>
+      <td class="highlight"><span class="badge badge-y">Да</span> — прокси может инжектить контекст из CRM, баз данных, Notion</td>
+    </tr>
+    <tr>
+      <td class="col-head">Мультимодельность</td>
+      <td><span class="badge badge-n">Только Claude</span></td>
+      <td><span class="badge badge-n">Только OpenAI</span></td>
+      <td class="highlight"><span class="badge badge-y">Да</span> — роутер может переключать между Claude / GPT / Gemini по задаче</td>
+    </tr>
+
+    <tr><td colspan="4" class="section">Риски и сложности</td></tr>
+    <tr>
+      <td class="col-head">Нарушение ToS</td>
+      <td><span class="badge badge-y">Нет</span></td>
+      <td><span class="badge badge-y">Нет</span></td>
+      <td class="highlight"><span class="badge badge-n">Да</span> — sharing one account across users нарушает ToS Anthropic и OpenAI. Риск бана учётки.</td>
+    </tr>
+    <tr>
+      <td class="col-head">Надёжность</td>
+      <td>SLA от Anthropic</td>
+      <td>SLA от OpenAI</td>
+      <td class="highlight">Зависит от вашего VPS — нужен мониторинг, uptime на вас</td>
+    </tr>
+    <tr>
+      <td class="col-head">Поддержка</td>
+      <td>Официальная</td>
+      <td>Официальная</td>
+      <td class="highlight">Только вы сами или ваш devops</td>
+    </tr>
+    <tr>
+      <td class="col-head">Порог входа</td>
+      <td><span class="badge badge-y">Нулевой</span></td>
+      <td><span class="badge badge-y">Нулевой</span></td>
+      <td class="highlight"><span class="badge badge-m">Средний</span> — нужен человек с VPS + Nginx/Caddy опытом (~2–4 часа настройки)</td>
+    </tr>
+
+    <tr><td colspan="4" class="section">Вывод: кому подходит</td></tr>
+    <tr>
+      <td class="col-head">Идеально для</td>
+      <td>Командам без технических ресурсов, которым важна простота и compliance</td>
+      <td>Командам в экосистеме Microsoft / OpenAI с потребностью в GPTs</td>
+      <td class="highlight">Техническим командам, стартапам, лабам — где важна гибкость, экономия и мультимодельность. И не страшен ToS-риск.</td>
+    </tr>
+
+  </tbody>
+</table>
+</div>
