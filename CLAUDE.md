@@ -1,5 +1,11 @@
 # World — контекст для Claude Code
 
+## Текущий фокус
+- **Статус:** active — основной сайт msolo.me, деплоится через Vercel
+- **Сейчас:** /news секция (daily news updates), тёмная тема, медиа карточки
+- **Дальше:** neurogate лендинг updates, news автогенерация из OneStep pipeline
+- **Обновлено:** 2026-03-31
+
 ## Что это
 Статический сайт msolo.me. HTML/CSS/JS, без фреймворка.
 
