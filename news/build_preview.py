@@ -598,7 +598,7 @@ function toggleTheme() {{
   document.querySelector('.theme-toggle').textContent = next === 'dark' ? '\\u2600' : '\\u263E';
 }}
 (function() {{
-  const saved = localStorage.getItem('news-theme') || 'dark';
+  const saved = localStorage.getItem('news-theme') || 'light';
   document.documentElement.setAttribute('data-theme', saved);
   document.addEventListener('DOMContentLoaded', () => {{
     document.querySelector('.theme-toggle').textContent = saved === 'dark' ? '\\u2600' : '\\u263E';
