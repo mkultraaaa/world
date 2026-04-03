@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroGate — Добро пожаловать!</title>
+    <meta name="description" content="Ваша компания подключила вам доступ к топовым нейросетям. Начните работать с AI прямо сейчас.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A78BFA;
+            --purple-glow: rgba(124, 58, 237, 0.3);
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-300: #D1D5DB;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --white: #FFFFFF;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--gray-800);
+            line-height: 1.6;
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, #0F0A1A 0%, #1a1035 40%, #2d1a4e 70%, #1a1035 100%);
+            color: white;
+            padding: 48px 0 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 60% 40%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 30% 70%, rgba(167, 139, 250, 0.08) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .hero .container { position: relative; z-index: 1; }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 22px;
+            color: white;
+            margin-bottom: 32px;
+        }
+
+        .logo svg { flex-shrink: 0; }
+
+        .hero h1 {
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--purple-light), #c4b5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 520px;
+            margin: 0 auto 28px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--purple);
+            color: white;
+            box-shadow: 0 4px 16px var(--purple-glow);
+        }
+
+        .btn-primary:hover {
+            background: var(--purple-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px var(--purple-glow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--purple);
+            border: 2px solid var(--purple);
+        }
+
+        .btn-outline:hover {
+            background: rgba(124, 58, 237, 0.05);
+        }
+
+        .btn-white {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+        }
+
+        .btn-white:hover {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            padding: 48px 0;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .section-subtitle {
+            font-size: 15px;
+            color: var(--gray-500);
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        /* ===== HOW TO START ===== */
+        .steps {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 28px 24px;
+            border: 1px solid var(--gray-100);
+        }
+
+        .step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .step + .step {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-100);
+        }
+
+        .step-num {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--purple);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .step-text h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .step-text p {
+            font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        /* ===== MODEL CARDS ===== */
+        .models-section { background: var(--gray-50); }
+
+        .models-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .model-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid var(--gray-100);
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .model-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            border-color: var(--gray-300);
+        }
+
+        .model-icon {
+            flex-shrink: 0;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .model-icon.text { background: linear-gradient(135deg, #E0F2FE, #BAE6FD); }
+        .model-icon.brain { background: linear-gradient(135deg, #F3E8FF, #E9D5FF); }
+        .model-icon.multi { background: linear-gradient(135deg, #DCFCE7, #BBF7D0); }
+        .model-icon.fast { background: linear-gradient(135deg, #FEF3C7, #FDE68A); }
+        .model-icon.balance { background: linear-gradient(135deg, #FCE7F3, #FBCFE8); }
+        .model-icon.art { background: linear-gradient(135deg, #FFE4E6, #FECDD3); }
+        .model-icon.img { background: linear-gradient(135deg, #E0E7FF, #C7D2FE); }
+        .model-icon.video { background: linear-gradient(135deg, #CCFBF1, #99F6E4); }
+
+        .model-info { flex: 1; min-width: 0; }
+
+        .model-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .model-vendor {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-bottom: 6px;
+        }
+
+        .model-desc {
+            font-size: 13px;
+            color: var(--gray-600);
+            line-height: 1.4;
+        }
+
+        .model-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(124, 58, 237, 0.08);
+            color: var(--purple);
+            margin-top: 8px;
+        }
+
+        /* ===== USE CASES ===== */
+        .usecases {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .usecase {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 18px;
+            background: var(--gray-50);
+            border-radius: 12px;
+            border: 1px solid var(--gray-100);
+        }
+
+        .usecase-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+            width: 36px;
+            text-align: center;
+        }
+
+        .usecase-task {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .usecase-arrow {
+            color: var(--gray-300);
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .usecase-model {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--purple);
+            flex-shrink: 0;
+            text-align: right;
+        }
+
+        /* ===== SUPPORT ===== */
+        .support-section {
+            background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
+        }
+
+        .support-card {
+            text-align: center;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .support-card .icon {
+            width: 56px;
+            height: 56px;
+            background: var(--purple);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+        }
+
+        .support-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .support-card p {
+            font-size: 15px;
+            color: var(--gray-600);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .support-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 32px 0;
+            text-align: center;
+            border-top: 1px solid var(--gray-100);
+        }
+
+        .footer-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--gray-800);
+            margin-bottom: 8px;
+        }
+
+        .footer p {
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (min-width: 640px) {
+            .hero { padding: 64px 0 72px; }
+            .hero h1 { font-size: 36px; }
+            .hero p { font-size: 17px; }
+            .section-title { font-size: 26px; }
+            .models-grid { grid-template-columns: 1fr 1fr; }
+            .usecases { grid-template-columns: 1fr; }
+            section { padding: 56px 0; }
+        }
+
+        @media (min-width: 900px) {
+            .models-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="container">
+        <div class="logo">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" rx="10" fill="url(#logo-grad)"/>
+                <path d="M20 10C15.58 10 12 13.58 12 18c0 2.5 1.17 4.73 3 6.18V28a1 1 0 001 1h8a1 1 0 001-1v-3.82c1.83-1.45 3-3.68 3-6.18 0-4.42-3.58-8-8-8zm-2 21h4v1h-4v-1zm0-2h4v1h-4v-1z" fill="white" opacity="0.95"/>
+                <circle cx="20" cy="17" r="2" fill="rgba(167,139,250,0.6)"/>
+                <path d="M17 19.5a4.5 4.5 0 005 0" stroke="rgba(167,139,250,0.5)" stroke-width="1.2" fill="none"/>
+                <defs><linearGradient id="logo-grad" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#7C3AED"/><stop offset="1" stop-color="#A78BFA"/></linearGradient></defs>
+            </svg>
+            NeuroGate
+        </div>
+        <h1>Добро пожаловать в <span>NeuroGate</span>!</h1>
+        <p>Ваша компания подключила вам доступ к топовым нейросетям. Начните использовать AI для работы прямо сейчас — без VPN и сложных настроек.</p>
+        <div class="hero-buttons">
+            <a href="https://poe.com" class="btn btn-primary" target="_blank">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                Войти в кабинет
+            </a>
+            <a href="https://t.me/jul_vaul" class="btn btn-white" target="_blank">
+                Написать в поддержку
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== HOW TO START ===== -->
+<section>
+    <div class="container">
+        <h2 class="section-title">Как начать</h2>
+        <p class="section-subtitle">Три простых шага — и вы работаете с AI</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                    <h3>Перейдите в кабинет</h3>
+                    <p>Нажмите кнопку «Войти в кабинет» выше или перейдите по ссылке, которую вам отправит руководитель.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                    <h3>Выберите нейросеть</h3>
+                    <p>В кабинете доступны все модели из списка ниже. Выбирайте нужную — и начинайте диалог.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                    <h3>Задайте вопрос или задачу</h3>
+                    <p>Пишите на русском языке. AI поможет с текстами, анализом, таблицами, картинками и многим другим.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== MODELS ===== -->
+<section class="models-section">
+    <div class="container">
+        <h2 class="section-title">Какие нейросети доступны</h2>
+        <p class="section-subtitle">Все модели уже включены в ваш пакет</p>
+        <div class="models-grid">
+            <div class="model-card">
+                <div class="model-icon text">🧠</div>
+                <div class="model-info">
+                    <div class="model-name">GPT-5</div>
+                    <div class="model-vendor">OpenAI</div>
+                    <div class="model-desc">Сложные тексты, глубокий анализ, написание кода</div>
+                    <span class="model-tag">⭐ Топ для текстов</span>
+                </div>
+            </div>
+            <div class="model-card">
+                <div class="model-icon brain">📊</div>
+                <div class="model-info">
+                    <div class="model-name">Claude Opus 4</div>
+                    <div class="model-vendor">Anthropic</div>
+                    <div class="model-desc">Аналитика, работа с документами, длинный контекст</div>
+                    <span class="model-tag">⭐ Топ для документов</span>
+                </div>
+            </div>
+            <div class="model-card">
+                <div class="model-icon multi">🌐</div>
+                <div class="model-info">
+                    <div class="model-name">Gemini 2.5 Pro</div>
+                    <div class="model-vendor">Google</div>
+                    <div class="model-desc">Мультимодальные задачи: текст + изображения + видео</div>
+                </div>
+            </div>
+            <div class="model-card">
+                <div class="model-icon fast">⚡</div>
+                <div class="model-info">
+                    <div class="model-name">GPT-4.1</div>
+                    <div class="model-vendor">OpenAI</div>
+                    <div class="model-desc">Быстрые ответы на простые вопросы, экономичная</div>
+                    <span class="model-tag">🚀 Самая быстрая</span>
+                </div>
+            </div>
+            <div class="model-card">
+                <div class="model-icon balance">✨</div>
+                <div class="model-info">
+                    <div class="model-name">Claude Sonnet 4</div>
+                    <div class="model-vendor">Anthropic</div>
+                    <div class="model-desc">Отличный баланс скорости и качества для ежедневных задач</div>
+                </div>
+            </div>
+            <div class="model-card">
+                <div class="model-icon art">🎨</div>
+                <div class="model-info">
+                    <div class="model-name">Midjourney v6</div>
+                    <div class="model-vendor">Midjourney</div>
+                    <div class="model-desc">Создание артов, иллюстраций и дизайн-концептов</div>
+                    <span class="model-tag">🖼 Лучшие картинки</span>
+                </div>
+            </div>
+            <div class="model-card">
+                <div class="model-icon img">🖼️</div>
+                <div class="model-info">
+                    <div class="model-name">DALL-E 3</div>
+                    <div class="model-vendor">OpenAI</div>
+                    <div class="model-desc">Генерация изображений по текстовому описанию</div>
+                </div>
+            </div>
+            <div class="model-card">
+                <div class="model-icon video">🎬</div>
+                <div class="model-info">
+                    <div class="model-name">Sora</div>
+                    <div class="model-vendor">OpenAI</div>
+                    <div class="model-desc">Генерация видеороликов из текстового описания</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== USE CASES ===== -->
+<section>
+    <div class="container">
+        <h2 class="section-title">Какую модель выбрать</h2>
+        <p class="section-subtitle">Практические рекомендации под ваши задачи</p>
+        <div class="usecases">
+            <div class="usecase">
+                <div class="usecase-icon">📝</div>
+                <div class="usecase-task">Тексты, письма, отчёты</div>
+                <div class="usecase-arrow">→</div>
+                <div class="usecase-model">GPT-5 / Claude Opus 4</div>
+            </div>
+            <div class="usecase">
+                <div class="usecase-icon">📊</div>
+                <div class="usecase-task">Обработка Excel и таблиц</div>
+                <div class="usecase-arrow">→</div>
+                <div class="usecase-model">Claude Opus 4</div>
+            </div>
+            <div class="usecase">
+                <div class="usecase-icon">💬</div>
+                <div class="usecase-task">Быстрые вопросы</div>
+                <div class="usecase-arrow">→</div>
+                <div class="usecase-model">GPT-4.1</div>
+            </div>
+            <div class="usecase">
+                <div class="usecase-icon">🖼️</div>
+                <div class="usecase-task">Картинки для презентаций</div>
+                <div class="usecase-arrow">→</div>
+                <div class="usecase-model">Midjourney / DALL-E 3</div>
+            </div>
+            <div class="usecase">
+                <div class="usecase-icon">🎬</div>
+                <div class="usecase-task">Видео</div>
+                <div class="usecase-arrow">→</div>
+                <div class="usecase-model">Sora</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SUPPORT ===== -->
+<section class="support-section">
+    <div class="container">
+        <div class="support-card">
+            <div class="icon">🤝</div>
+            <h2>Поддержка и помощь</h2>
+            <p>В рамках вашего пакета вам также доступна помощь по автоматизации рабочих процессов с помощью AI. Пишите Юле — поможем интегрировать AI в вашу работу.</p>
+            <div class="support-buttons">
+                <a href="https://poe.com" class="btn btn-primary" target="_blank">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    Войти в кабинет
+                </a>
+                <a href="https://t.me/jul_vaul" class="btn btn-outline" target="_blank">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                    Написать Юле в Telegram
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-logo">
+            <svg width="20" height="20" viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" rx="10" fill="url(#logo-grad2)"/>
+                <path d="M20 10C15.58 10 12 13.58 12 18c0 2.5 1.17 4.73 3 6.18V28a1 1 0 001 1h8a1 1 0 001-1v-3.82c1.83-1.45 3-3.68 3-6.18 0-4.42-3.58-8-8-8z" fill="white" opacity="0.9"/>
+                <defs><linearGradient id="logo-grad2" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#7C3AED"/><stop offset="1" stop-color="#A78BFA"/></linearGradient></defs>
+            </svg>
+            NeuroGate
+        </div>
+        <p>Все нейросети в одном месте — без VPN, в рублях</p>
+    </div>
+</footer>
+
+</body>
+</html>
