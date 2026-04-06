@@ -56,6 +56,50 @@
             margin-bottom: 36px;
         }
 
+        /* Partner header (Моя удалёнка × NeuroGate) */
+        .partner-bar {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 16px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(230, 235, 250, 0.7);
+            border: 1px solid rgba(9, 52, 202, 0.12);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .brand:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 30px rgba(9, 52, 202, 0.12);
+        }
+        .brand img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            display: block;
+        }
+        .brand.mu img {
+            width: 30px;
+            height: 30px;
+        }
+        .partner-sep {
+            font-weight: 800;
+            color: rgba(52, 52, 52, 0.5);
+            font-size: 18px;
+        }
+
         .logo-icon {
             width: 36px;
             height: 36px;
@@ -513,13 +557,16 @@
 <!-- ===== HERO ===== -->
 <section class="hero">
     <div class="container">
-        <div class="logo">
-            <div class="logo-icon">
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 4C8.69 4 6 6.69 6 10c0 1.88.88 3.55 2.25 4.63V17.5a.75.75 0 00.75.75h6a.75.75 0 00.75-.75v-2.87A5.98 5.98 0 0018 10c0-3.31-2.69-6-6-6zm-1.5 15.75h3v.75h-3v-.75zm0-1.5h3v.75h-3v-.75z" fill="white"/>
-                </svg>
-            </div>
-            NeuroGate
+        <div class="partner-bar">
+            <a class="brand mu" href="https://moyaudalenka.ru" target="_blank" rel="noopener">
+                <img src="../static/logo-moyaudalenka.svg" alt="Моя удалёнка">
+                <span>Моя удалёнка</span>
+            </a>
+            <span class="partner-sep">×</span>
+            <a class="brand ng" href="https://ng-ai.ru" target="_blank" rel="noopener">
+                <img src="../static/logo-ngai.png" alt="NeuroGate">
+                <span>NeuroGate</span>
+            </a>
         </div>
         <h1>Добро пожаловать<br>в <span>NeuroGate</span>!</h1>
         <p>Ваша компания подключила вам доступ к&nbsp;топовым нейросетям. Начните использовать AI для работы прямо сейчас&nbsp;— без VPN и сложных настроек.</p>
@@ -728,12 +775,10 @@
 <footer class="footer">
     <div class="container">
         <div class="footer-logo">
-            <div class="logo-icon">
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 4C8.69 4 6 6.69 6 10c0 1.88.88 3.55 2.25 4.63V17.5a.75.75 0 00.75.75h6a.75.75 0 00.75-.75v-2.87A5.98 5.98 0 0018 10c0-3.31-2.69-6-6-6z" fill="white"/>
-                </svg>
-            </div>
-            NeuroGate
+            <a href="https://ng-ai.ru" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:inherit;">
+                <img src="../static/logo-ngai.png" alt="NeuroGate" style="width:28px;height:28px;object-fit:contain;display:block;" />
+                <span>NeuroGate</span>
+            </a>
         </div>
         <p>Все нейросети в одном месте — без VPN, в рублях</p>
     </div>
