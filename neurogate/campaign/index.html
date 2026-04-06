@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="/neurogate/campaign/" />
-  <title>Neurogate — Campaign Pack (Яндекс.Директ)</title>
-  <meta name="description" content="Полный пакет для запуска Яндекс.Директа: структура кампаний, ключи, объявления, минус-слова, настройки, UTM, аналитика, план оптимизации." />
+  <title>Как мы придумали рекламу для NeuroGate</title>
+  <meta name="description" content="История о том, как мы анализировали рынок, изучали конкурентов и собирали рекламную кампанию в Яндекс.Директ шаг за шагом." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -74,9 +74,10 @@
     .tldr li{margin-bottom:6px}
     .tldr a{color:#E0E7FF}
 
-    /* Ad card */
+    /* Ad card — Yandex style */
     .ad{border:1px solid var(--gray-200);border-radius:12px;padding:16px;background:#fff;margin-bottom:12px}
-    .ad-title{font-weight:700;color:var(--purple);font-size:15px;margin-bottom:2px}
+    .ad-url{font-size:13px;color:var(--green);margin-bottom:4px;font-weight:500}
+    .ad-title{font-weight:700;color:#1a0dab;font-size:16px;margin-bottom:2px;line-height:1.3}
     .ad-title2{font-weight:600;color:var(--gray-700);font-size:14px;margin-bottom:4px}
     .ad-text{font-size:14px;color:var(--gray-700)}
     .ad-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -100,6 +101,24 @@
     .comp-row:last-child{border-bottom:none}
     .comp-name{font-weight:700;min-width:120px;flex-shrink:0}
 
+    /* Checklist */
+    .checklist{list-style:none;padding:0;margin:0}
+    .checklist li{padding:8px 0;border-bottom:1px solid var(--gray-100);font-size:15px;display:flex;align-items:center;gap:10px}
+    .checklist li:last-child{border-bottom:none}
+
+    /* Minus-word groups */
+    .minus-group{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--gray-100)}
+    .minus-group:last-child{border-bottom:none}
+    .minus-icon{font-size:24px;flex-shrink:0;width:36px;text-align:center}
+    .minus-body h4{font-size:15px;margin-bottom:4px}
+    .minus-body p{font-size:14px;color:var(--gray-500)}
+
+    /* Campaign #2 cards */
+    .task-card{border:1px solid var(--gray-200);border-radius:12px;padding:16px;background:var(--gray-50);text-align:center}
+    .task-card h4{font-size:15px;margin-bottom:4px}
+    .task-card .volume{font-size:24px;font-weight:800;color:var(--purple);margin-bottom:4px}
+    .task-card .status{font-size:12px;font-weight:600}
+
     /* Footer */
     .footer{text-align:center;padding:32px 20px;color:var(--gray-500);font-size:13px;border-top:1px solid var(--gray-100);margin-top:40px}
 
@@ -115,7 +134,7 @@
   <!-- Nav -->
   <div class="nav">
     <div class="inner">
-      <div class="brand">Neurogate &middot; Campaign Pack</div>
+      <div class="brand">Neurogate &middot; Campaign Story</div>
       <div class="nav-links">
         <a href="/neurogate/" class="muted">&larr; B2C лендинг</a>
         <a href="/neurogate/business/" class="muted">B2B лендинг</a>
@@ -126,919 +145,417 @@
 
   <div class="wrap">
 
-    <h1>Яндекс.Директ &mdash; полный Campaign Pack</h1>
-    <p class="sub">Готовый пакет для маркетолога/директолога: продукт, кампании, ключи, объявления, минус-слова, настройки, аналитика, план оптимизации. Одна ссылка &mdash; всё для запуска.<br><b>Wordstat:</b> 2026-03-26 &middot; <b>Бюджет:</b> 1 000 ₽/день</p>
-
-    <!-- TL;DR -->
-    <div class="tldr">
-      <h2>TL;DR</h2>
-      <ul>
-        <li><b>Neurogate</b> &mdash; AI-агрегатор, 100+ моделей (ChatGPT, Claude, Midjourney), работает из РФ без VPN, оплата в рублях (СБП/карта), модель <b>pay-as-you-go</b> (подписок нет).</li>
-        <li><b>2 поисковые кампании:</b> B2C (700 ₽/день, <a href="#keywords-b2c">5 кластеров</a>) + B2B (300 ₽/день, <a href="#keywords-b2b">2 кластера</a>). РСЯ и ретаргет &mdash; после 2 недель.</li>
-        <li><b>Цель:</b> конверсия &laquo;Пополнение баланса&raquo;. Первые 7 дней &mdash; чистка запросов + накопление данных. CPL-ориентир: &lt;&nbsp;300&nbsp;₽.</li>
-      </ul>
-    </div>
+    <h1>Как мы придумали рекламу для NeuroGate</h1>
+    <p class="sub">История о том, как мы анализировали рынок, изучали конкурентов и собирали кампанию в Яндекс.Директ шаг за шагом</p>
 
     <!-- TOC -->
     <div class="toc">
-      <a href="#product">Продукт</a>
-      <a href="#conversion">Конверсии</a>
-      <a href="#architecture">Архитектура</a>
-      <a href="#keywords-b2c">Ключи B2C</a>
-      <a href="#keywords-b2b">Ключи B2B</a>
-      <a href="#ads-b2c">Объявления B2C</a>
-      <a href="#ads-b2b">Объявления B2B</a>
-      <a href="#negatives">Минус-слова</a>
-      <a href="#settings">Настройки</a>
-      <a href="#utm">UTM + Метрика</a>
-      <a href="#optimization">7-Day Plan</a>
+      <a href="#start">С чего начали</a>
       <a href="#competitors">Конкуренты</a>
+      <a href="#demand">Что ищут люди</a>
+      <a href="#tracks">Три трека</a>
+      <a href="#ads">Объявления</a>
+      <a href="#negatives">Минус-слова</a>
+      <a href="#expectations">Ожидания</a>
+      <a href="#status">Статус</a>
+      <a href="#next">Что дальше</a>
     </div>
 
+    <div class="hr"></div>
+
     <!-- ============================================ -->
-    <!-- 1. PRODUCT SNAPSHOT -->
+    <!-- 1. С ЧЕГО МЫ НАЧАЛИ -->
     <!-- ============================================ -->
-    <div class="section-header" id="product">
+    <div class="section-header" id="start">
       <span class="section-num">1</span>
-      <h2 style="margin:0">Product Snapshot</h2>
+      <h2 style="margin:0">С чего мы начали</h2>
     </div>
 
     <div class="card">
-      <div class="grid">
-        <div>
-          <h3>Что это</h3>
-          <p>AI-агрегатор: единый кабинет с доступом к <b>100+ моделям</b> &mdash; ChatGPT (GPT-4o, GPT-5), Claude (Opus, Sonnet), Midjourney, DALL-E, Sora и другим. Работает из России <b>без VPN</b>, интерфейс на русском.</p>
-          <h3 style="margin-top:14px">Монетизация</h3>
-          <p><span class="pill">Pay-as-you-go</span> Пользователь пополняет баланс (от 300 ₽), платит только за использование. <b>Подписок нет.</b> Баланс <b>не сгорает</b> &mdash; пополнил и пользуешься когда нужно.</p>
-          <h3 style="margin-top:14px">Оплата</h3>
-          <p>Рубли: СБП, банковские карты (РФ). Для B2B: счёт от юрлица, акты.</p>
-        </div>
-        <div>
-          <h3>ICP (Ideal Customer Profile)</h3>
-          <table class="tbl">
-            <tr><th>Сегмент</th><th>Кто</th></tr>
-            <tr><td><span class="pill">B2C</span></td><td>Фрилансеры, маркетологи, дизайнеры, контентщики, разработчики, SMM-щики &mdash; кому нужен ChatGPT/Claude без VPN и иностранных карт</td></tr>
-            <tr><td><span class="pill pill-b2b">B2B</span></td><td>Малый бизнес, агентства, продуктовые команды &mdash; кому нужен API к моделям с оплатой в рублях и контролем расходов</td></tr>
-          </table>
-          <h3 style="margin-top:14px">Ключевой оффер в рекламе</h3>
-          <p>&laquo;<b>Зачем подписка за $20/мес?</b> Платите только за то, что используете. От 2 ₽ за запрос.&raquo;</p>
-          <p class="muted" style="margin-top:8px">Люди ищут &laquo;купить подписку chatgpt&raquo; &mdash; мы перехватываем и предлагаем лучший формат: не подписка, а баланс.</p>
-        </div>
-      </div>
+      <p style="font-size:16px;line-height:1.7">
+        NeuroGate &mdash; это единый кабинет, где собраны <b>68+ нейросетей</b>: ChatGPT, Claude, Gemini, Flux, Kling и другие.
+        Работает из России без VPN, оплата в рублях. Главная фишка &mdash; <b>pay-as-you-go</b>: платишь только за то, что используешь, без подписок.
+        Минимальное пополнение &mdash; 500&#8239;&#8381;.
+      </p>
+    </div>
+
+    <div class="card card-purple">
+      <h3 style="color:#4C1D95">Задача</h3>
+      <p style="color:#4C1D95;font-size:15px">
+        Привести первых платящих клиентов. Бюджет на тест &mdash; <b>21&nbsp;000&#8239;&#8381;</b> (1&nbsp;500&#8239;&#8381;/день на 14 дней).
+        Нужно понять, какие люди готовы платить.
+      </p>
     </div>
 
     <div class="hr"></div>
 
     <!-- ============================================ -->
-    <!-- 2. CONVERSION MODEL -->
-    <!-- ============================================ -->
-    <div class="section-header" id="conversion">
-      <span class="section-num">2</span>
-      <h2 style="margin:0">Conversion Model &amp; Метрика</h2>
-    </div>
-
-    <div class="card">
-      <div class="grid">
-        <div>
-          <h3>Воронка конверсий</h3>
-          <table class="tbl">
-            <tr><th>Цель в Метрике</th><th>Событие</th><th>Приоритет</th></tr>
-            <tr><td class="mono">registration</td><td>Регистрация аккаунта</td><td><span class="pill">Промежуточная</span></td></tr>
-            <tr><td class="mono">topup</td><td>Первое пополнение баланса</td><td><span class="pill pill-hot">Основная</span></td></tr>
-          </table>
-          <p class="muted" style="margin-top:10px">Цель &laquo;topup&raquo; &mdash; ключевая для оптимизации. Регистрация &mdash; для анализа промежуточной конверсии.</p>
-        </div>
-        <div>
-          <h3>Стратегия при малом бюджете</h3>
-          <ul class="list">
-            <li><b>Неделя 1&ndash;2:</b> Стратегия &laquo;Максимум кликов&raquo; с дневным лимитом. Цель &mdash; накопить данные (50+ конверсий для обучения).</li>
-            <li><b>После 50 конверсий:</b> Переключить на &laquo;Максимум конверсий&raquo; с оплатой за конверсию (CPA).</li>
-            <li><b>Ориентиры:</b> CPL &lt; 300 ₽, CR лендинга &gt; 3%, ROAS &gt; 2x через 30 дней.</li>
-          </ul>
-          <h3 style="margin-top:14px">KPI-ориентиры</h3>
-          <table class="tbl">
-            <tr><th>Метрика</th><th>Цель</th></tr>
-            <tr><td>CPL (пополнение)</td><td class="right"><b>&lt; 300 ₽</b></td></tr>
-            <tr><td>CR лендинга (рег &rarr; пополнение)</td><td class="right">&gt; 3%</td></tr>
-            <tr><td>Доля мусорных запросов</td><td class="right">&lt; 20%</td></tr>
-            <tr><td>ROAS (через 30 дней)</td><td class="right">&gt; 2x</td></tr>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <div class="hr"></div>
-
-    <!-- ============================================ -->
-    <!-- 3. CAMPAIGN ARCHITECTURE -->
-    <!-- ============================================ -->
-    <div class="section-header" id="architecture">
-      <span class="section-num">3</span>
-      <h2 style="margin:0">Campaign Architecture</h2>
-    </div>
-
-    <div class="card">
-      <h3>Дерево кампаний</h3>
-      <div class="k" style="font-size:14px;line-height:1.7">Neurogate &mdash; Яндекс.Директ
-├── <b>Кампания A: B2C Поиск</b> (700 ₽/день) &rarr; msolo.me/neurogate
-│   ├── A1: ChatGPT в России (доступ)
-│   ├── A2: Купить/оплатить ChatGPT  🔥 горячие
-│   ├── A3: Без VPN + агрегатор
-│   ├── A4: Claude в России  🔥 горячие
-│   └── A5: Аналоги ChatGPT
-│
-├── <b>Кампания B: B2B Поиск</b> (300 ₽/день) &rarr; msolo.me/neurogate/business
-│   ├── B1: Нейросети для бизнеса
-│   └── B2: API нейросетей
-│
-├── <i>[Неделя 3+]</i> Кампания C: B2C РСЯ (баннеры на накопленную аудиторию)
-└── <i>[Неделя 3+]</i> Кампания D: Ретаргетинг (посетители без пополнения)</div>
-      <p class="muted" style="margin-top:10px">Сначала запускаем только поиск (A + B). РСЯ и ретаргет подключаем после 2 недель, когда есть данные по конверсиям и накопилась аудитория для look-alike.</p>
-    </div>
-
-    <div class="grid">
-      <div class="card">
-        <h3>Раскладка бюджета</h3>
-        <table class="tbl">
-          <tr><th>Кампания</th><th class="right">Бюджет/день</th><th class="right">%</th></tr>
-          <tr><td>A: B2C &mdash; Поиск</td><td class="right"><b>700 ₽</b></td><td class="right">70%</td></tr>
-          <tr><td>B: B2B &mdash; Поиск</td><td class="right"><b>300 ₽</b></td><td class="right">30%</td></tr>
-          <tr style="background:var(--gray-50)"><td><b>Итого</b></td><td class="right"><b>1 000 ₽</b></td><td class="right">100%</td></tr>
-        </table>
-      </div>
-      <div class="card">
-        <h3>Лендинги</h3>
-        <table class="tbl">
-          <tr><th>Кампания</th><th>URL</th></tr>
-          <tr><td>B2C (A1&ndash;A5)</td><td><a href="/neurogate/">msolo.me/neurogate</a></td></tr>
-          <tr><td>B2B (B1&ndash;B2)</td><td><a href="/neurogate/business/">msolo.me/neurogate/business</a></td></tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="hr"></div>
-
-    <!-- ============================================ -->
-    <!-- 4. KEYWORD CLUSTERS — B2C -->
-    <!-- ============================================ -->
-    <div class="section-header" id="keywords-b2c">
-      <span class="section-num">4</span>
-      <h2 style="margin:0">Keyword Clusters &mdash; B2C (Кампания A)</h2>
-    </div>
-
-    <!-- A1 -->
-    <div class="card">
-      <h3><span class="pill">A1</span> ChatGPT в России (доступ)</h3>
-      <p class="muted" style="margin-bottom:8px">Интент: пользователь хочет начать пользоваться ChatGPT из РФ. Информационный + транзакционный.</p>
-      <table class="tbl">
-        <tr><th>Ключевая фраза</th><th class="right">Показы/мес</th></tr>
-        <tr><td>chatgpt в россии</td><td class="right"><b>6 086</b></td></tr>
-        <tr><td>как пользоваться chatgpt в россии</td><td class="right">776</td></tr>
-        <tr><td>chatgpt подписка в россии</td><td class="right">697</td></tr>
-        <tr><td>как скачать chatgpt в россии</td><td class="right">670</td></tr>
-        <tr><td>как установить chatgpt в россии</td><td class="right">614</td></tr>
-        <tr><td>chatgpt plus в россии</td><td class="right">570</td></tr>
-        <tr><td>chatgpt в россии 2026</td><td class="right">330</td></tr>
-        <tr><td>chatgpt нейросеть в россии</td><td class="right">306</td></tr>
-        <tr><td>chatgpt в россии бесплатно</td><td class="right">214</td></tr>
-      </table>
-    </div>
-
-    <!-- A2 -->
-    <div class="card" style="border-color:#FDE68A;background:#FFFBEB">
-      <h3><span class="pill pill-hot">A2 🔥</span> Купить / оплатить ChatGPT (горячие)</h3>
-      <p class="muted" style="margin-bottom:8px">Интент: готов платить. Ищет способ оплаты. Самый конверсионный кластер.</p>
-      <table class="tbl">
-        <tr><th>Ключевая фраза</th><th class="right">Показы/мес</th></tr>
-        <tr><td>chatgpt подписка</td><td class="right"><b>10 423</b></td></tr>
-        <tr><td>купить подписку chatgpt</td><td class="right"><b>3 107</b></td></tr>
-        <tr><td>купить подписку chatgpt plus</td><td class="right">1 257</td></tr>
-        <tr><td>как оплатить chatgpt из россии</td><td class="right">567</td></tr>
-        <tr><td>купить подписку chatgpt в россии</td><td class="right">540</td></tr>
-        <tr><td>chatgpt plus купить в россии</td><td class="right">482</td></tr>
-        <tr><td>как купить подписку chatgpt plus в россии</td><td class="right">308</td></tr>
-        <tr><td>chatgpt pro купить подписку</td><td class="right">108</td></tr>
-        <tr><td>как оплатить chatgpt из россии 2026</td><td class="right">76</td></tr>
-      </table>
-    </div>
-
-    <!-- A3 -->
-    <div class="card">
-      <h3><span class="pill">A3</span> Без VPN + агрегатор нейросетей</h3>
-      <p class="muted" style="margin-bottom:8px">Интент: ищет решение без VPN или единый хаб для нейросетей.</p>
-      <table class="tbl">
-        <tr><th>Ключевая фраза</th><th class="right">Показы/мес</th></tr>
-        <tr><td>агрегатор нейросетей</td><td class="right"><b>3 720</b></td></tr>
-        <tr><td>все нейросети в одном месте</td><td class="right">992</td></tr>
-        <tr><td>нейросети без vpn</td><td class="right">437</td></tr>
-        <tr><td>лучшие агрегаторы нейросетей</td><td class="right">425</td></tr>
-        <tr><td>chatgpt без vpn</td><td class="right">385</td></tr>
-        <tr><td>агрегаторы нейросетей в россии</td><td class="right">277</td></tr>
-        <tr><td>российские агрегаторы нейросетей</td><td class="right">115</td></tr>
-        <tr><td>нейросети в россии без vpn</td><td class="right">97</td></tr>
-        <tr><td>chatgpt без vpn в россии</td><td class="right">57</td></tr>
-      </table>
-    </div>
-
-    <!-- A4 -->
-    <div class="card" style="border-color:#FDE68A;background:#FFFBEB">
-      <h3><span class="pill pill-hot">A4 🔥</span> Claude в России (горячие)</h3>
-      <p class="muted" style="margin-bottom:8px">Интент: конкретно хочет Claude. Высокая конверсия &mdash; пользователь уже знает продукт.</p>
-      <table class="tbl">
-        <tr><th>Ключевая фраза</th><th class="right">Показы/мес</th></tr>
-        <tr><td>claude подписка</td><td class="right"><b>9 213</b></td></tr>
-        <tr><td>claude купить подписку</td><td class="right"><b>3 536</b></td></tr>
-        <tr><td>claude ai в россии</td><td class="right">2 586</td></tr>
-        <tr><td>claude code подписка</td><td class="right">1 275</td></tr>
-        <tr><td>подписка claude ai</td><td class="right">1 115</td></tr>
-        <tr><td>claude pro подписка</td><td class="right">987</td></tr>
-        <tr><td>claude ai купить подписку</td><td class="right">578</td></tr>
-        <tr><td>как пользоваться claude ai в россии</td><td class="right">573</td></tr>
-        <tr><td>claude pro купить подписку</td><td class="right">349</td></tr>
-        <tr><td>claude code купить подписку</td><td class="right">257</td></tr>
-        <tr><td>регистрация в claude ai в россии</td><td class="right">215</td></tr>
-        <tr><td>оплата claude ai из россии</td><td class="right">168</td></tr>
-      </table>
-    </div>
-
-    <!-- A5 -->
-    <div class="card">
-      <h3><span class="pill">A5</span> Аналоги ChatGPT / OpenAI</h3>
-      <p class="muted" style="margin-bottom:8px">Интент: ищет альтернативу. Сравнивает варианты.</p>
-      <table class="tbl">
-        <tr><th>Ключевая фраза</th><th class="right">Показы/мес</th></tr>
-        <tr><td>chatgpt аналоги</td><td class="right"><b>800</b></td></tr>
-        <tr><td>openai в россии</td><td class="right">468</td></tr>
-        <tr><td>аналог chatgpt в россии</td><td class="right">79</td></tr>
-      </table>
-    </div>
-
-    <div class="hr"></div>
-
-    <!-- ============================================ -->
-    <!-- 5. KEYWORD CLUSTERS — B2B -->
-    <!-- ============================================ -->
-    <div class="section-header" id="keywords-b2b">
-      <span class="section-num">5</span>
-      <h2 style="margin:0">Keyword Clusters &mdash; B2B (Кампания B)</h2>
-    </div>
-
-    <!-- B1 -->
-    <div class="card">
-      <h3><span class="pill pill-b2b">B1</span> Нейросети для бизнеса</h3>
-      <p class="muted" style="margin-bottom:8px">Интент: бизнес ищет AI-инструменты для процессов. Лендинг: /neurogate/business</p>
-      <table class="tbl">
-        <tr><th>Ключевая фраза</th><th class="right">Показы/мес</th></tr>
-        <tr><td>нейросети для бизнеса</td><td class="right"><b>2 837</b></td></tr>
-        <tr><td>нейросети для работы и бизнеса</td><td class="right">203</td></tr>
-        <tr><td>лучшие нейросети для бизнеса</td><td class="right">186</td></tr>
-        <tr><td>нейросети для бизнес процессов</td><td class="right">133</td></tr>
-      </table>
-    </div>
-
-    <!-- B2 -->
-    <div class="card">
-      <h3><span class="pill pill-b2b">B2</span> API нейросетей</h3>
-      <p class="muted" style="margin-bottom:8px">Интент: разработчик/CTO ищет API для интеграции. Самый ценный B2B-сегмент.</p>
-      <table class="tbl">
-        <tr><th>Ключевая фраза</th><th class="right">Показы/мес</th></tr>
-        <tr><td>api нейросетей</td><td class="right"><b>2 328</b></td></tr>
-        <tr><td>openai api в россии</td><td class="right">93</td></tr>
-        <tr><td>api нейросети россия</td><td class="right">70</td></tr>
-        <tr><td>купить api chatgpt</td><td class="right">68</td></tr>
-        <tr><td>chatgpt api в россии</td><td class="right">43</td></tr>
-        <tr><td>openai api key в россии</td><td class="right">32</td></tr>
-        <tr><td>api claude в россии</td><td class="right">29</td></tr>
-        <tr><td>как получить api openai в россии</td><td class="right">26</td></tr>
-      </table>
-    </div>
-
-    <!-- Copy-paste block -->
-    <div class="card" style="margin-top:16px">
-      <h3>Все ключи для копирования</h3>
-      <p class="muted" style="margin-bottom:8px">Можно скопировать блоками и вставить в Директ при создании групп.</p>
-      <div class="copy-wrap">
-        <div class="k" id="keys-b2c"><b>// B2C &mdash; Кампания A</b>
-
-<b>// A1: ChatGPT в России</b>
-chatgpt в россии
-как пользоваться chatgpt в россии
-chatgpt подписка в россии
-как скачать chatgpt в россии
-как установить chatgpt в россии
-chatgpt plus в россии
-chatgpt в россии 2026
-chatgpt нейросеть в россии
-chatgpt в россии бесплатно
-
-<b>// A2: Купить/оплатить (горячие)</b>
-chatgpt подписка
-купить подписку chatgpt
-купить подписку chatgpt plus
-как оплатить chatgpt из россии
-купить подписку chatgpt в россии
-chatgpt plus купить в россии
-как купить подписку chatgpt plus в россии
-chatgpt pro купить подписку
-как оплатить chatgpt из россии 2026
-
-<b>// A3: Без VPN + агрегатор</b>
-агрегатор нейросетей
-все нейросети в одном месте
-нейросети без vpn
-лучшие агрегаторы нейросетей
-chatgpt без vpn
-агрегаторы нейросетей в россии
-российские агрегаторы нейросетей
-нейросети в россии без vpn
-chatgpt без vpn в россии
-
-<b>// A4: Claude (горячие)</b>
-claude подписка
-claude купить подписку
-claude ai в россии
-claude code подписка
-подписка claude ai
-claude pro подписка
-claude ai купить подписку
-как пользоваться claude ai в россии
-claude pro купить подписку
-claude code купить подписку
-регистрация в claude ai в россии
-оплата claude ai из россии
-
-<b>// A5: Аналоги</b>
-chatgpt аналоги
-openai в россии
-аналог chatgpt в россии</div>
-      </div>
-
-      <div class="copy-wrap" style="margin-top:12px">
-        <div class="k" id="keys-b2b"><b>// B2B &mdash; Кампания B</b>
-
-<b>// B1: Нейросети для бизнеса</b>
-нейросети для бизнеса
-нейросети для работы и бизнеса
-лучшие нейросети для бизнеса
-нейросети для бизнес процессов
-
-<b>// B2: API нейросетей</b>
-api нейросетей
-openai api в россии
-api нейросети россия
-купить api chatgpt
-chatgpt api в россии
-openai api key в россии
-api claude в россии
-как получить api openai в россии</div>
-      </div>
-    </div>
-
-    <div class="hr"></div>
-
-    <!-- ============================================ -->
-    <!-- 6. AD COPY — B2C -->
-    <!-- ============================================ -->
-    <div class="section-header" id="ads-b2c">
-      <span class="section-num">6</span>
-      <h2 style="margin:0">Ad Copy Pack &mdash; B2C</h2>
-    </div>
-    <p class="muted" style="margin-bottom:16px">Для каждого кластера &mdash; 3&ndash;5 вариантов под A/B тест. Акценты: pay-as-you-go, без VPN, рубли/СБП, баланс не сгорает.</p>
-
-    <!-- A1 Ads -->
-    <div class="card">
-      <h3><span class="pill">A1</span> ChatGPT в России &mdash; объявления</h3>
-
-      <div class="ad">
-        <div class="ad-title">ChatGPT в России без VPN &mdash; от 2 ₽</div>
-        <div class="ad-title2">Без подписок. Платите за использование</div>
-        <div class="ad-text">Зачем подписка за $20/мес? ChatGPT, Claude, Midjourney &mdash; платите только когда пользуетесь. Рубли, СБП. 100+ моделей в одном кабинете. Старт бесплатно.</div>
-        <div class="ad-links"><span>Чат с GPT-5</span><span>Генерация картинок</span><span>Цены</span><span>FAQ</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">ChatGPT из России &mdash; работает прямо сейчас</div>
-        <div class="ad-title2">Без VPN, без иностранных карт</div>
-        <div class="ad-text">Пополните баланс от 300 ₽ и пользуйтесь ChatGPT, Claude и 100+ другими моделями. Pay-as-you-go: баланс не сгорает.</div>
-        <div class="ad-links"><span>Все модели</span><span>Пополнить баланс</span><span>Цены за запрос</span><span>Начать бесплатно</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">ChatGPT в России 2026 &mdash; легальный доступ</div>
-        <div class="ad-title2">100+ моделей. Один кабинет. Рубли</div>
-        <div class="ad-text">Не нужен VPN. Не нужна иностранная карта. Регистрация за 30 секунд. Первые запросы бесплатно. Оплата через СБП.</div>
-        <div class="ad-links"><span>Попробовать бесплатно</span><span>Как это работает</span><span>Цены</span></div>
-      </div>
-    </div>
-
-    <!-- A2 Ads -->
-    <div class="card">
-      <h3><span class="pill pill-hot">A2 🔥</span> Купить/оплатить &mdash; объявления</h3>
-
-      <div class="ad">
-        <div class="ad-title">ChatGPT без подписки &mdash; платите за запрос</div>
-        <div class="ad-title2">От 2 ₽. Рубли, СБП. Без VPN</div>
-        <div class="ad-text">Не нужна подписка на $20/мес. Пополните баланс от 300 ₽ &mdash; пользуйтесь ChatGPT, Claude и 100+ моделями. Pay-as-you-go: платите только за использование. Баланс не сгорает.</div>
-        <div class="ad-links"><span>Пополнить баланс</span><span>Все модели</span><span>Цены за запрос</span><span>Начать бесплатно</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">Зачем $20/мес? ChatGPT от 2 ₽ за запрос</div>
-        <div class="ad-title2">Без подписки. Без VPN. Без иностранных карт</div>
-        <div class="ad-text">Пополните баланс рублями &mdash; ChatGPT, Claude, Midjourney в одном кабинете. Платите только за использование. СБП, карты РФ.</div>
-        <div class="ad-links"><span>Пополнить сейчас</span><span>Сравнить с подпиской</span><span>100+ моделей</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">Оплатить ChatGPT из России &mdash; просто</div>
-        <div class="ad-title2">СБП, карта РФ. Без VPN</div>
-        <div class="ad-text">Забудьте про иностранные карты. Пополняете баланс в рублях, пользуетесь ChatGPT и ещё 100 моделями. Баланс не сгорает, подписка не нужна.</div>
-        <div class="ad-links"><span>Пополнить баланс</span><span>Как это работает</span><span>Цены</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">ChatGPT Plus из России &mdash; есть альтернатива лучше</div>
-        <div class="ad-title2">Pay-as-you-go: платите только за запросы</div>
-        <div class="ad-text">Зачем переплачивать за подписку? Те же модели, но платите только когда пользуетесь. От 2 ₽ за запрос. Рубли, СБП.</div>
-        <div class="ad-links"><span>Сравнить с Plus</span><span>Все модели</span><span>Начать</span></div>
-      </div>
-    </div>
-
-    <!-- A3 Ads -->
-    <div class="card">
-      <h3><span class="pill">A3</span> Без VPN + агрегатор &mdash; объявления</h3>
-
-      <div class="ad">
-        <div class="ad-title">100+ нейросетей без VPN &mdash; от 2 ₽ за запрос</div>
-        <div class="ad-title2">ChatGPT, Claude, Midjourney в одном месте</div>
-        <div class="ad-text">Агрегатор нейросетей: все модели в одном кабинете. Работает из России напрямую. Оплата рублями (СБП/карта). Без подписок &mdash; платите только за использование.</div>
-        <div class="ad-links"><span>Все модели</span><span>Цены</span><span>Попробовать бесплатно</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">Все нейросети в одном кабинете &mdash; без VPN</div>
-        <div class="ad-title2">ChatGPT + Claude + Midjourney + ещё 100</div>
-        <div class="ad-text">Один аккаунт, один баланс. Работает из России, оплата в рублях. Подписка не нужна &mdash; пополняете баланс и пользуетесь.</div>
-        <div class="ad-links"><span>Список моделей</span><span>Как работает</span><span>Начать</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">Агрегатор нейросетей &mdash; российский, без VPN</div>
-        <div class="ad-title2">Pay-as-you-go. Рубли. Баланс не сгорает</div>
-        <div class="ad-text">100+ моделей ИИ: текст, картинки, код, видео. Оплата через СБП или карту РФ. Баланс не сгорает &mdash; пользуйтесь когда нужно.</div>
-        <div class="ad-links"><span>Все модели</span><span>Пополнить</span><span>FAQ</span></div>
-      </div>
-    </div>
-
-    <!-- A4 Ads -->
-    <div class="card">
-      <h3><span class="pill pill-hot">A4 🔥</span> Claude в России &mdash; объявления</h3>
-
-      <div class="ad">
-        <div class="ad-title">Claude AI в России &mdash; от 2 ₽ за запрос</div>
-        <div class="ad-title2">Без подписки. Рубли. Без VPN</div>
-        <div class="ad-text">Claude Pro, Code и другие версии &mdash; без подписки и иностранных карт. Пополните баланс, пользуйтесь когда нужно. Баланс не сгорает. + ChatGPT, Midjourney и 100 других моделей.</div>
-        <div class="ad-links"><span>Claude Pro</span><span>Все модели</span><span>Цены</span><span>Начать бесплатно</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">Claude без подписки &mdash; pay-as-you-go</div>
-        <div class="ad-title2">Opus, Sonnet, Code &mdash; все версии доступны</div>
-        <div class="ad-text">Не нужна подписка на $20/мес. Пополните баланс в рублях (СБП) и пользуйтесь Claude + 100 другими моделями. Работает из РФ без VPN.</div>
-        <div class="ad-links"><span>Попробовать Claude</span><span>Сравнить цены</span><span>Все модели</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">Claude Code из России &mdash; без VPN</div>
-        <div class="ad-title2">Для разработчиков. Рубли, СБП</div>
-        <div class="ad-text">Подключите Claude Code через Neurogate: оплата в рублях, без VPN, без иностранных карт. Pay-as-you-go &mdash; платите только за использование.</div>
-        <div class="ad-links"><span>Claude Code</span><span>API доступ</span><span>Цены</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">Оплатить Claude AI из России &mdash; легко</div>
-        <div class="ad-title2">СБП, карта РФ. От 300 ₽</div>
-        <div class="ad-text">Забудьте про иностранные карты и VPN. Пополняете баланс &mdash; пользуетесь Claude и 100+ моделями. Подписка не нужна.</div>
-        <div class="ad-links"><span>Пополнить баланс</span><span>Все модели</span><span>FAQ</span></div>
-      </div>
-    </div>
-
-    <!-- A5 Ads -->
-    <div class="card">
-      <h3><span class="pill">A5</span> Аналоги ChatGPT &mdash; объявления</h3>
-
-      <div class="ad">
-        <div class="ad-title">Альтернатива ChatGPT &mdash; 100+ моделей</div>
-        <div class="ad-title2">Без VPN. Рубли. Pay-as-you-go</div>
-        <div class="ad-text">ChatGPT + Claude + Midjourney + ещё 100 моделей. Один кабинет, оплата в рублях. Без подписок: платите от 2 ₽ за запрос. Старт бесплатно.</div>
-        <div class="ad-links"><span>Все модели</span><span>Цены</span><span>Начать бесплатно</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">Лучше чем ChatGPT &mdash; все нейросети сразу</div>
-        <div class="ad-title2">100+ моделей в одном кабинете</div>
-        <div class="ad-text">Зачем одна модель, когда можно все? ChatGPT, Claude, Midjourney и другие. Работает из РФ, оплата в рублях, без подписок.</div>
-        <div class="ad-links"><span>Сравнить модели</span><span>Попробовать</span><span>Цены</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">OpenAI в России &mdash; через Neurogate</div>
-        <div class="ad-title2">GPT-4o, GPT-5, DALL-E и другие</div>
-        <div class="ad-text">Легальный доступ к моделям OpenAI из России. Без VPN, оплата в рублях. Pay-as-you-go &mdash; баланс не сгорает.</div>
-        <div class="ad-links"><span>OpenAI модели</span><span>Начать</span><span>Цены</span></div>
-      </div>
-    </div>
-
-    <!-- Уточнения и быстрые ссылки -->
-    <div class="card" style="margin-top:8px">
-      <h3>Уточнения и быстрые ссылки (для всех B2C объявлений)</h3>
-      <div class="grid">
-        <div>
-          <p><b>Уточнения (Callout Extensions):</b></p>
-          <ul class="list">
-            <li>Без VPN</li>
-            <li>Оплата в рублях</li>
-            <li>100+ моделей</li>
-            <li>Баланс не сгорает</li>
-            <li>Старт бесплатно</li>
-            <li>СБП и карты РФ</li>
-            <li>Pay-as-you-go</li>
-            <li>Без подписок</li>
-          </ul>
-        </div>
-        <div>
-          <p><b>Быстрые ссылки (Sitelinks):</b></p>
-          <ul class="list">
-            <li><b>Все модели</b> &rarr; /neurogate#models</li>
-            <li><b>Цены</b> &rarr; /neurogate#pricing</li>
-            <li><b>Примеры использования</b> &rarr; /neurogate/examples</li>
-            <li><b>Начать бесплатно</b> &rarr; /neurogate#start</li>
-            <li><b>FAQ</b> &rarr; /neurogate#faq</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="hr"></div>
-
-    <!-- ============================================ -->
-    <!-- 7. AD COPY — B2B -->
-    <!-- ============================================ -->
-    <div class="section-header" id="ads-b2b">
-      <span class="section-num">7</span>
-      <h2 style="margin:0">Ad Copy Pack &mdash; B2B</h2>
-    </div>
-
-    <!-- B1 Ads -->
-    <div class="card">
-      <h3><span class="pill pill-b2b">B1</span> Нейросети для бизнеса &mdash; объявления</h3>
-
-      <div class="ad">
-        <div class="ad-title">AI для бизнеса &mdash; API в рублях</div>
-        <div class="ad-title2">ChatGPT, Claude, Midjourney API из РФ</div>
-        <div class="ad-text">Единый API к 100+ моделям. Оплата юрлицом в рублях. Контроль бюджетов и лимитов для команды. Без VPN, без иностранных карт. Pay-as-you-go.</div>
-        <div class="ad-links"><span>API документация</span><span>Цены</span><span>Для команд</span><span>Оставить заявку</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">Нейросети для бизнеса &mdash; один кабинет</div>
-        <div class="ad-title2">100+ моделей. Оплата от юрлица</div>
-        <div class="ad-text">ChatGPT, Claude, Midjourney для вашей команды. Контроль расходов, лимиты по сотрудникам. Акты, счёт-фактура. Работает из РФ.</div>
-        <div class="ad-links"><span>Для бизнеса</span><span>Тарифы</span><span>Оставить заявку</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">AI-инструменты для команды &mdash; без VPN</div>
-        <div class="ad-title2">Контроль расходов. Рубли. Акты</div>
-        <div class="ad-text">Подключите 100+ нейросетей для вашего бизнеса. Единый кабинет с разграничением прав. Оплата юрлицом, закрывающие документы.</div>
-        <div class="ad-links"><span>Демо</span><span>Цены</span><span>Заявка</span></div>
-      </div>
-    </div>
-
-    <!-- B2 Ads -->
-    <div class="card">
-      <h3><span class="pill pill-b2b">B2</span> API нейросетей &mdash; объявления</h3>
-
-      <div class="ad">
-        <div class="ad-title">OpenAI / Claude API из России</div>
-        <div class="ad-title2">Оплата юрлицом. Без VPN</div>
-        <div class="ad-text">Подключите API ChatGPT, Claude, Midjourney для вашего продукта. Оплата в рублях от юрлица. Акты, счёт-фактура. Единый ключ ко всем моделям.</div>
-        <div class="ad-links"><span>API документация</span><span>Цены</span><span>Подключить</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">API ChatGPT в России &mdash; единый ключ</div>
-        <div class="ad-title2">100+ моделей через один API</div>
-        <div class="ad-text">Один API-ключ &mdash; доступ к ChatGPT, Claude, Midjourney и другим. Оплата в рублях, pay-as-you-go. Документация на русском.</div>
-        <div class="ad-links"><span>Документация</span><span>Модели</span><span>Начать</span></div>
-      </div>
-
-      <div class="ad">
-        <div class="ad-title">API нейросетей &mdash; рубли, без VPN</div>
-        <div class="ad-title2">OpenAI, Anthropic, Stability &mdash; один ключ</div>
-        <div class="ad-text">Единый API к лучшим моделям ИИ. Работает из РФ. Оплата юрлицом, акты. Pay-as-you-go &mdash; платите за использование.</div>
-        <div class="ad-links"><span>Все модели API</span><span>Цены</span><span>Заявка</span></div>
-      </div>
-    </div>
-
-    <!-- B2B Уточнения -->
-    <div class="card" style="margin-top:8px">
-      <h3>Уточнения и быстрые ссылки (для всех B2B объявлений)</h3>
-      <div class="grid">
-        <div>
-          <p><b>Уточнения:</b></p>
-          <ul class="list">
-            <li>Оплата юрлицом</li>
-            <li>Акты и счёт-фактура</li>
-            <li>Единый API</li>
-            <li>Контроль расходов</li>
-            <li>Без VPN</li>
-            <li>100+ моделей</li>
-            <li>Pay-as-you-go</li>
-          </ul>
-        </div>
-        <div>
-          <p><b>Быстрые ссылки:</b></p>
-          <ul class="list">
-            <li><b>API документация</b> &rarr; /neurogate/business#api</li>
-            <li><b>Цены</b> &rarr; /neurogate/business#pricing</li>
-            <li><b>Для команд</b> &rarr; /neurogate/business#teams</li>
-            <li><b>Оставить заявку</b> &rarr; /neurogate/business#contact</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="hr"></div>
-
-    <!-- ============================================ -->
-    <!-- 8. NEGATIVE KEYWORDS -->
-    <!-- ============================================ -->
-    <div class="section-header" id="negatives">
-      <span class="section-num">8</span>
-      <h2 style="margin:0">Negative Keywords (Минус-слова)</h2>
-    </div>
-
-    <div class="grid">
-      <div class="card">
-        <h3>Глобальные (на обе кампании)</h3>
-        <div class="copy-wrap">
-          <div class="k" id="neg-global">скачать бесплатно
-apk
-торрент
-взлом
-кряк
-crack
-key генератор
-своими руками
-курсовая
-диплом
-реферат
-сочинение
-эссе
-контрольная
-домашка
-гдз
-егэ
-огэ
-студент
-школьник
-антиплагиат
-отменить подписку
-вернуть деньги
-удалить аккаунт
-жалоба
-мошенники
-обман
-восстановить пароль
-не работает
-ошибка
-заблокировали</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Дополнительные для B2C (Кампания A)</h3>
-        <div class="copy-wrap">
-          <div class="k" id="neg-b2c">алиса
-шедеврум
-яндекс арт
-kandinsky
-gigachat
-yandex gpt
-бесплатный ключ</div>
-        </div>
-        <p class="muted" style="margin-top:10px">Минус-слова на B2C отсекают запросы про российские аналоги (Яндекс, Сбер) &mdash; у нас другая аудитория.</p>
-
-        <h3 style="margin-top:16px">Дополнительные для B2B (Кампания B)</h3>
-        <div class="copy-wrap">
-          <div class="k" id="neg-b2b">обучение
-курсы
-вакансии
-стажировка
-работа
-зарплата</div>
-        </div>
-        <p class="muted" style="margin-top:10px">B2B минуса отсекают HR/образовательные запросы.</p>
-      </div>
-    </div>
-
-    <p class="muted" style="margin-top:12px">Добавляйте минус-слова по отчёту &laquo;Поисковые запросы&raquo; через 24&ndash;48 часов после старта. Первую неделю &mdash; ежедневно.</p>
-
-    <div class="hr"></div>
-
-    <!-- ============================================ -->
-    <!-- 9. SETTINGS CHECKLIST -->
-    <!-- ============================================ -->
-    <div class="section-header" id="settings">
-      <span class="section-num">9</span>
-      <h2 style="margin:0">Settings Checklist (Настройки в Директе)</h2>
-    </div>
-
-    <div class="card">
-      <table class="tbl">
-        <tr><th style="width:200px">Параметр</th><th>Значение</th></tr>
-        <tr><td><b>Тип кампании</b></td><td>Текстово-графические объявления &rarr; Поиск</td></tr>
-        <tr><td><b>Регион</b></td><td>Вся Россия (можно уточнить через 2 недели по данным)</td></tr>
-        <tr><td><b>Устройства</b></td><td>Все устройства. Корректировка: мобильные -0% (оценить через неделю)</td></tr>
-        <tr><td><b>Расписание</b></td><td>Круглосуточно. Если бюджет ограничен &mdash; с 8:00 до 23:00 (МСК)</td></tr>
-        <tr><td><b>Стратегия (старт)</b></td><td>&laquo;Максимум кликов&raquo; с дневным лимитом</td></tr>
-        <tr><td><b>Стратегия (после 50 конверсий)</b></td><td>&laquo;Максимум конверсий&raquo; &rarr; оплата за конверсию (CPA)</td></tr>
-        <tr><td><b>Счётчик Метрики</b></td><td>Привязать к кампании. Цель: <code>topup</code></td></tr>
-        <tr><td><b>Минус-фразы</b></td><td>Добавить на уровне кампании (см. <a href="#negatives">секция 8</a>)</td></tr>
-        <tr><td><b>Корректировки ставок</b></td><td>Возраст &lt;18: &minus;100%. Целевая аудитория: +20% (после накопления)</td></tr>
-        <tr><td><b>Расширенный геотаргетинг</b></td><td>Включить (показ пользователям, интересующимся регионом)</td></tr>
-        <tr><td><b>Автоприменение рекомендаций</b></td><td>Выключить (первые 2 недели контролируем вручную)</td></tr>
-        <tr><td><b>Показ по доп. релевантным фразам</b></td><td>Выключить</td></tr>
-        <tr><td><b>UTM-метки</b></td><td>Добавить шаблон (см. <a href="#utm">секция 10</a>)</td></tr>
-      </table>
-    </div>
-
-    <div class="hr"></div>
-
-    <!-- ============================================ -->
-    <!-- 10. UTM + ANALYTICS -->
-    <!-- ============================================ -->
-    <div class="section-header" id="utm">
-      <span class="section-num">10</span>
-      <h2 style="margin:0">UTM Template + Аналитика</h2>
-    </div>
-
-    <div class="card">
-      <h3>UTM-шаблон</h3>
-      <div class="copy-wrap">
-        <div class="k" id="utm-template">?utm_source=yandex&amp;utm_medium=cpc&amp;utm_campaign={campaign_name}&amp;utm_content={ad_group_name}&amp;utm_term={keyword}</div>
-      </div>
-      <p class="muted" style="margin-top:8px">Добавить в настройках кампании &rarr; &laquo;Ссылка на сайт&raquo;. Подставляется автоматически.</p>
-    </div>
-
-    <div class="card" style="margin-top:16px">
-      <h3>Что смотреть в Метрике</h3>
-      <div class="grid">
-        <div>
-          <h3 style="font-size:15px">Ежедневно (первая неделя)</h3>
-          <ul class="list">
-            <li><b>Отчёт &laquo;Поисковые запросы&raquo;</b> &mdash; основной инструмент. Минусуем мусор, добавляем релевантные ключи.</li>
-            <li><b>Конверсии по целям</b> &mdash; registration, topup. Считаем CR и CPL.</li>
-            <li><b>Расход по группам</b> &mdash; куда уходит бюджет, какие группы кликабельны.</li>
-          </ul>
-        </div>
-        <div>
-          <h3 style="font-size:15px">Еженедельно</h3>
-          <ul class="list">
-            <li><b>Цена цели (CPL)</b> &mdash; по каждой группе. Паузим группы с CPL &gt; 500 ₽.</li>
-            <li><b>CTR по объявлениям</b> &mdash; отключаем варианты с CTR &lt; 3%.</li>
-            <li><b>Вебвизор</b> &mdash; как пользователи ведут себя на лендинге после клика.</li>
-            <li><b>Устройства/гео</b> &mdash; корректировки ставок по данным.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="hr"></div>
-
-    <!-- ============================================ -->
-    <!-- 11. 7-DAY OPTIMIZATION PLAN -->
-    <!-- ============================================ -->
-    <div class="section-header" id="optimization">
-      <span class="section-num">11</span>
-      <h2 style="margin:0">7-Day Optimization Plan</h2>
-    </div>
-
-    <div class="card">
-      <div class="timeline">
-        <div class="timeline-item">
-          <h4>D1 &mdash; Запуск</h4>
-          <ul class="list">
-            <li>Создать 2 кампании (A: B2C, B: B2B) по настройкам выше</li>
-            <li>Загрузить ключи по группам (A1&ndash;A5, B1&ndash;B2)</li>
-            <li>Добавить минус-слова (глобальные + по кампании)</li>
-            <li>Добавить объявления (минимум 2 варианта на группу для A/B)</li>
-            <li>Проверить UTM-метки, привязку Метрики</li>
-            <li>Запустить. Проверить через 2 часа: клики идут, CTR адекватный.</li>
-          </ul>
-        </div>
-
-        <div class="timeline-item">
-          <h4>D2 &mdash; Первая чистка</h4>
-          <ul class="list">
-            <li>Отчёт &laquo;Поисковые запросы&raquo; &mdash; добавить минус-слова (нерелевантные запросы)</li>
-            <li>Проверить: нет ли аномально дорогих кликов</li>
-            <li>Проверить: мобильный трафик &mdash; адекватный CTR/CR?</li>
-          </ul>
-        </div>
-
-        <div class="timeline-item">
-          <h4>D3 &mdash; Оптимизация объявлений</h4>
-          <ul class="list">
-            <li>Повторная чистка поисковых запросов</li>
-            <li>Если есть варианты объявлений с CTR &lt; 2% &mdash; заменить</li>
-            <li>Оценить: какие группы дают клики? Перераспределить бюджет внутри кампании.</li>
-            <li>Добавить найденные в отчёте релевантные ключи, которых не было.</li>
-          </ul>
-        </div>
-
-        <div class="timeline-item">
-          <h4>D5 &mdash; Промежуточный анализ</h4>
-          <ul class="list">
-            <li>Считаем: CPL по каждой группе, средний CPC, CTR, конверсии</li>
-            <li>Группы с 0 конверсиями и высоким расходом &mdash; снизить ставки или пауза</li>
-            <li>Горячие группы (A2, A4) &mdash; если CPL хороший, можно увеличить бюджет</li>
-            <li>Добавить уточнения/быстрые ссылки, если ещё не добавлены</li>
-          </ul>
-        </div>
-
-        <div class="timeline-item">
-          <h4>D7 &mdash; Итоги первой недели</h4>
-          <ul class="list">
-            <li>Полный отчёт: расход, клики, CTR, конверсии, CPL по каждой группе</li>
-            <li>Решение: какие группы масштабировать, какие паузить</li>
-            <li>Если набрали 50+ конверсий &mdash; переключить стратегию на &laquo;Максимум конверсий&raquo;</li>
-            <li>Планировать: запуск РСЯ (неделя 3), ретаргетинг (неделя 3&ndash;4)</li>
-            <li>Обновить минус-слова (финальная чистка за неделю)</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="hr"></div>
-
-    <!-- ============================================ -->
-    <!-- 12. COMPETITORS -->
+    <!-- 2. КОНКУРЕНТЫ -->
     <!-- ============================================ -->
     <div class="section-header" id="competitors">
-      <span class="section-num">12</span>
-      <h2 style="margin:0">Конкуренты в рекламе</h2>
+      <span class="section-num">2</span>
+      <h2 style="margin:0">Шаг 1 &mdash; Посмотрели на конкурентов</h2>
+    </div>
+
+    <p style="margin-bottom:16px">Прежде чем писать объявления, мы изучили, кто уже работает на этом рынке.</p>
+
+    <div class="card">
+      <table class="tbl">
+        <tr><th>Конкурент</th><th>MAU</th><th>Модель оплаты</th></tr>
+        <tr><td><b>Chad AI</b></td><td>~1.5M</td><td>Подписка 290&ndash;990&#8239;&#8381;/мес + free tier</td></tr>
+        <tr><td><b>GPTunnel</b></td><td>~200K</td><td>Pay-as-you-go (баланс)</td></tr>
+        <tr><td><b>MashaGPT</b></td><td>~100K</td><td>Подписка 490&#8239;&#8381;/мес</td></tr>
+        <tr><td><b>ChatAIBot</b></td><td>~80K</td><td>Подписка 390&#8239;&#8381;/мес</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Что мы увидели</h3>
+      <ul class="list" style="font-size:15px">
+        <li>Все крупные игроки сидят на подписочной модели (290&ndash;990&#8239;&#8381;/мес)</li>
+        <li>В Яндекс.Директе почти никого &mdash; конкуренты продвигаются через SEO и контент</li>
+        <li>GPTunnel &mdash; единственный с pay-as-you-go, но у них пустой лендинг</li>
+        <li><b>Значит, в Директе &mdash; свободная ниша. Можно зайти первыми и дёшево.</b></li>
+      </ul>
+    </div>
+
+    <div class="hr"></div>
+
+    <!-- ============================================ -->
+    <!-- 3. ЧТО ИЩУТ ЛЮДИ -->
+    <!-- ============================================ -->
+    <div class="section-header" id="demand">
+      <span class="section-num">3</span>
+      <h2 style="margin:0">Шаг 2 &mdash; Изучили, что люди ищут</h2>
+    </div>
+
+    <p style="margin-bottom:16px">Мы открыли Яндекс Wordstat и проанализировали 80+ запросов. И увидели интересную картину.</p>
+    <p style="margin-bottom:20px">Оказалось, что людей можно разделить на три типа:</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <h3><span class="pill">Тип 1</span></h3>
+        <h3 style="margin-top:8px">&laquo;Хочу агрегатор&raquo;</h3>
+        <p class="muted" style="margin-bottom:8px">Уже понимают что хотят</p>
+        <p>Ищут &laquo;агрегатор нейросетей&raquo;, &laquo;все нейросети в одном месте&raquo;, &laquo;нейросети без vpn&raquo;.</p>
+        <p style="margin-top:8px;font-size:20px;font-weight:800;color:var(--purple)">~10 000</p>
+        <p class="muted">показов/мес</p>
+        <p class="muted" style="margin-top:8px">Мало, но горячие &mdash; эти люди ищут именно нас.</p>
+      </div>
+
+      <div class="card" style="border-color:#FDE68A;background:#FFFBEB">
+        <h3><span class="pill pill-hot">Тип 2</span></h3>
+        <h3 style="margin-top:8px">&laquo;Хочу ChatGPT/Claude из России&raquo;</h3>
+        <p class="muted" style="margin-bottom:8px">Знают конкретную модель, но не могут оплатить</p>
+        <p>Ищут &laquo;купить подписку chatgpt&raquo;, &laquo;claude подписка&raquo;, &laquo;как оплатить chatgpt из россии&raquo;.</p>
+        <p style="margin-top:8px;font-size:20px;font-weight:800;color:var(--amber)">~32 000</p>
+        <p class="muted">показов/мес</p>
+        <p class="muted" style="margin-top:8px">Много! Но есть риск: они хотят оригинал, а мы &mdash; альтернатива.</p>
+      </div>
+
+      <div class="card" style="border-color:#A7F3D0;background:#ECFDF5">
+        <h3><span class="pill pill-b2b">Тип 3</span></h3>
+        <h3 style="margin-top:8px">Бизнес</h3>
+        <p class="muted" style="margin-bottom:8px">Ищут решение для компании</p>
+        <p>Ищут &laquo;нейросеть для бизнеса&raquo;, &laquo;ии для компании&raquo;.</p>
+        <p style="margin-top:8px;font-size:20px;font-weight:800;color:var(--green)">~5 000</p>
+        <p class="muted">показов/мес</p>
+        <p class="muted" style="margin-top:8px">Мало, но если конвертят &mdash; высокий LTV.</p>
+      </div>
+    </div>
+
+    <div class="card card-purple" style="margin-top:16px">
+      <h3 style="color:#4C1D95">Главный инсайт</h3>
+      <p style="color:#4C1D95;font-size:15px">
+        Больше всего спроса на &laquo;подписку ChatGPT/Claude&raquo;. Люди готовы платить, но не могут.
+        Мы можем стать их решением &mdash; если честно объясним, что мы не перепродаём подписки, а даём доступ дешевле.
+      </p>
+    </div>
+
+    <div class="hr"></div>
+
+    <!-- ============================================ -->
+    <!-- 4. ТРИ ТРЕКА -->
+    <!-- ============================================ -->
+    <div class="section-header" id="tracks">
+      <span class="section-num">4</span>
+      <h2 style="margin:0">Шаг 3 &mdash; Решили, что тестируем</h2>
+    </div>
+
+    <p style="margin-bottom:20px">Мы не стали делать одну кампанию на всё. Разделили на три трека &mdash; чтобы понять, кто из трёх типов людей приносит деньги.</p>
+
+    <div class="card">
+      <h3><span class="pill">Трек 1</span> &laquo;Прямой match&raquo;</h3>
+      <p class="muted" style="margin-bottom:8px">Кампания NG_Direct_Match</p>
+      <p style="font-size:15px">
+        Для тех, кто уже ищет агрегатор. Самая простая история: человек ищет &mdash; мы отвечаем.
+        Наш месседж: <b>&laquo;Мы и есть то, что ты ищешь &mdash; 80+ моделей в одном кабинете&raquo;</b>.
+      </p>
+      <p style="margin-top:10px"><b>Ключевики:</b> агрегатор нейросетей, доступ к нейросетям, нейросети без vpn</p>
+      <p><b>Бюджет:</b> 500&#8239;&#8381;/день</p>
+    </div>
+
+    <div class="card" style="border-color:#FDE68A;background:#FFFBEB">
+      <h3><span class="pill pill-hot">Трек 2</span> &laquo;Перехват&raquo;</h3>
+      <p class="muted" style="margin-bottom:8px">Кампания NG_Intercept</p>
+      <p style="font-size:15px">
+        Для тех, кто хочет ChatGPT или Claude, но не может оплатить из России.
+        Мы перехватываем их запрос и предлагаем: <b>&laquo;Зачем подписка за $20/мес? У нас от 2&#8239;&#8381; за запрос&raquo;</b>.
+        Самый рискованный трек &mdash; человек может хотеть именно оригинал.
+      </p>
+      <p style="margin-top:10px"><b>Ключевики:</b> купить подписку chatgpt, claude подписка, midjourney в россии</p>
+      <p><b>Бюджет:</b> 500&#8239;&#8381;/день</p>
+    </div>
+
+    <div class="card" style="border-color:#A7F3D0;background:#ECFDF5">
+      <h3><span class="pill pill-b2b">Трек 3</span> &laquo;B2B&raquo;</h3>
+      <p class="muted" style="margin-bottom:8px">Кампания NG_B2B</p>
+      <p style="font-size:15px">
+        Для бизнеса. Месседж другой: <b>&laquo;Один кабинет для всей команды. Контроль расходов. Оплата от юрлица&raquo;</b>.
+      </p>
+      <p style="margin-top:10px"><b>Ключевики:</b> нейросеть для бизнеса, ии для компании</p>
+      <p><b>Бюджет:</b> 500&#8239;&#8381;/день</p>
+    </div>
+
+    <div class="hr"></div>
+
+    <!-- ============================================ -->
+    <!-- 5. ОБЪЯВЛЕНИЯ -->
+    <!-- ============================================ -->
+    <div class="section-header" id="ads">
+      <span class="section-num">5</span>
+      <h2 style="margin:0">Шаг 4 &mdash; Как писали объявления</h2>
+    </div>
+
+    <p style="margin-bottom:12px">У каждого объявления &mdash; конкретная задача: ответить на боль человека.</p>
+
+    <div class="card" style="margin-bottom:20px">
+      <h3>Принципы, которым мы следовали</h3>
+      <ul class="list" style="font-size:15px">
+        <li><b>&laquo;Не обещать того, чего нет&raquo;</b> &mdash; когда мы аудитили сайт, оказалось что Midjourney нет в каталоге. Убрали из объявлений. Честно написали &laquo;Альтернатива Midjourney: Flux, Seedream&raquo;.</li>
+        <li style="margin-top:8px"><b>&laquo;Фильтровать нецелевых сразу&raquo;</b> &mdash; в объявлениях для трека 2 пишем &laquo;Не перепродажа подписки&raquo;. Это отсекает людей, которые хотят купить чужой аккаунт &mdash; они бы всё равно не конвертнули.</li>
+        <li style="margin-top:8px"><b>&laquo;Говорить на языке выгоды&raquo;</b> &mdash; не &laquo;68 моделей, pay-as-you-go архитектура&raquo;, а &laquo;Зачем $20/мес? От 2&#8239;&#8381; за запрос. Баланс не сгорает.&raquo;</li>
+      </ul>
+    </div>
+
+    <p style="margin-bottom:16px;color:var(--gray-500);font-size:14px">Вот как выглядят наши объявления в выдаче Яндекса:</p>
+
+    <!-- Ad Example 1 — Track 1 -->
+    <div class="ad">
+      <div class="ad-url">ng-ai.ru</div>
+      <div class="ad-title">Агрегатор нейросетей &mdash; 80+ моделей | Рубли, СБП. Без VPN</div>
+      <div class="ad-text">ChatGPT, Claude, Gemini и ещё 80 моделей в одном кабинете. Работает из России. Оплата рублями. Pay-as-you-go от 2&#8239;&#8381;/запрос. Баланс не сгорает.</div>
+      <div class="ad-links"><span>Трек 1: Прямой match</span></div>
+    </div>
+
+    <!-- Ad Example 2 — Track 2 ChatGPT -->
+    <div class="ad">
+      <div class="ad-url">ng-ai.ru</div>
+      <div class="ad-title">ChatGPT в России &mdash; без подписки | От 2&#8239;&#8381;/запрос. Рубли</div>
+      <div class="ad-text">Не перепродажа подписки. Доступ к GPT и 100+ моделям через единый кабинет. Пополните от 500&#8239;&#8381; &mdash; платите за использование, не за месяц. Рубли, СБП.</div>
+      <div class="ad-links"><span>Трек 2: Перехват (ChatGPT)</span></div>
+    </div>
+
+    <!-- Ad Example 3 — Track 2 Claude -->
+    <div class="ad">
+      <div class="ad-url">ng-ai.ru</div>
+      <div class="ad-title">Claude AI в России &mdash; без подписки | От 2&#8239;&#8381;/запрос. Рубли</div>
+      <div class="ad-text">Не перепродажа подписки. Доступ к Claude и 100+ моделям через единый кабинет. Пополните от 500&#8239;&#8381; &mdash; платите за использование. Рубли, СБП. Баланс не сгорает.</div>
+      <div class="ad-links"><span>Трек 2: Перехват (Claude)</span></div>
+    </div>
+
+    <!-- Ad Example 4 — Track 3 B2B -->
+    <div class="ad">
+      <div class="ad-url">ng-ai.ru/business</div>
+      <div class="ad-title">AI для бизнеса &mdash; 80+ моделей в одном кабинете | Рубли</div>
+      <div class="ad-text">ChatGPT, Claude, Gemini для всей команды. Управление кабинетами сотрудников, контроль расходов. Оплата от юрлица. Без VPN.</div>
+      <div class="ad-links"><span>Трек 3: B2B</span></div>
+    </div>
+
+    <div class="hr"></div>
+
+    <!-- ============================================ -->
+    <!-- 6. МИНУС-СЛОВА -->
+    <!-- ============================================ -->
+    <div class="section-header" id="negatives">
+      <span class="section-num">6</span>
+      <h2 style="margin:0">Шаг 5 &mdash; Кого мы отсекаем (и почему)</h2>
+    </div>
+
+    <p style="margin-bottom:16px">Половина работы в Директе &mdash; не привлечь нужных, а отсечь ненужных. Мы составили список из 60+ минус-слов. Вот логика:</p>
+
+    <div class="card">
+      <div class="minus-group">
+        <div class="minus-icon">&#127891;</div>
+        <div class="minus-body">
+          <h4>&laquo;Студенты&raquo;</h4>
+          <p>Ищут &laquo;написать курсовую нейросетью&raquo;, &laquo;сочинение&raquo;, &laquo;ЕГЭ&raquo;. Не будут платить за инструмент.</p>
+        </div>
+      </div>
+
+      <div class="minus-group">
+        <div class="minus-icon">&#127988;&#8205;&#9760;&#65039;</div>
+        <div class="minus-body">
+          <h4>&laquo;Пираты&raquo;</h4>
+          <p>Ищут &laquo;скачать&raquo;, &laquo;торрент&raquo;, &laquo;взлом&raquo;, &laquo;кряк&raquo;. Ищут бесплатный доступ.</p>
+        </div>
+      </div>
+
+      <div class="minus-group">
+        <div class="minus-icon">&#128260;</div>
+        <div class="minus-body">
+          <h4>&laquo;Отказники&raquo;</h4>
+          <p>Ищут &laquo;отменить подписку&raquo;, &laquo;вернуть деньги&raquo;. Уже недовольны чем-то, не наша аудитория.</p>
+        </div>
+      </div>
+
+      <div class="minus-group">
+        <div class="minus-icon">&#127991;&#65039;</div>
+        <div class="minus-body">
+          <h4>&laquo;Охотники за скидками&raquo;</h4>
+          <p>Ищут &laquo;промокод&raquo;, &laquo;купон&raquo;, &laquo;бесплатно&raquo;. Не готовы платить полную цену.</p>
+        </div>
+      </div>
+
+      <div class="minus-group">
+        <div class="minus-icon">&#127970;</div>
+        <div class="minus-body">
+          <h4>&laquo;Чужие бренды&raquo;</h4>
+          <p>Ищут &laquo;алиса&raquo;, &laquo;gigachat&raquo;, &laquo;яндекс арт&raquo;. Ищут конкретный конкурентный продукт.</p>
+        </div>
+      </div>
+
+      <div class="minus-group">
+        <div class="minus-icon">&#128218;</div>
+        <div class="minus-body">
+          <h4>&laquo;Информационщики&raquo;</h4>
+          <p>Ищут &laquo;обзор&raquo;, &laquo;что такое&raquo;, &laquo;сравнение&raquo;. Пока изучают, не готовы действовать.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-purple">
+      <p style="color:#4C1D95;font-size:15px">
+        Каждое минус-слово экономит деньги. Если не отсечь студентов, половина бюджета уйдёт на клики людей, которые никогда не пополнят баланс.
+      </p>
+    </div>
+
+    <div class="hr"></div>
+
+    <!-- ============================================ -->
+    <!-- 7. ОЖИДАНИЯ -->
+    <!-- ============================================ -->
+    <div class="section-header" id="expectations">
+      <span class="section-num">7</span>
+      <h2 style="margin:0">Что мы ожидаем</h2>
     </div>
 
     <div class="card">
       <table class="tbl">
-        <tr><th>Конкурент</th><th>Модель</th><th>Особенности</th></tr>
-        <tr>
-          <td><b>Study AI / Study 24</b></td>
-          <td>Подписка</td>
-          <td>Лидер рынка. Сильное SEO, контент на DTF/vc.ru. Большая пользовательская база.</td>
-        </tr>
-        <tr>
-          <td><b>Chad AI</b></td>
-          <td>Подписка + free tier</td>
-          <td>Автоподбор модели. Акцент на простоте. Агрессивная реклама.</td>
-        </tr>
-        <tr>
-          <td><b>SigmaChat</b></td>
-          <td>Freemium</td>
-          <td>Бесплатный старт, лимиты на free. Привлекает начинающих пользователей.</td>
-        </tr>
-        <tr>
-          <td><b>LeinGPT</b></td>
-          <td>Подписка</td>
-          <td>Фокус на UX. Небольшая аудитория.</td>
-        </tr>
-        <tr>
-          <td><b>Посредники (vc.ru)</b></td>
-          <td>Перепродажа подписок</td>
-          <td>Продают подписки ChatGPT Plus за рубли. Серая зона &mdash; нет гарантий.</td>
-        </tr>
+        <tr><th>Трек</th><th>Бюджет (14 дней)</th><th>Что проверяем</th></tr>
+        <tr><td><b>Прямой match</b></td><td>7&nbsp;000&#8239;&#8381;</td><td>Конвертят ли те, кто ищет агрегатор?</td></tr>
+        <tr><td><b>Перехват</b></td><td>7&nbsp;000&#8239;&#8381;</td><td>Готовы ли люди платить за альтернативу ChatGPT/Claude?</td></tr>
+        <tr><td><b>B2B</b></td><td>7&nbsp;000&#8239;&#8381;</td><td>Есть ли бизнес-спрос по этим ключам?</td></tr>
       </table>
+    </div>
 
-      <div class="card-purple" style="margin-top:16px;border-radius:12px;padding:16px 18px">
-        <h3 style="color:#4C1D95;margin-bottom:8px">Чем Neurogate отличается</h3>
-        <ul class="list" style="color:#4C1D95">
-          <li><b>Pay-as-you-go</b> &mdash; не подписка. Платишь только когда пользуешься, баланс не сгорает.</li>
-          <li><b>100+ моделей</b> &mdash; не только ChatGPT. Claude, Midjourney, DALL-E, Sora и другие в одном кабинете.</li>
-          <li><b>Прозрачные цены</b> &mdash; от 2 ₽ за запрос. Нет скрытых комиссий.</li>
-          <li><b>Бесплатный старт</b> &mdash; можно попробовать без пополнения.</li>
-          <li><b>СБП / карта РФ</b> &mdash; простая оплата без иностранных карт.</li>
-          <li><b>B2B: оплата юрлицом</b> &mdash; акты, счёт-фактура, контроль расходов.</li>
-        </ul>
+    <div class="card card-purple">
+      <p style="color:#4C1D95;font-size:15px">
+        <b>Главный вопрос:</b> какой трек приносит регистрации и пополнения? Ответ определит, куда мы масштабируем бюджет.
+      </p>
+    </div>
+
+    <div class="hr"></div>
+
+    <!-- ============================================ -->
+    <!-- 8. СТАТУС -->
+    <!-- ============================================ -->
+    <div class="section-header" id="status">
+      <span class="section-num">8</span>
+      <h2 style="margin:0">Статус: где мы сейчас</h2>
+    </div>
+
+    <div class="card">
+      <ul class="checklist">
+        <li><span style="color:var(--green);font-size:18px">&#10003;</span> 3 кампании загружены в Яндекс.Директ</li>
+        <li><span style="color:var(--green);font-size:18px">&#10003;</span> Все прошли модерацию</li>
+        <li><span style="color:var(--green);font-size:18px">&#10003;</span> Метрика установлена, 6 целей настроены</li>
+        <li><span style="color:var(--green);font-size:18px">&#10003;</span> Вебвизор включён</li>
+        <li><span style="color:var(--amber);font-size:18px">&#9646;&#9646;</span> Кампании выключены &mdash; ждут запуска</li>
+      </ul>
+    </div>
+
+    <div class="hr"></div>
+
+    <!-- ============================================ -->
+    <!-- 9. ЧТО ДАЛЬШЕ -->
+    <!-- ============================================ -->
+    <div class="section-header" id="next">
+      <span class="section-num">9</span>
+      <h2 style="margin:0">Что дальше &mdash; кампания #2</h2>
+    </div>
+
+    <p style="margin-bottom:12px">
+      Пока мы тестируем кампанию #1 (доступ к моделям), мы уже готовим кампанию #2 &mdash; принципиально другой подход.
+    </p>
+
+    <div class="card">
+      <p style="font-size:15px">
+        <b>Кампания #1</b> нацелена на людей, которые <b>знают</b> про нейросети и ищут доступ.<br>
+        <b>Кампания #2</b> нацелена на людей, которые ищут <b>решение задачи</b> &mdash; и могут даже не знать, что нейросеть им поможет.
+      </p>
+    </div>
+
+    <div class="grid" style="margin-bottom:20px">
+      <div class="card" style="text-align:center">
+        <p class="muted">Кампания #1</p>
+        <p style="font-size:28px;font-weight:800;color:var(--gray-900)">~47 000</p>
+        <p class="muted">показов/мес</p>
+      </div>
+      <div class="card card-purple" style="text-align:center">
+        <p style="color:#4C1D95;font-size:13px;font-weight:600">Кампания #2</p>
+        <p style="font-size:28px;font-weight:800;color:#4C1D95">~1 560 000</p>
+        <p style="color:#4C1D95;font-size:14px">показов/мес (в 30 раз больше!)</p>
       </div>
     </div>
+
+    <div class="grid-3" style="grid-template-columns:1fr;gap:12px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:12px">
+        <div class="task-card">
+          <h4>Оживить фото</h4>
+          <div class="volume">720K</div>
+          <div class="status" style="color:var(--green)">&#10003; лендинг готов</div>
+        </div>
+        <div class="task-card">
+          <h4>Улучшить качество фото</h4>
+          <div class="volume">578K</div>
+          <div class="status" style="color:var(--amber)">в работе</div>
+        </div>
+        <div class="task-card">
+          <h4>Убрать фон с фото</h4>
+          <div class="volume">146K</div>
+          <div class="status" style="color:var(--amber)">в работе</div>
+        </div>
+        <div class="task-card">
+          <h4>Карточки для WB/Ozon</h4>
+          <div class="volume">12K</div>
+          <div class="status" style="color:var(--amber)">в работе</div>
+        </div>
+        <div class="task-card">
+          <h4>Видео-открытка</h4>
+          <div class="volume">100K</div>
+          <div class="status" style="color:var(--amber)">в работе</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="muted" style="margin-top:16px">Подробнее о кампании #2 &mdash; в следующей презентации.</p>
 
     <!-- Footer -->
     <div class="footer">
       <p><a href="/neurogate/">Neurogate &mdash; главная</a> &middot; <a href="/neurogate/business/">Для бизнеса</a> &middot; <a href="/neurogate/examples/">Примеры</a></p>
-      <p style="margin-top:8px">Источник частотностей: Yandex Wordstat (снято 2026-03-26). На странице нет токенов/ключей.</p>
-      <p style="margin-top:4px">Последнее обновление: 2026-03-26</p>
+      <p style="margin-top:12px">Подготовлено: Claude Code (COO) &times; Макс, апрель 2026</p>
+      <p style="margin-top:4px">Вопросы, критика, идеи &mdash; пишите, обсудим</p>
     </div>
 
   </div>
