@@ -1,3 +1,6 @@
 
 # Local ops logs
 news/daily-update.log
+
+# Media files (hosted externally, too heavy for git)
+news/media/
