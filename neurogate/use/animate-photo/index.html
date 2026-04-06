@@ -274,107 +274,67 @@ details p{margin-top:.75rem;font-size:.875rem;line-height:1.7;color:var(--gray-5
   </div>
 </section>
 
-<!-- ═══ Step-by-step tutorial ═══ -->
+<!-- ═══ How to ═══ -->
 <section class="section section-brand" id="how-to">
   <div class="container">
     <div class="section-header">
-      <h2>Пошаговая инструкция</h2>
-      <p>Даже если вы никогда не работали с нейросетями</p>
+      <h2>Как оживить фото</h2>
+      <p>Три шага — справится любой</p>
     </div>
 
-    <div class="tutorial-step">
-      <div class="tutorial-step-header"><div class="step-num">1</div><h3>Зарегистрируйтесь</h3></div>
-      <div class="tutorial-step-body">
-        <p>Перейдите на <a href="https://ng-ai.ru/register" class="link">ng-ai.ru</a> и нажмите <strong>«Зарегистрироваться»</strong>. Введите email и пароль — всё, аккаунт готов. Карта не нужна.</p>
+    <div class="cards-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card" style="background:var(--gray-100);border:none">
+        <div class="step-num" style="margin-bottom:.75rem">1</div>
+        <h3>Зарегистрируйтесь и пополните баланс</h3>
+        <p>Email и пароль на <a href="https://ng-ai.ru/register" class="link" style="color:var(--brand-600);text-decoration:underline">ng-ai.ru</a>. Пополнение от 500 ₽ через СБП или карту.</p>
+      </div>
+      <div class="card" style="background:var(--gray-100);border:none">
+        <div class="step-num" style="margin-bottom:.75rem">2</div>
+        <h3>Откройте «Видео» и загрузите фото</h3>
+        <p>Переключитесь на вкладку «Видео», выберите модель (рекомендуем Seedance 1.0 lite), прикрепите фото.</p>
+      </div>
+      <div class="card" style="background:var(--brand-200);border:none">
+        <div class="step-num" style="margin-bottom:.75rem">3</div>
+        <h3>Вставьте промпт и отправьте</h3>
+        <p>Скопируйте готовый промпт ниже, вставьте в поле ввода и нажмите отправить. Результат — через 30 секунд.</p>
       </div>
     </div>
 
-    <div class="tutorial-step">
-      <div class="tutorial-step-header"><div class="step-num">2</div><h3>Пополните баланс</h3></div>
-      <div class="tutorial-step-body">
-        <p>В кабинете нажмите <strong>«Баланс» → «Пополнить»</strong>. Минимум 500 ₽. Оплата через СБП или банковскую карту. Баланс не сгорает.</p>
-      </div>
-    </div>
+    <!-- ── Prompts ── -->
+    <div style="margin-top:3rem">
+      <h3 style="font-size:1.25rem;font-weight:700;color:var(--gray-900);text-align:center;margin-bottom:1.5rem">Готовые промпты — скопируйте нужный</h3>
 
-    <div class="tutorial-step">
-      <div class="tutorial-step-header"><div class="step-num">3</div><h3>Перейдите в режим «Видео»</h3></div>
-      <div class="tutorial-step-body">
-        <p>В верхней части кабинета переключите режим на <strong>«Видео»</strong> (вкладка с иконкой камеры). Здесь вы будете создавать видео из фото.</p>
-      </div>
-    </div>
-
-    <div class="tutorial-step">
-      <div class="tutorial-step-header"><div class="step-num">4</div><h3>Выберите модель</h3></div>
-      <div class="tutorial-step-body">
-        <p>Нажмите на селектор модели и выберите одну из рекомендованных:</p>
-        <div class="tutorial-models">
-          <div class="tutorial-model-card">
-            <strong>Seedance 1.0 lite</strong><span class="tag tag-best">Лучший старт</span>
-            <p>101 ₽ за видео. Быстро, хорошее качество. Рекомендуем начать с этой.</p>
-          </div>
-          <div class="tutorial-model-card">
-            <strong>Grok Imagine Video</strong><span class="tag tag-cheap">Самая дешёвая</span>
-            <p>72 ₽ за видео. Подойдёт для первых экспериментов.</p>
-          </div>
-          <div class="tutorial-model-card">
-            <strong>Kling 1.6 Pro</strong><span class="tag tag-quality">Реализм</span>
-            <p>122 ₽ за видео. Лучше всего для портретов и лиц.</p>
-          </div>
+      <div class="prompt-examples" style="max-width:40rem;margin:0 auto">
+        <div class="prompt-card">
+          <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Портрет или селфи</div>
+          <div class="prompt-text" onclick="copyPrompt(this)">Человек медленно поворачивает голову, мягко улыбается и естественно моргает. Мягкое естественное освещение, кинематографичное качество.</div>
+          <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
         </div>
-      </div>
-    </div>
-
-    <div class="tutorial-step">
-      <div class="tutorial-step-header"><div class="step-num">5</div><h3>Загрузите фото и напишите промпт</h3></div>
-      <div class="tutorial-step-body">
-        <p>Нажмите <strong>иконку скрепки</strong> или перетащите фото в поле ввода. Затем напишите, что должно происходить на видео.</p>
-        <p style="margin-top:1rem;font-weight:600;color:var(--gray-900)">Готовые промпты — скопируйте и вставьте:</p>
-
-        <div class="prompt-examples">
-          <div class="prompt-card">
-            <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Для портрета или селфи</div>
-            <div class="prompt-text" onclick="copyPrompt(this)">Человек медленно поворачивает голову, мягко улыбается и естественно моргает. Мягкое естественное освещение, кинематографичное качество.</div>
-            <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
-          </div>
-          <div class="prompt-card">
-            <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Для старого семейного фото</div>
-            <div class="prompt-text" onclick="copyPrompt(this)">Люди на фотографии оживают — мягкие улыбки, лёгкие повороты головы, моргающие глаза. Тёплая винтажная атмосфера сохранена.</div>
-            <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
-          </div>
-          <div class="prompt-card">
-            <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="m2 2 20 20"/></svg>Для пейзажа или природы</div>
-            <div class="prompt-text" onclick="copyPrompt(this)">Сцена оживает — облака медленно плывут, вода мягко рябит, листья покачиваются на лёгком ветру. Спокойное, естественное движение.</div>
-            <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
-          </div>
-          <div class="prompt-card">
-            <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Для фото питомца</div>
-            <div class="prompt-text" onclick="copyPrompt(this)">Питомец двигается естественно — оглядывается с любопытством, моргает, слегка наклоняет голову. Мягкое размытие фона, тёплое освещение.</div>
-            <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
-          </div>
-          <div class="prompt-card">
-            <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Для видео-открытки</div>
-            <div class="prompt-text" onclick="copyPrompt(this)">Человек тепло улыбается и машет рукой в приветствии. Вокруг мерцающие праздничные частицы. Радостное, праздничное настроение.</div>
-            <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
-          </div>
+        <div class="prompt-card">
+          <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Старое семейное фото</div>
+          <div class="prompt-text" onclick="copyPrompt(this)">Люди на фотографии оживают — мягкие улыбки, лёгкие повороты головы, моргающие глаза. Тёплая винтажная атмосфера сохранена.</div>
+          <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
         </div>
-
-        <div class="prompt-tip">
-          <strong>Совет:</strong> Промпты выше подобраны для лучшего результата. Скопируйте нужный, вставьте в поле ввода рядом с фото и нажмите отправить.
+        <div class="prompt-card">
+          <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/></svg>Пейзаж или природа</div>
+          <div class="prompt-text" onclick="copyPrompt(this)">Сцена оживает — облака медленно плывут, вода мягко рябит, листья покачиваются на лёгком ветру. Спокойное, естественное движение.</div>
+          <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
         </div>
-      </div>
-    </div>
-
-    <div class="tutorial-step">
-      <div class="tutorial-step-header"><div class="step-num">6</div><h3>Нажмите «Отправить» и подождите</h3></div>
-      <div class="tutorial-step-body">
-        <p>Нажмите кнопку <strong>отправки</strong>. Генерация займёт 25–60 секунд в зависимости от модели. Вы увидите прогресс.</p>
-        <p style="margin-top:.5rem">Когда видео готово — нажмите на него для просмотра. Кнопка <strong>«Скачать»</strong> сохранит файл на ваше устройство.</p>
+        <div class="prompt-card">
+          <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Фото питомца</div>
+          <div class="prompt-text" onclick="copyPrompt(this)">Питомец двигается естественно — оглядывается с любопытством, моргает, слегка наклоняет голову. Мягкое размытие фона, тёплое освещение.</div>
+          <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Видео-открытка</div>
+          <div class="prompt-text" onclick="copyPrompt(this)">Человек тепло улыбается и машет рукой в приветствии. Вокруг летают мерцающие праздничные частицы. Радостное, праздничное настроение.</div>
+          <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
+        </div>
       </div>
     </div>
 
     <div style="margin-top:2.5rem;text-align:center">
       <a href="https://ng-ai.ru/register" class="btn btn-primary btn-primary-lg arrow">Попробовать сейчас</a>
-      <p style="margin-top:.75rem;font-size:.875rem;color:var(--gray-500)">Регистрация за 30 секунд. Карта не нужна.</p>
     </div>
   </div>
 </section>
