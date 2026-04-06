@@ -559,12 +559,12 @@
     <div class="container">
         <div class="partner-bar">
             <a class="brand mu" href="https://moyaudalenka.ru" target="_blank" rel="noopener">
-                <img src="../static/logo-moyaudalenka.svg" alt="Моя удалёнка">
+                <img src="/neurogate/static/logo-moyaudalenka.svg" alt="Моя удалёнка">
                 <span>Моя удалёнка</span>
             </a>
             <span class="partner-sep">×</span>
             <a class="brand ng" href="https://ng-ai.ru" target="_blank" rel="noopener">
-                <img src="../static/logo-ngai.png" alt="NeuroGate">
+                <img src="/neurogate/static/logo-ngai.png" alt="NeuroGate">
                 <span>NeuroGate</span>
             </a>
         </div>
@@ -620,19 +620,19 @@
     </div>
 </section>
 
-<!-- ===== MODELS ===== -->
+<!-- ===== MODELS + USE CASES (combined) ===== -->
 <section class="models-section">
     <div class="container">
-        <h2 class="section-title">Какие нейросети доступны</h2>
-        <p class="section-subtitle">Все модели уже включены в ваш пакет</p>
+        <h2 class="section-title">Нейросети и задачи</h2>
+        <p class="section-subtitle">Все модели включены в ваш пакет — выбирайте под задачу</p>
         <div class="models-grid">
             <div class="model-card bg-blue">
                 <div class="model-emoji">🧠</div>
                 <div class="model-info">
                     <div class="model-name">GPT-5</div>
                     <div class="model-vendor">OpenAI</div>
-                    <div class="model-desc">Сложные тексты, глубокий анализ, код</div>
-                    <span class="model-tag">⭐ Топ для текстов</span>
+                    <div class="model-desc">Сложные тексты, глубокий анализ, написание кода</div>
+                    <span class="model-tag">📝 Тексты, письма, отчёты</span>
                 </div>
             </div>
             <div class="model-card bg-white">
@@ -640,8 +640,8 @@
                 <div class="model-info">
                     <div class="model-name">Claude Opus 4</div>
                     <div class="model-vendor">Anthropic</div>
-                    <div class="model-desc">Аналитика, документы, длинный контекст</div>
-                    <span class="model-tag">⭐ Топ для документов</span>
+                    <div class="model-desc">Аналитика, документы, длинный контекст до 200К токенов</div>
+                    <span class="model-tag">📊 Excel, таблицы, документы</span>
                 </div>
             </div>
             <div class="model-card bg-blue">
@@ -649,7 +649,8 @@
                 <div class="model-info">
                     <div class="model-name">Gemini 2.5 Pro</div>
                     <div class="model-vendor">Google</div>
-                    <div class="model-desc">Мультимодальные задачи: текст + изображения</div>
+                    <div class="model-desc">Мультимодальные задачи: текст + изображения + видео</div>
+                    <span class="model-tag">🔍 Анализ файлов и картинок</span>
                 </div>
             </div>
             <div class="model-card bg-white">
@@ -657,8 +658,8 @@
                 <div class="model-info">
                     <div class="model-name">GPT-4.1</div>
                     <div class="model-vendor">OpenAI</div>
-                    <div class="model-desc">Быстрые ответы на простые вопросы</div>
-                    <span class="model-tag">🚀 Самая быстрая</span>
+                    <div class="model-desc">Быстрые ответы на простые вопросы, экономичная</div>
+                    <span class="model-tag">💬 Быстрые вопросы</span>
                 </div>
             </div>
             <div class="model-card bg-blue">
@@ -666,7 +667,8 @@
                 <div class="model-info">
                     <div class="model-name">Claude Sonnet 4</div>
                     <div class="model-vendor">Anthropic</div>
-                    <div class="model-desc">Баланс скорости и качества</div>
+                    <div class="model-desc">Оптимальный баланс скорости и качества</div>
+                    <span class="model-tag">⚖️ Универсальная модель</span>
                 </div>
             </div>
             <div class="model-card bg-white">
@@ -674,8 +676,8 @@
                 <div class="model-info">
                     <div class="model-name">Midjourney v6</div>
                     <div class="model-vendor">Midjourney</div>
-                    <div class="model-desc">Арты, иллюстрации и дизайн-концепты</div>
-                    <span class="model-tag">🖼 Лучшие картинки</span>
+                    <div class="model-desc">Фотореалистичные арты, иллюстрации, дизайн</div>
+                    <span class="model-tag">🖼 Картинки для презентаций</span>
                 </div>
             </div>
             <div class="model-card bg-blue">
@@ -683,7 +685,8 @@
                 <div class="model-info">
                     <div class="model-name">DALL-E 3</div>
                     <div class="model-vendor">OpenAI</div>
-                    <div class="model-desc">Генерация изображений по описанию</div>
+                    <div class="model-desc">Генерация изображений по текстовому описанию</div>
+                    <span class="model-tag">🖼 Быстрые иллюстрации</span>
                 </div>
             </div>
             <div class="model-card bg-white">
@@ -692,53 +695,9 @@
                     <div class="model-name">Sora</div>
                     <div class="model-vendor">OpenAI</div>
                     <div class="model-desc">Генерация видео из текстового описания</div>
+                    <span class="model-tag">🎬 Видео для соцсетей</span>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- ===== USE CASES ===== -->
-<section>
-    <div class="container">
-        <h2 class="section-title">Какую модель выбрать</h2>
-        <p class="section-subtitle">Практические рекомендации под ваши задачи</p>
-        <div class="usecases">
-            <div class="usecase">
-                <div class="usecase-icon">📝</div>
-                <div class="usecase-task">Тексты, письма, отчёты</div>
-                <div class="usecase-arrow">→</div>
-                <div class="usecase-model">GPT-5 / Claude Opus 4</div>
-            </div>
-            <div class="usecase">
-                <div class="usecase-icon">📊</div>
-                <div class="usecase-task">Обработка Excel и таблиц</div>
-                <div class="usecase-arrow">→</div>
-                <div class="usecase-model">Claude Opus 4</div>
-            </div>
-            <div class="usecase">
-                <div class="usecase-icon">💬</div>
-                <div class="usecase-task">Быстрые вопросы</div>
-                <div class="usecase-arrow">→</div>
-                <div class="usecase-model">GPT-4.1</div>
-            </div>
-            <div class="usecase">
-                <div class="usecase-icon">🖼️</div>
-                <div class="usecase-task">Картинки для презентаций</div>
-                <div class="usecase-arrow">→</div>
-                <div class="usecase-model">Midjourney / DALL-E 3</div>
-            </div>
-            <div class="usecase">
-                <div class="usecase-icon">🎬</div>
-                <div class="usecase-task">Видео</div>
-                <div class="usecase-arrow">→</div>
-                <div class="usecase-model">Sora</div>
-            </div>
-        </div>
-
-        <!-- Second illustration -->
-        <div class="illustration-banner" style="margin-top: 48px;">
-            <img src="https://cdn.moyaudalenka.ru/article/bd6a08ec-4577-4145-886e-eb52f7ffb9ec/4da8d54b-7325-4917-a401-f0e9f5a14d13.webp" alt="Работа с AI" loading="lazy">
         </div>
     </div>
 </section>
@@ -776,7 +735,7 @@
     <div class="container">
         <div class="footer-logo">
             <a href="https://ng-ai.ru" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:inherit;">
-                <img src="../static/logo-ngai.png" alt="NeuroGate" style="width:28px;height:28px;object-fit:contain;display:block;" />
+                <img src="/neurogate/static/logo-ngai.png" alt="NeuroGate" style="width:28px;height:28px;object-fit:contain;display:block;" />
                 <span>NeuroGate</span>
             </a>
         </div>
