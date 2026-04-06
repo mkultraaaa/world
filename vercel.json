@@ -13,6 +13,9 @@
     { "src": "/neurogate/business$", "dest": "/neurogate/business/index.html" },
     { "src": "/neurogate/examples$", "dest": "/neurogate/examples/index.html" },
     { "src": "/neurogate/invite$", "dest": "/neurogate/invite/index.html" },
+    { "src": "/neurogate/use/animate-photo$", "dest": "/neurogate/use/animate-photo/index.html" },
+    { "src": "/neurogate/use/enhance-photo$", "dest": "/neurogate/use/enhance-photo/index.html" },
+    { "src": "/neurogate/use/remove-bg$", "dest": "/neurogate/use/remove-bg/index.html" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 }
