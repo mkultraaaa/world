@@ -4,3 +4,7 @@ news/daily-update.log
 
 # Media files (hosted externally, too heavy for git)
 news/media/
+
+# Heavy/unused neurogate assets
+neurogate/examples.zip
+neurogate/examples/
