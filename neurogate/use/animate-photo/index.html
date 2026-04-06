@@ -9,62 +9,62 @@
 <link rel="icon" href="/neurogate/favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ── Reset + base ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:#1a1a2e;background:#fafaf8;-webkit-font-smoothing:antialiased;line-height:1.6}
+body{font-family:'Manrope',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:#101828;background:#fafaf8;-webkit-font-smoothing:antialiased;line-height:1.6}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 
-/* ── Brand tokens (from ng-ai.ru theme.css) ── */
 :root{
-  --brand-25:#fcfaff;--brand-50:#f9f5ff;--brand-100:#f4ebff;
-  --brand-200:#e9d7fe;--brand-300:#d6bbfb;--brand-400:#b692f6;
-  --brand-500:#9e77ed;--brand-600:#7f56d9;--brand-700:#6941c6;
-  --brand-800:#53389e;--brand-900:#42307d;--brand-950:#2c1c5f;
+  --brand-50:#f9f5ff;--brand-100:#f4ebff;--brand-200:#e9d7fe;
+  --brand-300:#d6bbfb;--brand-400:#b692f6;--brand-500:#9e77ed;
+  --brand-600:#7f56d9;--brand-700:#6941c6;--brand-800:#53389e;
   --gray-50:#f9fafb;--gray-100:#f2f4f7;--gray-200:#eaecf0;
   --gray-300:#d0d5dd;--gray-500:#667085;--gray-600:#475467;
   --gray-700:#344054;--gray-900:#101828;
-  --radius:0.75rem;
+  --border:var(--gray-200);
   --max-w:72rem;
 }
 
-/* ── Layout ── */
 .container{max-width:var(--max-w);margin:0 auto;padding:0 1rem}
 @media(min-width:640px){.container{padding:0 1.5rem}}
 
-/* ── Header ── */
-.header{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--gray-200);background:rgba(250,250,248,.8);backdrop-filter:blur(12px)}
-.header-inner{display:flex;align-items:center;justify-content:space-between;height:4rem}
-.brand{display:flex;align-items:center;gap:.5rem;font-weight:700;font-size:1.125rem;color:var(--gray-900)}
-.brand-mark{display:flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:.5rem;background:var(--brand-600);color:#fff;font-size:.75rem;font-weight:700}
+/* ── Header (glass pill, matches ng-ai.ru) ── */
+.header{position:sticky;top:0;z-index:50;padding-top:.5rem}
+.header-bar{max-width:var(--max-w);margin:0 auto;padding:0 1rem}
+@media(min-width:640px){.header-bar{padding:0 1.5rem}}
+.header-pill{display:flex;align-items:center;justify-content:space-between;gap:.75rem;height:4rem;padding:0 .75rem;border-radius:.75rem;border:1px solid var(--border);background:rgba(255,255,255,.8);box-shadow:0 1px 3px rgba(0,0,0,.04);backdrop-filter:blur(12px)}
+@media(min-width:640px){.header-pill{padding:0 1rem}}
+.logo{display:inline-flex;align-items:center;gap:.5rem}
+.logo svg{display:block;color:#1c1917}
+.logo-text{font-size:1.5rem;font-weight:400;color:#000;line-height:1}
 .nav{display:none;align-items:center;gap:1.5rem}
 @media(min-width:768px){.nav{display:flex}}
-.nav a{font-size:.9375rem;color:var(--gray-600);transition:color .15s}
+.nav a{font-size:.9375rem;color:var(--gray-500);transition:color .15s}
 .nav a:hover{color:var(--brand-600)}
 .header-actions{display:none;align-items:center;gap:.5rem}
 @media(min-width:768px){.header-actions{display:flex}}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-weight:600;border-radius:.5rem;transition:all .15s;cursor:pointer;border:none;font-family:inherit}
-.btn-ghost{padding:.5rem 1rem;font-size:.875rem;color:var(--gray-700);background:transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-weight:600;border-radius:.5rem;transition:all .15s;cursor:pointer;border:none;font-family:inherit;font-size:.875rem}
+.btn-ghost{padding:.5rem 1rem;color:var(--gray-700);background:transparent}
 .btn-ghost:hover{background:var(--brand-50);color:var(--brand-600)}
-.btn-primary{padding:.625rem 1.25rem;font-size:.875rem;color:#fff;background:var(--brand-600);box-shadow:0 4px 14px rgba(127,86,217,.35),0 0 24px rgba(158,119,237,.3)}
+.btn-primary{padding:.625rem 1.25rem;color:#fff;background:var(--brand-600);box-shadow:0 4px 14px rgba(127,86,217,.35)}
 .btn-primary:hover{background:var(--brand-700);transform:translateY(-1px)}
 .btn-primary-lg{padding:.875rem 1.75rem;font-size:1rem}
 .btn-secondary{padding:.75rem 1.5rem;font-size:.9375rem;color:var(--gray-700);background:#fff;border:1px solid var(--gray-300)}
-.btn-secondary:hover{background:var(--gray-50);border-color:var(--gray-400)}
-.arrow::after{content:'→';margin-left:.25rem}
+.btn-secondary:hover{background:var(--gray-50)}
+.arrow::after{content:' →'}
 
 /* ── Hero ── */
-.hero{position:relative;overflow:hidden;padding:6rem 0 3rem}
-.hero::before{content:'';position:absolute;top:-300px;left:50%;transform:translateX(-50%);width:900px;height:900px;border-radius:50%;background:#fff;box-shadow:inset 0 -40px 100px rgba(105,65,198,.4),inset 0 -10px 40px rgba(158,119,237,.5),0 40px 100px rgba(158,119,237,.1);z-index:0}
-.hero::after{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:1100px;height:1100px;border-radius:50%;border:1px solid rgba(158,119,237,.1);z-index:0}
+.hero{position:relative;overflow:hidden;padding:5rem 0 3rem}
+.hero::before{content:'';position:absolute;top:-300px;left:50%;transform:translateX(-50%);width:min(900px,92vw);height:min(900px,92vw);border-radius:50%;background:#fff;box-shadow:inset 0 -40px 100px rgba(105,65,198,.4),inset 0 -10px 40px rgba(158,119,237,.5),0 40px 100px rgba(158,119,237,.1);z-index:0}
+.hero::after{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:min(1100px,98vw);height:min(1100px,98vw);border-radius:50%;border:1px solid rgba(158,119,237,.1);z-index:0}
 .hero .container{position:relative;z-index:1}
 .hero-grid{display:grid;grid-template-columns:1fr;gap:2.5rem;align-items:center}
 @media(min-width:1024px){.hero-grid{grid-template-columns:1fr 1fr;gap:3rem}}
-.hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.375rem .75rem;border-radius:9999px;border:1px solid var(--gray-200);background:rgba(255,255,255,.7);font-size:.75rem;font-weight:500;color:var(--gray-600);backdrop-filter:blur(4px);margin-bottom:.75rem}
-.hero-badge svg{width:14px;height:14px;color:var(--brand-600)}
+.badge{display:inline-flex;align-items:center;gap:.5rem;padding:.375rem .75rem;border-radius:9999px;border:1px solid var(--border);background:rgba(255,255,255,.7);font-size:.75rem;font-weight:500;color:var(--gray-600);backdrop-filter:blur(4px);margin-bottom:.75rem}
+.badge svg{width:14px;height:14px;color:var(--brand-600)}
 h1{font-size:2.5rem;font-weight:700;letter-spacing:-.02em;line-height:1.1;color:var(--gray-900)}
 @media(min-width:640px){h1{font-size:3rem}}
 @media(min-width:1024px){h1{font-size:3.5rem}}
@@ -77,9 +77,7 @@ h1 .accent{display:block;margin-top:.25rem;color:var(--brand-600);font-weight:60
 .hero-features{margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:1rem;font-size:.875rem;color:var(--gray-500)}
 .hero-features span{display:flex;align-items:center;gap:.375rem}
 .hero-features svg{width:16px;height:16px;color:var(--brand-600)}
-
-/* Hero demo card */
-.hero-demo{aspect-ratio:4/3;width:100%;max-width:28rem;border-radius:1rem;border:1px solid var(--gray-200);background:linear-gradient(135deg,var(--brand-50),var(--brand-100));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;padding:1.5rem;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.hero-demo{aspect-ratio:4/3;width:100%;max-width:28rem;border-radius:1rem;border:1px solid var(--border);background:linear-gradient(135deg,var(--brand-50),var(--brand-100));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;padding:1.5rem;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,.06)}
 .hero-demo-icon{width:4rem;height:4rem;border-radius:50%;background:rgba(127,86,217,.1);display:flex;align-items:center;justify-content:center}
 .hero-demo-icon svg{width:2rem;height:2rem;color:var(--brand-600)}
 
@@ -93,30 +91,51 @@ h1 .accent{display:block;margin-top:.25rem;color:var(--brand-600);font-weight:60
 .section-header p{margin-top:.75rem;font-size:1.0625rem;color:var(--gray-500)}
 h2 .accent{color:var(--brand-600)}
 
-/* ── Cards grid ── */
+/* ── Cards ── */
 .cards-grid{display:grid;grid-template-columns:1fr;gap:1.25rem}
 @media(min-width:640px){.cards-grid{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:1024px){.cards-grid{grid-template-columns:repeat(3,1fr)}}
-.card{padding:1.5rem;border-radius:var(--radius);border:1px solid var(--gray-200);background:#fff;transition:box-shadow .2s}
+.card{padding:1.5rem;border-radius:.75rem;border:1px solid var(--border);background:#fff;transition:box-shadow .2s}
 .card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
-.card-icon{font-size:1.5rem;margin-bottom:.75rem}
+.card-icon{width:2.5rem;height:2.5rem;border-radius:.625rem;background:var(--brand-50);display:flex;align-items:center;justify-content:center;margin-bottom:.75rem}
+.card-icon svg{width:1.25rem;height:1.25rem;color:var(--brand-600)}
 .card h3{font-size:1rem;font-weight:600;color:var(--gray-900);margin-bottom:.5rem}
 .card p{font-size:.875rem;line-height:1.6;color:var(--gray-500)}
 
-/* ── Steps ── */
-.steps-grid{display:grid;grid-template-columns:1fr;gap:1.5rem}
-@media(min-width:768px){.steps-grid{grid-template-columns:repeat(3,1fr)}}
-.step{padding:2rem;border-radius:1rem;text-align:left}
-.step:nth-child(1),.step:nth-child(2){background:var(--gray-100)}
-.step:nth-child(3){background:var(--brand-200)}
-.step-num{display:flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border-radius:50%;background:var(--brand-500);color:#fff;font-size:1rem;font-weight:700}
-.step h3{margin-top:1rem;font-size:1.25rem;font-weight:600;color:var(--gray-900)}
-.step p{margin-top:.5rem;font-size:1rem;line-height:1.55;color:var(--gray-600)}
+/* ── Tutorial ── */
+.tutorial-step{margin-bottom:1.25rem;background:#fff;border:1px solid var(--border);border-radius:.75rem;overflow:hidden}
+.tutorial-step-header{display:flex;align-items:center;gap:1rem;padding:1.25rem 1.5rem;background:var(--gray-50)}
+.tutorial-step-header h3{font-size:1.0625rem;font-weight:600;color:var(--gray-900)}
+.tutorial-step-body{padding:1.25rem 1.5rem}
+.tutorial-step-body p{font-size:.9375rem;line-height:1.7;color:var(--gray-600)}
+.tutorial-step-body a.link{color:var(--brand-600);font-weight:500;text-decoration:underline;text-underline-offset:2px}
+.step-num{display:flex;align-items:center;justify-content:center;width:2.25rem;height:2.25rem;border-radius:50%;background:var(--brand-500);color:#fff;font-size:.875rem;font-weight:700;flex-shrink:0}
+.tutorial-models{display:grid;grid-template-columns:1fr;gap:.75rem;margin-top:1rem}
+@media(min-width:640px){.tutorial-models{grid-template-columns:repeat(3,1fr)}}
+.tutorial-model-card{padding:1rem;border-radius:.625rem;border:1px solid var(--border);background:var(--gray-50)}
+.tutorial-model-card strong{font-size:.9375rem;color:var(--gray-900)}
+.tutorial-model-card p{margin-top:.375rem;font-size:.8125rem;line-height:1.5;color:var(--gray-500)}
+.tag{display:inline-block;margin-left:.5rem;padding:.125rem .5rem;border-radius:9999px;font-size:.6875rem;font-weight:600}
+.tag-best{background:var(--brand-100);color:var(--brand-700)}
+.tag-cheap{background:#ecfdf5;color:#065f46}
+.tag-quality{background:#eff6ff;color:#1e40af}
+
+/* ── Prompts ── */
+.prompt-examples{display:flex;flex-direction:column;gap:.75rem;margin-top:1rem}
+.prompt-card{border:1px solid var(--border);border-radius:.625rem;padding:1rem;background:#fff}
+.prompt-label{display:flex;align-items:center;gap:.5rem;font-size:.8125rem;font-weight:600;color:var(--gray-900);margin-bottom:.5rem}
+.prompt-label svg{width:1rem;height:1rem;color:var(--brand-500)}
+.prompt-text{font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,monospace;font-size:.8125rem;line-height:1.6;color:var(--gray-700);background:var(--gray-50);padding:.75rem 1rem;border-radius:.5rem;border:1px solid var(--border);cursor:pointer;transition:border-color .15s;user-select:all}
+.prompt-text:hover{border-color:var(--brand-400)}
+.prompt-copy-btn{margin-top:.5rem;padding:.375rem .875rem;font-size:.75rem;font-weight:600;color:var(--brand-600);background:var(--brand-50);border:1px solid var(--brand-200);border-radius:.375rem;cursor:pointer;transition:all .15s;font-family:inherit}
+.prompt-copy-btn:hover{background:var(--brand-100)}
+.prompt-copy-btn.copied{color:#065f46;background:#ecfdf5;border-color:#6ee7b7}
+.prompt-tip{margin-top:1.25rem;padding:1rem;border-radius:.625rem;background:var(--brand-50);border:1px solid var(--brand-200);font-size:.875rem;line-height:1.6;color:var(--gray-700)}
 
 /* ── Table ── */
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.table-wrap{overflow-x:auto}
 table{width:100%;min-width:540px;text-align:left;font-size:.875rem;border-collapse:collapse}
-thead tr{border-bottom:1px solid var(--gray-200)}
+thead tr{border-bottom:1px solid var(--border)}
 th{padding-bottom:.75rem;font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-500)}
 td{padding:.875rem 1rem .875rem 0;border-bottom:1px solid rgba(234,236,240,.5)}
 tr:last-child td{border:none}
@@ -126,7 +145,7 @@ td:first-child{font-weight:500;color:var(--gray-900)}
 
 /* ── FAQ ── */
 .faq-list{max-width:48rem;margin:0 auto}
-details{padding:1.25rem 0;border-bottom:1px solid var(--gray-200)}
+details{padding:1.25rem 0;border-bottom:1px solid var(--border)}
 details:last-child{border:none}
 summary{display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:1rem;font-weight:600;color:var(--gray-900);list-style:none}
 summary::-webkit-details-marker{display:none}
@@ -134,74 +153,49 @@ summary .toggle{flex-shrink:0;margin-left:1rem;color:var(--gray-500);font-size:1
 details[open] .toggle{transform:rotate(45deg)}
 details p{margin-top:.75rem;font-size:.875rem;line-height:1.7;color:var(--gray-500)}
 
-/* ── CTA block ── */
+/* ── CTA ── */
 .cta-block{border-radius:1rem;background:var(--brand-100);padding:2.5rem;text-align:center}
 @media(min-width:768px){.cta-block{padding:3.5rem}}
 .cta-block h2{font-size:1.75rem;font-weight:700;color:var(--gray-900)}
 @media(min-width:768px){.cta-block h2{font-size:2.25rem}}
 .cta-block .lead{margin-top:1rem;font-size:1.125rem;color:var(--gray-500)}
 .cta-block .highlight{margin-top:1rem;font-size:1.25rem;font-weight:600;color:var(--brand-600)}
-@media(min-width:768px){.cta-block .highlight{font-size:1.5rem}}
 .cta-buttons{margin-top:2.5rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.75rem}
 
 /* ── Footer ── */
-.footer{border-top:1px solid var(--gray-200);background:#fff;padding:3rem 0}
+.footer{border-top:1px solid var(--border);background:#fff;padding:3rem 0}
 .footer-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2.5rem}
 @media(min-width:768px){.footer-grid{grid-template-columns:repeat(4,1fr)}}
 .footer h4{font-size:.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-900)}
 .footer ul{list-style:none;margin-top:1rem;display:flex;flex-direction:column;gap:.75rem}
 .footer a{font-size:.875rem;color:var(--gray-500);transition:color .15s}
 .footer a:hover{color:var(--gray-900)}
-
-/* ── Tutorial ── */
-.tutorial-step{margin-bottom:1.5rem;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);overflow:hidden}
-.tutorial-step-header{display:flex;align-items:center;gap:1rem;padding:1.25rem 1.5rem;background:var(--gray-50)}
-.tutorial-step-header h3{font-size:1.125rem;font-weight:600;color:var(--gray-900)}
-.tutorial-step-body{padding:1.25rem 1.5rem}
-.tutorial-step-body p{font-size:.9375rem;line-height:1.7;color:var(--gray-600)}
-.tutorial-step-body a.link{color:var(--brand-600);font-weight:500;text-decoration:underline;text-underline-offset:2px}
-.tutorial-models{display:grid;grid-template-columns:1fr;gap:.75rem;margin-top:1rem}
-@media(min-width:640px){.tutorial-models{grid-template-columns:repeat(3,1fr)}}
-.tutorial-model-card{padding:1rem;border-radius:.625rem;border:1px solid var(--gray-200);background:var(--gray-50)}
-.tutorial-model-card strong{font-size:.9375rem;color:var(--gray-900)}
-.tutorial-model-card p{margin-top:.375rem;font-size:.8125rem;line-height:1.5;color:var(--gray-500)}
-.tutorial-model-tag{display:inline-block;margin-left:.5rem;padding:.125rem .5rem;border-radius:9999px;font-size:.6875rem;font-weight:600}
-.tutorial-model-tag.best{background:var(--brand-100);color:var(--brand-700)}
-.tutorial-model-tag.cheap{background:#ecfdf5;color:#065f46}
-.tutorial-model-tag.quality{background:#eff6ff;color:#1e40af}
-
-/* Prompt cards */
-.prompt-examples{display:flex;flex-direction:column;gap:.75rem;margin-top:1rem}
-.prompt-card{border:1px solid var(--gray-200);border-radius:.625rem;padding:1rem;background:#fff}
-.prompt-label{font-size:.8125rem;font-weight:600;color:var(--gray-900);margin-bottom:.5rem}
-.prompt-text{font-family:'SF Mono',SFMono-Regular,ui-monospace,'Cascadia Mono',Menlo,monospace;font-size:.8125rem;line-height:1.6;color:var(--gray-700);background:var(--gray-50);padding:.75rem 1rem;border-radius:.5rem;border:1px solid var(--gray-200);cursor:pointer;transition:border-color .15s;user-select:all}
-.prompt-text:hover{border-color:var(--brand-400)}
-.prompt-copy-btn{margin-top:.5rem;padding:.375rem .875rem;font-size:.75rem;font-weight:600;color:var(--brand-600);background:var(--brand-50);border:1px solid var(--brand-200);border-radius:.375rem;cursor:pointer;transition:all .15s;font-family:inherit}
-.prompt-copy-btn:hover{background:var(--brand-100);border-color:var(--brand-300)}
-.prompt-copy-btn.copied{color:#065f46;background:#ecfdf5;border-color:#6ee7b7}
-.prompt-tip{margin-top:1.25rem;padding:1rem;border-radius:.625rem;background:#fffbeb;border:1px solid #fde68a;font-size:.875rem;line-height:1.6;color:#92400e}
-
-/* ── SVG icons inline ── */
-.icon-play{width:1em;height:1em;vertical-align:middle}
 </style>
 </head>
 <body>
 
 <!-- ═══ Header ═══ -->
 <header class="header">
-  <div class="container header-inner">
-    <a href="https://ng-ai.ru" class="brand">
-      <div class="brand-mark">NG</div>
-      NeuroGate
-    </a>
-    <nav class="nav">
-      <a href="https://ng-ai.ru/pricing">Цены</a>
-      <a href="https://ng-ai.ru/business">Для бизнеса</a>
-      <a href="https://ng-ai.ru/#faq">FAQ</a>
-    </nav>
-    <div class="header-actions">
-      <a href="https://ng-ai.ru/login" class="btn btn-ghost">Войти</a>
-      <a href="https://ng-ai.ru/register" class="btn btn-primary">Зарегистрироваться</a>
+  <div class="header-bar">
+    <div class="header-pill">
+      <a href="https://ng-ai.ru" class="logo">
+        <svg width="36" height="36" viewBox="0 0 35 35" aria-hidden="true">
+          <rect x="0" y="0" width="13" height="13" rx="3" fill="currentColor"/>
+          <rect x="15" y="0" width="13" height="13" rx="3" fill="currentColor"/>
+          <rect x="0" y="15" width="13" height="13" rx="3" fill="currentColor"/>
+          <rect x="15" y="15" width="13" height="13" rx="3" fill="currentColor"/>
+        </svg>
+        <span class="logo-text">NeuroGate</span>
+      </a>
+      <nav class="nav">
+        <a href="https://ng-ai.ru/pricing">Цены</a>
+        <a href="https://ng-ai.ru/business">Для бизнеса</a>
+        <a href="https://ng-ai.ru/#faq">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://ng-ai.ru/login" class="btn btn-ghost">Войти</a>
+        <a href="https://ng-ai.ru/register" class="btn btn-primary">Зарегистрироваться</a>
+      </div>
     </div>
   </div>
 </header>
@@ -211,41 +205,25 @@ details p{margin-top:.75rem;font-size:.875rem;line-height:1.7;color:var(--gray-5
   <div class="container">
     <div class="hero-grid">
       <div>
-        <div class="hero-badge">
+        <div class="badge">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           9 видео-моделей в одном кабинете
         </div>
-        <h1>
-          Оживи любое фото
-          <span class="accent">за 30 секунд</span>
-        </h1>
-        <p class="hero-lead">
-          Загрузите фотографию — нейросеть превратит её в живое видео. Портреты, пейзажи, старые снимки. Kling, Veo, Seedance — лучшие модели мира.
-        </p>
+        <h1>Оживи любое фото<span class="accent">за 30 секунд</span></h1>
+        <p class="hero-lead">Загрузите фотографию — нейросеть превратит её в живое видео. Портреты, пейзажи, старые снимки. Kling, Veo, Seedance — лучшие модели мира.</p>
         <div class="hero-cta-row">
           <a href="https://ng-ai.ru/register" class="btn btn-primary btn-primary-lg arrow">Попробовать сейчас</a>
           <span class="hero-cta-hint">Первые генерации бесплатно</span>
         </div>
         <div class="hero-features">
-          <span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Результат за 30 сек
-          </span>
-          <span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Любое фото
-          </span>
-          <span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            Оплата в рублях
-          </span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Результат за 30 сек</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Любое фото</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Оплата в рублях</span>
         </div>
       </div>
       <div style="display:flex;justify-content:center">
         <div class="hero-demo">
-          <div class="hero-demo-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
+          <div class="hero-demo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
           <p style="font-size:.9375rem;font-weight:500;color:var(--gray-600)">Демо: фото → видео</p>
           <p style="font-size:.8125rem;color:var(--gray-500)">Здесь будет интерактивное сравнение</p>
         </div>
@@ -263,32 +241,32 @@ details p{margin-top:.75rem;font-size:.875rem;line-height:1.7;color:var(--gray-5
     </div>
     <div class="cards-grid">
       <div class="card">
-        <div class="card-icon">👴</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
         <h3>Старое семейное фото</h3>
         <p>Оживите чёрно-белые и старые снимки — лица двигаются, глаза моргают, улыбка появляется.</p>
       </div>
       <div class="card">
-        <div class="card-icon">🤳</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
         <h3>Портретное фото</h3>
-        <p>Загрузите селфи или портрет — получите короткое видео, где вы поворачиваете голову и улыбаетесь.</p>
+        <p>Загрузите селфи или портрет — получите видео, где вы поворачиваете голову и улыбаетесь.</p>
       </div>
       <div class="card">
-        <div class="card-icon">🏞️</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10.5H22V12c0 5.52-4.48 10-10 10S2 17.52 2 12V5c0-1.66 1.34-3 3-3h3"/><path d="m2 2 20 20"/></svg></div>
         <h3>Пейзаж и природа</h3>
         <p>Фотография моря, леса или гор оживает — волны двигаются, листья качаются, облака плывут.</p>
       </div>
       <div class="card">
-        <div class="card-icon">🐱</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
         <h3>Питомцы</h3>
         <p>Ваш кот или собака на фото начинает двигаться — виляет хвостом, моргает, поворачивается.</p>
       </div>
       <div class="card">
-        <div class="card-icon">🎂</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
         <h3>Видео-открытка</h3>
         <p>Создайте живую открытку ко дню рождения, юбилею или празднику из обычного фото.</p>
       </div>
       <div class="card">
-        <div class="card-icon">📱</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
         <h3>Контент для соцсетей</h3>
         <p>Превратите статичные фото в динамичные видео для Reels, Stories и TikTok.</p>
       </div>
@@ -300,138 +278,96 @@ details p{margin-top:.75rem;font-size:.875rem;line-height:1.7;color:var(--gray-5
 <section class="section section-brand" id="how-to">
   <div class="container">
     <div class="section-header">
-      <h2>Пошаговая инструкция — <span class="accent">5 минут</span></h2>
+      <h2>Пошаговая инструкция</h2>
       <p>Даже если вы никогда не работали с нейросетями</p>
     </div>
 
-    <!-- Step 1 -->
     <div class="tutorial-step">
-      <div class="tutorial-step-header">
-        <div class="step-num">1</div>
-        <h3>Зарегистрируйтесь</h3>
-      </div>
+      <div class="tutorial-step-header"><div class="step-num">1</div><h3>Зарегистрируйтесь</h3></div>
       <div class="tutorial-step-body">
         <p>Перейдите на <a href="https://ng-ai.ru/register" class="link">ng-ai.ru</a> и нажмите <strong>«Зарегистрироваться»</strong>. Введите email и пароль — всё, аккаунт готов. Карта не нужна.</p>
       </div>
     </div>
 
-    <!-- Step 2 -->
     <div class="tutorial-step">
-      <div class="tutorial-step-header">
-        <div class="step-num">2</div>
-        <h3>Пополните баланс</h3>
-      </div>
+      <div class="tutorial-step-header"><div class="step-num">2</div><h3>Пополните баланс</h3></div>
       <div class="tutorial-step-body">
-        <p>В кабинете нажмите <strong>«Баланс»</strong> → <strong>«Пополнить»</strong>. Минимум 500₽. Оплата через СБП или банковскую карту. Баланс не сгорает — используйте когда удобно.</p>
+        <p>В кабинете нажмите <strong>«Баланс» → «Пополнить»</strong>. Минимум 500 ₽. Оплата через СБП или банковскую карту. Баланс не сгорает.</p>
       </div>
     </div>
 
-    <!-- Step 3 -->
     <div class="tutorial-step">
-      <div class="tutorial-step-header">
-        <div class="step-num">3</div>
-        <h3>Перейдите в режим «Видео»</h3>
-      </div>
+      <div class="tutorial-step-header"><div class="step-num">3</div><h3>Перейдите в режим «Видео»</h3></div>
       <div class="tutorial-step-body">
         <p>В верхней части кабинета переключите режим на <strong>«Видео»</strong> (вкладка с иконкой камеры). Здесь вы будете создавать видео из фото.</p>
       </div>
     </div>
 
-    <!-- Step 4 -->
     <div class="tutorial-step">
-      <div class="tutorial-step-header">
-        <div class="step-num">4</div>
-        <h3>Выберите модель</h3>
-      </div>
+      <div class="tutorial-step-header"><div class="step-num">4</div><h3>Выберите модель</h3></div>
       <div class="tutorial-step-body">
-        <p>Нажмите на селектор модели и выберите одну из:</p>
+        <p>Нажмите на селектор модели и выберите одну из рекомендованных:</p>
         <div class="tutorial-models">
           <div class="tutorial-model-card">
-            <strong>Seedance 1.0 lite</strong>
-            <span class="tutorial-model-tag best">Лучший старт</span>
-            <p>101₽ за видео. Быстро, хорошее качество. Рекомендуем начать с этой.</p>
+            <strong>Seedance 1.0 lite</strong><span class="tag tag-best">Лучший старт</span>
+            <p>101 ₽ за видео. Быстро, хорошее качество. Рекомендуем начать с этой.</p>
           </div>
           <div class="tutorial-model-card">
-            <strong>Grok Imagine Video</strong>
-            <span class="tutorial-model-tag cheap">Самая дешёвая</span>
-            <p>72₽ за видео. Подойдёт для первых экспериментов.</p>
+            <strong>Grok Imagine Video</strong><span class="tag tag-cheap">Самая дешёвая</span>
+            <p>72 ₽ за видео. Подойдёт для первых экспериментов.</p>
           </div>
           <div class="tutorial-model-card">
-            <strong>Kling 1.6 Pro</strong>
-            <span class="tutorial-model-tag quality">Реализм</span>
-            <p>122₽ за видео. Лучше всего для портретов и лиц.</p>
+            <strong>Kling 1.6 Pro</strong><span class="tag tag-quality">Реализм</span>
+            <p>122 ₽ за видео. Лучше всего для портретов и лиц.</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Step 5 -->
     <div class="tutorial-step">
-      <div class="tutorial-step-header">
-        <div class="step-num">5</div>
-        <h3>Загрузите фото и напишите промпт</h3>
-      </div>
+      <div class="tutorial-step-header"><div class="step-num">5</div><h3>Загрузите фото и напишите промпт</h3></div>
       <div class="tutorial-step-body">
-        <p>Нажмите <strong>иконку скрепки 📎</strong> или перетащите фото в поле ввода. Затем напишите, что должно происходить на видео.</p>
-
+        <p>Нажмите <strong>иконку скрепки</strong> или перетащите фото в поле ввода. Затем напишите, что должно происходить на видео.</p>
         <p style="margin-top:1rem;font-weight:600;color:var(--gray-900)">Готовые промпты — скопируйте и вставьте:</p>
 
         <div class="prompt-examples">
           <div class="prompt-card">
-            <div class="prompt-label">🤳 Для портрета / селфи</div>
-            <div class="prompt-text" onclick="copyPrompt(this)">
-              The person slowly turns their head, smiles gently, and blinks naturally. Soft natural lighting, cinematic quality.
-            </div>
+            <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Для портрета или селфи</div>
+            <div class="prompt-text" onclick="copyPrompt(this)">Человек медленно поворачивает голову, мягко улыбается и естественно моргает. Мягкое естественное освещение, кинематографичное качество.</div>
             <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
           </div>
-
           <div class="prompt-card">
-            <div class="prompt-label">👴 Для старого семейного фото</div>
-            <div class="prompt-text" onclick="copyPrompt(this)">
-              The people in the photo come alive with subtle movements — gentle smiles, slight head turns, blinking eyes. Warm vintage atmosphere preserved.
-            </div>
+            <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Для старого семейного фото</div>
+            <div class="prompt-text" onclick="copyPrompt(this)">Люди на фотографии оживают — мягкие улыбки, лёгкие повороты головы, моргающие глаза. Тёплая винтажная атмосфера сохранена.</div>
             <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
           </div>
-
           <div class="prompt-card">
-            <div class="prompt-label">🏞️ Для пейзажа / природы</div>
-            <div class="prompt-text" onclick="copyPrompt(this)">
-              The scene comes alive — clouds drift slowly, water ripples gently, leaves sway in a soft breeze. Peaceful, natural motion.
-            </div>
+            <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="m2 2 20 20"/></svg>Для пейзажа или природы</div>
+            <div class="prompt-text" onclick="copyPrompt(this)">Сцена оживает — облака медленно плывут, вода мягко рябит, листья покачиваются на лёгком ветру. Спокойное, естественное движение.</div>
             <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
           </div>
-
           <div class="prompt-card">
-            <div class="prompt-label">🐱 Для фото питомца</div>
-            <div class="prompt-text" onclick="copyPrompt(this)">
-              The pet moves naturally — looks around curiously, blinks, slightly tilts its head. Soft background blur, warm lighting.
-            </div>
+            <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Для фото питомца</div>
+            <div class="prompt-text" onclick="copyPrompt(this)">Питомец двигается естественно — оглядывается с любопытством, моргает, слегка наклоняет голову. Мягкое размытие фона, тёплое освещение.</div>
             <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
           </div>
-
           <div class="prompt-card">
-            <div class="prompt-label">🎂 Для видео-открытки</div>
-            <div class="prompt-text" onclick="copyPrompt(this)">
-              The person smiles warmly and waves hello. Festive sparkling particles float around. Joyful, celebratory mood.
-            </div>
+            <div class="prompt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Для видео-открытки</div>
+            <div class="prompt-text" onclick="copyPrompt(this)">Человек тепло улыбается и машет рукой в приветствии. Вокруг мерцающие праздничные частицы. Радостное, праздничное настроение.</div>
             <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
           </div>
         </div>
 
         <div class="prompt-tip">
-          <strong>💡 Совет:</strong> Промпты на английском дают лучший результат. Мы подготовили их за вас — просто скопируйте нужный.
+          <strong>Совет:</strong> Промпты выше подобраны для лучшего результата. Скопируйте нужный, вставьте в поле ввода рядом с фото и нажмите отправить.
         </div>
       </div>
     </div>
 
-    <!-- Step 6 -->
     <div class="tutorial-step">
-      <div class="tutorial-step-header">
-        <div class="step-num">6</div>
-        <h3>Нажмите «Отправить» и подождите</h3>
-      </div>
+      <div class="tutorial-step-header"><div class="step-num">6</div><h3>Нажмите «Отправить» и подождите</h3></div>
       <div class="tutorial-step-body">
-        <p>Нажмите кнопку <strong>отправки (→)</strong>. Генерация займёт 25-60 секунд в зависимости от модели. Вы увидите прогресс-бар.</p>
+        <p>Нажмите кнопку <strong>отправки</strong>. Генерация займёт 25–60 секунд в зависимости от модели. Вы увидите прогресс.</p>
         <p style="margin-top:.5rem">Когда видео готово — нажмите на него для просмотра. Кнопка <strong>«Скачать»</strong> сохранит файл на ваше устройство.</p>
       </div>
     </div>
@@ -452,22 +388,15 @@ details p{margin-top:.75rem;font-size:.875rem;line-height:1.7;color:var(--gray-5
     </div>
     <div class="table-wrap">
       <table>
-        <thead>
-          <tr>
-            <th>Модель</th>
-            <th>Провайдер</th>
-            <th>Цена за видео</th>
-            <th>Скорость</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Модель</th><th>Провайдер</th><th>Цена за видео</th><th>Скорость</th></tr></thead>
         <tbody>
-          <tr><td>Grok Imagine Video</td><td>xAI</td><td class="price">от 72₽</td><td>~35 сек</td></tr>
-          <tr><td>Seedance 1.0 lite</td><td>ByteDance</td><td class="price">от 101₽</td><td>~25 сек</td></tr>
-          <tr><td>Kling 1.6 Pro</td><td>Kling</td><td class="price">от 122₽</td><td>~30 сек</td></tr>
-          <tr><td>Veo v3.1 fast</td><td>Google</td><td class="price">от 173₽</td><td>~40 сек</td></tr>
-          <tr><td>Seedance 1.0 pro</td><td>ByteDance</td><td class="price">от 194₽</td><td>~50 сек</td></tr>
-          <tr><td>Kling 2.6 Pro</td><td>Kling</td><td class="price">от 202₽</td><td>~45 сек</td></tr>
-          <tr><td>Kling v3</td><td>Kling</td><td class="price">от 547₽</td><td>~60 сек</td></tr>
+          <tr><td>Grok Imagine Video</td><td>xAI</td><td class="price">от 72 ₽</td><td>~35 сек</td></tr>
+          <tr><td>Seedance 1.0 lite</td><td>ByteDance</td><td class="price">от 101 ₽</td><td>~25 сек</td></tr>
+          <tr><td>Kling 1.6 Pro</td><td>Kling</td><td class="price">от 122 ₽</td><td>~30 сек</td></tr>
+          <tr><td>Veo v3.1 fast</td><td>Google</td><td class="price">от 173 ₽</td><td>~40 сек</td></tr>
+          <tr><td>Seedance 1.0 pro</td><td>ByteDance</td><td class="price">от 194 ₽</td><td>~50 сек</td></tr>
+          <tr><td>Kling 2.6 Pro</td><td>Kling</td><td class="price">от 202 ₽</td><td>~45 сек</td></tr>
+          <tr><td>Kling v3</td><td>Kling</td><td class="price">от 547 ₽</td><td>~60 сек</td></tr>
         </tbody>
       </table>
     </div>
@@ -478,30 +407,13 @@ details p{margin-top:.75rem;font-size:.875rem;line-height:1.7;color:var(--gray-5
 <!-- ═══ FAQ ═══ -->
 <section class="section" id="faq">
   <div class="container">
-    <div class="section-header">
-      <h2>Частые вопросы</h2>
-    </div>
+    <div class="section-header"><h2>Частые вопросы</h2></div>
     <div class="faq-list">
-      <details>
-        <summary>Какие фото можно оживить?<span class="toggle">+</span></summary>
-        <p>Практически любые: портреты, групповые снимки, пейзажи, фото питомцев, старые чёрно-белые фотографии. Лучше всего работают фото с лицами и чёткими объектами.</p>
-      </details>
-      <details>
-        <summary>Сколько стоит одно видео?<span class="toggle">+</span></summary>
-        <p>От 72₽ за генерацию (Grok Imagine Video) до 547₽ (Kling v3 максимального качества). Самый популярный вариант — Seedance 1.0 lite за 101₽.</p>
-      </details>
-      <details>
-        <summary>Сколько длится видео?<span class="toggle">+</span></summary>
-        <p>Обычно 3-5 секунд — достаточно для вау-эффекта, открытки или Stories. Для более длинных видео можно сделать несколько генераций.</p>
-      </details>
-      <details>
-        <summary>Нужен ли VPN?<span class="toggle">+</span></summary>
-        <p>Нет. NeuroGate работает из России без VPN. Оплата в рублях через СБП или банковскую карту.</p>
-      </details>
-      <details>
-        <summary>Можно попробовать бесплатно?<span class="toggle">+</span></summary>
-        <p>Да, при регистрации вы получаете бонусные кредиты. Этого хватит на 1-2 пробных генерации видео.</p>
-      </details>
+      <details><summary>Какие фото можно оживить?<span class="toggle">+</span></summary><p>Практически любые: портреты, групповые снимки, пейзажи, фото питомцев, старые чёрно-белые фотографии. Лучше всего работают фото с лицами и чёткими объектами.</p></details>
+      <details><summary>Сколько стоит одно видео?<span class="toggle">+</span></summary><p>От 72 ₽ за генерацию (Grok Imagine Video) до 547 ₽ (Kling v3 максимального качества). Самый популярный вариант — Seedance 1.0 lite за 101 ₽.</p></details>
+      <details><summary>Сколько длится видео?<span class="toggle">+</span></summary><p>Обычно 3–5 секунд — достаточно для вау-эффекта, открытки или Stories.</p></details>
+      <details><summary>Нужен ли VPN?<span class="toggle">+</span></summary><p>Нет. NeuroGate работает из России без VPN. Оплата в рублях через СБП или банковскую карту.</p></details>
+      <details><summary>Можно попробовать бесплатно?<span class="toggle">+</span></summary><p>Да, при регистрации вы получаете бонусные кредиты на 1–2 пробных генерации.</p></details>
     </div>
   </div>
 </section>
@@ -525,49 +437,20 @@ details p{margin-top:.75rem;font-size:.875rem;line-height:1.7;color:var(--gray-5
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
-      <div>
-        <h4>Продукт</h4>
-        <ul>
-          <li><a href="https://ng-ai.ru/#features">Возможности</a></li>
-          <li><a href="https://ng-ai.ru/pricing">Цены</a></li>
-          <li><a href="https://ng-ai.ru/#faq">FAQ</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Компания</h4>
-        <ul>
-          <li><a href="https://ng-ai.ru/business">NeuroGate для бизнеса</a></li>
-          <li><a href="https://ng-ai.ru/business/audit">AI-аудит</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Документы</h4>
-        <ul>
-          <li><a href="https://ng-ai.ru/public-offer">Оферта</a></li>
-          <li><a href="https://ng-ai.ru/privacy">Политика конфиденциальности</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Контакты</h4>
-        <ul>
-          <li><a href="mailto:support@ng-ai.ru">support@ng-ai.ru</a></li>
-        </ul>
-      </div>
+      <div><h4>Продукт</h4><ul><li><a href="https://ng-ai.ru/#features">Возможности</a></li><li><a href="https://ng-ai.ru/pricing">Цены</a></li><li><a href="https://ng-ai.ru/#faq">FAQ</a></li></ul></div>
+      <div><h4>Компания</h4><ul><li><a href="https://ng-ai.ru/business">NeuroGate для бизнеса</a></li><li><a href="https://ng-ai.ru/business/audit">AI-аудит</a></li></ul></div>
+      <div><h4>Документы</h4><ul><li><a href="https://ng-ai.ru/public-offer">Оферта</a></li><li><a href="https://ng-ai.ru/privacy">Политика конфиденциальности</a></li></ul></div>
+      <div><h4>Контакты</h4><ul><li><a href="mailto:support@ng-ai.ru">support@ng-ai.ru</a></li></ul></div>
     </div>
   </div>
 </footer>
 
 <script>
-function copyPrompt(el) {
-  const text = el.textContent.trim();
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = el.nextElementSibling || el.closest('.prompt-card').querySelector('.prompt-copy-btn');
-    if (btn) {
-      const orig = btn.textContent;
-      btn.textContent = '✓ Скопировано!';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
-    }
+function copyPrompt(el){
+  var text=el.textContent.trim();
+  navigator.clipboard.writeText(text).then(function(){
+    var btn=el.nextElementSibling||el.closest('.prompt-card').querySelector('.prompt-copy-btn');
+    if(btn){var o=btn.textContent;btn.textContent='\u2713 Скопировано!';btn.classList.add('copied');setTimeout(function(){btn.textContent=o;btn.classList.remove('copied')},2000)}
   });
 }
 </script>
