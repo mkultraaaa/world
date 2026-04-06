@@ -153,6 +153,34 @@ details p{margin-top:.75rem;font-size:.875rem;line-height:1.7;color:var(--gray-5
 .footer a{font-size:.875rem;color:var(--gray-500);transition:color .15s}
 .footer a:hover{color:var(--gray-900)}
 
+/* ── Tutorial ── */
+.tutorial-step{margin-bottom:1.5rem;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);overflow:hidden}
+.tutorial-step-header{display:flex;align-items:center;gap:1rem;padding:1.25rem 1.5rem;background:var(--gray-50)}
+.tutorial-step-header h3{font-size:1.125rem;font-weight:600;color:var(--gray-900)}
+.tutorial-step-body{padding:1.25rem 1.5rem}
+.tutorial-step-body p{font-size:.9375rem;line-height:1.7;color:var(--gray-600)}
+.tutorial-step-body a.link{color:var(--brand-600);font-weight:500;text-decoration:underline;text-underline-offset:2px}
+.tutorial-models{display:grid;grid-template-columns:1fr;gap:.75rem;margin-top:1rem}
+@media(min-width:640px){.tutorial-models{grid-template-columns:repeat(3,1fr)}}
+.tutorial-model-card{padding:1rem;border-radius:.625rem;border:1px solid var(--gray-200);background:var(--gray-50)}
+.tutorial-model-card strong{font-size:.9375rem;color:var(--gray-900)}
+.tutorial-model-card p{margin-top:.375rem;font-size:.8125rem;line-height:1.5;color:var(--gray-500)}
+.tutorial-model-tag{display:inline-block;margin-left:.5rem;padding:.125rem .5rem;border-radius:9999px;font-size:.6875rem;font-weight:600}
+.tutorial-model-tag.best{background:var(--brand-100);color:var(--brand-700)}
+.tutorial-model-tag.cheap{background:#ecfdf5;color:#065f46}
+.tutorial-model-tag.quality{background:#eff6ff;color:#1e40af}
+
+/* Prompt cards */
+.prompt-examples{display:flex;flex-direction:column;gap:.75rem;margin-top:1rem}
+.prompt-card{border:1px solid var(--gray-200);border-radius:.625rem;padding:1rem;background:#fff}
+.prompt-label{font-size:.8125rem;font-weight:600;color:var(--gray-900);margin-bottom:.5rem}
+.prompt-text{font-family:'SF Mono',SFMono-Regular,ui-monospace,'Cascadia Mono',Menlo,monospace;font-size:.8125rem;line-height:1.6;color:var(--gray-700);background:var(--gray-50);padding:.75rem 1rem;border-radius:.5rem;border:1px solid var(--gray-200);cursor:pointer;transition:border-color .15s;user-select:all}
+.prompt-text:hover{border-color:var(--brand-400)}
+.prompt-copy-btn{margin-top:.5rem;padding:.375rem .875rem;font-size:.75rem;font-weight:600;color:var(--brand-600);background:var(--brand-50);border:1px solid var(--brand-200);border-radius:.375rem;cursor:pointer;transition:all .15s;font-family:inherit}
+.prompt-copy-btn:hover{background:var(--brand-100);border-color:var(--brand-300)}
+.prompt-copy-btn.copied{color:#065f46;background:#ecfdf5;border-color:#6ee7b7}
+.prompt-tip{margin-top:1.25rem;padding:1rem;border-radius:.625rem;background:#fffbeb;border:1px solid #fde68a;font-size:.875rem;line-height:1.6;color:#92400e}
+
 /* ── SVG icons inline ── */
 .icon-play{width:1em;height:1em;vertical-align:middle}
 </style>
@@ -268,31 +296,149 @@ details p{margin-top:.75rem;font-size:.875rem;line-height:1.7;color:var(--gray-5
   </div>
 </section>
 
-<!-- ═══ How it works ═══ -->
-<section class="section section-brand">
+<!-- ═══ Step-by-step tutorial ═══ -->
+<section class="section section-brand" id="how-to">
   <div class="container">
     <div class="section-header">
-      <h2>Как это работает — <span class="accent">3 шага</span></h2>
+      <h2>Пошаговая инструкция — <span class="accent">5 минут</span></h2>
+      <p>Даже если вы никогда не работали с нейросетями</p>
     </div>
-    <div class="steps-grid">
-      <div class="step">
+
+    <!-- Step 1 -->
+    <div class="tutorial-step">
+      <div class="tutorial-step-header">
         <div class="step-num">1</div>
-        <h3>Загрузите фото</h3>
-        <p>Любое фото: портрет, пейзаж, старый снимок. Форматы JPG, PNG, WEBP.</p>
+        <h3>Зарегистрируйтесь</h3>
       </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3>Выберите модель</h3>
-        <p>Kling для реализма, Veo для качества, Seedance для скорости. Или доверьте выбор системе.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3>Получите видео</h3>
-        <p>Нейросеть создаст 3-5 секундное видео. Скачайте или поделитесь в соцсетях.</p>
+      <div class="tutorial-step-body">
+        <p>Перейдите на <a href="https://ng-ai.ru/register" class="link">ng-ai.ru</a> и нажмите <strong>«Зарегистрироваться»</strong>. Введите email и пароль — всё, аккаунт готов. Карта не нужна.</p>
       </div>
     </div>
+
+    <!-- Step 2 -->
+    <div class="tutorial-step">
+      <div class="tutorial-step-header">
+        <div class="step-num">2</div>
+        <h3>Пополните баланс</h3>
+      </div>
+      <div class="tutorial-step-body">
+        <p>В кабинете нажмите <strong>«Баланс»</strong> → <strong>«Пополнить»</strong>. Минимум 500₽. Оплата через СБП или банковскую карту. Баланс не сгорает — используйте когда удобно.</p>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="tutorial-step">
+      <div class="tutorial-step-header">
+        <div class="step-num">3</div>
+        <h3>Перейдите в режим «Видео»</h3>
+      </div>
+      <div class="tutorial-step-body">
+        <p>В верхней части кабинета переключите режим на <strong>«Видео»</strong> (вкладка с иконкой камеры). Здесь вы будете создавать видео из фото.</p>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="tutorial-step">
+      <div class="tutorial-step-header">
+        <div class="step-num">4</div>
+        <h3>Выберите модель</h3>
+      </div>
+      <div class="tutorial-step-body">
+        <p>Нажмите на селектор модели и выберите одну из:</p>
+        <div class="tutorial-models">
+          <div class="tutorial-model-card">
+            <strong>Seedance 1.0 lite</strong>
+            <span class="tutorial-model-tag best">Лучший старт</span>
+            <p>101₽ за видео. Быстро, хорошее качество. Рекомендуем начать с этой.</p>
+          </div>
+          <div class="tutorial-model-card">
+            <strong>Grok Imagine Video</strong>
+            <span class="tutorial-model-tag cheap">Самая дешёвая</span>
+            <p>72₽ за видео. Подойдёт для первых экспериментов.</p>
+          </div>
+          <div class="tutorial-model-card">
+            <strong>Kling 1.6 Pro</strong>
+            <span class="tutorial-model-tag quality">Реализм</span>
+            <p>122₽ за видео. Лучше всего для портретов и лиц.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="tutorial-step">
+      <div class="tutorial-step-header">
+        <div class="step-num">5</div>
+        <h3>Загрузите фото и напишите промпт</h3>
+      </div>
+      <div class="tutorial-step-body">
+        <p>Нажмите <strong>иконку скрепки 📎</strong> или перетащите фото в поле ввода. Затем напишите, что должно происходить на видео.</p>
+
+        <p style="margin-top:1rem;font-weight:600;color:var(--gray-900)">Готовые промпты — скопируйте и вставьте:</p>
+
+        <div class="prompt-examples">
+          <div class="prompt-card">
+            <div class="prompt-label">🤳 Для портрета / селфи</div>
+            <div class="prompt-text" onclick="copyPrompt(this)">
+              The person slowly turns their head, smiles gently, and blinks naturally. Soft natural lighting, cinematic quality.
+            </div>
+            <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-label">👴 Для старого семейного фото</div>
+            <div class="prompt-text" onclick="copyPrompt(this)">
+              The people in the photo come alive with subtle movements — gentle smiles, slight head turns, blinking eyes. Warm vintage atmosphere preserved.
+            </div>
+            <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-label">🏞️ Для пейзажа / природы</div>
+            <div class="prompt-text" onclick="copyPrompt(this)">
+              The scene comes alive — clouds drift slowly, water ripples gently, leaves sway in a soft breeze. Peaceful, natural motion.
+            </div>
+            <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-label">🐱 Для фото питомца</div>
+            <div class="prompt-text" onclick="copyPrompt(this)">
+              The pet moves naturally — looks around curiously, blinks, slightly tilts its head. Soft background blur, warm lighting.
+            </div>
+            <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-label">🎂 Для видео-открытки</div>
+            <div class="prompt-text" onclick="copyPrompt(this)">
+              The person smiles warmly and waves hello. Festive sparkling particles float around. Joyful, celebratory mood.
+            </div>
+            <button class="prompt-copy-btn" onclick="copyPrompt(this.previousElementSibling)">Скопировать</button>
+          </div>
+        </div>
+
+        <div class="prompt-tip">
+          <strong>💡 Совет:</strong> Промпты на английском дают лучший результат. Мы подготовили их за вас — просто скопируйте нужный.
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="tutorial-step">
+      <div class="tutorial-step-header">
+        <div class="step-num">6</div>
+        <h3>Нажмите «Отправить» и подождите</h3>
+      </div>
+      <div class="tutorial-step-body">
+        <p>Нажмите кнопку <strong>отправки (→)</strong>. Генерация займёт 25-60 секунд в зависимости от модели. Вы увидите прогресс-бар.</p>
+        <p style="margin-top:.5rem">Когда видео готово — нажмите на него для просмотра. Кнопка <strong>«Скачать»</strong> сохранит файл на ваше устройство.</p>
+      </div>
+    </div>
+
     <div style="margin-top:2.5rem;text-align:center">
-      <a href="https://ng-ai.ru/register" class="btn btn-primary btn-primary-lg arrow">Оживить фото</a>
+      <a href="https://ng-ai.ru/register" class="btn btn-primary btn-primary-lg arrow">Попробовать сейчас</a>
+      <p style="margin-top:.75rem;font-size:.875rem;color:var(--gray-500)">Регистрация за 30 секунд. Карта не нужна.</p>
     </div>
   </div>
 </section>
@@ -411,5 +557,19 @@ details p{margin-top:.75rem;font-size:.875rem;line-height:1.7;color:var(--gray-5
   </div>
 </footer>
 
+<script>
+function copyPrompt(el) {
+  const text = el.textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = el.nextElementSibling || el.closest('.prompt-card').querySelector('.prompt-copy-btn');
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Скопировано!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+    }
+  });
+}
+</script>
 </body>
 </html>
