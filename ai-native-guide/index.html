@@ -1,1844 +1,671 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="dark" />
-  <title>AI-Native Development Guide 2026</title>
-  <meta name="description" content="Методологии, фреймворки и инструменты для разработки с AI — public guide" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#0f1224;
-      --panel:#151a34;
-      --panel2:#121630;
-      --text:#e8ecff;
-      --muted:#aeb6e6;
-      --muted2:#7f88bf;
-      --accent:#4361ee;
-      --accent2:#4cc9f0;
-      --ok:#2ee59d;
-      --warn:#f9c74f;
-      --danger:#f94144;
-      --border:rgba(255,255,255,.08);
-      --shadow: 0 14px 40px rgba(0,0,0,.35);
-      --radius:16px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:var(--sans);
-      color:var(--text);
-      background:
-        radial-gradient(1000px 600px at 20% -10%, rgba(76,201,240,.15), transparent 60%),
-        radial-gradient(900px 600px at 95% 10%, rgba(67,97,238,.14), transparent 55%),
-        linear-gradient(180deg, #0b0d1a 0%, var(--bg) 30%, #0b0d1a 100%);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Путь к AI-native компании — NeuroGate</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --red:#FF4D4D;
+  --bg:#000;
+  --surface:#111;
+  --surface2:#1a1a1a;
+  --white:#fff;
+  --gray:#999;
+  --gray-dark:#555;
+  --gray-darker:#333;
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
 
-    a{color:inherit}
-    .container{max-width:1200px; margin:0 auto; padding:24px}
+.slide{width:100vw;height:100vh;display:none;flex-direction:column;position:absolute;inset:0;opacity:0;transition:opacity .3s;background:var(--bg)}
+.slide.active{display:flex;opacity:1}
 
-    /* Layout */
-    .app{display:grid; grid-template-columns: 320px 1fr; gap:18px; align-items:start}
-    .sidebar{
-      position:sticky; top:18px;
-      max-height: calc(100vh - 36px);
-      overflow:auto;
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .side-inner{padding:16px}
-    .brand{display:flex; gap:12px; align-items:center; padding:8px 10px; border-radius:14px; background: rgba(255,255,255,.03); border:1px solid var(--border)}
-    .logo{
-      width:40px; height:40px; border-radius:14px;
-      background: radial-gradient(circle at 30% 30%, rgba(76,201,240,.8), transparent 60%),
-                  radial-gradient(circle at 70% 70%, rgba(67,97,238,.9), transparent 60%),
-                  linear-gradient(135deg, rgba(67,97,238,.7), rgba(76,201,240,.35));
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow: 0 10px 24px rgba(67,97,238,.16);
-    }
-    .brand h1{font-size:14px; line-height:1.15; margin:0; letter-spacing:.2px}
-    .brand .sub{margin:2px 0 0 0; font-size:12px; color:var(--muted)}
+.slide.full{justify-content:center;padding:96px 72px 56px}
+.slide.center{justify-content:center;align-items:center;text-align:center;padding:96px 72px 56px}
+.slide.split{flex-direction:row}
+.slide.grid2x2{display:none;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;padding:2px}
+.slide.grid2x2.active{display:grid}
+.slide.grid3{display:none;grid-template-columns:1fr 1fr 1fr;gap:2px;padding:2px}
+.slide.grid3.active{display:grid}
 
-    .side-actions{margin-top:12px; display:grid; gap:10px}
-    .search{
-      display:flex; align-items:center; gap:10px;
-      padding:10px 12px;
-      border-radius: 14px;
-      background: rgba(0,0,0,.18);
-      border:1px solid var(--border);
-    }
-    .search input{
-      width:100%; background:transparent; border:0; outline:0; color:var(--text);
-      font-size:13px;
-    }
-    .pillrow{display:flex; gap:8px; flex-wrap:wrap}
-    .pill{
-      font-size:12px; padding:7px 10px; border-radius:999px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      color: var(--muted);
-      user-select:none;
-      cursor:pointer;
-    }
-    .pill.active{color: var(--text); background: rgba(67,97,238,.12); border-color: rgba(67,97,238,.35)}
+.topbar{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:24px 72px;z-index:2}
+.topbar .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--red)}
+.topbar .num{font-family:'Bebas Neue',sans-serif;font-size:72px;color:var(--red);line-height:1;opacity:.7}
 
-    .nav{margin-top:12px; padding:6px}
-    .nav a{
-      display:block; padding:10px 10px;
-      border-radius: 12px;
-      text-decoration:none;
-      color: var(--muted);
-      border:1px solid transparent;
-    }
-    .nav a:hover{background: rgba(255,255,255,.04); color: var(--text); border-color: var(--border)}
-    .nav a.active{background: rgba(67,97,238,.10); border-color: rgba(67,97,238,.35); color: var(--text)}
-    .nav .small{padding-left:22px; font-size:12px; opacity:.95}
+h1{font-family:'Bebas Neue',sans-serif;font-size:96px;color:var(--white);line-height:.92;letter-spacing:3px}
+h1 em{color:var(--red);font-style:normal}
+h2{font-family:'Bebas Neue',sans-serif;font-size:76px;color:var(--white);line-height:.95;letter-spacing:2px}
+h2 em{color:var(--red);font-style:normal}
+h3{font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--white);line-height:1;letter-spacing:1px}
+h3 em{color:var(--red);font-style:normal}
+p{font-size:18px;line-height:1.55;color:var(--gray)}
+p.lead{font-size:22px;color:var(--gray);max-width:640px}
+strong{color:var(--white);font-weight:700}
 
-    .main{
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .hero{
-      padding:26px 26px 16px 26px;
-      background:
-        radial-gradient(900px 500px at 15% 0%, rgba(76,201,240,.18), transparent 50%),
-        radial-gradient(900px 500px at 90% 0%, rgba(67,97,238,.18), transparent 55%),
-        linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.05));
-      border-bottom:1px solid var(--border);
-    }
-    .hero-title{margin:0; font-size:26px; letter-spacing:-.4px}
-    .hero-sub{margin:10px 0 0 0; color: var(--muted); max-width: 72ch; line-height:1.45}
+.half{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:56px 64px;text-align:center}
+.half.left-align{align-items:flex-start;text-align:left}
+.half.red{background:var(--red)}
+.half.red h2,.half.red h3,.half.red p,.half.red strong{color:#000}
+.half.red p{color:rgba(0,0,0,.6)}
+.half.dark{background:var(--surface)}
+.half.black{background:var(--bg)}
 
-    .content{padding:18px 26px 26px 26px}
-    .section{scroll-margin-top: 14px; margin-top:18px}
-    .section:first-child{margin-top:0}
-    .section-header{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-bottom:10px}
-    .section-title{margin:0; font-size:18px; letter-spacing:-.2px}
-    .section-note{margin:0; color:var(--muted2); font-size:12px}
+.big-num{font-family:'Bebas Neue',sans-serif;font-size:160px;line-height:1;letter-spacing:-2px}
+.big-num.white{color:var(--white)}
+.big-num.red{color:var(--red)}
+.big-num.black{color:#000}
 
-    .card{
-      background: rgba(0,0,0,.16);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      padding:16px;
-    }
+.block{background:var(--surface);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:48px 40px}
+.block h4{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--white);letter-spacing:1px;margin-bottom:14px;line-height:1.02}
+.block p{font-size:17px;color:var(--gray);line-height:1.5;max-width:360px}
+.block.red{background:var(--red)}
+.block.red h4{color:#000}
+.block.red p{color:rgba(0,0,0,.6)}
+.block.dark{background:var(--surface2)}
 
-    /* Markdown */
-    .md{line-height:1.65; font-size:14px}
-    .md p{margin:10px 0}
-    .md blockquote{margin:12px 0; padding:12px 14px; border-left:3px solid rgba(76,201,240,.55); background: rgba(76,201,240,.06); border-radius: 12px}
-    .md h1,.md h2,.md h3,.md h4{line-height:1.25; margin:18px 0 10px 0; letter-spacing:-.2px}
-    .md h1{font-size:22px}
-    .md h2{font-size:18px}
-    .md h3{font-size:15px; color: #dbe2ff}
-    .md h4{font-size:13px; color: var(--muted)}
-    .md ul, .md ol{margin:10px 0 10px 18px; padding:0}
-    .md li{margin:6px 0}
-    .md hr{border:0; border-top:1px solid var(--border); margin:16px 0}
-    .md code{font-family: "JetBrains Mono", var(--mono); font-size:12.5px; padding:2px 6px; border-radius:8px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08)}
-    .md pre{overflow:auto; padding:14px; border-radius: 14px; background: rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.08)}
-    .md pre code{padding:0; border:0; background:transparent}
-    .md a{color: #bcd0ff; text-decoration:none; border-bottom:1px solid rgba(188,208,255,.25)}
-    .md a:hover{color: #d8e4ff; border-bottom-color: rgba(216,228,255,.55)}
+.stat-row{display:flex;gap:56px;margin-top:24px;justify-content:center}
+.stat{text-align:center}
+.stat .n{font-family:'Bebas Neue',sans-serif;font-size:64px;color:var(--red);line-height:1;letter-spacing:1px}
+.stat .l{font-size:14px;color:var(--gray-dark);margin-top:4px}
 
-    /* Tables */
-    .md table{width:100%; border-collapse:separate; border-spacing:0; margin:12px 0; overflow:hidden; border-radius:14px; border:1px solid rgba(255,255,255,.09)}
-    .md th,.md td{padding:10px 10px; vertical-align:top; border-bottom:1px solid rgba(255,255,255,.07)}
-    .md th{font-size:12px; color: var(--muted); text-transform:uppercase; letter-spacing:.08em; background: rgba(67,97,238,.10)}
-    .md tr:last-child td{border-bottom:0}
-    .md tr:nth-child(even) td{background: rgba(255,255,255,.02)}
+.layer{display:flex;align-items:center;gap:20px;padding:14px 0;border-bottom:1px solid var(--gray-darker);width:100%}
+.layer:last-child{border:none}
+.layer .num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--red);min-width:40px;letter-spacing:1px}
+.layer .name{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--white);min-width:200px;letter-spacing:.5px;text-align:left}
+.layer .desc{font-size:16px;color:var(--gray);text-align:left}
 
-    /* Skills */
-    .grid{display:grid; gap:12px; grid-template-columns: repeat(2, minmax(0, 1fr))}
-    .skill{
-      background: rgba(0,0,0,.16);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      padding:14px;
-      display:flex; flex-direction:column; gap:10px;
-    }
-    .skill-head{display:flex; align-items:flex-start; justify-content:space-between; gap:10px}
-    .skill-name{margin:0; font-size:14px}
-    .tag{font-family:"JetBrains Mono", var(--mono); font-size:11px; padding:3px 8px; border-radius:999px; border:1px solid rgba(67,97,238,.35); background: rgba(67,97,238,.12); color:#dbe2ff}
-    .skill-desc{margin:0; color:var(--muted); font-size:13px; line-height:1.45}
-    details{border-radius: 14px; border:1px solid rgba(255,255,255,.08); overflow:hidden; background: rgba(255,255,255,.02)}
-    details summary{cursor:pointer; padding:10px 12px; list-style:none; color: var(--muted)}
-    details summary::-webkit-details-marker{display:none}
-    details[open] summary{border-bottom:1px solid rgba(255,255,255,.08); color:var(--text); background: rgba(255,255,255,.03)}
-    details .details-body{padding:12px}
+.pipeline{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:16px}
+.pipeline .row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center}
+.pipeline .step{padding:20px 32px;font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;border-radius:6px;min-width:140px;text-align:center}
+.pipeline .step.agent{background:var(--surface2);color:var(--white);border:2px solid var(--surface2)}
+.pipeline .step.human{background:transparent;color:var(--red);border:2px solid var(--red)}
+.pipeline .arrow{color:var(--gray-dark);font-size:24px}
+.pipeline .dept{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gray-dark);letter-spacing:1.5px;margin-bottom:8px;text-transform:uppercase}
+.pipeline .caption{font-size:14px;color:var(--gray-dark);margin-top:10px;letter-spacing:.05em}
 
-    .footer{margin-top:18px; padding:14px 16px; border-top:1px solid var(--border); color: var(--muted2); font-size:12px; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap}
+.pipeline.compact .step{padding:14px 20px;font-size:20px;min-width:100px}
+.pipeline.compact .dept{font-size:16px}
+.pipeline.compact .caption{font-size:12px}
 
-    .kbd{font-family:"JetBrains Mono", var(--mono); font-size:12px; padding:2px 7px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.25); color: var(--muted)}
+.legend{display:flex;gap:28px;justify-content:center;margin-top:14px;font-size:14px;color:var(--gray-dark);letter-spacing:.05em}
+.legend .dot{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:8px;vertical-align:middle}
+.legend .dot.agent{background:var(--surface2);border:2px solid var(--surface2)}
+.legend .dot.human{background:transparent;border:2px solid var(--red)}
 
-    /* Mobile */
-    @media (max-width: 980px){
-      .app{grid-template-columns: 1fr}
-      .sidebar{position:relative; top:0; max-height:none}
-      .grid{grid-template-columns: 1fr}
-      .hero{padding:22px 18px 14px 18px}
-      .content{padding:14px 18px 18px 18px}
-    }
+.timeline{display:flex;gap:3px;margin-top:20px}
+.phase{flex:1;background:var(--surface);padding:28px;border-top:3px solid var(--gray-darker);display:flex;flex-direction:column;justify-content:center}
+.phase.active{border-top-color:var(--red);background:var(--surface2)}
+.phase h4{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--red);letter-spacing:1px;margin-bottom:10px}
+.phase p{font-size:16px;color:var(--gray);line-height:1.5}
 
-    @media print{
-      body{background:#fff; color:#000}
-      .sidebar{display:none}
-      .main{box-shadow:none; border:0}
-      .md a{color:#000; border:0; text-decoration:underline}
-    }
-  </style>
+.quote-text{font-family:'Bebas Neue',sans-serif;font-size:64px;color:var(--white);line-height:1;letter-spacing:1px;max-width:900px}
+.quote-text em{color:var(--red);font-style:normal}
+.quote-author{font-size:17px;color:var(--gray-dark);margin-top:24px;letter-spacing:.1em;text-transform:uppercase}
+
+.sc-table{display:grid;grid-template-columns:1.4fr 1fr;gap:0;margin-top:16px;width:100%;max-width:900px}
+.sc-table .h{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--red);letter-spacing:.15em;padding:14px 20px;border-bottom:2px solid var(--red);text-transform:uppercase;text-align:left}
+.sc-table .sym{font-size:18px;color:var(--white);padding:16px 20px;border-bottom:1px solid var(--gray-darker);font-weight:500;text-align:left}
+.sc-table .cause{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--red);padding:16px 20px;border-bottom:1px solid var(--gray-darker);letter-spacing:.5px;text-align:left}
+
+.def{border:2px solid var(--gray-darker);padding:32px 40px;max-width:820px}
+.def h4{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--red);letter-spacing:1px;margin-bottom:14px}
+.def p{font-size:18px;color:var(--gray);line-height:1.6}
+.def p + p{margin-top:12px}
+.def strong{color:var(--white)}
+
+.harness-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:1100px;margin:0 auto;width:100%}
+.harness-grid .cell{background:var(--surface);padding:28px 24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:180px}
+.harness-grid .cell h5{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--red);letter-spacing:1px;margin-bottom:8px}
+.harness-grid .cell p{font-size:15px;color:var(--gray);line-height:1.5;max-width:260px}
+.harness-grid .cell.dark{background:var(--surface2)}
+
+.anatomy{display:grid;grid-template-columns:180px 1fr;gap:14px 24px;max-width:820px;width:100%;text-align:left;margin:0 auto}
+.anatomy dt{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--red);letter-spacing:.1em;text-transform:uppercase;padding-top:4px}
+.anatomy dd{font-size:17px;color:var(--gray);line-height:1.5;border-left:2px solid var(--gray-darker);padding-left:20px}
+.anatomy dd strong{color:var(--white);font-weight:600}
+
+.stages{display:flex;flex-direction:column;gap:2px;max-width:1000px;width:100%;margin:0 auto}
+.stages .stage{display:grid;grid-template-columns:80px 240px 1fr;gap:24px;align-items:center;background:var(--surface);padding:18px 24px}
+.stages .stage.dark{background:var(--surface2)}
+.stages .stage.red{background:var(--red)}
+.stages .stage .s-num{font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--red);line-height:1;letter-spacing:1px}
+.stages .stage.red .s-num{color:#000}
+.stages .stage .s-name{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--white);letter-spacing:.5px;line-height:1.1}
+.stages .stage.red .s-name{color:#000}
+.stages .stage .s-desc{font-size:15px;color:var(--gray);line-height:1.4}
+.stages .stage.red .s-desc{color:rgba(0,0,0,.65)}
+
+.steps{display:flex;flex-direction:column;gap:10px;max-width:860px;width:100%;margin:0 auto}
+.steps .step-row{display:grid;grid-template-columns:60px 1fr;gap:24px;align-items:start;background:var(--surface);padding:20px 28px;text-align:left}
+.steps .step-row .n{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--red);line-height:.9;letter-spacing:1px}
+.steps .step-row h5{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--white);letter-spacing:.5px;margin-bottom:4px;line-height:1.1}
+.steps .step-row p{font-size:15px;color:var(--gray);line-height:1.5;margin:0}
+
+.archive-divider{background:var(--red);color:#000}
+.archive-divider h1{color:#000}
+
+.cta-btn{display:inline-flex;padding:20px 56px;background:var(--red);color:#000;font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;text-decoration:none;transition:all .15s}
+.cta-btn:hover{background:#ff6666;transform:translateY(-2px)}
+.cta-sub{font-size:16px;color:var(--gray-dark);margin-top:20px}
+.cta-sub a{color:var(--red);font-weight:700;text-decoration:none}
+
+.nav{position:fixed;bottom:28px;right:28px;display:flex;gap:6px;z-index:100}
+.nav button{width:44px;height:44px;border:1px solid var(--gray-darker);background:transparent;color:var(--gray);font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.nav button:hover{border-color:var(--red);color:var(--red)}
+.counter{position:fixed;bottom:34px;left:40px;font-size:12px;color:var(--gray-dark);z-index:100;font-weight:600;letter-spacing:.06em}
+.progress{position:fixed;top:0;left:0;height:3px;background:var(--red);z-index:200;transition:width .3s}
+</style>
 </head>
 <body>
-  <div class="container">
-    <div class="app">
-      <aside class="sidebar" aria-label="Навигация">
-        <div class="side-inner">
-          <div class="brand">
-            <div class="logo" aria-hidden="true"></div>
-            <div>
-              <h1>AI-Native Development Guide 2026</h1>
-              <p class="sub">Методологии, фреймворки и инструменты для разработки с AI</p>
-            </div>
-          </div>
+<div class="progress" id="progress"></div>
 
-          <div class="side-actions">
-            <div class="search" title="Поиск по странице">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35m1.85-5.15a8 8 0 11-16 0 8 8 0 0116 0z" stroke="rgba(255,255,255,.55)" stroke-width="2" stroke-linecap="round"/></svg>
-              <input id="search" type="search" placeholder="Поиск: SDD, Context rot, Cursor…" autocomplete="off" />
-            </div>
+<!-- =========================================================== -->
+<!-- АКТ 1 — ОТ ИНФОРМАЦИИ К КОНВЕЙЕРУ (1-6)                    -->
+<!-- =========================================================== -->
 
-            <div class="pillrow" aria-label="Быстрые фильтры">
-              <div class="pill" data-jump="#summary">Саммари</div>
-              <div class="pill" data-jump="#knowledge">Knowledge Base</div>
-              <div class="pill" data-jump="#digest">Дайджест</div>
-              <div class="pill" data-jump="#skills">Скиллы</div>
-              <div class="pill" data-jump="#frameworks">Фреймворки</div>
-            </div>
-          </div>
+<div class="slide center active" data-n="1">
+    <div class="topbar"><span class="label">NeuroGate / Гайд для руководителей</span><span class="num">01</span></div>
+    <h1 style="font-size:112px;text-align:center">Как привести<br>компанию к<br><em>AI-native</em></h1>
+    <p class="lead" style="margin-top:28px;text-align:center">Пошаговый план: с чего начать,<br>как не провалиться и что конкретно делать</p>
+</div>
 
-          <nav class="nav" id="nav"></nav>
+<!-- S2: КАРТИНКА МЕЧТЫ — AI-native компания -->
+<div class="slide center" data-n="2">
+    <div class="topbar"><span class="label">Картинка мечты</span><span class="num">02</span></div>
+    <h2 style="font-size:68px;max-width:1300px">AI-native компания —<br>это маленькая команда<br><em>с огромной выручкой</em></h2>
+    <p class="lead" style="text-align:center;margin-top:40px;max-width:860px;font-size:24px;color:var(--white);font-weight:600">3 человека делают работу 15.<br>Выручка на сотрудника — $1M+ вместо $200K.</p>
+    <p class="lead" style="text-align:center;margin-top:22px;max-width:780px;font-size:17px;color:var(--gray-dark)">Потому что 12 стали агентами. А те, кто остался, больше не исполнители. Они архитекторы.</p>
+</div>
 
-          <div style="margin-top:14px; color:var(--muted2); font-size:12px; line-height:1.45">
-            <div><span class="kbd">/</span> — фокус на поиск</div>
-            <div><span class="kbd">Esc</span> — очистить</div>
-          </div>
-        </div>
-      </aside>
+<div class="slide center" data-n="3">
+    <div class="topbar"><span class="label">Точка отсчёта</span><span class="num">03</span></div>
+    <h2 style="font-size:76px;max-width:1200px">Любая компания —<br>это <em>поток информации</em><br>и принятие решений</h2>
+    <p class="lead" style="text-align:center;margin-top:28px;max-width:780px">Заказы, звонки, договоры, отчёты, решения — всё, что происходит в компании, это переработка информации. Остальное — ноги и руки для того, что решила голова.</p>
+</div>
 
-      <main class="main">
-        <header class="hero">
-          <h2 class="hero-title">AI-Native Development Guide 2026</h2>
-          <p class="hero-sub">Публичный гайд по тому, как строить продукты и команды в эпоху agentic coding: методологии (SDD/EDD/Agentic), context engineering, источники, дайджест и рабочие скиллы для Claude Code.</p>
-        </header>
+<div class="slide center" data-n="4">
+    <div class="topbar"><span class="label">Наблюдение</span><span class="num">04</span></div>
+    <h2 style="font-size:80px;max-width:1100px">А любую информацию<br>можно записать <em>текстом</em></h2>
+    <p class="lead" style="text-align:center;margin-top:28px;max-width:780px">Заказ — это строчка. Звонок — это транскрипт. Документ — это страница. Решение — это письмо. Весь поток информации в компании — это буквы, цифры и предложения.</p>
+</div>
 
-        <div class="content" id="content">
-          <section class="section" id="overview">
-            <div class="section-header">
-              <h3 class="section-title">Обзор</h3>
-              <p class="section-note">Standalone HTML • тёмная тема • без внешних зависимостей</p>
-            </div>
-            <div class="card md">
-              <p><strong>Как пользоваться:</strong> слева — навигация по разделам и частям. Поиск работает по всему тексту, подсвечивает совпадения и показывает счётчик.</p>
-              <p><strong>Важно:</strong> контент ниже — отрендеренный markdown из внутренних документов (саммари / knowledge base / дайджесты / скиллы).</p>
-            </div>
-          </section>
+<div class="slide center" data-n="5">
+    <div class="topbar"><span class="label">LLM простыми словами</span><span class="num">05</span></div>
+    <h3 style="font-size:34px;color:var(--gray);letter-spacing:.15em;text-transform:uppercase;font-family:'Inter',sans-serif;font-weight:700;margin-bottom:40px">LLM умеет <span style="color:var(--red)">одну вещь</span></h3>
+    <h1 style="font-size:96px;max-width:1300px">Дочитать текст<br>и <em>угадать,<br>что дальше</em></h1>
+    <p class="lead" style="text-align:center;margin-top:40px;max-width:820px;font-size:20px">Всё. Больше ничего. Но этого хватает, чтобы писать код, отвечать клиентам, разбирать договоры и анализировать отчёты.</p>
+</div>
 
-          <section class="section" id="summary">
-            <div class="section-header">
-              <h3 class="section-title">Главное саммари (7 частей)</h3>
-              <p class="section-note">Источник: ai-native-development-summary.md</p>
-            </div>
-            <div class="card md" data-md="summary"></div>
-          </section>
+<div class="slide center" data-n="6">
+    <div class="topbar"><span class="label">Вывод</span><span class="num">06</span></div>
+    <h2 style="font-size:68px">Значит, любой процесс<br>в компании можно превратить<br>в <em>работу с текстом</em></h2>
+    <p class="lead" style="text-align:center;margin-top:28px;max-width:720px;font-size:19px">Лид → текст. Квалификация → текст. Ответ клиенту → текст. Договор → текст. Отчёт → текст. А работу с текстом теперь делает машина.</p>
+</div>
 
-          <section class="section" id="knowledge">
-            <div class="section-header">
-              <h3 class="section-title">Knowledge Base (35 источников)</h3>
-              <p class="section-note">Источник: knowledge-base.md</p>
-            </div>
-            <div class="card md" data-md="knowledge"></div>
-          </section>
+<div class="slide center" data-n="7">
+    <div class="topbar"><span class="label">Ключевой тезис</span><span class="num">07</span></div>
+    <h1 style="font-size:104px">AI-native<br>=<br><em>конвейер<br>работы с текстом</em></h1>
+</div>
 
-          <section class="section" id="digest">
-            <div class="section-header">
-              <h3 class="section-title">Дайджест статей</h3>
-              <p class="section-note">Источник: articles-digest.md + part2</p>
-            </div>
-            <div class="card md" data-md="digest"></div>
-          </section>
+<!-- =========================================================== -->
+<!-- АКТ 2 — АГЕНТ = УЗЕЛ КОНВЕЙЕРА (7-11)                       -->
+<!-- =========================================================== -->
 
-          <section class="section" id="skills">
-            <div class="section-header">
-              <h3 class="section-title">AI-скиллы для Claude Code (8)</h3>
-              <p class="section-note">Источник: SKILL.md (каждый)</p>
-            </div>
-            <div class="grid" id="skillsGrid"></div>
-          </section>
+<div class="slide center" data-n="8">
+    <div class="topbar"><span class="label">Знакомство с агентом</span><span class="num">08</span></div>
+    <h2 style="font-size:72px;max-width:1100px">Один узел конвейера —<br>это <em>агент</em></h2>
+    <p class="lead" style="text-align:center;margin-top:28px;max-width:780px">Один шаг в процессе — один агент. Квалифицировать лида, написать ответ клиенту, проверить договор. Каждый агент умеет что-то одно. Вместе они собираются в конвейер.</p>
+</div>
 
-          <section class="section" id="frameworks">
-            <div class="section-header">
-              <h3 class="section-title">Фреймворки</h3>
-              <p class="section-note">Из knowledge-base: Superpowers, Vibe Coding Coordinator v3, Anthropic Skills Guide</p>
-            </div>
-            <div class="card md" data-md="frameworks"></div>
-          </section>
-
-          <div class="footer">
-            <div>Curated by Tony AI • 2026</div>
-            <div>Tip: <span class="kbd">Ctrl</span> / <span class="kbd">Cmd</span> + <span class="kbd">F</span> работает, но встроенный поиск удобнее.</div>
-          </div>
-        </div>
-      </main>
+<div class="slide center" data-n="9">
+    <div class="topbar"><span class="label">Определение агента</span><span class="num">09</span></div>
+    <h2 style="font-size:84px;margin-bottom:40px">Агент = <em>LLM + обвязка</em></h2>
+    <div class="def" style="max-width:900px">
+        <p><strong>LLM</strong> — умеет читать и писать. Но ничего не знает про вашу компанию. Как очень умный человек с улицы.</p>
+        <p><strong>Обвязка</strong> — доступы, инструкции, инструменты, память, правила. Всё, что превращает LLM из чужака в вашего сотрудника.</p>
     </div>
-  </div>
-
-  <!-- Raw markdown payloads (embedded) -->
-  <script id="md-summary" type="text/plain">
-# AI-Native & AI-First Development: Итоговое саммари
-
-> **Дата:** 2026-02-17
-> **Цель:** Основа для подхода к разработке собственных проектов Макса и AI-трансформации МУ
-> **Источники:** 33+ статьи CTO knowledge base + глубокий ресёрч (70+ источников, Brave + web fetch)
-
----
-
-## TL;DR (30 секунд)
-
-AI не просто ускоряет написание кода — он полностью меняет роль разработчика, структуру команд и экономику создания продуктов. **Солофаундер с AI в 2026 = команда из 5-10 человек в 2023.** Но "парадокс продуктивности" реален: 91% разработчиков используют AI, но на уровне компаний прироста почти нет — потому что bottleneck сместился с написания кода на ревью, тестирование и архитектуру.
-
-**Ключевой вывод:** Побеждают не те кто быстрее генерирует код, а те кто лучше управляет контекстом, качеством и процессами вокруг AI-генерации.
-
----
-
-## Часть 1: Состояние индустрии (факты и цифры)
-
-### Adoption
-- **91% инженерных организаций** используют хотя бы один AI coding tool (DX, Q4 2025, 135K+ разработчиков)
-- **21% кода Google** генерируется AI
-- **22% merged кода** — AI-authored (DX Q4 2025, 266 компаний)
-- Adoption code review агентов вырос с **14.8% → 51.4%** за 2025 (Jellyfish)
-
-### Продуктивность — сложная картина
-- Разработчики экономят в среднем **3.6 часов/неделю** (DX Q4 2025)
-- Daily AI users мержат **60% больше PR** (2.3 vs 1.4 PR/нед)
-- Но: **PR review time увеличивается на 91%** при высоком AI adoption (Faros)
-- Баги **+9% на разработчика**, средний размер PR **+154%** (Faros, 10K devs, 1255 teams)
-- **Никакой корреляции** между AI adoption и улучшением метрик на уровне компании (Faros)
-
-### AI Productivity Paradox
-- **METR study (MIT):** Опытные разработчики с AI на **19% МЕДЛЕННЕЕ** на своих собственных репозиториях
-- При этом они **думают что на 20% быстрее** — когнитивное искажение
-- Причины: отладка "почти правильного" AI-кода забирает 66% времени; shift от creator к reviewer
-- **Вывод:** AI даёт leverage на НОВЫХ/незнакомых задачах, но может замедлять на привычных
-
-### Trust Paradox (новые данные)
-- **46% разработчиков** активно не доверяют точности AI-инструментов (Stack Overflow 2025)
-- Только **3%** сообщают о "высоком доверии" к output'у
-- **66%** называют борьбу с "почти правильным" кодом главной фрустрацией
-- **72%** профессиональных разработчиков заявляют что "vibe coding" не имеет отношения к их работе
-- Favorable views на AI упали с 70%+ (2023-24) до **60%** (2025) — рост adoption при падении доверия
-- **76%** отказываются использовать AI для deployment/monitoring, **69%** — для project planning
-
-### AI Coding Tool Market (Jellyfish 2025)
-- **GitHub Copilot** — #1 по adoption (42% primary), но теряет долю
-- **Cursor** вырос с <20% до ~40% AI-assisted PR market за 2025
-- **Cursor Agent** — #1 agentic tool (19.3% vs Copilot Agent 18%)
-- **Claude Code** — #2 coding assistant после Copilot
-- Retention 20 недель: Copilot/Cursor 89%, Claude Code 81%
-- Компании с высоким AI adoption: **+113% PRs/engineer**, **-24% cycle time**
-
-### 3 уровня AI-кодинга (Baytech 2026 Framework)
-- **Level 1 (Chatbot):** Dev → prompt → copy/paste. Большинство сегодня
-- **Level 2 (Router/IDE):** Cursor, Windsurf — контекст-aware IDE. Стандарт 2025
-- **Level 3 (Agentic):** Автономные агенты, план→код→тест→итерация. Фронтир 2026
-
-### Кто реально выигрывает
-- **Солофаундеры:** Pieter Levels — flight simulator за 3 часа, $50K/мес revenue. $3M/год без сотрудников
-- **Маленькие команды:** OpenAI Harness — 3→7 инженеров, 1M строк за 5 месяцев, 0 строк ручного кода
-- **Seniors > Juniors:** Сеньоры получают больше выгоды (knowledge paradox — нужно знать что проверять)
-- **Стартапы:** Series A продукты строятся на pre-seed бюджетах (Sequoia: $0→$1B быстрее чем когда-либо)
-
----
-
-## Часть 2: Три методологии (выбор подхода)
-
-### 1. Spec-Driven Development (SDD)
-**Суть:** Спецификация → План → Задачи → Код. Спека = source of truth.
-- **Как:** Сначала пишешь чёткую спеку (что, зачем, acceptance criteria), потом AI генерирует план, декомпозирует на задачи, реализует
-- **Инструменты:** GitHub Spec Kit (open source), Amazon Kiro, любой AI agent с хорошим контекстом
-- **Плюсы:** Повторяемость, ясный intent, tool-agnostic
-- **Цитата ThoughtWorks:** "Spec-Driven Development — одна из ключевых новых практик 2025"
-- **Для кого:** Команды (МУ), любой проект где нужна предсказуемость
-
-### 2. Eval-Driven Development (EDD)
-**Суть:** Сначала определи метрику "что значит лучше", потом AI оптимизирует решение.
-- **Как:** TDD для AI — пишешь eval (тест/метрику), AI автоматически ищет оптимальное решение
-- **Инструменты:** Weco.ai, custom eval pipelines
-- **Плюсы:** Автоматический поиск оптимумов, compounding improvements
-- **Для кого:** AI-фичи в продукте, оптимизация pipeline'ов
-
-### 3. Agentic Engineering (эволюция Vibe Coding)
-**Суть:** Не ты пишешь код — ты оркестрируешь агентов которые пишут.
-- **Как:** Архитектор + оркестратор + ревьюер. Агент планирует → исполняет → тестирует → итерирует
-- **Инструменты:** Claude Code, Cursor Composer, Copilot Workspace, Cline
-- **5 паттернов (Anthropic):** Prompt Chaining, Routing, Parallelization, Orchestrator-Workers, Evaluator-Optimizer
-- **Для кого:** Солофаундеры, прототипы, быстрая разработка
-
-### Рекомендация
-| Контекст | Подход |
-|---|---|
-| **Собственные проекты Макса** (PadelMind, BGF, DreamDay) | Agentic Engineering + SDD для крупных фич |
-| **МУ (команда 32 чел)** | SDD как основа + Thread-Based для качества + EDD для AI-фич |
-| **Быстрые прототипы / MVP** | Чистый Agentic (vibe coding с контролем) |
-
----
-
-## Часть 3: Context Engineering — ключевая компетенция 2026
-
-> "Context engineering — это новый prompt engineering" — Anthropic
-
-### Что это
-Управление ВСЕМ контекстом который видит модель: system prompt + tools + history + external data + MCP. Не "какой промпт написать", а "какая конфигурация контекста даёт лучший результат".
-
-### Почему это критично
-- **Context rot:** Чем больше токенов, тем хуже recall. Контекст = конечный ресурс с diminishing returns
-- **Attention budget:** У модели ограниченный "бюджет внимания" — каждый лишний токен размывает фокус
-- **Goldilocks zone:** Промпты должны быть между "жёстким if-else" и "расплывчатым high-level"
-
-### Практические паттерны
-
-**1. CLAUDE.md / AGENTS.md — "инструкция для агента"**
-- Описание проекта, архитектуры, conventions
-- Не энциклопедия, а table of contents (OpenAI Harness)
-- < 500 строк (HumanLayer рекомендация)
-
-**2. Skills — lazy-loaded контекст**
-- Агент подгружает инструкции по необходимости
-- Каждый skill = изолированный пакет знаний (markdown + scripts + docs)
-- Martin Fowler: "Cursor тоже переходит на Claude Code-style Skills"
-
-**3. Subagents — параллельное исполнение**
-- Каждый субагент работает в своём контекстном окне
-- Подходит для: тесты, ревью, документация параллельно с кодингом
-- Паттерн orchestrator-workers
-
-**4. Tools — минимальный жизнеспособный набор**
-- Инструменты определяют что агент МОЖЕТ делать
-- Лучше меньше хорошо описанных tools, чем много размытых
-- Armin Ronacher: "Tools need to be protected against an LLM chaos monkey"
-
-**5. Progressive disclosure**
-- Агент открывает контекст слой за слоем, а не получает всё сразу
-- Just-in-time: лёгкие указатели → загрузка по необходимости
-- Claude Code: CLAUDE.md upfront + glob/grep для навигации on demand
-
-### Как писать спеки для AI-агентов (Addy Osmani + GitHub)
-
-**5 принципов (Osmani):**
-1. **Начни с vision, пусть AI детализирует** — напиши 1-3 абзаца "что и зачем", AI генерирует полную спеку
-2. **Структурируй как PRD** — 6 обязательных секций (GitHub анализ 2500+ AGENTS.md):
-   - Commands (полные команды с флагами)
-   - Testing (фреймворк, где лежат тесты, покрытие)
-   - Project structure (явно: `src/`, `tests/`, `docs/`)
-   - Code style (один сниппет лучше трёх абзацев)
-   - Git workflow (branches, commits, PR)
-   - Boundaries (что НИКОГДА не трогать)
-3. **Разбивай на маленькие задачи** — один AI-сеанс = одна атомарная задача
-4. **Plan Mode → Execute** — сначала read-only анализ, потом кодинг
-5. **Итерируй** — спека = живой артефакт, обновляется после каждой итерации
-
-**Шаблон AGENTS.md (из анализа GitHub):**
-```markdown
-# Project: [Name]
-## Objective: [Что и зачем]
-## Tech Stack: [Конкретно с версиями]
-## Commands: [build, test, lint — полные команды]
-## Project Structure: [src/, tests/, docs/]
-## Boundaries:
-- ✅ Always: [run tests before commits]
-- ⚠️ Ask first: [DB schema changes]
-- 🚫 Never: [commit secrets, edit CI config]
-```
-
----
-
-## Часть 4: Практический фреймворк — "AI-Native Development"
-
-### Принципы (для всех проектов)
-
-**1. Spec-First, Code-Second**
-- Любая значимая задача начинается со спецификации, не с кода
-- Спека → AI-план → декомпозиция → реализация → ревью
-- Спека живёт и обновляется (не write-once документ)
-
-**2. Human-as-Architect, AI-as-Builder**
-- Человек: архитектура, бизнес-решения, качество, ревью
-- AI: генерация, рефакторинг, тесты, документация, boilerplate
-- "AI drafts. Engineers decide." — DEV Community 2026
-
-**3. Context is King**
-- Каждый проект имеет AGENTS.md / CLAUDE.md
-- Structured docs/ в каждом репозитории
-- Минимум токенов, максимум сигнала
-
-**4. Mechanical Enforcement > Trust**
-- Линтеры, structural tests, архитектурные проверки в CI
-- AI-код проходит те же гейты что и человеческий
-- "No slop": человек отвечает за каждую строку в проде (Greg Brockman)
-
-**5. Observe & Measure**
-- Baseline метрики ДО внедрения AI
-- Трекинг: cycle time, throughput, defect rate, review time
-- Без метрик невозможно понять работает ли AI или нет (82% компаний не измеряют — Faros)
-
-**6. Agent-Friendly Codebase**
-- Feature-модульная организация (каждый модуль = изолированный контекст)
-- "Boring" технологии лучше (агенты знают их лучше)
-- Быстрые тесты, качественные интерфейсы, понятные имена
-- Код оптимизирован для читаемости агентами, не людьми
-
-**7. Security by Design**
-- Только 14% AI-кода безопасен против XSS (Veracode)
-- Security-sensitive код — обязательный human review
-- Thread-Based Engineering: review-гейты между фазами
-
----
-
-## Часть 5: Применение
-
-### A. Собственные проекты Макса (солофаундер режим)
-
-**Стек:**
-- **IDE:** Cursor / Claude Code (переключение по задаче)
-- **AI models:** Claude Opus (архитектура), GPT-5.2 (рутина), Sonnet (быстрый код)
-- **Быстрый MVP:** Lovable / Bolt (no-code → code export при необходимости)
-- **Оркестрация:** Tony (OpenClaw) как hub, CTO-агент для архитектуры
-
-**Workflow для новой фичи:**
-```
-1. Описание задачи (1-3 абзаца на естественном языке)
-2. → CTO-агент генерирует спеку (acceptance criteria, edge cases, architecture)
-3. → Макс/Тони ревьюит спеку (5 мин)
-4. → AI декомпозирует на задачи
-5. → Agent(ы) реализуют (параллельно если возможно)
-6. → Automated tests + human review
-7. → Deploy
-```
-
-**Ключевые правила:**
-- Не писать код руками если AI может (Shopify rule: "Prove AI can't do it")
-- Каждый проект имеет AGENTS.md с контекстом
-- Тесты генерируются AI, но ревьюятся человеком
-- Technical debt check каждые 2 недели
-
-### B. Моя Удалёнка (команда 32 чел)
-
-**Фаза 1: Фундамент (Month 1)**
-- Выдать Cursor 3-5 сеньорам на пилот
-- Создать CLAUDE.md для монорепо (описание Tomato Architecture, conventions)
-- База промптов в wiki: 10+ рецептов (code review, тест-генерация, RFC-драфты)
-- Назначить "AI Lead" (капитан по агентам — Greg Brockman rec)
-- Baseline метрики: cycle time, PR throughput, defect rate
-
-**Фаза 2: Процессы (Month 2-3)**
-- Spec-Driven Development обязательный для всех новых фич
-- Review-гейты для AI-кода (Thread-Based Engineering)
-- AI code review bot в CI (проверка модульных границ, API стандарта)
-- Еженедельные AI-демо (15 мин): лучшие находки, промпты, кейсы
-- AI-генерация тестов (интеграционные) на одном модуле
-
-**Фаза 3: Масштабирование (Month 3-6)**
-- Раскатка на всю команду
-- Agent-first пилот на изолированном модуле (по OpenAI Harness паттерну)
-- AI-триаж обращений (YandexGPT/GigaChat для РФ)
-- Eval-Driven подход для AI-фич продукта
-- PostgreSQL migration planning (pgvector для AI-фич)
-
-**Ожидаемые результаты:**
-| Метрика | Прогноз |
-|---|---|
-| Cycle time | −30-40% |
-| PR throughput | +40-50% |
-| Code review time | −50% |
-| Test coverage | +20-30% |
-
-### Российский контекст (для МУ)
-- OpenAI/Anthropic через прокси или VPN — работает, но нестабильно
-- Для production AI-фич: abstraction layer (легко заменить модель)
-- Self-hosted модели (Llama, Mistral, Qwen) для некритичных задач
-- YandexGPT/GigaChat для клиентских AI-фич (не требуют обхода)
-- PostgreSQL вместо MS SQL — снимает лицензионные риски + pgvector
-
----
-
-## Часть 6: Антипаттерны (чего НЕ делать)
-
-### ❌ "Vibe coding" в продакшн
-- Быстрый прототип ≠ production code. AI-код без ревью = бомба замедленного действия
-- "It almost worked" — самый опасный статус
-
-### ❌ AI-анархия
-- Каждый сам выбирает инструменты → хаос, нет shared knowledge, нет масштабирования
-- Решение: единая платформа + централизованная база промптов
-
-### ❌ Метрики "строки кода"
-- AI генерирует больше кода, но это не значит больше ценности
-- PR +154% по размеру, баги +9% — объём ≠ качество
-- Правильные метрики: cycle time, defect rate, customer impact
-
-### ❌ Blind trust ("Looks right")
-- AI-код синтаксически правильный, часто логически неверный
-- Чем "красивее" output, тем опаснее слепое принятие
-- Правило: относись к AI-коду как к unreviewed junior code
-
-### ❌ Отказ от AI "потому что METR study"
-- 19% slowdown — для ОПЫТНЫХ разработчиков на СВОИХ репозиториях
-- Для новых кодбейс, boilerplate, прототипов, тестов — AI даёт огромный leverage
-- Learning curve: сначала медленнее, потом быстрее
-
-### ❌ Framework-first
-- Начинать с LangChain/AutoGen до понимания задачи
-- Huyen Chip: "Прямые API вызовы > фреймворки; prompting > fine-tuning"
-- 80% за месяц, ещё 15% за 4 месяца — каждый % дороже
-
----
-
-## Часть 7: Ключевые источники (Top 15)
-
-| # | Источник | URL | Почему важно |
-|---|---|---|---|
-| 1 | **Anthropic: Context Engineering** | anthropic.com/engineering/effective-context-engineering | Фундамент — КАК работать с AI |
-| 2 | **OpenAI: Harness Engineering** | openai.com/index/harness-engineering | Blueprint agent-first (0 ручного кода) |
-| 3 | **Faros: AI Productivity Paradox** | faros.ai/blog/ai-software-engineering | Жёсткая правда (10K devs, 1255 teams) |
-| 4 | **DX: Q4 2025 Impact Report** | getdx.com/blog/ai-assisted-engineering-q4 | 91% adoption, 3.6 hrs saved |
-| 5 | **Greg Brockman: 6 рекомендаций** | x.com/gdb/status/2019566641491963946 | План перехода к agentic dev |
-| 6 | **Martin Fowler: Context Engineering** | martinfowler.com/articles/exploring-gen-ai/context-engineering | Taxonomy инструментов |
-| 7 | **Habr: Акимов — 4 из 5 ошибок** | habr.com/ru/articles/965016 | Практика для RU рынка |
-| 8 | **Will Larson: Company AI Adoption** | lethain.com/company-ai-adoption | Как CTO внедряет AI |
-| 9 | **ThoughtWorks: Spec-Driven Dev** | thoughtworks.com/en-us/insights/blog/spec-driven | Глубокий разбор SDD |
-| 10 | **Huyen Chip: AI Pitfalls** | huyenchip.com/2025/01/16/ai-engineering-pitfalls | Антипаттерны |
-| 11 | **Addy Osmani: How to write specs** | addyosmani.com/blog/good-spec | 5 принципов написания спек |
-| 12 | **Jellyfish: 2025 AI Metrics** | jellyfish.co/blog/2025-ai-metrics-in-review | Рыночные данные по инструментам |
-| 13 | **Baytech: AI Dev 2026 Analysis** | baytechconsulting.com/blog/unlocking-ai-software-development-2026 | Trust paradox + 3 уровня AI |
-| 14 | **TeamDay: Complete Guide Agentic 2026** | teamday.ai/blog/complete-guide-agentic-coding-2026 | 5 паттернов + best practices |
-| 15 | **Anthropic: 2026 Agentic Coding Report** | resources.anthropic.com (PDF) | 18-стр отчёт, 8 трендов |
-
----
-
-## Итоговый чеклист: Начать завтра
-
-### Для собственных проектов Макса
-- [ ] Создать AGENTS.md для каждого активного проекта (PadelMind, BGF)
-- [ ] CTO-агент пишет спеки для каждой новой фичи перед кодингом
-- [ ] Настроить CI с тестами для всех проектов (AI-generated тесты)
-- [ ] Каждые 2 недели: tech debt review через CTO-агента
-
-### Для МУ (когда Макс даст контекст)
-- [ ] Создать CLAUDE.md для монорепо МУ
-- [ ] Пилот Cursor для 3-5 сеньоров (2 недели, с метриками)
-- [ ] AI Lead назначение
-- [ ] База промптов в wiki
-- [ ] Spec-Driven пилот на 2 фичах
-
----
-
-*Этот документ — living document. Обновляется CTO-агентом по мере появления новых материалов и опыта внедрения.*
-  </script>
-
-  <script id="md-knowledge" type="text/plain">
-# CTO Knowledge Base
-
-## Статус: Активный сбор материалов
-
-## Источники
-
-### От Игоря Акимова (@akimovpro) — февраль 2026
-
-#### Стратегия для CEO
-1. **McKinsey: The Change Agent — Goals, Decisions for CEOs in the Agentic Age**
-   https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-change-agent-goals-decisions-and-implications-for-ceos-in-the-agentic-age
-
-#### Построение AI-команд
-2. **HatchWorks: AI Development Team of the Future**
-   https://hatchworks.com/blog/gendd/ai-development-team-of-the-future/
-3. **Anshad Ameenza: AI Small Teams Software Development Revolution**
-   https://anshadameenza.com/blog/technology/ai-small-teams-software-development-revolution
-4. **Pragmatic Engineer: How AI Will Change Software Engineering**
-   https://newsletter.pragmaticengineer.com/p/how-ai-will-change-software-engineering
-
-#### 3 новые методологии разработки
-5. **Spec-Driven Development** (GitHub)
-   https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/
-6. **Eval-Driven Development** (Founder Collective)
-   https://foundercollective.com/blog/eval-driven-development/
-7. **Thread-Based Engineering** (PixelMojo)
-   https://www.pixelmojo.io/blogs/thread-based-engineering-prevents-ai-technical-debt
-
-#### Опыт компаний
-8. **Notion: AI-Driven Product Development**
-   https://www.notion.com/blog/notion-ai-for-work-unlocking-ai-driven-product-development
-9. **OpenAI: 15 Lessons Building ChatGPT Apps**
-   https://developers.openai.com/blog/15-lessons-building-chatgpt-apps
-10. **Anthropic: Effective Context Engineering for AI Agents**
-    https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
-11. **Vercel: Self-Driving Infrastructure**
-    https://vercel.com/blog/self-driving-infrastructure
-12. **Amazon: AI-Powered Development Framework**
-    https://prod.d13rzhkk8cj2z0.amplifyapp.com/
-
-#### OpenAI Engineering
-13. **OpenAI: Harness Engineering**
-    https://openai.com/index/harness-engineering/
-
-#### Практический опыт внедрения (RU)
-14. **Habr: Что сработало и что нет при внедрении AI** (Игорь Акимов)
-    https://habr.com/ru/articles/965016/
-
-### От Андрея Крисанова (@akrisanov) — февраль 2026
-
-**Контекст:** Сторонний CTO/эксперт (не МУ). Подписан на RSS по AI-разработке. Отмечает: российские реалии = закрытая экосистема, локальные модели хуже в кодинге. Eval — то, чем большинство пренебрегает.
-
-#### RFC Андрея Крисанова (его проекты, wiki.devmw.ru — НЕ МУ)
-**Технические:**
-15. https://wiki.devmw.ru/s/d5c52fb8-82d4-4b4b-9e42-644d637f52cb
-16. https://wiki.devmw.ru/s/3e3b934e-4601-4020-a046-9005b6edb3f4
-17. https://wiki.devmw.ru/s/d1f5c9c6-c7b8-499c-bb93-7ce9c62b8a35
-18. https://wiki.devmw.ru/s/dd024bc4-d99a-4469-81a0-628325d6c3c7
-19. https://wiki.devmw.ru/s/42989d1e-a725-4993-950a-aee259d3f328
-
-**Процессные:**
-20. https://wiki.devmw.ru/s/09b4e9e9-935a-4bcb-a948-11abc34af048
-21. https://wiki.devmw.ru/s/09b4e9e9-935a-4bcb-a948-11abc34af048/doc/process-planirovaniya-epikov-LlThQOS66Z
-22. https://wiki.devmw.ru/s/532d3720-937e-46c5-89d3-4966112f5aef
-
-#### Статьи и видео
-23. **Andrej Karpathy: Новая эра (видео)**
-    https://youtu.be/LCEmiRjPEtQ
-24. **Cleo 3.0: AI-first B2C ассистент**
-    https://web.meetcleo.com/blog/introducing-cleo-3-0
-25. **Tom Tunguz: 2026 Predictions**
-    https://tomtunguz.com/2026-predictions/
-26. **Sequoia: AI in 2026 — The Tale of Two AIs**
-    https://sequoiacap.com/article/ai-in-2026-the-tale-of-two-ais/
-27. **Will Larson (lethain): Company AI Adoption** ⭐
-    https://lethain.com/company-ai-adoption/
-28. **Huyen Chip: AI Engineering Pitfalls** ⭐
-    https://huyenchip.com/2025/01/16/ai-engineering-pitfalls.html
-
-#### Ключевые тезисы Андрея:
-- Eval-driven development — критически важен, большинство пренебрегает
-- Российские реалии: закрытая экосистема, ограничения доступа к моделям
-- Локальные модели/агенты хуже в кодинге чем западные
-- Согласен с прогнозами Tunguz и Sequoia, но с поправкой на РФ
-
-### Отчёты
-
-29. **Greg Brockman (OpenAI): 6 рекомендаций перехода к Agentic Software Development**
-    Источник: https://x.com/gdb/status/2019566641491963946 + @the_ai_architect
-    С 31 марта 2026 OpenAI переходит к agentic dev. 6 шагов:
-    1) Назначить "капитана по агентам" в каждой команде
-    2) Писать AGENTS.md + skills для каждого проекта, обновлять при ошибках
-    3) Инвентаризация внутренних инструментов → доступ для агентов (CLI/MCP)
-    4) Agent-first кодбейз: быстрые тесты, качественные интерфейсы
-    5) No slop: человек отвечает за каждый код в проде, ревью ≥ человеческой планки
-    6) Observability: логи действий агента, централизованное управление инструментами
-
-30. **Anthropic: Полное руководство по созданию навыков (Skills) для Claude** (RU перевод, PDF)
-    Источник: Anton Vdovitchenko (@aiwizards), перевод v2 от 2026-02-11
-    GitHub со скиллами перевода: https://github.com/miolamio/claude-skills
-    PDF сохранён: `/Users/max/.openclaw/media/inbound/file_116---f8b3132d-0dec-4ba2-b277-d8904e817fb3.pdf`
-    **Содержание:** Официальное руководство Anthropic по Skills — полный цикл:
-    1) Основы: что такое skill, структура SKILL.md, контрольный список
-    2) Планирование и проектирование: шаблоны YAML, примеры готовых навыков
-    3) Тестирование и доработка: критерии успеха, итерации
-    4) Публикация навыков: GitHub, каталоги
-    5) Шаблоны и решение проблем
-    6) Ресурсы: docs.anthropic.com/skills, github.com/anthropics/skills
-    **Ценность:** Базовый документ для создания скиллов в нашей системе. Прямо применим к OpenClaw skills.
-
-31. **Anthropic Official Skills Repository** (GitHub)
-    https://github.com/anthropics/skills
-    Источник: Юля (@jul_vaul) → Макс, 2026-02-18
-    **Что:** Официальный репо Anthropic с примерами скиллов для Claude/Claude Code.
-    Прямое дополнение к записи #30 (гайд по созданию Skills).
-    Использовать как reference при создании/стандартизации наших скиллов.
-
-32. **Дмитрий Жечков: Text2Code помощники для Vibe Coding** (презентация, ~30 слайдов)
-    https://docs.google.com/presentation/d/1pho7PdrZm-X__ukL_MJiPKrmNdlki_uaAkV4ZkHEesI/
-    Источник: Макс, 2026-02-18. Автор: руководитель AI онпрем в Cloud.ru
-
-33. **Каталоги скиллов:**
-    - https://skillsmp.com — 214,232 скилла
-    - https://skills.sh — 59,338 скиллов
-    - https://clawhub.com — OpenClaw-специфичные (5,700+)
-    ⚠️ Любой внешний скилл → аудит Безопасником ПЕРЕД установкой
-
-34. **Awesome Claude Code Toolkit** (135 агентов, 35 скиллов, 120 плагинов, 42 команды)
-    https://github.com/rohitg00/awesome-claude-code-toolkit
-
-35. **Anthropic: 2026 Agentic Coding Trends Report** (18 стр, PDF)
-    https://resources.anthropic.com/hubfs/2026%20Agentic%20Coding%20Trends%20Report.pdf
-
----
-
-## Фреймворки и скиллы
-
-### 1. Superpowers (obra/superpowers)
-- **Что:** Полный workflow разработки для AI-агентов
-- **Repo:** https://github.com/obra/superpowers
-- **Ключевое:** TDD (red-green-refactor), brainstorming перед кодом, планы по 2-5 мин задач, суб-агент на каждую задачу, двухуровневый review, git worktrees
-- **Лицензия:** MIT
-
-### 2. Vibe Coding Preparation Coordinator v3 (dzhechko)
-- **Что:** Полный pipeline подготовки проекта: Product Discovery → PRD → Валидация → Toolkit → Архив
-- **Gist:** https://gist.github.com/dzhechko/dd05979638a8713c6080d862aef2b12a
-- **Ключевое:** SPARC-методология, swarm agents, Docker+VPS архитектура, checkpoints
-
-### 3. PU-SKILLS (8 скиллов, 600K)
-
-| Скилл | Суть |
-|-------|------|
-| **sparc-prd-mini** | Генератор PRD + документации (11 файлов), SPARC-методология |
-| **explore** | Socratic questioning — уточнение задачи перед решением |
-| **problem-solver-enhanced** | First principles + TRIZ + Game Theory |
-| **brutal-honesty-review** | Жёсткий код-ревью (Linus+Ramsay+Bach стиль) |
-| **requirements-validator** | INVEST/SMART валидация + BDD сценарии |
-| **reverse-engineering-unicorn** | Reverse engineering компаний → launch playbook |
-| **cc-toolkit-generator** | Генератор Claude Code инструментов |
-| **goap-research** | GOAP ресёрч + крипто-верификация источников |
-
-## Профиль агента
-- **Роль:** CTO / Chief Technology Officer
-- **Модель:** Claude Opus 4
-- **Workspace:** workspace-cto/
-- **Приоритет:** Перестройка dev-процессов в Моя Удалёнка
-  </script>
-
-  <script id="md-digest" type="text/plain">
-# Дайджест статей для CTO
-
-**Дата:** 2026-02-17 | **Обработано статей:** 14 | **Контекст:** IT-команда 30+ чел, продуктовая компания, RU рынок (Моя Удалёнка)
-
----
-
-## Краткая сводка (executive summary для CEO)
-
-Индустрия переживает фундаментальный сдвиг: AI-инструменты сокращают необходимый размер команд в 5-10 раз, но только при правильном внедрении — 4 из 5 компаний совершают одни и те же ошибки (AI-анархия, отсутствие интеграций, недообучение, потеря знаний). Побеждают три новые методологии разработки: Spec-Driven Development (спецификация как источник истины), Eval-Driven Development (метрики-first) и Thread-Based Engineering (защита от AI-техдолга). OpenAI доказал на практике, что команда из 3-7 инженеров может генерировать миллион строк кода за 5 месяцев, если правильно выстроить «harness» — окружение для AI-агентов. Ключевой компетенцией становится не написание кода, а **context engineering** — умение управлять контекстом для LLM. Компаниям на RU рынке стоит начинать с централизации AI-инструментов, интеграций в существующие процессы и системного обучения команды, а не с закупки лицензий.
-
----
-
-## Три методологии: сравнение
-
-| Параметр | Spec-Driven Development | Eval-Driven Development | Thread-Based Engineering |
-|---|---|---|---|
-| **Суть** | Спецификация → план → задачи → код. Спека — source of truth | Eval (метрика) первична. AI оптимизирует решение под измеримую цель | Каждая AI-задача — изолированный «тред» с review-гейтами между фазами |
-| **Когда применять** | Greenfield, фичи в существующих системах, миграция legacy | Оптимизация: скорость, стоимость, качество. Когда цель измерима | Командная AI-разработка, защита от накопления техдолга |
-| **Плюсы** | Чёткий intent, повторяемость, работает с любым AI-агентом, open source (GitHub Spec Kit) | Автоматический поиск лучшего решения 24/7, универсальный интерфейс улучшения | Ловит 45% уязвимостей до продакшена, контроль качества AI-кода, масштабируется |
-| **Минусы** | Overhead на написание спеки, требует дисциплины | Работает только когда цель количественно измерима | Замедляет «быстрый старт», требует выстроенного процесса |
-| **Зрелость** | Высокая (GitHub, open source) | Средняя (Weco.ai, концепт) | Ранняя (PixelMojo, концепт) |
-| **Для МУ** | ⭐⭐⭐⭐⭐ Внедрять первым | ⭐⭐⭐ На втором этапе | ⭐⭐⭐⭐ Параллельно с Spec-Driven |
-
----
-
-## Статьи
-
-### 1. McKinsey: The Change Agent — Goals, Decisions for CEOs in the Agentic Age
-- **Источник:** https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-change-agent-goals-decisions-and-implications-for-ceos-in-the-agentic-age
-- **Ключевые идеи:**
-  - Компании испытывают «growing pains» от agentic AI — технология меняет роли, процессы, оргструктуру
-  - CEO должен активно участвовать в AI-трансформации, а не делегировать вниз
-  - Дорожная карта на 2 года: агрессивные цели с чёткими маркерами прогресса
-  - AI-стартапы перестраивают целые индустрии через agent-first подход
-- **Применимость для МУ (1-5):** 4 — стратегический фреймворк для CEO, но нужна адаптация под RU-реалии
-- **Action items:** Создать 2-летнюю AI-дорожную карту с квартальными чекпоинтами; CEO должен быть лично вовлечён в AI-стратегию
-
-### 2. HatchWorks: AI Development Team of the Future
-- **Источник:** https://hatchworks.com/blog/gendd/ai-development-team-of-the-future/
-- **Ключевые идеи:**
-  - Новые роли: Agentic Product Strategist, Agentic Engineer, Agentic QA, Agentic Designer
-  - Каждая роль привязана к конкретным AI-инструментам (Cursor, Devin, v0.dev, TestGPT)
-  - Multi-agent orchestration через LangChain/AutoGen/CrewAI становится обязательным скиллом
-  - QA трансформируется: auto-генерация тестов по спекам, prompt-based testing
-- **Применимость для МУ (1-5):** 4 — прямое руководство по трансформации ролей в команде
-- **Action items:** Переопределить роли в команде с учётом AI-инструментов; начать с Agentic Engineer (Cursor) и Agentic QA (автогенерация тестов)
-
-### 3. Anshad Ameenza: AI Small Teams Software Development Revolution
-- **Источник:** https://anshadameenza.com/blog/technology/ai-small-teams-software-development-revolution
-- **Ключевые идеи:**
-  - Минимальная команда для сложного продукта сократилась в 5-10x благодаря AI
-  - «Проблема 70%»: AI генерирует 70% кода быстро, но последние 30% (продакшен-качество) требуют опыта
-  - Seniors получают от AI больше выгоды, чем джуниоры (knowledge paradox)
-  - Экономика стартапов трансформирована: Series A продукты строятся на pre-seed бюджетах
-  - Логарифмическое масштабирование: добавление фич не требует пропорционального роста команды
-- **Применимость для МУ (1-5):** 5 — прямо описывает ситуацию команды 30+ чел
-- **Action items:** Оценить текущую структуру команды vs AI-augmented модель; инвестировать в обучение сеньоров AI-инструментам как приоритет
-
-### 4. Pragmatic Engineer: How AI Will Change Software Engineering
-- **Источник:** https://newsletter.pragmaticengineer.com/p/how-ai-will-change-software-engineering
-- **Ключевые идеи:**
-  - Два типа использования: «bootstrappers» (быстрый прототип) и «iterators» (ежедневный workflow)
-  - «Проблема 70%»: AI быстро делает 70%, но оставшиеся 30% — diminishing returns
-  - AI = «очень быстрый джуниор» — нужна постоянная ревью и supervision от опытных инженеров
-  - Паттерны что работают: AI-first draft → manual review → edge cases → tests → document decisions
-  - Переход к «agentic software engineering» и «English-first development»
-- **Применимость для МУ (1-5):** 5 — практический гайд для engineering lead'ов
-- **Action items:** Внедрить паттерн «AI-first draft + human review» как стандарт; обучить команду «trust but verify» подходу
-
-### 5. GitHub: Spec-Driven Development with AI (Spec Kit)
-- **Источник:** https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/
-- **Ключевые идеи:**
-  - 4 фазы: Specify → Plan → Tasks → Implement с валидацией на каждом шаге
-  - Спецификация — живой артефакт, не статичный документ. «Intent is the source of truth»
-  - Spec Kit — open source, работает с Copilot, Claude Code, Gemini CLI
-  - Решает проблему «vibe coding»: вместо расплывчатых промптов — структурированный intent
-  - Особенно мощно для фичей в существующих системах и legacy modernization
-- **Применимость для МУ (1-5):** 5 — можно внедрить завтра, open source, tool-agnostic
-- **Action items:** Пилот Spec Kit на 1-2 фичах; интегрировать в текущий SDLC как обязательный шаг перед разработкой
-
-### 6. Founder Collective: Eval-Driven Development
-- **Источник:** https://foundercollective.com/blog/eval-driven-development/
-- **Ключевые идеи:**
-  - Eval (метрика оценки) — самый ценный слой в AI-стеке, важнее моделей и агентов
-  - EDD = TDD для AI: сначала определи «что такое лучше», потом оптимизируй
-  - Weco.ai: автоматический поиск оптимальных решений по заданной eval (скорость, стоимость, качество)
-  - Claude Code для строительства нового, Weco для эволюции существующего — complementary tools
-  - «Компании, которые операционализируют evals, будут compounding быстрее всех»
-- **Применимость для МУ (1-5):** 3 — применимо для оптимизации AI-пайплайнов, не для всей разработки
-- **Action items:** Определить измеримые метрики для ключевых процессов; рассмотреть EDD для AI-фич продукта
-
-### 7. PixelMojo: Thread-Based Engineering Prevents AI Technical Debt
-- **Источник:** https://www.pixelmojo.io/blogs/thread-based-engineering-prevents-ai-technical-debt
-- **Ключевые идеи:**
-  - Каждая AI-задача — изолированный «тред» с review-гейтами между фазами
-  - Ловит 45% AI-сгенерированных уязвимостей ДО продакшена
-  - Только 14% AI-сгенерированного кода безопасен против XSS (по данным Veracode)
-  - Z-threads (zero-touch) запрещены для security-sensitive кода
-  - Архитектурные решения Phase 1 верифицируются до начала Phase 2
-- **Применимость для МУ (1-5):** 4 — критично для quality/security при масштабном использовании AI-кодинга
-- **Action items:** Внедрить review-гейты для AI-сгенерированного кода; security-sensitive код — только с human review
-
-### 8. Notion: AI-Driven Product Development
-- **Источник:** https://www.notion.com/blog/notion-ai-for-work-unlocking-ai-driven-product-development
-- **Ключевые идеи:**
-  - AI должен быть встроен в workflow, а не быть отдельной вкладкой
-  - Enterprise Search + AI Connectors: поиск по Jira, GitHub, Slack, Teams в одном месте
-  - Research Mode: синтез информации из workspace + внешних источников для PRD
-  - AI Meeting Notes + автоматические project updates экономят часы в неделю
-  - Кейсы: OpenAI, Ramp (−70% tool costs), Cohere (+30% скорость, 7+ ч/нед экономия)
-- **Применимость для МУ (1-5):** 3 — полезно если МУ использует Notion, но это больше маркетинг продукта
-- **Action items:** Оценить текущий knowledge management; если нет единого инструмента — рассмотреть платформу с AI-интеграцией
-
-### 9. OpenAI: 15 Lessons Building ChatGPT Apps
-- **Источник:** https://developers.openai.com/blog/15-lessons-building-chatgpt-apps
-- **Ключевые идеи:**
-  - «Three body problem»: user + UI + model — context asymmetry между ними
-  - Не весь контекст нужно шарить: явно решай «кто что знает» (structuredContent vs _meta)
-  - Lazy-loading не работает в AI-apps — нужен aggressive front-loading
-  - Language-first filtering: вместо checkbox-фильтров — натуральный язык
-  - CSP — новый CORS: безопасность iframe-based AI-apps требует хирургической точности
-- **Применимость для МУ (1-5):** 3 — релевантно если МУ строит AI-features в продукте
-- **Action items:** Применить принципы context asymmetry при проектировании AI-фич; учитывать «three body problem»
-
-### 10. Anthropic: Effective Context Engineering for AI Agents
-- **Источник:** https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
-- **Ключевые идеи:**
-  - Context engineering > prompt engineering: управление всем контекстом, не только промптами
-  - Context rot: чем больше токенов, тем хуже recall — контекст = конечный ресурс с diminishing returns
-  - «Goldilocks zone»: промпты должны быть между brittle if-else и vague high-level
-  - Just-in-time context: агенты хранят лёгкие указатели и подгружают данные по нужде (как Claude Code)
-  - Progressive disclosure: агенты открывают контекст слой за слоем, а не получают всё сразу
-- **Применимость для МУ (1-5):** 5 — фундаментальная статья, обязательна к прочтению для всех разработчиков
-- **Action items:** Обучить команду context engineering; внедрить CLAUDE.md / AGENTS.md паттерн в проекты; оптимизировать промпты по принципу «минимум токенов, максимум сигнала»
-
-### 11. Vercel: Self-Driving Infrastructure
-- **Источник:** https://vercel.com/blog/self-driving-infrastructure
-- **Ключевые идеи:**
-  - От «code → infrastructure» к «code ↔ production» feedback loop
-  - Vercel Agent: автономный мониторинг, root-cause analysis, AI code review до деплоя
-  - Framework-defined infrastructure: код определяет инфраструктуру, не конфиги
-  - AI-workloads требуют новых примитивов: обработка токенов, idle compute для LLM reasoning
-  - Поэтапная автономия: сначала рекомендации с human approval, затем полная автоматизация
-- **Применимость для МУ (1-5):** 3 — вдохновляющая концепция, но для МУ пока слишком ранний этап
-- **Action items:** Рассмотреть AI-powered мониторинг и alerting; изучить Vercel Agent для автоматизации on-call
-
-### 12. Amazon: AI-Powered Development Framework
-- **Источник:** https://prod.d13rzhkk8cj2z0.amplifyapp.com/
-- **Ключевые идеи:**
-  - Страница не загрузилась полностью (SPA без серверного рендеринга)
-  - По названию: AI-Driven Development Lifecycle — фреймворк Amazon для AI-разработки
-- **Применимость для МУ (1-5):** N/A — контент недоступен
-- **Action items:** Попробовать открыть в браузере и изучить вручную
-
-### 13. OpenAI: Harness Engineering — Leveraging Codex in Agent-First World
-- **Источник:** https://openai.com/index/harness-engineering/
-- **Ключевые идеи:**
-  - **0 строк ручного кода:** команда из 3→7 инженеров создала продукт с 1M строк за 5 месяцев через Codex
-  - 3.5 PR на инженера в день, throughput растёт с ростом команды (не падает!)
-  - AGENTS.md = table of contents, не энциклопедия. Repository knowledge = system of record
-  - Agent legibility: код оптимизирован для читаемости агентами, не людьми. «Boring» технологии лучше
-  - Архитектура enforced механически: линтеры, structural tests, custom lints с remediation instructions
-  - Codex работает 6+ часов на одной задаче, включая ночное время
-- **Применимость для МУ (1-5):** 5 — самая прорывная статья. Blueprint для agent-first разработки
-- **Action items:** Внедрить AGENTS.md паттерн; создать structured docs/ в репозиториях; mechanical enforcement архитектуры через линтеры; пилот agent-first разработки на изолированном модуле
-
-### 14. Habr: Год работы с AI-проектами — 4 из 5 компаний делают одни и те же ошибки (Игорь Акимов)
-- **Источник:** https://habr.com/ru/articles/965016/
-- **Ключевые идеи:**
-  - 4 критические ошибки: AI-анархия, отсутствие интеграций, недообучение, потеря знаний
-  - 4 столпа правильного внедрения: единая платформа, интеграции «под капотом», системное обучение, база знаний
-  - Реальные цифры: 3x контент, 40% экономия ресурсов, 25% рост выручки, 1.45x производительность разработки
-  - Пошаговый план: аудит болей → выбор мишеней → пилот 1-2 мес → масштабирование 3-6 мес → культура
-  - Антипаттерны: не лезть в креатив с нуля, решения без данных, высокие репутационные риски
-- **Применимость для МУ (1-5):** 5 — написано для RU рынка, конкретные цифры, пошаговый план
-- **Action items:** Провести аудит «болей» команды; выбрать 2-3 low-hanging fruit задачи; запустить пилот на одном отделе с метриками до/после
-
----
-
-## Рекомендации: план внедрения AI в dev-процессы
-
-### Контекст
-- Команда: 30+ человек, продуктовая компания
-- Рынок: RU
-- Текущий продукт: Моя Удалёнка
-
-### Месяц 1: Фундамент
-
-**Неделя 1-2: Аудит и стратегия**
-- [ ] Провести аудит «болей» по методологии Акимова (статья #14): опрос команды «какая самая тупая задача жрёт время»
-- [ ] Назначить AI Lead (1 человек, ответственный за AI-трансформацию)
-- [ ] Централизовать AI-инструменты: единая платформа (Cursor для разработки, Claude/ChatGPT для остальных)
-- [ ] Создать #ai-knowledge Slack/Teams канал для обмена находками
-
-**Неделя 3-4: Обучение и пилоты**
-- [ ] Обучить 5-7 сеньоров context engineering (статья #10 Anthropic — обязательное чтение)
-- [ ] Внедрить паттерн «AI-first draft + human review» (статья #4 Pragmatic Engineer)
-- [ ] Пилот Spec Kit (статья #5) на 2 новых фичах: Specify → Plan → Tasks → Implement
-- [ ] Внедрить AGENTS.md + structured docs/ в основной репозиторий (статья #13 OpenAI)
-
-### Месяц 2: Масштабирование
-
-**Неделя 5-6: Процессы**
-- [ ] Раскатать Spec-Driven Development на всю команду разработки
-- [ ] Внедрить review-гейты для AI-сгенерированного кода (статья #7 Thread-Based)
-- [ ] Настроить mechanical enforcement: линтеры, structural tests, архитектурные ограничения
-- [ ] Запустить еженедельные AI-демо (15 мин): лучшие практики, промпты, кейсы
-
-**Неделя 7-8: Интеграции**
-- [ ] Автоматизировать рутину: саммари встреч → задачи, code review assist, автогенерация тестов
-- [ ] Создать базу знаний: Prompts Library по отделам (dev, QA, product, support)
-- [ ] Внедрить метрики: baseline → AI-augmented (cycle time, throughput, defect rate)
-- [ ] Переопределить роли: Agentic Engineer, Agentic QA (статья #2 HatchWorks)
-
-### Месяц 3: Оптимизация и культура
-
-**Неделя 9-10: Agent-first пилот**
-- [ ] Запустить пилот agent-first разработки на изолированном модуле (по паттерну OpenAI, статья #13)
-- [ ] Внедрить Eval-Driven подход для AI-фич продукта (статья #6)
-- [ ] Настроить AI-powered мониторинг и alerting (по мотивам Vercel, статья #11)
-- [ ] Измерить ROI: часы сэкономлены, throughput, quality metrics
-
-**Неделя 11-12: Закрепление**
-- [ ] Задокументировать все кейсы с цифрами (для CEO и инвесторов)
-- [ ] Обновить онбординг: AI-инструменты как часть стандартного набора
-- [ ] Сформировать AI Champions в каждом отделе (2-3 человека)
-- [ ] Составить план на Q2: масштабирование на non-dev отделы (поддержка, маркетинг, sales)
-
-### Ожидаемые результаты через 3 месяца
-| Метрика | До | После (прогноз) |
-|---|---|---|
-| Cycle time (идея → прод) | baseline | −30-40% |
-| Throughput (задач/спринт) | baseline | +40-50% |
-| Code review time | baseline | −50% |
-| Test coverage | baseline | +20-30% (автогенерация) |
-| Документация | разрозненная | единая, AI-searchable |
-
-### Риски и митигация
-| Риск | Митигация |
-|---|---|
-| AI-анархия (каждый сам) | AI Lead + единая платформа + еженедельные демо |
-| Техдолг от AI-кода | Review-гейты + mechanical enforcement + Thread-Based подход |
-| Сопротивление команды | Начать с энтузиастов, показать ROI на цифрах, AI Champions |
-| Security уязвимости | Security-sensitive код только с human review, SAST/DAST |
-| Потеря знаний | Centralized Prompts Library + Knowledge Base + onboarding |
-
----
-
-# Дайджест: материалы от Андрея Крисанова (часть 2)
-
-> Дата: 2026-02-17 | Автор: CTO-агент
-
----
-
-## RFC МУ: текущие процессы
-
-### 1. Что такое RFC и как его писать
-**Суть:** Описание формата RFC для асинхронных обсуждений в распределённой команде. Статусы (WIP → Ревью → Принято → Реализовано), направления, нумерация.
-
-**Что хорошо:**
-- Чёткая структура и жизненный цикл RFC
-- Асинхронность — идеально для распределённой команды
-- Низкий порог входа для создания
-
-**Что улучшить с учётом AI:**
-- Добавить AI-генерацию драфтов RFC на основе описания проблемы (шаблон + контекст → черновик)
-- AI-рецензент: автоматическая проверка RFC на полноту (есть ли проблема, предложение, альтернативы, риски)
-- Автоматическая линковка связанных RFC через семантический поиск
-
----
-
-### 2. RFC 32: Упрощение архитектуры (Tomato Architecture)
-**Суть:** Отказ от Clean Architecture/DDD в пользу прагматичной feature-модульной организации кода. Модули по бизнес-фичам, минимум абстракций, прямое использование EF Core/ASP.NET.
-
-**Что хорошо:**
-- Прагматичный подход — честная оценка зрелости команды
-- Feature-based организация (BankStatements/, Users/) — правильный паттерн
-- Чёткие правила: Domain/Application/Infrastructure/Contracts
-- DI-изоляция модулей через `Add<Feature>Module()`
-
-**Что улучшить с учётом AI:**
-- AI Coding Agents (Claude Code, Cursor) отлично работают с feature-модулями — каждый модуль = изолированный контекст для агента
-- Добавить `CLAUDE.md` / `.cursorrules` в корень с описанием структуры модулей
-- AI может автоматически генерировать скаффолд нового модуля по шаблону
-- Code review через AI: проверка что модуль не нарушает границы (нет прямых ссылок между модулями)
-
----
-
-### 3. RFC 25: Масштабирование СУБД — Репликация
-**Суть:** Внедрение Always On AG (sync commit) для MS SQL Server. Разделение read/write, отказоустойчивость. Удаление memory_optimized файла. Опциональная миграция на Linux.
-
-**Что хорошо:**
-- Системный подход к проблемам СУБД (6 чётко описанных проблем)
-- Правильный выбор: sync commit для консистентности + async для DR
-- Долгосрочная стратегия ухода от проприетарных технологий (SQL Server → Linux)
-
-**Что улучшить с учётом AI:**
-- AI может помочь с анализом query patterns (R/W ratio) — подключить AI к логам SQL Server
-- Автоматическая генерация миграционных скриптов при переезде на Linux через AI-агентов
-- AI-мониторинг: anomaly detection на метриках СУБД (блокировки, tempdb growth)
-- В перспективе: рассмотреть PostgreSQL как целевую СУБД (open-source, лучшая поддержка AI-расширений типа pgvector)
-
----
-
-### 4. Стратегия контроля качества
-**Суть:** Комплексная QA-стратегия: интеграционные тесты (must), юнит-тесты (промежуточный этап), E2E (Playwright/Python), ручное тестирование. Принцип 80/20, фокус на пользовательских сценариях.
-
-**Что хорошо:**
-- Прагматизм: «100% coverage — не цель»
-- Правильная пирамида: интеграционные > юнит > E2E
-- Фокус на пользовательских сценариях в ручном тестировании
-- Статический анализ блокирует CI при warnings
-
-**Что улучшить с учётом AI:**
-- AI-генерация тестов: Claude Code может генерировать интеграционные тесты по коду модуля
-- AI для тест-кейсов: генерация edge cases на основе бизнес-требований
-- AI visual regression вместо BackstopJS — модели типа GPT-4V могут сравнивать скриншоты осмысленно
-- AI-триаж багов: автоматическая классификация и приоритизация bug reports
-
----
-
-### 5. Дизайн HTTP API
-**Суть:** Единый стандарт проектирования API: REST, RFC 9457 (Problem Details), версионирование через `API-Version` header, пагинация, кэширование, rate limiting.
-
-**Что хорошо:**
-- Основано на современных RFC (9457, 9110, 9111)
-- Чёткие правила: коды ответов, Problem Details, идемпотентность
-- Версионирование через дату — элегантно
-- OpenAPI как source of truth
-
-**Что улучшить с учётом AI:**
-- AI-генерация OpenAPI спецификаций из описания на естественном языке
-- AI-валидация новых endpoint'ов на соответствие этому RFC (линтер на основе LLM)
-- AI-генерация клиентских SDK по OpenAPI
-- Рассмотреть agent-friendly API design (structured output, machine-readable errors) — тренд 2026
-
----
-
-### 6. Планирование (OGP Framework)
-**Суть:** Квартальное планирование: Миссия → Стратегия → Цели → Квартальные проекты (Эпики). Иерархия потребностей (безопасность > продукт).
-
-**Что хорошо:**
-- Чёткая иерархия: миссия → стратегия → цели → эпики
-- Квартальный ритм с петлями обратной связи
-- Разделение: продуктовые эпики (CPO) vs технические (CTO)
-
-**Что улучшить с учётом AI:**
-- AI-ассистент для декомпозиции эпиков: загрузил описание → получил черновик User Stories
-- AI-оценка рисков и зависимостей между эпиками
-- Автоматическая генерация еженедельных статусов по данным из Яндекс.Трекера
-
----
-
-### 7. Процесс планирования Эпиков
-**Суть:** Lifecycle эпика: Бэклог → Анализ → Планирование → Готово к разработке → В работе → Выпущено. Предпланирование + планирование, еженедельные синхронизации.
-
-**Что хорошо:**
-- Двухэтапное планирование (предпланирование → планирование) — снижает риски
-- Чёткие критерии готовности к планированию
-- Еженедельная синхронизация по доске эпиков
-
-**Что улучшить с учётом AI:**
-- AI-бот для еженедельных апдейтов: собирает статусы из трекера, генерирует саммари
-- AI-прогнозирование: на основе исторических данных предсказывать попадание в итерацию
-- Автоматическое обнаружение блокеров через анализ связей задач
-
----
-
-### 8. Формирование запросов
-**Суть:** Маршрутизация запросов: пользовательские → поддержка → PO; внутренние → форма в трекере. Критические → канал инцидентов. Обработка очереди для формирования бэклога.
-
-**Что хорошо:**
-- Чёткая маршрутизация: знаешь куда идти с запросом
-- Разделение: баги vs фичи vs задачи vs эпики
-- Экспедайт для критических ситуаций
-
-**Что улучшить с учётом AI:**
-- AI-триаж входящих обращений: автоклассификация (баг/фича/вопрос) и маршрутизация
-- AI-дедупликация: проверка что похожий запрос уже есть в бэклоге
-- AI-бот поддержки: первая линия ответов на типовые вопросы перед эскалацией
-- Автоматическое оформление задач по шаблону из описания в свободной форме
-
----
-
-## Статьи: ключевые идеи
-
-### 1. Andrej Karpathy — "Software Is Changing (Again)" (AI Startup School, июнь 2025)
-**Контекст:** Keynote о том, как AI меняет разработку ПО.
-
-**Ключевые идеи:**
-1. **Software 3.0** — код всё больше пишется AI, а не людьми. Роль разработчика смещается к постановке задач и ревью
-2. **LLM как новый runtime** — нужно проектировать системы с учётом вероятностного поведения
-3. **Vibe coding** — разработка через описание намерений на естественном языке становится нормой
-4. **AGI timeline отодвигается** — реалистичный горизонт 2030+, но текущие инструменты уже трансформируют
-
-**Применимость для МУ:** Начинать внедрение AI coding agents уже сейчас. Не ждать AGI, а использовать текущие инструменты (Cursor, Claude Code) для ускорения feature-разработки.
-
----
-
-### 2. Cleo 3.0 — AI финансовый ассистент
-**Контекст:** Fintech-приложение, где AI — ядро продукта. Memory + tools + agentic reasoning поверх LLM.
-
-**Ключевые идеи:**
-1. **LLM + память + инструменты** — расширение базовых моделей через persistent memory и tool use
-2. **Deeper personalization** — AI адаптируется к конкретному пользователю со временем
-3. **Voice-first interaction** — голосовой интерфейс как основной канал
-4. **Agentic reasoning в реальном времени** — агент принимает решения, а не просто отвечает
-
-**Применимость для МУ:** ПланФакт — тоже финтех. Паттерн "LLM + инструменты + память" применим для AI-ассистента в управлении финансами (автокатегоризация, аномалии, рекомендации).
-
----
-
-### 3. Tom Tunguz — 12 Predictions for 2026
-
-**Ключевые идеи:**
-1. **Бизнесы платят за AI-агентов больше, чем за людей** — для рутинных задач агенты уже дешевле с учётом найма/обучения
-2. **AI-модели выполняют задачи автономно 8+ часов** — от часовых задач к полноценным рабочим стримам
-3. **AI-бюджеты впервые под скрутини** — малые модели и open-source растут, 10x экономия
-4. **Agent observability** — три типа мониторинга (code, security, data) сливаются в один
-5. **Веб переходит на agent-first дизайн** — документация и API для роботов, не только людей
-
-**Применимость для МУ:** Начинать с малых моделей для экономии. Проектировать API agent-friendly (уже делается в RFC API Design). Внедрить observability для будущих AI-агентов.
-
----
-
-### 4. Sequoia — AI in 2026: The Tale of Two AIs
-
-**Ключевые идеи:**
-1. **Год задержек** — data center buildout отстаёт, AGI timeline сдвигается в 2030-е
-2. **$0 → $1B клуб** — лучшие AI-стартапы растут быстрее, чем когда-либо
-3. **$1M+ revenue per employee** — AI-компании экстремально эффективны
-4. **Enterprise AI fatigue** — крупные компании устали от неудачных внедрений, покупают готовое
-5. **Compute cost curve** — стоимость inference продолжает падать, маржа растёт
-
-**Применимость для МУ:** Не пытаться строить AI in-house с нуля. Использовать готовые API/сервисы. Фокус на ROI, а не на хайпе. Стоимость inference падает — то, что дорого сегодня, будет дёшево через год.
-
----
-
-### 5. Will Larson — Facilitating AI Adoption at Imprint
-
-**Ключевые идеи:**
-1. **Prework: build intuition** — руководство должно лично работать с AI-инструментами, а не делегировать
-2. **Pave the path** — убирать барьеры к adoption (доступы, лицензии), а не заставлять
-3. **Centralize prompts** — единая база промптов, доступная всей компании, как shared knowledge
-4. **Tips & tricks database** — коллекция примеров использования AI внутри компании
-5. **Leadership leads from the front** — senior лидеры должны сами использовать AI-инструменты
-
-**Применимость для МУ:** **Самая практичная статья для МУ.** Создать внутреннюю базу промптов и рецептов. Андрей/CTO должен лично показывать как использовать AI в ежедневной работе. Убрать бюрократию в доступе к AI-инструментам.
-
----
-
-### 6. Huyên Chip — Common Pitfalls in AI Engineering
-
-**Ключевые идеи:**
-1. **Не используй GenAI где не нужно** — простые решения (линейное программирование, rule-based) часто лучше
-2. **«Плохой продукт» ≠ «плохой AI»** — проблема чаще в UX, а не в модели. Intuit: добавили suggested questions → рост adoption
-3. **Не начинай слишком сложно** — прямые API вызовы > фреймворки; prompting > fine-tuning
-4. **80% за месяц, ещё 15% за 4 месяца** — LinkedIn lesson: каждый следующий процент дороже
-5. **Не отказывайся от human evaluation** — AI-as-judge ненадёжен без калибровки с людьми
-
-**Применимость для МУ:** При внедрении AI-фич в ПланФакт: начать с простого (prompting, прямые API), не прыгать во фреймворки. Обязательно human evaluation. Не обещать 100% автоматизации — обещать 80% с человеком в loop.
-
----
-
-## Российский контекст
-
-### Ограничения
-1. **Закрытая экосистема:** OpenAI, Anthropic, Google AI недоступны напрямую. Нужны прокси/VPN или российские альтернативы
-2. **Локальные модели слабее:** YandexGPT, GigaChat уступают GPT-4/Claude по качеству в 2-3 раза, особенно в code generation и reasoning
-3. **Санкции на железо:** NVIDIA H100/B200 недоступны, data center buildout ограничен
-4. **MS SQL Server:** Лицензирование и поддержка Microsoft в РФ — серая зона. Миграция на Linux/PostgreSQL стратегически верна
-5. **Инструменты разработки:** GitHub Copilot, Claude Code, Cursor — нужны обходные пути для оплаты и доступа
-
-### Влияние на стратегию
-- **Dual-stack подход:** Основные AI-фичи строить на API, которые можно заменить (OpenAI → YandexGPT → self-hosted). Абстрактный AI layer
-- **Self-hosted модели:** Для некритичных задач (триаж, классификация) рассмотреть open-source модели (Llama, Mistral, Qwen) на своих серверах
-- **Не откладывать:** Несмотря на ограничения, команды-конкуренты в РФ уже внедряют AI. Ожидание = потеря конкурентного преимущества
-- **PostgreSQL:** Миграция с MS SQL → PostgreSQL не только снимает лицензионные риски, но и открывает pgvector для AI-фич
-
----
-
-## Рекомендации для МУ
-
-### 🔴 Срочные (Q1-Q2 2026)
-
-1. **AI Coding Pilot (2 недели)**
-   - Выдать Cursor/Claude Code 2-3 разработчикам на пилот
-   - Добавить `CLAUDE.md` в монорепозиторий с описанием Tomato Architecture
-   - Измерить: cycle time до/после, количество PR, субъективная оценка DX
-
-2. **Централизация промптов (по Larson)**
-   - Создать раздел в Outline wiki: «AI рецепты для команды»
-   - Собрать первые 10 примеров: code review prompts, тест-генерация, RFC-драфты
-   - Андрей лично показывает на weekly sync
-
-3. **AI-триаж обращений**
-   - Автоклассификация входящих в WEBREQ: баг/фича/вопрос
-   - Реализуемо на YandexGPT/GigaChat (не требует западных API)
-   - ROI: экономия 2-3 часа/неделю PO на ручной сортировке
-
-### 🟡 Среднесрочные (Q2-Q3 2026)
-
-4. **AI Code Review Bot**
-   - Проверка границ модулей (RFC 32), соответствие API стандарту (RFC API Design)
-   - Интеграция в CI pipeline
-   - Можно на self-hosted модели (CodeLlama/DeepSeek)
-
-5. **AI-генерация тестов**
-   - По RFC QA Strategy: автогенерация интеграционных тестов для новых модулей
-   - Claude Code + контекст модуля → тесты
-   - Начать с одного модуля, измерить покрытие до/после
-
-6. **PostgreSQL Migration Planning**
-   - Запустить PoC: один некритичный сервис на PostgreSQL
-   - Убирает лицензионные риски MS SQL
-   - Открывает pgvector для будущих AI-фич (embeddings, semantic search)
-
-### 🟢 Долгосрочные (Q3-Q4 2026)
-
-7. **AI Financial Assistant для ПланФакта (по модели Cleo)**
-   - Автокатегоризация транзакций, аномалии в расходах, рекомендации
-   - Паттерн: LLM + инструменты (API ПланФакта) + память (история пользователя)
-   - Killer feature для retention и upsell
-
-8. **Agent-First API Design**
-   - Расширить RFC API Design: structured errors для агентов, machine-readable metadata
-   - API-документация пригодная для AI-агентов (MCP-сервер для ПланФакта)
-
-9. **AI Observability Stack**
-   - Единый мониторинг: код + данные + AI-агенты
-   - Подготовка к масштабированию AI-агентов в 2027
-
----
-
-*Ключевой вывод: RFC МУ — крепкая база. Процессы зрелые, архитектура упрощается правильно. Главный gap — отсутствие AI в повседневной работе команды. Начать с малого (coding tools + промпт-база), масштабировать по результатам.*
-  </script>
-
-  <script id="md-frameworks" type="text/plain">
-## Frameworks (из Knowledge Base)
-
-### 1) Superpowers (obra/superpowers)
-- **Что:** Полный workflow разработки для AI-агентов
-- **Repo:** https://github.com/obra/superpowers
-- **Ключевое:** TDD (red-green-refactor), brainstorming перед кодом, планы по 2-5 мин задач, суб-агент на каждую задачу, двухуровневый review, git worktrees
-- **Лицензия:** MIT
-
-### 2) Vibe Coding Preparation Coordinator v3 (dzhechko)
-- **Что:** Полный pipeline подготовки проекта: Product Discovery → PRD → Валидация → Toolkit → Архив
-- **Gist:** https://gist.github.com/dzhechko/dd05979638a8713c6080d862aef2b12a
-- **Ключевое:** SPARC-методология, swarm agents, Docker+VPS архитектура, checkpoints
-
-### 3) Anthropic Skills Guide
-- **Описание:** Официальный гайд по созданию Skills + репозиторий примеров.
-- **Guide (RU перевод, PDF упомянут в knowledge base):** см. запись #30
-- **Official repo:** https://github.com/anthropics/skills
-  </script>
-
-  <script>
-    // ---------------------------
-    // Minimal Markdown Renderer
-    // (no external deps, pragmatic coverage: headings, lists, quotes, code blocks, tables, links)
-    // ---------------------------
-
-    const escapeHtml = (s) => s
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-
-    function slugify(text){
-      return text
-        .toLowerCase()
-        .trim()
-        .replace(/[\u0300-\u036f]/g,'')
-        .replace(/[^a-z0-9\u0400-\u04FF\s-]/g,'')
-        .replace(/\s+/g,'-')
-        .replace(/-+/g,'-');
-    }
-
-    function inline(md){
-      let s = escapeHtml(md);
-      // links: [text](url)
-      s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, t, url) => {
-        const safe = url.replace(/"/g,'');
-        return `<a href="${safe}" target="_blank" rel="noopener noreferrer">${t}</a>`;
-      });
-      // bare URLs
-      s = s.replace(/(https?:\/\/[^\s<]+[^<.,;\s])/g, (m) => `<a href="${m}" target="_blank" rel="noopener noreferrer">${m}</a>`);
-      // bold/italic/code
-      s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
-      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-      s = s.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-      return s;
-    }
-
-    function parseTable(lines, i){
-      // Pipe table requires at least 2 lines: header + separator
-      const header = lines[i];
-      const sep = lines[i+1] || '';
-      if(!/\|/.test(header) || !/^\s*\|?\s*[:-]-+/.test(sep.replace(/\|/g,'|'))){
-        return null;
-      }
-      const row = (line) => line.trim().replace(/^\|/,'').replace(/\|$/,'').split('|').map(c => inline(c.trim()));
-      const headCells = row(header);
-      let j = i+2;
-      const body = [];
-      while(j < lines.length && /\|/.test(lines[j]) && lines[j].trim() !== ''){
-        body.push(row(lines[j]));
-        j++;
-      }
-      let html = '<table><thead><tr>' + headCells.map(c=>`<th>${c}</th>`).join('') + '</tr></thead><tbody>';
-      html += body.map(r => '<tr>' + r.map(c=>`<td>${c}</td>`).join('') + '</tr>').join('');
-      html += '</tbody></table>';
-      return { html, nextIndex: j };
-    }
-
-    function mdToHtml(md){
-      const lines = md.replace(/\r\n/g,'\n').split('\n');
-      let out = '';
-      let i = 0;
-      let inCode = false;
-      let codeLang = '';
-      let codeBuf = [];
-      let listStack = []; // 'ul' or 'ol'
-
-      const closeLists = (toLevel=0) => {
-        while(listStack.length > toLevel){
-          const t = listStack.pop();
-          out += `</${t}>`;
-        }
-      };
-
-      while(i < lines.length){
-        const line = lines[i];
-
-        // code fences
-        const fence = line.match(/^```\s*([\w-]+)?\s*$/);
-        if(fence){
-          if(!inCode){
-            inCode = true;
-            codeLang = fence[1] || '';
-            codeBuf = [];
-          } else {
-            inCode = false;
-            closeLists(0);
-            const code = escapeHtml(codeBuf.join('\n'));
-            out += `<pre><code class="language-${codeLang}">${code}</code></pre>`;
-            codeLang = '';
-            codeBuf = [];
-          }
-          i++; continue;
-        }
-        if(inCode){ codeBuf.push(line); i++; continue; }
-
-        // hr
-        if(/^\s*---\s*$/.test(line)){
-          closeLists(0);
-          out += '<hr />';
-          i++; continue;
-        }
-
-        // table
-        const table = parseTable(lines, i);
-        if(table){
-          closeLists(0);
-          out += table.html;
-          i = table.nextIndex;
-          continue;
-        }
-
-        // headings
-        const h = line.match(/^(#{1,4})\s+(.+?)\s*$/);
-        if(h){
-          closeLists(0);
-          const level = h[1].length;
-          const text = h[2];
-          const id = slugify(text);
-          out += `<h${level} id="${id}">${inline(text)}</h${level}>`;
-          i++; continue;
-        }
-
-        // blockquote
-        const bq = line.match(/^>\s?(.*)$/);
-        if(bq){
-          closeLists(0);
-          const parts = [inline(bq[1])];
-          let j = i+1;
-          while(j < lines.length){
-            const m = lines[j].match(/^>\s?(.*)$/);
-            if(!m) break;
-            parts.push(inline(m[1]));
-            j++;
-          }
-          out += `<blockquote>${parts.map(p=>`<p>${p}</p>`).join('')}</blockquote>`;
-          i = j; continue;
-        }
-
-        // lists
-        const ul = line.match(/^\s*[-*+]\s+(.+)$/);
-        const ol = line.match(/^\s*(\d+)\.\s+(.+)$/);
-        if(ul || ol){
-          const type = ul ? 'ul' : 'ol';
-          const content = inline((ul ? ul[1] : ol[2]).trim());
-          if(listStack[listStack.length-1] !== type){
-            closeLists(0);
-            listStack.push(type);
-            out += `<${type}>`;
-          }
-          out += `<li>${content}</li>`;
-          i++; continue;
-        } else {
-          closeLists(0);
-        }
-
-        // empty
-        if(line.trim() === ''){
-          i++; continue;
-        }
-
-        // paragraph
-        out += `<p>${inline(line.trim())}</p>`;
-        i++;
-      }
-      closeLists(0);
-      return out;
-    }
-
-    // ---------------------------
-    // Data wiring
-    // ---------------------------
-
-    function getText(id){
-      const el = document.getElementById(id);
-      return el ? el.textContent.trim() : '';
-    }
-
-    const payload = {
-      summary: getText('md-summary'),
-      knowledge: getText('md-knowledge'),
-      digest: getText('md-digest'),
-      frameworks: getText('md-frameworks')
-    };
-
-    const skillPayloads = [
-      { id: 'sparc-prd-mini', md: `---\nname: sparc-prd-mini\ndescription: >\n  Модульный генератор PRD и SPARC документации (v2). Использует внешние скиллы через view()\n  вместо встроенных копий: explore, goap-research, problem-solver-enhanced. Поддерживает\n  AUTO и MANUAL режимы. Принимает pre-filled context от родительских скиллов.\n  Создаёт 11 production-ready файлов для AI-assisted разработки (Vibe Coding).\n  Триггеры: "sparc-prd-mini", "PRD mini", "документация auto/manual", "vibe coding docs".\n---\n\n# SPARC PRD Mini v2: Modular Documentation Generator (AUTO/MANUAL)\n\nСкилл для генерации полного пакета продуктовой документации по методологии SPARC. Модульная архитектура — использует внешние скиллы через \`view()\` вместо встроенных копий.\n` },
-      { id: 'explore', md: getTextFromProvided('/**/') }
-    ];
-
-    // We don't store huge SKILL.md bodies in this page; instead we show short extracted descriptions.
-    // The 8 skills below are summarized from frontmatter/intro of their SKILL.md files.
-    const skills = [
-      {
-        name: 'sparc-prd-mini',
-        title: 'SPARC PRD Mini v2',
-        desc: 'Модульный генератор PRD и пакета SPARC-документации (11 файлов) с AUTO/MANUAL режимами и внешними зависимостями через view().',
-        tags: ['SPARC','PRD','Docs','Orchestration'],
-        detailsMd: `## Что делает\n- Генерирует полный пакет документации по SPARC (11 файлов)\n- Поддерживает AUTO и MANUAL режимы с checkpoint’ами\n- Делегирует Explore/Research/Solve внешним скиллам (lazy-loaded контекст)\n\n## Когда использовать\n- "создай PRD" / "SPARC документация"\n- Старт крупной фичи или нового продукта\n\n## Выход\n- PRD.md, Specification.md, Architecture.md, Pseudocode.md, Refinement.md, Completion.md и др.`
-      },
-      {
-        name: 'explore',
-        title: 'Explore',
-        desc: 'Socratic questioning: превращает расплывчатые запросы в ясный Task Brief. Не решает задачу, пока не понятна цель/контекст/критерии успеха.',
-        tags: ['Clarification','Socratic','Brief'],
-        detailsMd: `## Ключевой принцип\n**Never solve before you understand.**\n\n## Результат\n- Task Brief (Objective, Context, Success Criteria, Constraints, Timeline, Out of Scope)\n\n## Когда включать\n- Нечёткие требования\n- Сложные multi-part задачи\n- Стратегические решения` 
-      },
-      {
-        name: 'problem-solver-enhanced',
-        title: 'Elite Problem Solver (TRIZ Enhanced)',
-        desc: '9-модульный фреймворк: First Principles, 5 Whys, SCQA, Game Theory, Second-Order Thinking + TRIZ (разрешение противоречий) и синтез плана действий.',
-        tags: ['First principles','TRIZ','Strategy'],
-        detailsMd: `## Что внутри\n- Root cause (5 Whys)\n- SCQA формулировка\n- Game theory по игрокам и стимулам\n- Second-order effects\n- TRIZ: IFR, technical/physical contradictions, inventive principles\n\n## Когда использовать\n- Нестандартные задачи, где «компромисс» выглядит неизбежным\n- Архитектурные решения и сложные трейд-оффы` 
-      },
-      {
-        name: 'brutal-honesty-review',
-        title: 'Brutal Honesty Review',
-        desc: 'Жёсткий, но полезный review: Linus (техничность), Ramsay (стандарты), Bach (BS detection). Структура: что сломано → почему → как правильно → как чинить.',
-        tags: ['Review','Quality','Security'],
-        detailsMd: `## Когда применять\n- Security vulnerabilities\n- Повторяющиеся ошибки\n- Проверка vendor claims\n\n## Важно\n- Атакуем работу, не человека\n- Всегда даём actionable шаги` 
-      },
-      {
-        name: 'requirements-validator',
-        title: 'Requirements Validator',
-        desc: 'Валидация требований по INVEST + SMART, расчёт score 0–100, блокировка требований со score < 50. Генерация BDD/Gherkin сценариев.',
-        tags: ['INVEST','SMART','BDD'],
-        detailsMd: `## Outputs\n- Таблица скоринга\n- Переписанные требования\n- BDD сценарии (happy/error/edge/security)\n\n## Rule\n**Score < 50 = BLOCKED from development.**` 
-      },
-      {
-        name: 'reverse-engineering-unicorn',
-        title: 'Reverse Engineering Unicorn v2',
-        desc: 'Reverse engineering компании → actionable launch playbook. 7 модулей, режимы QUICK/DEEP/VERIFIED, checkpoints, CJM prototype (кликабельный).',
-        tags: ['Competitive intel','Playbook','CJM'],
-        detailsMd: `## Pipeline\n- Intelligence → Product/Customers → Market/Competition → Business/Finance → Growth → Playbook\n\n## Особенность\n- В DEEP/VERIFIED подключает goap-research(-ed25519), problem-solver-enhanced, brutal-honesty-review` 
-      },
-      {
-        name: 'cc-toolkit-generator-enhanced',
-        title: 'CC Toolkit Generator (Enhanced)',
-        desc: 'Генерирует production-ready инструменты Claude Code из SPARC/PRD/DDD артефактов: CLAUDE.md, commands, rules, agents, hooks, MCP configs и feature lifecycle.',
-        tags: ['Claude Code','Toolkit','Automation'],
-        detailsMd: `## Что генерирует\n- CLAUDE.md, /init, /feature, /myinsights\n- rules (security, coding style, testing, git)\n- agents (planner, architect, code-reviewer…)\n\n## Фишка\n- Feature lifecycle: PLAN → VALIDATE → IMPLEMENT → REVIEW` 
-      },
-      {
-        name: 'goap-research-ed25519',
-        title: 'GOAP Research + Ed25519',
-        desc: 'GOAP ресёрч с крипто-верификацией Ed25519: 100% citation rule, verification ledger, trusted issuers whitelist. Для high-stakes ресёрча.',
-        tags: ['Research','Verification','Anti-hallucination'],
-        detailsMd: `## Отличия\n- Подписи, цепочки цитирований, аудит-трейл\n- Порог доверия (strict/paranoid)\n\n## Когда использовать\n- Юр/мед/финансы, публикации, конкурентная разведка` 
-      }
-    ];
-
-    // ---------------------------
-    // Render markdown sections
-    // ---------------------------
-    document.querySelectorAll('[data-md]').forEach(el => {
-      const key = el.getAttribute('data-md');
-      const md = payload[key] || '';
-      el.innerHTML = mdToHtml(md);
-    });
-
-    // ---------------------------
-    // Skills grid
-    // ---------------------------
-    const skillsGrid = document.getElementById('skillsGrid');
-    skills.forEach(s => {
-      const card = document.createElement('div');
-      card.className = 'skill';
-      card.innerHTML = `
-        <div class="skill-head">
-          <div>
-            <p class="skill-name"><strong>${escapeHtml(s.title)}</strong></p>
-            <p class="skill-desc">${escapeHtml(s.desc)}</p>
-          </div>
-          <span class="tag">${escapeHtml(s.name)}</span>
+    <p class="lead" style="text-align:center;margin-top:22px;max-width:720px;font-size:15px;color:var(--gray-dark)">В англоязычных текстах обвязку называют harness — запомните, будет встречаться часто.</p>
+</div>
+
+<div class="slide center" data-n="10">
+    <div class="topbar"><span class="label">Аналогия</span><span class="num">10</span></div>
+    <h2 style="font-size:68px;margin-bottom:28px">Это как нанять<br><em>нового сотрудника</em></h2>
+    <div class="def" style="max-width:860px">
+        <p><strong>LLM</strong> = человек с хорошим образованием, но первый день в компании</p>
+        <p><strong>Онбординг</strong> = показать, где что лежит, как мы тут работаем, кто за что отвечает</p>
+        <p><strong>Доступы и инструменты</strong> = почта, CRM, Slack, база документов</p>
+        <p><strong>Должностная инструкция</strong> = что он должен делать и чего не должен</p>
+        <p><strong>Задача на день</strong> = конкретная работа прямо сейчас</p>
+    </div>
+    <p class="lead" style="text-align:center;margin-top:22px;max-width:780px;font-size:17px">Без всего этого даже гений бесполезен. С этим — работает за 10 человек.</p>
+</div>
+
+<div class="slide full" data-n="11">
+    <div class="topbar"><span class="label">Из чего состоит обвязка</span><span class="num">11</span></div>
+    <h3 style="text-align:center;margin-bottom:32px;font-size:44px">Шесть частей, без которых агент <em>бесполезен</em></h3>
+    <div class="harness-grid">
+        <div class="cell"><h5>Контекст</h5><p>Что агент видит прямо сейчас. Папка документов на столе.</p></div>
+        <div class="cell dark"><h5>Инструкции</h5><p>Как у нас принято делать. Должностная инструкция.</p></div>
+        <div class="cell"><h5>Память</h5><p>Что он знает про компанию и историю работы.</p></div>
+        <div class="cell dark"><h5>Инструменты</h5><p>К чему он может дотянуться: CRM, почта, база, API.</p></div>
+        <div class="cell"><h5>Правила</h5><p>Что нельзя делать. Политики, guardrails, лимиты.</p></div>
+        <div class="cell dark"><h5>Команда</h5><p>Другие агенты, с которыми он работает в паре.</p></div>
+    </div>
+</div>
+
+<div class="slide center" data-n="12">
+    <div class="topbar"><span class="label">Пример одного узла</span><span class="num">12</span></div>
+    <h3 style="font-size:42px;margin-bottom:32px">Агент, который <em>квалифицирует лидов</em></h3>
+    <dl class="anatomy">
+        <dt>Мозг</dt><dd>Claude Sonnet 4.6</dd>
+        <dt>Контекст</dt><dd>Описание продукта · карточки идеальных клиентов · история успешных сделок</dd>
+        <dt>Инструкции</dt><dd>«Оцени лида по 5 критериям, верни балл от 1 до 10 и короткое обоснование»</dd>
+        <dt>Инструменты</dt><dd>CRM на чтение · база закрытых сделок на чтение · запись результата в карточку</dd>
+        <dt>Правила</dt><dd>Не придумывать факты. Если данных не хватает — пометить флагом и пустить в ручную проверку</dd>
+        <dt>На входе</dt><dd>Сырой лид с сайта</dd>
+        <dt>На выходе</dt><dd><strong>Балл · обоснование · запись в CRM</strong></dd>
+    </dl>
+</div>
+
+<!-- =========================================================== -->
+<!-- АКТ 3 — ДЕКОМПОЗИЦИЯ ПРОЦЕССОВ (12-20)                      -->
+<!-- =========================================================== -->
+
+<div class="slide center" data-n="13">
+    <div class="topbar"><span class="label">Собираем конвейер</span><span class="num">13</span></div>
+    <h2 style="font-size:68px">Теперь мы знаем,<br>как устроен <em>один узел</em>.<br>Пора собирать конвейер.</h2>
+</div>
+
+<div class="slide center" data-n="14">
+    <div class="topbar"><span class="label">Возьмём процесс</span><span class="num">14</span></div>
+    <h2 style="font-size:60px;margin-bottom:40px">Пример:<br><em>продажа новому клиенту</em></h2>
+    <div class="pipeline">
+        <div class="row">
+            <div class="step agent">Лид</div><span class="arrow">→</span>
+            <div class="step agent">Оценка</div><span class="arrow">→</span>
+            <div class="step agent">Звонок</div><span class="arrow">→</span>
+            <div class="step agent">CRM</div>
         </div>
-        <div class="pillrow">
-          ${s.tags.map(t=>`<span class="pill" style="cursor:default">${escapeHtml(t)}</span>`).join('')}
+        <div class="caption" style="font-size:16px;margin-top:16px">4 шага. Обычный процесс. В большинстве компаний это делают живые люди.</div>
+    </div>
+</div>
+
+<div class="slide center" data-n="15">
+    <div class="topbar"><span class="label">Метод декомпозиции</span><span class="num">15</span></div>
+    <h2 style="font-size:60px;margin-bottom:28px">К каждому шагу —<br><em>один вопрос</em></h2>
+    <div class="def" style="max-width:880px">
+        <p style="font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--white);letter-spacing:1px;line-height:1.1;text-align:center;margin-bottom:20px">«Нужен ли здесь живой человек<br>или достаточно агента?»</p>
+        <p><strong>Живой человек нужен только там, где:</strong></p>
+        <p>· нужна <strong>ответственность</strong> — подпись, решение с последствиями</p>
+        <p>· нужна <strong>эмпатия</strong> — живой разговор, переговоры, эскалация</p>
+        <p>· нужно <strong>физическое присутствие</strong> — реальный мир</p>
+        <p>· нужно <strong>живое решение</strong>, которое нельзя описать правилами</p>
+        <p style="margin-top:14px"><strong>Всё остальное — кандидат на агента.</strong></p>
+    </div>
+</div>
+
+<div class="slide center" data-n="16">
+    <div class="topbar"><span class="label">Sales</span><span class="num">16</span></div>
+    <h2 style="font-size:56px;margin-bottom:36px">Продажи: <em>3 шага — агент,<br>1 шаг — человек</em></h2>
+    <div class="pipeline">
+        <div class="row">
+            <div class="step agent">Лид</div><span class="arrow">→</span>
+            <div class="step agent">Скоринг</div><span class="arrow">→</span>
+            <div class="step human">Звонок</div><span class="arrow">→</span>
+            <div class="step agent">CRM</div>
         </div>
-        <details>
-          <summary>Показать детали</summary>
-          <div class="details-body md">${mdToHtml(s.detailsMd)}</div>
-        </details>
-      `;
-      skillsGrid.appendChild(card);
-    });
+        <div class="caption" style="font-size:15px;margin-top:18px;max-width:720px">Лид пришёл — агент обрабатывает. Скоринг по критериям — агент. Звонок — живой человек, там нужна эмпатия и диалог. Занести результат — агент.</div>
+    </div>
+    <div class="legend"><span><span class="dot agent"></span>агент</span><span><span class="dot human"></span>живой человек</span></div>
+</div>
 
-    // ---------------------------
-    // Navigation (auto from headings)
-    // ---------------------------
-    function buildNav(){
-      const nav = document.getElementById('nav');
-      const sections = [
-        {id:'overview', label:'Обзор'},
-        {id:'summary', label:'Саммари'},
-        {id:'knowledge', label:'Knowledge Base'},
-        {id:'digest', label:'Дайджест'},
-        {id:'skills', label:'Скиллы'},
-        {id:'frameworks', label:'Фреймворки'},
-      ];
+<div class="slide center" data-n="17">
+    <div class="topbar"><span class="label">Engineering</span><span class="num">17</span></div>
+    <h2 style="font-size:56px;margin-bottom:36px">Разработка: <em>3 шага — агент,<br>1 шаг — человек</em></h2>
+    <div class="pipeline">
+        <div class="row">
+            <div class="step agent">Тикет</div><span class="arrow">→</span>
+            <div class="step agent">Код</div><span class="arrow">→</span>
+            <div class="step human">Ревью</div><span class="arrow">→</span>
+            <div class="step agent">Deploy</div>
+        </div>
+        <div class="caption" style="font-size:15px;margin-top:18px;max-width:720px">Тикет разобрал — агент. Код написал — агент. Ревью — живой человек, это ответственность за продакшен. Деплой по расписанию — агент.</div>
+    </div>
+    <div class="legend"><span><span class="dot agent"></span>агент</span><span><span class="dot human"></span>живой человек</span></div>
+</div>
 
-      const links = [];
-      for (const s of sections){
-        links.push({href:'#'+s.id, label:s.label, cls:''});
-        if (s.id === 'summary'){
-          // Add subheadings from rendered markdown (Part 1..7)
-          const root = document.querySelector('#summary');
-          const hs = root ? Array.from(root.querySelectorAll('.md h2')).slice(0, 10) : [];
-          hs.forEach(h => {
-            const txt = h.textContent.trim();
-            const id = h.getAttribute('id');
-            if(id && txt.toLowerCase().startsWith('часть')){
-              links.push({href:'#'+id, label:txt, cls:'small'});
-            }
-          });
-        }
-      }
+<div class="slide center" data-n="18">
+    <div class="topbar"><span class="label">Finance</span><span class="num">18</span></div>
+    <h2 style="font-size:56px;margin-bottom:36px">Финансы: <em>3 шага — агент,<br>1 шаг — человек</em></h2>
+    <div class="pipeline">
+        <div class="row">
+            <div class="step agent">Счёт</div><span class="arrow">→</span>
+            <div class="step agent">Коды</div><span class="arrow">→</span>
+            <div class="step agent">Фрод</div><span class="arrow">→</span>
+            <div class="step human">OK</div>
+        </div>
+        <div class="caption" style="font-size:15px;margin-top:18px;max-width:720px">Распознать счёт — агент. Вытащить коды — агент. Проверка на фрод — агент. Одобрить платёж — живой человек, потому что это деньги.</div>
+    </div>
+    <div class="legend"><span><span class="dot agent"></span>агент</span><span><span class="dot human"></span>живой человек</span></div>
+</div>
 
-      nav.innerHTML = links.map(l => `<a class="${l.cls}" href="${l.href}">${escapeHtml(l.label)}</a>`).join('');
+<div class="slide center" data-n="19">
+    <div class="topbar"><span class="label">Правило</span><span class="num">19</span></div>
+    <h2 style="font-size:88px">3 из 4 шагов —<br>это <em>агент</em></h2>
+    <p class="lead" style="text-align:center;margin-top:28px;max-width:680px">1 шаг — живой человек. Там, где нужна ответственность, эмпатия или живое решение.</p>
+</div>
 
-      // Active link on scroll
-      const navLinks = Array.from(nav.querySelectorAll('a'));
-      const headings = Array.from(document.querySelectorAll('main .section'));
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if(!e.isIntersecting) return;
-          const id = e.target.getAttribute('id');
-          navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+id));
-        });
-      }, { rootMargin: "-45% 0px -50% 0px", threshold: 0.01 });
-      headings.forEach(h => obs.observe(h));
+<div class="slide center" data-n="20">
+    <div class="topbar"><span class="label">Под каждым шагом</span><span class="num">20</span></div>
+    <h3 style="font-size:42px;margin-bottom:28px">И под каждым агент-шагом —<br><em>своя обвязка</em></h3>
+    <div style="max-width:900px;margin:0 auto;width:100%">
+        <div class="layer"><span class="num">→</span><span class="name">Лид</span><span class="desc">CRM на запись, база источников, правила классификации</span></div>
+        <div class="layer"><span class="num">→</span><span class="name">Скоринг</span><span class="desc">Исторические сделки, карточка идеального клиента, правила приоритета</span></div>
+        <div class="layer"><span class="num">→</span><span class="name">CRM</span><span class="desc">Доступ к Hubspot/Bitrix, шаблоны карточки, логика присвоения менеджеру</span></div>
+    </div>
+    <p class="lead" style="text-align:center;margin-top:26px;max-width:780px;font-size:16px;color:var(--gray-dark)">Один процесс = несколько агентов. Каждый со своим мозгом и своей обвязкой. Это декомпозиция того, что уже делают ваши люди.</p>
+</div>
 
-      // Smooth scroll
-      nav.addEventListener('click', (ev) => {
-        const a = ev.target.closest('a');
-        if(!a) return;
-        const href = a.getAttribute('href') || '';
-        if(!href.startsWith('#')) return;
-        ev.preventDefault();
-        document.querySelector(href)?.scrollIntoView({behavior:'smooth', block:'start'});
-        history.replaceState(null, '', href);
-      });
-    }
+<div class="slide center" data-n="21">
+    <div class="topbar"><span class="label">Первое задание</span><span class="num">21</span></div>
+    <h2 style="font-size:62px">Возьмите <em>любой процесс</em>.<br>Разложите на 4-6 шагов.<br>Найдите те,<br>где нужен <em>живой человек</em>.</h2>
+    <p class="lead" style="text-align:center;margin-top:28px;max-width:640px">Всё остальное — кандидаты на агентов.</p>
+</div>
 
-    buildNav();
+<!-- =========================================================== -->
+<!-- АКТ 4 — КАК ВЫГЛЯДИТ ЦЕЛЬ (21-23)                          -->
+<!-- =========================================================== -->
 
-    // Pills: jump
-    document.querySelectorAll('.pill[data-jump]').forEach(p => {
-      p.addEventListener('click', () => {
-        const target = p.getAttribute('data-jump');
-        if(!target) return;
-        document.querySelector(target)?.scrollIntoView({behavior:'smooth', block:'start'});
-      });
-    });
+<div class="slide center" data-n="22">
+    <div class="topbar"><span class="label">Целевая картинка</span><span class="num">22</span></div>
+    <h2 style="font-size:64px;max-width:1200px">AI-native компания —<br>это когда все процессы<br><em>построены вокруг агентов</em></h2>
+    <p class="lead" style="text-align:center;margin-top:28px;max-width:780px">Люди не делают работу. Люди супервайзят и улучшают агентов.</p>
+</div>
 
-    // ---------------------------
-    // Search (highlight)
-    // ---------------------------
-    const search = document.getElementById('search');
-    let lastQuery = '';
+<div class="slide center" data-n="23">
+    <div class="topbar"><span class="label">Признаки</span><span class="num">23</span></div>
+    <h2 style="font-size:68px;margin-bottom:44px">Четыре признака <em>AI-native</em></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:1100px;width:100%">
+        <div class="block" style="min-height:190px;padding:32px 28px">
+            <h4 style="font-size:32px">Функции —<br>конвейеры</h4>
+            <p style="font-size:15px;max-width:none">Каждая функция компании — sales, finance, ops, support, engineering — это набор агент-конвейеров.</p>
+        </div>
+        <div class="block red" style="min-height:190px;padding:32px 28px">
+            <h4 style="font-size:32px">Общий<br>контекст</h4>
+            <p style="font-size:15px;max-width:none">Агенты работают на общем контексте компании. Не на персональных файлах одного человека.</p>
+        </div>
+        <div class="block dark" style="min-height:190px;padding:32px 28px">
+            <h4 style="font-size:32px">Запуск<br>по событиям</h4>
+            <p style="font-size:15px;max-width:none">Пришёл лид, изменился статус — процесс стартует сам. Не нужно нажимать «старт».</p>
+        </div>
+        <div class="block" style="min-height:190px;padding:32px 28px">
+            <h4 style="font-size:32px">Люди —<br>архитекторы</h4>
+            <p style="font-size:15px;max-width:none">Проектируют процессы, проверяют результат, отвечают за итог. Но сами работу не делают.</p>
+        </div>
+    </div>
+</div>
 
-    function clearHighlights(){
-      document.querySelectorAll('mark[data-hl]').forEach(m => {
-        const t = document.createTextNode(m.textContent);
-        m.replaceWith(t);
-      });
-    }
+<div class="slide center" data-n="24">
+    <div class="topbar"><span class="label">Точка старта</span><span class="num">24</span></div>
+    <h2 style="font-size:64px;max-width:1200px">Начните с <em>одного агента</em><br>под одну задачу</h2>
+    <p class="lead" style="text-align:center;margin-top:28px;max-width:820px">Не «внедрим AI на весь маркетинг». Не «переделаем продажи». Один агент. Одна задача. Повторяющаяся. Болезненная.</p>
+</div>
 
-    function highlight(query){
-      clearHighlights();
-      if(!query) return {count:0};
-      const q = query.toLowerCase();
-      const root = document.getElementById('content');
-      let count = 0;
+<div class="slide full" data-n="25">
+    <div class="topbar"><span class="label">Инструкция: как создать одного агента</span><span class="num">25</span></div>
+    <h2 style="text-align:center;margin-bottom:28px;font-size:60px">Первый агент —<br><em>за один вечер</em></h2>
+    <div class="steps">
+        <div class="step-row">
+            <div class="n">01</div>
+            <div><h5>Выберите одну задачу</h5><p>Ту, что вы или сотрудник делаете каждую неделю вручную. Повторяющуюся. Болезненную.</p></div>
+        </div>
+        <div class="step-row">
+            <div class="n">02</div>
+            <div><h5>Соберите контекст</h5><p>Примеры правильно сделанной работы. Документы, на которые нужно опираться. Правила игры вашей компании.</p></div>
+        </div>
+        <div class="step-row">
+            <div class="n">03</div>
+            <div><h5>Напишите инструкцию</h5><p>Что он делает. В каком формате возвращает результат. Что НЕ делает. Какие есть границы.</p></div>
+        </div>
+        <div class="step-row">
+            <div class="n">04</div>
+            <div><h5>Подключите инструменты</h5><p>Только те, что нужны для этой задачи. CRM, почта, база, API. Больше не подключайте.</p></div>
+        </div>
+        <div class="step-row">
+            <div class="n">05</div>
+            <div><h5>Запустите → прочитайте → поправьте инструкцию</h5><p>Не перезапускайте — улучшайте среду. Агент ошибся → инструкция получила ещё одно правило.</p></div>
+        </div>
+    </div>
+</div>
 
-      // Walk text nodes
-      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-        acceptNode(node){
-          if(!node.nodeValue || node.nodeValue.trim().length === 0) return NodeFilter.FILTER_REJECT;
-          const parent = node.parentElement;
-          if(!parent) return NodeFilter.FILTER_REJECT;
-          if(['SCRIPT','STYLE','MARK'].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
-          return NodeFilter.FILTER_ACCEPT;
-        }
-      });
+<!-- =========================================================== -->
+<!-- АКТ 6 — ЭВОЛЮЦИЯ (26-30)                                    -->
+<!-- =========================================================== -->
 
-      const nodes = [];
-      while(walker.nextNode()) nodes.push(walker.currentNode);
+<div class="slide center" data-n="26">
+    <div class="topbar"><span class="label">Эволюция</span><span class="num">26</span></div>
+    <h1 style="font-size:96px">Путь в AI-native —<br>это <em>эволюция</em></h1>
+    <p class="lead" style="text-align:center;margin-top:28px;max-width:700px">Её нельзя перепрыгнуть. Её надо прожить по шагам.</p>
+</div>
 
-      nodes.forEach(node => {
-        const text = node.nodeValue;
-        const lower = text.toLowerCase();
-        const idx = lower.indexOf(q);
-        if(idx === -1) return;
+<div class="slide full" data-n="27">
+    <div class="topbar"><span class="label">Шесть стадий эволюции</span><span class="num">27</span></div>
+    <h2 style="text-align:center;margin-bottom:36px;font-size:60px">Шесть стадий <em>эволюции</em></h2>
+    <div class="stages">
+        <div class="stage">
+            <div class="s-num">01</div>
+            <div class="s-name">ChatGPT<br>как поиск</div>
+            <div class="s-desc">Спросил, уточнил, переписал. Полезно, но мелко. AI ощущается как умный поисковик.</div>
+        </div>
+        <div class="stage dark">
+            <div class="s-num">02</div>
+            <div class="s-name">Проекты<br>с контекстом</div>
+            <div class="s-desc">Кастомные промпты, файлы, своя тема. Модель перестаёт быть болтуном и работает по вашей специфике.</div>
+        </div>
+        <div class="stage">
+            <div class="s-num">03</div>
+            <div class="s-name">Это не чат —<br>это агент</div>
+            <div class="s-desc">Дай агенту доступ к файлам и инструментам — он начнёт не отвечать, а делать.</div>
+        </div>
+        <div class="stage dark">
+            <div class="s-num">04</div>
+            <div class="s-name">Личный<br>workspace</div>
+            <div class="s-desc">Вся жизнь и работа в одном месте. Агент действует внутри вашего мира, а не в вакууме.</div>
+        </div>
+        <div class="stage">
+            <div class="s-num">05</div>
+            <div class="s-name">Team →<br>Company</div>
+            <div class="s-desc">Workspace становится общим. Агент получает operating context всей компании, а не одного человека.</div>
+        </div>
+        <div class="stage red">
+            <div class="s-num">06</div>
+            <div class="s-name">Инверсия</div>
+            <div class="s-desc">Все процессы построены вокруг агентов. Люди супервайзят и улучшают. Это и есть AI-native.</div>
+        </div>
+    </div>
+</div>
 
-        // Split only first match per node for simplicity; repeated matches are still found via multiple nodes.
-        const before = document.createTextNode(text.slice(0, idx));
-        const match = document.createElement('mark');
-        match.setAttribute('data-hl', '1');
-        match.style.background = 'rgba(76,201,240,.22)';
-        match.style.color = 'inherit';
-        match.style.borderRadius = '8px';
-        match.style.padding = '0 3px';
-        match.textContent = text.slice(idx, idx + query.length);
-        const after = document.createTextNode(text.slice(idx + query.length));
+<div class="slide center" data-n="28">
+    <div class="topbar"><span class="label">Главный вопрос</span><span class="num">28</span></div>
+    <h1 style="font-size:96px">Если это всё<br>так просто —<br>почему это ещё<br><em>не у всех?</em></h1>
+</div>
 
-        const frag = document.createDocumentFragment();
-        frag.appendChild(before);
-        frag.appendChild(match);
-        frag.appendChild(after);
-        node.parentNode.replaceChild(frag, node);
-        count++;
-      });
+<div class="slide center" data-n="29">
+    <div class="topbar"><span class="label">Ответ</span><span class="num">29</span></div>
+    <h2 style="font-size:68px;margin-bottom:28px">Люди привыкли<br>думать <em>«работой»</em></h2>
+    <div class="def" style="max-width:880px">
+        <p><strong>Работа</strong> — это то, что я делаю своими руками. Я пишу письмо. Я звоню клиенту. Я свожу отчёт. «Я» — центр.</p>
+        <p><strong>Процесс</strong> — это то, что происходит. Откуда начинается. Куда идёт. Из каких шагов состоит. Какой результат. И неважно, кто делает каждый шаг.</p>
+    </div>
+</div>
 
-      return {count};
-    }
+<div class="slide center" data-n="30">
+    <div class="topbar"><span class="label">Главный барьер</span><span class="num">30</span></div>
+    <h1 style="font-size:96px">Главный барьер —<br>не технология.<br>Не деньги.<br><em>Мышление.</em></h1>
+</div>
 
-    function setSearchHint(text){
-      search.setAttribute('placeholder', text);
-      setTimeout(()=> search.setAttribute('placeholder', 'Поиск: SDD, Context rot, Cursor…'), 1200);
-    }
+<!-- =========================================================== -->
+<!-- АКТ 8 — КАК МЕНЯТЬ МЫШЛЕНИЕ (35-41)                         -->
+<!-- =========================================================== -->
 
-    search.addEventListener('input', () => {
-      const q = search.value.trim();
-      if(q === lastQuery) return;
-      lastQuery = q;
-      const {count} = highlight(q);
-      if(q) setSearchHint(`Найдено: ${count}`);
-    });
+<div class="slide center" data-n="31">
+    <div class="topbar"><span class="label">Как менять мышление</span><span class="num">31</span></div>
+    <h2 style="font-size:72px">Это классический<br><em>change management</em></h2>
+    <p class="lead" style="text-align:center;margin-top:28px;max-width:780px">Цели. KPI. Лидерский пример. Публичные демо. Программа чемпионов. Ничего нового — только с AI вместо новой CRM.</p>
+</div>
 
-    // Keyboard shortcuts
-    window.addEventListener('keydown', (e) => {
-      if(e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey){
-        const tag = document.activeElement?.tagName;
-        if(tag !== 'INPUT' && tag !== 'TEXTAREA'){
-          e.preventDefault();
-          search.focus();
-        }
-      }
-      if(e.key === 'Escape'){
-        if(document.activeElement === search){
-          search.value = '';
-          lastQuery = '';
-          clearHighlights();
-          search.blur();
-        }
-      }
-    });
+<div class="slide center" data-n="32">
+    <div class="topbar"><span class="label">Задача лидера</span><span class="num">32</span></div>
+    <h2 style="font-size:60px;margin-bottom:28px">Культура начинается <em>с цели</em></h2>
+    <div class="def" style="max-width:860px">
+        <p><strong>Не киберпанк.</strong> Никто никого не заменяет роботами — AI снимает рутину, которая всем надоела.</p>
+        <p><strong>Лидер использует AI сам.</strong> Каждый день. Публично показывает свои скилы и автоматизации.</p>
+        <p><strong>Лидер называет цель.</strong> Зачем мы это делаем, какие риски, какой приз — уникально для каждой компании.</p>
+    </div>
+</div>
 
-    // Ensure external links open safely
-    document.querySelectorAll('.md a').forEach(a => {
-      a.setAttribute('target','_blank');
-      a.setAttribute('rel','noopener noreferrer');
-    });
+<div class="slide center" data-n="33">
+    <div class="topbar"><span class="label">Шаг 1 · Культура</span><span class="num">33</span></div>
+    <h2 style="font-size:80px">Четыре рычага.<br><em>Одновременно.</em></h2>
+</div>
 
-    // Note: helper stub for earlier draft; keep harmless.
-    function getTextFromProvided(){ return ''; }
-  </script>
+<div class="slide center" data-n="34">
+    <div class="topbar"><span class="label">Культура</span><span class="num">34</span></div>
+    <h2 style="font-size:68px;margin-bottom:44px">Четыре рычага <em>культуры</em></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:1100px;width:100%">
+        <div class="block" style="min-height:190px;padding:32px 28px">
+            <h4 style="font-size:32px">Ролевые модели</h4>
+            <p style="font-size:15px;max-width:none">Руководители используют AI сами, каждый день. Показывают свои автоматизации публично.</p>
+        </div>
+        <div class="block red" style="min-height:190px;padding:32px 28px">
+            <h4 style="font-size:32px">AI-чемпионы</h4>
+            <p style="font-size:15px;max-width:none">Сотрудники, которые находят кейсы, переводят для команды, двигают стратегию по своей функции.</p>
+        </div>
+        <div class="block dark" style="min-height:190px;padding:32px 28px">
+            <h4 style="font-size:32px">Канал успехов</h4>
+            <p style="font-size:15px;max-width:none">Еженедельные демо, общий slack-канал. Лучшие практики наружу. Открытия надо шерить.</p>
+        </div>
+        <div class="block" style="min-height:190px;padding:32px 28px">
+            <h4 style="font-size:32px">AI в KPI</h4>
+            <p style="font-size:15px;max-width:none">% daily usage в Performance Review. Рамка AI-компетенции по каждой роли.</p>
+        </div>
+    </div>
+</div>
+
+<div class="slide center" data-n="35">
+    <div class="topbar"><span class="label">Симптом → причина</span><span class="num">35</span></div>
+    <h2 style="font-size:48px;margin-bottom:28px;max-width:1100px">Шесть типичных провалов —<br>и их <em>настоящая причина</em></h2>
+    <div class="sc-table">
+        <div class="h">Симптом</div>
+        <div class="h">Причина</div>
+        <div class="sym">«Дали ChatGPT — никто не пользуется»</div>
+        <div class="cause">Нет культуры</div>
+        <div class="sym">«Агент галлюцинирует»</div>
+        <div class="cause">Нет памяти и валидации</div>
+        <div class="sym">«Это небезопасно»</div>
+        <div class="cause">Нет guardrails</div>
+        <div class="sym">«Непредсказуемо дорого»</div>
+        <div class="cause">Нет контроля бюджетов</div>
+        <div class="sym">«Один отдел сделал — остальные не в курсе»</div>
+        <div class="cause">Нет инфраструктуры</div>
+        <div class="sym">«Непонятно с чего начать»</div>
+        <div class="cause">Нет лидера</div>
+    </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- АКТ 9 — ПЛАН И ФИНАЛ (42-47)                                -->
+<!-- =========================================================== -->
+
+<div class="slide center" data-n="36">
+    <div class="topbar"><span class="label">Шаг 2 · Действия</span><span class="num">36</span></div>
+    <h2 style="font-size:84px">План на<br><em>90 дней</em></h2>
+</div>
+
+<div class="slide full" data-n="37">
+    <div class="topbar"><span class="label">90-дневный план</span><span class="num">37</span></div>
+    <h3 style="margin-bottom:24px;font-size:40px;text-align:center">От аудита <em>до масштаба</em></h3>
+    <div class="timeline">
+        <div class="phase active">
+            <h4>Неделя 1</h4>
+            <p><strong>Аудит.</strong> Разложить 3-5 главных процессов на шаги. Найти те, которые сейчас делают люди, а должны делать агенты.</p>
+        </div>
+        <div class="phase">
+            <h4>Месяц 1</h4>
+            <p><strong>Фундамент.</strong> Доступ к LLM у всех. AI-лид. 5 чемпионов. Публичный канал успехов. KPI: daily usage 50%+.</p>
+        </div>
+        <div class="phase">
+            <h4>Месяц 2-3</h4>
+            <p><strong>Пилоты.</strong> 3 функции × 4-недельные пилоты с замером. Начать с самого болезненного.</p>
+        </div>
+        <div class="phase">
+            <h4>Месяц 3+</h4>
+            <p><strong>Масштаб.</strong> Пилоты → вся компания. Онтология данных. Обновлённый оргдизайн.</p>
+        </div>
+    </div>
+</div>
+
+<div class="slide center" data-n="38">
+    <div class="topbar"><span class="label">Главное</span><span class="num">38</span></div>
+    <h1 style="font-size:128px">Просто<br><em>начните</em></h1>
+</div>
+
+
+<div class="slide center" data-n="39">
+    <div class="topbar"><span class="label">Правило</span><span class="num">39</span></div>
+    <h2 style="font-size:76px">Если руководитель<br>не использует AI —<br><em>команда не будет</em></h2>
+</div>
+
+<!-- =========================================================== -->
+<!-- АКТ 7 — ГЛАВНЫЙ БАРЬЕР: ЛЕГАСИ МЫШЛЕНИЕ (31-34)            -->
+<!-- =========================================================== -->
+
+<div class="slide center" data-n="40">
+    <div class="topbar"><span class="label">Сдвиг мышления</span><span class="num">40</span></div>
+    <h1 style="font-size:72px;max-width:1200px">AI-native руководитель<br>смотрит на компанию<br>не как на список задач,<br>а как на <em>карту процессов</em></h1>
+</div>
+
+<div class="slide center" data-n="41">
+    <div class="topbar"><span class="label">Два шага</span><span class="num">41</span></div>
+    <h1 style="font-size:96px;max-width:1300px">Два шага,<br>которые можно<br><em>сделать завтра</em></h1>
+</div>
+
+<div class="slide split" data-n="42">
+    <div class="topbar"><span class="label">С чего начать завтра</span><span class="num">42</span></div>
+    <div class="half dark">
+        <h3 style="font-size:44px;margin-bottom:16px">Начните <em>с себя</em></h3>
+        <p style="max-width:360px">Возьмите один болезненный процесс — отчёты, письма, анализ конкурентов. Автоматизируйте. Ощутите разницу сами.</p>
+    </div>
+    <div class="half red">
+        <h3 style="font-size:44px;margin-bottom:16px">Дайте доступ<br><em>команде</em></h3>
+        <p style="max-width:360px">Откройте сотрудникам доступ к моделям. Пусть пробуют, сжигают токены, проходят первые стадии эволюции сами.</p>
+    </div>
+</div>
+
+<div class="slide center" data-n="43">
+    <div class="topbar"><span class="label">NeuroGate</span><span class="num">43</span></div>
+    <h1 style="font-size:88px;margin-bottom:28px">Нужна помощь<br>с внедрением?<br><em>Мы рядом.</em></h1>
+    <p style="font-size:20px;color:var(--gray);margin-bottom:36px;max-width:540px">Попробуйте NeuroGate — откройте команде доступ к AI. Разложим процессы, поможем запустить первых агентов.</p>
+    <a href="https://ng-ai.ru" class="cta-btn">NG-AI.RU →</a>
+    <div class="cta-sub">Напишите напрямую: <a href="https://t.me/msoloviev">@msoloviev</a></div>
+</div>
+
+<div class="nav">
+    <button onclick="go(-1)">←</button>
+    <button onclick="go(1)">→</button>
+</div>
+<div class="counter" id="counter">1 / 43</div>
+
+<script>
+const slides=document.querySelectorAll('.slide'),total=slides.length,prog=document.getElementById('progress'),cnt=document.getElementById('counter');
+let cur=0;
+function show(i){slides.forEach(s=>s.classList.remove('active'));slides[i].classList.add('active');cnt.textContent=(i+1)+' / '+total;prog.style.width=((i+1)/total*100)+'%'}
+function go(d){cur=Math.max(0,Math.min(total-1,cur+d));show(cur)}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'){e.preventDefault();go(1)}if(e.key==='ArrowLeft'||e.key==='Backspace'){e.preventDefault();go(-1)}if(e.key==='Home'){cur=0;show(0)}if(e.key==='End'){cur=total-1;show(cur)}});
+let tx=0;document.addEventListener('touchstart',e=>tx=e.touches[0].clientX);document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)go(d<0?1:-1)});
+</script>
 </body>
 </html>
