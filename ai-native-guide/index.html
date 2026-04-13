@@ -37,7 +37,7 @@ body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;-web
 
 h1{font-family:'Bebas Neue',sans-serif;font-size:96px;color:var(--white);line-height:.92;letter-spacing:3px}
 h1 em{color:var(--red);font-style:normal}
-h2{font-family:'Bebas Neue',sans-serif;font-size:76px;color:var(--white);line-height:.95;letter-spacing:2px}
+h2{font-family:'Bebas Neue',sans-serif;font-size:72px;color:var(--white);line-height:.95;letter-spacing:2px}
 h2 em{color:var(--red);font-style:normal}
 h3{font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--white);line-height:1;letter-spacing:1px}
 h3 em{color:var(--red);font-style:normal}
@@ -59,7 +59,7 @@ strong{color:var(--white);font-weight:700}
 .big-num.black{color:#000}
 
 .block{background:var(--surface);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:48px 40px}
-.block h4{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--white);letter-spacing:1px;margin-bottom:14px;line-height:1.02}
+.block h4{font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--white);letter-spacing:1px;margin-bottom:14px;line-height:1.02}
 .block p{font-size:17px;color:var(--gray);line-height:1.5;max-width:360px}
 .block.red{background:var(--red)}
 .block.red h4{color:#000}
@@ -157,6 +157,100 @@ strong{color:var(--white);font-weight:700}
 .nav button:hover{border-color:var(--red);color:var(--red)}
 .counter{position:fixed;bottom:34px;left:40px;font-size:12px;color:var(--gray-dark);z-index:100;font-weight:600;letter-spacing:.06em}
 .progress{position:fixed;top:0;left:0;height:3px;background:var(--red);z-index:200;transition:width .3s}
+
+@media (max-width: 820px){
+  html,body{overflow:auto;height:auto}
+  .slide{padding:72px 20px 72px !important;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .slide.full,.slide.center{padding:80px 20px 80px !important;justify-content:flex-start !important}
+  .slide.center{align-items:center !important}
+  .slide.split{flex-direction:column !important}
+  .slide.grid2x2.active{grid-template-columns:1fr !important;grid-template-rows:repeat(4,minmax(0,1fr)) !important}
+  .slide.grid3.active{grid-template-columns:1fr !important;grid-template-rows:repeat(3,minmax(0,1fr)) !important}
+
+  .topbar{padding:14px 20px !important}
+  .topbar .label{font-size:10px !important;max-width:60vw;line-height:1.3}
+  .topbar .num{font-size:34px !important}
+
+  h1{font-size:clamp(34px,9vw,60px) !important;letter-spacing:1px !important;line-height:1 !important}
+  h2{font-size:clamp(28px,7.5vw,52px) !important;letter-spacing:1px !important;line-height:1 !important}
+  h3{font-size:clamp(22px,6vw,38px) !important;letter-spacing:.5px !important;line-height:1.05 !important}
+  p{font-size:clamp(14px,3.8vw,17px) !important;line-height:1.5 !important}
+  p.lead{font-size:clamp(14px,4vw,18px) !important;max-width:100% !important;line-height:1.5 !important}
+
+  .big-num{font-size:clamp(72px,20vw,130px) !important}
+
+  .half{padding:36px 22px !important}
+
+  .def{padding:22px 20px !important;max-width:100% !important}
+  .def h4{font-size:22px !important}
+  .def p{font-size:14px !important}
+
+  .harness-grid{grid-template-columns:1fr !important;max-width:100% !important}
+  .harness-grid .cell{min-height:auto !important;padding:20px 16px !important}
+  .harness-grid .cell h5{font-size:22px !important}
+  .harness-grid .cell p{font-size:13px !important;max-width:100% !important}
+
+  .anatomy{grid-template-columns:1fr !important;gap:2px 0 !important;max-width:100%}
+  .anatomy dt{font-size:14px !important;padding-top:12px}
+  .anatomy dd{border-left:none !important;padding-left:0 !important;font-size:14px !important}
+
+  .pipeline{gap:6px}
+  .pipeline .row{flex-direction:column;gap:8px}
+  .pipeline .step{padding:12px 18px !important;font-size:17px !important;min-width:140px !important}
+  .pipeline .arrow{transform:rotate(90deg)}
+  .pipeline .caption{font-size:12px !important;max-width:100% !important;line-height:1.4}
+  .pipeline .dept{font-size:13px !important}
+  .legend{gap:18px !important;font-size:12px !important;flex-wrap:wrap}
+
+  .block{min-height:auto !important;padding:22px 18px !important}
+  .block h4{font-size:22px !important}
+  .block p{font-size:13px !important;max-width:100% !important}
+
+  /* collapse inline 2-col grids */
+  .slide div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;max-width:100% !important}
+
+  .sc-table{grid-template-columns:1fr !important;max-width:100%}
+  .sc-table .h:nth-child(2){display:none}
+  .sc-table .h{font-size:12px !important;padding:10px 14px !important}
+  .sc-table .sym{font-size:14px !important;padding:12px 14px 4px !important;border-bottom:none !important}
+  .sc-table .cause{font-size:17px !important;padding:0 14px 12px !important}
+
+  .stages{max-width:100%}
+  .stages .stage{grid-template-columns:48px 1fr !important;gap:10px 14px !important;padding:14px 16px !important}
+  .stages .stage .s-num{font-size:30px !important}
+  .stages .stage .s-name{font-size:17px !important}
+  .stages .stage .s-desc{font-size:12px !important;grid-column:1/-1;line-height:1.4}
+
+  .steps{max-width:100%}
+  .steps .step-row{grid-template-columns:44px 1fr !important;gap:14px !important;padding:16px 18px !important}
+  .steps .step-row .n{font-size:32px !important}
+  .steps .step-row h5{font-size:17px !important}
+  .steps .step-row p{font-size:13px !important;line-height:1.45}
+
+  .layer{flex-wrap:wrap;gap:6px 14px;padding:12px 0}
+  .layer .num{font-size:20px !important;min-width:26px !important}
+  .layer .name{font-size:17px !important;min-width:auto !important}
+  .layer .desc{font-size:13px !important;flex-basis:100%;padding-left:40px;margin-top:2px}
+
+  .timeline{flex-direction:column;gap:2px}
+  .phase{padding:18px 18px !important}
+  .phase h4{font-size:18px !important;margin-bottom:6px}
+  .phase p{font-size:13px !important;line-height:1.45}
+
+  .stat-row{gap:22px !important;flex-wrap:wrap}
+  .stat .n{font-size:40px !important}
+  .stat .l{font-size:12px !important}
+
+  .quote-text{font-size:34px !important;line-height:1.05 !important}
+  .quote-author{font-size:12px !important;margin-top:16px}
+
+  .cta-btn{padding:16px 36px !important;font-size:22px !important;letter-spacing:1px !important}
+  .cta-sub{font-size:13px !important;margin-top:16px}
+
+  .nav{bottom:14px !important;right:14px !important;gap:4px}
+  .nav button{width:40px !important;height:40px !important;font-size:15px !important}
+  .counter{bottom:22px !important;left:18px !important;font-size:11px !important}
+}
 </style>
 </head>
 <body>
@@ -175,20 +269,20 @@ strong{color:var(--white);font-weight:700}
 <!-- S2: КАРТИНКА МЕЧТЫ — AI-native компания -->
 <div class="slide center" data-n="2">
     <div class="topbar"><span class="label">Картинка мечты</span><span class="num">02</span></div>
-    <h2 style="font-size:68px;max-width:1300px">AI-native компания —<br>это маленькая команда<br><em>с огромной выручкой</em></h2>
+    <h2 style="font-size:72px;max-width:1300px">AI-native компания —<br>это маленькая команда<br><em>с огромной выручкой</em></h2>
     <p class="lead" style="text-align:center;margin-top:40px;max-width:860px;font-size:24px;color:var(--white);font-weight:600">3 человека делают работу 15.<br>Выручка на сотрудника — $1M+ вместо $200K.</p>
     <p class="lead" style="text-align:center;margin-top:22px;max-width:780px;font-size:17px;color:var(--gray-dark)">Потому что 12 стали агентами. А те, кто остался, больше не исполнители. Они архитекторы.</p>
 </div>
 
 <div class="slide center" data-n="3">
     <div class="topbar"><span class="label">Точка отсчёта</span><span class="num">03</span></div>
-    <h2 style="font-size:76px;max-width:1200px">Любая компания —<br>это <em>поток информации</em><br>и принятие решений</h2>
+    <h2 style="font-size:72px;max-width:1200px">Любая компания —<br>это <em>поток информации</em><br>и принятие решений</h2>
     <p class="lead" style="text-align:center;margin-top:28px;max-width:780px">Заказы, звонки, договоры, отчёты, решения — всё, что происходит в компании, это переработка информации. Остальное — ноги и руки для того, что решила голова.</p>
 </div>
 
 <div class="slide center" data-n="4">
     <div class="topbar"><span class="label">Наблюдение</span><span class="num">04</span></div>
-    <h2 style="font-size:80px;max-width:1100px">А любую информацию<br>можно записать <em>текстом</em></h2>
+    <h2 style="font-size:72px;max-width:1100px">А любую информацию<br>можно записать <em>текстом</em></h2>
     <p class="lead" style="text-align:center;margin-top:28px;max-width:780px">Заказ — это строчка. Звонок — это транскрипт. Документ — это страница. Решение — это письмо. Весь поток информации в компании — это буквы, цифры и предложения.</p>
 </div>
 
@@ -201,13 +295,13 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="6">
     <div class="topbar"><span class="label">Вывод</span><span class="num">06</span></div>
-    <h2 style="font-size:68px">Значит, любой процесс<br>в компании можно превратить<br>в <em>работу с текстом</em></h2>
+    <h2 style="font-size:72px">Значит, любой процесс<br>в компании можно превратить<br>в <em>работу с текстом</em></h2>
     <p class="lead" style="text-align:center;margin-top:28px;max-width:720px;font-size:19px">Лид → текст. Квалификация → текст. Ответ клиенту → текст. Договор → текст. Отчёт → текст. А работу с текстом теперь делает машина.</p>
 </div>
 
 <div class="slide center" data-n="7">
     <div class="topbar"><span class="label">Ключевой тезис</span><span class="num">07</span></div>
-    <h1 style="font-size:104px">AI-native<br>=<br><em>конвейер<br>работы с текстом</em></h1>
+    <h1 style="font-size:96px">AI-native<br>=<br><em>конвейер<br>работы с текстом</em></h1>
 </div>
 
 <!-- =========================================================== -->
@@ -222,7 +316,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="9">
     <div class="topbar"><span class="label">Определение агента</span><span class="num">09</span></div>
-    <h2 style="font-size:84px;margin-bottom:40px">Агент = <em>LLM + обвязка</em></h2>
+    <h2 style="font-size:72px;margin-bottom:40px">Агент = <em>LLM + обвязка</em></h2>
     <div class="def" style="max-width:900px">
         <p><strong>LLM</strong> — умеет читать и писать. Но ничего не знает про вашу компанию. Как очень умный человек с улицы.</p>
         <p><strong>Обвязка</strong> — доступы, инструкции, инструменты, память, правила. Всё, что превращает LLM из чужака в вашего сотрудника.</p>
@@ -232,7 +326,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="10">
     <div class="topbar"><span class="label">Аналогия</span><span class="num">10</span></div>
-    <h2 style="font-size:68px;margin-bottom:28px">Это как нанять<br><em>нового сотрудника</em></h2>
+    <h2 style="font-size:72px;margin-bottom:28px">Это как нанять<br><em>нового сотрудника</em></h2>
     <div class="def" style="max-width:860px">
         <p><strong>LLM</strong> = человек с хорошим образованием, но первый день в компании</p>
         <p><strong>Онбординг</strong> = показать, где что лежит, как мы тут работаем, кто за что отвечает</p>
@@ -258,7 +352,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="12">
     <div class="topbar"><span class="label">Пример одного узла</span><span class="num">12</span></div>
-    <h3 style="font-size:42px;margin-bottom:32px">Агент, который <em>квалифицирует лидов</em></h3>
+    <h3 style="font-size:44px;margin-bottom:32px">Агент, который <em>квалифицирует лидов</em></h3>
     <dl class="anatomy">
         <dt>Мозг</dt><dd>Claude Sonnet 4.6</dd>
         <dt>Контекст</dt><dd>Описание продукта · карточки идеальных клиентов · история успешных сделок</dd>
@@ -276,7 +370,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="13">
     <div class="topbar"><span class="label">Собираем конвейер</span><span class="num">13</span></div>
-    <h2 style="font-size:68px">Теперь мы знаем,<br>как устроен <em>один узел</em>.<br>Пора собирать конвейер.</h2>
+    <h2 style="font-size:72px">Теперь мы знаем,<br>как устроен <em>один узел</em>.<br>Пора собирать конвейер.</h2>
 </div>
 
 <div class="slide center" data-n="14">
@@ -309,7 +403,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="16">
     <div class="topbar"><span class="label">Sales</span><span class="num">16</span></div>
-    <h2 style="font-size:56px;margin-bottom:36px">Продажи: <em>3 шага — агент,<br>1 шаг — человек</em></h2>
+    <h2 style="font-size:60px;margin-bottom:36px">Продажи: <em>3 шага — агент,<br>1 шаг — человек</em></h2>
     <div class="pipeline">
         <div class="row">
             <div class="step agent">Лид</div><span class="arrow">→</span>
@@ -324,7 +418,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="17">
     <div class="topbar"><span class="label">Engineering</span><span class="num">17</span></div>
-    <h2 style="font-size:56px;margin-bottom:36px">Разработка: <em>3 шага — агент,<br>1 шаг — человек</em></h2>
+    <h2 style="font-size:60px;margin-bottom:36px">Разработка: <em>3 шага — агент,<br>1 шаг — человек</em></h2>
     <div class="pipeline">
         <div class="row">
             <div class="step agent">Тикет</div><span class="arrow">→</span>
@@ -339,7 +433,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="18">
     <div class="topbar"><span class="label">Finance</span><span class="num">18</span></div>
-    <h2 style="font-size:56px;margin-bottom:36px">Финансы: <em>3 шага — агент,<br>1 шаг — человек</em></h2>
+    <h2 style="font-size:60px;margin-bottom:36px">Финансы: <em>3 шага — агент,<br>1 шаг — человек</em></h2>
     <div class="pipeline">
         <div class="row">
             <div class="step agent">Счёт</div><span class="arrow">→</span>
@@ -354,13 +448,13 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="19">
     <div class="topbar"><span class="label">Правило</span><span class="num">19</span></div>
-    <h2 style="font-size:88px">3 из 4 шагов —<br>это <em>агент</em></h2>
+    <h2 style="font-size:96px">3 из 4 шагов —<br>это <em>агент</em></h2>
     <p class="lead" style="text-align:center;margin-top:28px;max-width:680px">1 шаг — живой человек. Там, где нужна ответственность, эмпатия или живое решение.</p>
 </div>
 
 <div class="slide center" data-n="20">
     <div class="topbar"><span class="label">Под каждым шагом</span><span class="num">20</span></div>
-    <h3 style="font-size:42px;margin-bottom:28px">И под каждым агент-шагом —<br><em>своя обвязка</em></h3>
+    <h3 style="font-size:44px;margin-bottom:28px">И под каждым агент-шагом —<br><em>своя обвязка</em></h3>
     <div style="max-width:900px;margin:0 auto;width:100%">
         <div class="layer"><span class="num">→</span><span class="name">Лид</span><span class="desc">CRM на запись, база источников, правила классификации</span></div>
         <div class="layer"><span class="num">→</span><span class="name">Скоринг</span><span class="desc">Исторические сделки, карточка идеального клиента, правила приоритета</span></div>
@@ -371,7 +465,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="21">
     <div class="topbar"><span class="label">Первое задание</span><span class="num">21</span></div>
-    <h2 style="font-size:62px">Возьмите <em>любой процесс</em>.<br>Разложите на 4-6 шагов.<br>Найдите те,<br>где нужен <em>живой человек</em>.</h2>
+    <h2 style="font-size:60px">Возьмите <em>любой процесс</em>.<br>Разложите на 4-6 шагов.<br>Найдите те,<br>где нужен <em>живой человек</em>.</h2>
     <p class="lead" style="text-align:center;margin-top:28px;max-width:640px">Всё остальное — кандидаты на агентов.</p>
 </div>
 
@@ -381,13 +475,13 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="22">
     <div class="topbar"><span class="label">Целевая картинка</span><span class="num">22</span></div>
-    <h2 style="font-size:64px;max-width:1200px">AI-native компания —<br>это когда все процессы<br><em>построены вокруг агентов</em></h2>
+    <h2 style="font-size:72px;max-width:1200px">AI-native компания —<br>это когда все процессы<br><em>построены вокруг агентов</em></h2>
     <p class="lead" style="text-align:center;margin-top:28px;max-width:780px">Люди не делают работу. Люди супервайзят и улучшают агентов.</p>
 </div>
 
 <div class="slide center" data-n="23">
     <div class="topbar"><span class="label">Признаки</span><span class="num">23</span></div>
-    <h2 style="font-size:68px;margin-bottom:44px">Четыре признака <em>AI-native</em></h2>
+    <h2 style="font-size:72px;margin-bottom:44px">Четыре признака <em>AI-native</em></h2>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:1100px;width:100%">
         <div class="block" style="min-height:190px;padding:32px 28px">
             <h4 style="font-size:32px">Функции —<br>конвейеры</h4>
@@ -410,7 +504,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="24">
     <div class="topbar"><span class="label">Точка старта</span><span class="num">24</span></div>
-    <h2 style="font-size:64px;max-width:1200px">Начните с <em>одного агента</em><br>под одну задачу</h2>
+    <h2 style="font-size:72px;max-width:1200px">Начните с <em>одного агента</em><br>под одну задачу</h2>
     <p class="lead" style="text-align:center;margin-top:28px;max-width:820px">Не «внедрим AI на весь маркетинг». Не «переделаем продажи». Один агент. Одна задача. Повторяющаяся. Болезненная.</p>
 </div>
 
@@ -495,7 +589,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="29">
     <div class="topbar"><span class="label">Ответ</span><span class="num">29</span></div>
-    <h2 style="font-size:68px;margin-bottom:28px">Люди привыкли<br>думать <em>«работой»</em></h2>
+    <h2 style="font-size:72px;margin-bottom:28px">Люди привыкли<br>думать <em>«работой»</em></h2>
     <div class="def" style="max-width:880px">
         <p><strong>Работа</strong> — это то, что я делаю своими руками. Я пишу письмо. Я звоню клиенту. Я свожу отчёт. «Я» — центр.</p>
         <p><strong>Процесс</strong> — это то, что происходит. Откуда начинается. Куда идёт. Из каких шагов состоит. Какой результат. И неважно, кто делает каждый шаг.</p>
@@ -529,12 +623,12 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="33">
     <div class="topbar"><span class="label">Шаг 1 · Культура</span><span class="num">33</span></div>
-    <h2 style="font-size:80px">Четыре рычага.<br><em>Одновременно.</em></h2>
+    <h2 style="font-size:96px">Четыре рычага.<br><em>Одновременно.</em></h2>
 </div>
 
 <div class="slide center" data-n="34">
     <div class="topbar"><span class="label">Культура</span><span class="num">34</span></div>
-    <h2 style="font-size:68px;margin-bottom:44px">Четыре рычага <em>культуры</em></h2>
+    <h2 style="font-size:72px;margin-bottom:44px">Четыре рычага <em>культуры</em></h2>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:1100px;width:100%">
         <div class="block" style="min-height:190px;padding:32px 28px">
             <h4 style="font-size:32px">Ролевые модели</h4>
@@ -557,7 +651,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="35">
     <div class="topbar"><span class="label">Симптом → причина</span><span class="num">35</span></div>
-    <h2 style="font-size:48px;margin-bottom:28px;max-width:1100px">Шесть типичных провалов —<br>и их <em>настоящая причина</em></h2>
+    <h2 style="font-size:60px;margin-bottom:28px;max-width:1100px">Шесть типичных провалов —<br>и их <em>настоящая причина</em></h2>
     <div class="sc-table">
         <div class="h">Симптом</div>
         <div class="h">Причина</div>
@@ -582,12 +676,12 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="36">
     <div class="topbar"><span class="label">Шаг 2 · Действия</span><span class="num">36</span></div>
-    <h2 style="font-size:84px">План на<br><em>90 дней</em></h2>
+    <h2 style="font-size:96px">План на<br><em>90 дней</em></h2>
 </div>
 
 <div class="slide full" data-n="37">
     <div class="topbar"><span class="label">90-дневный план</span><span class="num">37</span></div>
-    <h3 style="margin-bottom:24px;font-size:40px;text-align:center">От аудита <em>до масштаба</em></h3>
+    <h3 style="margin-bottom:24px;font-size:44px;text-align:center">От аудита <em>до масштаба</em></h3>
     <div class="timeline">
         <div class="phase active">
             <h4>Неделя 1</h4>
@@ -616,7 +710,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="39">
     <div class="topbar"><span class="label">Правило</span><span class="num">39</span></div>
-    <h2 style="font-size:76px">Если руководитель<br>не использует AI —<br><em>команда не будет</em></h2>
+    <h2 style="font-size:72px">Если руководитель<br>не использует AI —<br><em>команда не будет</em></h2>
 </div>
 
 <!-- =========================================================== -->
@@ -625,7 +719,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="40">
     <div class="topbar"><span class="label">Сдвиг мышления</span><span class="num">40</span></div>
-    <h1 style="font-size:72px;max-width:1200px">AI-native руководитель<br>смотрит на компанию<br>не как на список задач,<br>а как на <em>карту процессов</em></h1>
+    <h2 style="font-size:72px;max-width:1200px">AI-native руководитель<br>смотрит на компанию<br>не как на список задач,<br>а как на <em>карту процессов</em></h2>
 </div>
 
 <div class="slide center" data-n="41">
@@ -647,7 +741,7 @@ strong{color:var(--white);font-weight:700}
 
 <div class="slide center" data-n="43">
     <div class="topbar"><span class="label">NeuroGate</span><span class="num">43</span></div>
-    <h1 style="font-size:88px;margin-bottom:28px">Нужна помощь<br>с внедрением?<br><em>Мы рядом.</em></h1>
+    <h1 style="font-size:96px;margin-bottom:28px">Нужна помощь<br>с внедрением?<br><em>Мы рядом.</em></h1>
     <p style="font-size:20px;color:var(--gray);margin-bottom:36px;max-width:540px">Попробуйте NeuroGate — откройте команде доступ к AI. Разложим процессы, поможем запустить первых агентов.</p>
     <a href="https://ng-ai.ru" class="cta-btn">NG-AI.RU →</a>
     <div class="cta-sub">Напишите напрямую: <a href="https://t.me/msoloviev">@msoloviev</a></div>
