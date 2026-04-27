@@ -158,11 +158,12 @@
     </p>
 
     <!-- Top metrics -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
       <div class="metric"><div class="metric-value">276</div><div class="metric-label">всего пользователей</div></div>
       <div class="metric"><div class="metric-value">248</div><div class="metric-label">за 14 дней</div></div>
       <div class="metric"><div class="metric-value">~12K ₽</div><div class="metric-label">расходы на Директ</div></div>
       <div class="metric"><div class="metric-value">~55 ₽</div><div class="metric-label">CPL (стоимость регистрации)</div></div>
+      <div class="metric" style="background:#dcfce7;border-color:#86efac"><div class="metric-value text-green-800">1</div><div class="metric-label text-green-900">платящий за период РК</div></div>
     </div>
 
     <!-- Direct-attributed users (period 22-27.04, post-UTM) -->
@@ -182,6 +183,12 @@
         Это <b>не «халявщики»</b>. Это <b>активные пользователи</b>: 100% начали пользоваться продуктом, 50% написали по 5+ сообщений,
         большинство потратили часть welcome-бонуса. Но <b>ни один не упёрся в стену исчерпания 100 ₽ welcome</b> — максимальный спенд
         составил 95.81 ₽ из 100. То есть никто не дошёл до точки «надо платить».
+      </p>
+      <p class="text-sm text-emerald-900 bg-emerald-50 border border-emerald-200 rounded-lg p-4 leading-relaxed mb-4">
+        <b>Контекст:</b> в этой когорте — 0 платящих, но за весь период РК <b>1 платящий действительно был</b> —
+        зарегистрировался 16.04 на пике старой РК, пополнил 1 000 ₽, написал 79 пользовательских сообщений (heavy user).
+        UTM-атрибуция тогда ещё не работала, поэтому он не попадает в эту когорту, но фактически — это платящий из Директа.
+        <a href="#paying" class="underline">Подробности ниже</a>.
       </p>
 
       <details>
@@ -213,20 +220,32 @@
     </div>
 
     <!-- Period 14-22.04 (no UTM but Direct was active) -->
-    <div class="bg-white border border-gray-200 rounded-2xl p-7 mb-8">
-      <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">Период до атрибуции · 14-22.04</div>
-      <h3 class="text-2xl font-bold mb-4">Платящие за весь апрель — 4 пользователя</h3>
-      <div class="grid md:grid-cols-2 gap-4 mb-3">
-        <div class="text-sm bg-gray-50 rounded-lg p-4">
-          <p class="font-semibold mb-1">До запуска Директа (30-31 марта)</p>
-          <p class="text-gray-700">3 пользователя — суммарно <b>25 000 ₽</b>. Органика / прямой трафик / друзья. К рекламе не относятся.</p>
-        </div>
-        <div class="text-sm bg-amber-50 border border-amber-200 rounded-lg p-4">
-          <p class="font-semibold mb-1">⭐ В период активной РК (16.04)</p>
-          <p class="text-gray-700"><b>yandex-юзер · регистрация 16.04 на пике старой РК</b> — пополнил <b>1 000 ₽</b>, написал 79 пользовательских сообщений (heavy user). UTM-атрибуция не работала (запущена 22.04), поэтому формально источник не зафиксирован, но дата регистрации совпадает с пиком старой РК → с большой вероятностью из Директа.</p>
-        </div>
+    <div id="paying" class="bg-white border-2 border-emerald-300 rounded-2xl p-7 mb-8">
+      <div class="text-xs font-semibold uppercase tracking-wider text-emerald-700 mb-3">Платящий из Директа — 1 за период РК</div>
+      <h3 class="text-2xl font-bold mb-4">⭐ 1 000 ₽ топап от пользователя, который пришёл на пике старой РК</h3>
+      <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-5 mb-4">
+        <p class="text-sm text-gray-800 leading-relaxed">
+          <b>yandex-юзер · регистрация 16.04 в 9:59</b> — день пиковой активности старой РК (28 регистраций за сутки).
+          Через 2 дня после регистрации пополнил баланс на <b>1 000 ₽</b>. Самый активный пользователь NeuroGate за всю историю
+          по числу запросов (<b>79 пользовательских сообщений</b>, 81 транзакция в БД).
+        </p>
+        <p class="text-sm text-gray-800 leading-relaxed mt-3">
+          UTM-атрибуция запущена только 22.04, поэтому в БД его источник зафиксирован как NULL.
+          Но дата регистрации, пик старой РК и yandex-домен email — указывают на Директ как наиболее вероятный канал.
+        </p>
       </div>
-      <p class="text-xs text-gray-500">Итого по периоду 14-27.04: <b>0 платящих с подтверждённой Директ-атрибуцией</b> + 1 вероятный без UTM.</p>
+      <p class="text-sm font-semibold text-gray-900 mb-2">Что это говорит:</p>
+      <ul class="text-sm text-gray-700 space-y-1 leading-relaxed">
+        <li>• Платящие из Директа <b>есть</b> — гипотеза «Директ не приведёт ни одного» опровергнута.</li>
+        <li>• CPA одного платящего из Директа = ~12 000 ₽ (весь бюджет ÷ 1 платящий). При его LTV ~1 000 ₽ это пока убыток, но это сигнал, не нулевая отдача.</li>
+        <li>• Платящий — heavy user (79 сообщений). То есть Директ умеет приводить «нашу» аудиторию, мы её просто не масштабируем.</li>
+      </ul>
+      <details class="mt-4">
+        <summary class="chevron text-sm font-semibold text-gray-700">Платящие до Директа (для контекста)</summary>
+        <div class="mt-3 text-sm text-gray-700 bg-gray-50 rounded-lg p-4">
+          За весь апрель в БД 4 платящих. Кроме Директ-юзера выше — ещё 3 пользователя зарегистрировались 30-31 марта (до запуска Директа), суммарно пополнили <b>25 000 ₽</b>. Это органика / прямой трафик / друзья — к рекламе не относятся.
+        </div>
+      </details>
     </div>
 
     <!-- Behavior buckets — full audience -->
@@ -297,10 +316,16 @@
   <div class="max-w-6xl mx-auto px-6">
     <div class="slide-num mb-6 text-white/60"><span class="!bg-white !text-slate-900">3</span><span class="!text-white/60">Диагноз</span></div>
     <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">Узкое место — не трафик. Узкое место — переход к платежу.</h2>
-    <p class="text-xl text-white/75 leading-relaxed max-w-4xl mb-12">
-      Активация работает: 16/16 Директ-юзеров написали сообщение, 50% написали 5+. Но никто не довёл до состояния
-      «надо пополнить». Welcome-бонус 100 ₽ работает как амортизатор: пользователь успевает попробовать, но не успевает
-      упереться в стену исчерпания. Уходит со средним остатком ~67 ₽ — и не возвращается.
+    <p class="text-xl text-white/75 leading-relaxed max-w-4xl mb-6">
+      Активация работает: 16/16 Директ-юзеров написали сообщение, 50% написали 5+. Один пользователь в период РК
+      пополнил счёт на 1 000 ₽ (атрибуция тогда не работала, но регистрация совпадает с пиком старой РК).
+      Все остальные не довели до состояния «надо пополнить». Welcome-бонус 100 ₽ работает как амортизатор:
+      пользователь успевает попробовать, но не успевает упереться в стену исчерпания. Уходит со средним
+      остатком ~67 ₽ — и не возвращается.
+    </p>
+    <p class="text-base text-white/60 leading-relaxed max-w-4xl mb-12 italic">
+      То есть Директ <b>не нулевой</b> — он привёл одного активного платящего. Но единичного сигнала
+      недостаточно чтобы говорить о работающей экономике канала.
     </p>
 
     <div class="grid md:grid-cols-3 gap-6 mb-12">
@@ -315,9 +340,9 @@
         <p class="text-sm text-white/65 mt-1">avg 32.8 ₽ из 100 ₽. Никто не дошёл до 0 — нет «триггера к пополнению».</p>
       </div>
       <div class="bg-white/5 rounded-2xl p-6 border border-white/10">
-        <p class="number-stat text-red-400">0%</p>
-        <p class="mt-3 text-base font-semibold">конверсия в платёж</p>
-        <p class="text-sm text-white/65 mt-1">0 из 16 за 6 дней пополнили. CPA-метрика не имеет числителя.</p>
+        <p class="number-stat text-red-400">1 / ~219</p>
+        <p class="mt-3 text-base font-semibold">платящих из Директа</p>
+        <p class="text-sm text-white/65 mt-1">CPA ~12 000 ₽ при LTV первого топапа 1 000 ₽. Сигнал есть, но экономика пока не сходится.</p>
       </div>
     </div>
 
@@ -547,15 +572,15 @@
     <div class="grid md:grid-cols-2 gap-4">
       <div class="question-card">
         <p class="q">1. Соглашаетесь ли с диагнозом «узкое место — переход к платежу, не качество трафика»?</p>
-        <p class="ctx">Из 16 Директ-юзеров 100% активировались, 50% написали 5+ сообщений. Никто не упёрся в стену welcome. Видите ли вы альтернативное объяснение, которое мы пропустили?</p>
+        <p class="ctx">Из 16 Директ-юзеров с UTM 100% активировались, 50% написали 5+ сообщений. За весь период РК — 1 платящий (heavy user), 79 сообщений + 1 000 ₽ топап. Видите ли вы альтернативное объяснение слабой конверсии в платёж, которое мы пропустили?</p>
       </div>
       <div class="question-card">
         <p class="q">2. Как бы вы расставили приоритеты между Треком 1 и Треком 2?</p>
         <p class="ctx">Наш порядок — параллельно, с дальнейшим решением по Треку 3 через 4-6 недель. Стоит ли B2B-сегмент откладывать до окончательной починки воронки в Треке 1, или наоборот?</p>
       </div>
       <div class="question-card">
-        <p class="q">3. CR в платёж 0% при welcome 100 ₽ — это известная картина для AI-агрегаторов в РФ или мы недооцениваем риск?</p>
-        <p class="ctx">У нас нет бенчмарков по похожим продуктам. Видели ли вы это раньше — и какой welcome / триггер реально работает?</p>
+        <p class="q">3. CR в платёж ~0.5% (1 платящий на ~219 регистраций) при welcome 100 ₽ — это известная картина для AI-агрегаторов в РФ или мы недооцениваем риск?</p>
+        <p class="ctx">У нас нет бенчмарков по похожим продуктам. Видели ли вы это раньше — и какой welcome / триггер реально работает в этом сегменте?</p>
       </div>
       <div class="question-card">
         <p class="q">4. Cut-off Трека 2 на 4-й неделе при 500-600 ₽/день — адекватный или слишком короткий?</p>
