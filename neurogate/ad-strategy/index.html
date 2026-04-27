@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>NeuroGate · Подход к рекламе — для звонка с директологом (v6)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  // ?print=1 → раскрыть все <details> для PDF-экспорта
+  if (typeof location !== 'undefined' && location.search.includes('print')) {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('details').forEach(d => d.open = true);
+    });
+  }
+</script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", sans-serif; }
+  .dot-bg { background-image: radial-gradient(circle, #e5e7eb 1px, transparent 1px); background-size: 24px 24px; }
+  .slide { padding: 96px 0; }
+  .slide-num { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.18em; }
+  .slide-num span:first-child { background: #0f172a; color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+  .pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .pill-now { background: #dcfce7; color: #166534; }
+  .pill-next { background: #fef3c7; color: #92400e; }
+  .pill-product { background: #fee2e2; color: #991b1b; }
+  .pill-question { background: #fef3c7; color: #854d0e; }
+  .metric { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px; }
+  .metric-value { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+  .metric-value-sm { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+  .metric-label { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 6px; }
+  .funnel-row { display: grid; grid-template-columns: 1fr 80px 100px; gap: 16px; align-items: center; padding: 14px 18px; border-radius: 10px; }
+  .funnel-bar { height: 12px; border-radius: 6px; background: #6366f1; }
+  a.tab-link { padding: 8px 14px; border-radius: 8px; font-size: 13px; background: #f3f4f6; color: #374151; white-space: nowrap; }
+  a.tab-link:hover { background: #e5e7eb; }
+  .yandex-ad { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px 16px; }
+  .yandex-ad-link { color: #1a6dc9; font-size: 13px; }
+  .yandex-ad-title { color: #0d5dc7; font-size: 17px; font-weight: 500; line-height: 1.3; margin: 6px 0; }
+  .yandex-ad-badge { display: inline-block; background: #ffd23f; color: #000; font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+  .yandex-ad-text { color: #333; font-size: 13px; line-height: 1.4; }
+  .yandex-ad-extension { color: #0d5dc7; font-size: 13px; border-bottom: 1px dotted #0d5dc7; }
+  .keyword-chip { display: flex; align-items: center; justify-content: space-between; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 10px 14px; }
+  .option-card { background: white; border: 1px solid #e5e7eb; border-radius: 16px; padding: 24px; }
+  .option-card-pick { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.08); }
+  .question-card { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 18px 20px; }
+  .question-card .q { font-weight: 600; color: #78350f; font-size: 15px; margin-bottom: 4px; }
+  .question-card .ctx { color: #6b7280; font-size: 13px; line-height: 1.5; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  .chevron::before { content: "▸"; display: inline-block; transition: transform 0.2s; margin-right: 8px; color: #6b7280; font-size: 12px; }
+  details[open] .chevron::before { transform: rotate(90deg); }
+  .number-stat { font-size: 64px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+</style>
+</head>
+<body class="bg-white text-gray-900">
+
+<header class="border-b border-gray-200 bg-white/95 backdrop-blur sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold">N</div>
+      <div>
+        <div class="font-semibold">NeuroGate · Реклама — что показали данные <span class="pill pill-now ml-1">v6</span></div>
+        <div class="text-xs text-gray-500">Метрики из БД на 27.04.2026 · к экспертному ревью</div>
+      </div>
+    </div>
+  </div>
+  <nav class="max-w-7xl mx-auto px-6 pb-4 flex gap-2 overflow-x-auto">
+    <a href="#intro" class="tab-link">Контекст</a>
+    <a href="#test" class="tab-link">Что тестировали</a>
+    <a href="#data" class="tab-link">Данные</a>
+    <a href="#diagnosis" class="tab-link">Диагноз</a>
+    <a href="#tracks" class="tab-link">3 параллельных трека</a>
+    <a href="#priority" class="tab-link">Приоритизация</a>
+    <a href="#questions" class="tab-link font-semibold text-amber-900 bg-amber-100 hover:bg-amber-200">Запрос на ревью</a>
+  </nav>
+</header>
+
+<!-- ============================================================ -->
+<!-- 0. INTRO                                                       -->
+<!-- ============================================================ -->
+<section id="intro" class="slide bg-gradient-to-b from-slate-50 to-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="slide-num mb-6"><span>0</span><span>Контекст и формат</span></div>
+    <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-6">Что мы тестировали в Директе и что показали данные</h1>
+    <p class="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-4xl mb-10">
+      Прогнали две итерации платного трафика на NeuroGate (AI-агрегатор для РФ), собрали продуктовые
+      метрики, выявили чёткое узкое место воронки. Документ — наш диагноз и три направления, по которым мы
+      хотим расставить приоритеты. Запрос — экспертный ревью приоритизации и проверка слепых зон.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-4 max-w-5xl">
+      <div class="bg-white border border-gray-200 rounded-xl p-5">
+        <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Команда</p>
+        <p class="text-sm text-gray-800">Юля Ваулина (CEO, продукт, разработка) и Макс Соловьёв (operations, маркетинг). NeuroGate — агрегатор ChatGPT, Claude, Nano Banana, FLUX и ~50 других моделей с оплатой в рублях, без VPN.</p>
+      </div>
+      <div class="bg-white border border-gray-200 rounded-xl p-5">
+        <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Метод доклада</p>
+        <p class="text-sm text-gray-800">Сначала — что мы запускали, потом — реальные цифры из БД (27.04), потом — наш диагноз и три параллельных рабочих трека. В конце — конкретные вопросы на ревью.</p>
+      </div>
+      <div class="bg-white border border-gray-200 rounded-xl p-5">
+        <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Что хотим от ревью</p>
+        <p class="text-sm text-gray-800">Не «всё ли правильно». Хотим взгляд снаружи: куда расставлять приоритеты деньгами и временем, и какие гипотезы мы могли пропустить как фаундеры внутри.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 1. WHAT WE TESTED                                              -->
+<!-- ============================================================ -->
+<section id="test" class="slide">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="slide-num mb-6"><span>1</span><span>Что мы тестировали</span></div>
+    <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">Две итерации платного трафика за апрель</h2>
+    <p class="text-lg text-gray-600 leading-relaxed max-w-3xl mb-10">
+      Гипотеза была простая: широкий охват в Директе → прибавляющийся каталог моделей в кабинете →
+      пользователь сам разбирается, пробует, остаётся.
+    </p>
+
+    <div class="grid md:grid-cols-2 gap-6 mb-10">
+      <div class="bg-white border border-gray-200 rounded-2xl p-7">
+        <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">Итерация 1 · 14-22 апреля</div>
+        <p class="font-semibold mb-2">Широкая ловушка по нейросетям</p>
+        <ul class="text-sm text-gray-700 space-y-1.5 leading-relaxed">
+          <li>• 3 параллельных кампании, бюджет ~1.2 тыс ₽/день</li>
+          <li>• Семантика широкая: «нейросеть», «чат GPT», «AI рисует»</li>
+          <li>• Креативы: «80+ нейросетей», «без VPN», «100 ₽ на старт»</li>
+          <li>• Посадка: главная ng-ai.ru (каталог моделей)</li>
+          <li>• <b>UTM-атрибуция и цели Метрики до 22.04 не работали</b> — атрибуция запущена 22.04</li>
+        </ul>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-2xl p-7">
+        <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">Итерация 2 · 22-27 апреля</div>
+        <p class="font-semibold mb-2">Перекомпоновка: 3 кампании v2 + UTM</p>
+        <ul class="text-sm text-gray-700 space-y-1.5 leading-relaxed">
+          <li>• <b>NG_Direct_Match</b> (CID 708660936) — точное соответствие</li>
+          <li>• <b>NG_Intercept</b> (CID 708660948) — перехват чужих брендов</li>
+          <li>• <b>NG_PPP</b> (CID 708904113) — поведенческий ретаргетинг</li>
+          <li>• Размечены UTM, начали трекать source/campaign/content</li>
+          <li>• Те же лендинги, те же посадки</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 2. RAW DATA                                                    -->
+<!-- ============================================================ -->
+<section id="data" class="slide bg-gray-50">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="slide-num mb-6"><span>2</span><span>Что показали данные</span></div>
+    <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">Цифры из БД на 27.04 — не из Метрики, не из дашборда</h2>
+    <p class="text-lg text-gray-600 leading-relaxed max-w-3xl mb-10">
+      Прямые SQL-запросы к продакшен-БД: таблицы <code>user</code>, <code>user_attribution</code>, <code>transaction</code>,
+      <code>message</code>. Без посредников.
+    </p>
+
+    <!-- Top metrics -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      <div class="metric"><div class="metric-value">276</div><div class="metric-label">всего пользователей</div></div>
+      <div class="metric"><div class="metric-value">248</div><div class="metric-label">за 14 дней</div></div>
+      <div class="metric"><div class="metric-value">~12K ₽</div><div class="metric-label">расходы на Директ</div></div>
+      <div class="metric"><div class="metric-value">~55 ₽</div><div class="metric-label">CPL (стоимость регистрации)</div></div>
+    </div>
+
+    <!-- Direct-attributed users (period 22-27.04, post-UTM) -->
+    <div class="bg-white border-2 border-indigo-300 rounded-2xl p-8 mb-8">
+      <div class="text-xs font-semibold uppercase tracking-wider text-indigo-700 mb-3">Период с рабочей UTM-атрибуцией · 22-27.04</div>
+      <h3 class="text-2xl font-bold mb-6">16 пользователей пришли с метками yandex/cpc</h3>
+
+      <div class="grid md:grid-cols-5 gap-3 mb-6">
+        <div class="metric"><div class="metric-value-sm">16</div><div class="metric-label">регистраций</div></div>
+        <div class="metric"><div class="metric-value-sm">16/16</div><div class="metric-label">активировались (≥1 сообщение)</div></div>
+        <div class="metric"><div class="metric-value-sm">8/16</div><div class="metric-label">отправили 5+ сообщений</div></div>
+        <div class="metric"><div class="metric-value-sm">avg 32.8 ₽</div><div class="metric-label">потратили из welcome 100 ₽</div></div>
+        <div class="metric"><div class="metric-value-sm text-red-600">0/16</div><div class="metric-label">пополнили баланс</div></div>
+      </div>
+
+      <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+        Это <b>не «халявщики»</b>. Это <b>активные пользователи</b>: 100% начали пользоваться продуктом, 50% написали по 5+ сообщений,
+        большинство потратили часть welcome-бонуса. Но <b>ни один не упёрся в стену исчерпания 100 ₽ welcome</b> — максимальный спенд
+        составил 95.81 ₽ из 100. То есть никто не дошёл до точки «надо платить».
+      </p>
+
+      <details>
+        <summary class="chevron text-sm font-semibold text-gray-700">Показать построчно (16 пользователей)</summary>
+        <div class="mt-4 overflow-x-auto">
+          <table class="w-full text-xs border-collapse">
+            <thead>
+              <tr class="bg-gray-100"><th class="p-2 border text-left">Email</th><th class="p-2 border text-left">Кампания</th><th class="p-2 border text-right">Сообщений</th><th class="p-2 border text-right">Потратил, ₽</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="p-2 border">gmail-юзер #1</td><td class="p-2 border">NG_Direct_Match</td><td class="p-2 border text-right">20</td><td class="p-2 border text-right">95.81</td></tr>
+              <tr><td class="p-2 border">yandex-юзер #2</td><td class="p-2 border">NG_Direct_Match</td><td class="p-2 border text-right">4</td><td class="p-2 border text-right">71.64</td></tr>
+              <tr><td class="p-2 border">gmail-юзер #3</td><td class="p-2 border">NG_Direct_Match</td><td class="p-2 border text-right">2</td><td class="p-2 border text-right">69.12</td></tr>
+              <tr><td class="p-2 border">yandex-юзер #4</td><td class="p-2 border">NG_Intercept</td><td class="p-2 border text-right">5</td><td class="p-2 border text-right">64.80</td></tr>
+              <tr><td class="p-2 border">yandex-юзер #5</td><td class="p-2 border">NG_Direct_Match</td><td class="p-2 border text-right">9</td><td class="p-2 border text-right">52.90</td></tr>
+              <tr><td class="p-2 border">gmail-юзер #6</td><td class="p-2 border">NG_Direct_Match</td><td class="p-2 border text-right">1</td><td class="p-2 border text-right">34.56</td></tr>
+              <tr><td class="p-2 border">gmail-юзер #7</td><td class="p-2 border">NG_Direct_Match</td><td class="p-2 border text-right">1</td><td class="p-2 border text-right">34.56</td></tr>
+              <tr><td class="p-2 border">yandex-юзер #8</td><td class="p-2 border">NG_Intercept</td><td class="p-2 border text-right">2</td><td class="p-2 border text-right">21.60</td></tr>
+              <tr><td class="p-2 border">yandex-юзер #9</td><td class="p-2 border">NG_Intercept</td><td class="p-2 border text-right">13</td><td class="p-2 border text-right">20.65</td></tr>
+              <tr><td class="p-2 border">yandex-юзер #10</td><td class="p-2 border">NG_Direct_Match</td><td class="p-2 border text-right">8</td><td class="p-2 border text-right">14.49</td></tr>
+              <tr><td class="p-2 border">yandex-юзер #11</td><td class="p-2 border">NG_PPP</td><td class="p-2 border text-right">6</td><td class="p-2 border text-right">14.12</td></tr>
+              <tr><td class="p-2 border">корп-юзер #12</td><td class="p-2 border">NG_Direct_Match</td><td class="p-2 border text-right">8</td><td class="p-2 border text-right">13.52</td></tr>
+              <tr><td class="p-2 border">yandex-юзер #13</td><td class="p-2 border">NG_Intercept</td><td class="p-2 border text-right">9</td><td class="p-2 border text-right">11.81</td></tr>
+              <tr><td class="p-2 border">остальные 3 (NG_Intercept / PPP / Direct_Match)</td><td class="p-2 border">—</td><td class="p-2 border text-right">2-3</td><td class="p-2 border text-right">&lt; 3</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+
+    <!-- Period 14-22.04 (no UTM but Direct was active) -->
+    <div class="bg-white border border-gray-200 rounded-2xl p-7 mb-8">
+      <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">Период до атрибуции · 14-22.04</div>
+      <h3 class="text-2xl font-bold mb-4">Платящие за весь апрель — 4 пользователя</h3>
+      <div class="grid md:grid-cols-2 gap-4 mb-3">
+        <div class="text-sm bg-gray-50 rounded-lg p-4">
+          <p class="font-semibold mb-1">До запуска Директа (30-31 марта)</p>
+          <p class="text-gray-700">3 пользователя — суммарно <b>25 000 ₽</b>. Органика / прямой трафик / друзья. К рекламе не относятся.</p>
+        </div>
+        <div class="text-sm bg-amber-50 border border-amber-200 rounded-lg p-4">
+          <p class="font-semibold mb-1">⭐ В период активной РК (16.04)</p>
+          <p class="text-gray-700"><b>yandex-юзер · регистрация 16.04 на пике старой РК</b> — пополнил <b>1 000 ₽</b>, написал 79 пользовательских сообщений (heavy user). UTM-атрибуция не работала (запущена 22.04), поэтому формально источник не зафиксирован, но дата регистрации совпадает с пиком старой РК → с большой вероятностью из Директа.</p>
+        </div>
+      </div>
+      <p class="text-xs text-gray-500">Итого по периоду 14-27.04: <b>0 платящих с подтверждённой Директ-атрибуцией</b> + 1 вероятный без UTM.</p>
+    </div>
+
+    <!-- Behavior buckets — full audience -->
+    <div class="bg-white border border-gray-200 rounded-2xl p-7 mb-8">
+      <h3 class="text-2xl font-bold mb-2">Поведение всех 248 пользователей за 14 дней</h3>
+      <p class="text-sm text-gray-600 mb-6">Сообщения с role='user' (не системные).</p>
+      <div class="space-y-2">
+        <div class="funnel-row" style="background: #fef2f2;">
+          <span class="text-sm">0 сообщений (zombie)</span>
+          <div class="funnel-bar" style="width: 9%; background: #ef4444;"></div>
+          <span class="text-sm font-semibold text-right">22 чел · 9%</span>
+        </div>
+        <div class="funnel-row" style="background: #fef3c7;">
+          <span class="text-sm">1-3 сообщения (попробовал-ушёл)</span>
+          <div class="funnel-bar" style="width: 44%; background: #f59e0b;"></div>
+          <span class="text-sm font-semibold text-right">109 чел · 44%</span>
+        </div>
+        <div class="funnel-row" style="background: #f0f9ff;">
+          <span class="text-sm">4-10 сообщений (любопытные)</span>
+          <div class="funnel-bar" style="width: 29%; background: #0ea5e9;"></div>
+          <span class="text-sm font-semibold text-right">71 чел · 29%</span>
+        </div>
+        <div class="funnel-row" style="background: #f0fdf4;">
+          <span class="text-sm">11-50 сообщений (активные)</span>
+          <div class="funnel-bar" style="width: 18%; background: #10b981;"></div>
+          <span class="text-sm font-semibold text-right">44 чел · 18%</span>
+        </div>
+        <div class="funnel-row" style="background: #f5f3ff;">
+          <span class="text-sm">50+ сообщений (heavy)</span>
+          <div class="funnel-bar" style="width: 1%; background: #7c3aed;"></div>
+          <span class="text-sm font-semibold text-right">2 чел · 1%</span>
+        </div>
+      </div>
+      <p class="mt-5 text-sm text-gray-700 bg-gray-50 border-l-3 border-gray-400 p-3 leading-relaxed">
+        В среднем <b>6.4 сообщения на пользователя</b>, медиана — <b>3</b>, p90 — <b>14</b>. Это нормальный профиль продукта в режиме «попробовать».
+        Подавляющее большинство получает первый результат, но не возвращается во второй сессии.
+      </p>
+    </div>
+
+    <!-- Email domains -->
+    <details class="bg-white border border-gray-200 rounded-2xl p-7">
+      <summary class="chevron font-semibold text-base">📧 Распределение email-доменов (для проверки гипотезы «школьники»)</summary>
+      <div class="mt-4 grid md:grid-cols-2 gap-4 text-sm">
+        <ul class="space-y-1">
+          <li>• yandex.ru — <b>164 (66%)</b></li>
+          <li>• gmail.com — 47 (19%)</li>
+          <li>• mail.ru — 12 (5%)</li>
+          <li>• yandex.com — 6</li>
+          <li>• bk.ru / inbox.ru / icloud.com — по 1</li>
+        </ul>
+        <ul class="space-y-1">
+          <li>• Студенческие/школьные домены: <b>2 шт</b> (rudn.ru, tetrika.school)</li>
+          <li>• Корпоративные домены: ~10 шт (unisender.com, deltajohnsons.com, polymer.ur.ru и др.)</li>
+        </ul>
+      </div>
+      <p class="mt-4 text-sm text-amber-800 bg-amber-50 border-l-3 border-amber-400 p-3">
+        Гипотеза «50% школьники и студенты», которую мы выдвигали ранее, <b>в данных не подтверждается</b>.
+        По доменам это обычная масса yandex.ru/gmail/mail. Реальная проблема не в составе аудитории.
+      </p>
+    </details>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 3. DIAGNOSIS                                                   -->
+<!-- ============================================================ -->
+<section id="diagnosis" class="slide bg-slate-950 text-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="slide-num mb-6 text-white/60"><span class="!bg-white !text-slate-900">3</span><span class="!text-white/60">Диагноз</span></div>
+    <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">Узкое место — не трафик. Узкое место — переход к платежу.</h2>
+    <p class="text-xl text-white/75 leading-relaxed max-w-4xl mb-12">
+      Активация работает: 16/16 Директ-юзеров написали сообщение, 50% написали 5+. Но никто не довёл до состояния
+      «надо пополнить». Welcome-бонус 100 ₽ работает как амортизатор: пользователь успевает попробовать, но не успевает
+      упереться в стену исчерпания. Уходит со средним остатком ~67 ₽ — и не возвращается.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-6 mb-12">
+      <div class="bg-white/5 rounded-2xl p-6 border border-white/10">
+        <p class="number-stat text-emerald-400">100%</p>
+        <p class="mt-3 text-base font-semibold">активация</p>
+        <p class="text-sm text-white/65 mt-1">16/16 Директ-юзеров написали ≥1 сообщение. Это нормальный показатель привлечения.</p>
+      </div>
+      <div class="bg-white/5 rounded-2xl p-6 border border-white/10">
+        <p class="number-stat text-amber-300">33%</p>
+        <p class="mt-3 text-base font-semibold">средний расход welcome</p>
+        <p class="text-sm text-white/65 mt-1">avg 32.8 ₽ из 100 ₽. Никто не дошёл до 0 — нет «триггера к пополнению».</p>
+      </div>
+      <div class="bg-white/5 rounded-2xl p-6 border border-white/10">
+        <p class="number-stat text-red-400">0%</p>
+        <p class="mt-3 text-base font-semibold">конверсия в платёж</p>
+        <p class="text-sm text-white/65 mt-1">0 из 16 за 6 дней пополнили. CPA-метрика не имеет числителя.</p>
+      </div>
+    </div>
+
+    <div class="bg-white/5 rounded-2xl p-7 border border-white/10 mb-6">
+      <p class="text-xs font-semibold uppercase tracking-wider text-white/60 mb-3">Из этого следует — наши рабочие гипотезы</p>
+      <ul class="space-y-2.5 text-white/85 leading-relaxed">
+        <li>• <b>Welcome 100 ₽ слишком много для нашей средней корзины запросов.</b> Пользователь успевает протестировать, но не сжигает бонус. Нет момента «нужно платить — и я готов».</li>
+        <li>• <b>Нет триггеров на стене исчерпания.</b> Когда баланс падает до 30/20/10 ₽ — мы не показываем pop-up «продолжить — пополнить от 500 ₽». Пользователь не видит причины возвращаться.</li>
+        <li>• <b>Welcome-бонус — это пробник, а не валюта.</b> При расходе 30-90 ₽ юзер уходит до того, как осознаёт ценность пополнения за свои деньги.</li>
+        <li>• <b>Лендинг и креативы НЕ являются точкой отвала.</b> Юзер регистрируется, активируется, пользуется. Отвал — продуктовый, на стороне триггеров возврата.</li>
+      </ul>
+    </div>
+
+    <p class="text-lg italic text-white/70 max-w-4xl">
+      Это меняет постановку задачи: мы исходно думали что «нужно сменить аудиторию на специалистов», но
+      данные говорят что у нас <b>нет проблемы с аудиторией Директа</b> — у нас проблема активация → платёж.
+      Параллельно остаётся вопрос B2B-сегмента, но это уже не «вместо Директа», а «как другой канал с другой
+      экономикой».
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 4. THREE TRACKS                                                -->
+<!-- ============================================================ -->
+<section id="tracks" class="slide">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="slide-num mb-6"><span>4</span><span>Три параллельных трека</span></div>
+    <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">Три направления — расставляем приоритеты</h2>
+    <p class="text-lg text-gray-600 leading-relaxed max-w-3xl mb-12">
+      Они не конкурируют — каждое решает свой кусок. Вопрос куда вкладывать первые две недели и кому отдавать
+      больше внимания.
+    </p>
+
+    <div class="grid lg:grid-cols-3 gap-5 mb-10">
+      <div class="option-card option-card-pick">
+        <div class="flex items-center justify-between mb-3">
+          <div class="text-xs font-semibold uppercase tracking-wider text-indigo-700">Трек 1 · Активация</div>
+          <span class="pill pill-now">Самое быстрое</span>
+        </div>
+        <h3 class="text-xl font-bold mb-2">Починить воронку платежа</h3>
+        <p class="text-sm text-gray-700 leading-relaxed mb-4">Прямое следствие диагноза. Делается продуктом за 1-2 недели.</p>
+        <ul class="text-sm text-gray-700 space-y-1.5">
+          <li>• Welcome 100 → 50 ₽ (раньше планировали, но в коде ещё 100)</li>
+          <li>• Pop-up «у вас 30 ₽ / 10 ₽ / 0 ₽» с CTA пополнения</li>
+          <li>• Первое пополнение со скидкой / бонусом</li>
+          <li>• Email-возврат «продолжить там где остановились»</li>
+          <li>• A/B: каталог моделей vs одна большая «попробовать GPT-5» кнопка</li>
+        </ul>
+      </div>
+
+      <div class="option-card">
+        <div class="flex items-center justify-between mb-3">
+          <div class="text-xs font-semibold uppercase tracking-wider text-gray-500">Трек 2 · Сегмент</div>
+          <span class="pill pill-next">Параллельно</span>
+        </div>
+        <h3 class="text-xl font-bold mb-2">B2B-лендинг и кампания на специалистов</h3>
+        <p class="text-sm text-gray-700 leading-relaxed mb-4">Прошли кастдев, конкурентов и независимую критику. Готов лендинг /business, кампания NG_B2B_v2.</p>
+        <ul class="text-sm text-gray-700 space-y-1.5">
+          <li>• Двойное позиционирование: специалист / команды</li>
+          <li>• Killer-фича: «команда интеграторов на связи»</li>
+          <li>• Минусы: «бесплатно», «школьник», «реферат», «учёба»</li>
+          <li>• Семантика: «ии для бизнеса», «нейросети для компании», «chatgpt на русском оплата»</li>
+          <li>• Cut-off на 4-й неделе если 0 платящих</li>
+        </ul>
+      </div>
+
+      <div class="option-card">
+        <div class="flex items-center justify-between mb-3">
+          <div class="text-xs font-semibold uppercase tracking-wider text-gray-500">Трек 3 · UX</div>
+          <span class="pill pill-product">Продукт, 1-2 мес</span>
+        </div>
+        <h3 class="text-xl font-bold mb-2">Chat-first интерфейс (Poe-стиль)</h3>
+        <p class="text-sm text-gray-700 leading-relaxed mb-4">Под массовый трафик: «опишите задачу — получите результат», без выбора модели.</p>
+        <ul class="text-sm text-gray-700 space-y-1.5">
+          <li>• LLM-роутер выбирает модель за пользователя</li>
+          <li>• Каталог моделей — для опытных, во вторую очередь</li>
+          <li>• Возврат массовой семантики «нейросеть нарисовать», «сделать видео из фото»</li>
+          <li>• Реанимация старых широких ключей с новой посадкой</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-7 max-w-5xl">
+      <p class="text-sm font-semibold mb-3">Почему именно три, а не «либо B2B, либо массовая»</p>
+      <p class="text-gray-700 text-sm leading-relaxed">
+        Трек 1 решает диагностированную проблему — он обязателен в любом сценарии. Без него ни B2B, ни массовая
+        не дадут платящих в моделях с бесплатным welcome. Трек 2 валидируется быстро (готово к запуску,
+        2-4 недели до сигнала). Трек 3 — самый дорогой по разработке, но при успехе раскрывает массовый трафик,
+        который мы сейчас умеем приводить, но не умеем монетизировать.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 5. PRIORITIZATION                                              -->
+<!-- ============================================================ -->
+<section id="priority" class="slide bg-gradient-to-b from-indigo-50/40 to-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="slide-num mb-6"><span>5</span><span>Наша приоритизация (предварительная)</span></div>
+    <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">Параллельно: Трек 1 (продукт) + Трек 2 (B2B) <br>Трек 3 — после валидации первых двух</h2>
+    <p class="text-lg text-gray-600 leading-relaxed max-w-3xl mb-12">
+      Хотим услышать аргументированную критику этого порядка. Возможно, мы переоцениваем Трек 2 или
+      недооцениваем Трек 3 — это и есть основной запрос на ревью.
+    </p>
+
+    <!-- Bet B (Track 2) — full details, kept from v5 -->
+    <details class="bg-white border border-gray-200 rounded-2xl p-7 mb-6">
+      <summary class="chevron text-2xl font-bold cursor-pointer">Трек 2 · B2B-сегмент — что собрано</summary>
+      <div class="mt-6 space-y-6">
+        <div>
+          <h4 class="font-semibold mb-3 text-lg">Сегментация — 6 портретов сведены в 2 слоя</h4>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="border border-gray-200 rounded-xl p-5 text-sm">
+              <div class="text-2xl mb-2">👤</div>
+              <p class="font-semibold mb-1">Специалист-одиночка</p>
+              <p class="text-gray-600 text-xs mb-2">Маркетолог, копирайтер, дизайнер, HR, продажник</p>
+              <ul class="space-y-0.5 text-gray-700">
+                <li>• Self-serve, 50 ₽ welcome, цикл минуты-часы</li>
+                <li>• LTV 3-12 мес × 500-1500 ₽ = 1.5-18K ₽</li>
+              </ul>
+            </div>
+            <div class="border border-gray-200 rounded-xl p-5 text-sm bg-slate-50">
+              <div class="text-2xl mb-2">👥</div>
+              <p class="font-semibold mb-1">Руководитель</p>
+              <p class="text-gray-600 text-xs mb-2">CMO/CEO/HR компании 10-200 чел</p>
+              <ul class="space-y-0.5 text-gray-700">
+                <li>• Через траекторию специалиста, +«15 мин с командой»</li>
+                <li>• LTV 12-24 мес × 20-80K = 240K-1.9M ₽</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-semibold mb-3 text-lg">Семантика — оба слоя коммерческие</h4>
+          <div class="grid md:grid-cols-2 gap-3">
+            <div class="space-y-2">
+              <div class="text-xs font-semibold text-gray-500">📍 СПЕЦИАЛИСТ</div>
+              <div class="keyword-chip"><span class="font-mono text-xs">chatgpt на русском</span><span class="text-xs text-green-700 font-semibold">3 072/мес</span></div>
+              <div class="keyword-chip"><span class="font-mono text-xs">агрегатор нейросетей</span><span class="text-xs text-green-700 font-semibold">1 888/мес</span></div>
+              <div class="keyword-chip"><span class="font-mono text-xs">нейросеть для контента</span><span class="text-xs text-green-700 font-semibold">824/мес</span></div>
+              <div class="keyword-chip"><span class="font-mono text-xs">chatgpt из россии оплата</span><span class="text-xs text-green-700 font-semibold">135/мес</span></div>
+            </div>
+            <div class="space-y-2">
+              <div class="text-xs font-semibold text-gray-500">📍 РУКОВОДИТЕЛЬ</div>
+              <div class="keyword-chip"><span class="font-mono text-xs">ии для бизнеса</span><span class="text-xs text-green-700 font-semibold">3 428/мес ⭐</span></div>
+              <div class="keyword-chip"><span class="font-mono text-xs">ии для руководителя</span><span class="text-xs text-green-700 font-semibold">522/мес</span></div>
+              <div class="keyword-chip"><span class="font-mono text-xs">нейросети для компании</span><span class="text-xs text-green-700 font-semibold">424/мес</span></div>
+              <div class="keyword-chip"><span class="font-mono text-xs">внедрение ии в компанию</span><span class="text-xs text-green-700 font-semibold">332/мес</span></div>
+            </div>
+          </div>
+          <div class="mt-4 bg-red-50 border-l-3 border-red-400 p-3 text-sm">
+            <b>МИНУС:</b> бесплатно · халява · курс · обучение · skillbox · нетология · школьник · студент · реферат · диплом · списать · огэ · егэ · впр · скачать · взломать · без регистрации · для учёбы
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-semibold mb-3 text-lg">Объявление-пример</h4>
+          <div class="yandex-ad max-w-2xl">
+            <div class="flex items-center gap-2 mb-1"><span class="yandex-ad-link">ng-ai.ru/business</span><span class="yandex-ad-badge">реклама</span></div>
+            <div class="yandex-ad-title"><b>ChatGPT, Claude и Nano Banana в одном кабинете</b> — в рублях, без VPN</div>
+            <div class="yandex-ad-text">Пополните баланс и работайте сразу — со всеми топ-моделями. Без подписок.</div>
+            <div class="mt-3 flex gap-3 flex-wrap text-xs">
+              <span class="yandex-ad-extension">Регистрация 30 сек</span>
+              <span class="yandex-ad-extension">Оплата в рублях</span>
+              <span class="yandex-ad-extension">Команда внедрения</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-semibold mb-3 text-lg">Лендинг и killer-фича</h4>
+          <div class="flex flex-wrap gap-2 mb-3">
+            <a href="https://ng-ai.ru/business" target="_blank" class="inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">→ Лендинг /business (текущий)</a>
+          </div>
+          <p class="text-sm text-gray-700 leading-relaxed">
+            Один лендинг для двух слоёв (специалист видит self-serve, руководитель — масштаб + команду внедрения).
+            <b>Killer-фича:</b> у всех конкурентов self-service + email-саппорт; у нас «15 минут с командой» по конкретной задаче,
+            не разовая консультация — пока вы платящий клиент, мы на связи.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-semibold mb-3 text-lg">Бюджет и cut-off</h4>
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="text-left p-3 border border-gray-200">Неделя</th>
+                <th class="text-left p-3 border border-gray-200">Бюджет</th>
+                <th class="text-left p-3 border border-gray-200">Критерий</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="p-3 border border-gray-200 font-semibold">1</td><td class="p-3 border border-gray-200">300 ₽/день</td><td class="p-3 border border-gray-200 text-xs">bounce ≤45%, CR рег ≥10%, ≥50% коммерческий интент</td></tr>
+              <tr><td class="p-3 border border-gray-200 font-semibold">2-3</td><td class="p-3 border border-gray-200">500-600 ₽/день</td><td class="p-3 border border-gray-200 text-xs">≥2 платящих/нед специалистов + 1-2 заявки на «15 мин с командой»</td></tr>
+              <tr class="bg-red-50"><td class="p-3 border border-gray-200 font-semibold">4</td><td class="p-3 border border-gray-200" colspan="2">🛑 <b>CUT-OFF</b>: 0 платящих за 30 дней → закрываем, переоцениваем оффер</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <div class="bg-slate-900 text-white rounded-2xl p-7 max-w-5xl">
+      <p class="text-xs font-semibold uppercase tracking-wider text-white/60 mb-3">Контрольные точки</p>
+      <ul class="text-sm leading-relaxed text-white/85 space-y-2">
+        <li>• <b>+1 нед:</b> Трек 1 — Welcome снижен до 50 ₽, добавлен pop-up на пороге; Трек 2 — кампания залита, ждём первые 50 регов</li>
+        <li>• <b>+2-4 нед:</b> сравниваем CR в платёж (Директ-юзеры до и после Трека 1), смотрим первых платящих специалистов</li>
+        <li>• <b>+4-6 нед:</b> решение по Треку 3 (нужно ли строить chat-first UI или Трек 1 + 2 уже дают экономику)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 6. QUESTIONS TO REVIEW                                         -->
+<!-- ============================================================ -->
+<section id="questions" class="slide bg-amber-50">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="slide-num mb-6"><span>6</span><span>Запрос на экспертный взгляд</span></div>
+    <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">Что хотим обсудить на звонке</h2>
+    <p class="text-lg text-gray-700 leading-relaxed max-w-3xl mb-10">
+      Вопросы расставлены по убыванию ценности ответа для нас. Просим не «общую оценку», а конкретные комментарии по каждому пункту.
+    </p>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="question-card">
+        <p class="q">1. Соглашаетесь ли с диагнозом «узкое место — переход к платежу, не качество трафика»?</p>
+        <p class="ctx">Из 16 Директ-юзеров 100% активировались, 50% написали 5+ сообщений. Никто не упёрся в стену welcome. Видите ли вы альтернативное объяснение, которое мы пропустили?</p>
+      </div>
+      <div class="question-card">
+        <p class="q">2. Как бы вы расставили приоритеты между Треком 1 и Треком 2?</p>
+        <p class="ctx">Наш порядок — параллельно, с дальнейшим решением по Треку 3 через 4-6 недель. Стоит ли B2B-сегмент откладывать до окончательной починки воронки в Треке 1, или наоборот?</p>
+      </div>
+      <div class="question-card">
+        <p class="q">3. CR в платёж 0% при welcome 100 ₽ — это известная картина для AI-агрегаторов в РФ или мы недооцениваем риск?</p>
+        <p class="ctx">У нас нет бенчмарков по похожим продуктам. Видели ли вы это раньше — и какой welcome / триггер реально работает?</p>
+      </div>
+      <div class="question-card">
+        <p class="q">4. Cut-off Трека 2 на 4-й неделе при 500-600 ₽/день — адекватный или слишком короткий?</p>
+        <p class="ctx">B2B-цикл обычно 8-14 недель. Но «нулевой» сигнал на 4-й неделе уже что-то говорит. Какой ваш ориентир для первого решения по B2B-кампании в Директе?</p>
+      </div>
+      <div class="question-card">
+        <p class="q">5. Структура NG_Direct_Match / NG_Intercept / NG_PPP даёт смысл, или мы дробим бюджет?</p>
+        <p class="ctx">У нас 16 регистраций за 6 дней разделены на 3 кампании. По вашему опыту — лучше укрупнить в одну, или сегментирование оправдано?</p>
+      </div>
+      <div class="question-card">
+        <p class="q">6. Автотаргетинг vs ручные ключи — куда вкладываться при таком объёме?</p>
+        <p class="ctx">При 16 регистрациях за 6 дней каждое решение влияет на сигнал. Стоит ли дать автотаргетингу больший вес или, наоборот, тестировать узкие фразы?</p>
+      </div>
+      <div class="question-card">
+        <p class="q">7. Гипотеза «chat-first как у Poe» — рабочая модель монетизации или прокатывает только на западных рынках?</p>
+        <p class="ctx">Если строить Трек 3, то это 1-2 месяца разработки. Видели ли вы успешные кейсы агентских интерфейсов на массовом российском трафике?</p>
+      </div>
+      <div class="question-card">
+        <p class="q">8. Что мы могли упустить как фаундеры внутри проекта?</p>
+        <p class="ctx">Слепые зоны, очевидные снаружи. Креативы, ставки, минусы, посадки, продуктовая воронка — где, по вашему опыту, чаще всего ошибаются на этой стадии?</p>
+      </div>
+    </div>
+
+    <div class="mt-12 bg-slate-900 text-white rounded-2xl p-7 max-w-5xl">
+      <p class="text-sm font-semibold uppercase tracking-wider text-white/60 mb-3">Если хотите посмотреть материалы самостоятельно</p>
+      <div class="grid md:grid-cols-2 gap-2 text-sm">
+        <a href="https://ng-ai.ru/business" target="_blank" class="text-amber-300 hover:underline">→ Лендинг /business (https://ng-ai.ru/business)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="py-10 border-t border-gray-200 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-6 text-xs text-gray-500 flex flex-wrap items-center justify-between gap-3">
+    <span>NeuroGate · подход к рекламе v6 · данные из БД на 27.04.2026</span>
+    <span>Внутренний документ NeuroGate. Не для распространения.</span>
+  </div>
+</footer>
+
+</body>
+</html>
