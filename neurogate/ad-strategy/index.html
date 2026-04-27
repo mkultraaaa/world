@@ -117,30 +117,109 @@
       пользователь сам разбирается, пробует, остаётся.
     </p>
 
-    <div class="grid md:grid-cols-2 gap-6 mb-10">
-      <div class="bg-white border border-gray-200 rounded-2xl p-7">
-        <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">Итерация 1 · 14-22 апреля</div>
-        <p class="font-semibold mb-2">Широкая ловушка по нейросетям</p>
-        <ul class="text-sm text-gray-700 space-y-1.5 leading-relaxed">
-          <li>• 3 параллельных кампании, бюджет ~1.2 тыс ₽/день</li>
-          <li>• Семантика широкая: «нейросеть», «чат GPT», «AI рисует»</li>
-          <li>• Креативы: «80+ нейросетей», «без VPN», «100 ₽ на старт»</li>
-          <li>• Посадка: главная ng-ai.ru (каталог моделей)</li>
-          <li>• <b>UTM-атрибуция и цели Метрики до 22.04 не работали</b> — атрибуция запущена 22.04</li>
-        </ul>
+    <!-- Iteration 1 — full detail -->
+    <div class="bg-white border border-gray-200 rounded-2xl p-7 mb-6">
+      <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Итерация 1 · 14-22 апреля · «широкая ловушка»</div>
+      <h3 class="text-2xl font-bold mb-4">3 параллельных кампании на широкую семантику</h3>
+
+      <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div>
+          <p class="text-sm font-semibold text-gray-900 mb-2">Структура и бюджет</p>
+          <ul class="text-sm text-gray-700 space-y-1.5 leading-relaxed">
+            <li>• 3 параллельных кампании, бюджет ~<b>1.2 тыс ₽/день</b></li>
+            <li>• Стратегия: ручные ставки + автотаргетинг включён по умолчанию</li>
+            <li>• Регионы: вся Россия, без корректировок по гео</li>
+            <li>• Без корректировок по полу/возрасту</li>
+            <li>• <b>Минус-слова отсутствуют</b> или 5-7 базовых (это часть проблемы)</li>
+            <li>• <b>UTM-атрибуция и цели Метрики не работали</b> до 22.04</li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-gray-900 mb-2">Семантика — все «горячие» массовые запросы</p>
+          <div class="space-y-2">
+            <div class="keyword-chip"><span class="font-mono text-xs">нейросеть онлайн</span><span class="text-xs text-gray-500">~широкий</span></div>
+            <div class="keyword-chip"><span class="font-mono text-xs">чат gpt на русском</span><span class="text-xs text-gray-500">3 072/мес</span></div>
+            <div class="keyword-chip"><span class="font-mono text-xs">нейросеть бесплатно</span><span class="text-xs text-gray-500">~широкий</span></div>
+            <div class="keyword-chip"><span class="font-mono text-xs">нейросеть нарисовать</span><span class="text-xs text-gray-500">массовый</span></div>
+            <div class="keyword-chip"><span class="font-mono text-xs">нейросеть AI</span><span class="text-xs text-gray-500">массовый</span></div>
+          </div>
+        </div>
       </div>
 
-      <div class="bg-white border border-gray-200 rounded-2xl p-7">
-        <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">Итерация 2 · 22-27 апреля</div>
-        <p class="font-semibold mb-2">Перекомпоновка: 3 кампании v2 + UTM</p>
-        <ul class="text-sm text-gray-700 space-y-1.5 leading-relaxed">
-          <li>• <b>NG_Direct_Match</b> (CID 708660936) — точное соответствие</li>
-          <li>• <b>NG_Intercept</b> (CID 708660948) — перехват чужих брендов</li>
-          <li>• <b>NG_PPP</b> (CID 708904113) — поведенческий ретаргетинг</li>
-          <li>• Размечены UTM, начали трекать source/campaign/content</li>
-          <li>• Те же лендинги, те же посадки</li>
+      <p class="text-sm font-semibold text-gray-900 mb-3">Объявления — как реально выглядели в Директе</p>
+      <div class="grid md:grid-cols-2 gap-4 mb-6">
+        <div class="yandex-ad">
+          <div class="flex items-center gap-2 mb-1"><span class="yandex-ad-link">ng-ai.ru</span><span class="yandex-ad-badge">реклама</span></div>
+          <div class="yandex-ad-title"><b>80+ нейросетей в одном кабинете</b> — без VPN, в рублях</div>
+          <div class="yandex-ad-text">ChatGPT, Midjourney, Claude, Gemini. Регистрация — 100 ₽ на счёт.</div>
+          <div class="mt-3 flex gap-3 flex-wrap text-xs">
+            <span class="yandex-ad-extension">Без VPN</span>
+            <span class="yandex-ad-extension">100 ₽ на старт</span>
+            <span class="yandex-ad-extension">Все нейросети</span>
+          </div>
+        </div>
+        <div class="yandex-ad">
+          <div class="flex items-center gap-2 mb-1"><span class="yandex-ad-link">ng-ai.ru</span><span class="yandex-ad-badge">реклама</span></div>
+          <div class="yandex-ad-title"><b>Все нейросети в одном месте — попробуйте бесплатно</b></div>
+          <div class="yandex-ad-text">100 ₽ на счёт сразу после регистрации. ChatGPT, Midjourney, Flux, Claude — всё работает из РФ.</div>
+          <div class="mt-3 flex gap-3 flex-wrap text-xs">
+            <span class="yandex-ad-extension">Бесплатный старт</span>
+            <span class="yandex-ad-extension">Без VPN</span>
+            <span class="yandex-ad-extension">Оплата картой РФ</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-sm font-semibold text-gray-900 mb-2">Посадка</p>
+      <p class="text-sm text-gray-700 mb-4 leading-relaxed">
+        <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">ng-ai.ru</code> — главная страница с каталогом моделей и таблицей цен.
+        Никакой сегментации под трафик: маркетолог, школьник и руководитель видели одно и то же.
+      </p>
+
+      <div class="bg-red-50 border-l-4 border-red-400 p-4 text-sm">
+        <p class="font-semibold text-red-900 mb-1">✗ Что не сработало (выводы постфактум)</p>
+        <ul class="text-gray-800 space-y-0.5 leading-relaxed">
+          <li>• Ключ «нейросеть бесплатно» = магнит халявщиков. Не отрезали минусами «бесплатно/халява/без регистрации».</li>
+          <li>• Креатив «100 ₽ на счёт» — увеличивает регистрации, но не платежи (welcome амортизирует пробу).</li>
+          <li>• Посадка «каталог моделей» не объясняет массовому пользователю что делать первым кликом.</li>
+          <li>• Указали Midjourney в объявлениях — её в NG нет, обещание не сходится с продуктом.</li>
         </ul>
       </div>
+    </div>
+
+    <!-- Iteration 2 — full detail -->
+    <div class="bg-white border border-gray-200 rounded-2xl p-7 mb-10">
+      <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Итерация 2 · 22-27 апреля · «перекомпоновка»</div>
+      <h3 class="text-2xl font-bold mb-4">3 кампании v2 + UTM-разметка</h3>
+
+      <div class="grid md:grid-cols-3 gap-4 mb-6">
+        <div class="border border-gray-200 rounded-xl p-5">
+          <p class="font-semibold text-sm mb-1">NG_Direct_Match</p>
+          <p class="text-xs text-gray-500 mb-2">CID 708660936</p>
+          <p class="text-sm text-gray-700 leading-relaxed">Точное соответствие — узкие коммерческие ключи: «chatgpt из россии оплата», «агрегатор нейросетей», «нейросеть для контента».</p>
+        </div>
+        <div class="border border-gray-200 rounded-xl p-5">
+          <p class="font-semibold text-sm mb-1">NG_Intercept</p>
+          <p class="text-xs text-gray-500 mb-2">CID 708660948</p>
+          <p class="text-sm text-gray-700 leading-relaxed">Перехват чужих брендов — «alternative chatgpt», «аналог claude», «вместо midjourney в россии», «gptunnel альтернатива».</p>
+        </div>
+        <div class="border border-gray-200 rounded-xl p-5">
+          <p class="font-semibold text-sm mb-1">NG_PPP</p>
+          <p class="text-xs text-gray-500 mb-2">CID 708904113</p>
+          <p class="text-sm text-gray-700 leading-relaxed">Поведенческий ретаргетинг — пользователи, искавшие AI-сервисы, без узкого ключевого матчинга.</p>
+        </div>
+      </div>
+
+      <p class="text-sm text-gray-700 leading-relaxed mb-4">
+        Лендинг и посадка остались <b>те же</b> — это сделано осознанно: чтобы видеть эффект изменения трафика, а не лендинга.
+        UTM-метки добавлены 22.04, теперь треккаем источник/кампанию/контент построчно.
+      </p>
+
+      <p class="text-sm text-gray-700 leading-relaxed">
+        Объявления Итерации 2 — пока такие же по тону, как в Итерации 1 (тестируем влияние сегментации, не креатива).
+        Полностью новые тексты с акцентом на специалистов запланированы как отдельная Итерация 3 — это и есть Трек 2 в нашей приоритизации
+        ниже.
+      </p>
     </div>
   </div>
 </section>
@@ -450,10 +529,13 @@
       недооцениваем Трек 3 — это и есть основной запрос на ревью.
     </p>
 
-    <!-- Bet B (Track 2) — full details, kept from v5 -->
-    <details class="bg-white border border-gray-200 rounded-2xl p-7 mb-6">
-      <summary class="chevron text-2xl font-bold cursor-pointer">Трек 2 · B2B-сегмент — что собрано</summary>
-      <div class="mt-6 space-y-6">
+    <!-- Track 2 (Bet B) — full details, expanded by default -->
+    <div class="bg-white border-2 border-indigo-300 rounded-2xl p-7 mb-6">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wider text-indigo-700">Трек 2 · B2B-сегмент — что собрано</span>
+      </div>
+      <h3 class="text-2xl font-bold mb-6">Логика новой кампании на специалистов и команды</h3>
+      <div class="space-y-6">
         <div>
           <h4 class="font-semibold mb-3 text-lg">Сегментация — 6 портретов сведены в 2 слоя</h4>
           <div class="grid md:grid-cols-2 gap-4">
@@ -545,7 +627,7 @@
           </table>
         </div>
       </div>
-    </details>
+    </div>
 
     <div class="bg-slate-900 text-white rounded-2xl p-7 max-w-5xl">
       <p class="text-xs font-semibold uppercase tracking-wider text-white/60 mb-3">Контрольные точки</p>
