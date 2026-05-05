@@ -1,0 +1,1699 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vibero Support Bot — что умеет и как разгружает саппорт</title>
+<style>
+  :root {
+    --bg: #0b0d12;
+    --bg-card: #141821;
+    --bg-elev: #1a1f2b;
+    --border: #232936;
+    --text: #e6e9ef;
+    --text-dim: #8a93a4;
+    --accent: #5b8cff;
+    --ok: #4ade80;
+    --warn: #fbbf24;
+    --escalate: #c084fc;
+    --user: #2563eb;
+    --bot: #1e293b;
+    --code: #0f1320;
+    --mono: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 920px; margin: 0 auto; padding: 56px 24px 96px; }
+
+  /* ─── Hero ─── */
+  .hero { margin-bottom: 56px; text-align: left; }
+  .hero .eyebrow { color: var(--accent); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  .hero h1 { font-size: 38px; font-weight: 700; margin: 0 0 16px; letter-spacing: -0.02em; line-height: 1.15; }
+  .hero .lead { color: var(--text-dim); font-size: 17px; max-width: 720px; }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 36px;
+  }
+  .stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .stat .num { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+  .stat .num.accent { color: var(--accent); }
+  .stat .num.ok { color: var(--ok); }
+  .stat .label { color: var(--text-dim); font-size: 13px; margin-top: 8px; }
+
+  /* ─── Section ─── */
+  h2.section {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin: 64px 0 20px;
+    font-weight: 600;
+  }
+  h3.section-h { font-size: 22px; margin: 0 0 12px; font-weight: 600; letter-spacing: -0.01em; }
+  .section-lead { color: var(--text-dim); font-size: 15px; margin-bottom: 24px; max-width: 720px; }
+
+  /* ─── Safety promises ─── */
+  .promise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 14px; }
+  .promise {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .promise .icon { font-size: 22px; margin-bottom: 8px; }
+  .promise .title { font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+  .promise .desc { color: var(--text-dim); font-size: 13px; line-height: 1.5; }
+
+  /* ─── Case cards ─── */
+  .case {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px 28px 24px;
+    margin-bottom: 20px;
+  }
+  .case-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
+  .case-num { color: var(--text-dim); font-size: 13px; font-family: var(--mono); }
+  .case-title { font-size: 19px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+  .case-freq {
+    background: rgba(91, 140, 255, 0.12);
+    color: var(--accent);
+    border-radius: 100px;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .case-status {
+    margin-left: auto;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .case-status.ok { background: rgba(74, 222, 128, 0.15); color: var(--ok); }
+  .case-status.escalate { background: rgba(192, 132, 252, 0.15); color: var(--escalate); }
+  .case-status.fail { background: rgba(248, 113, 113, 0.15); color: #f87171; }
+
+  .case-desc { color: var(--text-dim); font-size: 14px; margin: 4px 0 22px; line-height: 1.55; }
+
+  /* Chat */
+  .chat { background: var(--bg-elev); border-radius: 14px; padding: 18px; margin-bottom: 20px; }
+  .bubble { margin-bottom: 10px; max-width: 85%; }
+  .bubble:last-child { margin-bottom: 0; }
+  .bubble-label { font-size: 11px; font-weight: 600; color: var(--text-dim); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .bubble-body {
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .bubble.user { margin-left: auto; }
+  .bubble.user .bubble-body { background: var(--user); color: white; border-bottom-right-radius: 4px; }
+  .bubble.user .bubble-label { text-align: right; }
+  .bubble.bot .bubble-body { background: var(--bot); border-bottom-left-radius: 4px; }
+
+  /* Sub-section in case */
+  .case-sub { margin-top: 20px; }
+  .case-sub-title { font-size: 12px; text-transform: uppercase; color: var(--text-dim); font-weight: 600; letter-spacing: 0.06em; margin-bottom: 10px; }
+
+  /* Safety promise list inside case */
+  .safety-list { list-style: none; padding: 0; margin: 0; }
+  .safety-list li {
+    padding: 8px 12px;
+    border-left: 2px solid var(--accent);
+    background: rgba(91, 140, 255, 0.05);
+    margin-bottom: 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #c5cee0;
+  }
+
+  /* Proof image */
+  .proof img {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    display: block;
+  }
+  .proof-caption { font-size: 12px; color: var(--text-dim); margin-top: 8px; }
+  .proof-empty {
+    background: var(--bg-elev);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  /* ─── Overview table ─── */
+  .overview-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                    gap: 14px; margin-bottom: 24px; }
+  .ov-stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+             padding: 16px 18px; }
+  .ov-stat .num { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+  .ov-stat .num.self { color: var(--ok); }
+  .ov-stat .num.delegate { color: var(--escalate); }
+  .ov-stat .num.roadmap { color: var(--warn); }
+  .ov-stat .label { color: var(--text-dim); font-size: 12px; margin-top: 6px; }
+
+  table.overview { width: 100%; border-collapse: collapse; background: var(--bg-card);
+                   border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+                   font-size: 14px; }
+  table.overview th { text-align: left; padding: 12px 16px; background: var(--bg-elev);
+                      color: var(--text-dim); font-weight: 600; font-size: 12px;
+                      text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+  table.overview td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table.overview tbody tr:last-child td { border-bottom: none; }
+  table.overview tbody tr:hover { background: rgba(91, 140, 255, 0.04); }
+  table.overview td.title { font-weight: 500; }
+  table.overview td.pct { color: var(--accent); font-family: var(--mono); white-space: nowrap; width: 70px; }
+  table.overview td.note { color: var(--text-dim); font-size: 13px; }
+  .mode-pill { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px;
+               font-weight: 600; white-space: nowrap; }
+  .mode-pill.self { background: rgba(74, 222, 128, 0.15); color: var(--ok); }
+  .mode-pill.confirm { background: rgba(74, 222, 128, 0.10); color: #86efac; }
+  .mode-pill.ask { background: rgba(91, 140, 255, 0.15); color: var(--accent); }
+  .mode-pill.delegate { background: rgba(192, 132, 252, 0.15); color: var(--escalate); }
+  .mode-pill.silent { background: rgba(138, 147, 164, 0.15); color: var(--text-dim); }
+  .mode-pill.roadmap { background: rgba(251, 191, 36, 0.15); color: var(--warn); }
+  .mode-pill.partial { background: rgba(251, 191, 36, 0.10); color: #fcd34d; }
+
+  /* Callout */
+  .callout {
+    background: linear-gradient(135deg, rgba(91, 140, 255, 0.08), rgba(74, 222, 128, 0.04));
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin: 24px 0;
+  }
+  .callout .ct-title { font-weight: 600; font-size: 15px; margin-bottom: 8px; }
+  .callout .ct-body { color: #c5cee0; font-size: 14px; line-height: 1.6; }
+  .callout .ct-body p { margin: 0 0 8px; }
+  .callout .ct-body p:last-child { margin: 0; }
+  .callout ul { padding-left: 20px; margin: 8px 0; }
+  .callout li { margin-bottom: 4px; color: #c5cee0; font-size: 14px; }
+
+  /* ─── Integration plan ─── */
+  .steps { display: grid; gap: 12px; }
+  .step {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .step .n {
+    background: rgba(91, 140, 255, 0.12);
+    color: var(--accent);
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px;
+  }
+  .step .title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+  .step .desc { color: var(--text-dim); font-size: 14px; line-height: 1.55; }
+  .step .risk {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(74, 222, 128, 0.12);
+    color: var(--ok);
+    font-weight: 600;
+  }
+  .step .risk.med { background: rgba(251, 191, 36, 0.12); color: var(--warn); }
+
+  html { scroll-behavior: smooth; }
+  h2.section[id] { scroll-margin-top: 70px; }
+
+  /* Sticky навигация */
+  .topnav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(11, 13, 18, 0.85);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topnav-inner {
+    max-width: 920px; margin: 0 auto;
+    padding: 12px 24px;
+    display: flex; gap: 24px;
+    align-items: center;
+    overflow-x: auto;
+  }
+  .topnav-brand {
+    font-size: 13px; font-weight: 700; color: var(--text);
+    letter-spacing: -0.01em; white-space: nowrap;
+    margin-right: auto;
+  }
+  .topnav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 4px 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s;
+  }
+  .topnav a:hover { color: var(--text); border-bottom-color: var(--accent); }
+
+  /* Расширенные принцип-карточки (для multi-task / API decision) */
+  .principle-wide {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 12px;
+  }
+  .principle-wide .pw-eyebrow {
+    color: var(--accent);
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .principle-wide h3 { margin: 0 0 12px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .principle-wide p { color: #c5cee0; font-size: 14px; margin: 0 0 10px; line-height: 1.55; }
+  .principle-wide p:last-child { margin: 0; }
+  .principle-wide ul { padding-left: 20px; margin: 8px 0; }
+  .principle-wide li { margin-bottom: 4px; color: #c5cee0; font-size: 14px; }
+
+  /* Раскрывающийся блок «показать редкие типы» */
+  details.rare-types {
+    margin-top: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px 16px;
+  }
+  details.rare-types summary {
+    cursor: pointer;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 500;
+    list-style: none;
+    padding: 8px 0;
+    user-select: none;
+  }
+  details.rare-types summary::-webkit-details-marker { display: none; }
+  details.rare-types summary::before {
+    content: "▸ ";
+    color: var(--accent);
+    transition: transform 0.15s;
+    display: inline-block;
+  }
+  details.rare-types[open] summary::before { content: "▾ "; }
+  details.rare-types summary:hover { color: var(--text); }
+  details.rare-types table.overview { margin-top: 8px; }
+
+  /* Один highlight-stat вместо тройки с нулями */
+  .overview-highlight {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 28px;
+    display: flex; align-items: baseline; gap: 18px;
+    margin-bottom: 8px;
+  }
+  .overview-highlight .num {
+    font-size: 44px; font-weight: 700; color: var(--ok);
+    letter-spacing: -0.02em; line-height: 1;
+  }
+  .overview-highlight .label { color: var(--text-dim); font-size: 14px; }
+
+  /* CTA-блок для теста */
+  .cta-box {
+    background: linear-gradient(135deg, rgba(91, 140, 255, 0.08) 0%, rgba(74, 222, 128, 0.06) 100%);
+    border: 1px solid rgba(91, 140, 255, 0.3);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 36px;
+  }
+  .cta-box .cta-title { font-size: 14px; font-weight: 700; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+  .cta-box h3 { font-size: 22px; font-weight: 600; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .cta-box p.cta-lead { color: var(--text-dim); font-size: 15px; margin: 0 0 20px; }
+  .cta-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: white !important;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    margin-top: 4px;
+  }
+  .cta-btn:hover { opacity: 0.9; }
+  .cta-meta { color: var(--text-dim); font-size: 13px; margin-top: 12px; }
+  .cta-meta code { background: var(--code); padding: 2px 6px; border-radius: 4px; font-family: var(--mono); font-size: 12px; }
+
+  /* Footer */
+  .footer { margin-top: 80px; color: var(--text-dim); font-size: 13px; text-align: center; }
+
+  /* ─── Мобильная адаптация ─── */
+  @media (max-width: 720px) {
+    .container { padding: 32px 16px 64px; }
+    .topnav-inner { padding: 10px 16px; gap: 16px; }
+    .topnav-brand { font-size: 12px; margin-right: 12px; }
+    .topnav a { font-size: 12px; }
+    .hero { margin-bottom: 36px; }
+    .hero h1 { font-size: 28px; line-height: 1.2; }
+    .hero .lead { font-size: 15px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 24px; }
+    .stat { padding: 14px; }
+    .stat .num { font-size: 24px; }
+    h3.section-h { font-size: 22px; line-height: 1.25; }
+    .promise-grid { grid-template-columns: 1fr; gap: 10px; }
+    .promise { padding: 16px 18px; }
+
+    /* Highlight stat — стэкаем на мобиле, иначе текст сжимается рядом с цифрой */
+    .overview-highlight { flex-direction: column; align-items: flex-start; gap: 6px; padding: 18px 20px; }
+    .overview-highlight .num { font-size: 36px; }
+
+    /* Overview table — превращаем в карточки. Каждая строка = card,
+       заголовки скрываем, ячейки — со своим лейблом через data-label */
+    table.overview, table.overview thead, table.overview tbody,
+    table.overview tr, table.overview th, table.overview td { display: block; }
+    table.overview { border: none; background: transparent; padding: 0; }
+    table.overview thead { display: none; }
+    table.overview tbody tr {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    table.overview tbody tr:hover { background: var(--bg-card); }
+    table.overview td {
+      border: none;
+      padding: 4px 0;
+      font-size: 14px;
+    }
+    table.overview td.title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    table.overview td.pct { display: inline-block; width: auto; margin-right: 12px; font-size: 14px; }
+    table.overview td.pct::before { content: ""; }
+    table.overview td.note { font-size: 13px; color: var(--text-dim); margin-top: 6px; }
+    table.overview td:has(.mode-pill) { padding-top: 6px; }
+    .mode-pill { white-space: normal; }
+
+    /* CTA-блок и step — не давать вылезать наружу */
+    .cta-box { padding: 22px 18px; }
+    .cta-box h3 { font-size: 18px; }
+    .cta-btn { display: block; text-align: center; padding: 14px 22px; }
+    .step { padding: 16px 18px; grid-template-columns: 28px 1fr; gap: 12px; }
+    .step .n { width: 26px; height: 26px; font-size: 12px; }
+    .principle-wide { padding: 18px 20px; }
+    .principle-wide h3 { font-size: 16px; }
+
+    /* Кейсы — длинные сообщения */
+    .case { padding: 18px 18px; }
+    .case-header { gap: 8px; }
+    .case-title { font-size: 17px; }
+    .chat { padding: 14px; }
+    .bubble { max-width: 92%; }
+    .bubble-body { font-size: 14px; padding: 10px 14px; }
+
+    .callout { padding: 16px 18px; }
+    .callout .ct-title { font-size: 13px; }
+  }
+
+  /* Совсем узкие — iPhone SE 375px */
+  @media (max-width: 400px) {
+    .hero h1 { font-size: 26px; }
+    .hero-stats { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-brand">Vibero Support Bot</div>
+    <a href="#principles">Принципы</a>
+    <a href="#overview">Обзор</a>
+    <a href="#test">Тестирование</a>
+    <a href="#next">Дальше</a>
+    <a href="#cases">Кейсы</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- ─── Hero ─── -->
+  <div class="hero">
+    <div class="eyebrow">demo · 2026-05-05 17:08</div>
+    <h1>Бот-саппорт для Vibero<br>закрывает ~70% входящих сам</h1>
+    <p class="lead">Бот сидит в клиентских чатах вместо оператора: сам выполняет рутину в админке Vibero, отвечает клиенту, эскалирует только то, что нужно человеку. <b>Дальше</b>: принципы безопасности, разбор всех типов запросов, как лиду саппорта запустить тест за 5 минут, и живые прогоны из реальных чатов.</p>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="num accent">100%</div>
+        <div class="label">обращений<br>обрабатывается ботом</div>
+      </div>
+      <div class="stat">
+        <div class="num">17</div>
+        <div class="label">сценариев<br>в этом прогоне</div>
+      </div>
+      <div class="stat">
+        <div class="num ok">17/17</div>
+        <div class="label">прошли<br>без вмешательства</div>
+      </div>
+      <div class="stat">
+        <div class="num">~70%</div>
+        <div class="label">оценочная<br>разгрузка саппорта</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Safety promises ─── -->
+  <h2 id="principles" class="section">Принципы работы бота</h2>
+  <h3 class="section-h">Чем бот безопасен — и как принимает решения</h3>
+  <p class="section-lead">Бот не пытается справляться со всем подряд. Принцип: лучше задать вопрос оператору, чем сделать наугад. И когда берётся — проверяет себя на каждом шаге.</p>
+
+  <div class="promise-grid">
+    <div class="promise">
+      <div class="icon">✍️</div>
+      <div class="title">Не выдумывает</div>
+      <div class="desc">В ответе — только то, что реально произошло в админке. Никаких «активирован», если только что создал и не активирован.</div>
+    </div>
+    <div class="promise">
+      <div class="icon">✅</div>
+      <div class="title">Проверяет результат</div>
+      <div class="desc">После каждого действия — возврат в админку и сверка, что записалось. Не записалось — эскалация.</div>
+    </div>
+    <div class="promise">
+      <div class="icon">❓</div>
+      <div class="title">Уточняет, если двусмысленно</div>
+      <div class="desc">Несколько объектов с похожим именем — не угадывает, спрашивает. Странные значения (кап 999999, имя в 200 символов, кривой email) — блокирует.</div>
+    </div>
+    <div class="promise">
+      <div class="icon">💰</div>
+      <div class="title">Не лезет в финансы</div>
+      <div class="desc">Любые вопросы про выплаты, балансы, комиссии — сразу к оператору. Бот не отвечает «когда выплата».</div>
+    </div>
+  </div>
+
+  <!-- Расширенные принципы: multi-task + API decision -->
+  <div class="principle-wide" style="margin-top: 16px;">
+    <div class="pw-eyebrow">Несколько задач в одном сообщении</div>
+    <h3>Бот разбирает «сделай X и забань Y» сам, без потерь</h3>
+    <p>По нашим данным, около <b>четверти сообщений</b> в реальных чатах содержат больше одной задачи («сделай интегру и забань email», «заморозь сделку и поставь кап»). Бот выполняет все по очереди через свои защиты. Если одна задача не получилась — делает что прошло, на остаток зовёт оператора с тегом, что именно не вышло.</p>
+  </div>
+
+  <div class="principle-wide">
+    <div class="pw-eyebrow">Создание интеграции — где бот берёт риск, а где нет</div>
+    <h3>Бот включает API сам, только когда уверен на 4 проверках</h3>
+    <p>Создание интеграции — самая частая операция (≈21% запросов) и самая опасная: ошибка в типе API брокера или полях кредов = клиент теряет живой трафик в кривую интеграцию. Поэтому бот берёт ответственность на себя <b>только когда уверен</b>.</p>
+    <p><b>Бот сам включает API при создании, если все 4 проверки прошли:</b></p>
+    <ul>
+      <li><b>URL валидный</b> — есть схема (https://), домен резолвится, не локалхост.</li>
+      <li><b>Тип API определён однозначно</b> — по сигнатуре полей (token / login+password / hashed-secret).</li>
+      <li><b>Креды непустые</b> — хотя бы один обязательный для этого типа API.</li>
+      <li><b>Гео и языки заданы</b> — без них Vibero молча сбросит флаг live, лиды не пойдут.</li>
+    </ul>
+    <p>Если хоть одна проверка не прошла — бот создаёт офис, но <b>оставляет API выключенным</b> и в ответе пишет конкретную причину («оставил выключенным: поле api_login пустое»). Финальный клик — за оператором, одну секунду, без риска кривой интеграции.</p>
+    <p><b>После создания работает FSM «жду подтверждения теста»:</b> когда клиент пишет «отбили / тест прошёл / норм / деп есть» — бот сам закрывает тикет; «не работает» — эскалирует с пометкой «нужна диагностика». Закрывает ещё ~20% обращений (см. кейс #2 ниже).</p>
+  </div>
+
+  <!-- ─── Overview table ─── -->
+  <h2 id="overview" class="section">Полный обзор — что и как делает бот</h2>
+  <h3 class="section-h">25 типов запросов из реальных чатов</h3>
+  <p class="section-lead">Цифры собраны по разбору 1276 диалогов. В одном диалоге может быть несколько типов запросов, поэтому проценты — это «доля диалогов, в которых встречается этот тип».</p>
+
+  <div class="overview-highlight">
+    <div class="num">88%+</div>
+    <div class="label">обращений бот закрывает сам — пишет, читает, спрашивает уточнения. Финансы и нерешаемые случаи — единственное, где зовёт оператора.</div>
+  </div>
+
+  
+  
+  
+
+  <table class="overview">
+    <thead>
+      <tr>
+        <th>Тип запроса</th>
+        <th>%</th>
+        <th>Кто делает</th>
+        <th>Деталь</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td class="title">Создание интеграции</td>
+        <td class="pct">20.9%</td>
+        <td>
+          <span class="mode-pill confirm">бот + 1 шаг оператора</span>
+          
+        </td>
+        <td class="note">Создаёт офис, проверяет поля. API активирует сам, если все 4 проверки прошли (URL, тип, креды, гео). Иначе оставляет выключенным с понятной причиной.</td>
+      </tr>
+      
+      <tr>
+        <td class="title">Подтверждение интеграции (FSM)</td>
+        <td class="pct">20.3%</td>
+        <td>
+          <span class="mode-pill self">бот ✓</span>
+          
+        </td>
+        <td class="note">После создания запоминает «жду подтверждения». На «отбили / тест прошёл / норм» закрывает тикет. На «не работает» — эскалация с диагностикой. Таймаут 60 мин.</td>
+      </tr>
+      
+      <tr>
+        <td class="title">Обучающие вопросы</td>
+        <td class="pct">13.3%</td>
+        <td>
+          <span class="mode-pill self">бот ✓</span>
+          
+        </td>
+        <td class="note">Бот ищет в knowledge base, отвечает кратко + ссылка на doc.vibero.tech. Не нашёл — эскалация.</td>
+      </tr>
+      
+      <tr>
+        <td class="title">Тестовый лид</td>
+        <td class="pct">8.9%</td>
+        <td>
+          <span class="mode-pill self">бот ✓</span>
+          
+        </td>
+        <td class="note">Берёт дефолтного баера + первый оффер офиса.</td>
+      </tr>
+      
+      <tr>
+        <td class="title">Доступ для нового баера</td>
+        <td class="pct">5.0%</td>
+        <td>
+          <span class="mode-pill self">бот ✓</span>
+          
+        </td>
+        <td class="note">Генерирует marker/login/password по правилам Vibero, шлёт credentials в чат.</td>
+      </tr>
+      
+      <tr>
+        <td class="title">Привет / спасибо</td>
+        <td class="pct">5.0%</td>
+        <td>
+          <span class="mode-pill silent">молчит</span>
+          
+        </td>
+        <td class="note">Не отвечает (как настоящий оператор не реагирует на «спасибо»).</td>
+      </tr>
+      
+      <tr>
+        <td class="title">Поиск лида и статуса</td>
+        <td class="pct">3.6%</td>
+        <td>
+          <span class="mode-pill self">бот ✓</span>
+          
+        </td>
+        <td class="note">Только чтение. На сложной диагностике («почему ушёл на склад») — эскалирует.</td>
+      </tr>
+      
+      <tr>
+        <td class="title">Копия офиса по аналогии</td>
+        <td class="pct">3.0%</td>
+        <td>
+          <span class="mode-pill confirm">бот + 1 шаг оператора</span>
+          
+        </td>
+        <td class="note">Клонирует со всеми гео/языками. Напоминает про вкл API + лимиты.</td>
+      </tr>
+      
+      <tr>
+        <td class="title">Дневной/общий кап на вебсделку</td>
+        <td class="pct">3.0%</td>
+        <td>
+          <span class="mode-pill ask">бот, спросит если двусмысленно</span>
+          
+        </td>
+        <td class="note">Различает day_cnt / total_cnt. Если вебсделок несколько — уточняет.</td>
+      </tr>
+      
+    </tbody>
+  </table>
+
+  
+  <details class="rare-types">
+    <summary>Показать ещё 16 редких типов (&lt; 3% обращений)</summary>
+    <table class="overview">
+      <thead>
+        <tr>
+          <th>Тип запроса</th>
+          <th>%</th>
+          <th>Кто делает</th>
+          <th>Деталь</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="title">Кап на сделку (Deal)</td>
+          <td class="pct">2.8%</td>
+          <td>
+            <span class="mode-pill ask">бот, спросит если двусмысленно</span>
+            
+          </td>
+          <td class="note">Кап + гео + время. Несколько сделок → уточнение.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Заморозка вебсделки</td>
+          <td class="pct">1.5%</td>
+          <td>
+            <span class="mode-pill ask">бот, спросит если двусмысленно</span>
+            
+          </td>
+          <td class="note">Если вебсделок несколько — уточняет. Не путает с Deal.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Разморозка вебсделки</td>
+          <td class="pct">1.5%</td>
+          <td>
+            <span class="mode-pill ask">бот, спросит если двусмысленно</span>
+            
+          </td>
+          <td class="note">То же поведение что freeze, обратный флаг.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Обновление поля офиса</td>
+          <td class="pct">1.2%</td>
+          <td>
+            <span class="mode-pill self">бот ✓</span>
+            
+          </td>
+          <td class="note">Меняет одно поле, остальные сохраняет. На несколько офисов — эскалация.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Запрос «дайте сырое body лида»</td>
+          <td class="pct">1.0%</td>
+          <td>
+            <span class="mode-pill self">бот ✓</span>
+            
+          </td>
+          <td class="note">Стандартный отказ по политике, без обращения к оператору.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Бан email-фрода</td>
+          <td class="pct">0.6%</td>
+          <td>
+            <span class="mode-pill self">бот ✓</span>
+            
+          </td>
+          <td class="note">Email/phone/IP/гео — все 4 типа работают одинаково.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Добавление IP в whitelist</td>
+          <td class="pct">0.5%</td>
+          <td>
+            <span class="mode-pill self">бот ✓</span>
+            
+          </td>
+          <td class="note">Часть FSM «тест→403→whitelist→повтор». Глобально через юзера ALL.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Проверка работоспособности CRM</td>
+          <td class="pct">0.5%</td>
+          <td>
+            <span class="mode-pill self">бот ✓</span>
+            
+          </td>
+          <td class="note">Простой пинг, отвечает живыми данными.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Финансовые вопросы</td>
+          <td class="pct">0.3%</td>
+          <td>
+            <span class="mode-pill delegate">оператор (политика)</span>
+            
+          </td>
+          <td class="note">Политика: выплаты/балансы/комиссии — всегда оператору.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Бан телефона</td>
+          <td class="pct">0.2%</td>
+          <td>
+            <span class="mode-pill self">бот ✓</span>
+            
+          </td>
+          <td class="note">То же что email, для номера.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">«Какой кап стоит?»</td>
+          <td class="pct">0.2%</td>
+          <td>
+            <span class="mode-pill self">бот ✓</span>
+            
+          </td>
+          <td class="note">Парсит карточку сделки в админке, отвечает текущие лимиты (cnt) по гео/языку.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Бан IP</td>
+          <td class="pct">0.1%</td>
+          <td>
+            <span class="mode-pill self">бот ✓</span>
+            
+          </td>
+          <td class="note">Глобальный blacklist по IP.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Бан гео</td>
+          <td class="pct">0.1%</td>
+          <td>
+            <span class="mode-pill self">бот ✓</span>
+            
+          </td>
+          <td class="note">Бан целой страны.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Разбан email/phone/IP/гео</td>
+          <td class="pct">0.1%</td>
+          <td>
+            <span class="mode-pill self">бот ✓</span>
+            
+          </td>
+          <td class="note">Находит запись в blacklist и удаляет.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Удаление IP из whitelist</td>
+          <td class="pct">0.1%</td>
+          <td>
+            <span class="mode-pill self">бот ✓</span>
+            
+          </td>
+          <td class="note">Находит запись и удаляет.</td>
+        </tr>
+        
+        <tr>
+          <td class="title">Постбэк на офис</td>
+          <td class="pct">0.1%</td>
+          <td>
+            <span class="mode-pill self">бот ✓</span>
+            
+          </td>
+          <td class="note">На событие (депозит/сделка/итд). Если события не понял — уточняет.</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </details>
+  
+
+  <!-- ─── CTA: как протестировать (теперь после принципов и обзора) ─── -->
+  <h2 id="test" class="section">Что нужно сделать сейчас</h2>
+  <h3 class="section-h">Лид саппорта Vibero тестирует бота — 1-2 дня</h3>
+  <p class="section-lead">Чтобы проверить бота не «на бумаге», а в живой работе — лид саппорта (или тот, кто в команде ближе всех к реальной рутине клиентских чатов) заходит в общий тестовый Telegram-чат и пробует. Бот отвечает только в этом чате, в чужие случайно не залезет.</p>
+
+  <div class="cta-box">
+    <div class="cta-title">шаг 1 · присоединиться</div>
+    <h3>Зайдите в тестовый чат с ботом</h3>
+    <p class="cta-lead">В чате уже сидит Макс и <code>@vibero_support_bot</code>. Если есть пара менеджеров, которые ближе всего знают чаты — добавьте и их, чтобы посмотрели разными глазами.</p>
+    <a href="https://t.me/+wNJiv89peV9jNjM6" class="cta-btn" target="_blank">Присоединиться к тестовому чату →</a>
+    <div class="cta-meta">Ссылка: <code>t.me/+wNJiv89peV9jNjM6</code></div>
+  </div>
+
+  <div class="steps" style="margin-bottom: 36px;">
+    <div class="step">
+      <div class="n">2</div>
+      <div>
+        <div class="title">Пишите боту как клиенты пишут вам</div>
+        <div class="desc">
+          Берите формулировки прямо из ваших реальных чатов — необязательно «правильные» или вежливые. Что-то из самого частого:
+          <ul style="margin: 8px 0 0; padding-left: 20px;">
+            <li>«Поставь кап 50 на офис ACB»</li>
+            <li>«Заведи нового баера, ник RB9, под партнёрку»</li>
+            <li>«Забань email spam@example.com, фрод по депам»</li>
+            <li>«Сделай интегру по аналогии с ReportDemo, новую назови ReportDemo_v2»</li>
+            <li>«Отбили, тест прошёл, всё ок» <i>(после создания офиса — проверка FSM)</i></li>
+            <li>«Какой кап стоит на офисе X?»</li>
+            <li>«Выдайте полное тело запроса по последнему лиду»</li>
+            <li>«Когда нам выплата за прошлую неделю?» <i>(должно уйти на эскалацию)</i></li>
+          </ul>
+          В идеале — пройдитесь по последним 20–30 сообщениям из реальных чатов и попробуйте те, на которых сами недавно отвечали оператором.
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">3</div>
+      <div>
+        <div class="title">Что замечать и записывать</div>
+        <div class="desc">
+          Не нужно проверять «работает / не работает» — это видно по ответу. Нам важно содержание:
+          <ul style="margin: 8px 0 0; padding-left: 20px;">
+            <li>Бот ответил странно или непонятно</li>
+            <li>Сделал не то, что ожидалось</li>
+            <li>Зря эскалировал то, что мог решить сам</li>
+            <li>Наоборот — сделал что-то рискованное, должен был эскалировать</li>
+            <li>Тон не подходит — слишком сухо / робот / недостаточно уверенно / наоборот через край</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">4</div>
+      <div>
+        <div class="title">Как вернуть фидбек Максу</div>
+        <div class="desc">
+          Два варианта на выбор:
+          <ul style="margin: 8px 0 0; padding-left: 20px;">
+            <li><b>Реплай в этом же чате</b> — на конкретный ответ бота с пометкой «фидбек: …». Контекст видно сразу, проще обсудить.</li>
+            <li><b>Личка Максу</b> — <code>@msoloviev</code>, текстом или голосовым. Длинные кейсы — лучше так.</li>
+          </ul>
+          Дальше Макс по мере накопления присылает в чат сводку правок: <i>«поправил X, уточнил Y, по Z нужно ваше решение по политике»</i>. Так лид саппорта видит, что фидбек учтён, и может сразу проверить исправление в том же чате.
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">5</div>
+      <div>
+        <div class="title">Безопасность теста</div>
+        <div class="desc">
+          Бот ходит в админку <code>demo.vibero.net</code> (демо-стенд) — не в прод-кабинеты ваших клиентов. Можно тестить любые операции, включая «забань email», «поставь кап 999999», «создай 50 офисов» — на проде никто не пострадает.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Дальше после теста ─── -->
+  <h2 id="next" class="section">После теста</h2>
+  <h3 class="section-h">Путь от теста до клиентских чатов</h3>
+  <p class="section-lead">После того как лид саппорта прогнал свои сценарии и фидбек учтён — заходим в боевой режим тремя шагами. На каждом — больше доверия и меньше контроля, без резких движений.</p>
+
+  <div class="steps" style="margin-bottom: 36px;">
+    <div class="step">
+      <div class="n">A</div>
+      <div>
+        <div class="title">Shadow-режим рядом с оператором</div>
+        <div class="desc">Оператор работает как обычно, но параллельно пересылает входящие боту в отдельный чат. Видит, что бот предлагает сделать, копирует ответ если ок, правит если нет. Клиенты видят только оператора. Так оператор калибрует доверие к боту, ничем не рискуя.</div>
+        <span class="risk">риск: минимальный</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">B</div>
+      <div>
+        <div class="title">Один пилотный клиентский чат</div>
+        <div class="desc">Выбираем чат с самым лояльным клиентом, согласовав с ним. Бот отвечает первым, оператор смотрит и может вмешаться. Все действия бота логируются — Vibero видит, что он сделал в админке. По итогам недели — корректируем.</div>
+        <span class="risk med">риск: средний</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">C</div>
+      <div>
+        <div class="title">Поэтапный rollout по чатам</div>
+        <div class="desc">Если пилот прошёл — добавляем по 3–5 чатов в неделю. Оператор в роли супервайзера, решает только нестандартные кейсы. К месяцу — основная масса рутины автоматизирована.</div>
+        <span class="risk med">риск: контролируемый</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Scenarios ─── -->
+  <h2 id="cases" class="section">Примеры из чатов</h2>
+  <h3 class="section-h">17 живых прогонов — для тех, кто хочет копнуть</h3>
+  <p class="section-lead">Реальные формулировки из ваших чатов. Слева сообщение клиента → справа ответ бота → ниже подтверждение из админки или эскалация с тегом оператора. Можно пробежать глазами или вернуться позже.</p>
+
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#1</span>
+      <h3 class="case-title">Создание новой интеграции</h3>
+      <span class="case-freq">20.9% запросов</span>
+      
+        <span class="case-status ok">✓ выполнено</span>
+      
+    </div>
+    <div class="case-desc">Самый частый запрос в чатах: «сделай интегру / новый офис». Бот собирает из текста имя, домен, ключи и тип API брокера, заводит офис в админке и подтверждает результат. Сразу после — открывает только что созданную карточку и сверяет, что данные действительно записались.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Привет! Сделай интегру (trackbox):
+Domain: https://tracking.report-demo-170731.example.com/leads
+Login: demo_login_170731
+Password: demo_pass_170731
+Token: tok_170731_abc12345
+Офис: ReportDemo170731</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Готово, офис создан (id=763, тип API: trackbox). API оставил выключенным: нет: password; нет языков/гео — лидам некуда идти.</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Сам распознаёт тип API брокера (trackbox / affboat / др.) — не путает их</li>
+        
+          <li>Проверяет, что офис с таким именем не существует — не создаёт дубль</li>
+        
+          <li>После создания возвращается в админку и сверяет, что значения записались</li>
+        
+          <li>Не активирует API сразу — оставляет это оператору для финального контроля</li>
+        
+      </ul>
+    </div>
+    
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Подтверждение из админки</div>
+      <div class="proof">
+        <img src="screens/create_office.png" alt="screenshot">
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#2</span>
+      <h3 class="case-title">Подтверждение интеграции (FSM)</h3>
+      <span class="case-freq">20.3% запросов</span>
+      
+        <span class="case-status ok">✓ выполнено</span>
+      
+    </div>
+    <div class="case-desc">Сразу после создания офиса бот запоминает «жду подтверждения теста». Когда оператор/клиент пишет «отбили» / «тест прошёл» / «деп есть» — бот закрывает тикет автоматически. Если «не работает» — эскалирует с пометкой «нужна диагностика». Таймаут 60 минут.
+Это самый частый follow-up к создаваемой интеграции (20.3% обращений).
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Отбили, тест прошёл, всё ок</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Принято — интеграция 'ReportDemo170731' (id=763) подтверждена. Тикет закрываю. Финальное включение API за оператором.</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Активно только если в этом чате недавно создавался офис</li>
+        
+          <li>Таймаут 60 минут — после этого считается что подтверждения не было, эскалация</li>
+        
+          <li>На «не работает / не отбили» — эскалирует с диагностикой, не «забывает»</li>
+        
+      </ul>
+    </div>
+    
+
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#3</span>
+      <h3 class="case-title">«Какой кап стоит?»</h3>
+      <span class="case-freq">0.2% запросов</span>
+      
+        <span class="case-status escalate">→ оператору</span>
+      
+    </div>
+    <div class="case-desc">Запрос текущих лимитов сделки. Бот парсит карточку в админке, возвращает таблицей: lang/geo/offer → cap, cost. Read-only, изменений не делает.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Какой кап стоит на офисе ACB?</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">У офиса 'ACB' несколько сделок ([238, 1036, 910, 1028, 1026]). Уточни какая именно — оператор подскажет.
+
+@msoloviev — multiple_deals_need_clarify</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Только чтение — никаких записей в админку</li>
+        
+          <li>Если у офиса несколько сделок — спросит уточнить</li>
+        
+      </ul>
+    </div>
+    
+
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#4</span>
+      <h3 class="case-title">Несколько задач в одном сообщении</h3>
+      <span class="case-freq">25.0% запросов</span>
+      
+        <span class="case-status ok">✓ выполнено</span>
+      
+    </div>
+    <div class="case-desc">Около четверти сообщений в реальных чатах содержат больше одной задачи («сделай X и забань Y»). Бот выполняет все подряд независимо, не теряет хвост. Если одна из задач не получилась — выполняет что прошло, а на остаток зовёт оператора.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Добавь IP 198.51.100.248 в whitelist и забань email spam-170744@trash.example</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Выполнил все 2 задач(и) подряд.
+1) ✅ Добавил IP 198.51.100.248 в whitelist.
+2) ✅ Добавил 'spam-170744@trash.example' в blacklist (email).</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Каждая задача проверяется на корректность данных отдельно (IP, email, формат)</li>
+        
+          <li>Каждая ищет нужный объект в системе самостоятельно</li>
+        
+          <li>Эскалирует только то, что не получилось — остальное доводит до конца</li>
+        
+      </ul>
+    </div>
+    
+
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#5</span>
+      <h3 class="case-title">Доступ для нового баера</h3>
+      <span class="case-freq">5.0% запросов</span>
+      
+        <span class="case-status ok">✓ выполнено</span>
+      
+    </div>
+    <div class="case-desc">Регулярный запрос: «выдайте доступ под Баера X». Бот сам генерирует логин, пароль и маркер по правилам Vibero (≤12 символов, только латиница), создаёт юзера в админке и присылает credentials в чат. Оператор получает уже готовый комплект — не тратит время на ручную выдачу.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Привет! Выдайте доступ баеру с ником RB254, под партнёрку.</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Байер 'RB254' создан (id=356).
+Логин: rb254@mail.ru
+Пароль: eEB1PstDNGTQC!
+Маркер: RB254</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Marker проверяется на правила Vibero (длина ≤12, только A-Z и цифры)</li>
+        
+          <li>Пароль и логин генерируются автоматически — без пересечений</li>
+        
+          <li>После создания подтверждает наличие юзера в админке</li>
+        
+      </ul>
+    </div>
+    
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Подтверждение из админки</div>
+      <div class="proof">
+        <img src="screens/create_buyer.png" alt="screenshot">
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#6</span>
+      <h3 class="case-title">Добавление IP в whitelist</h3>
+      <span class="case-freq">0.5% запросов</span>
+      
+        <span class="case-status ok">✓ выполнено</span>
+      
+    </div>
+    <div class="case-desc">Часть FSM-сценария «тест-лид → 403 → нужно открыть IP → повторить тест». Бот делает шаг с whitelist'ом сам — добавляет IP в админке для глобального применения (как делает оператор).
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Добавь IP 192.0.2.4 в whitelist пожалуйста</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Добавил IP 192.0.2.4 в whitelist.</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Проверяет, что IP в правильном формате</li>
+        
+          <li>Знает, что в форме whitelist обязателен юзер — подставляет глобального автоматически</li>
+        
+      </ul>
+    </div>
+    
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Подтверждение из админки</div>
+      <div class="proof">
+        <img src="screens/whitelist_ip.png" alt="screenshot">
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#7</span>
+      <h3 class="case-title">Бан email-фрода</h3>
+      <span class="case-freq">0.6% запросов</span>
+      
+        <span class="case-status ok">✓ выполнено</span>
+      
+    </div>
+    <div class="case-desc">«Забаньте email такой-то». Бот добавляет в blacklist в админке. То же самое работает для phone, IP и гео — это 4 типа одной операции.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Забань email spam-blacklist-170802@trash.example, фрод в депозитах</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Добавил 'spam-blacklist-170802@trash.example' в blacklist (email).</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Проверяет email на формат</li>
+        
+          <li>Эскалирует, если значение длиннее разумного — защита от копипаста</li>
+        
+      </ul>
+    </div>
+    
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Подтверждение из админки</div>
+      <div class="proof">
+        <img src="screens/blacklist_email.png" alt="screenshot">
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#8</span>
+      <h3 class="case-title">Поиск лида и его статуса</h3>
+      <span class="case-freq">3.6% запросов</span>
+      
+        <span class="case-status ok">✓ выполнено</span>
+      
+    </div>
+    <div class="case-desc">«Где лид с таким email?» / «почему ушёл на склад?» — частая просьба. Бот ищет в админке по email/phone/id и возвращает текущий статус лида. На сложных диагностиках («почему?») — зовёт оператора с сохранённым контекстом.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Можете глянуть лид по email test-lead@example.com?</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Не нашёл такой лид в базе. Проверь email/phone — возможно опечатка.</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Только чтение, никаких изменений</li>
+        
+          <li>Если лидов несколько — показывает количество, а не угадывает</li>
+        
+      </ul>
+    </div>
+    
+
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#9</span>
+      <h3 class="case-title">Проверка работоспособности CRM</h3>
+      <span class="case-freq">0.5% запросов</span>
+      
+        <span class="case-status ok">✓ выполнено</span>
+      
+    </div>
+    <div class="case-desc">«CRM упала?» / «у вас работает?». Бот делает быстрый GET и отвечает из живых данных, не выдумывает.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Привет, у вас CRM работает?</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">CRM отвечает, всё ок 👍</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Простой пинг — отвечает только тем, что реально получил от админки</li>
+        
+      </ul>
+    </div>
+    
+
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#10</span>
+      <h3 class="case-title">Финансовый вопрос → оператор</h3>
+      <span class="case-freq">0.3% запросов</span>
+      
+        <span class="case-status escalate">→ оператору</span>
+      
+    </div>
+    <div class="case-desc">Любые вопросы про выплаты, балансы, комиссии — политика всегда: сразу к оператору. Это главное преимущество для клиента — бот не может ошибиться там, где деньги.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Когда нам выплата за прошлую неделю?</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">По выплатам и финансам не отвечаю — передаю оператору.
+
+@msoloviev — Финансовый вопрос о выплатах — всегда эскалация к оператору, так как требует доступа к платёжной системе и истории расчётов</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Жёсткая политика — финансы всегда оператору, без исключений</li>
+        
+      </ul>
+    </div>
+    
+
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#11</span>
+      <h3 class="case-title">Обучающий вопрос → ответ из KB</h3>
+      <span class="case-freq">13.3% запросов</span>
+      
+        <span class="case-status ok">✓ выполнено</span>
+      
+    </div>
+    <div class="case-desc">«Как сделать X?» — частые обучающие вопросы. Бот ищет в knowledge base по ключевым словам, отвечает готовым текстом со ссылкой на документацию doc.vibero.tech. Бот ничего не выдумывает: текст и ссылка фиксированы в KB, оператор может проверить. Если темы нет в KB — эскалирует как раньше.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">А как мне сделать новую интеграцию с trackbox?</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Чтобы добавить новый офис: меню Offices → «Создать офис», вводишь имя,
+описание, тип API (trackbox/affboat/snp500/custom), URL и реквизиты
+брокера, потом подключаешь языки/гео/офферы.
+После создания включи флаг «Send via API» — иначе лиды не пойдут.
+
+Полная инструкция: https://doc.vibero.tech/menu____sozdat-ofis</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Текст ответа берётся целиком из KB — бот не генерирует новый</li>
+        
+          <li>Каждый ответ содержит ссылку на полную доку — оператор может верифицировать</li>
+        
+          <li>Не нашёл совпадение в KB — эскалирует, не пытается отвечать наугад</li>
+        
+      </ul>
+    </div>
+    
+
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#12</span>
+      <h3 class="case-title">Запрос «дайте сырое тело лида»</h3>
+      <span class="case-freq">1.0% запросов</span>
+      
+        <span class="case-status ok">✓ выполнено</span>
+      
+    </div>
+    <div class="case-desc">Иногда клиенты просят «полный текст запроса лида с параметрами». Внутренняя политика Vibero — этот payload не предоставлять. Бот отвечает стандартной формулировкой, не зовёт оператора по таким вопросам — просто закрывает их.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Дайте полное тело запроса по последнему лиду на CryptoBoss</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Сырое body запроса лида не предоставляется — оно формируется автоматически и скрыто. Если нужны конкретные параметры — оператор подскажет.</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Стандартный отказ по политике, без обращения к LLM</li>
+        
+          <li>Не выдумывает причину и не утечёт данные</li>
+        
+      </ul>
+    </div>
+    
+
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#13</span>
+      <h3 class="case-title">Обновление поля в существующем офисе</h3>
+      <span class="case-freq">1.2% запросов</span>
+      
+        <span class="case-status ok">✓ выполнено</span>
+      
+    </div>
+    <div class="case-desc">«Поменяй апи у офиса X». Бот находит офис в админке, обновляет одно поле, остальные сохраняет как есть. Если офисов с похожим именем несколько — спросит у оператора, какой именно.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Поменяй api_token у офиса ReportDemo170731 на newtok_xyz_abc12345</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Обновил 'api_token' в офисе id=763, новое значение: 'newtok_xyz_abc12345'.</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Если несколько офисов с похожим именем — не угадывает, эскалирует</li>
+        
+          <li>Сохраняет все остальные поля офиса как есть, меняет только указанное</li>
+        
+      </ul>
+    </div>
+    
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Подтверждение из админки</div>
+      <div class="proof">
+        <img src="screens/update_office.png" alt="screenshot">
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#14</span>
+      <h3 class="case-title">Копия офиса по аналогии</h3>
+      <span class="case-freq">3.0% запросов</span>
+      
+        <span class="case-status ok">✓ выполнено</span>
+      
+    </div>
+    <div class="case-desc">«Сделай по аналогии с офисом X, новый назови Y». Бот клонирует существующий офис со всеми его языками, гео, офферами в новый с указанным именем. После копии напоминает о двух обязательных шагах оператора (включить API + проверить лимиты).
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Сделай по аналогии с офисом ReportDemo170731, новый назови ReportDemo170731_v2</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Скопировал офис → новый id=764, имя 'ReportDemo170731_v2'. ⚠️ Не забудь: включить API и сохранить лимиты в новом — иначе он не работает.</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Если исходных офисов несколько — спрашивает, какой клонировать</li>
+        
+          <li>Имя нового офиса проверяется на длину и допустимые символы</li>
+        
+          <li>Напоминает оператору: после копии нужно включить API и проверить лимиты</li>
+        
+      </ul>
+    </div>
+    
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Подтверждение из админки</div>
+      <div class="proof">
+        <img src="screens/copy_office.png" alt="screenshot">
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#15</span>
+      <h3 class="case-title">Установка капа на сделку</h3>
+      <span class="case-freq">2.8% запросов</span>
+      
+        <span class="case-status escalate">→ оператору</span>
+      
+    </div>
+    <div class="case-desc">«Поставьте кап 100 на офис X». Бот находит сделку (Deal — офис↔байер) по имени офиса, ставит указанный кап. Если сделок у офиса несколько — спрашивает оператора уточнить, на какую именно.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Поставь кап 100 на офис ACB</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">У офиса 'ACB' 5 активных сделок (ids: [238, 1036, 910, 1028, 1026]). Уточни на какую именно ставить кап — оператор подскажет.
+
+@msoloviev — multiple_deals_need_clarify</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Кап в разумных пределах (≤10000) — иначе блок и эскалация</li>
+        
+          <li>Если у офиса несколько сделок — не угадывает, спрашивает оператора</li>
+        
+          <li>Гео/язык приводятся к стандартным кодам (UA, RU, NL и т.д.)</li>
+        
+      </ul>
+    </div>
+    
+
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#16</span>
+      <h3 class="case-title">Заморозка вебсделки</h3>
+      <span class="case-freq">3.0% запросов</span>
+      
+        <span class="case-status escalate">→ оператору</span>
+      
+    </div>
+    <div class="case-desc">«Заморозьте вебсделку с X на офис Y». Вебсделка — отдельная сущность от сделки (это поток конкретного байера под конкретный оффер). Бот находит её по байеру или офису и ставит флаг заморозки.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Заморозьте вебсделку на офис Nani</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Нашёл 5 вебсделок ([1539, 1540, 1536, 1534, 1517]). Уточни какую конкретно — оператор подскажет.
+
+@msoloviev — multiple_webdeals_need_clarify</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Если вебсделок у офиса несколько — спросит оператора</li>
+        
+          <li>Не путает Deal (общая сделка) с Webdeal (поток байера)</li>
+        
+      </ul>
+    </div>
+    
+
+    
+  </div>
+  
+  <div class="case">
+    <div class="case-header">
+      <span class="case-num">#17</span>
+      <h3 class="case-title">Дневной кап на вебсделку</h3>
+      <span class="case-freq">3.0% запросов</span>
+      
+        <span class="case-status escalate">→ оператору</span>
+      
+    </div>
+    <div class="case-desc">«Поставь дневной кап 30 на вебсделку с X». Дневной кап (day_cnt) и общий (total_cnt) — это разные поля у вебсделки, бот их различает. Если в сообщении явно «дневной/суточный» — ставит day_cnt, иначе общий.
+</div>
+
+    <div class="chat">
+      <div class="bubble user">
+        <div class="bubble-label">пользователь</div>
+        <div class="bubble-body">Поставь дневной кап 30 на вебсделку Nani</div>
+      </div>
+      <div class="bubble bot">
+        <div class="bubble-label">бот</div>
+        <div class="bubble-body">Нашёл 5 вебсделок ([1539, 1540, 1536, 1534, 1517]). Уточни какую конкретно — оператор подскажет.
+
+@msoloviev — multiple_webdeals_need_clarify</div>
+      </div>
+    </div>
+
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Что бот учёл при выполнении</div>
+      <ul class="safety-list">
+        
+          <li>Различает дневной (day_cnt) и общий (total_cnt) лимит вебсделки</li>
+        
+          <li>Кап в разумных пределах — невменяемые значения блокируются</li>
+        
+      </ul>
+    </div>
+    
+
+    
+  </div>
+  
+
+  <div class="footer">
+    Vibero Support Bot · 2026-05-05 17:08 · прогон на demo-стенде
+  </div>
+</div>
+</body>
+</html>
