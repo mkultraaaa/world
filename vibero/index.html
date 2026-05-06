@@ -464,7 +464,7 @@
 
   <!-- ─── Hero ─── -->
   <div class="hero">
-    <div class="eyebrow">demo · 2026-05-06 09:56</div>
+    <div class="eyebrow">demo · 2026-05-06 10:17</div>
     <h1>Бот-саппорт для Vibero<br>закрывает ~70% входящих сам</h1>
     <p class="lead">Бот сидит в клиентских чатах вместо оператора: сам выполняет рутину в админке Vibero, отвечает клиенту, эскалирует только то, что нужно человеку. <b>Дальше</b>: принципы безопасности, разбор всех типов запросов, как лиду саппорта запустить тест за 5 минут, и живые прогоны из реальных чатов.</p>
 
@@ -954,7 +954,7 @@
       <h3 class="case-title">Создание новой интеграции</h3>
       <span class="case-freq">20.9% запросов</span>
       
-        <span class="case-status escalate">→ оператору</span>
+        <span class="case-status ok">✓ выполнено</span>
       
     </div>
     <div class="case-desc">Самый частый запрос в чатах: «сделай интегру / новый офис». Бот собирает из текста имя, домен, ключи и тип API брокера, заводит офис в админке и подтверждает результат. Сразу после — открывает только что созданную карточку и сверяет, что данные действительно записались.
@@ -964,17 +964,15 @@
       <div class="bubble user">
         <div class="bubble-label">пользователь</div>
         <div class="bubble-body">Привет! Сделай интегру (trackbox):
-Domain: https://tracking.report-demo-095540.example.com/leads
-Login: demo_login_095540
-Password: demo_pass_095540
-Token: tok_095540_abc12345
-Офис: ReportDemo095540</div>
+Domain: https://tracking.report-demo-101636.example.com/leads
+Login: demo_login_101636
+Password: demo_pass_101636
+Token: tok_101636_abc12345
+Офис: ReportDemo101636</div>
       </div>
       <div class="bubble bot">
         <div class="bubble-label">бот</div>
-        <div class="bubble-body">Vibero отклонил запрос (валидация): Office creation rejected by server: no explicit error parsed
-
-@msoloviev — vibero_validation_error</div>
+        <div class="bubble-body">Готово, офис создан (id=834, тип API: trackbox). API оставил выключенным: нет: password; нет языков/гео — лидам некуда идти.</div>
       </div>
     </div>
 
@@ -995,6 +993,13 @@ Token: tok_095540_abc12345
     </div>
     
 
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Подтверждение из админки</div>
+      <div class="proof">
+        <img src="screens/create_office.png" alt="screenshot">
+      </div>
+    </div>
     
   </div>
   
@@ -1018,7 +1023,7 @@ Token: tok_095540_abc12345
       </div>
       <div class="bubble bot">
         <div class="bubble-label">бот</div>
-        <div class="bubble-body"></div>
+        <div class="bubble-body">Принято — интеграция 'ReportDemo101636' (id=834) подтверждена. Тикет закрываю. Финальное включение API за оператором.</div>
       </div>
     </div>
 
@@ -1096,13 +1101,13 @@ Token: tok_095540_abc12345
     <div class="chat">
       <div class="bubble user">
         <div class="bubble-label">пользователь</div>
-        <div class="bubble-body">Добавь IP 198.51.100.59 в whitelist и забань email spam-095547@trash.example</div>
+        <div class="bubble-body">Добавь IP 198.51.100.15 в whitelist и забань email spam-101647@trash.example</div>
       </div>
       <div class="bubble bot">
         <div class="bubble-label">бот</div>
         <div class="bubble-body">Выполнил все 2 задач(и) подряд.
-1) ✅ Добавил IP 198.51.100.59 в whitelist.
-2) ✅ Добавил 'spam-095547@trash.example' в blacklist (email).</div>
+1) ✅ IP 198.51.100.15 уже есть в whitelist (id=116) — ничего не делаю.
+2) ✅ Добавил 'spam-101647@trash.example' в blacklist (email).</div>
       </div>
     </div>
 
@@ -1139,14 +1144,14 @@ Token: tok_095540_abc12345
     <div class="chat">
       <div class="bubble user">
         <div class="bubble-label">пользователь</div>
-        <div class="bubble-body">Привет! Выдайте доступ баеру с ником RB65, под партнёрку.</div>
+        <div class="bubble-body">Привет! Выдайте доступ баеру с ником RB20, под партнёрку.</div>
       </div>
       <div class="bubble bot">
         <div class="bubble-label">бот</div>
-        <div class="bubble-body">Байер 'RB65' создан (id=393).
-Логин: rb65@mail.ru
-Пароль: DnbrVsB1gEagN!
-Маркер: RB65</div>
+        <div class="bubble-body">Байер 'RB20' создан (id=394).
+Логин: rb20@mail.ru
+Пароль: kmcSTQpxijpMa$
+Маркер: RB20</div>
       </div>
     </div>
 
@@ -1190,11 +1195,11 @@ Token: tok_095540_abc12345
     <div class="chat">
       <div class="bubble user">
         <div class="bubble-label">пользователь</div>
-        <div class="bubble-body">Добавь IP 192.0.2.112 в whitelist пожалуйста</div>
+        <div class="bubble-body">Добавь IP 192.0.2.26 в whitelist пожалуйста</div>
       </div>
       <div class="bubble bot">
         <div class="bubble-label">бот</div>
-        <div class="bubble-body">IP 192.0.2.112 уже есть в whitelist (id=162) — ничего не делаю.</div>
+        <div class="bubble-body">Добавил IP 192.0.2.26 в whitelist.</div>
       </div>
     </div>
 
@@ -1236,11 +1241,11 @@ Token: tok_095540_abc12345
     <div class="chat">
       <div class="bubble user">
         <div class="bubble-label">пользователь</div>
-        <div class="bubble-body">Забань email spam-blacklist-095604@trash.example, фрод в депозитах</div>
+        <div class="bubble-body">Забань email spam-blacklist-101703@trash.example, фрод в депозитах</div>
       </div>
       <div class="bubble bot">
         <div class="bubble-label">бот</div>
-        <div class="bubble-body">Добавил 'spam-blacklist-095604@trash.example' в blacklist (email).</div>
+        <div class="bubble-body">Добавил 'spam-blacklist-101703@trash.example' в blacklist (email).</div>
       </div>
     </div>
 
@@ -1362,9 +1367,9 @@ Token: tok_095540_abc12345
       </div>
       <div class="bubble bot">
         <div class="bubble-label">бот</div>
-        <div class="bubble-body">Финансовые вопросы оператор решит.
+        <div class="bubble-body">По выплатам и финансам не отвечаю — передаю оператору.
 
-@msoloviev — Финансовый вопрос о выплатах — всегда эскалация к оператору. Это не техническая задача, требует доступа к финансовым данным и истории платежей.</div>
+@msoloviev — Финансовый вопрос о выплатах — всегда эскалация на оператора. Это не техническая задача, требует доступа к финансовым данным и истории платежей.</div>
       </div>
     </div>
 
@@ -1473,7 +1478,7 @@ Token: tok_095540_abc12345
       <h3 class="case-title">Обновление поля в существующем офисе</h3>
       <span class="case-freq">1.2% запросов</span>
       
-        <span class="case-status escalate">→ оператору</span>
+        <span class="case-status ok">✓ выполнено</span>
       
     </div>
     <div class="case-desc">«Поменяй апи у офиса X». Бот находит офис в админке, обновляет одно поле, остальные сохраняет как есть. Если офисов с похожим именем несколько — спросит у оператора, какой именно.
@@ -1482,13 +1487,11 @@ Token: tok_095540_abc12345
     <div class="chat">
       <div class="bubble user">
         <div class="bubble-label">пользователь</div>
-        <div class="bubble-body">Поменяй api_token у офиса {recent_office_name} на newtok_xyz_abc12345</div>
+        <div class="bubble-body">Поменяй api_token у офиса ReportDemo101636 на newtok_xyz_abc12345</div>
       </div>
       <div class="bubble bot">
         <div class="bubble-label">бот</div>
-        <div class="bubble-body">Не нашёл офис '{recent_office_name}' в Vibero
-
-@msoloviev — office_not_found</div>
+        <div class="bubble-body">Обновил 'api_token' в офисе id=834, новое значение: 'newtok_xyz_abc12345'.</div>
       </div>
     </div>
 
@@ -1506,6 +1509,13 @@ Token: tok_095540_abc12345
     
 
     
+    <div class="case-sub">
+      <div class="case-sub-title">Подтверждение из админки</div>
+      <div class="proof">
+        <img src="screens/update_office.png" alt="screenshot">
+      </div>
+    </div>
+    
   </div>
   
   <div class="case">
@@ -1514,7 +1524,7 @@ Token: tok_095540_abc12345
       <h3 class="case-title">Копия офиса по аналогии</h3>
       <span class="case-freq">3.0% запросов</span>
       
-        <span class="case-status escalate">→ оператору</span>
+        <span class="case-status ok">✓ выполнено</span>
       
     </div>
     <div class="case-desc">«Сделай по аналогии с офисом X, новый назови Y». Бот клонирует существующий офис со всеми его языками, гео, офферами в новый с указанным именем. После копии напоминает о двух обязательных шагах оператора (включить API + проверить лимиты).
@@ -1523,13 +1533,11 @@ Token: tok_095540_abc12345
     <div class="chat">
       <div class="bubble user">
         <div class="bubble-label">пользователь</div>
-        <div class="bubble-body">Сделай по аналогии с офисом {recent_office_name}, новый назови {recent_office_name}_v2</div>
+        <div class="bubble-body">Сделай по аналогии с офисом ReportDemo101636, новый назови ReportDemo101636_v2</div>
       </div>
       <div class="bubble bot">
         <div class="bubble-label">бот</div>
-        <div class="bubble-body">Не нашёл исходный офис '{recent_office_name}' в Vibero
-
-@msoloviev — source_office_not_found</div>
+        <div class="bubble-body">Скопировал офис → новый id=836, имя 'ReportDemo101636_v2'. ⚠️ Не забудь: включить API и сохранить лимиты в новом — иначе он не работает.</div>
       </div>
     </div>
 
@@ -1548,6 +1556,13 @@ Token: tok_095540_abc12345
     </div>
     
 
+    
+    <div class="case-sub">
+      <div class="case-sub-title">Подтверждение из админки</div>
+      <div class="proof">
+        <img src="screens/copy_office.png" alt="screenshot">
+      </div>
+    </div>
     
   </div>
   
@@ -1680,7 +1695,7 @@ Token: tok_095540_abc12345
   
 
   <div class="footer">
-    Vibero Support Bot · 2026-05-06 09:56 · прогон на demo-стенде
+    Vibero Support Bot · 2026-05-06 10:17 · прогон на demo-стенде
   </div>
 </div>
 </body>
