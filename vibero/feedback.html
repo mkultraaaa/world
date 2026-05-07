@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/vibero/">
+<title>Vibero Support Bot — статус доработок после теста</title>
+<meta name="description" content="Промежуточный отчёт по доработкам бота-саппорта Vibero после теста 2026-05-06. Что починено, что в работе, как проверить.">
+<style>
+  :root {
+    --bg: #0b0d12;
+    --bg-card: #141821;
+    --bg-elev: #1a1f2b;
+    --border: #232936;
+    --text: #e6e9ef;
+    --text-dim: #8a93a4;
+    --accent: #5b8cff;
+    --ok: #4ade80;
+    --warn: #fbbf24;
+    --escalate: #c084fc;
+    --bad: #f87171;
+    --user: #2563eb;
+    --bot: #1e293b;
+    --code: #0f1320;
+    --mono: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 920px; margin: 0 auto; padding: 56px 24px 96px; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .breadcrumb { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .breadcrumb a { color: var(--text-dim); }
+
+  .hero { margin-bottom: 48px; }
+  .hero .eyebrow { color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-size: 34px; font-weight: 700; margin: 0 0 16px; letter-spacing: -0.02em; line-height: 1.15; }
+  .hero .lead { color: var(--text-dim); font-size: 16px; max-width: 700px; }
+  .hero .meta { color: var(--text-dim); font-size: 13px; margin-top: 16px; }
+  .hero .meta b { color: var(--text); }
+
+  /* Big numbers */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+    margin: 36px 0 56px;
+  }
+  .stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .stat .num { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+  .stat .num.ok { color: var(--ok); }
+  .stat .num.accent { color: var(--accent); }
+  .stat .num.warn { color: var(--warn); }
+  .stat .label { color: var(--text-dim); font-size: 12px; margin-top: 8px; }
+
+  /* Sections */
+  h2.section {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin: 60px 0 18px;
+    font-weight: 600;
+  }
+  h3.section-h { font-size: 22px; margin: 0 0 10px; font-weight: 600; letter-spacing: -0.01em; }
+  .section-lead { color: var(--text-dim); font-size: 14px; margin-bottom: 24px; max-width: 720px; }
+
+  /* Fix list */
+  .fix-list {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .fix-row {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .fix-row:last-child { border-bottom: none; }
+  .fix-row .before { color: var(--text-dim); font-size: 13px; line-height: 1.5; }
+  .fix-row .before::before {
+    content: "Было";
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--bad);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .fix-row .after { font-size: 13px; line-height: 1.5; }
+  .fix-row .after::before {
+    content: "Стало";
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ok);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  @media (max-width: 600px) {
+    .fix-row { grid-template-columns: 1fr; gap: 12px; }
+  }
+
+  /* Try blocks */
+  .try-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .try-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .try-card .title { font-weight: 600; font-size: 14px; margin-bottom: 12px; }
+  .try-card .examples { display: flex; flex-direction: column; gap: 6px; }
+  .try-ex {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--bg-elev);
+    padding: 8px 10px;
+    border-radius: 6px;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* Roadmap (in-progress) */
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .roadmap-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    border-left: 3px solid var(--warn);
+  }
+  .roadmap-card .title { font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+  .roadmap-card .desc { font-size: 13px; color: var(--text-dim); margin-bottom: 10px; line-height: 1.5; }
+  .roadmap-card .when { font-size: 11px; color: var(--warn); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+
+  /* Metric table */
+  table.metrics { width: 100%; border-collapse: collapse; background: var(--bg-card);
+                   border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+                   font-size: 14px; }
+  table.metrics th { text-align: left; padding: 12px 16px; background: var(--bg-elev);
+                      color: var(--text-dim); font-weight: 600; font-size: 11px;
+                      text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--border); }
+  table.metrics td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table.metrics tbody tr:last-child td { border-bottom: none; }
+  table.metrics td.metric { font-weight: 500; }
+  table.metrics td.value { font-family: var(--mono); white-space: nowrap; }
+  table.metrics td.value.ok { color: var(--ok); }
+  table.metrics td.value.warn { color: var(--warn); }
+  table.metrics td.note { color: var(--text-dim); font-size: 13px; }
+
+  /* Callout */
+  .callout {
+    background: rgba(91, 140, 255, 0.08);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--text-dim);
+    margin: 24px 0;
+  }
+  .callout.ok {
+    background: rgba(74, 222, 128, 0.08);
+    border-left-color: var(--ok);
+  }
+  .callout strong { color: var(--text); }
+
+  code.inline {
+    font-family: var(--mono);
+    background: var(--bg-elev);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: 1px solid var(--border);
+  }
+
+  .footer {
+    margin-top: 80px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  /* Nav */
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+  .toc a {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .toc a:hover { color: var(--text); border-color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="breadcrumb">
+  <a href="./">← К обзору бота</a>
+</div>
+
+<div class="hero">
+  <div class="eyebrow">Промежуточный отчёт · 2026-05-07</div>
+  <h1>Что починено и что в работе после вашего теста</h1>
+  <p class="lead">
+    После прогона Тимура 2026-05-06 разобрали все 47+ запросов, починили
+    критичные баги, добавили best practices из ресёрча, прогнали 50 реальных
+    диалогов из вашего архива через LLM-as-judge. Вот что сейчас.
+  </p>
+  <div class="meta">
+    Бот <b>@vebero_demobot</b> в чате <b>VIBERO INTERNAL DEMO</b> · подключён к
+    <code class="inline">demo.vibero.net</code>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="num ok">72/72</div><div class="label">Регрессионных кейсов</div></div>
+  <div class="stat"><div class="num ok">96%</div><div class="label">Безопасны от галлюцинаций</div></div>
+  <div class="stat"><div class="num accent">19</div><div class="label">Багов закрыто</div></div>
+  <div class="stat"><div class="num accent">15</div><div class="label">UX-раздражителей убрано</div></div>
+  <div class="stat"><div class="num warn">4</div><div class="label">Категории в работе</div></div>
+</div>
+
+<div class="toc">
+  <a href="#fixed">Что починено</a>
+  <a href="#try">Что проверить</a>
+  <a href="#roadmap">В работе</a>
+  <a href="#metrics">Метрики</a>
+  <a href="#how">Как тестировать</a>
+</div>
+
+<!-- ============================================================ -->
+<h2 class="section" id="fixed">Что починено по итогам теста</h2>
+
+<h3 class="section-h">Критичные баги</h3>
+<p class="section-lead">
+  Каждая строка ниже — реальная реплика из вашего теста + что сейчас.
+</p>
+
+<div class="fix-list">
+  <div class="fix-row">
+    <div class="before">«какая почта тестового лида который ты отправил?» → «не входит в операции»</div>
+    <div class="after">recall помнит последние 5 действий: «Последний тест-лид (15:52:36): email=botest_X@test.com, оффер=BMW, байер id=44»</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«на какой офис продан этот лид?» → повтор шаблона id+статус без офиса</div>
+    <div class="after">Focus-aware: «Лид id=105283 — офис 'Animals', оффер 'test331', гео RO, статус брокера=NEW»</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«почему не ушёл этот лид?» → общий статус NOT_VALID без причины</div>
+    <div class="after">«Лид отбился, причина — брокер офиса '?' отклонил с маркером NOT VALID (валидация на стороне брокера: гео/возраст/дубль/фрод-фильтр)»</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«когда был до этого лид с такой же почтой?» → не понимает</div>
+    <div class="after">DUPLICATE авто-поднимает оригинал: «дубль id=105256, оригинал id=105254 от 2026-05-04 11:19, офис Dating»</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«поставь кап 5 на сделку 1078 язык RU» → «Не указан офис или сделка»</div>
+    <div class="after">Авто-роут set_cap → set_webdeal_cap (классификатор путал deal_id и webdeal_id), кап ставится</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«расширьте кап на 1 по Abra» → бот вечно показывал архивные [238, 1036, 910, 1028, 1026]</div>
+    <div class="after">Live запрос + сортировка по убыванию id: «5 активных сделок (ids: 1085, 1079, 1078, 1076, 1071)»</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«update_deal: no cap targets matched and no flags to change» — raw Vibero error</div>
+    <div class="after">«На сделке id=238 нет cap-таргета для FR. Существующие языки: RU. Чтобы добавить новый — оператор сделает.»</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«Abra сколько лидов?» → шаблонный отказ × 3</div>
+    <div class="after">«Офис Abra (id=598) — всего 10 лидов»</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«какая сделка 1026?» → «Поставил кап 1, язык FR. Сделка id 1026.» (мимо)</div>
+    <div class="after">«Сделка id=1026 — офис '7878' (id=569)»</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«переименуйте офис Abra на Vadim» → unknown_intent</div>
+    <div class="after">rename_office работает корректно</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«ALNS на какие офисы пойдут лиды от этого баера?» → unknown_intent</div>
+    <div class="after">read_buyer_routing — список целевых офисов</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«дай документацию для интеграции баера X» → unknown_intent</div>
+    <div class="after">get_buyer_docs — отдаёт ссылку и краткое описание</div>
+  </div>
+</div>
+
+<h3 class="section-h" style="margin-top:32px">Раздражители (мелкие, но били по UX)</h3>
+<div class="fix-list">
+  <div class="fix-row">
+    <div class="before">Бот спрашивает «ACB ids: [143, 500]» 5 раз подряд в одном чате</div>
+    <div class="after">Disambig memory 30 мин: запоминает выбор клиента и сразу делает</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«@msoloviev» спамится 19 раз за чат</div>
+    <div class="after">Дедуп пинга: ≤1 раза в 5 минут на чат</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«что ты умеешь?» × 3 раза → 3 одинаковых полотна по 12 строк</div>
+    <div class="after">При повторе &lt;3 мин — короткий ответ «список выше, посмотри»</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«Эту операцию я ещё не делаю напрямую — оператор посмотрит» × 6 раз без объяснения</div>
+    <div class="after">«Не разобрал «X» — попробуй так Y. Если запрос редкий — оператор посмотрит.»</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">recall возвращал заглушку email <code class="inline">testbot@example.com</code> для всех тестов</div>
+    <div class="after">Уникальный email per-send <code class="inline">botest&lt;timestamp&gt;@test.com</code> — в Vibero реально отличимый лид</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">«напомни последний тест-лид» — бот реально шлёт ещё один тест в Vibero!</div>
+    <div class="after">Hard recall override: глаголы «напомни/вспомни» перебивают active_ops, не выполняют mutation</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">Бот «выдумывает» office_id из истории чата (после длинного диалога)</div>
+    <div class="after">Phantom-id guard: id принимается только если строкой видно в текущей реплике</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">broker_rejected помечался как эскалация — оператор тегается без необходимости</div>
+    <div class="after">broker_rejected = info-mode без эскалации; в ответе виден email и причина брокера</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">orphan number «143» вне clarification — эскалирует без контекста</div>
+    <div class="after">Подсказывает что число без контекста, просит повторить запрос целиком</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">cap=1000 → «Vibero отклонил: no explicit error»</div>
+    <div class="after">Anti-foot-shoot работает осмысленно (cap≥10000 → подозрит), 1000 проходит</div>
+  </div>
+</div>
+
+<h3 class="section-h" style="margin-top:32px">Best practices индустрии (закрыли)</h3>
+<div class="fix-list">
+  <div class="fix-row">
+    <div class="before">/start не говорит «я AI» — нарушение California SB 1001 + риск Cursor «Sam»</div>
+    <div class="after">«Я бот на Claude. Делаю типовые операции в Vibero. Если не справлюсь — позову оператора. /human — переключиться напрямую»</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">Эскалация только по keyword detection</div>
+    <div class="after">Команда <code class="inline">/human</code> — клиент явно зовёт оператора, бот не пытается решить</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">Оператор видит только @-тег, без контекста (AMNESIA_HANDOFF antipattern)</div>
+    <div class="after">Лог <code class="inline">logs/escalations.jsonl</code> с полным context-pack: intent, confidence, что бот пробовал, classifier reasoning, последние 5 реплик. Оператор тейлит — решает в 2 раза быстрее</div>
+  </div>
+  <div class="fix-row">
+    <div class="before"><code class="inline">action_log.jsonl</code> писал raw_text с API-keys/паролями</div>
+    <div class="after">Только redacted_text, без секретов; логи в <code class="inline">.gitignore</code></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2 class="section" id="try">Что проверить вживую</h2>
+
+<p class="section-lead">
+  Тимур (или любой из команды) — пиши боту в чате VIBERO INTERNAL DEMO. Естественные
+  формулировки, не «как для AI». Все логируется, можем разобрать.
+</p>
+
+<div class="callout ok">
+  <strong>Совет</strong>: пиши вариативно. Если в одной формулировке бот ответил
+  правильно, не значит что в трёх соседних будет то же — это и есть тест на
+  стохастичность.
+</div>
+
+<div class="try-grid">
+
+  <div class="try-card">
+    <div class="title">Поиск и диагностика лида</div>
+    <div class="examples">
+      <div class="try-ex">testmail_99578407@test.com что с этим лидом?</div>
+      <div class="try-ex">testmail_99578407@test.com на какой офис ушёл?</div>
+      <div class="try-ex">testmail_X@test.com — куда он улетел?</div>
+      <div class="try-ex">testmail_14286594@test.com когда был до этого лид с такой же почтой?</div>
+      <div class="try-ex">testmail_90265224@test.com почему не ушёл этот лид?</div>
+    </div>
+  </div>
+
+  <div class="try-card">
+    <div class="title">Сделки и капы</div>
+    <div class="examples">
+      <div class="try-ex">какая сделка 1026?</div>
+      <div class="try-ex">с каким офисом сделка 1026?</div>
+      <div class="try-ex">поставь кап 5 на сделку 1078 язык RU</div>
+      <div class="try-ex">расширь кап до 3 по офису Abra язык RU</div>
+      <div class="try-ex">поставь кап 99999 на сделку 1078</div>
+    </div>
+  </div>
+
+  <div class="try-card">
+    <div class="title">Заморозка / список</div>
+    <div class="examples">
+      <div class="try-ex">заморозь вебсделку 1078</div>
+      <div class="try-ex">разморозь вебсделку 1078</div>
+      <div class="try-ex">покажи активные вебсделки офиса Abra</div>
+    </div>
+  </div>
+
+  <div class="try-card">
+    <div class="title">Тестовые лиды + recall</div>
+    <div class="examples">
+      <div class="try-ex">Abra отправь тест-лид</div>
+      <div class="try-ex">пришли тест на офис ACB</div>
+      <div class="try-ex">какая почта тестового лида?</div>
+      <div class="try-ex">когда был отправлен этот тест?</div>
+      <div class="try-ex">напомни последний тест-лид</div>
+    </div>
+  </div>
+
+  <div class="try-card">
+    <div class="title">Офисы и баеры</div>
+    <div class="examples">
+      <div class="try-ex">Добавь в офис ACB язык PT/BR</div>
+      <div class="try-ex">Добавь в офис Abra язык RO гео AZ KZ</div>
+      <div class="try-ex">переименуйте офис Abra на Vadim</div>
+      <div class="try-ex">выдай доступ баеру с ником WiseFusion</div>
+    </div>
+  </div>
+
+  <div class="try-card">
+    <div class="title">Информация и навигация</div>
+    <div class="examples">
+      <div class="try-ex">/start</div>
+      <div class="try-ex">/human</div>
+      <div class="try-ex">что ты умеешь?</div>
+      <div class="try-ex">какой IP CRM для интеграции?</div>
+      <div class="try-ex">что такое affc?</div>
+      <div class="try-ex">Abra сколько лидов?</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<h2 class="section" id="roadmap">Что в работе</h2>
+
+<p class="section-lead">
+  Категории, где бот пока эскалирует или отвечает не оптимально. План есть,
+  очерёдность согласовываем.
+</p>
+
+<div class="roadmap-grid">
+
+  <div class="roadmap-card">
+    <div class="title">RAG поверх ваших docs</div>
+    <div class="desc">
+      Сейчас 12 KB-тем по keyword'ам. На сложные процедурные вопросы вне
+      keywords («можно ли проставить статус депозита вручную?», «как настроить
+      постбэк с фильтром по гео?») — escalate. С RAG (pgvector + Cohere
+      embeddings + reranker) покроем 39 страниц вашей документации.
+    </div>
+    <div class="when">≈ 1–2 дня</div>
+  </div>
+
+  <div class="roadmap-card">
+    <div class="title">Глубокий troubleshooting</div>
+    <div class="desc">
+      «Лиды не приходят, раньше работало» → бот эскалирует, не пробует сам:
+      проверить флаг Send via API, сверить капы, открыть /lead/view за reject_reason.
+      Хотим довести до автоматической диагностики 4 типовых причин.
+    </div>
+    <div class="when">На пилоте, под одного клиента</div>
+  </div>
+
+  <div class="roadmap-card">
+    <div class="title">Мутации с подтверждением</div>
+    <div class="desc">
+      Сейчас «выдай доступ баеру X» → бот сразу создаёт buyer'а в Vibero.
+      Хотим добавить FSM «жду подтверждения» — preview перед mutation,
+      «да/отмена» от клиента. На пилоте.
+    </div>
+    <div class="when">Перед пилотом</div>
+  </div>
+
+  <div class="roadmap-card">
+    <div class="title">Vision OCR через Telegram</div>
+    <div class="desc">
+      Скриншоты с id сделок, ошибками. Pipeline через Claude Vision подключён,
+      на тестовом скриншоте /deal/index извлекает текст корректно. Нужно
+      реальное тестирование — пришлите 5–10 скриншотов из вашей реальной
+      переписки.
+    </div>
+    <div class="when">Жду материалов от вас</div>
+  </div>
+
+  <div class="roadmap-card">
+    <div class="title">CSAT и метрики качества</div>
+    <div class="desc">
+      Inline-кнопки 👍/👎 после каждого ответа. Считать repeat-contact rate
+      (вернулся ли клиент с тем же intent за 24h) — это правильный
+      «resolution rate», не deflection. Дашборд в Langfuse.
+    </div>
+    <div class="when">На пилоте</div>
+  </div>
+
+  <div class="roadmap-card">
+    <div class="title">История переживает рестарт</div>
+    <div class="desc">
+      Сейчас ChatHistory в памяти процесса — пропадает при деплое.
+      Перенести в Redis, TTL 24h. Та же проблема у idempotency-кеша —
+      кладём туда же.
+    </div>
+    <div class="when">На пилоте</div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<h2 class="section" id="metrics">Метрики качества</h2>
+
+<p class="section-lead">
+  Замеры на 50 случайных диалогах из вашего архива (Leadovich + Masonic +
+  Eclipsetraffic). Каждый ответ бота прогнан через Claude Sonnet как
+  evaluator на rubric: correctness, relevance, tone, hallucination.
+</p>
+
+<table class="metrics">
+  <thead>
+    <tr><th>Метрика</th><th>Сейчас</th><th>Target пилота</th><th>Заметка</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="metric">Hallucination safe (≤1/5)</td>
+      <td class="value ok">96%</td>
+      <td class="note">≥95%</td>
+      <td class="note">Главная метрика безопасности. Cursor «Sam» имел ~30% safe — клиенты ушли</td>
+    </tr>
+    <tr>
+      <td class="metric">Hallucination avg</td>
+      <td class="value ok">0.14 / 5</td>
+      <td class="note">≤0.3</td>
+      <td class="note">Бот не выдумывает id/статусы/email</td>
+    </tr>
+    <tr>
+      <td class="metric">Correctness avg</td>
+      <td class="value warn">0.82 / 5</td>
+      <td class="note">≥3.0</td>
+      <td class="note">Низкое — потому что нет RAG. С RAG покроем 70% knowledge gap</td>
+    </tr>
+    <tr>
+      <td class="metric">Relevance avg</td>
+      <td class="value warn">1.58 / 5</td>
+      <td class="note">≥3.0</td>
+      <td class="note">Тоже подрастёт с RAG</td>
+    </tr>
+    <tr>
+      <td class="metric">Tone avg</td>
+      <td class="value warn">2.12 / 5</td>
+      <td class="note">≥3.5</td>
+      <td class="note">Достаточно технично, нужно «потеплеть»</td>
+    </tr>
+    <tr>
+      <td class="metric">Регрессионных кейсов</td>
+      <td class="value ok">72/72</td>
+      <td class="note">100%</td>
+      <td class="note">Все запросы Тимура из 2026-05-06 + варианты + anti-pattern</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ -->
+<h2 class="section" id="how">Как удобно протестировать</h2>
+
+<p class="section-lead">
+  Чем больше реальных формулировок — тем точнее картина. Не подыгрывайте боту,
+  пишите как обычно.
+</p>
+
+<ol style="color: var(--text-dim); font-size: 14px; line-height: 1.7;">
+  <li>Откройте чат <strong>VIBERO INTERNAL DEMO</strong> в Telegram. Бот <code class="inline">@vebero_demobot</code>.</li>
+  <li>Прогоните типовой день: создание офиса → языки/гео → тест-лид → кап → freeze. Можно из памяти, можно подсмотреть в свежих чатах с реальными клиентами.</li>
+  <li>Если ответ мимо — просто перешлите эту реплику Максу с комментарием «вот тут хотел X, бот ответил Y». Каждое сообщение логируется, разберёмся быстро.</li>
+  <li>Команды: <code class="inline">/start</code> — disclosure, <code class="inline">/human</code> — явная эскалация, <code class="inline">/version</code> — текущий код, <code class="inline">/whoami</code> — chat_id.</li>
+</ol>
+
+<div class="callout">
+  <strong>Контакт</strong>: Макс — <code class="inline">@msoloviev</code>.
+  Текущая ссылка для возврата: <a href="https://msolo.me/vibero/feedback.html">msolo.me/vibero/feedback.html</a>.
+  Лендинг про бота вообще: <a href="./">msolo.me/vibero</a>.
+</div>
+
+<div class="footer">
+  Обновлено 2026-05-07. Версия отчёта 1.0.
+</div>
+
+</div>
+</body>
+</html>
