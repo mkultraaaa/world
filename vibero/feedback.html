@@ -251,7 +251,7 @@
   <div class="stat"><div class="num ok">80/80</div><div class="label">Регрессионных кейсов</div></div>
   <div class="stat"><div class="num ok">96%</div><div class="label">Безопасны от галлюцинаций</div></div>
   <div class="stat"><div class="num accent">38</div><div class="label">Wiki-страниц над doc.vibero.tech</div></div>
-  <div class="stat"><div class="num accent">23</div><div class="label">Багов закрыто</div></div>
+  <div class="stat"><div class="num accent">29</div><div class="label">Багов закрыто</div></div>
   <div class="stat"><div class="num accent">19</div><div class="label">UX-раздражителей убрано</div></div>
 </div>
 
@@ -389,23 +389,32 @@
 <h3 class="section-h" style="margin-top:32px">Новое в этой версии (после 2026-05-07)</h3>
 <p class="section-lead">
   Сделано параллельно по плану, до отправки вам на повторный тест.
+  Включает фиксы из internal premortem 2026-05-08.
 </p>
 <div class="fix-list">
   <div class="fix-row">
-    <div class="before">«выдай доступ baeру X» — бот сразу создаёт buyer'а в Vibero. Опечатка → лишний buyer, ручная чистка.</div>
-    <div class="after">Mutation Confirm Flow: «Создам байера 'X' с auto credentials. Подтверди: «да» / «отмена»». Опечатки больше не идут в production.</div>
+    <div class="before">Mutation confirm работал только для <code class="inline">create_buyer</code> — selective safety: бот молча переименовывал офисы, банил email'ы, копировал офисы.</div>
+    <div class="after">Confirm flow расширен на <strong>все write-ops</strong>: rename_office, copy_office, blacklist_*, create_office, set_cap 50–9999. Cap ≥10000 → anti-foot-shoot блок. Бот не ломает live state без вашего «да».</div>
   </div>
   <div class="fix-row">
     <div class="before">Бот не отвечает на процедурные вопросы вне 12 keyword-тем («как настроить робота автовыгрузки?», «как добавить статус брокера?»)</div>
-    <div class="after">LLM Wiki по Karpathy pattern: 38 страниц <code class="inline">doc.vibero.tech</code> скомпилированы на Opus, бот выбирает 1-3 релевантные → синтезирует ответ с цитатой <code class="inline">doc_url</code>.</div>
+    <div class="after">LLM Wiki по Karpathy pattern: 38 страниц <code class="inline">doc.vibero.tech</code> скомпилированы на Opus 4.7, бот выбирает 1-3 релевантные → синтезирует ответ с цитатой <code class="inline">doc_url</code>.</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">Composite escalation false-positive на тех-лексике: «Поставь IP whitelist на CRM для FTD» → автоэскалация (all_caps signal).</div>
+    <div class="after">Brand-exception list: AFFC, IP, CRM, FTD, CPA, CPL, RU/EN/etc., HTTPS, JSON, BLOCKED, NEW, DUPLICATE — не считаются за CAPS. Тех-сообщения проходят к handler'у нормально.</div>
   </div>
   <div class="fix-row">
     <div class="before">Один сигнал (LLM confidence) — бот может «крутиться» в одной теме 5+ сообщений до ручной эскалации</div>
     <div class="after">Composite escalation signals: confidence + repetition + ALL CAPS + profanity + frustration phrases. Score≥2 → автоэскалация с reasons в логе оператора.</div>
   </div>
   <div class="fix-row">
-    <div class="before">ChatHistory in-memory — терялся при рестарте, клиенты получали «бот забыл что мы обсуждали»</div>
-    <div class="after">JSON persistence (только redacted text), flush каждые 5 сообщений. После рестарта бот помнит последние 12 реплик per chat.</div>
+    <div class="before">ChatHistory + recall теряются при рестарте — flagship-фича «какая почта тест-лида я вчера отправил?» отвечает «не помню».</div>
+    <div class="after">Двойной persistence: ChatHistory → <code class="inline">data/chat_history.json</code>, recent_actions → <code class="inline">data/recent_actions.json</code>. Flush после каждой записи. После рестарта бот помнит контекст и последние 5 действий per chat.</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">Multi-task сообщения («сделай X и Y и Z» в одном) — бот ставит первое, остальное теряется.</div>
+    <div class="after">Multi-task ack: «Из 3 задач выполнил 2: ✅1) X · ✅2) Y · ⚠️3) Z — нужен оператор». Видно что бот понял всё, что сделал по каждой.</div>
   </div>
   <div class="fix-row">
     <div class="before">Vision OCR прицеплен в код, но не валидирован end-to-end</div>
@@ -665,7 +674,7 @@
 </div>
 
 <div class="footer">
-  Обновлено 2026-05-08. Версия отчёта 2.0 (после Phase 8a/8b/8c-light).
+  Обновлено 2026-05-08. Версия отчёта 3.0 (после Phase 8a/8b/8c-light + premortem-фиксы).
 </div>
 
 </div>
