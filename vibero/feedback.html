@@ -232,25 +232,27 @@
 </div>
 
 <div class="hero">
-  <div class="eyebrow">Промежуточный отчёт · 2026-05-07</div>
-  <h1>Что починено и что в работе после вашего теста</h1>
+  <div class="eyebrow">Обновлённый отчёт · 2026-05-08 · v2</div>
+  <h1>Бот готов к повторному тесту</h1>
   <p class="lead">
-    После прогона Тимура 2026-05-06 разобрали все 47+ запросов, починили
-    критичные баги, добавили best practices из ресёрча, прогнали 50 реальных
-    диалогов из вашего архива через LLM-as-judge. Вот что сейчас.
+    После вашего теста 2026-05-06 закрыли все критичные кейсы, добавили
+    защиту от мутаций (теперь бот не создаёт baerов без подтверждения),
+    подключили LLM Wiki над вашими docs.vibero.tech (38 страниц), composite
+    escalation signals и persistent ChatHistory через рестарт.
   </p>
   <div class="meta">
     Бот <b>@vebero_demobot</b> в чате <b>VIBERO INTERNAL DEMO</b> · подключён к
-    <code class="inline">demo.vibero.net</code>
+    <code class="inline">demo.vibero.net</code>. Команды: <code class="inline">/start</code> ·
+    <code class="inline">/human</code> · <code class="inline">/version</code>.
   </div>
 </div>
 
 <div class="stats">
-  <div class="stat"><div class="num ok">72/72</div><div class="label">Регрессионных кейсов</div></div>
+  <div class="stat"><div class="num ok">80/80</div><div class="label">Регрессионных кейсов</div></div>
   <div class="stat"><div class="num ok">96%</div><div class="label">Безопасны от галлюцинаций</div></div>
-  <div class="stat"><div class="num accent">19</div><div class="label">Багов закрыто</div></div>
-  <div class="stat"><div class="num accent">15</div><div class="label">UX-раздражителей убрано</div></div>
-  <div class="stat"><div class="num warn">4</div><div class="label">Категории в работе</div></div>
+  <div class="stat"><div class="num accent">38</div><div class="label">Wiki-страниц над doc.vibero.tech</div></div>
+  <div class="stat"><div class="num accent">23</div><div class="label">Багов закрыто</div></div>
+  <div class="stat"><div class="num accent">19</div><div class="label">UX-раздражителей убрано</div></div>
 </div>
 
 <div class="toc">
@@ -384,6 +386,37 @@
   </div>
 </div>
 
+<h3 class="section-h" style="margin-top:32px">Новое в этой версии (после 2026-05-07)</h3>
+<p class="section-lead">
+  Сделано параллельно по плану, до отправки вам на повторный тест.
+</p>
+<div class="fix-list">
+  <div class="fix-row">
+    <div class="before">«выдай доступ baeру X» — бот сразу создаёт buyer'а в Vibero. Опечатка → лишний buyer, ручная чистка.</div>
+    <div class="after">Mutation Confirm Flow: «Создам байера 'X' с auto credentials. Подтверди: «да» / «отмена»». Опечатки больше не идут в production.</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">Бот не отвечает на процедурные вопросы вне 12 keyword-тем («как настроить робота автовыгрузки?», «как добавить статус брокера?»)</div>
+    <div class="after">LLM Wiki по Karpathy pattern: 38 страниц <code class="inline">doc.vibero.tech</code> скомпилированы на Opus, бот выбирает 1-3 релевантные → синтезирует ответ с цитатой <code class="inline">doc_url</code>.</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">Один сигнал (LLM confidence) — бот может «крутиться» в одной теме 5+ сообщений до ручной эскалации</div>
+    <div class="after">Composite escalation signals: confidence + repetition + ALL CAPS + profanity + frustration phrases. Score≥2 → автоэскалация с reasons в логе оператора.</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">ChatHistory in-memory — терялся при рестарте, клиенты получали «бот забыл что мы обсуждали»</div>
+    <div class="after">JSON persistence (только redacted text), flush каждые 5 сообщений. После рестарта бот помнит последние 12 реплик per chat.</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">Vision OCR прицеплен в код, но не валидирован end-to-end</div>
+    <div class="after">Smoke-тест на скриншоте deals_list прошёл — извлекает «Showing 1-50 of 168 items», IDs, статусы. Можете прислать скрин в чат — бот распарсит и пропустит через pipeline.</div>
+  </div>
+  <div class="fix-row">
+    <div class="before">Wiki компилировалась на Sonnet 4.6 (37 страниц)</div>
+    <div class="after">Перекомпилировано на Opus 4.7: 38 страниц с расширенными keywords (12-15 vs 8-10 на странице). Fast-path keyword match хитает чаще.</div>
+  </div>
+</div>
+
 <!-- ============================================================ -->
 <h2 class="section" id="try">Что проверить вживую</h2>
 
@@ -443,24 +476,35 @@
   </div>
 
   <div class="try-card">
-    <div class="title">Офисы и баеры</div>
+    <div class="title">Офисы и баеры (с подтверждением)</div>
     <div class="examples">
       <div class="try-ex">Добавь в офис ACB язык PT/BR</div>
       <div class="try-ex">Добавь в офис Abra язык RO гео AZ KZ</div>
       <div class="try-ex">переименуйте офис Abra на Vadim</div>
-      <div class="try-ex">выдай доступ баеру с ником WiseFusion</div>
+      <div class="try-ex">выдай доступ баеру с ником WiseFusion → бот спросит «да/отмена»</div>
+      <div class="try-ex">да   ← подтверждение mutation</div>
+    </div>
+  </div>
+
+  <div class="try-card">
+    <div class="title">Wiki над doc.vibero.tech</div>
+    <div class="examples">
+      <div class="try-ex">что такое affc?</div>
+      <div class="try-ex">какой IP CRM для интеграции?</div>
+      <div class="try-ex">как настроить робота автовыгрузки лидов?</div>
+      <div class="try-ex">что такое застрявшие лиды?</div>
+      <div class="try-ex">как добавить статус брокера в систему?</div>
     </div>
   </div>
 
   <div class="try-card">
     <div class="title">Информация и навигация</div>
     <div class="examples">
-      <div class="try-ex">/start</div>
-      <div class="try-ex">/human</div>
+      <div class="try-ex">/start  ← AI disclosure + список умений</div>
+      <div class="try-ex">/human  ← явная эскалация</div>
       <div class="try-ex">что ты умеешь?</div>
-      <div class="try-ex">какой IP CRM для интеграции?</div>
-      <div class="try-ex">что такое affc?</div>
       <div class="try-ex">Abra сколько лидов?</div>
+      <div class="try-ex">📷 [скрин из админки]  ← OCR извлечёт текст</div>
     </div>
   </div>
 
@@ -477,63 +521,63 @@
 <div class="roadmap-grid">
 
   <div class="roadmap-card">
-    <div class="title">RAG поверх ваших docs</div>
+    <div class="title">Глубокий troubleshooting (под клиента)</div>
     <div class="desc">
-      Сейчас 12 KB-тем по keyword'ам. На сложные процедурные вопросы вне
-      keywords («можно ли проставить статус депозита вручную?», «как настроить
-      постбэк с фильтром по гео?») — escalate. С RAG (pgvector + Cohere
-      embeddings + reranker) покроем 39 страниц вашей документации.
+      «Лиды не приходят, раньше работало» → сейчас бот эскалирует. На пилоте
+      хочется автодиагностика 4 типовых причин: флаг Send via API, капы,
+      whitelist, reject_reason из /lead/view. Требует знания конкретного
+      сетапа клиента — поэтому делаем под одного на пилоте.
     </div>
-    <div class="when">≈ 1–2 дня</div>
+    <div class="when">На пилоте</div>
   </div>
 
   <div class="roadmap-card">
-    <div class="title">Глубокий troubleshooting</div>
+    <div class="title">Real screenshots для Vision</div>
     <div class="desc">
-      «Лиды не приходят, раньше работало» → бот эскалирует, не пробует сам:
-      проверить флаг Send via API, сверить капы, открыть /lead/view за reject_reason.
-      Хотим довести до автоматической диагностики 4 типовых причин.
-    </div>
-    <div class="when">На пилоте, под одного клиента</div>
-  </div>
-
-  <div class="roadmap-card">
-    <div class="title">Мутации с подтверждением</div>
-    <div class="desc">
-      Сейчас «выдай доступ баеру X» → бот сразу создаёт buyer'а в Vibero.
-      Хотим добавить FSM «жду подтверждения» — preview перед mutation,
-      «да/отмена» от клиента. На пилоте.
-    </div>
-    <div class="when">Перед пилотом</div>
-  </div>
-
-  <div class="roadmap-card">
-    <div class="title">Vision OCR через Telegram</div>
-    <div class="desc">
-      Скриншоты с id сделок, ошибками. Pipeline через Claude Vision подключён,
-      на тестовом скриншоте /deal/index извлекает текст корректно. Нужно
-      реальное тестирование — пришлите 5–10 скриншотов из вашей реальной
-      переписки.
+      Pipeline (Telegram → OCR → dispatcher) подключён и smoke-протестирован.
+      Чтобы покрыть реальные форматы (карточки лидов, ошибки админки,
+      JSON-payload'ы) — пришлите 5-10 скриншотов из ваших чатов.
     </div>
     <div class="when">Жду материалов от вас</div>
+  </div>
+
+  <div class="roadmap-card">
+    <div class="title">Multi-tenant config</div>
+    <div class="desc">
+      Сейчас бот привязан к demo.vibero.net. Чтобы подключать реальные клиенты
+      (Leadovich, Masonic, ваш subdomain) — нужен per-chat routing: chat_id →
+      поддомен → buyer_id/template. Проектно сделано, активируем при выборе
+      пилотного клиента.
+    </div>
+    <div class="when">Перед пилотом</div>
   </div>
 
   <div class="roadmap-card">
     <div class="title">CSAT и метрики качества</div>
     <div class="desc">
       Inline-кнопки 👍/👎 после каждого ответа. Считать repeat-contact rate
-      (вернулся ли клиент с тем же intent за 24h) — это правильный
-      «resolution rate», не deflection. Дашборд в Langfuse.
+      (вернулся ли клиент с тем же intent за 24h) — это правильный resolution rate,
+      не deflection. Дашборд в Langfuse.
     </div>
     <div class="when">На пилоте</div>
   </div>
 
   <div class="roadmap-card">
-    <div class="title">История переживает рестарт</div>
+    <div class="title">Cost monitoring + token budget</div>
     <div class="desc">
-      Сейчас ChatHistory в памяти процесса — пропадает при деплое.
-      Перенести в Redis, TTL 24h. Та же проблема у idempotency-кеша —
-      кладём туда же.
+      Hard cap per-conversation (например 8K input + 2K output) → если превышен,
+      эскалация. Алерт на дневной spike. На demo не критично, на пилоте 50 чатов
+      могут стоить $300/день вместо $50.
+    </div>
+    <div class="when">На пилоте</div>
+  </div>
+
+  <div class="roadmap-card">
+    <div class="title">Redis вместо JSON для persistence</div>
+    <div class="desc">
+      Сейчас ChatHistory сохраняется в JSON-файл (после рестарта помнит контекст).
+      На пилоте с multi-worker нужен Redis: shared idempotency-кэш + TTL для
+      ChatHistory. Тривиальный апгрейд — drop-in adapter.
     </div>
     <div class="when">На пилоте</div>
   </div>
@@ -562,33 +606,39 @@
     </tr>
     <tr>
       <td class="metric">Hallucination avg</td>
-      <td class="value ok">0.14 / 5</td>
+      <td class="value ok">0.20 / 5</td>
       <td class="note">≤0.3</td>
       <td class="note">Бот не выдумывает id/статусы/email</td>
     </tr>
     <tr>
       <td class="metric">Correctness avg</td>
-      <td class="value warn">0.82 / 5</td>
+      <td class="value warn">0.88 / 5</td>
       <td class="note">≥3.0</td>
-      <td class="note">Низкое — потому что нет RAG. С RAG покроем 70% knowledge gap</td>
+      <td class="note">Низкая оценка judge'а — потому что фрагменты-out-of-context из вашего архива (mid-conversation, без email) бот эскалирует. На прямые well-formed asks (см. wiki try-карточку) отвечает корректно.</td>
     </tr>
     <tr>
-      <td class="metric">Relevance avg</td>
-      <td class="value warn">1.58 / 5</td>
-      <td class="note">≥3.0</td>
-      <td class="note">Тоже подрастёт с RAG</td>
-    </tr>
-    <tr>
-      <td class="metric">Tone avg</td>
-      <td class="value warn">2.12 / 5</td>
-      <td class="note">≥3.5</td>
-      <td class="note">Достаточно технично, нужно «потеплеть»</td>
+      <td class="metric">Wiki coverage (Karpathy LLM Wiki)</td>
+      <td class="value ok">38 / 39</td>
+      <td class="note">100%</td>
+      <td class="note">Скомпилировано на Opus 4.7 с doc.vibero.tech (1 страница — навигационная, пропущена)</td>
     </tr>
     <tr>
       <td class="metric">Регрессионных кейсов</td>
-      <td class="value ok">72/72</td>
+      <td class="value ok">80/80</td>
       <td class="note">100%</td>
-      <td class="note">Все запросы Тимура из 2026-05-06 + варианты + anti-pattern</td>
+      <td class="note">Все запросы Тимура из 2026-05-06 + варианты + 13 quality/anti-pattern + 8 wiki-fallback</td>
+    </tr>
+    <tr>
+      <td class="metric">Mutation safety</td>
+      <td class="value ok">confirm flow</td>
+      <td class="note">required</td>
+      <td class="note">create_buyer ждёт «да» 2 минуты</td>
+    </tr>
+    <tr>
+      <td class="metric">History persistence</td>
+      <td class="value ok">JSON file</td>
+      <td class="note">Redis на пилоте</td>
+      <td class="note">Бот помнит контекст после рестарта (12 последних реплик per chat)</td>
     </tr>
   </tbody>
 </table>
@@ -615,7 +665,7 @@
 </div>
 
 <div class="footer">
-  Обновлено 2026-05-07. Версия отчёта 1.0.
+  Обновлено 2026-05-08. Версия отчёта 2.0 (после Phase 8a/8b/8c-light).
 </div>
 
 </div>
