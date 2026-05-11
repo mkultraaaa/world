@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бриф таргетологу — NeuroGate, Яндекс.Директ</title>
+    <meta name="description" content="Контекст и цифры по двум волнам кампаний NeuroGate в Яндекс.Директе. Все кампании поставлены на паузу. Ищем консультацию: куда копать дальше.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A78BFA;
+            --purple-bg: #F5F3FF;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --white: #FFFFFF;
+            --green: #10B981;
+            --amber: #F59E0B;
+            --red: #DC2626;
+            --red-bg: #FEF2F2;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 25px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.05);
+            --radius: 16px;
+            --radius-sm: 12px;
+            --radius-xs: 8px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--gray-800);
+            line-height: 1.65;
+            background: var(--gray-50);
+            -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; }
+        .logo {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--gray-900);
+            text-decoration: none;
+        }
+        .logo span { color: var(--purple); }
+        .header-meta { font-size: 13px; color: var(--gray-500); }
+
+        .hero {
+            padding: 72px 0 48px;
+            background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 100%);
+        }
+        .badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--gray-900);
+            line-height: 1.15;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+        .lead {
+            font-size: 19px;
+            color: var(--gray-600);
+            max-width: 720px;
+            margin-bottom: 32px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 36px;
+        }
+        .stat {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 22px 18px;
+        }
+        .stat-value {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--purple);
+            line-height: 1;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+        .stat-value.bad { color: var(--red); }
+        .stat-label { font-size: 13px; color: var(--gray-600); }
+
+        .section { padding: 48px 0; }
+        .section + .section { padding-top: 0; }
+        .section h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 24px;
+            letter-spacing: -0.01em;
+        }
+        .section h3 {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin: 24px 0 12px;
+        }
+        .section p { margin-bottom: 14px; color: var(--gray-700); }
+        .section ul, .section ol { margin: 0 0 16px 22px; color: var(--gray-700); }
+        .section li { margin-bottom: 8px; }
+        .section li::marker { color: var(--purple); }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+        .card-num {
+            display: inline-flex;
+            width: 28px;
+            height: 28px;
+            background: var(--purple);
+            color: white;
+            border-radius: 999px;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+        .card h3 { margin-top: 0; display: flex; align-items: center; }
+
+        .table-wrap { overflow-x: auto; margin: 16px 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+        }
+        th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--gray-200); }
+        th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        tr:last-child td { border-bottom: none; }
+        td.num { text-align: right; font-variant-numeric: tabular-nums; }
+        td.total, tr.total td { font-weight: 700; background: var(--gray-50); }
+
+        .highlight {
+            background: var(--purple-bg);
+            border-left: 4px solid var(--purple);
+            padding: 16px 20px;
+            border-radius: var(--radius-xs);
+            margin: 20px 0;
+        }
+        .highlight strong { color: var(--purple-dark); }
+
+        .warn {
+            background: var(--red-bg);
+            border-left: 4px solid var(--red);
+            padding: 16px 20px;
+            border-radius: var(--radius-xs);
+            margin: 20px 0;
+            font-size: 15px;
+            color: #7F1D1D;
+        }
+        .warn strong { color: var(--red); }
+
+        .toc {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-bottom: 32px;
+        }
+        .toc h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 14px;
+        }
+        .toc ol { margin: 0; padding-left: 20px; font-size: 15px; }
+        .toc li { margin-bottom: 6px; }
+        .toc a { color: var(--gray-700); text-decoration: none; transition: color 0.15s; }
+        .toc a:hover { color: var(--purple); }
+
+        .questions {
+            counter-reset: q;
+            list-style: none;
+            margin-left: 0 !important;
+            padding-left: 0;
+        }
+        .questions li {
+            counter-increment: q;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            padding: 20px 24px 20px 64px;
+            margin-bottom: 14px;
+            position: relative;
+            color: var(--gray-800);
+        }
+        .questions li::before {
+            content: counter(q);
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            width: 30px;
+            height: 30px;
+            background: var(--purple);
+            color: white;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .questions strong { color: var(--gray-900); }
+
+        footer {
+            border-top: 1px solid var(--gray-200);
+            padding: 32px 0;
+            margin-top: 40px;
+            color: var(--gray-500);
+            font-size: 14px;
+            text-align: center;
+            background: var(--white);
+        }
+        footer a { color: var(--purple); text-decoration: none; }
+
+        @media (max-width: 720px) {
+            h1 { font-size: 30px; }
+            .lead { font-size: 17px; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .stat-value { font-size: 24px; }
+            .section { padding: 36px 0; }
+            .section h2 { font-size: 22px; }
+            .card { padding: 22px; }
+            th, td { padding: 10px; font-size: 13px; }
+            .questions li { padding: 18px 18px 18px 56px; }
+            .questions li::before { left: 16px; top: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="header-inner">
+            <a href="https://ng-ai.ru" class="logo">Neuro<span>Gate</span></a>
+            <div class="header-meta">Бриф таргетологу · 11.05.2026</div>
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <div class="badge">⏸ Все кампании поставлены на паузу — ищем консультацию</div>
+        <h1>Реклама в Яндекс.Директе для NeuroGate: что мы пробовали и куда копать дальше</h1>
+        <p class="lead">
+            Две волны кампаний за апрель–май. Регистрации идут, но платящих почти нет, CPC растёт, аудитория смещается к школьникам и студентам. Хотим понять у таргетолога: это вообще наш канал — и если да, что менять в первую очередь.
+        </p>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">~18 000 ₽</div>
+                <div class="stat-label">потрачено за две волны (14 апр – 11 мая)</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">~140</div>
+                <div class="stat-label">регистраций с UTM Директа</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value bad">1</div>
+                <div class="stat-label">платящий из Директа (за всё время)</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value bad">100 ₽</div>
+                <div class="stat-label">сумма единственного платежа из РК</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="toc">
+        <h4>Содержание</h4>
+        <ol>
+            <li><a href="#product">Что за продукт</a></li>
+            <li><a href="#wave1">Волна 1 — апрель</a></li>
+            <li><a href="#wave2">Волна 2 — май</a></li>
+            <li><a href="#tried">Что пробовали и что не сработало</a></li>
+            <li><a href="#hypotheses">Гипотезы, которые мы не проверяли</a></li>
+            <li><a href="#questions">Конкретные вопросы к консультации</a></li>
+            <li><a href="#access">Что можем дать таргетологу</a></li>
+            <li><a href="#status">Текущее состояние</a></li>
+        </ol>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="card" id="product">
+            <h3><span class="card-num">1</span>Что за продукт</h3>
+            <p><strong>NeuroGate</strong> (<a href="https://ng-ai.ru" style="color:var(--purple)">ng-ai.ru</a>) — агрегатор зарубежных нейросетей для пользователей из России. Один кабинет — доступ к ChatGPT, Claude, Gemini, Midjourney и др. Оплата российскими картами, без VPN.</p>
+            <ul>
+                <li><strong>Модель:</strong> pay-as-you-go (пополнение баланса → расход за токены)</li>
+                <li><strong>ЦА на бумаге:</strong> маркетологи, разработчики, предприниматели, агентства — те, кому нужен LLM для работы</li>
+                <li><strong>Welcome-бонус:</strong> новый пользователь получает бесплатные токены на старте (магнит регистраций)</li>
+                <li><strong>Средний чек платящего:</strong> пополнение от 100 ₽, нормальный платящий — 1 000–3 000 ₽ за раз</li>
+                <li><strong>Конкуренты в РФ:</strong> GPTunneL, BotHub, ChadGPT, AiTunnel и др. агрегаторы</li>
+            </ul>
+
+            <div class="highlight">
+                <strong>Реальные платящие за всё время существования продукта (с 31.03):</strong> 7 уникальных пользователей. Из них 6 пришли до запуска UTM-атрибуции или из прямого/органического трафика. Только <strong>1 платящий</strong> пришёл из Директа (NG_B2B, 09.05, заплатил 100 ₽ — минимальный топап).
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 id="wave1">Волна 1 — апрель (14–23.04, 10 дней)</h2>
+        <p>4 кампании на разную семантику и лендинги. Запускали гипотезу «много креативов, разные хуки, посмотрим что зайдёт».</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Кампания</th>
+                        <th>Логика</th>
+                        <th class="num">Расход</th>
+                        <th class="num">Клики</th>
+                        <th class="num">CPC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>NG_Direct_Match</td><td>Прямые запросы: «chatgpt без vpn», «нейросеть РФ»</td><td class="num">~5 050 ₽</td><td class="num">661</td><td class="num">~7.6 ₽</td></tr>
+                    <tr><td>NG_Intercept</td><td>Перехват конкурентов (GPTunneL и др.)</td><td class="num">~3 050 ₽</td><td class="num">460</td><td class="num">~6.6 ₽</td></tr>
+                    <tr><td>NG_PPP</td><td>Запросы про оплату / доступ из России</td><td class="num">~2 540 ₽</td><td class="num">315</td><td class="num">~8.1 ₽</td></tr>
+                    <tr><td>NG_B2B (v1)</td><td>B2B-семантика</td><td class="num">~1 100 ₽</td><td class="num">41</td><td class="num">~26 ₽</td></tr>
+                    <tr class="total"><td colspan="2">Итого</td><td class="num">~11 700 ₽</td><td class="num">~1 480</td><td class="num">~7.9 ₽</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><strong>Результат по нашей БД (UTM-атрибуция first-touch):</strong> ~85 регистраций за 4 дня, <strong>0 платящих</strong>. По чатам поддержки и поведению — ~50% аудитории это школьники и студенты, пришли за бесплатным welcome-бонусом.</p>
+
+        <p><strong>Главное открытие:</strong> 10 из 10 конверсий пришли от <strong>автотаргетинга</strong> Яндекса. Ручные ключи дали 0 регистраций. Решили — старая связка не работает, переделать.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 id="wave2">Волна 2 — май (07–11.05, 5 дней)</h2>
+        <p>Запустили одну кампанию <strong>NG_B2B</strong> (новая версия) на лендинг <a href="https://ng-ai.ru/business" style="color:var(--purple)">/business</a>. Дневной бюджет 1500 ₽.</p>
+
+        <h3>Настройки</h3>
+        <ul>
+            <li>Только автотаргетинг, категория <strong>«Целевые»</strong> (без широкого, без бренда)</li>
+            <li>Жёсткие <strong>корректировки возраста</strong>: до 18 лет −100%, 18–24 −50%, 35–44 +30%, 45+ +40%</li>
+            <li>Стартовая ставка 7 ₽ (поднималась автоматически Яндексом)</li>
+            <li>UTM с макросами, sitelinks, callouts настроены</li>
+        </ul>
+
+        <h3>Цифры по дням</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th class="num">Показы</th>
+                        <th class="num">Клики</th>
+                        <th class="num">CPC</th>
+                        <th class="num">Расход</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>07.05</td><td class="num">2 287</td><td class="num">190</td><td class="num">7.98 ₽</td><td class="num">1 517 ₽</td></tr>
+                    <tr><td>08.05</td><td class="num">1 477</td><td class="num">147</td><td class="num">10.31 ₽</td><td class="num">1 516 ₽</td></tr>
+                    <tr><td>09.05</td><td class="num">625</td><td class="num">56</td><td class="num">22.66 ₽</td><td class="num">1 269 ₽</td></tr>
+                    <tr><td>10.05</td><td class="num">612</td><td class="num">48</td><td class="num">15.74 ₽</td><td class="num">756 ₽</td></tr>
+                    <tr><td>11.05</td><td class="num">772</td><td class="num">53</td><td class="num">16.38 ₽</td><td class="num">868 ₽</td></tr>
+                    <tr class="total"><td>Итого</td><td class="num">5 773</td><td class="num">494</td><td class="num">~12 ₽ ср.</td><td class="num">~5 926 ₽</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Результат по нашей БД (UTM yandex/cpc/NG_B2B)</h3>
+        <ul>
+            <li><strong>54 регистрации</strong> с UTM Директа за 5 дней (07.05 — 21, 08.05 — 11, 09.05 — 16, 10.05 — 4, 11.05 — 2)</li>
+            <li><strong>1 платящий:</strong> user_id 333, 09.05, поисковый запрос «генерация контента нейросеть», топап на <strong>100 ₽</strong></li>
+            <li><strong>Стоимость 1 платящего (CAC):</strong> ~5 926 ₽ при чеке 100 ₽</li>
+        </ul>
+
+        <div class="warn">
+            <strong>В чатах поддержки</strong> за период РК опять видим запросы вида «помоги решить задачу по математике», «напиши реферат», «GPT для домашки». Аудитория всё ещё уходит к учащимся, несмотря на жёсткие корректировки возраста и B2B-лендинг.
+        </div>
+
+        <p><strong>Что видно по динамике:</strong> CPC рос с 8 до 22 ₽, показов стало в 3 раза меньше к концу периода. Яндекс пытался «оптимизироваться» под нашу цель — но цель в Метрике (<code>topup_complete</code>) не срабатывает корректно, поэтому оптимизация шла фактически вслепую.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 id="tried">Что пробовали и что не сработало</h2>
+        <div class="card">
+            <ol>
+                <li><strong>Ручные ключи</strong> (волна 1) — дают трафик, но 0 конверсий в нашу базу. Все регистрации пришли от автотаргетинга.</li>
+                <li><strong>Узкий B2B-лендинг</strong> (<code>/business</code>) — не отсекает не-B2B аудиторию. Школьник регистрируется и с B2B-страницы, потому что ему нужны только бесплатные welcome-токены.</li>
+                <li><strong>Жёсткие корректировки возраста</strong> (−100% на <18, −50% на 18–24) — не сработали в чистом виде. Подозрение: Яндекс плохо определяет возраст у нашей аудитории, либо обходит через автотаргетинг.</li>
+                <li><strong>B2B-формулировки</strong> в объявлениях — снижают CTR, повышают CPC, но качество аудитории не улучшается.</li>
+                <li><strong>Цель в Метрике</strong> (<code>topup_complete</code>, id 543917319) — не срабатывает корректно. Яндекс оптимизировал кампанию вслепую, без реального сигнала о платящих.</li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 id="hypotheses">Гипотезы, которые мы не проверяли</h2>
+        <div class="card">
+            <ol>
+                <li><strong>Welcome-бонус как магнит халявы.</strong> Возможно, главный фильтр не в Директе, а в продукте. Если убрать или урезать бесплатные токены — школьник не зарегистрируется (нет смысла без карты).</li>
+                <li><strong>Полностью ручные ключи без автотаргетинга.</strong> В волне 1 мы их тестировали вместе с auto и они дали 0 конверсий — но в чистом виде, без auto, не пробовали.</li>
+                <li><strong>Поиск vs РСЯ.</strong> Сейчас всё миксованно, Директ сам распределяет. Возможно, разделение даст другую картину.</li>
+                <li><strong>Look-alike по платящим.</strong> Пока мало платящих для базы (7 человек), но в перспективе.</li>
+                <li><strong>Другие каналы.</strong> VK Ads, Telegram Ads, посевы у блогеров, partner-программа. Серьёзно не пробовали.</li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 id="questions">Конкретные вопросы к консультации</h2>
+        <ol class="questions">
+            <li><strong>С нашей экономикой — Директ это вообще наш канал?</strong> При среднем чеке 1000–1500 ₽ и LTV в горизонте 24 месяцев, какой CAC адекватен? Сколько регистраций нам нужно пропустить, чтобы понять «короткая выборка» vs «канал не работает»?</li>
+            <li><strong>Что бы вы изменили в связке Директ + лендинг + welcome</strong> прежде чем считать, что Директ нам не подходит? В каком порядке?</li>
+            <li><strong>Стоит ли пытаться отсечь школьников на стороне Директа?</strong> Возрастные корректировки, поведенческие сигналы, гео, время суток — или это нерешаемо в Директе и фильтр должен быть в продукте?</li>
+            <li><strong>Если убирать welcome-бонус</strong> — как тогда привлекать через Директ (нет «бесплатного хука»)? Триал по карте? Регистрация → демо-чат → попап о пополнении?</li>
+            <li><strong>Поиск vs РСЯ.</strong> Мы их не разделяли. У нашей категории (LLM-агрегатор) это критично?</li>
+            <li><strong>Какие ещё каналы посмотреть в первую очередь</strong> под наш кейс — взрослая работающая аудитория, агрегатор LLM, чек ~1500 ₽: VK Ads / Telegram Ads / посевы / SEO / партнёрка / реферал?</li>
+        </ol>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 id="access">Что можем дать таргетологу</h2>
+        <div class="card">
+            <ul>
+                <li>Полный доступ к кабинету Яндекс.Директа (read-only или editor)</li>
+                <li>Доступ к Метрике (счётчик 108363414) — события UTM, поведение, сегменты</li>
+                <li>Сырые данные регистраций по UTM из собственной БД (atribution-таблица, 1:1 к пользователю, first-touch)</li>
+                <li>Все объявления, ключи, креативы текущих кампаний</li>
+                <li>Срезы по чатам поддержки (что пишут пользователи — индикатор реальной аудитории)</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 id="status">Текущее состояние (на 11.05)</h2>
+        <div class="card">
+            <ul>
+                <li>Все 4 кампании в Директе — <strong>на паузе (SUSPENDED)</strong></li>
+                <li>Баланс кабинета — ~10 700 ₽, ничего не тратится</li>
+                <li>Лендинги <code>/business</code> и <code>/for/marketer</code> — живые, доступны</li>
+                <li>Ждём консультацию, нового трафика не запускаем</li>
+            </ul>
+        </div>
+
+        <div class="highlight">
+            <strong>Контакт по проекту:</strong> Макс Соловьёв — <a href="mailto:mk.soloviev@gmail.com" style="color:var(--purple-dark)">mk.soloviev@gmail.com</a>, Telegram <a href="https://t.me/msolo" style="color:var(--purple-dark)">@msolo</a>.<br>
+            <strong>Продукт:</strong> <a href="https://ng-ai.ru" style="color:var(--purple-dark)">ng-ai.ru</a> · <strong>B2B-лендинг:</strong> <a href="https://ng-ai.ru/business" style="color:var(--purple-dark)">ng-ai.ru/business</a> · <strong>Маркетологу:</strong> <a href="https://ng-ai.ru/for/marketer" style="color:var(--purple-dark)">ng-ai.ru/for/marketer</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        Бриф подготовлен 11.05.2026 · NeuroGate · <a href="https://ng-ai.ru">ng-ai.ru</a>
+    </div>
+</footer>
+
+</body>
+</html>
