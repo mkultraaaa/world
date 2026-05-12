@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<base href="/venara-methodology/" />
+<title>Venara · Methodology Note</title>
+<meta name="description" content="Как собиралась дека Venara v6: что внутри, на чём основано, что вынесено за пределы." />
+<meta name="theme-color" content="#1f1a13" />
+
+<meta property="og:title" content="Venara · Methodology Note" />
+<meta property="og:description" content="Что в деке Venara, на чём основано, что осталось за кадром." />
+<meta property="og:type" content="article" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper:      #f4ede0;
+    --paper-deep: #ede5d2;
+    --ink:        #1f1a13;
+    --ink-soft:   #5a4e36;
+    --accent:     #a8794a;
+    --line:       rgba(31,26,19,0.18);
+    --max:        980px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.20em; text-transform: uppercase;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; background: var(--paper); z-index: 10;
+  }
+  .topbar a { color: var(--ink); text-decoration: none; }
+  .topbar .left { display: flex; gap: 24px; }
+
+  .hero { padding: 88px 0 56px; }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.30em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 24px;
+  }
+  h1 {
+    font-size: clamp(48px, 7vw, 84px);
+    font-weight: 300; letter-spacing: -1.5px; line-height: 1.02;
+    margin: 0 0 24px;
+  }
+  h1 em { color: var(--accent); font-style: italic; }
+  .lede {
+    font-size: 22px; color: var(--ink-soft); max-width: 720px; line-height: 1.55;
+  }
+
+  section { padding: 56px 0; border-top: 1px solid var(--line); }
+  .section-num {
+    display: flex; align-items: baseline; gap: 18px;
+    color: var(--accent); margin-bottom: 28px;
+  }
+  .section-num .n {
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 28px;
+  }
+  .section-num .rule { width: 48px; height: 1px; background: currentColor; opacity: 0.5; }
+  .section-num .label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.30em; text-transform: uppercase; opacity: 0.9;
+  }
+  h2 {
+    font-size: clamp(34px, 4.5vw, 52px);
+    font-weight: 300; letter-spacing: -1px; line-height: 1.08;
+    margin: 0 0 24px;
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+  p { font-size: 19px; line-height: 1.6; margin: 0 0 18px; color: var(--ink); }
+  p.soft { color: var(--ink-soft); }
+  ul.plain { list-style: none; padding: 0; margin: 0; }
+  ul.plain li {
+    font-size: 18px; padding: 12px 0;
+    border-top: 1px solid var(--line);
+    display: grid; grid-template-columns: 160px 1fr; gap: 28px;
+    align-items: baseline;
+  }
+  ul.plain li:last-child { border-bottom: 1px solid var(--line); }
+  ul.plain .k {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--accent); letter-spacing: 0.20em; text-transform: uppercase;
+  }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .grid2 > div, .grid3 > div { font-size: 17px; line-height: 1.55; color: var(--ink); }
+  .grid2 > div h4, .grid3 > div h4 {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--accent); letter-spacing: 0.20em; text-transform: uppercase;
+    margin: 0 0 10px;
+  }
+
+  .pull {
+    margin: 36px 0;
+    padding: 28px 0;
+    border-top: 1px solid var(--accent);
+    border-bottom: 1px solid var(--accent);
+  }
+  .pull em {
+    display: block;
+    font-size: clamp(28px, 4vw, 42px);
+    font-style: italic; font-weight: 300; line-height: 1.15;
+    color: var(--ink);
+  }
+  .pull em span { color: var(--accent); }
+  .pull .attr {
+    margin-top: 14px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.20em; text-transform: uppercase; color: var(--ink-soft);
+  }
+
+  .deck-list { display: grid; grid-template-columns: 60px 1fr 1.4fr; gap: 16px 24px; }
+  .deck-list .n {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: var(--accent); letter-spacing: 0.20em; padding-top: 4px;
+  }
+  .deck-list .t {
+    font-family: 'Cormorant Garamond', serif; font-size: 20px;
+    font-weight: 400; padding-top: 2px;
+  }
+  .deck-list .d {
+    font-size: 16px; color: var(--ink-soft); line-height: 1.5;
+  }
+  .deck-list .row {
+    display: contents;
+  }
+  .deck-list .row > * { padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+
+  footer {
+    padding: 48px 0 96px;
+    border-top: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.20em; text-transform: uppercase; color: var(--ink-soft);
+  }
+  footer a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+
+  @media (max-width: 720px) {
+    ul.plain li { grid-template-columns: 1fr; gap: 4px; }
+    .grid2, .grid3 { grid-template-columns: 1fr; }
+    .deck-list { grid-template-columns: 32px 1fr; }
+    .deck-list .d { grid-column: 2; }
+    .deck-list .row > * { padding-bottom: 12px; }
+    .topbar .left { gap: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="left">
+    <a href="https://msolo.me/">msolo.me</a>
+    <span>· Venara · methodology</span>
+  </div>
+  <div>v1 · may 2026</div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">A note on how the deck was made</div>
+  <h1>Not a brochure.<br><em>A working document.</em></h1>
+  <p class="lede">
+    Venara — twenty-seven residences on the Paphos coast, 500 m from Venus Beach. This page describes how the seventeen-slide sales deck for Venara was put together: what is in it, on what basis, and what was deliberately left out.
+  </p>
+</header>
+
+<!-- 01 What it is -->
+<section>
+  <div class="section-num">
+    <span class="n">01</span><span class="rule"></span><span class="label">What it is</span>
+  </div>
+  <h2>A seventeen-slide deck in English.</h2>
+  <p>
+    EN-only. Editorial palette — cream, ink, copper. Cormorant Garamond and JetBrains Mono. Designed for one purpose: to be sent to a serious buyer (or their lawyer) and to hold attention from cover to contact without a single banned word.
+  </p>
+  <p class="soft">
+    The seventeen slides are deliberately tight. An earlier draft ran to twenty-five; the final cut removed slides that repeated themselves and merged location into the invitation. What stayed is what does work.
+  </p>
+</section>
+
+<!-- 02 Spine -->
+<section>
+  <div class="section-num">
+    <span class="n">02</span><span class="rule"></span><span class="label">The spine</span>
+  </div>
+  <h2>Three verbs, one investor.</h2>
+
+  <div class="pull">
+    <em><span>Own it.</span> Rent it. Live in it.</em>
+    <div class="attr">The axis · on the cover · investor first</div>
+  </div>
+
+  <p>
+    The developer’s product is an apart-hotel — twenty-seven residences run by an in-house management company. The buyer profile (clarified directly by the developer) is a pure investor seeking passive income; nationality and age vary, the goal does not.
+  </p>
+  <p>
+    The deck reflects that. The axis leads with <em>own</em>, then <em>rent</em>, then <em>live</em>. Lifestyle is real, but it is not first. Every slide answers in this order: where, what, how it works, who runs it, what it costs, what is around it, when it opens.
+  </p>
+</section>
+
+<!-- 03 What it was based on -->
+<section>
+  <div class="section-num">
+    <span class="n">03</span><span class="rule"></span><span class="label">What it was based on</span>
+  </div>
+  <h2>Real inputs, in order of weight.</h2>
+
+  <ul class="plain">
+    <li><span class="k">developer</span><span>Direct interviews with Rinat Khissamov (Motive Point) — voice messages over two weeks, transcribed and treated as canon for facts.</span></li>
+    <li><span class="k">proposal</span><span>The internal investment proposal for unit B101 — twenty-four pages with full financial model, real expense breakdown, and methodology. Source for every price and IRR figure considered.</span></li>
+    <li><span class="k">competitors</span><span>Seven Cyprus development decks analysed slide-by-slide: Cybarco Thalassa and Trilogy, Pafilia, INEX (MOREA), Imperio, BBF, Korantina. Decisions trace to specific patterns each does well.</span></li>
+    <li><span class="k">copy</span><span>Ilyakhov’s rules adapted to English luxury copy: numbers over adjectives, verbs over nominalisations, one idea per sentence, proof next to claim. A list of thirty banned words was used as a filter.</span></li>
+    <li><span class="k">photography</span><span>Existing TAD-studio renders — thirty-four assets. Reviewed for fit; the strongest carry the deck. Two further renders (twilight and lifestyle) are recommended but not commissioned.</span></li>
+  </ul>
+</section>
+
+<!-- 04 Slide list -->
+<section>
+  <div class="section-num">
+    <span class="n">04</span><span class="rule"></span><span class="label">The seventeen slides</span>
+  </div>
+  <h2>Cover to contact.</h2>
+
+  <div class="deck-list" style="margin-top: 8px;">
+    <div class="row"><span class="n">01</span><span class="t">Cover</span><span class="d">The wordmark, the axis, the coordinates.</span></div>
+    <div class="row"><span class="n">02</span><span class="t">An invitation</span><span class="d">A boutique on the Paphos coast, built like a small hotel. 500 m to the sea, 1 km to UNESCO.</span></div>
+    <div class="row"><span class="n">03</span><span class="t">At a glance</span><span class="d">Twenty-seven residences. Target yield 7–9% net. Handover Q4 2028.</span></div>
+    <div class="row"><span class="n">04</span><span class="t">Paphos coast</span><span class="d">The quiet half of the Mediterranean. UNESCO at the next stop.</span></div>
+    <div class="row"><span class="n">05</span><span class="t">Architecture</span><span class="d">TAD studio, led by Anton Medovskiy. Stone, deep loggias, an inner garden.</span></div>
+    <div class="row"><span class="n">06</span><span class="t">Approaches</span><span class="d">Facades from every side.</span></div>
+    <div class="row"><span class="n">07</span><span class="t">Site plan</span><span class="d">Single block, fully car-free above ground.</span></div>
+    <div class="row"><span class="n">08</span><span class="t">Typical floor</span><span class="d">One plate, two cores, eight homes per floor.</span></div>
+    <div class="row"><span class="n">09</span><span class="t">Three plans</span><span class="d">A, B, C — one- and two-bedroom typologies, with corner penthouses on top. From €275,000 + VAT, refundable under License to Use.</span></div>
+    <div class="row"><span class="n">10</span><span class="t">Living</span><span class="d">Open kitchens, long view.</span></div>
+    <div class="row"><span class="n">11</span><span class="t">Private</span><span class="d">Bedrooms that hold light.</span></div>
+    <div class="row"><span class="n">12</span><span class="t">Amenities</span><span class="d">Everything within the gates. Hotel-grade, residents only.</span></div>
+    <div class="row"><span class="n">13</span><span class="t">Spa &amp; wellness</span><span class="d">522 m² basement. 14 × 4 m heated pool, year-round. Sauna, hammam, ice bath.</span></div>
+    <div class="row"><span class="n">14</span><span class="t">Fitness</span><span class="d">A full gym, for twenty-seven.</span></div>
+    <div class="row"><span class="n">15</span><span class="t">Cyprus framework</span><span class="d">€300K permanent residency, 0% inheritance, 17-year non-dom, 0% stamp duty from 2026.</span></div>
+    <div class="row"><span class="n">16</span><span class="t">Timeline</span><span class="d">Phase I open, permit Q4 2026, handover Q4 2028 – Q1 2029.</span></div>
+    <div class="row"><span class="n">17</span><span class="t">Contact</span><span class="d">Walk-through, site visit, or shortlist by email.</span></div>
+  </div>
+</section>
+
+<!-- 05 Numbers behind the numbers -->
+<section>
+  <div class="section-num">
+    <span class="n">05</span><span class="rule"></span><span class="label">Numbers behind the numbers</span>
+  </div>
+  <h2>What the yield figure is built on.</h2>
+
+  <p>
+    The deck states a target net IRR range of <em>seven to nine percent</em> across the portfolio. That range is not aspiration. It is anchored to a single, real, currently-operating apartment.
+  </p>
+
+  <div class="grid3" style="margin: 20px 0 28px;">
+    <div><h4>Base</h4>2025 rental actuals of a two-bedroom apartment in Elysia Park, Paphos, owned by a shareholder of Motive Point. Booking.com and Airbnb monthly statements verifiable on request.</div>
+    <div><h4>Location coefficient</h4>+83% — derived from nightly-rate comparison between Downtown Park (location analogue) and Elysia Park.</div>
+    <div><h4>Size coefficient</h4>−33% — derived from 1BR-vs-2BR nightly rates within Elysia Park, managed by Orkadial Developments.</div>
+  </div>
+
+  <p>
+    For the sample one-bedroom (B101, 50 m², €275,000 + 19% VAT refundable, €300,000 fully furnished), the model returns gross revenue €42,545, net profit €26,519, and a net IRR of 8.84%. Per-unit projections are delivered alongside each shortlist — not in this deck.
+  </p>
+</section>
+
+<!-- 06 What stayed out -->
+<section>
+  <div class="section-num">
+    <span class="n">06</span><span class="rule"></span><span class="label">What stayed out</span>
+  </div>
+  <h2>What this deck does <em>not</em> do.</h2>
+
+  <div class="grid2">
+    <div>
+      <h4>No invented stats</h4>
+      An earlier draft contained "Founded 2018 / 120+ residences delivered" — none of which was verified. Removed. The developer slide now describes only what is true.
+    </div>
+    <div>
+      <h4>No anonymous quotes</h4>
+      An earlier draft used a fabricated architect quote ("we wanted a building that would age slowly"). Removed. Attribution-or-nothing.
+    </div>
+    <div>
+      <h4>No banned vocabulary</h4>
+      Thirty words filtered out: luxury, exclusive, prestigious, world-class, stunning, breathtaking, jewel, haven, masterpiece, refined, and the rest of the usual list. Every adjective was forced to defend itself.
+    </div>
+    <div>
+      <h4>No per-unit numbers</h4>
+      Pricing and yield for individual units are deliberately held back for the personalised follow-up. The general deck names the range; the model is delivered when there is a real buyer to model for.
+    </div>
+  </div>
+</section>
+
+<!-- 07 What was left from research -->
+<section>
+  <div class="section-num">
+    <span class="n">07</span><span class="rule"></span><span class="label">What the research surfaced</span>
+  </div>
+  <h2>Decisions traced to evidence.</h2>
+
+  <ul class="plain">
+    <li><span class="k">axis flip</span><span>Investor-first ordering ("Own. Rent. Live.") emerged from the developer's own framing of the buyer — pure investor, lifestyle secondary. The earlier "Live. Rent. Own." was poetic but mis-aimed.</span></li>
+    <li><span class="k">cyprus framework</span><span>Added after pre-mortem identified the deck would lose non-EU buyers without a single page on residency, tax, and stamp duty.</span></li>
+    <li><span class="k">ice bath</span><span>One word, surfaced from the developer's own proposal — a hot/cold protocol signal absent from competitor decks on the same coast.</span></li>
+    <li><span class="k">no hotels claim</span><span>Verified, then made specific: five existing hotels within 1 km of Venus Beach, all over twenty years old, none with year-round heated pool and ice bath.</span></li>
+    <li><span class="k">vat clarity</span><span>Stating "VAT refundable under License to Use scheme" up front filters out the +19% surprise that derails Cyprus deals at deposit stage.</span></li>
+  </ul>
+</section>
+
+<!-- 08 Sources -->
+<section>
+  <div class="section-num">
+    <span class="n">08</span><span class="rule"></span><span class="label">Sources</span>
+  </div>
+  <h2>Where the numbers came from.</h2>
+  <p class="soft">
+    Cyprus Land Registry / DLS. Cyprus Mail. PwC Cyprus Real Estate Year in Review 2025. Global Property Guide Q3 2025. Knight Frank Wealth Report 2025. Investropa Paphos market data. Airbtics, AirDNA, AirROI. Booking.com and Airbnb (Elysia Park verifiable references). TripAdvisor (Venus Beach and Faros Beach reviews). Cyprus Law 239(I)/2025 on stamp duty. Specific Performance Law (Cap 232). Trapped Buyers Law (2025).
+  </p>
+  <p class="soft">
+    Developer voice messages transcribed via Whisper (small, ru). Proposal PDF (24 pp.) parsed page-by-page. Seven competitor decks analysed in full.
+  </p>
+</section>
+
+<footer>
+  <div class="wrap" style="padding: 0;">
+    <div>Venara · Paphos · Cyprus · MMXXVI</div>
+    <div style="margin-top: 12px;">Developer · Motive Point · <a href="https://msolo.me/">msolo.me</a></div>
+  </div>
+</footer>
+
+</div>
+
+</body>
+</html>
