@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<base href="/venara-stills/" />
+<title>Venara · Animated Stills</title>
+<meta name="description" content="Четыре оживлённых кадра из деки Venara: фасад, спа-бассейн, аэросъёмка, интерьер. Image-to-video через Kling V3 Pro." />
+<meta name="theme-color" content="#0e0c08" />
+
+<meta property="og:title" content="Venara · Animated Stills" />
+<meta property="og:description" content="Четыре кадра из деки, оживлённые через image-to-video." />
+<meta property="og:type" content="article" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:        #0e0c08;
+    --bg-soft:   #1a1610;
+    --paper:     #f4ede0;
+    --paper-dim: #c9bea6;
+    --ink-soft:  #8a7e64;
+    --accent:    #c48a55;
+    --line:      rgba(244,237,224,0.10);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--paper);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.20em; text-transform: uppercase;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; background: var(--bg); z-index: 10;
+  }
+  .topbar a { color: var(--paper); text-decoration: none; }
+  .topbar .left { display: flex; gap: 24px; }
+
+  .hero { padding: 84px 0 48px; }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.30em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 24px;
+  }
+  h1 {
+    font-size: clamp(48px, 7vw, 86px);
+    font-weight: 300; letter-spacing: -1.5px; line-height: 1.0;
+    margin: 0 0 22px; color: var(--paper);
+  }
+  h1 em { color: var(--accent); font-style: italic; }
+  .lede {
+    font-size: 22px; color: var(--paper-dim); max-width: 720px; line-height: 1.55;
+  }
+
+  .grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+    padding: 40px 0 56px;
+  }
+  .card { background: var(--bg-soft); border-radius: 4px; overflow: hidden; }
+  .card video { width: 100%; display: block; background: #000; }
+  .card .meta {
+    padding: 22px 24px 26px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .card .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.30em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .card h3 {
+    margin: 0; font-weight: 400; font-size: 26px; letter-spacing: -0.5px;
+    color: var(--paper);
+  }
+  .card h3 em { color: var(--accent); font-style: italic; }
+  .card .desc {
+    font-size: 16px; color: var(--paper-dim); line-height: 1.55; margin-top: 6px;
+  }
+  .card .specs {
+    margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  section.note {
+    border-top: 1px solid var(--line);
+    padding: 48px 0 40px;
+  }
+  section.note .section-num {
+    display: flex; align-items: baseline; gap: 18px;
+    color: var(--accent); margin-bottom: 24px;
+  }
+  section.note .section-num .n {
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 28px;
+  }
+  section.note .section-num .rule { width: 48px; height: 1px; background: currentColor; opacity: 0.5; }
+  section.note .section-num .label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.30em; text-transform: uppercase; opacity: 0.9;
+  }
+  section.note h2 {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 300; letter-spacing: -0.5px; line-height: 1.12;
+    margin: 0 0 20px;
+  }
+  section.note h2 em { font-style: italic; color: var(--accent); }
+  section.note p {
+    font-size: 18px; line-height: 1.6; margin: 0 0 14px;
+    color: var(--paper-dim);
+    max-width: 760px;
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 36px 0 80px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  footer a { color: var(--paper-dim); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+
+  @media (max-width: 760px) {
+    .grid { grid-template-columns: 1fr; gap: 20px; }
+    .topbar .left { gap: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="left">
+    <a href="https://msolo.me/">msolo.me</a>
+    <span>· Venara · animated stills</span>
+  </div>
+  <div><a href="/venara-methodology/">→ methodology</a></div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">Image-to-video · четыре кадра</div>
+  <h1>Дека, которая <em>дышит.</em></h1>
+  <p class="lede">
+    Четыре статичных кадра из деки Venara — фасад, спа-бассейн, аэросъёмка, гостиная-кухня — оживлены через image-to-video. Без людей, без склеек, без AI-эффектов. Только то движение, которое естественно бы было в этой сцене.
+  </p>
+</header>
+
+<div class="grid">
+
+  <div class="card">
+    <video src="facade.mp4" controls autoplay loop muted playsinline preload="auto"></video>
+    <div class="meta">
+      <span class="label">01 — Facade</span>
+      <h3>Подход к зданию.</h3>
+      <div class="desc">
+        Очень медленный dolly-in. Зелень покачивается, тонкие облака плывут. Композиция держится — здание не уезжает.
+      </div>
+      <div class="specs">Kling V3 Pro · 1920 × 1080 · 5 sec · silent</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video src="spa.mp4" controls autoplay loop muted playsinline preload="auto"></video>
+    <div class="meta">
+      <span class="label">02 — Spa</span>
+      <h3>Бассейн <em>14 × 4 м.</em></h3>
+      <div class="desc">
+        Push-in на главную фичу. Поверхность воды дышит, caustics на плитке шевелятся, тёплый пар поднимается.
+      </div>
+      <div class="specs">Kling V3 Pro · 1920 × 1080 · 5 sec · silent</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video src="aerial.mp4" controls autoplay loop muted playsinline preload="auto"></video>
+    <div class="meta">
+      <span class="label">03 — Aerial</span>
+      <h3>Побережье <em>с воздуха.</em></h3>
+      <div class="desc">
+        Дрон, lateral parallax вправо. Море искрится на солнце, foliage шевелится. Локация показана живой.
+      </div>
+      <div class="specs">Kling V3 Pro · 1920 × 1080 · 5 sec · silent</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video src="living.mp4" controls autoplay loop muted playsinline preload="auto"></video>
+    <div class="meta">
+      <span class="label">04 — Interior</span>
+      <h3>Свет <em>в комнате.</em></h3>
+      <div class="desc">
+        Гостиная-кухня. Тюль колышется, пыль дрейфует в солнечном луче, лёгкий push-in. Интерьер становится моментом.
+      </div>
+      <div class="specs">Kling V3 Pro · 1920 × 1080 · 5 sec · silent</div>
+    </div>
+  </div>
+
+</div>
+
+<section class="note">
+  <div class="section-num">
+    <span class="n">01</span><span class="rule"></span><span class="label">Как делалось</span>
+  </div>
+  <h2>Поставили рамки. Дали свободу <em>внутри.</em></h2>
+  <p>
+    Image-to-video через Kling V3 Pro. Каждый клип начинается со статичного рендера из деки — модель не выдумывает сцену, а оживляет существующую. На входе — жёсткие правила в самом начале промпта: single continuous take, no people, no cuts, composition stays as in reference, photoreal cinematography only.
+  </p>
+  <p>
+    Внутри этих рамок — конкретное задание на motion: тип движения камеры в процентах (push-in 7%, lateral 8%), какие элементы могут двигаться (вода, пар, foliage, ткань, пыль в свете), какие должны остаться неподвижными (архитектура, мебель). Negatives — явно: no swimmers, no pedestrians, no cars, no jump cuts, no stylization.
+  </p>
+  <p>
+    Звук на выходе вырезан. AI-звуковые дорожки портят real-estate-материалы — лучше тишина.
+  </p>
+</section>
+
+<section class="note">
+  <div class="section-num">
+    <span class="n">02</span><span class="rule"></span><span class="label">Зачем</span>
+  </div>
+  <h2>Static-рендер — это <em>плакат.</em> Animated — это место.</h2>
+  <p>
+    В премиум-real-estate каждый Aman или Six Senses на сайте имеет 2-3 «moment»-видео — full-bleed scene с одним лёгким движением. Это превращает рендер в момент: «здесь время идёт». Для буyer'а off-plan-проект из обещания становится местом, которое можно представить.
+  </p>
+  <p>
+    Эти четыре клипа — кандидаты на встройку в web-версию деки (auto-loop на cover, spa, location, interior) или в социальные посты / рекламные креативы.
+  </p>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap" style="padding: 0;">
+    <div>Venara · Paphos · Cyprus · MMXXVI</div>
+    <div style="margin-top: 10px;">Сделано через Poe API · Kling V3 Pro · <a href="https://msolo.me/">msolo.me</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
