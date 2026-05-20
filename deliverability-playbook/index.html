@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/deliverability-playbook/">
+<title>Deliverability Playbook — как специалистам Unione находить клиентов с проблемами доставляемости</title>
+<meta name="description" content="Playbook для специалистов Unione: как находить клиентов с проблемами доставляемости email в Reddit, Slack, LinkedIn и ESP-форумах, отвечать экспертно и переводить обсуждения в triage, аудит и recovery.">
+<meta property="og:title" content="Deliverability Growth Playbook for Unione Specialists">
+<meta property="og:description" content="Клиенты с проблемами доставляемости уже ищут помощь в зарубежных комьюнити. Playbook о том, как оказаться рядом в нужный момент.">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --bg:        #ffffff;
+    --bg-soft:   #f6f7f9;
+    --bg-inset:  #f0f2f5;
+    --ink:       #0c0e16;
+    --ink-2:     #353b48;
+    --dim:       #69707e;
+    --border:    #e4e7ed;
+    --border-2:  #d4d8e0;
+    --accent:    #4f46e5;
+    --accent-d:  #3f37c9;
+    --accent-sf: #eef0fe;
+    --inbox:     #15803d;
+    --inbox-sf:  #eaf6ee;
+    --spam:      #dc2626;
+    --spam-sf:   #fdecec;
+    --warn:      #b45309;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Monaco, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: inherit; }
+  ::selection { background: var(--accent-sf); }
+
+  /* ─── Layout ─── */
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  .narrow { max-width: 820px; }
+  section { padding: 80px 0; border-top: 1px solid var(--border); }
+  section.alt { background: var(--bg-soft); }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--accent); font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .eyebrow::before { content: ""; width: 18px; height: 1px; background: var(--accent); display: inline-block; }
+  h2 { font-size: clamp(26px, 3.6vw, 36px); line-height: 1.18; letter-spacing: -0.02em; margin: 0 0 18px; font-weight: 720; }
+  h3 { font-size: 19px; margin: 0 0 10px; letter-spacing: -0.01em; font-weight: 680; }
+  .lead { color: var(--ink-2); font-size: 18px; max-width: 760px; }
+  p { margin: 0 0 14px; }
+  .muted { color: var(--dim); }
+
+  /* ─── Nav ─── */
+  header.nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.86);
+    backdrop-filter: saturate(160%) blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-in { display: flex; align-items: center; gap: 24px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.01em; text-decoration: none; font-size: 15px; }
+  .brand .dot { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-sf); }
+  .brand small { color: var(--dim); font-weight: 500; }
+  .nav-links { display: flex; gap: 22px; margin-left: auto; }
+  .nav-links a { text-decoration: none; color: var(--dim); font-size: 14px; font-weight: 500; transition: color .15s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta { display: inline-flex; }
+  @media (max-width: 880px) { .nav-links { display: none; } }
+
+  /* ─── Buttons ─── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    padding: 11px 20px; border-radius: 10px; border: 1px solid transparent;
+    cursor: pointer; transition: transform .12s, background .15s, border-color .15s; white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-d); }
+  .btn-ghost { background: #fff; color: var(--ink); border-color: var(--border-2); }
+  .btn-ghost:hover { border-color: var(--ink-2); }
+  .btn-sm { padding: 8px 14px; font-size: 13px; border-radius: 8px; }
+
+  /* ─── Hero ─── */
+  .hero { padding: 84px 0 72px; border-top: none; }
+  .hero h1 { font-size: clamp(34px, 5.4vw, 56px); line-height: 1.06; letter-spacing: -0.03em; margin: 0 0 22px; font-weight: 760; max-width: 920px; }
+  .hero .lead { font-size: 19px; max-width: 700px; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+  .qbadge {
+    font-family: var(--mono); font-size: 12.5px; color: var(--ink-2);
+    background: var(--bg-inset); border: 1px solid var(--border);
+    padding: 6px 11px; border-radius: 999px;
+  }
+
+  /* ─── Flow pipeline ─── */
+  .flow {
+    margin-top: 52px; padding: 26px;
+    background: var(--bg-soft); border: 1px solid var(--border); border-radius: 16px;
+  }
+  .flow-title { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--dim); margin-bottom: 18px; }
+  .flow-track { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; }
+  .fnode {
+    flex: 1 1 140px; min-width: 130px;
+    background: #fff; border: 1px solid var(--border-2); border-radius: 12px;
+    padding: 14px 14px; position: relative;
+  }
+  .fnode .step-n { font-family: var(--mono); font-size: 11px; color: var(--accent); font-weight: 600; }
+  .fnode .step-t { font-size: 14px; font-weight: 600; margin-top: 4px; line-height: 1.3; }
+  .fnode .step-s { font-size: 12.5px; color: var(--dim); margin-top: 4px; }
+  .fnode.is-end { border-color: var(--inbox); background: var(--inbox-sf); }
+  .fnode.is-end .step-n { color: var(--inbox); }
+  .farrow { display: flex; align-items: center; color: var(--border-2); font-size: 18px; }
+  @media (max-width: 720px) { .farrow { transform: rotate(90deg); width: 100%; justify-content: center; height: 14px; } .fnode { flex-basis: 100%; } }
+
+  /* ─── Grids & cards ─── */
+  .grid { display: grid; gap: 18px; }
+  .g2 { grid-template-columns: repeat(2, 1fr); }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 860px) { .g2, .g3 { grid-template-columns: 1fr; } }
+  .card {
+    background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 24px;
+  }
+  section.alt .card { background: #fff; }
+  .card h3 { display: flex; align-items: center; gap: 10px; }
+  .card .tag { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--dim); background: var(--bg-inset); padding: 3px 8px; border-radius: 6px; }
+  .card ul, .card ol { margin: 12px 0 0; padding-left: 18px; color: var(--ink-2); }
+  .card li { margin-bottom: 6px; }
+  .sub { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dim); margin: 16px 0 6px; }
+
+  /* ─── Symptom list ─── */
+  .symptoms { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 8px; }
+  @media (max-width: 720px){ .symptoms { grid-template-columns: 1fr; } }
+  .symptom { display: flex; gap: 11px; align-items: flex-start; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 10px; padding: 13px 15px; font-size: 15px; color: var(--ink-2); }
+  section.alt .symptom { background: #fff; }
+  .symptom .mk { color: var(--spam); font-weight: 700; flex: none; line-height: 1.5; }
+
+  /* ─── Callout ─── */
+  .callout {
+    margin-top: 26px; padding: 20px 24px; border-radius: 12px;
+    background: var(--accent-sf); border: 1px solid #d9dbfb;
+    font-size: 17px; font-weight: 600; color: var(--accent-d);
+  }
+  .callout.green { background: var(--inbox-sf); border-color: #cfe8d7; color: var(--inbox); }
+
+  /* ─── Compare bad/good ─── */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 8px; }
+  @media (max-width: 820px){ .compare { grid-template-columns: 1fr; } }
+  .qbox { border-radius: 14px; padding: 22px; border: 1px solid; }
+  .qbox.bad { background: var(--spam-sf); border-color: #f3cfcf; }
+  .qbox.good { background: var(--inbox-sf); border-color: #cfe8d7; }
+  .qbox .qhead { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; margin-bottom: 12px; }
+  .qbox.bad .qhead { color: var(--spam); }
+  .qbox.good .qhead { color: var(--inbox); }
+  .qbox blockquote { margin: 0 0 14px; font-size: 15.5px; line-height: 1.55; color: var(--ink); border-left: 3px solid currentColor; padding-left: 14px; }
+  .qbox.bad blockquote { border-color: #e89b9b; }
+  .qbox.good blockquote { border-color: #92cfa6; }
+  .qbox ul { margin: 0; padding-left: 18px; font-size: 14px; color: var(--ink-2); }
+  .qbox li { margin-bottom: 4px; }
+
+  /* ─── Steps / ladder ─── */
+  .ladder { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; counter-reset: s; }
+  @media (max-width: 860px){ .ladder { grid-template-columns: 1fr; } }
+  .rung { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 24px; position: relative; }
+  .rung .num { font-family: var(--mono); font-size: 13px; font-weight: 700; color: #fff; background: var(--accent); width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+  .rung.free .num { background: var(--ink); }
+  .rung.recovery .num { background: var(--inbox); }
+  .rung .price { font-family: var(--mono); font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 14px; }
+  .rung ul { margin: 8px 0 0; padding-left: 17px; font-size: 14px; color: var(--ink-2); }
+  .rung li { margin-bottom: 5px; }
+
+  /* ─── Mono block (templates / keywords) ─── */
+  .mono-block {
+    font-family: var(--mono); font-size: 13.5px; line-height: 1.7;
+    background: var(--ink); color: #e6e9f2; border-radius: 12px; padding: 22px 24px;
+    overflow-x: auto; white-space: pre-wrap;
+  }
+  .mono-block .c-accent { color: #a5b4fc; }
+  .mono-block .c-dim { color: #8b93a7; }
+
+  /* ─── Form mockup ─── */
+  .formcard { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 720px){ .form-grid { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
+  .field label { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+  .field .inp { border: 1px solid var(--border-2); border-radius: 9px; padding: 11px 13px; font-size: 14px; color: var(--dim); background: var(--bg-soft); font-family: var(--sans); }
+  .field .inp.sel::after { content: " ▾"; }
+  .chips-pick { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chips-pick span { font-size: 13px; border: 1px solid var(--border-2); border-radius: 999px; padding: 6px 12px; color: var(--ink-2); background: var(--bg-soft); }
+  .after-msg { margin-top: 16px; padding: 16px 18px; border-radius: 10px; background: var(--inbox-sf); border: 1px solid #cfe8d7; color: var(--inbox); font-size: 14.5px; }
+
+  /* ─── Topic list ─── */
+  .topics { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; counter-reset: t; }
+  @media (max-width: 760px){ .topics { grid-template-columns: 1fr; } }
+  .topic { display: flex; gap: 13px; background: #fff; border: 1px solid var(--border); border-radius: 11px; padding: 15px 17px; align-items: flex-start; }
+  .topic::before { counter-increment: t; content: counter(t,decimal-leading-zero); font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 700; flex: none; }
+  .topic span { font-size: 15px; color: var(--ink-2); }
+
+  /* ─── Post mockups ─── */
+  .post { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 0; overflow: hidden; }
+  .post-bar { display: flex; align-items: center; gap: 10px; padding: 13px 18px; border-bottom: 1px solid var(--border); background: var(--bg-soft); }
+  .post-bar .pf { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #fff; padding: 3px 9px; border-radius: 6px; font-weight: 600; }
+  .pf.li { background: #0a66c2; }
+  .pf.rd { background: #ff4500; }
+  .pf.eg { background: #6d4aff; }
+  .pf.td { background: #0f766e; }
+  .post-bar .ph { font-size: 13px; color: var(--dim); }
+  .post-body { padding: 20px 22px; font-size: 14.5px; line-height: 1.62; color: var(--ink); }
+  .post-body strong { display: block; margin-bottom: 10px; font-size: 16px; }
+  .post-body ul, .post-body ol { padding-left: 20px; margin: 10px 0; }
+  .post-body li { margin-bottom: 4px; }
+  .post-body .auth { color: var(--dim); font-size: 13px; }
+
+  /* ─── Keyword chips ─── */
+  .kw { display: flex; flex-wrap: wrap; gap: 8px; }
+  .kw span { font-family: var(--mono); font-size: 13px; color: var(--ink-2); background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 7px 11px; }
+
+  /* ─── Pain pages list ─── */
+  .pages { display: grid; gap: 10px; }
+  .prow { display: flex; align-items: center; gap: 16px; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; flex-wrap: wrap; }
+  .prow .url { font-family: var(--mono); font-size: 13px; color: var(--accent); background: var(--accent-sf); padding: 5px 10px; border-radius: 7px; flex: none; }
+  .prow .ph2 { font-weight: 600; font-size: 15px; }
+
+  /* ─── Funnel ─── */
+  .funnel { display: flex; flex-direction: column; gap: 0; max-width: 560px; }
+  .frung { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 15px 20px; font-weight: 600; position: relative; }
+  .frung .fmeta { font-weight: 400; color: var(--dim); font-size: 13px; }
+  .fconn { width: 2px; height: 16px; background: var(--border-2); margin: 0 auto; }
+  .frung.peak { border-color: var(--accent); background: var(--accent-sf); color: var(--accent-d); }
+  .frung.win { border-color: var(--inbox); background: var(--inbox-sf); color: var(--inbox); }
+
+  /* ─── KPI ─── */
+  .kpi-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 760px){ .kpi-cols { grid-template-columns: 1fr; } }
+  .metrics { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .metrics span { font-size: 13.5px; color: var(--ink-2); background: var(--bg-inset); border: 1px solid var(--border); border-radius: 999px; padding: 6px 13px; }
+
+  /* ─── Table ─── */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 15px; background: #fff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .tbl th, .tbl td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .tbl th { background: var(--bg-soft); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--dim); font-family: var(--mono); font-weight: 600; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl td:first-child { font-weight: 600; white-space: nowrap; }
+  @media (max-width: 640px){ .tbl, .tbl thead, .tbl tbody, .tbl tr, .tbl th, .tbl td { display: block; } .tbl th { display: none; } .tbl td { border: none; padding: 6px 16px; } .tbl tr { border-bottom: 1px solid var(--border); padding: 10px 0; } .tbl td:first-child { padding-top: 14px; } }
+
+  /* ─── Rules ─── */
+  .rules { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; counter-reset: r; }
+  @media (max-width: 760px){ .rules { grid-template-columns: 1fr; } }
+  .rule { display: flex; gap: 14px; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .rule::before { counter-increment: r; content: counter(r); font-family: var(--mono); font-weight: 700; color: var(--accent); background: var(--accent-sf); width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex: none; font-size: 13px; }
+  .rule b { display: block; margin-bottom: 3px; }
+  .rule span { color: var(--dim); font-size: 14px; }
+
+  /* ─── Positioning ─── */
+  .pos { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
+  @media (max-width: 760px){ .pos { grid-template-columns: 1fr; } }
+  .pcard { background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 18px 20px; font-size: 16px; font-weight: 600; color: var(--ink); }
+  .pcard small { display: block; font-family: var(--mono); font-size: 11px; color: var(--dim); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+
+  /* ─── Final CTA ─── */
+  .final { background: var(--ink); color: #fff; border-radius: 20px; padding: 56px 44px; text-align: center; }
+  .final h2 { color: #fff; }
+  .final p { color: #b9c0d0; max-width: 640px; margin: 0 auto 28px; font-size: 17px; }
+  .final .hero-cta { justify-content: center; }
+  .final .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,0.32); }
+  .final .btn-ghost:hover { border-color: #fff; }
+
+  footer { padding: 40px 0 56px; color: var(--dim); font-size: 13.5px; border-top: 1px solid var(--border); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer a { color: var(--ink-2); text-decoration: none; }
+
+  .stack-16 > * + * { margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top"><span class="dot"></span>Unione <small>· Deliverability Playbook</small></a>
+    <nav class="nav-links">
+      <a href="#problem">Проблема</a>
+      <a href="#channels">Каналы</a>
+      <a href="#ladder">Продукт</a>
+      <a href="#triage">Triage-форма</a>
+      <a href="#answers">Ответы</a>
+      <a href="#kpi">KPI</a>
+    </nav>
+    <a class="btn btn-primary btn-sm nav-cta" href="#triage">Запустить Free Triage</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<a id="top"></a>
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Playbook для специалистов Unione</div>
+    <div class="badge-row">
+      <span class="qbadge">«emails going to spam»</span>
+      <span class="qbadge">«Gmail режет рассылки»</span>
+      <span class="qbadge">«Outlook нас блокирует»</span>
+      <span class="qbadge">«ESP-поддержка не помогает»</span>
+    </div>
+    <h1>Клиенты с проблемами доставляемости уже ищут помощь. Нужно просто оказаться рядом в нужный момент.</h1>
+    <p class="lead">Компании, SaaS-продукты, ecommerce-бренды и email-маркетологи каждый день обсуждают проблемы доставляемости в зарубежных комьюнити: Reddit, Email Geeks, Mailop, ESP-форумах и LinkedIn. Для Unione это канал привлечения клиентов через экспертизу, а не через агрессивные продажи.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#ladder">Изучить стратегию</a>
+      <a class="btn btn-ghost" href="#channels">Посмотреть каналы</a>
+    </div>
+
+    <div class="flow">
+      <div class="flow-title">Как обсуждение в комьюнити превращается в клиента</div>
+      <div class="flow-track">
+        <div class="fnode"><div class="step-n">01</div><div class="step-t">Проблема клиента</div><div class="step-s">письма уходят в спам</div></div>
+        <div class="farrow">→</div>
+        <div class="fnode"><div class="step-n">02</div><div class="step-t">Пост в комьюнити</div><div class="step-s">Reddit / Slack / LinkedIn</div></div>
+        <div class="farrow">→</div>
+        <div class="fnode"><div class="step-n">03</div><div class="step-t">Экспертный ответ</div><div class="step-s">диагностика, не питч</div></div>
+        <div class="farrow">→</div>
+        <div class="fnode"><div class="step-n">04</div><div class="step-t">Free triage</div><div class="step-s">первичная диагностика</div></div>
+        <div class="farrow">→</div>
+        <div class="fnode"><div class="step-n">05</div><div class="step-t">Paid audit</div><div class="step-s">глубокий разбор</div></div>
+        <div class="farrow">→</div>
+        <div class="fnode is-end"><div class="step-n">06</div><div class="step-t">Recovery / Retainer</div><div class="step-s">долгосрочный контракт</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">Проблема рынка</div>
+    <h2>Когда доставляемость ломается, бизнесы ищут ответ не в рекламе, а в комьюнити</h2>
+    <p class="lead">Проблемы с доставляемостью редко выглядят для клиента как понятная техническая задача. Обычно это тревожные симптомы:</p>
+    <div class="symptoms">
+      <div class="symptom"><span class="mk">✕</span>письма внезапно начали попадать в spam</div>
+      <div class="symptom"><span class="mk">✕</span>open rate упал в два раза</div>
+      <div class="symptom"><span class="mk">✕</span>Gmail показывает плохую domain reputation</div>
+      <div class="symptom"><span class="mk">✕</span>Outlook отправляет письма в junk</div>
+      <div class="symptom"><span class="mk">✕</span>SPF, DKIM и DMARC настроены, но письма не доходят</div>
+      <div class="symptom"><span class="mk">✕</span>после перехода на новый ESP стало хуже</div>
+      <div class="symptom"><span class="mk">✕</span>транзакционные письма задерживаются или не доходят</div>
+      <div class="symptom"><span class="mk">✕</span>кампании перестали приносить ответы</div>
+    </div>
+    <p class="muted" style="margin-top:22px">В этот момент клиент часто не знает, к кому идти. Он пишет в Reddit, спрашивает в Slack, ищет в HubSpot Community, читает форумы Mailchimp, Klaviyo или SendGrid, публикует пост в LinkedIn.</p>
+    <div class="callout">Это уже не холодный лид. Это человек или компания с активной болью.</div>
+  </div>
+</section>
+
+<!-- OPPORTUNITY -->
+<section id="opportunity">
+  <div class="wrap">
+    <div class="eyebrow">Возможность для Unione</div>
+    <h2>Deliverability продаётся через диагностику, а не через агрессивную продажу</h2>
+    <p class="lead">Доставляемость сложно продавать через обычную рекламу — клиент часто не понимает, что именно сломалось. Но когда проблема уже проявилась, он ищет не «подрядчика», а того, кто быстро объяснит:</p>
+    <div class="grid g2" style="margin-top:24px">
+      <div class="card">
+        <ul style="padding-left:18px;margin:0">
+          <li>в чём вероятная причина;</li>
+          <li>насколько проблема критична;</li>
+          <li>что проверить первым;</li>
+          <li>можно ли решить самостоятельно;</li>
+          <li>когда нужен аудит или recovery-проект.</li>
+        </ul>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;justify-content:center">
+        <div class="sub" style="margin-top:0">Главный сдвиг</div>
+        <p style="font-size:18px;font-weight:600;margin:0">Не продаём «услугу». Продаём диагностику и уверенность.</p>
+      </div>
+    </div>
+
+    <div class="compare" style="margin-top:24px">
+      <div class="qbox bad">
+        <div class="qhead">✕ Так не работает</div>
+        <blockquote>«Мы агентство по доставляемости, напишите нам.»</blockquote>
+      </div>
+      <div class="qbox good">
+        <div class="qhead">✓ Так работает</div>
+        <blockquote>«Судя по симптомам, проблема может быть в доменной репутации, сегментации или mailbox-provider-specific filtering. Вот что стоит проверить первым.»</blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHANNELS -->
+<section id="channels" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">Где искать клиентов</div>
+    <h2>Каналы, где уже обсуждают проблемы доставляемости</h2>
+    <p class="lead">Чтобы находить клиентов, недостаточно просто присутствовать — нужно регулярно искать свежие запросы по ключевым словам в правильных местах.</p>
+
+    <div class="grid g2" style="margin-top:28px">
+      <div class="card">
+        <h3>Reddit <span class="tag">горячие запросы</span></h3>
+        <p class="muted">Один из лучших каналов для поиска людей, которые уже столкнулись с проблемой. Часто появляются конкретные кейсы: «emails going to spam», «Klaviyo deliverability issue», «HubSpot emails not landing», «Outlook blocks our campaigns».</p>
+        <div class="sub">Где искать</div>
+        <div class="kw">
+          <span>r/Emailmarketing</span><span>r/email</span><span>r/coldemail</span><span>r/SaaS</span>
+          <span>r/smallbusiness</span><span>r/Entrepreneur</span><span>r/hubspot</span><span>r/mailchimp</span><span>r/klaviyo</span>
+        </div>
+        <div class="sub">Что делать</div>
+        <ul>
+          <li>ежедневно искать посты по ключевым словам;</li>
+          <li>отвечать экспертно, задавать уточняющие вопросы;</li>
+          <li>не продавать в первом сообщении;</li>
+          <li>мягко переводить в free triage, когда человек явно ищет помощь.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Email Geeks <span class="tag">Slack-комьюнити</span></h3>
+        <p class="muted">Большое международное Slack-комьюнити для email-маркетологов, email developers, CRM-специалистов и deliverability-профессионалов. Не место для прямой рекламы, но отличная среда для репутации.</p>
+        <div class="sub">Что делать</div>
+        <ul>
+          <li>участвовать в обсуждениях;</li>
+          <li>публиковать наблюдения из практики;</li>
+          <li>делиться anonymized teardown'ами;</li>
+          <li>находить партнёров среди email agencies и CRM-консультантов.</li>
+        </ul>
+        <div class="sub">Чего не делать</div>
+        <ul>
+          <li>не писать «мы можем помочь, купите аудит»;</li>
+          <li>не спамить ссылками;</li>
+          <li>не использовать комьюнити как базу для холодных DM.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Mailop <span class="tag">mail operators</span></h3>
+        <p class="muted">Техническое сообщество mail operators. Полезно не для прямого лидгена малого бизнеса, а для экспертного нетворка, технических инсайтов и контактов с людьми на стороне ESP, postmaster и anti-abuse команд.</p>
+        <div class="sub">Подходит для</div>
+        <ul>
+          <li>технических специалистов;</li>
+          <li>обсуждения SMTP, bounce, blocks, deferrals;</li>
+          <li>изучения изменений у Gmail, Microsoft, Yahoo;</li>
+          <li>контактов с инфраструктурными экспертами.</li>
+        </ul>
+        <div class="sub">Правильный формат</div>
+        <div class="mono-block" style="font-size:12.5px;padding:14px 16px">«Мы видим рост 4xx deferrals у Outlook на новых dedicated IP после warmup. Кто-то наблюдает похожий паттерн?»</div>
+      </div>
+
+      <div class="card">
+        <h3>ESP communities <span class="tag">конкретная боль</span></h3>
+        <p class="muted">Пользователи HubSpot, Klaviyo, Mailchimp, SendGrid думают, что проблема в платформе, хотя причина часто в домене, базе, authentication, сегментации, контенте или репутации отправителя.</p>
+        <div class="sub">Где искать</div>
+        <div class="kw">
+          <span>HubSpot Community</span><span>Mailchimp forums</span><span>Klaviyo Community</span>
+          <span>SendGrid</span><span>Customer.io</span><span>Brevo</span><span>MailWizz</span>
+        </div>
+        <div class="sub">Что искать</div>
+        <ul>
+          <li>«Why are my HubSpot emails going to spam?»</li>
+          <li>«Klaviyo open rate dropped»</li>
+          <li>«Mailchimp emails landing in promotions/spam»</li>
+          <li>«SendGrid blocked by Microsoft»</li>
+          <li>«SPF/DKIM pass but emails still go to spam»</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h3>LinkedIn <span class="tag">доверие · кейсы · партнёрства</span></h3>
+      <p class="muted">Нужен не только для контента, но и для поиска постов от людей с проблемой. Здесь находят Heads of CRM, lifecycle marketers, founders, ecommerce owners, email agencies и growth-команды.</p>
+      <div class="sub">Что публиковать</div>
+      <div class="kw">
+        <span>мини-кейсы</span><span>чеклисты</span><span>мифы о доставляемости</span>
+        <span>разборы ошибок</span><span>anonymized teardown</span><span>«что проверить, если письма попали в spam»</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW NOT TO SELL -->
+<section id="howto">
+  <div class="wrap narrow">
+    <div class="eyebrow">Главная ошибка</div>
+    <h2>Не приходите в комьюнити с прямой продажей</h2>
+    <p class="lead">В профессиональных сообществах прямая реклама воспринимается негативно — люди приходят за помощью, а не за sales pitch. Задача специалиста Unione: не «закрыть в комментарии», а показать компетентность и дать первый полезный шаг.</p>
+    <div class="compare" style="margin-top:26px">
+      <div class="qbox bad">
+        <div class="qhead">✕ Плохой ответ</div>
+        <blockquote>«Мы занимаемся доставляемостью. Напишите нам, поможем.»</blockquote>
+        <ul>
+          <li>выглядит как спам;</li>
+          <li>не даёт ценности;</li>
+          <li>не учитывает симптомы клиента;</li>
+          <li>может нарушать правила комьюнити;</li>
+          <li>не формирует доверие.</li>
+        </ul>
+      </div>
+      <div class="qbox good">
+        <div class="qhead">✓ Хороший ответ</div>
+        <blockquote>«Если проблема началась резко и затрагивает только Gmail, я бы сначала проверил Google Postmaster Tools, complaint rate, недавние скачки объёма и вовлечённость старых сегментов. SPF/DKIM/DMARC могут проходить, но это не гарантирует inbox placement. Напишите, какой ESP используете и какой объём — можно будет точнее понять направление диагностики.»</blockquote>
+        <ul>
+          <li>даёт пользу;</li>
+          <li>показывает экспертизу;</li>
+          <li>задаёт правильные вопросы;</li>
+          <li>не давит продажей;</li>
+          <li>открывает путь к диалогу.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT LADDER -->
+<section id="ladder" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">Правильная модель продаж</div>
+    <h2>Сначала диагностика. Потом аудит. Потом recovery.</h2>
+    <p class="lead">Клиент редко готов сразу купить долгосрочный контракт, но готов получить понятную диагностику, если у него уже есть проблема. Продуктовая лестница ведёт его шаг за шагом.</p>
+
+    <div class="ladder" style="margin-top:28px">
+      <div class="rung free">
+        <div class="num">1</div>
+        <div class="price">Бесплатно · вход в воронку</div>
+        <h3>Free Deliverability Triage</h3>
+        <p class="muted" style="font-size:14px">Первичная диагностика: получить лид, понять серьёзность, дать первые гипотезы, показать экспертность.</p>
+        <div class="sub">Что входит</div>
+        <ul>
+          <li>intake-форма;</li>
+          <li>краткий анализ симптомов;</li>
+          <li>3–5 вероятных причин;</li>
+          <li>severity score;</li>
+          <li>рекомендация следующего шага.</li>
+        </ul>
+      </div>
+
+      <div class="rung">
+        <div class="num">2</div>
+        <div class="price">Платно · глубокий разбор</div>
+        <h3>Paid Deliverability Audit</h3>
+        <p class="muted" style="font-size:14px">Глубоко разобрать проблему, дать action plan, создать переход к recovery-работе.</p>
+        <div class="sub">Что входит</div>
+        <ul>
+          <li>SPF/DKIM/DMARC alignment;</li>
+          <li>DNS &amp; authentication review;</li>
+          <li>домен/IP репутация;</li>
+          <li>Google Postmaster Tools, Microsoft SNDS;</li>
+          <li>ESP configuration;</li>
+          <li>bounce/complaint analysis;</li>
+          <li>list quality, сегментация;</li>
+          <li>content/template risks, sending patterns.</li>
+        </ul>
+      </div>
+
+      <div class="rung recovery">
+        <div class="num">3</div>
+        <div class="price">Retainer · долгосрочно</div>
+        <h3>Recovery / Retainer</h3>
+        <p class="muted" style="font-size:14px">Восстановить доставляемость, внедрить мониторинг, снизить риск повторной просадки, сопровождать инфраструктуру.</p>
+        <div class="sub">Что входит</div>
+        <ul>
+          <li>reputation recovery;</li>
+          <li>warmup strategy;</li>
+          <li>domain/subdomain strategy;</li>
+          <li>segmentation strategy;</li>
+          <li>мониторинг Gmail/Outlook/Yahoo;</li>
+          <li>работа с ESP support;</li>
+          <li>weekly reporting;</li>
+          <li>migration support, incident response.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRIAGE FORM -->
+<section id="triage">
+  <div class="wrap">
+    <div class="eyebrow">Лид-магнит</div>
+    <h2>Free Deliverability Triage — главный вход в воронку</h2>
+    <p class="lead">Для комьюнити-трафика не ведите людей на общий сайт. Лучше отдельная страница с короткой, но диагностически полезной формой. Заголовок: <b>«Find out why your emails are going to spam — free first diagnosis.»</b></p>
+
+    <div class="grid g2" style="margin-top:28px;align-items:start">
+      <div class="formcard">
+        <div class="form-grid">
+          <div class="field"><label>Name</label><div class="inp">Имя</div></div>
+          <div class="field"><label>Work email</label><div class="inp">you@company.com</div></div>
+          <div class="field full"><label>Company website</label><div class="inp">company.com</div></div>
+          <div class="field"><label>ESP / email platform</label><div class="inp sel">HubSpot / Klaviyo / SendGrid…</div></div>
+          <div class="field"><label>Monthly sending volume</label><div class="inp sel">10k / 100k / 1M+</div></div>
+          <div class="field full"><label>Type of emails</label>
+            <div class="chips-pick"><span>marketing</span><span>transactional</span><span>cold outreach</span><span>lifecycle</span><span>mixed</span></div>
+          </div>
+          <div class="field full"><label>Main issue</label>
+            <div class="chips-pick">
+              <span>Emails going to spam</span><span>Open rate dropped</span><span>Gmail issue</span><span>Outlook / Microsoft</span>
+              <span>High bounce rate</span><span>Domain reputation dropped</span><span>Blacklist</span><span>ESP migration</span><span>New domain warmup</span><span>Not sure</span>
+            </div>
+          </div>
+          <div class="field"><label>When did it start?</label><div class="inp sel">дата / событие</div></div>
+          <div class="field"><label>Mailbox provider affected</label><div class="inp sel">Gmail / Outlook / Yahoo / all</div></div>
+          <div class="field full"><label>SPF, DKIM, DMARC configured?</label>
+            <div class="chips-pick"><span>Yes</span><span>Partially</span><span>No</span><span>Not sure</span></div>
+          </div>
+          <div class="field full"><label>Can you share screenshots / reports?</label><div class="inp">Postmaster Tools, ESP reports, bounce logs…</div></div>
+        </div>
+        <a class="btn btn-primary" href="#" style="margin-top:18px;width:100%;justify-content:center">Get my free first-pass diagnosis</a>
+        <div class="after-msg">✓ Thanks — we'll review your symptoms and send a short first-pass diagnosis: likely causes, severity, and the next 3 things to check.</div>
+      </div>
+
+      <div class="stack-16">
+        <div class="card">
+          <h3>Почему отдельная страница, а не общий сайт</h3>
+          <p class="muted" style="margin:0">Человек, который ищет «Klaviyo emails going to spam», должен сразу видеть: «здесь понимают именно мою проблему». Это поднимает конверсию из комьюнити-трафика в заявку.</p>
+        </div>
+        <div class="card">
+          <h3>Что человек получает после формы</h3>
+          <ul style="margin:0;padding-left:18px;color:var(--ink-2)">
+            <li>3–5 вероятных причин;</li>
+            <li>severity score;</li>
+            <li>список первых проверок;</li>
+            <li>рекомендация: чинить самим, делать аудит или запускать recovery.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Альтернативные заголовки</h3>
+          <p class="muted" style="margin:0">«Get a free deliverability triage from Unione specialists» — под более брендовый трафик.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANSWER FORMULA -->
+<section id="answers" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">Как отвечать в комьюнити</div>
+    <h2>Формула экспертного ответа</h2>
+    <p class="lead">Каждый ответ должен быть полезным сам по себе — человек получает ценность даже без перехода на сайт.</p>
+    <div class="mono-block" style="margin-top:24px">
+<span class="c-accent">1.</span> Кратко признать проблему
+<span class="c-accent">2.</span> Назвать возможные причины
+<span class="c-accent">3.</span> Объяснить, что проверить первым
+<span class="c-accent">4.</span> Задать 1–2 уточняющих вопроса
+<span class="c-accent">5.</span> Мягко раскрыть экспертизу
+<span class="c-accent">6.</span> Дать CTA — только если уместен</div>
+
+    <div class="sub" style="margin-top:28px">Шаблон ответа</div>
+    <div class="post">
+      <div class="post-body">
+        This sounds like a mailbox-provider-specific deliverability issue, especially if Gmail is affected more than other inboxes.<br><br>
+        I'd check four things before changing the email content:
+        <ol>
+          <li>Google Postmaster Tools domain reputation</li>
+          <li>Complaint rate and hard bounces</li>
+          <li>Recent sending volume spikes</li>
+          <li>Whether inactive segments were included recently</li>
+        </ol>
+        SPF/DKIM/DMARC passing is important, but it doesn't guarantee inbox placement.<br><br>
+        What ESP are you using, and did the issue start after a domain change, volume increase, or list import?
+        <br><br>
+        <span class="auth">Disclosure: I work with email deliverability cases. If useful, we have a short triage checklist that helps identify the likely root cause.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POST TOPICS -->
+<section id="topics">
+  <div class="wrap">
+    <div class="eyebrow">Готовые темы для постов</div>
+    <h2>О чём писать, чтобы привлекать клиентов с болью доставляемости</h2>
+    <p class="lead">Контент должен быть не общим образовательным, а привязанным к симптомам, которые клиенты реально ищут.</p>
+    <div class="topics" style="margin-top:26px">
+      <div class="topic"><span>SPF, DKIM и DMARC проходят, но письма всё равно попадают в spam. Почему?</span></div>
+      <div class="topic"><span>Что проверить первым, если open rate внезапно упал?</span></div>
+      <div class="topic"><span>Gmail-only deliverability issue: как понять, что проблема именно в Gmail?</span></div>
+      <div class="topic"><span>Почему смена ESP не всегда решает проблему доставляемости?</span></div>
+      <div class="topic"><span>Как отличить проблему контента от проблемы репутации домена?</span></div>
+      <div class="topic"><span>Что делать, если Outlook отправляет письма в junk?</span></div>
+      <div class="topic"><span>Почему нельзя отправлять кампании по старой базе после долгой паузы?</span></div>
+      <div class="topic"><span>Как volume spikes убивают репутацию отправителя?</span></div>
+      <div class="topic"><span>Transactional и marketing emails на одном домене: когда это риск?</span></div>
+      <div class="topic"><span>Чеклист: 10 вещей, которые нужно проверить перед обращением в ESP support.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAMPLE POSTS -->
+<section id="examples" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">Примеры постов</div>
+    <h2>Готовые сообщения, которые можно использовать</h2>
+    <p class="lead">Английские заготовки под англоязычные комьюнити — берите как шаблон и адаптируйте под конкретный тред.</p>
+
+    <div class="grid g2" style="margin-top:28px">
+      <div class="post">
+        <div class="post-bar"><span class="pf li">LinkedIn</span><span class="ph">пост</span></div>
+        <div class="post-body">
+          <strong>SPF, DKIM and DMARC passing doesn't mean your emails will land in inbox</strong>
+          Many teams discover this too late. They check authentication and see SPF: pass, DKIM: pass, DMARC: pass — then ask: "Why are our emails still going to spam?"<br><br>
+          Because authentication is only the entry ticket. Inbox placement also depends on:
+          <ul>
+            <li>domain reputation, complaint rate, bounce rate</li>
+            <li>engagement &amp; sending consistency</li>
+            <li>list quality</li>
+            <li>mailbox provider-specific filtering</li>
+            <li>content and template signals</li>
+          </ul>
+          If your emails suddenly started going to spam, don't start by rewriting subject lines. First find out whether the issue is Gmail-only, Outlook-only, Yahoo-only, or global. That one question changes the entire diagnosis.
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="post-bar"><span class="pf rd">Reddit</span><span class="ph">ответ в треде</span></div>
+        <div class="post-body">
+          If this started suddenly and mostly affects Gmail, I wouldn't start with changing the template. First check:
+          <ol>
+            <li>Google Postmaster Tools domain reputation</li>
+            <li>Spam complaint rate</li>
+            <li>Whether you recently increased sending volume</li>
+            <li>Whether inactive users were included in recent campaigns</li>
+            <li>Whether marketing and transactional emails share the same domain</li>
+          </ol>
+          SPF/DKIM/DMARC passing is necessary, but it doesn't guarantee inbox placement.<br><br>
+          What ESP are you using, and did this start after a migration, list import, or volume increase?
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="post-bar"><span class="pf eg">Email Geeks</span><span class="ph">наблюдение</span></div>
+        <div class="post-body">
+          We've been seeing a recurring pattern in deliverability audits: teams pass SPF/DKIM/DMARC but still lose Gmail placement after sending to inactive segments or increasing volume too quickly.<br><br>
+          Curious if others are seeing the same — are most Gmail drops you're seeing recently driven more by reputation/engagement than authentication misconfiguration?
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="post-bar"><span class="pf td">Teardown</span><span class="ph">anonymized series</span></div>
+        <div class="post-body">
+          I'm collecting anonymized deliverability cases for a teardown series. If your emails recently started going to spam, share:
+          <ul>
+            <li>ESP &amp; sending volume</li>
+            <li>mailbox provider affected</li>
+            <li>whether SPF/DKIM/DMARC pass</li>
+            <li>when the issue started</li>
+            <li>recent migration, list import, or volume spike?</li>
+          </ul>
+          I'll reply with the most likely diagnostic path. No pitch — just practical first-pass analysis.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEYWORDS -->
+<section id="keywords">
+  <div class="wrap">
+    <div class="eyebrow">Что мониторить каждый день</div>
+    <h2>Ключевые поисковые запросы</h2>
+    <p class="lead">Чтобы находить клиентов, нужно не просто присутствовать, а регулярно искать свежие запросы по ключевым словам.</p>
+
+    <div class="sub" style="margin-top:24px">Reddit / Google / LinkedIn keywords</div>
+    <div class="kw">
+      <span>emails going to spam</span><span>email deliverability issue</span><span>Gmail deliverability</span>
+      <span>Outlook emails going to junk</span><span>HubSpot emails going to spam</span><span>Klaviyo deliverability</span>
+      <span>Mailchimp emails going to spam</span><span>SendGrid blocked</span><span>domain reputation dropped</span>
+      <span>Google Postmaster Tools reputation</span><span>SPF DKIM DMARC pass but spam</span><span>open rate dropped suddenly</span>
+      <span>email campaigns not delivered</span><span>Microsoft blocking emails</span><span>dedicated IP warmup issue</span>
+      <span>email blacklist issue</span><span>transactional emails not delivered</span>
+    </div>
+
+    <div class="sub" style="margin-top:26px">Для Google Alerts</div>
+    <div class="mono-block">
+"emails going to spam" "HubSpot"
+"emails going to spam" "Klaviyo"
+"deliverability issue" "Mailchimp"
+"SendGrid" "blocked"
+"Outlook" "emails going to junk"
+"SPF DKIM DMARC" "still going to spam"
+"Google Postmaster Tools" "domain reputation"</div>
+  </div>
+</section>
+
+<!-- PAIN PAGES -->
+<section id="pages" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">Посадочные страницы под боли</div>
+    <h2>Не ведите всех на общий сайт. Делайте страницы под конкретную проблему</h2>
+    <p class="lead">Человек с запросом «Klaviyo emails going to spam» должен попадать не на абстрактную страницу про Unione, а туда, где сразу видно: «здесь понимают именно мою проблему».</p>
+    <div class="pages" style="margin-top:26px">
+      <div class="prow"><span class="url">/gmail-deliverability-audit</span><span class="ph2">Fix Gmail deliverability issues before your campaigns lose revenue</span></div>
+      <div class="prow"><span class="url">/outlook-deliverability-help</span><span class="ph2">Stop your emails from landing in Outlook junk</span></div>
+      <div class="prow"><span class="url">/klaviyo-deliverability-audit</span><span class="ph2">Klaviyo emails going to spam? Get a first-pass diagnosis</span></div>
+      <div class="prow"><span class="url">/hubspot-email-deliverability-audit</span><span class="ph2">Fix HubSpot email deliverability issues with a structured audit</span></div>
+      <div class="prow"><span class="url">/mailchimp-emails-going-to-spam</span><span class="ph2">Find out why your Mailchimp campaigns land in spam</span></div>
+      <div class="prow"><span class="url">/sendgrid-deliverability-issues</span><span class="ph2">Diagnose SendGrid blocks, bounces and inbox placement issues</span></div>
+      <div class="prow"><span class="url">/spf-dkim-dmarc-pass-but-emails-go-to-spam</span><span class="ph2">Authentication passes, but emails still go to spam? Here's what to check next</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNNEL -->
+<section id="funnel">
+  <div class="wrap">
+    <div class="eyebrow">Воронка</div>
+    <h2>Как комьюнити-активность превращается в клиента</h2>
+    <div class="grid g2" style="margin-top:24px;align-items:start">
+      <div class="funnel">
+        <div class="frung">Пост клиента в комьюнити</div>
+        <div class="fconn"></div>
+        <div class="frung">Экспертный комментарий Unione</div>
+        <div class="fconn"></div>
+        <div class="frung">Диалог в комментариях или DM</div>
+        <div class="fconn"></div>
+        <div class="frung peak">Free Deliverability Triage <span class="fmeta">— заполнена форма</span></div>
+        <div class="fconn"></div>
+        <div class="frung">Краткая диагностика</div>
+        <div class="fconn"></div>
+        <div class="frung">Paid Audit</div>
+        <div class="fconn"></div>
+        <div class="frung win">Recovery / Retainer</div>
+      </div>
+      <div class="stack-16">
+        <div class="callout" style="margin-top:0">Главная цель первого ответа — не продать, а вызвать доверие и перевести человека в следующий диагностический шаг.</div>
+        <div class="card">
+          <div class="sub" style="margin-top:0">Конверсионные события</div>
+          <ul style="margin:0;padding-left:18px;color:var(--ink-2)">
+            <li>человек отвечает на комментарий;</li>
+            <li>задаёт уточняющий вопрос;</li>
+            <li>переходит на triage-страницу;</li>
+            <li>заполняет форму;</li>
+            <li>получает короткую диагностику;</li>
+            <li>соглашается на аудит;</li>
+            <li>аудит превращается в recovery-проект.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KPI -->
+<section id="kpi" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">KPI на первые 30 дней</div>
+    <h2>Как понять, что канал работает</h2>
+    <div class="kpi-cols" style="margin-top:26px">
+      <div class="card">
+        <h3>Ежедневно</h3>
+        <ul style="margin:0;padding-left:18px;color:var(--ink-2)">
+          <li>найти 5–10 релевантных обсуждений;</li>
+          <li>оставить 10–15 экспертных комментариев;</li>
+          <li>начать 3–5 диалогов;</li>
+          <li>опубликовать 1 короткий экспертный пост.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Еженедельно</h3>
+        <ul style="margin:0;padding-left:18px;color:var(--ink-2)">
+          <li>1 большой разбор кейса;</li>
+          <li>1 новая SEO-страница под конкретную боль;</li>
+          <li>1 anonymized teardown;</li>
+          <li>5–10 free triage submissions;</li>
+          <li>2–3 sales calls;</li>
+          <li>1 платный аудит.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sub" style="margin-top:24px">Основные метрики</div>
+    <div class="metrics">
+      <span>релевантные посты</span><span>экспертные ответы</span><span>reply rate</span>
+      <span>переходы на triage</span><span>заполненные формы</span><span>triage → audit</span>
+      <span>audit → recovery</span><span>средний чек</span><span>CAC по каналу</span><span>время до заявки</span>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<section id="roles">
+  <div class="wrap">
+    <div class="eyebrow">Роли внутри команды</div>
+    <h2>Кто что делает</h2>
+    <table class="tbl" style="margin-top:24px">
+      <thead><tr><th>Роль</th><th>Ответственность</th></tr></thead>
+      <tbody>
+        <tr><td>Researcher</td><td>Ищет посты, треды, ключевые слова, новые комьюнити</td></tr>
+        <tr><td>Deliverability Expert</td><td>Готовит экспертные ответы и диагностику</td></tr>
+        <tr><td>Community Manager</td><td>Публикует ответы, следит за правилами, ведёт диалоги</td></tr>
+        <tr><td>Sales / Account Manager</td><td>Переводит заинтересованных людей в triage / audit</td></tr>
+        <tr><td>Content Marketer</td><td>Делает посты, кейсы, SEO-страницы</td></tr>
+        <tr><td>Analyst</td><td>Считает KPI и качество лидов</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- RULES -->
+<section id="rules" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">Правила поведения</div>
+    <h2>Value-first правила для специалистов Unione</h2>
+    <div class="rules" style="margin-top:26px">
+      <div class="rule"><div><b>Сначала польза, потом CTA.</b><span>Каждый ответ должен быть полезен сам по себе.</span></div></div>
+      <div class="rule"><div><b>Не спамить ссылками.</b><span>Ссылка допустима, только когда реально помогает.</span></div></div>
+      <div class="rule"><div><b>Всегда раскрывать affiliation.</b><span>Если работаете в Unione — обозначайте это честно.</span></div></div>
+      <div class="rule"><div><b>Не писать холодные DM без контекста.</b><span>Сначала публичная помощь, потом личный диалог.</span></div></div>
+      <div class="rule"><div><b>Не обещать гарантированный inbox placement.</b><span>В deliverability нельзя гарантировать 100%.</span></div></div>
+      <div class="rule"><div><b>Не критиковать ESP без фактов.</b><span>Причина может быть в домене, базе, контенте, поведении.</span></div></div>
+      <div class="rule"><div><b>Не давать диагноз без данных.</b><span>Лучше говорить «похоже на…» и просить вводные.</span></div></div>
+      <div class="rule"><div><b>Сохранять экспертный тон.</b><span>Не спорить, не продавливать, не обесценивать клиента.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONING -->
+<section id="positioning">
+  <div class="wrap">
+    <div class="eyebrow">Позиционирование Unione</div>
+    <h2>Как формулировать ценность</h2>
+    <div class="pos" style="margin-top:24px">
+      <div class="pcard"><small>Вариант 1</small>Unione помогает бизнесам восстановить доставляемость, когда email-канал начинает терять выручку.</div>
+      <div class="pcard"><small>Вариант 2</small>Мы диагностируем и исправляем проблемы, из-за которых письма попадают в spam, junk или блокируются mailbox providers.</div>
+      <div class="pcard"><small>Вариант 3</small>Deliverability recovery для SaaS, ecommerce и digital-бизнесов, которые зависят от email-рассылок.</div>
+      <div class="pcard"><small>Вариант 4</small>От первичной диагностики до восстановления репутации домена и стабильного inbox placement.</div>
+    </div>
+    <div class="callout" style="margin-top:24px">Если email — важный канал продаж, retention или коммуникации, проблемы доставляемости нельзя решать наугад. Их нужно диагностировать системно.</div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section style="border-top:none">
+  <div class="wrap">
+    <div class="final">
+      <div class="eyebrow" style="color:#a5b4fc;justify-content:center">Финальный шаг</div>
+      <h2>Начните с одного канала и одной диагностической формы</h2>
+      <p>Не нужно сразу строить сложную систему. Первый шаг — выбрать 2–3 канала, начать ежедневно отвечать на реальные вопросы и вести людей на простую форму первичной диагностики.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#triage">Запустить Free Deliverability Triage</a>
+        <a class="btn btn-ghost" href="#keywords">Список каналов и ключевых слов</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Deliverability Growth Playbook · для специалистов Unione</span>
+    <span><a href="https://msolo.me">msolo.me</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
