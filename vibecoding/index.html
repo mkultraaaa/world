@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Coding — 2.5 месяца на Claude Code · Max</title>
+<meta name="description" content="7.63 миллиарда токенов, 26 062 команды, 24 млн слов кода за 2.5 месяца на Claude Code. Реальная статистика vibe-coding.">
+<meta property="og:title" content="2.5 месяца vibe-coding на Claude Code">
+<meta property="og:description" content="7.63B токенов · 26K bash-команд · 24 млн слов сгенерировано · ~$16.7K по API-тарифам — сделано на подписке.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#000000">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --red:#FF4D4D;
+  --bg:#000;
+  --surface:#0e0e0e;
+  --surface2:#161616;
+  --line:#262626;
+  --white:#fff;
+  --gray:#8a8a8a;
+  --gray-dark:#555;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.mono{font-family:'JetBrains Mono',monospace}
+.bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:1px}
+em{color:var(--red);font-style:normal}
+
+/* ---------- HERO ---------- */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 0 60px;position:relative;border-bottom:1px solid var(--line)}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:28px}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,13vw,176px);line-height:.86;letter-spacing:2px;margin-bottom:10px}
+.hero .sub{font-size:clamp(16px,2.4vw,22px);color:var(--gray);max-width:620px;margin-top:24px}
+.hero .sub b{color:var(--white);font-weight:700}
+
+.bignum{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin-top:48px}
+.bignum .n{font-family:'Bebas Neue',sans-serif;font-size:clamp(90px,20vw,260px);line-height:.8;color:var(--red);letter-spacing:-2px}
+.bignum .cap{font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--gray);max-width:200px}
+.scrollhint{position:absolute;bottom:28px;left:28px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.2em;color:var(--gray-dark);text-transform:uppercase}
+
+/* ---------- SECTIONS ---------- */
+section{padding:88px 0;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:18px}
+h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,6vw,68px);line-height:.96;letter-spacing:1px;margin-bottom:14px}
+.lead{font-size:18px;color:var(--gray);max-width:680px}
+
+/* ---------- STAT GRID ---------- */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
+.cell{background:var(--bg);padding:36px 28px;display:flex;flex-direction:column;justify-content:flex-end;min-height:190px;transition:background .2s}
+.cell:hover{background:var(--surface)}
+.cell.accent{background:var(--red)}
+.cell.accent .n,.cell.accent .l,.cell.accent .s{color:#000}
+.cell.accent .l{opacity:.65}
+.cell .n{font-family:'Bebas Neue',sans-serif;font-size:clamp(54px,7vw,84px);line-height:.85;letter-spacing:0;color:var(--white)}
+.cell .n em{color:var(--red)}
+.cell .l{font-size:14px;color:var(--gray);margin-top:14px;font-weight:500}
+.cell .s{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gray-dark);margin-top:6px}
+
+/* ---------- COST CALLOUT ---------- */
+.cost{display:flex;flex-wrap:wrap;align-items:center;gap:40px;margin-top:36px}
+.cost .price{font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,15vw,180px);line-height:.82;color:var(--red);letter-spacing:-1px}
+.cost .price s{color:var(--gray-dark);text-decoration:none;font-size:.5em;display:block;letter-spacing:0}
+.cost .txt{max-width:380px;font-size:18px;color:var(--gray)}
+.cost .txt b{color:var(--white)}
+.breakdown{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px;max-width:680px}
+.breakdown .row{background:var(--bg);padding:20px 24px;display:flex;justify-content:space-between;align-items:baseline}
+.breakdown .row .k{font-size:14px;color:var(--gray)}
+.breakdown .row .v{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--white);font-weight:700}
+
+/* ---------- WORDS ---------- */
+.words{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px}
+.words .huge{font-family:'Bebas Neue',sans-serif;font-size:clamp(70px,12vw,150px);line-height:.82;color:var(--white);letter-spacing:-1px}
+.books{display:flex;gap:3px;flex-wrap:wrap;margin-top:32px;max-width:760px}
+.books .b{width:14px;height:22px;background:var(--surface2);border-top:3px solid var(--red)}
+
+/* ---------- BAR CHARTS ---------- */
+.bars{margin-top:40px;display:flex;flex-direction:column;gap:14px}
+.bar{display:flex;align-items:center;gap:18px}
+.bar .lab{width:130px;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gray);text-align:right}
+.bar .track{flex:1;height:34px;background:var(--surface);position:relative;overflow:hidden}
+.bar .fill{height:100%;background:var(--red);display:flex;align-items:center;justify-content:flex-end;padding-right:12px;min-width:fit-content}
+.bar .fill.dim{background:var(--surface2);border-right:3px solid var(--red)}
+.bar .val{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#000;letter-spacing:.5px;white-space:nowrap}
+.bar .fill.dim .val{color:var(--white)}
+
+/* ---------- TOOLS ---------- */
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
+.tool{background:var(--bg);padding:28px 22px}
+.tool .n{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,5vw,58px);color:var(--white);line-height:.9}
+.tool .l{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gray);margin-top:8px;letter-spacing:.05em}
+
+/* ---------- TEAM ---------- */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
+.member{background:var(--bg);padding:38px 30px;display:flex;flex-direction:column;min-height:300px}
+.member .role{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.member .name{font-family:'Bebas Neue',sans-serif;font-size:46px;line-height:.92;letter-spacing:1px;margin-bottom:16px}
+.member .desc{font-size:16px;color:var(--gray);line-height:1.55;flex:1}
+.member .tag{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gray-dark);margin-top:18px;letter-spacing:.05em}
+.member.hl{background:var(--surface)}
+.team-foot{margin-top:1px;background:var(--bg);border:1px solid var(--line);border-top:none;padding:24px 30px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gray);letter-spacing:.04em;line-height:1.8}
+.team-foot em{color:var(--red)}
+
+/* ---------- PORTFOLIO ---------- */
+.portfolio{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
+.proj{background:var(--bg);padding:30px 28px;transition:background .2s}
+.proj:hover{background:var(--surface)}
+.proj .h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
+.proj .pname{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:.5px;line-height:1}
+.proj .ptype{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);white-space:nowrap}
+.proj .pdesc{font-size:15px;color:var(--gray);line-height:1.5}
+
+/* ---------- FOOTER ---------- */
+footer{padding:80px 0 100px}
+footer h2{margin-bottom:22px}
+footer .meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gray-dark);letter-spacing:.05em;line-height:1.9}
+footer .meta a{color:var(--red);text-decoration:none}
+footer .badge{display:inline-block;margin-top:28px;border:1px solid var(--line);padding:14px 22px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gray);letter-spacing:.1em}
+footer .badge em{color:var(--red)}
+
+@media(max-width:860px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .tools{grid-template-columns:repeat(2,1fr)}
+  .team{grid-template-columns:1fr}
+  .member{min-height:auto}
+}
+@media(max-width:560px){
+  .grid{grid-template-columns:1fr}
+  .cell{min-height:150px;padding:28px 22px}
+  .bar .lab{width:90px;font-size:11px}
+  .cost{gap:20px}
+  .portfolio{grid-template-columns:1fr}
+  section{padding:64px 0}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">13 марта → 27 мая 2026 · 2.5 месяца · Claude Code</div>
+    <h1>VIBE<br>CODING<br><em>BY THE NUMBERS</em></h1>
+    <div class="bignum">
+      <span class="n">7.63<span style="font-size:.45em">B</span></span>
+      <span class="cap">токенов прошло через модель</span>
+    </div>
+    <p class="sub">Не «попробовал AI», а <b>прожил с ним 34 дня кодинга</b>: 61 сессия, 15 проектов, 26 тысяч команд в терминале. Вот как выглядит реальная работа в паре с Claude.</p>
+  </div>
+  <div class="scrollhint">↓ scroll</div>
+</header>
+
+<!-- STAT GRID -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// сводка</div>
+    <h2>Что произошло за 75 дней</h2>
+    <p class="lead">Данные собраны прямо из логов сессий Claude Code — основной инстанс плюс армия сабагентов, работавших параллельно.</p>
+    <div class="grid">
+      <div class="cell accent">
+        <div class="n">7.63B</div>
+        <div class="l">токенов всего</div>
+        <div class="s">~224M в активный день</div>
+      </div>
+      <div class="cell">
+        <div class="n"><em>31.6</em>M</div>
+        <div class="l">сгенерировано моделью</div>
+        <div class="s">output-токены = чистое «письмо»</div>
+      </div>
+      <div class="cell">
+        <div class="n"><em>26</em>K</div>
+        <div class="l">bash-команд выполнено</div>
+        <div class="s">26 062 запуска в терминале</div>
+      </div>
+      <div class="cell">
+        <div class="n"><em>61.7</em>K</div>
+        <div class="l">вызовов инструментов</div>
+        <div class="s">tool calls всего</div>
+      </div>
+      <div class="cell">
+        <div class="n"><em>807</em></div>
+        <div class="l">файлов создано / изменено</div>
+        <div class="s">556 написано · 251 отредактировано</div>
+      </div>
+      <div class="cell">
+        <div class="n"><em>61</em></div>
+        <div class="l">сессий в 15 проектах</div>
+        <div class="s">34 дня с активностью</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="wrap">
+    <div class="eyebrow">// как это тянет один человек</div>
+    <h2>Не один Claude.<br>Целая <em>AI-команда</em>.</h2>
+    <p class="lead">Один человек собрал себе не ассистента, а операционную структуру из агентов — со своими ролями, общей памятью и взаимным ревью.</p>
+    <div class="team">
+      <div class="member">
+        <div class="role">CEO · оркестратор</div>
+        <div class="name">ТОНИ</div>
+        <div class="desc">Живёт в Telegram. Держит приоритеты, статусы и стратегию, раздаёт задачи и сводит результаты. Голова команды.</div>
+        <div class="tag">// telegram-gateway</div>
+      </div>
+      <div class="member hl">
+        <div class="role">COO · инженер</div>
+        <div class="name">CLAUDE CODE</div>
+        <div class="desc">Пишет код, деплоит, подключает API и рекламные кабинеты, ресёрчит рынки. Руки, которые доводят всё до прода.</div>
+        <div class="tag">// 7.63B токенов · 26K команд</div>
+      </div>
+      <div class="member">
+        <div class="role">по запросу</div>
+        <div class="name">САБАГЕНТЫ</div>
+        <div class="desc">Десятки параллельных агентов на тяжёлые задачи: поиск, ревью, рефакторинг. Только на них ушло 1.46 миллиарда токенов.</div>
+        <div class="tag">// fan-out по требованию</div>
+      </div>
+    </div>
+    <div class="team-foot">
+      <em>40+</em> собственных скиллов&nbsp;&nbsp;·&nbsp;&nbsp;общая долгосрочная память&nbsp;&nbsp;·&nbsp;&nbsp;кросс-ревью между агентами&nbsp;&nbsp;·&nbsp;&nbsp;авто-синхронизация и бэкапы между машинами
+    </div>
+  </div>
+</section>
+
+<!-- COST -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// если бы платил по API-тарифу</div>
+    <h2>Наработано на <em>$16.7K</em></h2>
+    <div class="cost">
+      <div class="price">$16.7K<s>сделано на подписке</s></div>
+      <div class="txt">Те же 7.63 миллиарда токенов по pay-as-you-go тарифам Opus стоили бы <b>почти семнадцать тысяч долларов</b>. Подписка окупилась десятки раз.</div>
+    </div>
+    <div class="breakdown">
+      <div class="row"><span class="k">Cache read — 7.43B токенов</span><span class="v">$11.1K</span></div>
+      <div class="row"><span class="k">Cache write — 172M токенов</span><span class="v">$3.2K</span></div>
+      <div class="row"><span class="k">Output — 31.6M токенов</span><span class="v">$2.4K</span></div>
+      <div class="row"><span class="k">Input — 1.3M токенов</span><span class="v">$20</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORDS -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// объём сгенерированного</div>
+    <h2>31.6M токенов на выходе — это…</h2>
+    <div class="words" style="margin-top:36px">
+      <span class="huge">~24M слов</span>
+    </div>
+    <p class="lead" style="margin-top:20px">Столько кода, текста и решений написала модель. Для масштаба — это примерно <b style="color:#fff">300 полноценных книг</b> по 80 тысяч слов каждая. Каждый прямоугольник ниже = одна книга.</p>
+    <div class="books" id="books"></div>
+  </div>
+</section>
+
+<!-- BUSIEST DAYS -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// самые жаркие дни</div>
+    <h2>Когда было жарко</h2>
+    <p class="lead">Топ дней по объёму токенов. 7 мая — спринт почти на миллиард токенов за сутки.</p>
+    <div class="bars">
+      <div class="bar"><span class="lab">7 мая</span><div class="track"><div class="fill" style="width:100%"><span class="val">990M</span></div></div></div>
+      <div class="bar"><span class="lab">8 мая</span><div class="track"><div class="fill" style="width:93%"><span class="val">925M</span></div></div></div>
+      <div class="bar"><span class="lab">13 мая</span><div class="track"><div class="fill" style="width:64%"><span class="val">638M</span></div></div></div>
+      <div class="bar"><span class="lab">5 мая</span><div class="track"><div class="fill" style="width:56%"><span class="val">554M</span></div></div></div>
+      <div class="bar"><span class="lab">9 мая</span><div class="track"><div class="fill" style="width:48%"><span class="val">471M</span></div></div></div>
+      <div class="bar"><span class="lab">21 мая</span><div class="track"><div class="fill" style="width:37%"><span class="val">366M</span></div></div></div>
+      <div class="bar"><span class="lab">12 мая</span><div class="track"><div class="fill" style="width:32%"><span class="val">315M</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TOP PROJECTS -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// на что ушли токены</div>
+    <h2>Распределение нагрузки</h2>
+    <p class="lead">Топ направлений по объёму токенов. Каждое — отдельный продукт или поток задач.</p>
+    <div class="bars">
+      <div class="bar"><span class="lab">Telegram-бот</span><div class="track"><div class="fill" style="width:100%"><span class="val">2.25B</span></div></div></div>
+      <div class="bar"><span class="lab">Операционка</span><div class="track"><div class="fill" style="width:89%"><span class="val">2.0B</span></div></div></div>
+      <div class="bar"><span class="lab">Сабагенты</span><div class="track"><div class="fill" style="width:65%"><span class="val">1.46B</span></div></div></div>
+      <div class="bar"><span class="lab">AI-платформа</span><div class="track"><div class="fill" style="width:39%"><span class="val">868M</span></div></div></div>
+      <div class="bar"><span class="lab">Клиент · A</span><div class="track"><div class="fill" style="width:22%"><span class="val">497M</span></div></div></div>
+      <div class="bar"><span class="lab">Клиент · B</span><div class="track"><div class="fill" style="width:10%"><span class="val">233M</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RHYTHM -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// когда работаю</div>
+    <h2>Вечерний кодер</h2>
+    <p class="lead">Сообщений по часам суток. Пик — 17:00–18:00. Утренний всплеск 9–11 тоже плотный.</p>
+    <div class="bars">
+      <div class="bar"><span class="lab">18:00</span><div class="track"><div class="fill" style="width:100%"><span class="val">18.1K</span></div></div></div>
+      <div class="bar"><span class="lab">17:00</span><div class="track"><div class="fill" style="width:99%"><span class="val">17.8K</span></div></div></div>
+      <div class="bar"><span class="lab">11:00</span><div class="track"><div class="fill" style="width:81%"><span class="val">14.7K</span></div></div></div>
+      <div class="bar"><span class="lab">16:00</span><div class="track"><div class="fill" style="width:78%"><span class="val">14.2K</span></div></div></div>
+      <div class="bar"><span class="lab">09:00</span><div class="track"><div class="fill" style="width:76%"><span class="val">13.7K</span></div></div></div>
+      <div class="bar"><span class="lab">10:00</span><div class="track"><div class="fill" style="width:75%"><span class="val">13.6K</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// арсенал</div>
+    <h2>Чем работал</h2>
+    <p class="lead">Распределение вызовов инструментов. 99.9% всей генерации — на Opus 4.7, без экономии на мозгах.</p>
+    <div class="tools">
+      <div class="tool"><div class="n">28.7K</div><div class="l">Skill</div></div>
+      <div class="tool"><div class="n">26K</div><div class="l">Bash</div></div>
+      <div class="tool"><div class="n">2 049</div><div class="l">Edit</div></div>
+      <div class="tool"><div class="n">1 727</div><div class="l">Read</div></div>
+      <div class="tool"><div class="n">627</div><div class="l">Write</div></div>
+      <div class="tool"><div class="n">464</div><div class="l">WebSearch</div></div>
+      <div class="tool"><div class="n">895</div><div class="l">TaskUpdate</div></div>
+      <div class="tool"><div class="n">112.7K</div><div class="l">сообщений Claude</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="eyebrow">// итог</div>
+    <h2>Это не демо. Это <em>рабочий инструмент</em>.</h2>
+    <p class="lead" style="margin-bottom:30px">2.5 месяца, 15 проектов, миллиарды токенов — Claude Code как второй разработчик, который не спит, не устаёт и помнит всё.</p>
+    <div class="meta">
+      Период: 13 марта — 27 мая 2026 · 75 дней<br>
+      Источник: логи сессий Claude Code (~/.claude/projects)<br>
+      <a href="https://msolo.me">msolo.me</a> · собрано Claude Code
+    </div>
+    <div class="badge">🤖 powered by <em>Claude Opus 4.7</em></div>
+  </div>
+</footer>
+
+<script>
+// 300 book bars
+const books = document.getElementById('books');
+for (let i=0;i<300;i++){const b=document.createElement('div');b.className='b';books.appendChild(b);}
+</script>
+</body>
+</html>
