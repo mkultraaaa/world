@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>msolo.studio — встраиваем ИИ в бизнес-процессы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --bg-2:#111;
+    --fg:#f5f5f0;
+    --muted:#8a8a82;
+    --line:#1f1f1f;
+    --accent:#d8ff3a;   /* кислотный жёлто-зелёный */
+    --accent-2:#ff5b1f; /* оранжевый */
+    --card:#121212;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+  body{overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:'JetBrains Mono',monospace;letter-spacing:-.01em}
+  .container{max-width:1280px;margin:0 auto;padding:0 32px}
+
+  /* ===== NAV ===== */
+  nav{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-row{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-weight:900;font-size:18px;letter-spacing:-.02em}
+  .logo .dot{color:var(--accent)}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
+  .nav-links a:hover{color:var(--fg)}
+  .nav-cta{padding:10px 18px;background:var(--accent);color:#000;font-weight:700;font-size:14px;border-radius:0;border:1px solid var(--accent);transition:.15s}
+  .nav-cta:hover{background:transparent;color:var(--accent)}
+
+  /* ===== HERO ===== */
+  .hero{padding:140px 0 100px;position:relative;border-bottom:1px solid var(--line);overflow:hidden;text-align:center}
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 50%,rgba(216,255,58,.10),transparent 70%),
+      radial-gradient(ellipse 40% 30% at 30% 80%,rgba(255,91,31,.06),transparent 70%);
+    pointer-events:none;
+  }
+  .hero::after{
+    content:'';position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:80px 80px;
+    mask-image:radial-gradient(ellipse at center,rgba(0,0,0,.4),transparent 60%);
+    opacity:.35;pointer-events:none;
+  }
+  .hero-inner{position:relative;max-width:1000px;margin:0 auto}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--accent);font-family:'JetBrains Mono',monospace;margin-bottom:32px;justify-content:center;letter-spacing:.05em}
+  .eyebrow::before,.eyebrow::after{content:'';width:24px;height:1px;background:var(--accent)}
+  h1.hero-title{font-size:clamp(44px,7vw,96px);font-weight:900;line-height:.95;letter-spacing:-.035em;margin:0 0 32px;max-width:980px;margin-left:auto;margin-right:auto}
+  h1 .hl{color:var(--accent)}
+  h1 .underline{position:relative;display:inline-block}
+  h1 .underline::after{content:'';position:absolute;left:0;right:0;bottom:8px;height:16px;background:var(--accent-2);z-index:-1;opacity:.55}
+  .hero-sub{font-size:20px;color:var(--muted);line-height:1.55;max-width:760px;margin:0 auto 28px}
+  .hero-anti{display:inline-block;color:var(--accent);font-weight:600;border-bottom:1px solid var(--accent);padding-bottom:1px}
+  .hero-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 auto 44px;max-width:780px}
+  .hero-chips span{padding:6px 14px;border:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--fg);background:var(--card);letter-spacing:.02em}
+  .hero-chips span:nth-child(2n){border-color:var(--accent);color:var(--accent)}
+  .hero-cta{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:64px}
+  .btn-primary{padding:20px 36px;background:var(--accent);color:#000;font-weight:700;border:1px solid var(--accent);font-size:15px;transition:.15s;display:inline-flex;align-items:center;gap:10px}
+  .btn-primary:hover{background:transparent;color:var(--accent)}
+  .btn-ghost{padding:20px 36px;background:transparent;color:var(--fg);font-weight:600;border:1px solid var(--line);font-size:15px;transition:.15s}
+  .btn-ghost:hover{border-color:var(--fg)}
+  .hero-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);max-width:1100px;margin:0 auto}
+  .hs{padding:24px 16px;border-right:1px solid var(--line);text-align:center;display:flex;flex-direction:column;gap:6px}
+  .hs:last-child{border-right:none}
+  .hs .hsv{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--accent);font-size:16px}
+  .hs .hsl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .ticker{position:relative;margin-top:0;padding:20px 0;border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap}
+  .ticker-track{display:inline-block;animation:scroll 40s linear infinite;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--muted)}
+  .ticker-track span{margin-right:48px}
+  .ticker-track .acc{color:var(--accent)}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ===== SECTIONS ===== */
+  section{padding:100px 0;border-bottom:1px solid var(--line);position:relative}
+  .sec-head{display:grid;grid-template-columns:200px 1fr;gap:60px;margin-bottom:60px}
+  .sec-num{font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:13px}
+  .sec-title{font-size:clamp(32px,4vw,52px);font-weight:900;line-height:1;letter-spacing:-.02em;margin:0}
+  .sec-sub{margin-top:20px;color:var(--muted);font-size:18px;max-width:640px;line-height:1.5}
+
+  /* ===== PROBLEM ===== */
+  .problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .problem-card{border:1px solid var(--line);padding:32px;background:var(--card);position:relative;transition:.2s}
+  .problem-card:hover{border-color:var(--accent)}
+  .problem-card .ico{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent-2);margin-bottom:20px}
+  .problem-card h3{font-size:22px;margin:0 0 12px;font-weight:700;line-height:1.2}
+  .problem-card p{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
+
+  /* ===== FOUNDER / ABOUT ===== */
+  .track-h{display:grid;grid-template-columns:280px 1fr;gap:40px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+  .track-h-tag{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:.06em;padding-top:4px}
+  .track-h-text{color:var(--muted);font-size:16px;line-height:1.5;max-width:720px}
+  .track-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);margin-bottom:48px}
+  .tg-card{padding:32px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--card);transition:.2s}
+  .tg-card:nth-child(3n){border-right:none}
+  .tg-card:nth-last-child(-n+3){border-bottom:none}
+  .tg-card:hover{background:#0f0f0f;border-color:var(--accent)}
+  .tg-role{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.12em;margin-bottom:14px;display:inline-block;padding:4px 10px;background:rgba(216,255,58,.08);border:1px solid rgba(216,255,58,.25)}
+  .tg-name{font-size:24px;font-weight:900;letter-spacing:-.01em;margin-bottom:10px}
+  .tg-desc{color:var(--muted);font-size:13px;line-height:1.5}
+  .founder-skills{padding:0}
+  .fs-h{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:20px;padding-left:24px;position:relative}
+  .fs-h::before{content:'';position:absolute;left:0;top:50%;width:14px;height:1px;background:var(--accent)}
+  .fs-skills-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line)}
+  .fs-block{padding:28px 24px;border-right:1px solid var(--line);background:var(--card);position:relative}
+  .fs-block:last-child{border-right:none}
+  .fs-icon{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);font-weight:700;margin-bottom:14px}
+  .fs-block strong{display:block;font-size:15px;margin-bottom:8px;font-weight:700}
+  .fs-block span{display:block;color:var(--muted);font-size:13px;line-height:1.5}
+  .fs-block.fs-acc{background:linear-gradient(180deg,rgba(216,255,58,.06),transparent)}
+  .fs-block.fs-acc strong{color:var(--accent)}
+
+  /* ===== SERVICE HERO (AI-NATIVE) ===== */
+  .svc-hero{display:grid;grid-template-columns:1.5fr 1fr;gap:0;border:1px solid var(--accent);margin-bottom:32px;background:linear-gradient(135deg,rgba(216,255,58,.04),transparent 60%)}
+  .svc-hero-left{padding:48px;border-right:1px solid var(--line)}
+  .svc-hero-tag{display:inline-block;padding:6px 12px;background:var(--accent);color:#000;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;margin-bottom:24px;letter-spacing:.08em}
+  .svc-hero-left h3{margin:0 0 16px;font-size:34px;font-weight:900;line-height:1.1;letter-spacing:-.02em}
+  .svc-hero-left > p{color:var(--muted);font-size:16px;line-height:1.55;margin:0 0 32px;max-width:600px}
+  .svc-hero-bullets{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:36px}
+  .hb{display:flex;gap:14px}
+  .hb .hbn{font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;flex-shrink:0;font-size:13px;padding-top:2px}
+  .hb strong{display:block;font-size:15px;font-weight:700;margin-bottom:4px}
+  .hb span{display:block;color:var(--muted);font-size:13px;line-height:1.45}
+  .svc-hero-right{padding:48px;background:#000;display:flex;flex-direction:column;justify-content:center}
+  .manifesto .m-line{font-size:24px;font-weight:800;line-height:1.2;letter-spacing:-.01em}
+  .manifesto .m-acc{color:var(--accent);font-size:30px;margin-bottom:32px}
+  .m-divider{height:1px;background:var(--line);margin:24px 0}
+  .m-stat{padding:14px 0;border-top:1px dashed var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+  .m-stat:first-of-type{border-top:none;padding-top:0}
+  .m-stat .ms-v{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--accent);font-size:18px;flex-shrink:0}
+  .m-stat .ms-l{font-size:12px;color:var(--muted);text-align:right;line-height:1.4}
+
+  /* ===== SERVICES ===== */
+  .services{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--line)}
+  .svc{padding:40px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);transition:.2s;cursor:default;position:relative}
+  .svc:nth-child(2n){border-right:none}
+  .svc:nth-last-child(-n+2){border-bottom:none}
+  .svc:hover{background:var(--card)}
+  .svc .num{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:24px}
+  .svc h3{margin:0 0 12px;font-size:26px;font-weight:800;letter-spacing:-.01em}
+  .svc p{margin:0 0 20px;color:var(--muted);line-height:1.5;font-size:15px}
+  .svc ul{margin:0;padding:0;list-style:none;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--fg)}
+  .svc ul li{padding:6px 0;border-top:1px dashed var(--line)}
+  .svc ul li::before{content:'→ ';color:var(--accent)}
+
+  /* ===== FEATURED CASE ===== */
+  .case-featured{border:1px solid var(--accent);background:linear-gradient(180deg,rgba(216,255,58,.04),transparent 60%);margin-bottom:32px;overflow:hidden}
+  .cf-head{padding:36px 40px 24px;border-bottom:1px solid var(--line)}
+  .cf-tags{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:20px}
+  .cf-stack{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.04em}
+  .cf-head h3{margin:0 0 8px;font-size:30px;font-weight:900;letter-spacing:-.015em;line-height:1.15}
+  .cf-meta{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:.02em}
+  .cf-body{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-bottom:1px solid var(--line)}
+  .cf-col{padding:32px;border-right:1px solid var(--line)}
+  .cf-col:last-child{border-right:none}
+  .cf-col-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;margin-bottom:18px;padding:4px 10px;display:inline-block;border:1px solid var(--line)}
+  .cf-was .cf-col-tag{color:#ff7a4a;border-color:rgba(255,91,31,.3);background:rgba(255,91,31,.06)}
+  .cf-did .cf-col-tag{color:var(--muted);border-color:var(--line)}
+  .cf-now .cf-col-tag{color:var(--accent);border-color:rgba(216,255,58,.3);background:rgba(216,255,58,.06)}
+  .cf-col ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px}
+  .cf-col li{font-size:14px;line-height:1.5;color:var(--fg);padding-left:18px;position:relative}
+  .cf-col li::before{content:'→';position:absolute;left:0;top:0;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:13px}
+  .cf-col li strong{color:var(--accent);font-weight:700}
+  .cf-was li::before{color:#ff7a4a}
+  .cf-did li::before{color:var(--muted)}
+  .cf-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-bottom:1px solid var(--line);background:#000}
+  .cfm{padding:28px 24px;border-right:1px solid var(--line);text-align:center}
+  .cfm:last-child{border-right:none}
+  .cfm-v{font-family:'JetBrains Mono',monospace;font-size:32px;font-weight:900;color:var(--accent);line-height:1;letter-spacing:-.02em;margin-bottom:8px}
+  .cfm-l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;line-height:1.4}
+  .cf-lesson{padding:24px 40px;display:flex;align-items:flex-start;gap:24px;background:var(--card)}
+  .cf-lesson-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent-2);letter-spacing:.1em;flex-shrink:0;padding-top:2px;min-width:170px}
+  .cf-lesson p{margin:0;color:var(--muted);font-size:14px;line-height:1.55;font-style:italic}
+  .cf-lesson strong{color:var(--fg);font-style:normal;font-weight:600}
+
+  /* ===== CASES ===== */
+  .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .case{border:1px solid var(--line);background:var(--card);padding:32px;transition:.2s;display:flex;flex-direction:column;min-height:360px}
+  .case:hover{border-color:var(--accent);transform:translateY(-4px)}
+  .case-tag{display:inline-block;padding:4px 10px;background:var(--accent);color:#000;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;margin-bottom:20px;width:fit-content;text-transform:uppercase;letter-spacing:.05em}
+  .case-tag.alt{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  .case-tag.alt2{background:var(--accent-2);color:#000}
+  .case h3{margin:0 0 8px;font-size:24px;font-weight:800;letter-spacing:-.01em}
+  .case .who{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:16px}
+  .case p{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 20px}
+  .case-metrics{margin-top:auto;display:flex;gap:16px;padding-top:20px;border-top:1px solid var(--line)}
+  .case-metric{flex:1}
+  .case-metric .v{font-size:22px;font-weight:800;color:var(--accent);font-family:'JetBrains Mono',monospace}
+  .case-metric .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+
+  /* ===== PROCESS ===== */
+  .process{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+  .step{padding:40px 32px;border-right:1px solid var(--line);position:relative}
+  .step:last-child{border-right:none}
+  .step .stepnum{font-family:'JetBrains Mono',monospace;font-size:64px;font-weight:900;color:var(--accent);line-height:1;margin-bottom:20px}
+  .step h4{margin:0 0 8px;font-size:18px;font-weight:700}
+  .step p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+  .step .time{margin-top:16px;padding:4px 8px;display:inline-block;background:#000;border:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+
+  /* ===== STACK ===== */
+  .stack-wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+  .stack-cat{margin-bottom:32px}
+  .stack-cat h4{margin:0 0 16px;font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em}
+  .stack-tags{display:flex;flex-wrap:wrap;gap:8px}
+  .tag{padding:8px 14px;border:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--card)}
+  .tag.acc{border-color:var(--accent);color:var(--accent)}
+  .principles{border:1px solid var(--line);padding:32px;background:var(--card)}
+  .principles h3{margin:0 0 24px;font-size:20px;font-weight:800}
+  .principle{padding:16px 0;border-top:1px solid var(--line);display:flex;gap:16px}
+  .principle:first-of-type{border-top:none;padding-top:0}
+  .principle .n{font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;flex-shrink:0}
+  .principle .b{font-size:14px;line-height:1.5}
+  .principle .b strong{display:block;margin-bottom:4px;color:var(--fg);font-size:15px}
+  .principle .b span{color:var(--muted)}
+
+  /* ===== PRINCIPLES ===== */
+  .pr-list{display:flex;flex-direction:column;border:1px solid var(--line)}
+  .pr-row{display:grid;grid-template-columns:120px 1fr;gap:32px;padding:36px 40px;border-top:1px solid var(--line);background:var(--card);transition:.2s;align-items:start}
+  .pr-row:first-child{border-top:none}
+  .pr-row:hover{background:#0f0f0f}
+  .pr-row:hover .pr-n{color:var(--accent)}
+  .pr-n{font-family:'JetBrains Mono',monospace;font-size:48px;font-weight:900;color:var(--muted);line-height:1;letter-spacing:-.02em;transition:.2s}
+  .pr-body h3{margin:0 0 10px;font-size:24px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+  .pr-body p{margin:0;color:var(--muted);font-size:15px;line-height:1.55;max-width:780px}
+
+  /* ===== LOW-TICKET CTA ===== */
+  .low-ticket{padding:80px 0;border-bottom:1px solid var(--line);background:#000;position:relative;overflow:hidden}
+  .low-ticket::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+  .lt-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center}
+  .lt-tag{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);margin-bottom:16px;letter-spacing:.1em}
+  .lt-left h2{font-size:clamp(32px,4.5vw,52px);font-weight:900;line-height:1;letter-spacing:-.02em;margin:0 0 20px}
+  .lt-left h2 .hl{color:var(--accent)}
+  .lt-left > p{color:var(--muted);font-size:16px;line-height:1.55;margin:0 0 28px;max-width:540px}
+  .lt-right{border:1px solid var(--line);background:var(--card);padding:32px}
+  .lt-step{display:flex;gap:16px;padding:16px 0;border-top:1px dashed var(--line)}
+  .lt-step:first-of-type{border-top:none;padding-top:0}
+  .lt-step .lt-n{font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;flex-shrink:0;font-size:14px;padding-top:2px}
+  .lt-step strong{display:block;font-size:15px;margin-bottom:2px}
+  .lt-step span{display:block;color:var(--muted);font-size:13px;line-height:1.4}
+
+  /* ===== CTA BLOCK ===== */
+  .cta-block{padding:120px 0;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+  .cta-block::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 50% 50%,rgba(216,255,58,.08),transparent 60%);
+    pointer-events:none;
+  }
+  .cta-inner{text-align:center;position:relative;max-width:800px;margin:0 auto}
+  .cta-pre{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:.15em;margin-bottom:24px}
+  .cta-inner h2{font-size:clamp(40px,6vw,80px);font-weight:900;line-height:.95;letter-spacing:-.03em;margin:0 0 28px}
+  .cta-inner h2 .hl{color:var(--accent);position:relative;display:inline-block}
+  .cta-inner h2 .hl::after{content:'';position:absolute;left:0;right:0;bottom:6px;height:14px;background:var(--accent-2);z-index:-1;opacity:.5}
+  .cta-lead{color:var(--fg);font-size:20px;margin:0 0 16px;line-height:1.45;font-weight:500;max-width:680px;margin-left:auto;margin-right:auto}
+  .cta-sub{color:var(--muted);font-size:16px;margin:0 0 40px;line-height:1.55;max-width:600px;margin-left:auto;margin-right:auto}
+  .cta-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .btn-big{padding:24px 40px;font-size:17px;font-weight:700;display:inline-flex;align-items:center;gap:12px;transition:.15s}
+  .btn-tg{background:var(--accent);color:#000;border:1px solid var(--accent)}
+  .btn-tg:hover{background:transparent;color:var(--accent)}
+  .btn-email{background:transparent;color:var(--fg);border:1px solid var(--line)}
+  .btn-email:hover{border-color:var(--fg)}
+
+  /* ===== FOOTER ===== */
+  footer{padding:60px 0 40px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted)}
+  .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .foot-links{display:flex;gap:24px}
+  .foot-links a:hover{color:var(--fg)}
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:900px){
+    .hero{padding:80px 0 60px}
+    .hero-stats{grid-template-columns:repeat(2,1fr)}
+    .hs{border-bottom:1px solid var(--line)}
+    .hs:nth-child(2n){border-right:none}
+    .hs:nth-last-child(-n+1){border-bottom:none}
+    .sec-head{grid-template-columns:1fr;gap:20px}
+    .problem-grid,.cases{grid-template-columns:1fr}
+    .services{grid-template-columns:1fr}
+    .svc{border-right:none}
+    .cf-body{grid-template-columns:1fr}
+    .cf-col{border-right:none;border-bottom:1px solid var(--line);padding:24px}
+    .cf-col:last-child{border-bottom:none}
+    .cf-metrics{grid-template-columns:repeat(2,1fr)}
+    .cfm{border-bottom:1px solid var(--line)}
+    .cfm:nth-child(2n){border-right:none}
+    .cf-lesson{flex-direction:column;gap:8px;padding:20px 24px}
+    .cf-lesson-tag{min-width:0}
+    .cf-head{padding:24px}
+    .pr-row{grid-template-columns:1fr;gap:14px;padding:28px 24px}
+    .pr-n{font-size:32px}
+    .track-h{grid-template-columns:1fr;gap:12px}
+    .track-grid{grid-template-columns:1fr}
+    .tg-card{border-right:none}
+    .tg-card:nth-last-child(-n+1){border-bottom:none}
+    .fs-skills-grid{grid-template-columns:1fr}
+    .fs-block{border-right:none;border-bottom:1px solid var(--line)}
+    .fs-block:last-child{border-bottom:none}
+    .svc-hero{grid-template-columns:1fr}
+    .svc-hero-left{border-right:none;border-bottom:1px solid var(--line);padding:32px}
+    .svc-hero-right{padding:32px}
+    .svc-hero-bullets{grid-template-columns:1fr}
+    .lt-grid{grid-template-columns:1fr;gap:32px}
+    .process{grid-template-columns:1fr 1fr}
+    .step:nth-child(2){border-right:none}
+    .step:nth-child(1),.step:nth-child(2){border-bottom:1px solid var(--line)}
+    .stack-wrap{grid-template-columns:1fr}
+    .nav-links{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container nav-row">
+    <div class="logo">msolo<span class="dot">.</span>studio</div>
+    <div class="nav-links">
+      <a href="#founder">О нас</a>
+      <a href="#services">Услуги</a>
+      <a href="#cases">Кейсы</a>
+      <a href="#principles">Принципы</a>
+    </div>
+    <a class="nav-cta" href="#cta">Написать в Telegram →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="eyebrow">BUILT BY FOUNDERS · NOT CONSULTANTS</div>
+      <h1 class="hero-title">
+        ИИ, который <span class="underline">двигает выручку</span> — а не лежит в отчёте.
+      </h1>
+      <p class="hero-sub">
+        Мы сами строим бизнесы — SaaS, продукты, маркетинг. Серийные предприниматели, CEO, продуктовики и операторы. Видим, где ИИ в вашем P&L реально приносит деньги — и туда его встраиваем. <span class="hero-anti">А если не приносит — честно отговорим.</span>
+      </p>
+      <div class="hero-chips">
+        <span>серийные предприниматели</span>
+        <span>CEO / founders</span>
+        <span>продуктовики</span>
+        <span>маркетологи</span>
+        <span>разработчики</span>
+      </div>
+      <div class="hero-cta">
+        <a class="btn-primary" href="#cta">Обсудить ваш бизнес →</a>
+        <a class="btn-ghost" href="#cases">Что мы построили</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hs"><span class="hsv">12+</span><span class="hsl">своих запущенных продуктов</span></div>
+        <div class="hs"><span class="hsv">10+ лет</span><span class="hsl">в продукте и операционке</span></div>
+        <div class="hs"><span class="hsv">2–6 нед</span><span class="hsl">от задачи до прода</span></div>
+        <div class="hs"><span class="hsv">P&L-driven</span><span class="hsl">фокус на деньги, не на хайп</span></div>
+        <div class="hs"><span class="hsv">Кипр + РФ</span><span class="hsl">база команды</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker">
+    <div class="ticker-track">
+      <span>// AI-АССИСТЕНТЫ</span><span class="acc">→</span>
+      <span>АВТОМАТИЗАЦИЯ ОПЕРАЦИОНКИ</span><span class="acc">→</span>
+      <span>SAAS НА БАЗЕ LLM</span><span class="acc">→</span>
+      <span>CONTENT-КОНВЕЙЕР</span><span class="acc">→</span>
+      <span>AI-ВНУТРЕННИЕ ИНСТРУМЕНТЫ</span><span class="acc">→</span>
+      <span>// AI-АССИСТЕНТЫ</span><span class="acc">→</span>
+      <span>АВТОМАТИЗАЦИЯ ОПЕРАЦИОНКИ</span><span class="acc">→</span>
+      <span>SAAS НА БАЗЕ LLM</span><span class="acc">→</span>
+      <span>CONTENT-КОНВЕЙЕР</span><span class="acc">→</span>
+      <span>AI-ВНУТРЕННИЕ ИНСТРУМЕНТЫ</span><span class="acc">→</span>
+    </div>
+  </div>
+</header>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-num">/ 01 — ПРОБЛЕМА</div>
+      <div>
+        <h2 class="sec-title">ИИ уже работает у конкурентов. Пока вы выбираете подрядчика.</h2>
+        <p class="sec-sub">Большинство команд застряло на этапе «надо что-то с этим делать». А время уходит — рынок не ждёт.</p>
+      </div>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="ico">[01]</div>
+        <h3>Сотрудники тонут в рутине</h3>
+        <p>Менеджеры пишут ответы клиентам, обрабатывают заявки, собирают отчёты — задачи, которые ИИ закрывает за минуты.</p>
+      </div>
+      <div class="problem-card">
+        <div class="ico">[02]</div>
+        <h3>Конкуренты быстрее</h3>
+        <p>Кто внедрил AI-саппорт и автоматизацию — обслуживает в 3 раза больше клиентов теми же людьми. И снижает CAC.</p>
+      </div>
+      <div class="problem-card">
+        <div class="ico">[03]</div>
+        <h3>Внутренние команды не успевают</h3>
+        <p>Найм AI-разработчика — 4 месяца и $4–8K в месяц. Подрядчики делают по полгода и сливаются. Запуск откладывается.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER / ABOUT -->
+<section id="founder">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-num">/ 02 — КТО МЫ</div>
+      <div>
+        <h2 class="sec-title">Не агентство. Действующие операторы.</h2>
+        <p class="sec-sub">Команда продуктовиков, маркетологов и инженеров, которые сами строят и масштабируют SaaS-бизнесы. Подключаемся к клиентам там, где задача лежит в нашей зоне силы.</p>
+      </div>
+    </div>
+
+    <div class="track-h">
+      <div class="track-h-tag">// КОМПАНИИ, ГДЕ МЫ РАБОТАЛИ ИЛИ ЛИДИЛИ</div>
+      <div class="track-h-text">До своей студии команда строила и масштабировала SaaS, маркетинг и операционку внутри этих компаний. Не «делали проекты», а отвечали за результат на уровне CEO / CPO / cofounder.</div>
+    </div>
+
+    <div class="track-grid">
+      <div class="tg-card">
+        <div class="tg-role">LED</div>
+        <div class="tg-name">Unisender</div>
+        <div class="tg-desc">ESP-платформа, $10M+ ARR. Перестроили оргструктуру, выручка +30%, новых клиентов +67%.</div>
+      </div>
+      <div class="tg-card">
+        <div class="tg-role">LED</div>
+        <div class="tg-name">Моя Удалёнка</div>
+        <div class="tg-desc">Сервисная компания, 32 чел в команде, 60 клиентов. Операционка и продукт.</div>
+      </div>
+      <div class="tg-card">
+        <div class="tg-role">CO-FOUNDED</div>
+        <div class="tg-name">GoMagic</div>
+        <div class="tg-desc">SaaS на международном рынке. Доля основателя, рост и продажи.</div>
+      </div>
+      <div class="tg-card">
+        <div class="tg-role">LED</div>
+        <div class="tg-name">Selzy.com</div>
+        <div class="tg-desc">HR-процессы, организационное развитие международной команды.</div>
+      </div>
+      <div class="tg-card">
+        <div class="tg-role">FOUNDED</div>
+        <div class="tg-name">SalesCall</div>
+        <div class="tg-desc">Запустили с нуля до 500K ₽/мес выручки за 2 месяца. От перформанс-маркетинга до закрытия сделок.</div>
+      </div>
+      <div class="tg-card">
+        <div class="tg-role">WORKED</div>
+        <div class="tg-name">Desert.ru</div>
+        <div class="tg-desc">Резидент Сколково с выходом в США. Продуктовая работа в международной среде.</div>
+      </div>
+    </div>
+
+    <aside class="founder-skills">
+      <div class="fs-h">// что мы делаем лучше всего</div>
+      <div class="fs-skills-grid">
+        <div class="fs-block">
+          <div class="fs-icon">01</div>
+          <strong>Product-Led Growth</strong>
+          <span>Roadmap, custdev, onboarding, unit-экономика. Не «давайте сделаем фичу», а «что двигает retention».</span>
+        </div>
+        <div class="fs-block">
+          <div class="fs-icon">02</div>
+          <strong>Оргтрансформации</strong>
+          <span>Squads, OKR, горизонтальные структуры. Делаем команды способными работать с ИИ.</span>
+        </div>
+        <div class="fs-block">
+          <div class="fs-icon">03</div>
+          <strong>Маркетинг полного цикла</strong>
+          <span>Перформанс, контент, SEO, PPC, сквозная аналитика. Видим, где ИИ снизит CAC.</span>
+        </div>
+        <div class="fs-block">
+          <div class="fs-icon">04</div>
+          <strong>Запуск с нуля</strong>
+          <span>Валидация, MVP, первые продажи. Добегаем от идеи до выручки за недели, а не за полгода.</span>
+        </div>
+        <div class="fs-block fs-acc">
+          <div class="fs-icon">05</div>
+          <strong>AI-оркестрация</strong>
+          <span>Парк AI-агентов, автоматизация. Каждый день в своих продуктах — переносим к клиентам.</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-num">/ 03 — УСЛУГИ</div>
+      <div>
+        <h2 class="sec-title">Что мы делаем</h2>
+        <p class="sec-sub">Четыре направления — каждое с готовыми кейсами и понятным сроком запуска.</p>
+      </div>
+    </div>
+    <!-- HERO SERVICE: AI-NATIVE -->
+    <div class="svc-hero">
+      <div class="svc-hero-left">
+        <div class="svc-hero-tag">FLAGSHIP · AI-NATIVE TRANSFORMATION</div>
+        <h3>Перестраиваем компанию вокруг агентов — не «встраиваем бота в старое»</h3>
+        <p>Берём ваши процессы. Раскладываем каждый на 4–6 шагов. Находим те, где реально нужен живой человек — остальные превращаем в агентов. На выходе: маленькая команда с пропускной способностью большой.</p>
+        <div class="svc-hero-bullets">
+          <div class="hb"><span class="hbn">01</span><div><strong>Аудит процессов</strong><span>Карта всех потоков информации и решений в компании</span></div></div>
+          <div class="hb"><span class="hbn">02</span><div><strong>Разбор на узлы</strong><span>Каждый процесс — 4-6 шагов, ищем где 3 из 4 можно отдать агентам</span></div></div>
+          <div class="hb"><span class="hbn">03</span><div><strong>План на 90 дней</strong><span>Конкретный roadmap трансформации с метриками по неделям</span></div></div>
+          <div class="hb"><span class="hbn">04</span><div><strong>Запуск и culture</strong><span>Внедряем агентов + перестраиваем мышление команды</span></div></div>
+        </div>
+        <a class="btn-primary" href="https://msolo.me/ai-native-guide" target="_blank">Читать полную методологию (43 слайда) →</a>
+      </div>
+      <div class="svc-hero-right">
+        <div class="manifesto">
+          <div class="m-line">AI-native компания —</div>
+          <div class="m-line m-acc">это маленькая команда<br>с огромной выручкой.</div>
+          <div class="m-divider"></div>
+          <div class="m-stat"><div class="ms-v">3 / 4</div><div class="ms-l">шагов любого процесса можно отдать агенту</div></div>
+          <div class="m-stat"><div class="ms-v">90 дней</div><div class="ms-l">от первого аудита до перестроенных процессов</div></div>
+          <div class="m-stat"><div class="ms-v">4 рычага</div><div class="ms-l">культура · цель · обучение · инструмент</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="services">
+
+      <div class="svc">
+        <div class="num">01 / ASSISTANTS</div>
+        <h3>AI-ассистенты и боты</h3>
+        <p>Саппорт-боты, sales-ассистенты, внутренние помощники для команд. Telegram, веб, WhatsApp — куда нужно.</p>
+        <ul>
+          <li>Саппорт первой линии 24/7</li>
+          <li>Квалификация лидов</li>
+          <li>FAQ + база знаний</li>
+          <li>Интеграции с CRM</li>
+        </ul>
+      </div>
+
+      <div class="svc">
+        <div class="num">02 / AUTOMATION</div>
+        <h3>Автоматизация процессов</h3>
+        <p>Снимаем с людей повторяющуюся работу: обработка заявок, разбор звонков, отчётность, контент.</p>
+        <ul>
+          <li>AI-разбор звонков и встреч</li>
+          <li>Извлечение данных из писем/документов</li>
+          <li>Автоматические отчёты</li>
+          <li>Контент-конвейеры (SEO, соцсети)</li>
+        </ul>
+      </div>
+
+      <div class="svc">
+        <div class="num">03 / PRODUCTS</div>
+        <h3>SaaS и продукты с ИИ</h3>
+        <p>Запускаем MVP с нуля или встраиваем ИИ в существующий продукт. От прототипа до прода — 4–8 недель.</p>
+        <ul>
+          <li>Веб-сервисы и кабинеты</li>
+          <li>iOS / Android приложения</li>
+          <li>Чат-платформы и AI-инструменты</li>
+          <li>RAG / поиск по базе знаний</li>
+        </ul>
+      </div>
+
+      <div class="svc">
+        <div class="num">04 / DEV BOOST</div>
+        <h3>AI-усиление вашей команды</h3>
+        <p>Внедряем AI-инструменты разработки (Claude Code, Cursor, агенты) в команду — продуктивность ×2–3 без найма.</p>
+        <ul>
+          <li>Аудит процессов разработки</li>
+          <li>Воркшопы и онбординг команды</li>
+          <li>Pipeline-автоматизация (CI, code review)</li>
+          <li>Сопровождение 1–3 месяца</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section id="cases">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-num">/ 04 — КЕЙСЫ</div>
+      <div>
+        <h2 class="sec-title">Что уже сделано</h2>
+        <p class="sec-sub">Каждый кейс — это запущенный в прод продукт или процесс. Не демо, не «концепт».</p>
+      </div>
+    </div>
+
+    <!-- FEATURED CASE: Vibero (extended) -->
+    <div class="case-featured">
+      <div class="cf-head">
+        <div class="cf-tags">
+          <span class="case-tag">FEATURED · SUPPORT AI</span>
+          <span class="cf-stack">Python · aiogram · Claude Haiku 4.5 · Multi-tenant</span>
+        </div>
+        <h3>CRM для аффилиатных сетей и медиабаинг-команд</h3>
+        <div class="cf-meta">// SaaS · 50+ Telegram-чатов клиентов · 22 500 сообщений/мес · 1.5 месяца от запроса до пилота</div>
+      </div>
+
+      <div class="cf-body">
+        <div class="cf-col cf-was">
+          <div class="cf-col-tag">// БЫЛО</div>
+          <ul>
+            <li>1 senior-оператор сидит в 50+ чатах 8–12 часов в день</li>
+            <li>Медиана ответа клиенту 46 секунд, <strong>p90 = 58 минут</strong> — клиенты ждали час</li>
+            <li>Для объёма реально нужно 3–5 операторов + тимлид (~540К ₽/мес ФОТ)</li>
+            <li>Рост клиентской базы упирается в найм саппорта</li>
+            <li>30% объёма — типовые «создай офис», «поставь кап», «отправь тестовый лид»</li>
+          </ul>
+        </div>
+
+        <div class="cf-col cf-did">
+          <div class="cf-col-tag">// СДЕЛАЛИ</div>
+          <ul>
+            <li>Проанализировали 22 587 реальных сообщений → 1 271 диалог → 30 категорий обращений</li>
+            <li>У клиентской CRM нет публичного API — собрали карту 95% операций через Playwright-разведку (133 HAR-файла)</li>
+            <li>Telegram-агент: aiogram + Claude Haiku 4.5, 9 рабочих сценариев (интегра, кап, blacklist, тест-лид, поиск)</li>
+            <li>PII-redactor: API-ключи брокеров и JWT-токены не уходят в LLM</li>
+            <li>Smart-mode: бот молчит, когда оператор активен — не лезет в живой разговор</li>
+            <li>4 системы тестов: regression 127 кейсов, golden replay 135 диалогов с LLM-as-judge, adversarial 28, e2e</li>
+          </ul>
+        </div>
+
+        <div class="cf-col cf-now">
+          <div class="cf-col-tag">// СТАЛО</div>
+          <ul>
+            <li><strong>72% resolution rate</strong> на 50 реальных диалогах — бот решил вопрос на уровне живого или лучше</li>
+            <li><strong>Время ответа &lt;5 секунд</strong> вместо 46 сек (×9 быстрее, p90 час → секунды)</li>
+            <li>27% полный offload + 30% safe escalation с контекстом + 11% правильное молчание = <strong>69% не нагружает оператора</strong></li>
+            <li>100% точность на категориях smalltalk / тест-лиды / капы / блокировки</li>
+            <li>Регрессия 126/127 ✅ — ничего не сломано при апгрейдах</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cf-metrics">
+        <div class="cfm"><div class="cfm-v">72%</div><div class="cfm-l">resolution rate<br>на real-traffic</div></div>
+        <div class="cfm"><div class="cfm-v">×9</div><div class="cfm-l">быстрее реакция<br>на клиента</div></div>
+        <div class="cfm"><div class="cfm-v">~400К ₽</div><div class="cfm-l">экономия<br>в месяц</div></div>
+        <div class="cfm"><div class="cfm-v">5 мес</div><div class="cfm-l">окупаемость<br>внедрения</div></div>
+      </div>
+
+      <div class="cf-lesson">
+        <div class="cf-lesson-tag">// ЧЕСТНО О ПРОЦЕССЕ</div>
+        <p>Главная архитектурная попытка <strong>провалилась</strong>: IntakeAgent на LLM tool-calling — 4 итерации промптов, каждая хуже baseline (44% → 28%). Sonnet 4.6 для классификатора дал −6pp и ×4 стоимости. <strong>Откатились на Haiku 4.5 + малые таргетированные patches.</strong> Урок: большие архитектурные moves в LLM-продуктах часто проваливаются — побеждают точечные правки на реальных данных.</p>
+      </div>
+    </div>
+
+    <!-- FEATURED CASE 2: Моя Удалёнка -->
+    <div class="case-featured cf-small">
+      <div class="cf-head">
+        <div class="cf-tags">
+          <span class="case-tag alt2">FEATURED · CONTENT AUTOMATION</span>
+          <span class="cf-stack">Image generation · Style anchoring · Workflow integration</span>
+        </div>
+        <h3>SaaS для работы с самозанятыми — конвейер AI-обложек для корпоративного блога</h3>
+        <div class="cf-meta">// услуговый SaaS · корп-блог 2–3 поста в неделю · точечный проект, виден результат</div>
+      </div>
+
+      <div class="cf-body">
+        <div class="cf-col cf-was">
+          <div class="cf-col-tag">// БЫЛО</div>
+          <ul>
+            <li>1 штатный дизайнер в команде, оклад <strong>40 000 ₽/мес</strong></li>
+            <li>2–3 обложки в неделю под посты блога, единый визуальный стиль</li>
+            <li>Узкое горлышко: дизайнер занят / в отпуске → пост готов, обложки нет → публикация задержана</li>
+            <li>Иллюстрации — повторяющаяся ручная работа, не дизайн-проектирование</li>
+          </ul>
+        </div>
+
+        <div class="cf-col cf-did">
+          <div class="cf-col-tag">// СДЕЛАЛИ</div>
+          <ul>
+            <li>Зафиксировали визуальный язык бренда: пастельная палитра, минималистичная иллюстрация, без «AI-tell» признаков</li>
+            <li>Собрали промпт-стек под этот стиль: каждая обложка генерируется по короткому описанию поста</li>
+            <li>Встроили генерацию в редакционный workflow — редактор сам получает обложку за минуты, без участия дизайнера</li>
+            <li>Калибровка качества: внешний наблюдатель не отличает AI-обложку от ручного дизайна</li>
+          </ul>
+        </div>
+
+        <div class="cf-col cf-now">
+          <div class="cf-col-tag">// СТАЛО</div>
+          <ul>
+            <li><strong>−40 000 ₽/мес ФОТ</strong> — позицию дизайнера закрыли</li>
+            <li><strong>−480 000 ₽/год</strong> экономии нарастающим итогом</li>
+            <li>Обложки за минуты вместо дней — нет задержек публикации</li>
+            <li>Стиль держится 100% — посты выглядят как из единой редакционной системы</li>
+            <li>Можно проверить вживую: блог открыт, обложки прямо там</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cf-metrics">
+        <div class="cfm"><div class="cfm-v">−40К ₽</div><div class="cfm-l">в месяц<br>экономия ФОТ</div></div>
+        <div class="cfm"><div class="cfm-v">~0 дней</div><div class="cfm-l">ожидания<br>обложек</div></div>
+        <div class="cfm"><div class="cfm-v">1 позиция</div><div class="cfm-l">закрыта<br>в команде</div></div>
+        <div class="cfm"><div class="cfm-v"><a href="https://moyaudalenka.ru/journal/" target="_blank" style="color:inherit;text-decoration:underline">смотреть →</a></div><div class="cfm-l">блог<br>проверить вживую</div></div>
+      </div>
+
+      <div class="cf-lesson">
+        <div class="cf-lesson-tag">// ЛОГИКА КЕЙСА</div>
+        <p>Это <strong>не «AI-трансформация»</strong>. Это один точечный процесс с понятной экономикой: дизайнер стоил 40К/мес, обложек нужно немного, стиль повторяющийся. Замена — рабочая, легко проверяемая, окупается мгновенно. Так выглядит <strong>«комфортный вход» в AI</strong>: маленький проект, конкретный результат, минимум риска.</p>
+      </div>
+    </div>
+
+    <div class="cases">
+
+      <!-- 2 -->
+      <div class="case">
+        <div class="case-tag alt2">OUR PRODUCT</div>
+        <h3>Szvon</h3>
+        <div class="who">// AI-разбор звонков · собственный SaaS под РФ-рынок</div>
+        <p>Строим SaaS в нишу, где Gong/Chorus не работают (РФ-юрики, хранение данных в РФ). Stereo-запись через системный аудио даёт 100% разметку «кто-кто» без дорогой диаризации. Speechmatics Ursa-2 + Claude Opus = 95%+ точность на русском, $0.56 за 30-мин звонок. Пилот — sales-команда из 7 человек.</p>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="v">95%+</div><div class="l">точность RU транскрипции</div></div>
+          <div class="case-metric"><div class="v">$0.56</div><div class="l">стоимость 30-мин звонка</div></div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="case">
+        <div class="case-tag alt">OUR PRODUCT</div>
+        <h3>NeuroGate</h3>
+        <div class="who">// собственный AI-агрегатор для РФ · ng-ai.ru</div>
+        <p>Гибридная платформа: единый доступ к 100+ моделям (GPT, Claude, Gemini, MJ) с оплатой в рублях, без VPN. Полный продукт под ключ — лендинги B2C/B2B, кабинет, биллинг через YooKassa/СБП, SEO-стратегия под 7 целевых сегментов. Стек: Fastify + React + PostgreSQL + Docker.</p>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="v">100+</div><div class="l">моделей под одним API</div></div>
+          <div class="case-metric"><div class="v">end-to-end</div><div class="l">от стратегии до прода</div></div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="case">
+        <div class="case-tag">OPS</div>
+        <h3>Brain (Context OS)</h3>
+        <div class="who">// внутренний AI-стек основателя</div>
+        <p>Звонки, заметки, чаты сами раскладываются по проектам. Решения не теряются, контекст не выпадает. Основатель держит 10+ параллельных треков без выгорания — capacity «как у директора с ассистентом».</p>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="v">10+ треков</div><div class="l">параллельно</div></div>
+          <div class="case-metric"><div class="v">~0 часов</div><div class="l">на ручную сортировку</div></div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="case">
+        <div class="case-tag alt2">OUR PIPELINE</div>
+        <h3>Контент-конвейер</h3>
+        <div class="who">// собственный пайплайн msolo.me и проектов</div>
+        <p>End-to-end процесс производства контента: исследование спроса через Wordstat и Yandex Search API, генерация статей по голосу бренда, обложки через AI-стек (без AI-tell), посадочные, связки с Yandex.Direct. Один человек закрывает работу, для которой обычно нужна редакция.</p>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="v">end-to-end</div><div class="l">от спроса до публикации</div></div>
+          <div class="case-metric"><div class="v">solo</div><div class="l">без редакции и дизайнера</div></div>
+        </div>
+      </div>
+
+
+      <!-- 7 -->
+      <div class="case">
+        <div class="case-tag alt">OUR PRODUCT</div>
+        <h3>PadelMind (iOS)</h3>
+        <div class="who">// B2C-приложение для падел-игроков · App Store</div>
+        <p>Запустили нишевое iOS-приложение от идеи до App Store без штатной команды разработки. Полный цикл — продуктовая стратегия, UX, Swift-разработка, AI-фичи, ASO, marketing. Доказательство, что AI-усиленная команда может закрыть весь стек мобильного запуска малыми силами.</p>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="v">Live</div><div class="l">в App Store</div></div>
+          <div class="case-metric"><div class="v">solo</div><div class="l">без dev-агентства</div></div>
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="case">
+        <div class="case-tag alt2">SALES TOOL</div>
+        <h3>Motive Point</h3>
+        <div class="who">// b2b sales-материал</div>
+        <p>Заменили статичный PDF на живую web-страницу с интерактивом и логикой аргументации. Читают до конца, выше конверсия в созвон, правки за минуты вместо переотправок документа.</p>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="v">read-to-end</div><div class="l">формат, не «листали»</div></div>
+          <div class="case-metric"><div class="v">live edits</div><div class="l">правки за минуты</div></div>
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div class="case">
+        <div class="case-tag">PUBLIC METHODOLOGY</div>
+        <h3>AI-Native гайд</h3>
+        <div class="who">// открытая методология · msolo.me/ai-native-guide</div>
+        <p>Открыли свою методологию трансформации компании к AI-native: 43 слайда, фреймворк «разложи процесс на 4-6 шагов, найди где нужен живой человек». Работает как inbound: руководители читают и приходят за внедрением.</p>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="v"><a href="https://msolo.me/ai-native-guide" target="_blank" style="color:inherit;text-decoration:underline">смотреть →</a></div><div class="l">читать публично</div></div>
+          <div class="case-metric"><div class="v">43</div><div class="l">слайда методологии</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-num">/ 05 — ПРОЦЕСС</div>
+      <div>
+        <h2 class="sec-title">Как мы работаем</h2>
+        <p class="sec-sub">Без длинных диагностик и месяцев на «согласование ТЗ». Запускаем за 4 шага.</p>
+      </div>
+    </div>
+
+    <div class="process">
+      <div class="step">
+        <div class="stepnum">01</div>
+        <h4>Диагностика</h4>
+        <p>30-минутный звонок: что болит, где деньги, что можно автоматизировать в первую очередь.</p>
+        <div class="time">// 1 день</div>
+      </div>
+      <div class="step">
+        <div class="stepnum">02</div>
+        <h4>Прототип</h4>
+        <p>Собираем работающую версию решения на ваших данных. Без слайдов — сразу клик-демо или MVP.</p>
+        <div class="time">// 1–2 недели</div>
+      </div>
+      <div class="step">
+        <div class="stepnum">03</div>
+        <h4>Запуск</h4>
+        <p>Интегрируем в ваши процессы, обучаем команду, подключаем мониторинг и аналитику.</p>
+        <div class="time">// 2–4 недели</div>
+      </div>
+      <div class="step">
+        <div class="stepnum">04</div>
+        <h4>Сопровождение</h4>
+        <p>Дорабатываем по реальным данным, докручиваем точность, добавляем новые сценарии.</p>
+        <div class="time">// continuous</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section id="principles">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-num">/ 06 — ПРИНЦИПЫ</div>
+      <div>
+        <h2 class="sec-title">Жёсткие правила, которым следуем</h2>
+        <p class="sec-sub">Мы не маркетинговое агентство, которое хочет любого клиента. У нас есть фильтры — и они работают в обе стороны.</p>
+      </div>
+    </div>
+
+    <div class="pr-list">
+      <div class="pr-row">
+        <div class="pr-n">01</div>
+        <div class="pr-body">
+          <h3>Скажем «нет», если ИИ вам не нужен</h3>
+          <p>Если задача решается обычной автоматизацией, наймом или процессным фиксом — скажем прямо. Не продаём «технологии ради технологий», даже если деньги уже на столе. Время важнее одного контракта.</p>
+        </div>
+      </div>
+
+      <div class="pr-row">
+        <div class="pr-n">02</div>
+        <div class="pr-body">
+          <h3>Решаем бизнес-задачу, а не пишем код</h3>
+          <p>Берёмся только если видна траектория к выручке, экономии или capacity. «Сделайте нам бота» — недостаточно. «У нас саппорт тонет, нужно ×2 capacity без найма» — вот это нам понятно. Сначала P&L, потом стек.</p>
+        </div>
+      </div>
+
+      <div class="pr-row">
+        <div class="pr-n">03</div>
+        <div class="pr-body">
+          <h3>Каждый проект ведут founders. Без джуниоров</h3>
+          <p>На вашем проекте работают люди уровня CEO / CPO / cofounder. Не «менеджер аккаунта + удалёнка из Индии». Если нам что-то непонятно про ваш бизнес — спрашиваем у вас, а не делаем вид, что разобрались.</p>
+        </div>
+      </div>
+
+      <div class="pr-row">
+        <div class="pr-n">04</div>
+        <div class="pr-body">
+          <h3>Запуск за недели, не за месяцы</h3>
+          <p>Длинный цикл «согласуем ТЗ → нарисуем макеты → утвердим → разработаем → внедрим» — устаревший формат. Через 2–4 недели у вас должно быть работающее, а не «вот мы ещё не закончили дизайн».</p>
+        </div>
+      </div>
+
+      <div class="pr-row">
+        <div class="pr-n">05</div>
+        <div class="pr-body">
+          <h3>Прозрачно по деньгам и метрикам</h3>
+          <p>Каждую неделю — короткий отчёт: что сделано, какие цифры, что дальше. Без чёрных ящиков, без «мы работаем», без «расскажем на ревью в конце месяца». Если что-то идёт не так — узнаёте сразу.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOW-TICKET CTA -->
+<section class="low-ticket">
+  <div class="container">
+    <div class="lt-grid">
+      <div class="lt-left">
+        <div class="lt-tag">// БЕСПЛАТНО · 60 МИН</div>
+        <h2>Соберём ваш <span class="hl">первый агент</span> — за один вечер</h2>
+        <p>Не презентация. Не «давайте обсудим». Вы приходите с реальной задачей — мы прямо на звонке делаем рабочий прототип агента на ваших данных. Дальше — решаете сами, продолжать или нет.</p>
+        <a class="btn-primary" href="#cta">Записаться на разбор →</a>
+      </div>
+      <div class="lt-right">
+        <div class="lt-step"><span class="lt-n">01</span><div><strong>Вы пишете в TG</strong><span>Коротко: чем занимаетесь и что бесит больше всего</span></div></div>
+        <div class="lt-step"><span class="lt-n">02</span><div><strong>Назначаем 60 минут</strong><span>В календаре на этой неделе</span></div></div>
+        <div class="lt-step"><span class="lt-n">03</span><div><strong>На звонке собираем агент</strong><span>Живой работающий прототип под вашу задачу</span></div></div>
+        <div class="lt-step"><span class="lt-n">04</span><div><strong>Забираете и пользуетесь</strong><span>Бесплатно. Без обязательств продолжать</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-block" id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-pre">// 2026</div>
+      <h2>Маленькие команды с ИИ — <span class="hl">съедят</span> большие без ИИ.</h2>
+      <p class="cta-lead">Это уже происходит. Через год разрыв станет необратимым — догнать будет дороже, чем встроить сейчас.</p>
+      <p class="cta-sub">30 минут разговора — и вы поймёте, есть ли у нас, что вам предложить. Без брифов, слайдов и «давайте созвонимся ещё раз».</p>
+      <div class="cta-buttons">
+        <a class="btn-big btn-tg" href="https://t.me/msoloviev" target="_blank">→ Написать в Telegram</a>
+        <a class="btn-big btn-email" href="mailto:mk.soloviev@gmail.com">mk.soloviev@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container foot-row">
+    <div>© 2026 msolo.studio · Pafos, Cyprus</div>
+    <div class="foot-links">
+      <a href="https://msolo.me" target="_blank">msolo.me</a>
+      <a href="https://msolo.me/ai-native-guide" target="_blank">AI-native guide</a>
+      <a href="#cta">Контакт</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
