@@ -7,6 +7,7 @@
     { "src": "**/*", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "/(.*)", "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }, "continue": true },
     { "src": "/api/(.*)", "dest": "/api/$1.js" },
     { "handle": "filesystem" },
     { "src": "/neurogate/campaign$", "dest": "/neurogate/campaign/index.html" },
