@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>МояУдалёнка — Необанк для гибкой занятости · Investor Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15110d;--muted:#6b665f;--label:#a39d95;--line:#e7e3dd;
+    --red:#d9442e;--cream:#f6f4ef;--redbg:#fbeae6;--redborder:#f0cabf;
+    --green:#1f7a4d;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --serif:'Lora',Georgia,serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#3a3733;font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .deck{display:flex;flex-direction:column;align-items:center;gap:28px;padding:40px 20px}
+  .frame{width:1440px;height:810px;flex:0 0 auto;transform-origin:top center;box-shadow:0 18px 60px rgba(0,0,0,.4)}
+  .slide{width:1440px;height:810px;position:relative;overflow:hidden;background:#fff;padding:64px 80px;display:flex;flex-direction:column}
+  .slide.cream{background:#faf8f4}
+  .slide.dark{background:#15110d;color:#f6f4ef}
+  .slide.dark .sub,.slide.dark .muted{color:#b4aea6}
+  .slide.dark .kicker{color:#7d776f}
+
+  .eyebrow{font-family:var(--mono);font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);font-weight:500}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--label);font-weight:500}
+  .topbar{position:absolute;top:64px;left:80px;right:80px;display:flex;justify-content:space-between;align-items:flex-start}
+  .section-tag{font-family:var(--mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);font-weight:500}
+  .red-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--red);margin-right:14px;vertical-align:middle}
+
+  h1{font-weight:800;letter-spacing:-.022em;line-height:1.02;font-size:88px}
+  h2{font-weight:800;letter-spacing:-.02em;line-height:1.04;font-size:56px}
+  .red{color:var(--red)}
+  .gray{color:#b4aea6}
+  .green{color:var(--green)}
+  .sub{font-size:25px;line-height:1.38;color:var(--muted);font-weight:400;max-width:1120px}
+  .mono-link{font-family:var(--mono);font-size:18px;letter-spacing:.06em}
+
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;margin-top:auto}
+  .stat .num{font-size:70px;font-weight:800;letter-spacing:-.02em;line-height:1}
+  .stat .num small{font-size:28px;font-weight:600;color:var(--label);margin-left:6px;letter-spacing:0}
+  .stat .cap{font-size:18px;color:var(--muted);margin-top:14px;line-height:1.35}
+
+  .cards{display:grid;gap:24px}
+  .card{border:1px solid var(--line);border-radius:14px;padding:32px}
+  .card .idx{font-family:var(--mono);font-size:14px;color:var(--label);letter-spacing:.12em}
+  .card h3{font-size:24px;font-weight:700;margin:16px 0 12px;letter-spacing:-.01em;line-height:1.15}
+  .card p{font-size:18px;line-height:1.45;color:var(--muted)}
+  .card.accent{background:var(--redbg);border-color:var(--redborder)}
+  .card.accent .idx{color:var(--red)}
+
+  .badge{display:inline-block;font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--red);border:1px solid var(--red);border-radius:5px;padding:3px 9px;vertical-align:middle;margin-left:14px;text-transform:uppercase;font-weight:500}
+  .badge.gray{color:var(--label);border-color:var(--line)}
+
+  .footer-note{position:absolute;left:80px;bottom:50px;font-family:var(--mono);font-size:13.5px;letter-spacing:.16em;color:var(--label);text-transform:uppercase}
+  .footer-note.right{left:auto;right:80px;text-align:right}
+
+  .num-list{display:flex;flex-direction:column;gap:18px}
+  .num-list .row{display:flex;gap:22px;align-items:flex-start}
+  .num-list .n{font-family:var(--mono);font-size:14px;color:var(--red);letter-spacing:.1em;padding-top:6px;min-width:24px}
+  .num-list .t{font-size:21px;line-height:1.38;color:var(--ink)}
+  .num-list .t b{font-weight:700}
+  .num-list .t .muted{color:var(--muted)}
+
+  .chips{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0}
+  .chip{border:1px solid var(--line);border-radius:999px;padding:10px 20px;font-size:17px;color:var(--ink)}
+
+  .quote{font-family:var(--serif);font-size:40px;line-height:1.22;letter-spacing:-.01em}
+  .quote em{font-style:italic;color:var(--red)}
+  .sidequote{border-left:4px solid var(--red);padding-left:26px;font-family:var(--serif);font-style:italic;font-size:22px;line-height:1.38;color:var(--ink)}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+  .colhead{font-family:var(--mono);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:20px;font-weight:500}
+  .col h3{font-size:36px;font-weight:800;line-height:1.06;letter-spacing:-.015em;margin-bottom:18px}
+  .col p{font-size:20px;line-height:1.45;color:var(--muted)}
+  .col .small{font-size:16px;color:var(--label);margin-top:8px}
+
+  /* PATH chain (slide 4) */
+  .path{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:46px}
+  .pstep{position:relative;padding:0 22px 0 0}
+  .pstep .pn{font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--label)}
+  .pstep .pt{font-size:23px;font-weight:800;line-height:1.1;margin:14px 0 12px;letter-spacing:-.01em}
+  .pstep .pd{font-size:16.5px;line-height:1.4;color:var(--muted)}
+  .pstep .dot{width:14px;height:14px;border-radius:50%;background:var(--line);position:absolute;top:34px;left:-7px}
+  .pstep.on .dot{background:var(--red)}
+  .pstep.bank .pt{color:var(--red)}
+  .ptrack{height:2px;background:var(--line);margin:30px 0 0;position:relative}
+  .ptrack .fill{position:absolute;left:0;top:0;height:2px;width:18%;background:var(--red)}
+  .ptrack .now{position:absolute;left:18%;top:-6px;width:14px;height:14px;border-radius:50%;background:var(--red);transform:translateX(-50%)}
+
+  .money{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:36px}
+  .money .box{border:1px solid var(--line);border-radius:16px;padding:34px 32px;display:flex;flex-direction:column;min-height:360px}
+  .money .box.mid{background:var(--cream)}
+  .money .box.dark{background:var(--redbg);border-color:var(--redborder)}
+  .money .tag{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);font-weight:500}
+  .money h3{font-size:24px;font-weight:700;margin-top:18px;line-height:1.12}
+  .money .big{font-size:88px;font-weight:800;letter-spacing:-.03em;line-height:1;margin:auto 0 0}
+  .money .big small{font-size:34px;font-weight:600;letter-spacing:0}
+  .money .unit{font-size:17px;color:var(--muted);margin-top:8px}
+  .money .arrow{position:absolute}
+
+  .steps{display:flex;flex-direction:column;margin-top:10px}
+  .step{display:grid;grid-template-columns:210px 250px 1fr;gap:30px;padding:30px 0;border-top:1px solid var(--ink)}
+  .step:last-child{border-bottom:1px solid var(--ink)}
+  .step .when .lab{font-family:var(--mono);font-size:13px;letter-spacing:.16em;color:var(--red);text-transform:uppercase}
+  .step .when .yr{font-family:var(--mono);font-size:22px;margin-top:6px;color:var(--ink)}
+  .step .title{font-size:30px;font-weight:800;line-height:1.05;letter-spacing:-.015em}
+  .step .desc{font-size:20px;line-height:1.42;color:var(--muted);align-self:center}
+
+  .chart-wrap{flex:1;display:flex;align-items:flex-end;margin-top:24px}
+  .bars{display:flex;align-items:flex-end;gap:38px;width:100%;height:300px;padding-bottom:34px;position:relative;border-bottom:1px solid var(--line)}
+  .bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative}
+  .bar .b{width:100%;border-radius:3px 3px 0 0}
+  .bar .x{position:absolute;bottom:-30px;font-family:var(--mono);font-size:14px;color:var(--label);letter-spacing:.04em}
+  .footer-row{position:absolute;left:80px;right:80px;bottom:46px;display:flex;justify-content:space-between}
+
+  /* analogue rows (slide 5) */
+  .ana{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:42px}
+  .ana .lab2{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:18px;font-weight:500}
+  .ana .r{display:flex;gap:18px;align-items:baseline;padding:15px 0;border-top:1px solid var(--line)}
+  .ana .r .nm{font-size:20px;font-weight:700;min-width:118px}
+  .ana .r .ds{font-size:17px;line-height:1.36;color:var(--muted)}
+
+  /* traction kv (slide 6) */
+  .ue{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:14px}
+  .ue .b{border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+  .ue .b .v{font-size:34px;font-weight:800;letter-spacing:-.02em}
+  .ue .b .v small{font-size:18px;color:var(--label);font-weight:600}
+  .ue .b .c{font-size:15px;color:var(--muted);margin-top:6px}
+
+  /* round / use of funds (slide 10) */
+  .raise{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:30px;align-items:start}
+  .uof{display:flex;flex-direction:column;gap:14px}
+  .uof .row{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
+  .uof .nm{font-size:19px}
+  .uof .pct{font-family:var(--mono);font-size:16px;color:var(--red)}
+  .uof .track{grid-column:1/3;height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+  .uof .track .f{height:8px;background:var(--red);opacity:.85}
+  .bigask{font-size:96px;font-weight:800;letter-spacing:-.03em;line-height:1}
+  .bigask small{font-size:36px;font-weight:600;color:var(--label)}
+
+  .close-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:50px;margin-top:10px}
+  .close-cols .lab{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
+  .close-cols h4{font-size:28px;font-weight:800;line-height:1.1;letter-spacing:-.01em}
+  .close-cols .d{font-size:17px;color:var(--muted);margin-top:10px}
+  .contacts{position:absolute;left:80px;right:80px;bottom:54px;border-top:1px solid rgba(255,255,255,.16);padding-top:26px;display:flex;justify-content:space-between;align-items:flex-end}
+  .contacts .lab{font-family:var(--mono);font-size:13px;letter-spacing:.16em;color:var(--label);text-transform:uppercase;margin-bottom:12px}
+  .contacts .big{font-family:var(--mono);font-size:22px;letter-spacing:.05em;color:#f6f4ef}
+  .contacts .em{font-family:var(--mono);font-size:16px;color:var(--muted);margin-top:8px;letter-spacing:.03em}
+  .contacts .right{text-align:right}
+  .contacts .thanks{font-family:var(--mono);font-size:16px;letter-spacing:.16em;color:var(--red);text-transform:uppercase}
+  .contacts .meta{font-family:var(--mono);font-size:15px;letter-spacing:.14em;color:#f6f4ef;text-transform:uppercase;margin-top:10px}
+
+  @page{size:1440px 810px;margin:0}
+  @media print{
+    html,body{background:#fff}
+    .deck{display:block;padding:0;gap:0}
+    .frame{box-shadow:none;transform:none!important;width:1440px;height:810px}
+    .slide{page-break-after:always;break-after:page}
+    .frame:last-child .slide{page-break-after:auto}
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 01 — TITLE -->
+  <div class="frame"><section class="slide">
+    <div class="topbar">
+      <div class="eyebrow">МОЯУДАЛЁНКА <span class="red">×</span> МОЯРАБОТА</div>
+      <div class="kicker">INVESTOR DECK · Q2 2026</div>
+    </div>
+    <div style="margin-top:150px">
+      <div class="section-tag" style="margin-bottom:44px"><span class="red-dot"></span>ПИТЧ ДЛЯ ИНВЕСТОРОВ</div>
+      <h1>Необанк<br>для людей<br><span class="red">гибкой занятости</span></h1>
+      <p class="sub" style="margin-top:42px">Действующий сервис выплат самозанятым moyaudalenka.ru. Маркетплейс рабочей силы moyarabota.ru — запускается в 2026. Дальше — финансовые сервисы для 15 млн самозанятых, у которых сегодня нет своего банка.</p>
+    </div>
+    <div class="footer-note">MOYAUDALENKA.RU&nbsp;&nbsp;·&nbsp;&nbsp;MOYARABOTA.RU</div>
+    <div class="footer-note right">01 / 11</div>
+  </section></div>
+
+  <!-- 02 — PROBLEM / HOOK -->
+  <div class="frame"><section class="slide dark">
+    <div class="topbar"><div class="kicker">ПРОБЛЕМА</div><div class="kicker">02 / 11</div></div>
+    <div class="section-tag" style="margin-top:40px;margin-bottom:34px"><span class="red-dot"></span>БЕЛОЕ ПОЛЕ</div>
+    <h1 style="font-size:66px;line-height:1.06;max-width:1200px">15,4 млн самозанятых в России — и&nbsp;<span class="red">ни одного банка</span> для них.</h1>
+    <p class="sub" style="margin-top:32px;max-width:1180px">У самозанятого по закону нет расчётного счёта — значит нет нормального эквайринга, кредита под доход, накоплений и страховки. Точка, Модульбанк, Делобанк, Т-Банк строят банки для ИП и ООО — но <b style="color:#f6f4ef">никто не строит банк для самих самозанятых</b>.</p>
+    <div class="stat-row" style="margin-top:64px">
+      <div class="stat"><div class="num red">15,4<small>млн</small></div><div class="cap" style="color:#b4aea6">самозанятых в РФ, май&nbsp;2026 · ×2 за 3 года</div></div>
+      <div class="stat"><div class="num">+27<small>% г/г</small></div><div class="cap" style="color:#b4aea6">рост аудитории, +3–4 млн в&nbsp;2026</div></div>
+      <div class="stat"><div class="num">&gt;3<small>трлн ₽</small></div><div class="cap" style="color:#b4aea6">совокупный доход СЗ за&nbsp;2025, +38,6% г/г</div></div>
+      <div class="stat"><div class="num">0</div><div class="cap" style="color:#b4aea6">банков, заточенных под самозанятого</div></div>
+    </div>
+  </section></div>
+
+  <!-- 03 — VISION + STAGED DISCLAIMER -->
+  <div class="frame"><section class="slide cream">
+    <div class="topbar"><div class="kicker">ВИДЕНИЕ</div><div class="kicker">03 / 11</div></div>
+    <div class="section-tag" style="margin-top:40px;margin-bottom:30px">01 · БОЛЬШАЯ ЦЕЛЬ</div>
+    <h2 style="max-width:1180px">Мы строим <span class="red">финансовый дом</span> для каждого, кто работает на себя</h2>
+    <p class="sub" style="margin-top:20px;max-width:1160px">Не сразу банк. Сначала собираем массу людей гибкой занятости и делаем им удобно — выплаты, документы, заказы. Когда у нас критическая масса и данные об их доходах — поверх вырастают финансовые продукты. Это путь Shopify, Square и банков маркетплейсов, только в сегменте, который они не трогают.</p>
+    <div class="twocol" style="margin-top:50px;align-items:start">
+      <div class="card" style="background:#fff;padding:38px">
+        <div class="kicker" style="color:var(--label);margin-bottom:22px">ГОРИЗОНТ ЦЕЛИ</div>
+        <div class="quote">Полноценный необанк — цель на <em>3–4 года</em>. Раунд берём на ближайший шаг, не на всю мечту сразу.</div>
+      </div>
+      <div>
+        <div class="num-list">
+          <div class="row"><div class="n">→</div><div class="t"><b>Сегодня мы — утилита.</b> <span class="muted">Платёжная и юр-инфраструктура: выплаты, чеки, статус ФНС. Это ежедневный «крючок» и удержание — как РКО у Точки.</span></div></div>
+          <div class="row"><div class="n">→</div><div class="t"><b>Завтра — деньги клиента оседают у нас.</b> <span class="muted">Кошелёк, налоги, заказы с маркетплейса. Растёт частота и LTV.</span></div></div>
+          <div class="row"><div class="n">→</div><div class="t"><b>Послезавтра — банк.</b> <span class="muted">Кредиты и авансы под уже видимый доход, страховки, накопления.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section></div>
+
+  <!-- 04 — THE PATH -->
+  <div class="frame"><section class="slide">
+    <div class="topbar"><div class="kicker">ПУТЬ</div><div class="kicker">04 / 11</div></div>
+    <div class="section-tag" style="margin-top:40px;margin-bottom:28px">02 · ПОСЛЕДОВАТЕЛЬНОСТЬ, А НЕ ПРЫЖОК</div>
+    <h2>Каждый шаг финансируется удержанием предыдущего</h2>
+    <p class="sub" style="margin-top:16px;max-width:1180px">Аудитория и данные о денежных потоках — то, что банки строят годами и дорого. У нас этот слой уже есть.</p>
+    <div class="path">
+      <div class="pstep on"><div class="pn">СЕЙЧАС · ФАКТ</div><div class="pt">Сервис выплат СЗ</div><div class="pd">Документы, массовые выплаты, авто-чеки. Данные о доходах исполнителей.</div></div>
+      <div class="pstep on"><div class="pn">2026 · ЗАПУСК</div><div class="pt">Маркетплейс «Моя&nbsp;Работа»</div><div class="pd">Поток заказов и аудитория. Подпёрт ФЗ о платформенной экономике.</div></div>
+      <div class="pstep"><div class="pn">2026–2027</div><div class="pt">Приложение + кошелёк</div><div class="pd">Управление сменами и заказами. Деньги оседают внутри — частота и LTV растут.</div></div>
+      <div class="pstep"><div class="pn">2027</div><div class="pt">Финансовые сервисы</div><div class="pd">Налоги, кредиты и авансы под доход, страховки — андеррайтинг по своим данным.</div></div>
+      <div class="pstep bank"><div class="pn">2028+</div><div class="pt">Необанк</div><div class="pd">Полноценные банковские продукты для рынка гибкой занятости.</div></div>
+    </div>
+    <div class="ptrack"><div class="fill"></div><div class="now"></div></div>
+    <div class="footer-row">
+      <div class="kicker" style="color:var(--label)">СЛЕВА — ГОТОВО, СПРАВА — ROADMAP</div>
+      <div class="kicker" style="color:var(--label)">ARPU РАСТЁТ НА КАЖДОМ ШАГЕ</div>
+    </div>
+  </section></div>
+
+  <!-- 05 — WHY IT WORKS / ANALOGUES -->
+  <div class="frame"><section class="slide cream">
+    <div class="topbar"><div class="kicker">ПОЧЕМУ ЭТО РАБОТАЕТ</div><div class="kicker">05 / 11</div></div>
+    <div class="section-tag" style="margin-top:40px;margin-bottom:28px">03 · ПРОВЕРЕННЫЙ ПАТТЕРН</div>
+    <h2 style="max-width:1200px">«Утилита → данные → кредиты по своим данным → банк»</h2>
+    <div class="ana">
+      <div>
+        <div class="lab2">СНАЧАЛА АУДИТОРИЯ — ПОТОМ ФИНАНСЫ</div>
+        <div class="r"><div class="nm">Shopify</div><div class="ds">SaaS для магазинов → Payments → Capital. <b>74% выручки 2024 — финсервисы.</b></div></div>
+        <div class="r"><div class="nm">Square / Block</div><div class="ds">Терминал → банкинг и кредиты. Заёмщик использует 3,7 продукта против 1,5.</div></div>
+        <div class="r"><div class="nm">Ozon · WB · Яндекс</div><div class="ds">Маркетплейс → банк. <b>~57 млн карт и кошельков за 2024.</b></div></div>
+      </div>
+      <div>
+        <div class="lab2">НЕОБАНКИ ДЛЯ ФРИЛАНСЕРОВ</div>
+        <div class="r"><div class="nm">Found (US)</div><div class="ds">Взлетел на одной боли — авто-отчисление налогов самозанятого.</div></div>
+        <div class="r"><div class="nm">Lili (US)</div><div class="ds">Счёт + бухгалтерия + ранний доступ к деньгам для gig-работников.</div></div>
+        <div class="r"><div class="nm">Qonto (EU)</div><div class="ds">Утилита для МСБ → 600K клиентов → заявка на банковскую лицензию.</div></div>
+      </div>
+    </div>
+    <div class="sidequote" style="margin-top:40px;max-width:1200px">У нас уже есть оба слоя паттерна: <b style="font-style:normal">выплаты</b> дают доходный профиль 15-млн рынка, <b style="font-style:normal">маркетплейс</b> — поток заказов и аудиторию. Банки этот сегмент не видят.</div>
+  </section></div>
+
+  <!-- 06 — TRACTION -->
+  <div class="frame"><section class="slide">
+    <div class="topbar"><div class="kicker">ТРЕКШН</div><div class="kicker">06 / 11</div></div>
+    <div class="section-tag" style="margin-top:40px;margin-bottom:24px">04 · ГДЕ МЫ СЕЙЧАС</div>
+    <h2>Действующий бизнес: выручка ×13 за 2025 год</h2>
+    <div class="twocol" style="margin-top:30px;align-items:start;grid-template-columns:1.15fr 1fr">
+      <div>
+        <div class="chart-wrap" style="margin-top:0"><div class="bars" id="revbars"></div></div>
+        <div class="kicker" style="color:var(--label);margin-top:42px">ВЫРУЧКА MOYAUDALENKA ПО КВАРТАЛАМ, МЛН ₽ · ФАКТ 2025 · ∑ 3,46 МЛН</div>
+      </div>
+      <div>
+        <div class="ue">
+          <div class="b"><div class="v">60</div><div class="c">корп. клиентов <span class="badge gray">фев'26</span></div></div>
+          <div class="b"><div class="v">~2 000</div><div class="c">активных самозанятых</div></div>
+          <div class="b"><div class="v">+10<small>/мес</small></div><div class="c">новых продаж</div></div>
+          <div class="b"><div class="v">720K<small>₽</small></div><div class="c">LTV (LT 36 мес)</div></div>
+          <div class="b"><div class="v">~3×</div><div class="c">LTV / CAC</div></div>
+          <div class="b"><div class="v">95<small>%</small></div><div class="c">retention Q4'25</div></div>
+        </div>
+        <div class="num-list" style="margin-top:24px">
+          <div class="row"><div class="n">01</div><div class="t"><b>Якорный клиент Зерокодер:</b> <span class="muted">~15 млн ₽/мес выплат через платформу. Также Юнисендер, Матриус.</span></div></div>
+          <div class="row"><div class="n">02</div><div class="t"><b>Привлечено 9 млн ₽</b> <span class="muted">от 2 инвесторов (2025), оценка ~156 млн ₽.</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">ИСТОЧНИК: ВНУТРЕННЯЯ ОТЧЁТНОСТЬ · ТЕКУЩИЕ МЕТРИКИ ОБНОВЛЯЮТСЯ</div>
+    <div class="footer-note right">06 / 11</div>
+  </section></div>
+
+  <!-- 07 — MONETIZATION LADDER -->
+  <div class="frame"><section class="slide">
+    <div class="topbar"><div class="kicker">МОНЕТИЗАЦИЯ</div><div class="kicker">07 / 11</div></div>
+    <div class="section-tag" style="margin-top:40px;margin-bottom:24px">05 · ARPU РАСТЁТ ПО ЛЕСТНИЦЕ</div>
+    <h2>От 1–2% с выплаты — к доходу с каждого финансового продукта</h2>
+    <p class="sub" style="margin-top:16px;max-width:1180px">Один и тот же пользователь приносит всё больше по мере движения по продукту. Деньги уже внутри — остаётся навешивать сервисы.</p>
+    <div class="money">
+      <div class="box">
+        <div class="tag">СЕЙЧАС · ДЕЙСТВУЕТ</div>
+        <h3>Комиссия с&nbsp;выплат СЗ</h3>
+        <div class="big">1–2<small>%</small></div>
+        <div class="unit">от объёма выплат</div>
+      </div>
+      <div class="box mid">
+        <div class="tag">ЦЕЛЕВАЯ · МАРКЕТПЛЕЙС</div>
+        <h3>Маржа со&nbsp;сделок и&nbsp;смен</h3>
+        <div class="big">20–25<small>%</small></div>
+        <div class="unit">со сделки на «Моя Работа»</div>
+      </div>
+      <div class="box dark">
+        <div class="tag">ДАЛЬШЕ · ФИНСЕРВИСЫ</div>
+        <h3>Финансовые<br>продукты</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;margin:26px 0 auto">
+          <div style="font-size:20px;font-weight:600">Кошелёк и счёт</div>
+          <div style="font-size:20px;font-weight:600">Кредиты и авансы под доход</div>
+          <div style="font-size:20px;font-weight:600">Страховки и накопления</div>
+        </div>
+        <div class="unit" style="color:var(--red);font-family:var(--mono);font-weight:600;letter-spacing:.04em;font-size:15px">ДОХОД С КАЖДОГО — ПОВЕРХ ТОЙ ЖЕ БАЗЫ</div>
+      </div>
+    </div>
+  </section></div>
+
+  <!-- 08 — PRODUCT -->
+  <div class="frame"><section class="slide cream">
+    <div class="topbar"><div class="kicker">ПРОДУКТ</div><div class="kicker">08 / 11</div></div>
+    <div class="section-tag" style="margin-top:40px;margin-bottom:28px">06 · ДВА ДВИГАТЕЛЯ РОСТА БАЗЫ</div>
+    <h2>Управляемый маркетплейс + «открытая сделка»</h2>
+    <div class="twocol" style="margin-top:46px;align-items:start">
+      <div class="col">
+        <div class="colhead">МОЯ РАБОТА · УПРАВЛЯЕМЫЙ МАРКЕТПЛЕЙС</div>
+        <h3>Оператор,<br>а не доска объявлений</h3>
+        <p>Исполнители закреплены за трудовыми агентами: те отвечают за качество и выход на смену и зарабатывают долю. Качество сделок выше там, где в контуре есть человек. Растём через мелких аутсорсеров, агентов и ИИ-подбор.</p>
+        <div class="chips"><span class="chip">Аутсорсеры</span><span class="chip">Трудовые агенты</span><span class="chip">ИИ-агент найма</span></div>
+      </div>
+      <div class="col">
+        <div class="colhead">ОТКРЫТАЯ СДЕЛКА · DAAS</div>
+        <h3>«Stripe»<br>для рынка труда</h3>
+        <p>White-label инфраструктура сделки и выплат поверх МояУдалёнка. Встраивается в любые площадки, где встречаются заказчик и исполнитель: условия, документы, оплата и налоги — в одном пространстве.</p>
+        <div class="chips"><span class="chip">Маркетплейсы фриланса</span><span class="chip">Школы и менторы</span><span class="chip">B2B-сделки</span></div>
+      </div>
+    </div>
+    <div class="sidequote" style="margin-top:40px;max-width:1200px">Оба продукта делают одно: <b style="font-style:normal">наращивают базу исполнителей и поток денег</b> — топливо для финансовых сервисов.</div>
+  </section></div>
+
+  <!-- 09 — FINANCIAL TRAJECTORY -->
+  <div class="frame"><section class="slide">
+    <div class="topbar"><div class="kicker">ФИНМОДЕЛЬ</div><div class="kicker">09 / 11</div></div>
+    <div class="section-tag" style="margin-top:40px;margin-bottom:22px">07 · ТРАЕКТОРИЯ К ОКУПАЕМОСТИ <span class="badge">ПРОГНОЗ</span></div>
+    <h2>Операционная безубыточность — <span class="green">декабрь 2027</span></h2>
+    <div class="chart-wrap" style="margin-top:10px"><div class="bars" id="projbars" style="max-width:820px;margin-right:auto"></div></div>
+    <div class="num-list" style="position:absolute;right:80px;top:240px;width:420px">
+      <div class="row"><div class="n">→</div><div class="t"><b>Выручка</b> <span class="muted">~7 → ~15 → ~25 млн ₽/мес (дек 26 → 27 → 28).</span></div></div>
+      <div class="row"><div class="n">→</div><div class="t"><b>Дек 2027</b> <span class="muted">первый операционно-прибыльный месяц.</span></div></div>
+      <div class="row"><div class="n">→</div><div class="t"><b>Драйвер</b> <span class="muted">маркетплейс и финсервисы поверх растущей базы.</span></div></div>
+    </div>
+    <div class="footer-row">
+      <div class="kicker" style="color:var(--label)">ВЫРУЧКА ПО ПРОЕКТАМ, МЛН ₽/МЕС · ФИН-МОДЕЛЬ</div>
+      <div class="kicker" style="color:var(--label)">ИСТОЧНИК: ВНУТРЕННЯЯ ФИН-МОДЕЛЬ 2026–2029</div>
+    </div>
+  </section></div>
+
+  <!-- 10 — ROUND / USE OF FUNDS -->
+  <div class="frame"><section class="slide dark">
+    <div class="topbar"><div class="kicker">РАУНД</div><div class="kicker">10 / 11</div></div>
+    <div class="section-tag" style="margin-top:40px;margin-bottom:24px"><span class="red-dot"></span>08 · ЗАЧЕМ РАУНД</div>
+    <h2 style="color:#f6f4ef">Привлекаем раунд, чтобы дойти до окупаемости</h2>
+    <div class="raise">
+      <div>
+        <div class="kicker" style="margin-bottom:14px">ПРИВЛЕКАЕМ</div>
+        <div class="bigask red">~65<small> млн ₽</small></div>
+        <div class="sub" style="margin-top:16px;max-width:520px">Совокупная потребность до операционной безубыточности по фин-модели (дек&nbsp;2027). Дальше — второй раунд уже на трекшне, не на обещаниях.</div>
+        <div class="ue" style="grid-template-columns:1fr 1fr;margin-top:28px">
+          <div class="b" style="border-color:rgba(255,255,255,.16)"><div class="v" style="color:#f6f4ef">дек'27</div><div class="c" style="color:#b4aea6">выход на ТБУ</div></div>
+          <div class="b" style="border-color:rgba(255,255,255,.16)"><div class="v" style="color:#f6f4ef">9 млн ₽</div><div class="c" style="color:#b4aea6">привлечено ранее (2025)</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="kicker" style="margin-bottom:18px">КУДА ИДУТ ДЕНЬГИ</div>
+        <div class="uof">
+          <div class="row"><div class="nm">Продукт и разработка</div><div class="pct">50–55%</div><div class="track"><div class="f" style="width:53%"></div></div></div>
+          <div class="row"><div class="nm">Продажи и рост базы</div><div class="pct">25–30%</div><div class="track"><div class="f" style="width:28%"></div></div></div>
+          <div class="row"><div class="nm">Маркетинг и бренд</div><div class="pct">10–15%</div><div class="track"><div class="f" style="width:13%"></div></div></div>
+          <div class="row"><div class="nm">Операционка и комплаенс</div><div class="pct">5–10%</div><div class="track"><div class="f" style="width:7%"></div></div></div>
+        </div>
+        <div class="sidequote" style="margin-top:26px;color:#f6f4ef;border-color:var(--red)">Деньги — на рост МояУдалёнка, запуск маркетплейса и приложение. Не на «мечту о банке».</div>
+      </div>
+    </div>
+  </section></div>
+
+  <!-- 11 — VISION / CONTACTS -->
+  <div class="frame"><section class="slide dark">
+    <div class="topbar"><div class="kicker">ВИДЕНИЕ</div><div class="kicker">11 / 11</div></div>
+    <div class="section-tag" style="margin-top:38px;margin-bottom:26px">09 · ЧЕМ МЫ БУДЕМ К 2028</div>
+    <h1 style="font-size:58px;line-height:1.1;color:#f6f4ef;max-width:1240px">Базовый <span class="red">финансовый сервис</span> 15 миллионов человек, которые работают на себя.</h1>
+    <div class="close-cols" style="margin-top:42px;border-top:1px solid rgba(255,255,255,.16);padding-top:30px">
+      <div><div class="lab">УТИЛИТА</div><h4 style="color:#f6f4ef">Выплаты, документы, заказы</h4><div class="d" style="color:#b4aea6">ежедневный крючок и удержание</div></div>
+      <div><div class="lab">АУДИТОРИЯ</div><h4 style="color:#f6f4ef">Самая большая база гибкой занятости</h4><div class="d" style="color:#b4aea6">и данные об их доходах</div></div>
+      <div><div class="lab">БАНК</div><h4 style="color:#f6f4ef">Финансовые продукты под доход</h4><div class="d" style="color:#b4aea6">кредиты, страховки, накопления</div></div>
+    </div>
+    <div class="contacts">
+      <div>
+        <div class="lab">КОНТАКТЫ</div>
+        <div class="big">MOYAUDALENKA.RU&nbsp;&nbsp;·&nbsp;&nbsp;MOYARABOTA.RU</div>
+        <div class="em">info@moyaudalenka.ru&nbsp;&nbsp;·&nbsp;&nbsp;+7 991 585 10 64</div>
+      </div>
+      <div class="right">
+        <div class="thanks"><span class="red-dot"></span>СПАСИБО</div>
+        <div class="meta">Q2 2026 · INVESTOR DECK</div>
+      </div>
+    </div>
+  </section></div>
+
+</div>
+
+<script>
+  // ---- revenue bars (slide 6): actual 2025 quarterly revenue, млн ₽ ----
+  (function(){
+    var data=[{x:"Q1'25",v:0.36},{x:"Q2'25",v:0.49},{x:"Q3'25",v:0.81},{x:"Q4'25",v:1.81}];
+    var max=1.81,host=document.getElementById('revbars');if(!host)return;
+    var cols=['#a39d95','#7d776f','#36322c','#d9442e'];
+    data.forEach(function(d,i){
+      var bar=document.createElement('div');bar.className='bar';
+      var h=(d.v/max*100);var v=d.v.toFixed(2).replace('.',',');
+      bar.innerHTML='<span style="position:absolute;font-family:var(--mono);color:var(--ink);font-weight:600;font-size:16px;bottom:calc('+h+'% + 10px)">'+v+'</span><div class="b" style="height:'+h+'%;background:'+cols[i]+'"></div><span class="x">'+d.x+'</span>';
+      host.appendChild(bar);
+    });
+  })();
+
+  // ---- projection bars (slide 9): monthly revenue run-rate, млн ₽ (fin-model) ----
+  (function(){
+    var data=[{x:"дек'26",v:7.2},{x:"июн'27",v:11.7},{x:"дек'27",v:14.6,be:true},{x:"июн'28",v:18.5},{x:"дек'28",v:24.5}];
+    var max=24.5,host=document.getElementById('projbars');if(!host)return;
+    data.forEach(function(d){
+      var bar=document.createElement('div');bar.className='bar';
+      var h=(d.v/max*100);var v=d.v.toFixed(1).replace('.',',');
+      var col=d.be?'#1f7a4d':'#36322c';
+      var tag=d.be?'<span style="position:absolute;font-family:var(--mono);color:#1f7a4d;font-weight:600;font-size:13px;bottom:calc('+h+'% + 32px);white-space:nowrap">ТБУ ▾</span>':'';
+      bar.innerHTML=tag+'<span style="position:absolute;font-family:var(--mono);color:var(--ink);font-weight:600;font-size:15px;bottom:calc('+h+'% + 10px)">'+v+'</span><div class="b" style="height:'+h+'%;background:'+col+'"></div><span class="x">'+d.x+'</span>';
+      host.appendChild(bar);
+    });
+  })();
+
+  // ---- screen-only scaling to fit viewport ----
+  (function(){
+    function scale(){
+      if(window.matchMedia('print').matches)return;
+      var s=Math.min(1,(window.innerWidth-40)/1440);
+      document.querySelectorAll('.frame').forEach(function(f){f.style.transform='scale('+s+')';f.style.height=(810*s)+'px';});
+    }
+    window.addEventListener('resize',scale);scale();
+    window.addEventListener('beforeprint',function(){document.querySelectorAll('.frame').forEach(function(f){f.style.transform='none';f.style.height='810px';});});
+    window.addEventListener('afterprint',scale);
+  })();
+</script>
+</body>
+</html>
