@@ -119,6 +119,13 @@
   .fs-block span{display:block;color:var(--muted);font-size:13px;line-height:1.5}
   .fs-block.fs-acc{background:linear-gradient(180deg,rgba(216,255,58,.06),transparent)}
   .fs-block.fs-acc strong{color:var(--accent)}
+  .trust-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--card)}
+  .trust-strip .container{padding-top:28px;padding-bottom:28px}
+  .ts-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:.04em;margin-bottom:18px;text-align:center}
+  .ts-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:18px 40px}
+  .ts-item{display:flex;flex-direction:column;align-items:center;line-height:1.2}
+  .ts-name{font-size:19px;font-weight:900;letter-spacing:-.01em}
+  .ts-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:5px}
 
   /* ===== SERVICE HERO (AI-NATIVE) ===== */
   .svc-hero{display:grid;grid-template-columns:1.5fr 1fr;gap:0;border:1px solid var(--accent);margin-bottom:32px;background:linear-gradient(135deg,rgba(216,255,58,.04),transparent 60%)}
@@ -327,7 +334,6 @@
   <div class="container nav-row">
     <div class="logo">msolo<span class="dot">.</span>studio</div>
     <div class="nav-links">
-      <a href="#founder">О нас</a>
       <a href="#services">Услуги</a>
       <a href="#cases">Кейсы</a>
       <a href="#principles">Принципы</a>
@@ -384,14 +390,29 @@
   </div>
 </header>
 
+<!-- TRUST STRIP -->
+<section class="trust-strip">
+  <div class="container">
+    <div class="ts-label">// до студии команда строила и масштабировала эти компании — на уровне CEO / CPO / cofounder</div>
+    <div class="ts-row">
+      <div class="ts-item"><span class="ts-name">Unisender</span><span class="ts-meta">ESP · $10M ARR</span></div>
+      <div class="ts-item"><span class="ts-name">GoMagic</span><span class="ts-meta">co-founded · SaaS</span></div>
+      <div class="ts-item"><span class="ts-name">Selzy</span><span class="ts-meta">led · оргразвитие</span></div>
+      <div class="ts-item"><span class="ts-name">SalesCall</span><span class="ts-meta">0→500K ₽/мес за 2 мес</span></div>
+      <div class="ts-item"><span class="ts-name">Моя Удалёнка</span><span class="ts-meta">led · 60 клиентов</span></div>
+      <div class="ts-item"><span class="ts-name">Desert.ru</span><span class="ts-meta">Сколково → США</span></div>
+    </div>
+  </div>
+</section>
+
 <!-- PROBLEM -->
 <section id="problem">
   <div class="container">
     <div class="sec-head">
       <div class="sec-num">/ 01 — ПРОБЛЕМА</div>
       <div>
-        <h2 class="sec-title">ИИ уже работает у конкурентов. Пока вы выбираете подрядчика.</h2>
-        <p class="sec-sub">Большинство команд застряло на этапе «надо что-то с этим делать». А время уходит — рынок не ждёт.</p>
+        <h2 class="sec-title">Правила игры переписаны. Выигрывают те, кто перестроил бизнес на ИИ.</h2>
+        <p class="sec-sub">Пока одни разбираются «надо ли», другие уже обгоняют рынок — теми же людьми и бюджетом делают кратно больше.</p>
       </div>
     </div>
     <div class="problem-grid">
@@ -414,93 +435,11 @@
   </div>
 </section>
 
-<!-- FOUNDER / ABOUT -->
-<section id="founder">
-  <div class="container">
-    <div class="sec-head">
-      <div class="sec-num">/ 02 — КТО МЫ</div>
-      <div>
-        <h2 class="sec-title">Не агентство. Действующие операторы.</h2>
-        <p class="sec-sub">Команда продуктовиков, маркетологов и инженеров, которые сами строят и масштабируют SaaS-бизнесы. Подключаемся к клиентам там, где задача лежит в нашей зоне силы.</p>
-      </div>
-    </div>
-
-    <div class="track-h">
-      <div class="track-h-tag">// КОМПАНИИ, ГДЕ МЫ РАБОТАЛИ ИЛИ ЛИДИЛИ</div>
-      <div class="track-h-text">До своей студии команда строила и масштабировала SaaS, маркетинг и операционку внутри этих компаний. Не «делали проекты», а отвечали за результат на уровне CEO / CPO / cofounder.</div>
-    </div>
-
-    <div class="track-grid">
-      <div class="tg-card">
-        <div class="tg-role">LED</div>
-        <div class="tg-name">Unisender</div>
-        <div class="tg-desc">ESP-платформа, $10M+ ARR. Перестроили оргструктуру, выручка +30%, новых клиентов +67%.</div>
-      </div>
-      <div class="tg-card">
-        <div class="tg-role">LED</div>
-        <div class="tg-name">Моя Удалёнка</div>
-        <div class="tg-desc">Сервисная компания, 32 чел в команде, 60 клиентов. Операционка и продукт.</div>
-      </div>
-      <div class="tg-card">
-        <div class="tg-role">CO-FOUNDED</div>
-        <div class="tg-name">GoMagic</div>
-        <div class="tg-desc">SaaS на международном рынке. Доля основателя, рост и продажи.</div>
-      </div>
-      <div class="tg-card">
-        <div class="tg-role">LED</div>
-        <div class="tg-name">Selzy.com</div>
-        <div class="tg-desc">HR-процессы, организационное развитие международной команды.</div>
-      </div>
-      <div class="tg-card">
-        <div class="tg-role">FOUNDED</div>
-        <div class="tg-name">SalesCall</div>
-        <div class="tg-desc">Запустили с нуля до 500K ₽/мес выручки за 2 месяца. От перформанс-маркетинга до закрытия сделок.</div>
-      </div>
-      <div class="tg-card">
-        <div class="tg-role">WORKED</div>
-        <div class="tg-name">Desert.ru</div>
-        <div class="tg-desc">Резидент Сколково с выходом в США. Продуктовая работа в международной среде.</div>
-      </div>
-    </div>
-
-    <aside class="founder-skills">
-      <div class="fs-h">// что мы делаем лучше всего</div>
-      <div class="fs-skills-grid">
-        <div class="fs-block">
-          <div class="fs-icon">01</div>
-          <strong>Product-Led Growth</strong>
-          <span>Roadmap, custdev, onboarding, unit-экономика. Не «давайте сделаем фичу», а «что двигает retention».</span>
-        </div>
-        <div class="fs-block">
-          <div class="fs-icon">02</div>
-          <strong>Оргтрансформации</strong>
-          <span>Squads, OKR, горизонтальные структуры. Делаем команды способными работать с ИИ.</span>
-        </div>
-        <div class="fs-block">
-          <div class="fs-icon">03</div>
-          <strong>Маркетинг полного цикла</strong>
-          <span>Перформанс, контент, SEO, PPC, сквозная аналитика. Видим, где ИИ снизит CAC.</span>
-        </div>
-        <div class="fs-block">
-          <div class="fs-icon">04</div>
-          <strong>Запуск с нуля</strong>
-          <span>Валидация, MVP, первые продажи. Добегаем от идеи до выручки за недели, а не за полгода.</span>
-        </div>
-        <div class="fs-block fs-acc">
-          <div class="fs-icon">05</div>
-          <strong>AI-оркестрация</strong>
-          <span>Парк AI-агентов, автоматизация. Каждый день в своих продуктах — переносим к клиентам.</span>
-        </div>
-      </div>
-    </aside>
-  </div>
-</section>
-
 <!-- SERVICES -->
 <section id="services">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-num">/ 03 — УСЛУГИ</div>
+      <div class="sec-num">/ 02 — УСЛУГИ</div>
       <div>
         <h2 class="sec-title">Что мы делаем</h2>
         <p class="sec-sub">Четыре направления — каждое с готовыми кейсами и понятным сроком запуска.</p>
@@ -590,7 +529,7 @@
 <section id="cases">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-num">/ 04 — КЕЙСЫ</div>
+      <div class="sec-num">/ 03 — КЕЙСЫ</div>
       <div>
         <h2 class="sec-title">Что уже сделано</h2>
         <p class="sec-sub">Каждый кейс — это запущенный в прод продукт или процесс. Не демо, не «концепт».</p>
@@ -1099,7 +1038,7 @@
 <section id="process">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-num">/ 05 — ПРОЦЕСС</div>
+      <div class="sec-num">/ 04 — ПРОЦЕСС</div>
       <div>
         <h2 class="sec-title">Как мы работаем</h2>
         <p class="sec-sub">Без длинных диагностик и месяцев на «согласование ТЗ». Запускаем за 4 шага.</p>
@@ -1139,7 +1078,7 @@
 <section id="principles">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-num">/ 06 — ПРИНЦИПЫ</div>
+      <div class="sec-num">/ 05 — ПРИНЦИПЫ</div>
       <div>
         <h2 class="sec-title">Жёсткие правила, которым следуем</h2>
         <p class="sec-sub">Мы не маркетинговое агентство, которое хочет любого клиента. У нас есть фильтры — и они работают в обе стороны.</p>
