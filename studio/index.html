@@ -501,179 +501,6 @@
         <div class="cfm"><div class="cfm-v">~400К ₽</div><div class="cfm-l">экономия<br>в месяц</div></div>
         <div class="cfm"><div class="cfm-v">5 мес</div><div class="cfm-l">окупаемость<br>внедрения</div></div>
       </div>
-
-      <div class="cf-lesson">
-        <div class="cf-lesson-tag">// ЧЕСТНО О ПРОЦЕССЕ</div>
-        <p>Главная архитектурная попытка <strong>провалилась</strong>: IntakeAgent на LLM tool-calling — 4 итерации промптов, каждая хуже baseline (44% → 28%). Sonnet 4.6 для классификатора дал −6pp и ×4 стоимости. <strong>Откатились на Haiku 4.5 + малые таргетированные patches.</strong> Урок: большие архитектурные moves в LLM-продуктах часто проваливаются — побеждают точечные правки на реальных данных.</p>
-      </div>
-    </div>
-
-    <!-- FEATURED CASE 2: Моя Удалёнка -->
-    <div class="case-featured cf-small">
-      <div class="cf-head">
-        <div class="cf-tags">
-          <span class="case-tag alt2">FEATURED · CONTENT AUTOMATION</span>
-          <span class="cf-stack">Image generation · Style anchoring · Workflow integration</span>
-        </div>
-        <h3>SaaS для работы с самозанятыми — конвейер AI-обложек для корпоративного блога</h3>
-        <div class="cf-meta">// услуговый SaaS · корп-блог 2–3 поста в неделю · точечный проект, виден результат</div>
-      </div>
-
-      <div class="cf-body">
-        <div class="cf-col cf-was">
-          <div class="cf-col-tag">// БЫЛО</div>
-          <ul>
-            <li>1 штатный дизайнер в команде, оклад <strong>40 000 ₽/мес</strong></li>
-            <li>2–3 обложки в неделю под посты блога, единый визуальный стиль</li>
-            <li>Узкое горлышко: дизайнер занят / в отпуске → пост готов, обложки нет → публикация задержана</li>
-            <li>Иллюстрации — повторяющаяся ручная работа, не дизайн-проектирование</li>
-          </ul>
-        </div>
-
-        <div class="cf-col cf-did">
-          <div class="cf-col-tag">// СДЕЛАЛИ</div>
-          <ul>
-            <li>Зафиксировали визуальный язык бренда: пастельная палитра, минималистичная иллюстрация, без «AI-tell» признаков</li>
-            <li>Собрали промпт-стек под этот стиль: каждая обложка генерируется по короткому описанию поста</li>
-            <li>Встроили генерацию в редакционный workflow — редактор сам получает обложку за минуты, без участия дизайнера</li>
-            <li>Калибровка качества: внешний наблюдатель не отличает AI-обложку от ручного дизайна</li>
-          </ul>
-        </div>
-
-        <div class="cf-col cf-now">
-          <div class="cf-col-tag">// СТАЛО</div>
-          <ul>
-            <li><strong>−40 000 ₽/мес ФОТ</strong> — позицию дизайнера закрыли</li>
-            <li><strong>−480 000 ₽/год</strong> экономии нарастающим итогом</li>
-            <li>Обложки за минуты вместо дней — нет задержек публикации</li>
-            <li>Стиль держится 100% — посты выглядят как из единой редакционной системы</li>
-            <li>Можно проверить вживую: блог открыт, обложки прямо там</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="cf-metrics">
-        <div class="cfm"><div class="cfm-v">−40К ₽</div><div class="cfm-l">в месяц<br>экономия ФОТ</div></div>
-        <div class="cfm"><div class="cfm-v">~0 дней</div><div class="cfm-l">ожидания<br>обложек</div></div>
-        <div class="cfm"><div class="cfm-v">1 позиция</div><div class="cfm-l">закрыта<br>в команде</div></div>
-        <div class="cfm"><div class="cfm-v"><a href="https://moyaudalenka.ru/journal/" target="_blank" style="color:inherit;text-decoration:underline">смотреть →</a></div><div class="cfm-l">блог<br>проверить вживую</div></div>
-      </div>
-
-      <div class="cf-lesson">
-        <div class="cf-lesson-tag">// ЛОГИКА КЕЙСА</div>
-        <p>Это <strong>не «AI-трансформация»</strong>. Это один точечный процесс с понятной экономикой: дизайнер стоил 40К/мес, обложек нужно немного, стиль повторяющийся. Замена — рабочая, легко проверяемая, окупается мгновенно. Так выглядит <strong>«комфортный вход» в AI</strong>: маленький проект, конкретный результат, минимум риска.</p>
-      </div>
-    </div>
-
-    <!-- FEATURED CASE 3: AI-аналитика отзывов на маркетплейсах -->
-    <div class="case-featured cf-small">
-      <div class="cf-head">
-        <div class="cf-tags">
-          <span class="case-tag">CLIENT · MARKETPLACE AI</span>
-          <span class="cf-stack">NLP-кластеризация · LLM-ответы · еженедельные дайджесты · cross-sell</span>
-        </div>
-        <h3>AI-аналитика и работа с отзывами на маркетплейсах</h3>
-        <div class="cf-meta">// продавец на маркетплейсах · тысячи отзывов в месяц · Ozon · Wildberries · Google Play</div>
-      </div>
-
-      <div class="cf-body">
-        <div class="cf-col cf-was">
-          <div class="cf-col-tag">// БЫЛО</div>
-          <ul>
-            <li>Тысячи отзывов копились — обработать вручную физически невозможно</li>
-            <li>Инсайты терялись: что хвалят, что ломается, какие фичи просят — не видно</li>
-            <li>Ответы шли шаблонные, без учёта контекста клиента</li>
-            <li>Негатив не отрабатывался — висел <strong>неделями</strong></li>
-          </ul>
-        </div>
-
-        <div class="cf-col cf-did">
-          <div class="cf-col-tag">// СДЕЛАЛИ</div>
-          <ul>
-            <li>AI парсит и кластеризует отзывы по темам: качество, упаковка, логистика, сценарии использования</li>
-            <li>Еженедельный дайджест для руководства и продуктовой команды: что хвалят, что ломается, где проседает качество</li>
-            <li>AI пишет персональные ответы на каждый отзыв с учётом контекста конкретного пользователя</li>
-            <li>В ответе рекомендует подходящий товар из ассортимента — <strong>cross-sell прямо в ответе</strong></li>
-          </ul>
-        </div>
-
-        <div class="cf-col cf-now">
-          <div class="cf-col-tag">// СТАЛО</div>
-          <ul>
-            <li><strong>Рост выручки</strong> за счёт допродаж через ответы на отзывы</li>
-            <li>Улучшение ретеншена — клиент видит, что его услышали</li>
-            <li>Рейтинг карточек подрос</li>
-            <li>Негатив отрабатывается <strong>в течение часа</strong>, а не недели</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="cf-metrics">
-        <div class="cfm"><div class="cfm-v">100%</div><div class="cfm-l">отзывов<br>в обработке</div></div>
-        <div class="cfm"><div class="cfm-v">&lt;1 час</div><div class="cfm-l">отработка негатива<br>(было недели)</div></div>
-        <div class="cfm"><div class="cfm-v">cross-sell</div><div class="cfm-l">допродажи<br>прямо в ответе</div></div>
-        <div class="cfm"><div class="cfm-v">↑ рейтинг</div><div class="cfm-l">карточек<br>товара</div></div>
-      </div>
-
-      <div class="cf-lesson">
-        <div class="cf-lesson-tag">// ЛОГИКА КЕЙСА</div>
-        <p>Отзывы — это замкнутый процесс: входящий поток → разбор → действие. AI закрывает то, что вручную физически не успеть, и попутно превращает поддержку в <strong>канал продаж</strong> — каждый ответ работает на выручку, а не просто «закрывает тикет».</p>
-      </div>
-    </div>
-
-    <!-- FEATURED CASE 4: AI-консультант интернет-магазина -->
-    <div class="case-featured cf-small">
-      <div class="cf-head">
-        <div class="cf-tags">
-          <span class="case-tag alt">CLIENT · SALES AI</span>
-          <span class="cf-stack">Диалоговый AI · подбор по правилам · авто-сборка корзины</span>
-        </div>
-        <h3>AI-консультант для интернет-магазина тёплых полов</h3>
-        <div class="cf-meta">// интернет-магазин · подбор технического комплекта · e-commerce</div>
-      </div>
-
-      <div class="cf-body">
-        <div class="cf-col cf-was">
-          <div class="cf-col-tag">// БЫЛО</div>
-          <ul>
-            <li>Клиенты не понимали, какой комплект тёплого пола им нужен</li>
-            <li>Из-за этого <strong>теряли заявки</strong> — уходили, не разобравшись</li>
-            <li>Менеджеры тратили часы на однотипные консультации</li>
-          </ul>
-        </div>
-
-        <div class="cf-col cf-did">
-          <div class="cf-col-tag">// СДЕЛАЛИ</div>
-          <ul>
-            <li>AI-ассистент ведёт диалог как живой консультант</li>
-            <li>Уточняет тип покрытия (плитка / ламинат / линолеум), площадь, назначение комнаты, особенности монтажа</li>
-            <li>Автоматически подбирает совместимый комплект: мат/кабель + терморегулятор + аксессуары</li>
-            <li>Собирает готовую <strong>корзину к оплате</strong></li>
-          </ul>
-        </div>
-
-        <div class="cf-col cf-now">
-          <div class="cf-col-tag">// СТАЛО</div>
-          <ul>
-            <li><strong>Конверсия из визита в заказ выросла</strong></li>
-            <li>Средний чек увеличился за счёт корректной комплектации</li>
-            <li>Нагрузка на менеджеров снизилась</li>
-            <li>Люди подключаются только к сложным заявкам</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="cf-metrics">
-        <div class="cfm"><div class="cfm-v">↑ конверсия</div><div class="cfm-l">из визита<br>в заказ</div></div>
-        <div class="cfm"><div class="cfm-v">↑ чек</div><div class="cfm-l">верная<br>комплектация</div></div>
-        <div class="cfm"><div class="cfm-v">авто-корзина</div><div class="cfm-l">комплект<br>к оплате</div></div>
-        <div class="cfm"><div class="cfm-v">↓ нагрузка</div><div class="cfm-l">менеджеры —<br>только сложное</div></div>
-      </div>
-
-      <div class="cf-lesson">
-        <div class="cf-lesson-tag">// ЛОГИКА КЕЙСА</div>
-        <p>Однотипная консультация перед покупкой — дорогое и заменяемое звено. AI-консультант не «продаёт вместо человека», а снимает рутину подбора и отдаёт людям только сложные заявки. Конкретный процесс с понятной экономикой: каждая доведённая до корзины заявка — это заказ, который иначе ушёл бы.</p>
-      </div>
     </div>
 
     <!-- FEATURED CASE 5: AI-оценка качества техподдержки -->
@@ -724,14 +551,45 @@
         <div class="cfm"><div class="cfm-v">↓ в разы</div><div class="cfm-l">время<br>на оценку</div></div>
         <div class="cfm"><div class="cfm-v">отчёт</div><div class="cfm-l">тонкие места<br>+ приоритеты</div></div>
       </div>
-
-      <div class="cf-lesson">
-        <div class="cf-lesson-tag">// ЛОГИКА КЕЙСА</div>
-        <p>QA вручную физически покрывает 5–10% — остальное вслепую. AI не заменяет руководителя саппорта, а даёт ему то, чего раньше не было: <strong>полную картину по 100% обращений</strong> и конкретный список, что чинить первым. Контроль качества из выборочного становится сплошным.</p>
-      </div>
     </div>
 
     <div class="cases">
+
+      <!-- CLIENT CARD: Моя Удалёнка -->
+      <div class="case">
+        <div class="case-tag alt2">CLIENT · CONTENT AI</div>
+        <h3>Конвейер AI-обложек для блога</h3>
+        <div class="who">// корп-блог · 2–3 поста в неделю</div>
+        <p>Зафиксировали визуальный стиль бренда и собрали промпт-стек: редактор получает обложку за минуты, без дизайнера. Внешне не отличить от ручного дизайна.</p>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="v">−40К ₽/мес</div><div class="l">ФОТ дизайнера</div></div>
+          <div class="case-metric"><div class="v">~0 дней</div><div class="l">ожидания обложек</div></div>
+        </div>
+      </div>
+
+      <!-- CLIENT CARD: отзывы -->
+      <div class="case">
+        <div class="case-tag">CLIENT · MARKETPLACE AI</div>
+        <h3>AI-аналитика отзывов на маркетплейсах</h3>
+        <div class="who">// Ozon · Wildberries · Google Play</div>
+        <p>AI кластеризует отзывы по темам, шлёт еженедельный дайджест руководству и пишет персональные ответы с рекомендацией товара — cross-sell прямо в ответе.</p>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="v">100%</div><div class="l">отзывов в обработке</div></div>
+          <div class="case-metric"><div class="v">&lt;1 час</div><div class="l">отработка негатива</div></div>
+        </div>
+      </div>
+
+      <!-- CLIENT CARD: тёплые полы -->
+      <div class="case">
+        <div class="case-tag alt">CLIENT · SALES AI</div>
+        <h3>AI-консультант интернет-магазина</h3>
+        <div class="who">// интернет-магазин тёплых полов</div>
+        <p>AI ведёт диалог как живой консультант — уточняет покрытие, площадь, монтаж — и автоматически собирает совместимый комплект в корзину к оплате.</p>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="v">↑ конверсия</div><div class="l">визит → заказ</div></div>
+          <div class="case-metric"><div class="v">↑ чек</div><div class="l">верная комплектация</div></div>
+        </div>
+      </div>
 
       <!-- AUTO 1 -->
       <div class="case">
