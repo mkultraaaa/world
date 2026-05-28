@@ -328,7 +328,8 @@
     .step{border-right:none;border-bottom:1px solid var(--line)}
     .step:last-child{border-bottom:none}
   }
-  .lang-switch{margin-left:14px;padding:7px 12px;background:transparent;color:var(--fg);border:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.05em;transition:.15s}
+  .nav-right{display:flex;align-items:center;gap:14px}
+  .lang-switch{padding:7px 12px;background:transparent;color:var(--fg);border:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.05em;transition:.15s}
   .lang-switch:hover{border-color:var(--accent);color:var(--accent)}
 </style>
 </head>
@@ -343,8 +344,10 @@
       <a href="#cases" data-en="Cases">Кейсы</a>
       <a href="#principles" data-en="Principles">Принципы</a>
     </div>
-    <a class="nav-cta" href="#cta" data-en="Message on Telegram →">Написать в Telegram →</a>
-    <button class="lang-switch" id="langSwitch" type="button">EN</button>
+    <div class="nav-right">
+      <button class="lang-switch" id="langSwitch" type="button">EN</button>
+      <a class="nav-cta" href="#cta" data-en="Message on Telegram →">Написать в Telegram →</a>
+    </div>
   </div>
 </nav>
 
