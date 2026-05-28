@@ -185,6 +185,9 @@
 
   /* ===== CASES ===== */
   .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .cases-more{display:flex;justify-content:center;margin-top:40px}
+  #moreCasesBtn{cursor:pointer;font-family:inherit;letter-spacing:.02em}
+  #moreCasesBtn:hover{border-color:var(--accent);color:var(--accent)}
   .case{border:1px solid var(--line);background:var(--card);padding:32px;transition:.2s;display:flex;flex-direction:column;min-height:360px}
   .case:hover{border-color:var(--accent);transform:translateY(-4px)}
   .case-tag{display:inline-block;padding:4px 10px;background:var(--accent);color:#000;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;margin-bottom:20px;width:fit-content;text-transform:uppercase;letter-spacing:.05em}
@@ -1085,6 +1088,10 @@
       </div>
 
     </div>
+
+    <div class="cases-more">
+      <button id="moreCasesBtn" class="btn-ghost" type="button">Ещё кейсы →</button>
+    </div>
   </div>
 </section>
 
@@ -1230,6 +1237,29 @@
     </div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var grid = document.querySelector('.cases');
+  var btn  = document.getElementById('moreCasesBtn');
+  if(!grid || !btn) return;
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.case'));
+  var INIT = 6, STEP = 6, shown = INIT;
+  if(cards.length <= INIT){ btn.parentNode.style.display = 'none'; return; }
+  function render(){
+    cards.forEach(function(c,i){ c.style.display = i < shown ? '' : 'none'; });
+    var rem = cards.length - shown;
+    if(rem > 0){ btn.textContent = 'Ещё кейсы (+' + rem + ') →'; btn.dataset.mode = 'more'; }
+    else { btn.textContent = 'Свернуть ↑'; btn.dataset.mode = 'less'; }
+  }
+  btn.addEventListener('click', function(){
+    if(btn.dataset.mode === 'less'){ shown = INIT; grid.scrollIntoView({behavior:'smooth', block:'start'}); }
+    else { shown = Math.min(cards.length, shown + STEP); }
+    render();
+  });
+  render();
+})();
+</script>
 
 </body>
 </html>
