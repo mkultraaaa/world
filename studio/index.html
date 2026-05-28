@@ -119,13 +119,10 @@
   .fs-block span{display:block;color:var(--muted);font-size:13px;line-height:1.5}
   .fs-block.fs-acc{background:linear-gradient(180deg,rgba(216,255,58,.06),transparent)}
   .fs-block.fs-acc strong{color:var(--accent)}
-  .trust-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--card)}
-  .trust-strip .container{padding-top:28px;padding-bottom:28px}
-  .ts-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:.04em;margin-bottom:18px;text-align:center}
-  .ts-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:18px 40px}
-  .ts-item{display:flex;flex-direction:column;align-items:center;line-height:1.2}
-  .ts-name{font-size:19px;font-weight:900;letter-spacing:-.01em}
-  .ts-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:5px}
+  .trust-strip{border-bottom:1px solid var(--line)}
+  .trust-strip .container{padding-top:15px;padding-bottom:15px;display:flex;gap:8px 16px;align-items:baseline;justify-content:center;flex-wrap:wrap}
+  .ts-pre{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.04em}
+  .ts-cos{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:.03em}
 
   /* ===== SERVICE HERO (AI-NATIVE) ===== */
   .svc-hero{display:grid;grid-template-columns:1.5fr 1fr;gap:0;border:1px solid var(--accent);margin-bottom:32px;background:linear-gradient(135deg,rgba(216,255,58,.04),transparent 60%)}
@@ -353,13 +350,6 @@
       <p class="hero-sub">
         Мы сами — серийные предприниматели, CEO, продуктовики и маркетологи. Видим, где ИИ в вашем P&L реально приносит деньги — и туда его встраиваем.
       </p>
-      <div class="hero-chips">
-        <span>серийные предприниматели</span>
-        <span>CEO / founders</span>
-        <span>продуктовики</span>
-        <span>маркетологи</span>
-        <span>разработчики</span>
-      </div>
       <div class="hero-cta">
         <a class="btn-primary" href="#cta">Обсудить ваш бизнес →</a>
         <a class="btn-ghost" href="#cases">Что мы построили</a>
@@ -373,37 +363,15 @@
       </div>
     </div>
   </div>
-
-  <div class="ticker">
-    <div class="ticker-track">
-      <span>// AI-АССИСТЕНТЫ</span><span class="acc">→</span>
-      <span>АВТОМАТИЗАЦИЯ ОПЕРАЦИОНКИ</span><span class="acc">→</span>
-      <span>SAAS НА БАЗЕ LLM</span><span class="acc">→</span>
-      <span>CONTENT-КОНВЕЙЕР</span><span class="acc">→</span>
-      <span>AI-ВНУТРЕННИЕ ИНСТРУМЕНТЫ</span><span class="acc">→</span>
-      <span>// AI-АССИСТЕНТЫ</span><span class="acc">→</span>
-      <span>АВТОМАТИЗАЦИЯ ОПЕРАЦИОНКИ</span><span class="acc">→</span>
-      <span>SAAS НА БАЗЕ LLM</span><span class="acc">→</span>
-      <span>CONTENT-КОНВЕЙЕР</span><span class="acc">→</span>
-      <span>AI-ВНУТРЕННИЕ ИНСТРУМЕНТЫ</span><span class="acc">→</span>
-    </div>
-  </div>
 </header>
 
 <!-- TRUST STRIP -->
-<section class="trust-strip">
+<div class="trust-strip">
   <div class="container">
-    <div class="ts-label">// до студии команда строила и масштабировала эти компании — на уровне CEO / CPO / cofounder</div>
-    <div class="ts-row">
-      <div class="ts-item"><span class="ts-name">Unisender</span><span class="ts-meta">ESP · $10M ARR</span></div>
-      <div class="ts-item"><span class="ts-name">GoMagic</span><span class="ts-meta">co-founded · SaaS</span></div>
-      <div class="ts-item"><span class="ts-name">Selzy</span><span class="ts-meta">led · оргразвитие</span></div>
-      <div class="ts-item"><span class="ts-name">SalesCall</span><span class="ts-meta">0→500K ₽/мес за 2 мес</span></div>
-      <div class="ts-item"><span class="ts-name">Моя Удалёнка</span><span class="ts-meta">led · 60 клиентов</span></div>
-      <div class="ts-item"><span class="ts-name">Desert.ru</span><span class="ts-meta">Сколково → США</span></div>
-    </div>
+    <span class="ts-pre">// строили и масштабировали:</span>
+    <span class="ts-cos">Unisender · GoMagic · Selzy · SalesCall · Моя Удалёнка · Desert.ru</span>
   </div>
-</section>
+</div>
 
 <!-- PROBLEM -->
 <section id="problem">
@@ -418,18 +386,18 @@
     <div class="problem-grid">
       <div class="problem-card">
         <div class="ico">[01]</div>
-        <h3>Сотрудники тонут в рутине</h3>
-        <p>Менеджеры пишут ответы клиентам, обрабатывают заявки, собирают отчёты — задачи, которые ИИ закрывает за минуты.</p>
+        <h3>Один человек = целый отдел</h3>
+        <p>Команда с AI делает работу пятерых — тот же объём втрое меньшими силами и бюджетом. У кого этого нет, проигрывает в себестоимости.</p>
       </div>
       <div class="problem-card">
         <div class="ico">[02]</div>
-        <h3>Конкуренты быстрее</h3>
-        <p>Кто внедрил AI-саппорт и автоматизацию — обслуживает в 3 раза больше клиентов теми же людьми. И снижает CAC.</p>
+        <h3>Скорость стала валютой</h3>
+        <p>Кто автоматизировал — отвечает клиенту за секунды и катит фичи за дни. Остальные буксуют на найме, согласованиях и ручной рутине.</p>
       </div>
       <div class="problem-card">
         <div class="ico">[03]</div>
-        <h3>Внутренние команды не успевают</h3>
-        <p>Найм AI-разработчика — 4 месяца и $4–8K в месяц. Подрядчики делают по полгода и сливаются. Запуск откладывается.</p>
+        <h3>Окно закрывается</h3>
+        <p>Сегодня ИИ — это фора. Через год — обязательное условие, чтобы остаться в игре. Догонять будет дороже, чем внедрить сейчас.</p>
       </div>
     </div>
   </div>
