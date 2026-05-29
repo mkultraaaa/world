@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<base href="/lead-bot/">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бот-квалификатор лидов — аудит задачи · согласование</title>
+<meta name="description" content="Анализ диалогов, описание задачи и флоу бота для квалификации входящих лидов и передачи партнёру. Документ для согласования.">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --red:#FF4D4D;
+  --green:#39d98a;
+  --bg:#000;
+  --surface:#0e0e0e;
+  --surface2:#161616;
+  --line:#262626;
+  --white:#fff;
+  --gray:#8a8a8a;
+  --gray-dark:#555;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.mono{font-family:'JetBrains Mono',monospace}
+em{color:var(--red);font-style:normal}
+
+/* HERO */
+.hero{min-height:78vh;display:flex;flex-direction:column;justify-content:center;padding:80px 0 56px;border-bottom:1px solid var(--line)}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:26px}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,11vw,150px);line-height:.86;letter-spacing:2px;margin-bottom:18px}
+.hero .sub{font-size:clamp(16px,2.2vw,21px);color:var(--gray);max-width:660px;margin-top:18px}
+.hero .sub b{color:var(--white);font-weight:700}
+.tagrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:var(--gray);border:1px solid var(--line);padding:9px 14px;border-radius:2px}
+.tag em{color:var(--red)}
+
+/* SECTIONS */
+section{padding:80px 0;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
+h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5.5vw,62px);line-height:.96;letter-spacing:1px;margin-bottom:14px}
+.lead{font-size:17px;color:var(--gray);max-width:680px;line-height:1.6}
+
+/* AUDIT GRID */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:36px}
+.cell{background:var(--bg);padding:30px 26px;min-height:150px;display:flex;flex-direction:column;transition:background .2s}
+.cell:hover{background:var(--surface)}
+.cell .ct{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray-dark);margin-bottom:12px}
+.cell .ch{font-family:'Bebas Neue',sans-serif;font-size:30px;line-height:1;letter-spacing:.5px;margin-bottom:10px}
+.cell .ch em{color:var(--red)}
+.cell .cd{font-size:14.5px;color:var(--gray);line-height:1.55}
+.cell .cd b{color:var(--white);font-weight:600}
+
+/* DO / DONT */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:36px}
+.col{background:var(--bg);padding:34px 30px}
+.col h3{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.5px;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.col.do h3{color:var(--green)}
+.col.dont h3{color:var(--red)}
+.col ul{list-style:none}
+.col li{font-size:15px;color:var(--gray);line-height:1.5;padding:11px 0 11px 26px;position:relative;border-top:1px solid var(--line)}
+.col li:first-of-type{border-top:none}
+.col li b{color:var(--white);font-weight:600}
+.col.do li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+.col.dont li::before{content:"✕";position:absolute;left:0;color:var(--red);font-weight:700}
+
+/* FLOW */
+.flow{margin-top:36px;display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line)}
+.step{background:var(--bg);padding:24px 28px;display:flex;gap:22px;align-items:flex-start;transition:background .2s}
+.step:hover{background:var(--surface)}
+.step .num{font-family:'Bebas Neue',sans-serif;font-size:46px;line-height:.8;color:var(--red);min-width:54px;letter-spacing:1px}
+.step .body{flex:1}
+.step .st{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.5px;margin-bottom:6px}
+.step .sd{font-size:14.5px;color:var(--gray);line-height:1.55}
+.step .sd b{color:var(--white);font-weight:600}
+
+/* QUESTIONS */
+.qs{margin-top:36px;display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.q{background:var(--bg);padding:28px 30px;transition:background .2s}
+.q:hover{background:var(--surface)}
+.q .qn{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--red);margin-bottom:10px}
+.q .qt{font-size:18px;color:var(--white);font-weight:600;margin-bottom:8px;line-height:1.4}
+.q .qd{font-size:14.5px;color:var(--gray);line-height:1.55}
+
+/* FOOTER */
+footer{padding:78px 0 100px}
+footer h2{margin-bottom:18px}
+footer .meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gray-dark);letter-spacing:.04em;line-height:1.9;margin-top:26px}
+footer .badge{display:inline-block;margin-top:24px;border:1px solid var(--line);padding:14px 22px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gray);letter-spacing:.08em}
+footer .badge em{color:var(--red)}
+
+@media(max-width:760px){
+  .grid{grid-template-columns:1fr}
+  .split{grid-template-columns:1fr}
+  section{padding:60px 0}
+  .step{gap:16px;padding:22px 22px}
+  .step .num{font-size:36px;min-width:40px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Аудит задачи · бот квалификации лидов · документ для согласования</div>
+    <h1>БОТ-<br>КВАЛИФИКАТОР</h1>
+    <p class="sub">Мы проанализировали <b>17 ваших диалогов</b> по приёму платежей. Ниже — как мы увидели задачу, что бот будет делать, как он будет работать и <b>4 вопроса</b>, ответы на которые нужны, чтобы запустить первую версию.</p>
+    <div class="tagrow">
+      <span class="tag">17 диалогов разобрано</span>
+      <span class="tag"><em>2</em> базовые услуги</span>
+      <span class="tag">флоу зафиксирован</span>
+      <span class="tag">старт на боте → потом ваш аккаунт</span>
+    </div>
+  </div>
+</header>
+
+<!-- AUDIT -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// что мы увидели в диалогах</div>
+    <h2>Картина задачи</h2>
+    <p class="lead">Менеджер ведёт переписку по жёсткому, повторяемому сценарию — почти все ответы одинаковы от диалога к диалогу. Это значит, что задача хорошо автоматизируется.</p>
+    <div class="grid">
+      <div class="cell">
+        <div class="ct">Услуги</div>
+        <div class="ch"><em>2</em> опции</div>
+        <div class="cd"><b>Crypto exchange + KYC — 12%</b> и <b>Bank details без KYC — 18%</b>. Предлагаются почти в каждом диалоге одинаково.</div>
+      </div>
+      <div class="cell">
+        <div class="ct">Условия</div>
+        <div class="ch">Зафиксированы</div>
+        <div class="cd">Мин 500€, макс 500K за транзакцию, выплата T+0 в USDT/USDC, удержание клиента &gt;30 дней. KYC — 3 порога по сумме.</div>
+      </div>
+      <div class="cell">
+        <div class="ct">Квалификация</div>
+        <div class="ch">4 вопроса</div>
+        <div class="cd">Тип бизнеса · GEO · оборот в месяц · готовность собирать документы клиента. По ответам видно — целевой лид или мимо.</div>
+      </div>
+      <div class="cell">
+        <div class="ct">Цель диалога</div>
+        <div class="ch">Создать группу</div>
+        <div class="cd">После согласия менеджер предлагает <b>создать TG-группу с партнёром</b> и спрашивает название бренда. Дальше детали ведёт партнёр.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCOPE -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// зона ответственности бота</div>
+    <h2>Что бот делает,<br>а что — нет</h2>
+    <p class="lead">Главная задача — не продать и не закрыть сделку, а отсеять мусор и довести целевого лида до создания группы с партнёром. Продажу и детали ведёт партнёр уже в группе.</p>
+    <div class="split">
+      <div class="col do">
+        <h3>Делает</h3>
+        <ul>
+          <li><b>Встречает лида</b> и задаёт квалификационные вопросы</li>
+          <li><b>Отсекает нецелевых</b> — тех, кто ищет «подработку», не понимает услугу, явно не по адресу</li>
+          <li><b>Презентует 2 услуги</b> и условия из базы знаний (фикс. прайс, KYC-пороги)</li>
+          <li><b>Отвечает на типовые вопросы</b> по условиям, которые есть в диалогах</li>
+          <li><b>Получает согласие</b> и предлагает создать группу с партнёром</li>
+          <li><b>Создаёт TG-группу</b> с лидом и партнёром <span style="color:var(--gray-dark)">(этап с вашим аккаунтом)</span></li>
+        </ul>
+      </div>
+      <div class="col dont">
+        <h3>Не делает</h3>
+        <ul>
+          <li><b>Не дожимает и не торгуется</b> — это работа партнёра в группе</li>
+          <li><b>Не выдумывает ответы</b> на вопросы, которых нет в базе</li>
+          <li><b>Не раскрывает детали</b>, которые менеджер всегда уводит в группу (примеры реквизитов, тонкие условия)</li>
+          <li><b>Не квалифицирует «впритык»</b> — если лид сомнительный, лучше уточнить, чем тащить мимо-клиента к партнёру</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// как это работает по шагам</div>
+    <h2>Флоу диалога</h2>
+    <p class="lead">Бот работает максимально автономно. Живого человека зовём только там, где у нас нет ответа — либо сразу переводим в группу с партнёром, чтобы не терять лида.</p>
+    <div class="flow">
+      <div class="step">
+        <div class="num">01</div>
+        <div class="body">
+          <div class="st">Встреча и потребность</div>
+          <div class="sd">Лид пишет — бот здоровается и выясняет запрос: <b>«что именно вас интересует?»</b></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <div class="body">
+          <div class="st">Квалификация</div>
+          <div class="sd">4 вопроса: тип бизнеса, GEO, оборот, готовность к KYC. Если лид внятно отвечает по теме — считаем его <b>потенциальным</b>. Явно мимо (ищет работу, не понимает услугу) — вежливо отсеиваем.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <div class="body">
+          <div class="st">Презентация и условия</div>
+          <div class="sd">Бот выдаёт 2 опции (12% / 18%), прайс и KYC-пороги из базы знаний. Отвечает на типовые уточнения.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">04</div>
+        <div class="body">
+          <div class="st">Вопрос без ответа</div>
+          <div class="sd">Если спрашивают то, чего нет в базе — бот <b>не выдумывает</b>: предлагает создать группу с партнёром, где обсудят детали, либо зовёт менеджера. Лид не теряется.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">05</div>
+        <div class="body">
+          <div class="st">Согласие → группа</div>
+          <div class="sd">При согласии бот просит название бренда и <b>создаёт TG-группу с партнёром</b>. Дальше — зона партнёра: реквизиты, регистрация, выплаты.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASES -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// как запускаем</div>
+    <h2>Два этапа</h2>
+    <div class="grid">
+      <div class="cell">
+        <div class="ct">Этап 1 · сейчас</div>
+        <div class="ch"><em>Бот</em> для отладки</div>
+        <div class="cd">Обычный Telegram-бот. Прогоняем квалификацию на реальных диалогах, доводим логику и базу знаний до нужного качества. Быстро и безопасно.</div>
+      </div>
+      <div class="cell">
+        <div class="ct">Этап 2 · после отладки</div>
+        <div class="ch">Ваш <em>аккаунт</em></div>
+        <div class="cd">Подключаем к вашему рабочему аккаунту — он сам отвечает лидам и создаёт группы. Создание группы технически возможно только с аккаунта, не с бота.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTIONS -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// что нужно от вас, чтобы стартовать</div>
+    <h2>4 вопроса</h2>
+    <p class="lead">Всё остальное мы уже вытащили из диалогов. Эти ответы закрывают последние пробелы — и можно собирать первую версию.</p>
+    <div class="qs">
+      <div class="q">
+        <div class="qn">Вопрос 01 · партнёр</div>
+        <div class="qt">С каким партнёром бот создаёт группу?</div>
+        <div class="qd">В диалогах видно, что партнёров несколько (отдельные — под Канаду, под Испанию), но кого подключать по умолчанию и по какому правилу выбирать — не указано. Для старта: один партнёр на всё, или есть правило (по GEO / валюте / услуге)?</div>
+      </div>
+      <div class="q">
+        <div class="qn">Вопрос 02 · услуги</div>
+        <div class="qt">Работаем только с этими 2 услугами?</div>
+        <div class="qd">В диалогах — Crypto exchange (12%) и Bank details (18%). Этого достаточно для первой версии, или нужно добавить ещё направления сразу?</div>
+      </div>
+      <div class="q">
+        <div class="qn">Вопрос 03 · прайс</div>
+        <div class="qt">Прайс и условия — фиксированные?</div>
+        <div class="qd">Берём 12% / 18%, лимиты и KYC-пороги как константы. Они стабильны или меняются? Если меняются — откуда боту брать актуальные значения?</div>
+      </div>
+      <div class="q">
+        <div class="qn">Вопрос 04 · вопросы без ответа</div>
+        <div class="qt">Что делать с вопросами, на которые нет ответа?</div>
+        <div class="qd">Когда лид спрашивает то, чего нет в базе (локальность по GEO, тонкие условия, пример реквизитов) — боту сразу предлагать создать группу с партнёром, или звать живого менеджера в переписку?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="eyebrow">// дальше</div>
+    <h2>Подтвердите — и стартуем</h2>
+    <p class="lead">Если такое видение задачи и флоу вас устраивает и вы ответите на 4 вопроса выше — мы собираем первую версию бота на отладочном контуре и показываем на ваших же диалогах.</p>
+    <div class="meta">
+      Документ для согласования · бот квалификации лидов<br>
+      Основано на 17 диалогах по приёму платежей
+    </div>
+    <div class="badge">подготовлено командой <em>msolo</em></div>
+  </div>
+</footer>
+
+</body>
+</html>
