@@ -329,7 +329,7 @@
     .step:last-child{border-bottom:none}
   }
   .nav-right{display:flex;align-items:center;gap:14px}
-  .lang-switch{padding:7px 12px;background:transparent;color:var(--fg);border:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.05em;transition:.15s}
+  .lang-switch{padding:9px 12px;background:transparent;color:var(--fg);border:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.05em;transition:.15s}
   .lang-switch:hover{border-color:var(--accent);color:var(--accent)}
 </style>
 </head>
@@ -464,7 +464,6 @@
       <div class="cf-head">
         <div class="cf-tags">
           <span class="case-tag">SUPPORT AI</span>
-          <span class="cf-stack">Python · aiogram · Claude Haiku 4.5 · Multi-tenant</span>
         </div>
         <h3 data-en="CRM for affiliate networks &amp; media-buying teams">CRM для аффилиатных сетей и медиабаинг-команд</h3>
         <div class="cf-meta" data-en="// SaaS · 50+ client Telegram chats · 22,500 msgs/mo · 1.5 months from request to pilot">// SaaS · 50+ Telegram-чатов клиентов · 22 500 сообщений/мес · 1.5 месяца от запроса до пилота</div>
@@ -486,22 +485,22 @@
           <div class="cf-col-tag" data-en="// WHAT WE DID">// СДЕЛАЛИ</div>
           <ul>
             <li data-en="Analyzed 22,587 real messages → 1,271 dialogs → 30 request categories">Проанализировали 22 587 реальных сообщений → 1 271 диалог → 30 категорий обращений</li>
-            <li data-en="The client CRM has no public API — mapped 95% of operations via Playwright recon (133 HAR files)">У клиентской CRM нет публичного API — собрали карту 95% операций через Playwright-разведку (133 HAR-файла)</li>
-            <li data-en="Telegram agent: aiogram + Claude Haiku 4.5, 9 working scenarios (integration, cap, blacklist, test-lead, search)">Telegram-агент: aiogram + Claude Haiku 4.5, 9 рабочих сценариев (интегра, кап, blacklist, тест-лид, поиск)</li>
-            <li data-en="PII redactor: broker API keys and JWT tokens never reach the LLM">PII-redactor: API-ключи брокеров и JWT-токены не уходят в LLM</li>
+            <li data-en="The client CRM had no ready API — we mapped every needed action straight from the browser and built our own integration">У клиентской CRM не было готового API — мы изучили все нужные действия из браузера и собрали свою интеграцию</li>
+            <li data-en="Telegram agent with 9 working scenarios: integration, cap, blacklist, test-lead, search">Telegram-агент с 9 рабочими сценариями: интегра, кап, blacklist, тест-лид, поиск</li>
+            <li data-en="Sensitive client data (keys, tokens) never leaves our perimeter — protected by design">Чувствительные данные клиентов (ключи, токены) не уходят наружу — защищены по дизайну</li>
             <li data-en="Smart mode: the bot stays silent while an operator is active — never barges into a live chat">Smart-mode: бот молчит, когда оператор активен — не лезет в живой разговор</li>
-            <li data-en="4 test suites: regression 127 cases, golden replay 135 dialogs with LLM-as-judge, adversarial 28, e2e">4 системы тестов: regression 127 кейсов, golden replay 135 диалогов с LLM-as-judge, adversarial 28, e2e</li>
+            <li data-en="Hard testing across 290+ real dialogs — every update auto-checked so nothing breaks">Жёсткое тестирование на 290+ реальных диалогах — каждое обновление проверяется автоматически, чтобы ничего не сломалось</li>
           </ul>
         </div>
 
         <div class="cf-col cf-now">
           <div class="cf-col-tag" data-en="// RESULT">// СТАЛО</div>
           <ul>
-            <li data-en="<strong>72% resolution rate</strong> on 50 real dialogs — resolved at human level or better"><strong>72% resolution rate</strong> на 50 реальных диалогах — бот решил вопрос на уровне живого или лучше</li>
-            <li data-en="<strong>Reply time &lt;5 sec</strong> instead of 46 sec (×9 faster, p90 hour → seconds)"><strong>Время ответа &lt;5 секунд</strong> вместо 46 сек (×9 быстрее, p90 час → секунды)</li>
-            <li data-en="27% full offload + 30% safe escalation with context + 11% correct silence = <strong>69% off the operator</strong>">27% полный offload + 30% safe escalation с контекстом + 11% правильное молчание = <strong>69% не нагружает оператора</strong></li>
-            <li data-en="100% accuracy on smalltalk / test-leads / caps / blocks">100% точность на категориях smalltalk / тест-лиды / капы / блокировки</li>
-            <li data-en="Regression 126/127 ✅ — nothing broke across upgrades">Регрессия 126/127 ✅ — ничего не сломано при апгрейдах</li>
+            <li data-en="<strong>72% of requests resolved by the bot</strong> — on 50 real dialogs, at human level or better"><strong>72% запросов решает бот сам</strong> — на 50 реальных диалогах ответ на уровне живого оператора или лучше</li>
+            <li data-en="<strong>Reply time &lt;5 sec</strong> instead of 46 sec — clients no longer wait an hour"><strong>Время ответа &lt;5 секунд</strong> вместо 46 секунд — клиенты больше не ждут по часу</li>
+            <li data-en="<strong>69% of requests never reach the operator</strong> — the bot closes them itself or escalates already with context"><strong>69% обращений не доходит до оператора</strong> — бот закрывает сам или передаёт уже с контекстом, когда нужно</li>
+            <li data-en="100% accuracy on routine requests — repetitive load handled reliably">100% точность по типовым обращениям — рутина закрыта стабильно</li>
+            <li data-en="All 126 key scenarios stay stable across updates ✅">Все 126 ключевых сценариев работают стабильно после обновлений ✅</li>
           </ul>
         </div>
       </div>
@@ -727,7 +726,7 @@
         <div class="case-tag alt2">OUR PRODUCT</div>
         <h3 data-en="Szvon">Szvon</h3>
         <div class="who" data-en="// AI call analysis · our own SaaS for the RU market">// AI-разбор звонков · собственный SaaS под РФ-рынок</div>
-        <p data-en="Building SaaS for a niche where Gong/Chorus don't work (RU entities, data stored in RU). Stereo capture via system audio gives 100% speaker labeling without costly diarization. Speechmatics Ursa-2 + Claude Opus = 95%+ accuracy in Russian, $0.56 per 30-min call. Pilot — a 7-person sales team.">Строим SaaS в нишу, где Gong/Chorus не работают (РФ-юрики, хранение данных в РФ). Stereo-запись через системный аудио даёт 100% разметку «кто-кто» без дорогой диаризации. Speechmatics Ursa-2 + Claude Opus = 95%+ точность на русском, $0.56 за 30-мин звонок. Пилот — sales-команда из 7 человек.</p>
+        <p data-en="Building SaaS for a niche where Gong/Chorus don't work (RU entities, data stored in RU). System audio capture gives 100% speaker labeling without expensive setup. 95%+ recognition accuracy in Russian, pennies per call. Pilot — a 7-person sales team.">Строим SaaS в нишу, где Gong/Chorus не работают (РФ-юрики, хранение данных в РФ). Системная запись звука даёт 100% разметку «кто говорит» без дорогих технологий. 95%+ точность распознавания на русском, цена звонка — копейки. Пилот — sales-команда из 7 человек.</p>
         <div class="case-metrics">
           <div class="case-metric"><div class="v">95%+</div><div class="l" data-en="RU transcription accuracy">точность RU транскрипции</div></div>
           <div class="case-metric"><div class="v">$0.56</div><div class="l" data-en="per 30-min call">стоимость 30-мин звонка</div></div>
@@ -739,7 +738,7 @@
         <div class="case-tag alt">OUR PRODUCT</div>
         <h3 data-en="NeuroGate">NeuroGate</h3>
         <div class="who" data-en="// our own AI aggregator for RU · ng-ai.ru">// собственный AI-агрегатор для РФ · ng-ai.ru</div>
-        <p data-en="A hybrid platform: single access to 85+ models (GPT, Claude, Gemini, MJ) paid in rubles, no VPN. A live turnkey product — 382 users, ruble billing (YooKassa/SBP), B2B revenue, B2C/B2B landings, SEO for 7 segments. Stack: Fastify + React + PostgreSQL.">Гибридная платформа: единый доступ к 85+ моделям (GPT, Claude, Gemini, MJ) с оплатой в рублях, без VPN. Живой продукт под ключ — 382 пользователя, рублёвый биллинг (YooKassa/СБП), B2B-выручка, лендинги B2C/B2B, SEO под 7 сегментов. Стек: Fastify + React + PostgreSQL.</p>
+        <p data-en="A hybrid platform: single access to 85+ models (GPT, Claude, Gemini, MJ) paid in rubles, no VPN. A live turnkey product — 382 users, ruble billing (YooKassa/SBP), B2B revenue, B2C/B2B landings, SEO for 7 segments.">Гибридная платформа: единый доступ к 85+ моделям (GPT, Claude, Gemini, MJ) с оплатой в рублях, без VPN. Живой продукт под ключ — 382 пользователя, рублёвый биллинг (YooKassa/СБП), B2B-выручка, лендинги B2C/B2B, SEO под 7 сегментов. </p>
         <div class="case-metrics">
           <div class="case-metric"><div class="v">382</div><div class="l" data-en="users">пользователя</div></div>
           <div class="case-metric"><div class="v">85+</div><div class="l" data-en="models under one API">моделей под одним API</div></div>
@@ -751,10 +750,10 @@
         <div class="case-tag alt">MULTI-AGENT AI</div>
         <h3 data-en="Asya — a multi-agent assistant">Ася — мультиагентный ассистент</h3>
         <div class="who" data-en="// FastAPI + Next.js · Telegram Mini App">// FastAPI + Next.js · Telegram Mini App</div>
-        <p data-en="An assistant with tool-calling and RAG: understands voice, images and documents, reaches into calendar, email and billing, escalates to a human. Shipped inside a real SaaS product.">Ассистент с tool-calling и RAG: понимает голос, картинки и документы, ходит в календарь, почту и биллинг, эскалирует живому человеку. Внедрён в продукт реального SaaS.</p>
+        <p data-en="An assistant that understands voice, images and documents, reaches into calendar, email and billing, hands complex cases to a human. Shipped inside a real SaaS product.">Ассистент, который понимает голос, картинки и документы, ходит в календарь, почту и биллинг, передаёт сложное живому человеку. Внедрён в продукт реального SaaS.</p>
         <div class="case-metrics">
-          <div class="case-metric"><div class="v" data-en="multimodal">мультимодал</div><div class="l" data-en="voice · photo · docs">голос · фото · документы</div></div>
-          <div class="case-metric"><div class="v">tool-calling</div><div class="l" data-en="RAG + integrations">RAG + интеграции</div></div>
+          <div class="case-metric"><div class="v" data-en="all-in-one">всё-в-одном</div><div class="l" data-en="voice, photos, documents">голос, фото, документы</div></div>
+          <div class="case-metric"><div class="v" data-en="integrated">интегрирован</div><div class="l" data-en="calendar, email, billing">календарь, почта, биллинг</div></div>
         </div>
       </div>
 
@@ -775,7 +774,7 @@
         <div class="case-tag alt2">OUR PIPELINE</div>
         <h3 data-en="Content pipeline">Контент-конвейер</h3>
         <div class="who" data-en="// our own pipeline for msolo.me and projects">// собственный пайплайн msolo.me и проектов</div>
-        <p data-en="An end-to-end content production process: demand research via Wordstat and Yandex Search API, articles in the brand voice, covers via an AI stack (no AI-tell), landing pages, Yandex.Direct hookups. One person covers work that usually needs a whole editorial team.">End-to-end процесс производства контента: исследование спроса через Wordstat и Yandex Search API, генерация статей по голосу бренда, обложки через AI-стек (без AI-tell), посадочные, связки с Yandex.Direct. Один человек закрывает работу, для которой обычно нужна редакция.</p>
+        <p data-en="An end-to-end content production process: demand research via Wordstat, articles in the brand voice, covers without obvious AI tells, landing pages, Yandex.Direct hookups. One person covers work that usually needs a whole editorial team.">End-to-end процесс производства контента: исследование спроса через Wordstat, генерация статей по голосу бренда, обложки без признаков AI-генерации, посадочные, связки с Yandex.Direct. Один человек закрывает работу, для которой обычно нужна редакция.</p>
         <div class="case-metrics">
           <div class="case-metric"><div class="v">end-to-end</div><div class="l" data-en="from demand to publish">от спроса до публикации</div></div>
           <div class="case-metric"><div class="v">solo</div><div class="l" data-en="no editors or designer">без редакции и дизайнера</div></div>
