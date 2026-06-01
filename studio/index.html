@@ -119,10 +119,15 @@
   .fs-block span{display:block;color:var(--muted);font-size:13px;line-height:1.5}
   .fs-block.fs-acc{background:linear-gradient(180deg,rgba(216,255,58,.06),transparent)}
   .fs-block.fs-acc strong{color:var(--accent)}
-  .trust-strip{border-bottom:1px solid var(--line)}
-  .trust-strip .container{padding-top:15px;padding-bottom:15px;display:flex;gap:8px 16px;align-items:baseline;justify-content:center;flex-wrap:wrap}
-  .ts-pre{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.04em}
-  .ts-cos{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:.03em}
+  .trust-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0 30px;overflow:hidden}
+  .trust-strip .ts-label-wrap{display:flex;justify-content:center;padding-bottom:20px}
+  .ts-pre{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.06em}
+  .ts-marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+  .ts-track{display:inline-flex;align-items:center;gap:36px;white-space:nowrap;animation:tsScroll 36s linear infinite;will-change:transform;padding-left:36px}
+  .ts-track > span:not(.ts-x){font-weight:900;font-size:32px;letter-spacing:.01em;color:var(--fg)}
+  .ts-track .ts-x{font-weight:400;color:var(--muted);font-size:22px;opacity:.45}
+  @keyframes tsScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .trust-strip:hover .ts-track{animation-play-state:paused}
 
   /* ===== SERVICE HERO (AI-NATIVE) ===== */
   .svc-hero{display:grid;grid-template-columns:1.5fr 1fr;gap:0;border:1px solid var(--accent);margin-bottom:32px;background:linear-gradient(135deg,rgba(216,255,58,.04),transparent 60%)}
@@ -327,6 +332,9 @@
     .process{grid-template-columns:1fr}
     .step{border-right:none;border-bottom:1px solid var(--line)}
     .step:last-child{border-bottom:none}
+    .ts-track > span:not(.ts-x){font-size:22px}
+    .ts-track .ts-x{font-size:16px}
+    .ts-track{gap:24px;padding-left:24px;animation-duration:28s}
   }
   .nav-right{display:flex;align-items:center;gap:14px}
   .lang-switch{padding:9px 12px;background:transparent;color:var(--fg);border:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.05em;transition:.15s}
@@ -378,9 +386,14 @@
 
 <!-- TRUST STRIP -->
 <div class="trust-strip">
-  <div class="container">
-    <span class="ts-pre" data-en="// built and scaled:">// строили и масштабировали:</span>
-    <span class="ts-cos">Unisender · GoMagic · Selzy · SalesCall · Моя Удалёнка · Desert.ru</span>
+  <div class="container ts-label-wrap">
+    <span class="ts-pre" data-en="// built and scaled at:">// строили и масштабировали:</span>
+  </div>
+  <div class="ts-marquee">
+    <div class="ts-track">
+      <span>UNISENDER</span><span class="ts-x">×</span><span>GOMAGIC</span><span class="ts-x">×</span><span>SELZY</span><span class="ts-x">×</span><span>SALESCALL</span><span class="ts-x">×</span><span>МОЯ УДАЛЁНКА</span><span class="ts-x">×</span><span>DESERT.RU</span><span class="ts-x">×</span>
+      <span>UNISENDER</span><span class="ts-x">×</span><span>GOMAGIC</span><span class="ts-x">×</span><span>SELZY</span><span class="ts-x">×</span><span>SALESCALL</span><span class="ts-x">×</span><span>МОЯ УДАЛЁНКА</span><span class="ts-x">×</span><span>DESERT.RU</span><span class="ts-x">×</span>
+    </div>
   </div>
 </div>
 
