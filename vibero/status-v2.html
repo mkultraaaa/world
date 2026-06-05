@@ -177,6 +177,9 @@
   table.metrics td.value.ok { color: var(--ok); }
   table.metrics td.value.warn { color: var(--warn); }
   table.metrics td.note { color: var(--text-dim); font-size: 13px; }
+  table.metrics tr.cat td { background: var(--bg-elev); color: var(--accent);
+                      font-weight: 700; font-size: 11px; text-transform: uppercase;
+                      letter-spacing: 0.08em; padding: 10px 16px; }
 
   /* Callout */
   .callout {
@@ -303,22 +306,41 @@
     <tr><th>Запрос клиента</th><th>Что делает бот</th><th>Статус</th><th>Чем проверили</th></tr>
   </thead>
   <tbody>
+    <tr class="cat"><td colspan="4">1. Создание офиса / интеграция</td></tr>
     <tr><td class="metric">Полный пакет интеграции (логин, токен, ID, URL, гео)</td><td class="note">Распознаёт имя и тип брокера, пишет креды, шлёт тест-лид</td><td class="value ok">работает</td><td class="note">Карточка офиса: тип, токен, гео</td></tr>
     <tr><td class="metric">Несколько интеграций подряд в одном чате</td><td class="note">У каждого офиса свои креды — не перемешивает</td><td class="value ok">работает</td><td class="note">3 офиса: токены/URL/гео все разные</td></tr>
     <tr><td class="metric">Пакет без токена</td><td class="note">Точечно просит ровно недостающее поле</td><td class="value ok">работает</td><td class="note">Диалог</td></tr>
     <tr><td class="metric">Прислали ссылку на доку вместо URL</td><td class="note">Просит реальный endpoint, не ссылку на доку</td><td class="value ok">работает</td><td class="note">Карточка офиса: api_url</td></tr>
+
+    <tr class="cat"><td colspan="4">2. Обновление офиса</td></tr>
     <tr><td class="metric">«Переименуй офис X в Y»</td><td class="note">Переименовывает</td><td class="value ok">работает</td><td class="note">Имя офиса в CRM</td></tr>
     <tr><td class="metric">«Поменяй api url / добавь гео»</td><td class="note">Обновляет поле офиса</td><td class="value ok">работает</td><td class="note">Карточка офиса</td></tr>
+
+    <tr class="cat"><td colspan="4">3. Лиды и диагностика</td></tr>
     <tr><td class="metric">«Что с лидом &lt;email&gt;?»</td><td class="note">Статус; если нет — честно «не найден»</td><td class="value ok">работает</td><td class="note">Сверено: лида нет на стенде</td></tr>
     <tr><td class="metric">Тест-лид</td><td class="note">Реально уходит к брокеру, возвращает ответ</td><td class="value ok">работает</td><td class="note">Ответ брокера в чате</td></tr>
+
+    <tr class="cat"><td colspan="4">4. Капы / лимиты</td></tr>
     <tr><td class="metric">«Поставь кап на офис X»</td><td class="note">Если сделок нет — честно сообщает</td><td class="value ok">работает</td><td class="note">Сверено: у офиса нет сделок</td></tr>
+
+    <tr class="cat"><td colspan="4">5. Доступы: blacklist / whitelist</td></tr>
     <tr><td class="metric">«Добавь / убери IP в whitelist»</td><td class="note">Добавляет и удаляет</td><td class="value ok">работает</td><td class="note">Список whitelist в CRM</td></tr>
     <tr><td class="metric">«Забань email»</td><td class="note">Добавляет в blacklist</td><td class="value ok">работает</td><td class="note">Список blacklist в CRM</td></tr>
-    <tr><td class="metric">Две операции в одном сообщении</td><td class="note">Выполняет обе, вторую не теряет</td><td class="value ok">работает</td><td class="note">Обе записи на стенде</td></tr>
+
+    <tr class="cat"><td colspan="4">6. Несколько операций в одном сообщении</td></tr>
+    <tr><td class="metric">«Добавь IP в whitelist и забань email» одним сообщением</td><td class="note">Выполняет обе, вторую не теряет</td><td class="value ok">работает</td><td class="note">Обе записи на стенде</td></tr>
+
+    <tr class="cat"><td colspan="4">7. Баеры</td></tr>
     <tr><td class="metric">«Покажи список баеров» / «доступ баера X»</td><td class="note">Список + api_key, marker, кабинет, логин, сброс пароля</td><td class="value ok">работает</td><td class="note">id/marker/email совпали со стендом</td></tr>
+
+    <tr class="cat"><td colspan="4">8. Документация / помощь</td></tr>
     <tr><td class="metric">Вопросы по документации</td><td class="note">Отвечает по сути со ссылкой на doc.vibero.tech</td><td class="value ok">работает</td><td class="note">Сверка с вики</td></tr>
+
+    <tr class="cat"><td colspan="4">9. Эскалация и границы</td></tr>
     <tr><td class="metric">«Позовите человека»</td><td class="note">Эскалация на оператора</td><td class="value ok">работает</td><td class="note">Диалог</td></tr>
     <tr><td class="metric">Благодарность / «спасибо»</td><td class="note">Тактично молчит, не флудит</td><td class="value ok">работает</td><td class="note">Диалог</td></tr>
+
+    <tr class="cat"><td colspan="4">10. Постбэки</td></tr>
     <tr><td class="metric">Добавление постбэка</td><td class="note">Пока ошибка сервера; бот честно сообщает, успех не имитирует</td><td class="value warn">в работе</td><td class="note">Список постбэков (не создан)</td></tr>
   </tbody>
 </table>
