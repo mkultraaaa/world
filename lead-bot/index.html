@@ -8,17 +8,17 @@
 <meta name="description" content="Готовый бот квалификации лидов: живые диалоги, сравнение с реальными переписками менеджера, попробовать в Telegram.">
 <meta name="theme-color" content="#000000">
 <meta name="robots" content="noindex, nofollow">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--red:#FF4D4D;--green:#39d98a;--bg:#000;--surface:#0e0e0e;--surface2:#161616;--line:#262626;--white:#fff;--gray:#8a8a8a;--gray-dark:#555}
 html{scroll-behavior:smooth;overflow-x:hidden}
 body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden;max-width:100%}
-.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 28px}
 em{color:var(--red);font-style:normal}
 .hero{min-height:62vh;display:flex;flex-direction:column;justify-content:center;padding:80px 0 50px;border-bottom:1px solid var(--line)}
 .kicker{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:26px}
-.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,11vw,150px);line-height:.86;letter-spacing:2px;margin-bottom:18px}
+.hero h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(40px,8.5vw,120px);line-height:.92;letter-spacing:.5px;margin-bottom:18px;text-transform:uppercase}
 .hero .sub{font-size:clamp(16px,2.2vw,21px);color:var(--gray);max-width:660px;margin-top:18px}
 .hero .sub b{color:var(--white);font-weight:700}
 .tagrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px;max-width:100%}
@@ -26,12 +26,12 @@ em{color:var(--red);font-style:normal}
 .tag em{color:var(--red)}
 section{padding:74px 0;border-bottom:1px solid var(--line)}
 .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5.5vw,62px);line-height:.96;letter-spacing:1px;margin-bottom:14px}
+h2{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(30px,5vw,54px);line-height:1.0;letter-spacing:.3px;margin-bottom:14px}
 .lead{font-size:17px;color:var(--gray);max-width:700px;line-height:1.6}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:36px}
 .cell{background:var(--bg);padding:28px 24px;min-height:140px;display:flex;flex-direction:column}
 .cell .ct{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray-dark);margin-bottom:12px}
-.cell .ch{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;letter-spacing:.5px;margin-bottom:10px}
+.cell .ch{font-family:'Oswald',sans-serif;font-weight:700;font-size:28px;line-height:1;letter-spacing:.5px;margin-bottom:10px}
 .cell .ch em{color:var(--red)}
 .cell .cd{font-size:14px;color:var(--gray);line-height:1.55}
 .cell .cd b{color:var(--white);font-weight:600}
@@ -64,17 +64,17 @@ h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5.5vw,62px);line-hei
 .chip.desync{background:#FFC7CE;color:#9C0006}
 .note{margin-top:12px;font-size:12.5px;color:var(--gray-dark);line-height:1.5}
 /* try */
-.trybtn{display:inline-block;margin-top:30px;background:var(--red);color:#000;font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;padding:14px 34px;text-decoration:none;border-radius:3px;transition:opacity .2s}
+.trybtn{display:inline-block;margin-top:30px;background:var(--red);color:#000;font-family:'Oswald',sans-serif;font-weight:700;font-size:30px;letter-spacing:1px;padding:14px 34px;text-decoration:none;border-radius:3px;transition:opacity .2s}
 .trybtn:hover{opacity:.85}
 .tryhint{margin-top:16px;font-size:14px;color:var(--gray-dark)}
 /* original collapsed */
 .orig{border:1px solid var(--line);border-radius:10px;background:var(--surface)}
-.orig summary{cursor:pointer;padding:22px 26px;font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.5px;color:var(--gray);list-style:none;display:flex;justify-content:space-between;align-items:center}
+.orig summary{cursor:pointer;padding:22px 26px;font-family:'Oswald',sans-serif;font-weight:700;font-size:26px;letter-spacing:.5px;color:var(--gray);list-style:none;display:flex;justify-content:space-between;align-items:center}
 .orig summary::-webkit-details-marker{display:none}
 .orig summary span{color:var(--red)}
 .orig[open] summary{border-bottom:1px solid var(--line);color:var(--white)}
 .orig-body{padding:8px 26px 30px}
-.orig-h{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.5px;margin:30px 0 14px;color:var(--white)}
+.orig-h{font-family:'Oswald',sans-serif;font-weight:700;font-size:24px;letter-spacing:.5px;margin:30px 0 14px;color:var(--white)}
 .orig-ul{list-style:none;border:1px solid var(--line)}
 .orig-ul li{font-size:14.5px;color:var(--gray);padding:13px 18px;border-top:1px solid var(--line)}
 .orig-ul li:first-child{border-top:none}
@@ -86,7 +86,7 @@ footer .meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--g
 footer .badge{display:inline-block;margin-top:24px;border:1px solid var(--line);padding:14px 22px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gray);letter-spacing:.08em}
 footer .badge em{color:var(--red)}
 @media(max-width:760px){.grid{grid-template-columns:1fr}.phones{grid-template-columns:1fr}.pair{grid-template-columns:1fr}section{padding:54px 0}
-.hero h1{font-size:46px;letter-spacing:1px}.tag{font-size:11px;letter-spacing:.02em;padding:8px 11px}.bub{max-width:88%}}
+.hero h1{font-size:40px;letter-spacing:.5px}.tag{font-size:11px;letter-spacing:.02em;padding:8px 11px}.bub{max-width:88%}}
 </style>
 </head>
 <body>
