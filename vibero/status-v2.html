@@ -252,9 +252,9 @@
 
 <div class="stats">
   <div class="stat"><div class="num ok">~80%</div><div class="label">Обращений клиентов — в зоне бота (типовые операции с CRM)</div></div>
-  <div class="stat"><div class="num ok">19</div><div class="label">Сценариев подтверждено (сверено в CRM)</div></div>
+  <div class="stat"><div class="num ok">20</div><div class="label">Сценариев подтверждено (сверено в CRM)</div></div>
   <div class="stat"><div class="num accent">11</div><div class="label">Классов операций покрыто</div></div>
-  <div class="stat"><div class="num warn">1</div><div class="label">В доработке (изменение лимита на сделке)</div></div>
+  <div class="stat"><div class="num accent">0</div><div class="label">Блокеров (опц.: парсинг доки брокера)</div></div>
 </div>
 
 <div class="toc">
@@ -323,7 +323,8 @@
     <tr class="cat"><td colspan="4">4. Капы / лимиты</td></tr>
     <tr><td class="metric">«Какая сделка #1078?» / «покажи сделки офиса Abra»</td><td class="note">Находит сделку, показывает офис и капы по гео/офферам; при дубле имени уточняет, какой офис</td><td class="value ok">работает</td><td class="note">Капы совпали со стендом</td></tr>
     <tr><td class="metric">«Поставь кап на офис X»</td><td class="note">Если сделок нет — честно сообщает; при двух одноимённых офисах — уточняет, какой</td><td class="value ok">работает</td><td class="note">Сверено со стендом</td></tr>
-    <tr><td class="metric">Изменить лимит по конкретному гео/офферу</td><td class="note">Значение меняется на стенде, но затрагивает все таргеты сделки — фильтр гео/оффер пока не применяется</td><td class="value warn">в работе</td><td class="note">Стенд: меняются все таргеты сделки</td></tr>
+    <tr><td class="metric">«Поставь / измени кап на сделке»</td><td class="note">Меняет лимит на сделке (в Vibero кап задаётся на язык сделки)</td><td class="value ok">работает</td><td class="note">Стенд: значение лимита меняется</td></tr>
+    <tr><td class="metric">Кап отдельно по гео/офферу</td><td class="note">Зависит от настройки сделки: если у неё нет отдельного слота по гео/офферу — бот честно говорит, что кап общий на язык (не выдаёт ложный успех)</td><td class="value ok">по конфигурации</td><td class="note">Сверено со структурой сделки</td></tr>
 
     <tr class="cat"><td colspan="4">5. Доступы: blacklist / whitelist</td></tr>
     <tr><td class="metric">«Добавь / убери IP в whitelist»</td><td class="note">Добавляет и удаляет</td><td class="value ok">работает</td><td class="note">Список whitelist в CRM</td></tr>
@@ -408,15 +409,6 @@
   Честно — что дорабатываем. На остальное не влияет.
 </p>
 <div class="roadmap-grid">
-  <div class="roadmap-card">
-    <div class="title">Точечный лимит по гео/офферу</div>
-    <div class="desc">
-      Значение лимита теперь меняется корректно. Осталось научить применять его
-      только к указанному гео/офферу — сейчас изменение затрагивает все таргеты
-      сделки. Чтение и показ капов работают идеально.
-    </div>
-    <div class="when">В работе</div>
-  </div>
   <div class="roadmap-card">
     <div class="title">Парсинг документации брокера</div>
     <div class="desc">
