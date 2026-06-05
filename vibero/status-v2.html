@@ -233,116 +233,169 @@
 
 <div class="hero">
   <div class="eyebrow">Live-проверка · 2026-06-05 · версия 2 (новая архитектура)</div>
-  <h1>Бот v2: что уже работает</h1>
+  <h1>Бот v2: отчёт о покрытии</h1>
   <p class="lead">
-    Новая версия на multi-agent архитектуре (оркестратор + специализированные
-    под-агенты, изолированная память по чатам, Postgres/Redis, мульти-тенант).
+    Новая версия на multi-agent архитектуре с изолированной памятью по чатам.
     Проверили вживую: реальные запросы в чат — и сразу <b>сверка результата
-    прямо в CRM на стенде</b>. То есть не «бот что-то ответил», а «операция
-    действительно выполнена в системе».
+    прямо в CRM на стенде</b> (не «бот что-то ответил», а «операция действительно
+    выполнена в системе»). Ниже — что покрыто и насколько это снимает работу с оператора.
   </p>
   <div class="meta">
-    Бот в чате <b>VIBERO INTERNAL DEMO</b> · подключён к
-    <code class="inline">demo.vibero.net</code>. Каждый результат ниже проверен
-    чтением карточки офиса / списков whitelist, blacklist, баеров в CRM.
+    Оценка покрытия — по анализу <b>499 реальных диалогов</b> поддержки
+    (Leadovich · Masonic · Eclipsetraffic). Каждый сценарий в таблицах ниже
+    проверен чтением карточки офиса / списков whitelist · blacklist · баеров в CRM.
   </div>
 </div>
 
 <div class="stats">
-  <div class="stat"><div class="num ok">18</div><div class="label">Сценариев работают (сверено в CRM)</div></div>
+  <div class="stat"><div class="num ok">~80%</div><div class="label">Обращений клиентов — в зоне бота (типовые операции с CRM)</div></div>
+  <div class="stat"><div class="num ok">18</div><div class="label">Сценариев подтверждено (сверено в CRM)</div></div>
   <div class="stat"><div class="num accent">11</div><div class="label">Классов операций покрыто</div></div>
-  <div class="stat"><div class="num warn">1</div><div class="label">Блокер в активной доработке</div></div>
-  <div class="stat"><div class="num accent">100%</div><div class="label">Результатов сверено на стенде, не на словах</div></div>
+  <div class="stat"><div class="num warn">1</div><div class="label">В доработке (постбэки)</div></div>
 </div>
 
 <div class="toc">
+  <a href="#coverage">Покрытие трафика</a>
   <a href="#works">Что работает</a>
+  <a href="#try">Что можно прислать</a>
   <a href="#method">Как проверяли</a>
   <a href="#progress">В работе</a>
 </div>
 
 <!-- ============================================================ -->
-<h2 class="section" id="works">Что работает — проверено в CRM</h2>
+<h2 class="section" id="coverage">Сколько работы снимает бот</h2>
+<h3 class="section-h">~80% обращений — в зоне бота</h3>
 <p class="section-lead">
-  Каждая строка — реальный запрос в чат, и рядом результат, который мы
-  <strong>сами проверили в CRM на стенде</strong> (открыли карточку офиса,
-  списки whitelist/blacklist/баеров, статус лида). Зелёное — подтверждено.
+  Разбивка по 499 реальным диалогам поддержки. «Доля трафика» — какой процент
+  обращений клиентов приходится на категорию. «Бот» — берёт ли он эту работу на себя.
 </p>
 
 <table class="metrics">
   <thead>
-    <tr><th>Блок / запрос</th><th>Что делает бот</th><th>Статус</th></tr>
+    <tr><th>Категория обращения</th><th>Доля трафика</th><th>Кто закрывает</th></tr>
   </thead>
   <tbody>
-    <tr><td class="metric">Создание офиса по полному пакету (логин, токен, ID, URL, гео)</td><td class="note">Распознаёт имя и тип брокера, записывает креды, сразу отправляет тест-лид</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">Пакет без токена</td><td class="note">Создаёт черновик и точечно просит ровно недостающее поле</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">Прислали ссылку на документацию вместо URL</td><td class="note">Просит реальный endpoint брокера, а не ссылку на доку</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">«Добавь гео RU в офис X»</td><td class="note">Добавляет язык/гео — сохраняется в карточке офиса</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">«Переименуй офис X в Y»</td><td class="note">Переименовывает — имя обновляется в CRM</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">«Поменяй api url офиса X на …»</td><td class="note">Обновляет endpoint в карточке офиса</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">«Что с лидом &lt;email&gt;?»</td><td class="note">Честный ответ со статусом; если лида нет — прямо говорит «не найден»</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">Тест-лид</td><td class="note">Реально уходит к брокеру, возвращает ответ (статус/отбой)</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">«Поставь кап на офис X»</td><td class="note">Если сделок нет — честно сообщает, не имитирует успех</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">«Добавь IP в whitelist»</td><td class="note">Добавляет — запись реально появляется в CRM</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">«Забань email»</td><td class="note">Добавляет в blacklist — запись реально в CRM</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">«Убери IP из whitelist»</td><td class="note">Удаляет — запись реально пропадает из CRM</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">Две операции в одном сообщении (whitelist + blacklist)</td><td class="note">Выполняет обе, вторую задачу не теряет</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">«Покажи список баеров»</td><td class="note">Возвращает реальный список баеров со стенда</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">«Покажи доступ баера X»</td><td class="note">api_key, marker, кабинет, логин, ссылка на сброс пароля (пароль не раскрывает)</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">Вопросы по документации («как добавить whitelist по IP», «склад vs архив»)</td><td class="note">Отвечает по сути со ссылкой на doc.vibero.tech</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">«Позовите человека»</td><td class="note">Передаёт оператору с пометкой эскалации</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">«Спасибо» / благодарность</td><td class="note">Тактично молчит, не флудит лишними сообщениями</td><td class="value ok">работает</td></tr>
-    <tr><td class="metric">Добавление постбэка</td><td class="note">Пока возвращается ошибка сервера; бот честно сообщает, успех не имитирует</td><td class="value warn">в работе</td></tr>
+    <tr><td class="metric">Подключение интеграции (новый брокер)</td><td class="value">~36%</td><td class="value ok">бот</td></tr>
+    <tr><td class="metric">Follow-up интеграции: тест-лид, статус/деп, смена URL/токена, добавить гео/язык</td><td class="value">~37%</td><td class="value ok">бот</td></tr>
+    <tr><td class="metric">Капы / лимиты на офисах и сделках</td><td class="value">~7%</td><td class="value ok">бот</td></tr>
+    <tr><td class="metric">Доступы: whitelist / blacklist, баеры</td><td class="value">в составе ↑</td><td class="value ok">бот</td></tr>
+    <tr><td class="metric">Вопросы по документации / «как сделать X»</td><td class="value">в составе ↑</td><td class="value ok">бот</td></tr>
+    <tr><td class="metric">Сбой / жалоба «не работает», «СРМ упала»</td><td class="value">~5%</td><td class="value warn">оператор</td></tr>
+    <tr><td class="metric">Постбэки</td><td class="value">редко</td><td class="value warn">в доработке</td></tr>
   </tbody>
 </table>
+<div class="callout">
+  <strong>Как читать.</strong> ~80% обращений — это типовые операции с CRM-объектами
+  (анализ 499 диалогов), и они в зоне бота. Оставшееся — сбои/жалобы (нужен человек)
+  и редкие нестандартные кейсы (бот честно эскалирует). Шаги на стороне брокера
+  (проставить статус/деп по тест-лиду) всегда остаются на клиенте — это не работа поддержки.
+</div>
+
+<!-- ============================================================ -->
+<h2 class="section" id="works">Что работает — проверено в CRM</h2>
+<p class="section-lead">
+  Каждая строка — реальный запрос в чат и результат, который мы <strong>сами
+  открыли и проверили в CRM на стенде</strong>. Колонка «чем проверили» — где именно сверяли.
+</p>
+
+<table class="metrics">
+  <thead>
+    <tr><th>Запрос клиента</th><th>Что делает бот</th><th>Статус</th><th>Чем проверили</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="metric">Полный пакет интеграции (логин, токен, ID, URL, гео)</td><td class="note">Распознаёт имя и тип брокера, пишет креды, шлёт тест-лид</td><td class="value ok">работает</td><td class="note">Карточка офиса: тип, токен, гео</td></tr>
+    <tr><td class="metric">Несколько интеграций подряд в одном чате</td><td class="note">У каждого офиса свои креды — не перемешивает</td><td class="value ok">работает</td><td class="note">3 офиса: токены/URL/гео все разные</td></tr>
+    <tr><td class="metric">Пакет без токена</td><td class="note">Точечно просит ровно недостающее поле</td><td class="value ok">работает</td><td class="note">Диалог</td></tr>
+    <tr><td class="metric">Прислали ссылку на доку вместо URL</td><td class="note">Просит реальный endpoint, не ссылку на доку</td><td class="value ok">работает</td><td class="note">Карточка офиса: api_url</td></tr>
+    <tr><td class="metric">«Переименуй офис X в Y»</td><td class="note">Переименовывает</td><td class="value ok">работает</td><td class="note">Имя офиса в CRM</td></tr>
+    <tr><td class="metric">«Поменяй api url / добавь гео»</td><td class="note">Обновляет поле офиса</td><td class="value ok">работает</td><td class="note">Карточка офиса</td></tr>
+    <tr><td class="metric">«Что с лидом &lt;email&gt;?»</td><td class="note">Статус; если нет — честно «не найден»</td><td class="value ok">работает</td><td class="note">Сверено: лида нет на стенде</td></tr>
+    <tr><td class="metric">Тест-лид</td><td class="note">Реально уходит к брокеру, возвращает ответ</td><td class="value ok">работает</td><td class="note">Ответ брокера в чате</td></tr>
+    <tr><td class="metric">«Поставь кап на офис X»</td><td class="note">Если сделок нет — честно сообщает</td><td class="value ok">работает</td><td class="note">Сверено: у офиса нет сделок</td></tr>
+    <tr><td class="metric">«Добавь / убери IP в whitelist»</td><td class="note">Добавляет и удаляет</td><td class="value ok">работает</td><td class="note">Список whitelist в CRM</td></tr>
+    <tr><td class="metric">«Забань email»</td><td class="note">Добавляет в blacklist</td><td class="value ok">работает</td><td class="note">Список blacklist в CRM</td></tr>
+    <tr><td class="metric">Две операции в одном сообщении</td><td class="note">Выполняет обе, вторую не теряет</td><td class="value ok">работает</td><td class="note">Обе записи на стенде</td></tr>
+    <tr><td class="metric">«Покажи список баеров» / «доступ баера X»</td><td class="note">Список + api_key, marker, кабинет, логин, сброс пароля</td><td class="value ok">работает</td><td class="note">id/marker/email совпали со стендом</td></tr>
+    <tr><td class="metric">Вопросы по документации</td><td class="note">Отвечает по сути со ссылкой на doc.vibero.tech</td><td class="value ok">работает</td><td class="note">Сверка с вики</td></tr>
+    <tr><td class="metric">«Позовите человека»</td><td class="note">Эскалация на оператора</td><td class="value ok">работает</td><td class="note">Диалог</td></tr>
+    <tr><td class="metric">Благодарность / «спасибо»</td><td class="note">Тактично молчит, не флудит</td><td class="value ok">работает</td><td class="note">Диалог</td></tr>
+    <tr><td class="metric">Добавление постбэка</td><td class="note">Пока ошибка сервера; бот честно сообщает, успех не имитирует</td><td class="value warn">в работе</td><td class="note">Список постбэков (не создан)</td></tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ -->
+<h2 class="section" id="try">Что можно прислать боту</h2>
+<p class="section-lead">
+  Примеры формулировок — пишите естественно, как обычному оператору.
+</p>
+<div class="try-grid">
+  <div class="try-card">
+    <div class="title">Интеграция</div>
+    <div class="examples">
+      <div class="try-ex">Нужна интегра, офис Maximus, гео RU + login/token/url брокера</div>
+      <div class="try-ex">поменяй api url офиса Maximus на https://...</div>
+      <div class="try-ex">добавь гео KZ в офис Maximus</div>
+      <div class="try-ex">переименуй офис Maximus в Maximus2</div>
+    </div>
+  </div>
+  <div class="try-card">
+    <div class="title">Лиды и тест-лиды</div>
+    <div class="examples">
+      <div class="try-ex">отправь тест-лид на офис Maximus</div>
+      <div class="try-ex">что с лидом testmail_123@test.com?</div>
+      <div class="try-ex">на какой офис ушёл этот лид?</div>
+    </div>
+  </div>
+  <div class="try-card">
+    <div class="title">Капы и доступы</div>
+    <div class="examples">
+      <div class="try-ex">поставь кап 100 на офис Maximus</div>
+      <div class="try-ex">добавь IP 1.2.3.4 в whitelist</div>
+      <div class="try-ex">забань email spam@x.com</div>
+    </div>
+  </div>
+  <div class="try-card">
+    <div class="title">Баеры и документация</div>
+    <div class="examples">
+      <div class="try-ex">покажи список баеров</div>
+      <div class="try-ex">покажи доступ баера BUY123</div>
+      <div class="try-ex">как добавить whitelist по IP?</div>
+    </div>
+  </div>
+</div>
 
 <!-- ============================================================ -->
 <h2 class="section" id="method">Как мы это проверяли</h2>
 <div class="callout ok">
   <strong>Не «на словах», а в системе.</strong> Бот может ответить «офис создан,
   интеграция подключена» — но это ничего не значит, пока не проверено в CRM.
-  Поэтому после каждого ответа мы независимо открывали стенд и сверяли:
-  действительно ли создан офис, записан ли токен и тип, появилась ли запись в
-  whitelist/blacklist, есть ли лид. В таблице выше — только подтверждённое.
+  Поэтому после каждого ответа мы независимо открывали стенд и сверяли: действительно
+  ли создан офис, записан ли токен и тип, появилась ли запись в whitelist/blacklist,
+  совпадают ли данные баера. В таблицах выше — только подтверждённое.
 </div>
 
 <!-- ============================================================ -->
 <h2 class="section" id="progress">Что в работе</h2>
 <p class="section-lead">
-  Честно — что ещё дорабатываем перед боевым пилотом. Это не мешает остальному
-  работать, но до показа клиентам в проде закрываем.
+  Честно — что дорабатываем. На остальное не влияет.
 </p>
-
 <div class="roadmap-grid">
-
-  <div class="roadmap-card">
-    <div class="title">Изоляция данных между офисами</div>
-    <div class="desc">
-      Когда в одном чате подряд заводят несколько интеграций, новый офис может
-      подтянуть креды (логин/токен) от предыдущего вместо присланных. Лечим
-      привязку данных строго к текущему пакету интеграции.
-    </div>
-    <div class="when">Основной приоритет</div>
-  </div>
-
   <div class="roadmap-card">
     <div class="title">Постбэки</div>
     <div class="desc">
-      Создание постбэка через бота сейчас упирается в ошибку сервера. Бот честно
-      сообщает об ошибке (не имитирует успех) — но саму операцию доводим.
+      Создание постбэка через бота упирается в ошибку сервера. Бот честно
+      сообщает об ошибке (не имитирует успех) — доводим саму операцию.
     </div>
     <div class="when">В работе</div>
   </div>
-
   <div class="roadmap-card">
     <div class="title">Парсинг документации брокера</div>
     <div class="desc">
       Если прислали только ссылку на Postman/Swagger, бот просит дать рабочий
-      URL. Автоматическое чтение endpoint прямо из документации — следующий шаг.
+      URL. Автоматическое чтение endpoint из документации — следующий шаг.
     </div>
     <div class="when">Следующая итерация</div>
   </div>
-
 </div>
 
 <div class="callout">
@@ -352,7 +405,7 @@
 
 <div class="footer">
   Live-проверка 2026-06-05 на demo.vibero.net. Версия 2 (multi-agent архитектура).
-  Каждый результат сверен в CRM.
+  Покрытие — по анализу 499 реальных диалогов. Каждый сценарий сверен в CRM.
 </div>
 
 </div>
