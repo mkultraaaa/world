@@ -252,9 +252,9 @@
 
 <div class="stats">
   <div class="stat"><div class="num ok">~80%</div><div class="label">Обращений клиентов — в зоне бота (типовые операции с CRM)</div></div>
-  <div class="stat"><div class="num ok">18</div><div class="label">Сценариев подтверждено (сверено в CRM)</div></div>
+  <div class="stat"><div class="num ok">19</div><div class="label">Сценариев подтверждено (сверено в CRM)</div></div>
   <div class="stat"><div class="num accent">11</div><div class="label">Классов операций покрыто</div></div>
-  <div class="stat"><div class="num warn">1</div><div class="label">В доработке (постбэки)</div></div>
+  <div class="stat"><div class="num warn">1</div><div class="label">В доработке (изменение лимита на сделке)</div></div>
 </div>
 
 <div class="toc">
@@ -284,7 +284,7 @@
     <tr><td class="metric">Доступы: whitelist / blacklist, баеры</td><td class="value">в составе ↑</td><td class="value ok">бот</td></tr>
     <tr><td class="metric">Вопросы по документации / «как сделать X»</td><td class="value">в составе ↑</td><td class="value ok">бот</td></tr>
     <tr><td class="metric">Сбой / жалоба «не работает», «СРМ упала»</td><td class="value">~5%</td><td class="value warn">оператор</td></tr>
-    <tr><td class="metric">Постбэки</td><td class="value">редко</td><td class="value warn">в доработке</td></tr>
+    <tr><td class="metric">Постбэки</td><td class="value">редко</td><td class="value ok">бот</td></tr>
   </tbody>
 </table>
 <div class="callout">
@@ -343,7 +343,7 @@
     <tr><td class="metric">Благодарность / «спасибо»</td><td class="note">Тактично молчит, не флудит</td><td class="value ok">работает</td><td class="note">Диалог</td></tr>
 
     <tr class="cat"><td colspan="4">10. Постбэки</td></tr>
-    <tr><td class="metric">Добавление постбэка</td><td class="note">Пока ошибка сервера; бот честно сообщает, успех не имитирует</td><td class="value warn">в работе</td><td class="note">Список постбэков (не создан)</td></tr>
+    <tr><td class="metric">«Добавь постбэк на офис X: url, событие ftd»</td><td class="note">Создаёт постбэк (событие ftd → deposit)</td><td class="value ok">работает</td><td class="note">Постбэк реально создан в CRM (сверено)</td></tr>
   </tbody>
 </table>
 
@@ -414,14 +414,6 @@
       Читает и показывает капы корректно. Поднять существующий лимит на сделке
       с несколькими офферами пока не может — нужно научить выбирать оффер.
       Важно: ложного «готово» не делает — честно говорит, что не изменил.
-    </div>
-    <div class="when">В работе</div>
-  </div>
-  <div class="roadmap-card">
-    <div class="title">Постбэки</div>
-    <div class="desc">
-      Создание постбэка через бота упирается в ошибку сервера. Бот честно
-      сообщает об ошибке (не имитирует успех) — доводим саму операцию.
     </div>
     <div class="when">В работе</div>
   </div>
