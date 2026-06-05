@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/vibero/">
+<title>Vibero Support Bot v2 — что работает (live-проверка)</title>
+<meta name="description" content="Live-проверка бота-саппорта Vibero (версия 2, новая архитектура) на стенде demo.vibero.net: что реально работает, что в работе. Каждый результат сверен в CRM.">
+<style>
+  :root {
+    --bg: #0b0d12;
+    --bg-card: #141821;
+    --bg-elev: #1a1f2b;
+    --border: #232936;
+    --text: #e6e9ef;
+    --text-dim: #8a93a4;
+    --accent: #5b8cff;
+    --ok: #4ade80;
+    --warn: #fbbf24;
+    --escalate: #c084fc;
+    --bad: #f87171;
+    --user: #2563eb;
+    --bot: #1e293b;
+    --code: #0f1320;
+    --mono: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 920px; margin: 0 auto; padding: 56px 24px 96px; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .breadcrumb { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .breadcrumb a { color: var(--text-dim); }
+
+  .hero { margin-bottom: 48px; }
+  .hero .eyebrow { color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-size: 34px; font-weight: 700; margin: 0 0 16px; letter-spacing: -0.02em; line-height: 1.15; }
+  .hero .lead { color: var(--text-dim); font-size: 16px; max-width: 700px; }
+  .hero .meta { color: var(--text-dim); font-size: 13px; margin-top: 16px; }
+  .hero .meta b { color: var(--text); }
+
+  /* Big numbers */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+    margin: 36px 0 56px;
+  }
+  .stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .stat .num { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+  .stat .num.ok { color: var(--ok); }
+  .stat .num.accent { color: var(--accent); }
+  .stat .num.warn { color: var(--warn); }
+  .stat .label { color: var(--text-dim); font-size: 12px; margin-top: 8px; }
+
+  /* Sections */
+  h2.section {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin: 60px 0 18px;
+    font-weight: 600;
+  }
+  h3.section-h { font-size: 22px; margin: 0 0 10px; font-weight: 600; letter-spacing: -0.01em; }
+  .section-lead { color: var(--text-dim); font-size: 14px; margin-bottom: 24px; max-width: 720px; }
+
+  /* Fix list */
+  .fix-list {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .fix-row {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .fix-row:last-child { border-bottom: none; }
+  .fix-row .before { color: var(--text-dim); font-size: 13px; line-height: 1.5; }
+  .fix-row .before::before {
+    content: "Было";
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--bad);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .fix-row .after { font-size: 13px; line-height: 1.5; }
+  .fix-row .after::before {
+    content: "Стало";
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ok);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  @media (max-width: 600px) {
+    .fix-row { grid-template-columns: 1fr; gap: 12px; }
+  }
+
+  /* Try blocks */
+  .try-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .try-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .try-card .title { font-weight: 600; font-size: 14px; margin-bottom: 12px; }
+  .try-card .examples { display: flex; flex-direction: column; gap: 6px; }
+  .try-ex {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--bg-elev);
+    padding: 8px 10px;
+    border-radius: 6px;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* Roadmap (in-progress) */
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .roadmap-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    border-left: 3px solid var(--warn);
+  }
+  .roadmap-card .title { font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+  .roadmap-card .desc { font-size: 13px; color: var(--text-dim); margin-bottom: 10px; line-height: 1.5; }
+  .roadmap-card .when { font-size: 11px; color: var(--warn); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+
+  /* Metric table */
+  table.metrics { width: 100%; border-collapse: collapse; background: var(--bg-card);
+                   border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+                   font-size: 14px; }
+  table.metrics th { text-align: left; padding: 12px 16px; background: var(--bg-elev);
+                      color: var(--text-dim); font-weight: 600; font-size: 11px;
+                      text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--border); }
+  table.metrics td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table.metrics tbody tr:last-child td { border-bottom: none; }
+  table.metrics td.metric { font-weight: 500; }
+  table.metrics td.value { font-family: var(--mono); white-space: nowrap; }
+  table.metrics td.value.ok { color: var(--ok); }
+  table.metrics td.value.warn { color: var(--warn); }
+  table.metrics td.note { color: var(--text-dim); font-size: 13px; }
+
+  /* Callout */
+  .callout {
+    background: rgba(91, 140, 255, 0.08);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--text-dim);
+    margin: 24px 0;
+  }
+  .callout.ok {
+    background: rgba(74, 222, 128, 0.08);
+    border-left-color: var(--ok);
+  }
+  .callout strong { color: var(--text); }
+
+  code.inline {
+    font-family: var(--mono);
+    background: var(--bg-elev);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: 1px solid var(--border);
+  }
+
+  .footer {
+    margin-top: 80px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  /* Nav */
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+  .toc a {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .toc a:hover { color: var(--text); border-color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="breadcrumb">
+  <a href="./">← К обзору бота</a>
+</div>
+
+<div class="hero">
+  <div class="eyebrow">Live-проверка · 2026-06-05 · версия 2 (новая архитектура)</div>
+  <h1>Бот v2: что уже работает</h1>
+  <p class="lead">
+    Новая версия на multi-agent архитектуре (оркестратор + специализированные
+    под-агенты, изолированная память по чатам, Postgres/Redis, мульти-тенант).
+    Проверили вживую: реальные запросы в чат — и сразу <b>сверка результата
+    прямо в CRM на стенде</b>. То есть не «бот что-то ответил», а «операция
+    действительно выполнена в системе».
+  </p>
+  <div class="meta">
+    Бот в чате <b>VIBERO INTERNAL DEMO</b> · подключён к
+    <code class="inline">demo.vibero.net</code>. Каждый результат ниже проверен
+    чтением карточки офиса / списков whitelist, blacklist, баеров в CRM.
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="num ok">18</div><div class="label">Сценариев работают (сверено в CRM)</div></div>
+  <div class="stat"><div class="num accent">11</div><div class="label">Классов операций покрыто</div></div>
+  <div class="stat"><div class="num warn">1</div><div class="label">Блокер в активной доработке</div></div>
+  <div class="stat"><div class="num accent">100%</div><div class="label">Результатов сверено на стенде, не на словах</div></div>
+</div>
+
+<div class="toc">
+  <a href="#works">Что работает</a>
+  <a href="#method">Как проверяли</a>
+  <a href="#progress">В работе</a>
+</div>
+
+<!-- ============================================================ -->
+<h2 class="section" id="works">Что работает — проверено в CRM</h2>
+<p class="section-lead">
+  Каждая строка — реальный запрос в чат, и рядом результат, который мы
+  <strong>сами проверили в CRM на стенде</strong> (открыли карточку офиса,
+  списки whitelist/blacklist/баеров, статус лида). Зелёное — подтверждено.
+</p>
+
+<table class="metrics">
+  <thead>
+    <tr><th>Блок / запрос</th><th>Что делает бот</th><th>Статус</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="metric">Создание офиса по полному пакету (логин, токен, ID, URL, гео)</td><td class="note">Распознаёт имя и тип брокера, записывает креды, сразу отправляет тест-лид</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">Пакет без токена</td><td class="note">Создаёт черновик и точечно просит ровно недостающее поле</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">Прислали ссылку на документацию вместо URL</td><td class="note">Просит реальный endpoint брокера, а не ссылку на доку</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">«Добавь гео RU в офис X»</td><td class="note">Добавляет язык/гео — сохраняется в карточке офиса</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">«Переименуй офис X в Y»</td><td class="note">Переименовывает — имя обновляется в CRM</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">«Поменяй api url офиса X на …»</td><td class="note">Обновляет endpoint в карточке офиса</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">«Что с лидом &lt;email&gt;?»</td><td class="note">Честный ответ со статусом; если лида нет — прямо говорит «не найден»</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">Тест-лид</td><td class="note">Реально уходит к брокеру, возвращает ответ (статус/отбой)</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">«Поставь кап на офис X»</td><td class="note">Если сделок нет — честно сообщает, не имитирует успех</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">«Добавь IP в whitelist»</td><td class="note">Добавляет — запись реально появляется в CRM</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">«Забань email»</td><td class="note">Добавляет в blacklist — запись реально в CRM</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">«Убери IP из whitelist»</td><td class="note">Удаляет — запись реально пропадает из CRM</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">Две операции в одном сообщении (whitelist + blacklist)</td><td class="note">Выполняет обе, вторую задачу не теряет</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">«Покажи список баеров»</td><td class="note">Возвращает реальный список баеров со стенда</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">«Покажи доступ баера X»</td><td class="note">api_key, marker, кабинет, логин, ссылка на сброс пароля (пароль не раскрывает)</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">Вопросы по документации («как добавить whitelist по IP», «склад vs архив»)</td><td class="note">Отвечает по сути со ссылкой на doc.vibero.tech</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">«Позовите человека»</td><td class="note">Передаёт оператору с пометкой эскалации</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">«Спасибо» / благодарность</td><td class="note">Тактично молчит, не флудит лишними сообщениями</td><td class="value ok">работает</td></tr>
+    <tr><td class="metric">Добавление постбэка</td><td class="note">Пока возвращается ошибка сервера; бот честно сообщает, успех не имитирует</td><td class="value warn">в работе</td></tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ -->
+<h2 class="section" id="method">Как мы это проверяли</h2>
+<div class="callout ok">
+  <strong>Не «на словах», а в системе.</strong> Бот может ответить «офис создан,
+  интеграция подключена» — но это ничего не значит, пока не проверено в CRM.
+  Поэтому после каждого ответа мы независимо открывали стенд и сверяли:
+  действительно ли создан офис, записан ли токен и тип, появилась ли запись в
+  whitelist/blacklist, есть ли лид. В таблице выше — только подтверждённое.
+</div>
+
+<!-- ============================================================ -->
+<h2 class="section" id="progress">Что в работе</h2>
+<p class="section-lead">
+  Честно — что ещё дорабатываем перед боевым пилотом. Это не мешает остальному
+  работать, но до показа клиентам в проде закрываем.
+</p>
+
+<div class="roadmap-grid">
+
+  <div class="roadmap-card">
+    <div class="title">Изоляция данных между офисами</div>
+    <div class="desc">
+      Когда в одном чате подряд заводят несколько интеграций, новый офис может
+      подтянуть креды (логин/токен) от предыдущего вместо присланных. Лечим
+      привязку данных строго к текущему пакету интеграции.
+    </div>
+    <div class="when">Основной приоритет</div>
+  </div>
+
+  <div class="roadmap-card">
+    <div class="title">Постбэки</div>
+    <div class="desc">
+      Создание постбэка через бота сейчас упирается в ошибку сервера. Бот честно
+      сообщает об ошибке (не имитирует успех) — но саму операцию доводим.
+    </div>
+    <div class="when">В работе</div>
+  </div>
+
+  <div class="roadmap-card">
+    <div class="title">Парсинг документации брокера</div>
+    <div class="desc">
+      Если прислали только ссылку на Postman/Swagger, бот просит дать рабочий
+      URL. Автоматическое чтение endpoint прямо из документации — следующий шаг.
+    </div>
+    <div class="when">Следующая итерация</div>
+  </div>
+
+</div>
+
+<div class="callout">
+  <strong>Контакт</strong>: Макс — <code class="inline">@msoloviev</code>.
+  Обзор бота: <a href="./">msolo.me/vibero</a>.
+</div>
+
+<div class="footer">
+  Live-проверка 2026-06-05 на demo.vibero.net. Версия 2 (multi-agent архитектура).
+  Каждый результат сверен в CRM.
+</div>
+
+</div>
+</body>
+</html>
