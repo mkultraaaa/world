@@ -12,8 +12,8 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--red:#FF4D4D;--green:#39d98a;--bg:#000;--surface:#0e0e0e;--surface2:#161616;--line:#262626;--white:#fff;--gray:#8a8a8a;--gray-dark:#555}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden;max-width:100%}
 .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
 em{color:var(--red);font-style:normal}
 .hero{min-height:62vh;display:flex;flex-direction:column;justify-content:center;padding:80px 0 50px;border-bottom:1px solid var(--line)}
@@ -21,8 +21,8 @@ em{color:var(--red);font-style:normal}
 .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,11vw,150px);line-height:.86;letter-spacing:2px;margin-bottom:18px}
 .hero .sub{font-size:clamp(16px,2.2vw,21px);color:var(--gray);max-width:660px;margin-top:18px}
 .hero .sub b{color:var(--white);font-weight:700}
-.tagrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
-.tag{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:var(--gray);border:1px solid var(--line);padding:9px 14px;border-radius:2px}
+.tagrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px;max-width:100%}
+.tag{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:var(--gray);border:1px solid var(--line);padding:9px 14px;border-radius:2px;max-width:100%}
 .tag em{color:var(--red)}
 section{padding:74px 0;border-bottom:1px solid var(--line)}
 .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
@@ -50,13 +50,14 @@ h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5.5vw,62px);line-hei
 .dh{background:var(--surface);padding:14px 20px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.05em;color:var(--gray);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .dh b{color:var(--white);font-size:13px}
 .turn{border-top:1px solid var(--line);padding:20px}
-.cmsg{font-size:14.5px;color:var(--white);background:#2b4a63;padding:11px 15px;border-radius:13px 13px 13px 4px;max-width:88%;line-height:1.5}
+.cmsg{font-size:14.5px;color:var(--white);background:#2b4a63;padding:11px 15px;border-radius:13px 13px 13px 4px;max-width:88%;line-height:1.5;overflow-wrap:anywhere}
 .cmsg span{font-family:'JetBrains Mono',monospace;font-size:10px;color:#bcdcf2;display:block;margin-bottom:5px;letter-spacing:.14em}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
 .side{background:#121214;border:1px solid var(--line);border-radius:11px;padding:14px 16px}
 .side.bot{border-color:#33272a}
 .sh{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.05em;color:var(--gray-dark);margin-bottom:10px;display:flex;align-items:center;gap:8px;justify-content:space-between}
-.sb{font-size:13.5px;color:var(--gray);line-height:1.55;white-space:pre-wrap}
+.sb{font-size:13.5px;color:var(--gray);line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;min-width:0}
+.side{min-width:0}
 .chip{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:3px 8px;border-radius:3px;letter-spacing:.04em;text-transform:uppercase}
 .chip.identical{background:#C6EFCE;color:#0B6B2E}
 .chip.similar{background:#FFEB9C;color:#7a4f00}
@@ -84,7 +85,8 @@ footer h2{margin-bottom:18px}
 footer .meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gray-dark);letter-spacing:.04em;line-height:1.9;margin-top:26px}
 footer .badge{display:inline-block;margin-top:24px;border:1px solid var(--line);padding:14px 22px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gray);letter-spacing:.08em}
 footer .badge em{color:var(--red)}
-@media(max-width:760px){.grid{grid-template-columns:1fr}.phones{grid-template-columns:1fr}.pair{grid-template-columns:1fr}section{padding:54px 0}}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.phones{grid-template-columns:1fr}.pair{grid-template-columns:1fr}section{padding:54px 0}
+.hero h1{font-size:46px;letter-spacing:1px}.tag{font-size:11px;letter-spacing:.02em;padding:8px 11px}.bub{max-width:88%}}
 </style>
 </head>
 <body>
