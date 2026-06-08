@@ -322,28 +322,26 @@
   <div class="frame"><section class="slide">
     <div class="topbar"><div class="kicker">ТРЕКШН</div><div class="kicker">09 / 15</div></div>
     <div class="section-tag" style="margin-top:40px;margin-bottom:24px">07 · ГДЕ МЫ СЕЙЧАС</div>
-    <h2>Действующий бизнес: выручка ×13 за 2025 год</h2>
+    <h2>Действующий бизнес: 200 млн ₽ GMV в 2025 → <span class="red">столько же</span> за 5 мес 2026</h2>
     <div class="twocol" style="margin-top:30px;align-items:start;grid-template-columns:1.15fr 1fr">
       <div>
         <div class="chart-wrap" style="margin-top:0"><div class="bars" id="revbars"></div></div>
-        <div class="kicker" style="color:var(--label);margin-top:42px">ВЫРУЧКА MOYAUDALENKA ПО КВАРТАЛАМ, МЛН ₽ · ФАКТ 2025 · ∑ 3,46 МЛН</div>
+        <div class="kicker" style="color:var(--label);margin-top:42px">GMV ВЫПЛАТ ПО МЕСЯЦАМ 2026, МЛН ₽ · ФАКТ · ∑ 197 МЛН ЗА 5 МЕС</div>
       </div>
       <div>
-        <div class="ue">
-          <div class="b"><div class="v">200<small>млн ₽</small></div><div class="c">GMV выплат за 2025</div></div>
-          <div class="b"><div class="v">×13</div><div class="c">рост выручки 2025</div></div>
-          <div class="b"><div class="v">~1 650</div><div class="c">самозанятых (фев'26)</div></div>
-          <div class="b"><div class="v">49</div><div class="c">платящих клиентов (фев'26)</div></div>
-          <div class="b"><div class="v">720K<small>₽</small></div><div class="c">LTV · ~3× к CAC</div></div>
-          <div class="b"><div class="v">95<small>%</small></div><div class="c">retention Q4'25</div></div>
+        <div class="ue" style="grid-template-columns:repeat(2,1fr)">
+          <div class="b"><div class="v">197<small>млн ₽</small></div><div class="c">GMV выплат за янв–май 2026</div></div>
+          <div class="b"><div class="v">50,6<small>млн ₽</small></div><div class="c">пик месяца (апр'26)</div></div>
+          <div class="b"><div class="v">2 259</div><div class="c">самозанятых (май'26)</div></div>
+          <div class="b"><div class="v">59</div><div class="c">платящих клиентов (май'26)</div></div>
         </div>
         <div class="num-list" style="margin-top:22px">
-          <div class="row"><div class="n">01</div><div class="t"><b>Q1 2026 (факт):</b> <span class="muted">оборот ~27 млн ₽/мес, комиссия 1,4–1,6%, churn 14,6% (фев).</span></div></div>
+          <div class="row"><div class="n">01</div><div class="t"><b>Янв–май 2026 (факт):</b> <span class="muted">197 млн ₽ выплат за 5 мес — <b>годовой run-rate ×2,4</b> к 2025, комиссия ~1,6%.</span></div></div>
           <div class="row"><div class="n">02</div><div class="t"><b>Якорь — Зерокодер:</b> <span class="muted">~15 млн ₽/мес выплат. Привлечено 9 млн ₽ (2025), оценка ~156 млн ₽.</span></div></div>
         </div>
       </div>
     </div>
-    <div class="footer-note">ИСТОЧНИК: ВНУТРЕННЯЯ ОТЧЁТНОСТЬ · МЕТРИКИ ЗА 2025 + Q1 2026 (ФАКТ)</div>
+    <div class="footer-note">ИСТОЧНИК: ВНУТРЕННЯЯ ОТЧЁТНОСТЬ · ДАННЫЕ ЗА ЯНВ–МАЙ 2026 (ФАКТ)</div>
   </section></div>
 
   <!-- 08 — PRODUCT -->
@@ -484,14 +482,14 @@
 </div>
 
 <script>
-  // ---- revenue bars (slide 6): actual 2025 quarterly revenue, млн ₽ ----
+  // ---- GMV bars (slide 9): monthly payout volume, млн ₽ — янв–май 2026 факт ----
   (function(){
-    var data=[{x:"Q1'25",v:0.36},{x:"Q2'25",v:0.49},{x:"Q3'25",v:0.81},{x:"Q4'25",v:1.81}];
-    var max=1.81,host=document.getElementById('revbars');if(!host)return;
-    var cols=['#a39d95','#7d776f','#36322c','#d9442e'];
+    var data=[{x:"янв'26",v:25.3},{x:"фев'26",v:35.4},{x:"мар'26",v:46.6},{x:"апр'26",v:50.6},{x:"май'26",v:38.9}];
+    var max=50.6,host=document.getElementById('revbars');if(!host)return;
+    var cols=['#c5beb3','#a39d95','#7d776f','#d9442e','#36322c'];
     data.forEach(function(d,i){
       var bar=document.createElement('div');bar.className='bar';
-      var h=(d.v/max*100);var v=d.v.toFixed(2).replace('.',',');
+      var h=(d.v/max*100);var v=d.v.toFixed(1).replace('.',',');
       bar.innerHTML='<span style="position:absolute;font-family:var(--mono);color:var(--ink);font-weight:600;font-size:16px;bottom:calc('+h+'% + 10px)">'+v+'</span><div class="b" style="height:'+h+'%;background:'+cols[i]+'"></div><span class="x">'+d.x+'</span>';
       host.appendChild(bar);
     });
