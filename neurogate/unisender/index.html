@@ -12,53 +12,44 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --purple:#7C3AED; --purple-dark:#6D28D9; --purple-light:#A78BFA; --purple-bg:#F5F3FF;
-  --ink:#13111C; --ink-2:#1A1A2E;
-  --g50:#F9FAFB; --g100:#F3F4F6; --g200:#E8EBF0; --g300:#D1D5DB;
-  --g400:#94A3B8; --g500:#64748B; --g600:#4B5563; --g700:#374151; --g800:#1F2937; --g900:#111827;
-  --white:#fff; --green:#10B981; --green-bg:#ECFDF5; --amber:#F59E0B; --amber-bg:#FFFBEB; --red:#EF4444;
+  --purple:#8B5CF6; --purple-2:#A78BFA; --purple-deep:#6D28D9;
+  --bg:#0E0B16; --bg-2:#15101F;
+  --ink:#FFFFFF; --txt:#C9C4D6; --muted:#8E86A6; --faint:#6E6688;
+  --card:rgba(255,255,255,.045); --card-2:rgba(255,255,255,.07);
+  --bord:rgba(255,255,255,.10); --bord-2:rgba(255,255,255,.16);
+  --green:#34D399; --amber:#FBBF24; --red:#F87171;
   --radius:18px; --radius-sm:12px; --radius-xs:8px;
-  --shadow:0 4px 14px -2px rgba(17,16,28,.08), 0 2px 6px -2px rgba(17,16,28,.05);
-  --shadow-lg:0 18px 50px -12px rgba(17,16,28,.18);
+  --shadow-lg:0 24px 60px -18px rgba(0,0,0,.6);
   --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
 }
 html,body{height:100%}
-body{
-  font-family:var(--font); color:var(--ink); background:#0E0B16;
-  -webkit-font-smoothing:antialiased; overflow:hidden;
-}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;overflow:hidden}
 
 /* ---------- Deck shell ---------- */
-.deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
-.stage{
-  position:relative; width:100vw; height:100vh;
-  display:flex; align-items:center; justify-content:center;
-}
+.deck{position:fixed;inset:0}
+.stage{position:relative;width:100vw;height:100vh}
 .slide{
-  position:absolute; inset:0; opacity:0; pointer-events:none;
-  display:flex; flex-direction:column; justify-content:center;
-  padding:6vh 7vw 9vh; background:var(--white);
-  transition:opacity .35s ease; overflow:auto;
+  position:absolute;inset:0;opacity:0;pointer-events:none;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:6vh 7vw 9vh;overflow:auto;
+  background:
+    radial-gradient(1100px 620px at 80% 12%,rgba(139,92,246,.20),transparent 58%),
+    radial-gradient(900px 520px at 8% 94%,rgba(167,139,250,.12),transparent 55%),
+    linear-gradient(160deg,#15101F 0%,#0E0B16 100%);
+  transition:opacity .35s ease;
 }
 .slide.active{opacity:1;pointer-events:auto}
 .slide::-webkit-scrollbar{width:0}
 
 /* ---------- Typography ---------- */
-.kicker{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--purple);background:var(--purple-bg);
-  padding:7px 14px;border-radius:999px;margin-bottom:22px;width:fit-content
-}
-.kicker.dark{color:#C4B5FD;background:rgba(124,58,237,.18)}
-h1{font-size:clamp(34px,5.2vw,68px);line-height:1.04;font-weight:900;letter-spacing:-.025em}
-h2{font-size:clamp(28px,3.8vw,50px);line-height:1.08;font-weight:850;letter-spacing:-.02em;margin-bottom:10px}
-.lead{font-size:clamp(17px,1.7vw,23px);line-height:1.5;color:var(--g600);max-width:62ch}
-.sub{font-size:15px;color:var(--g500);font-weight:600;letter-spacing:.02em}
-strong{color:var(--ink)}
-.accent{color:var(--purple)}
-
-/* ---------- Header chrome ---------- */
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:#C4B5FD;background:rgba(139,92,246,.16);border:1px solid rgba(139,92,246,.28);padding:7px 14px;border-radius:999px;margin-bottom:22px;width:fit-content}
+h1{font-size:clamp(34px,5.2vw,68px);line-height:1.04;font-weight:900;letter-spacing:-.025em;color:#fff}
+h2{font-size:clamp(28px,3.8vw,50px);line-height:1.08;font-weight:850;letter-spacing:-.02em;margin-bottom:10px;color:#fff}
+.lead{font-size:clamp(17px,1.7vw,23px);line-height:1.5;color:var(--txt);max-width:62ch}
+.sub{font-size:14px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+strong{color:#fff}
+.accent{color:var(--purple-2)}
 .s-head{margin-bottom:30px}
 .s-head h2 + .lead{margin-top:8px}
 
@@ -67,55 +58,51 @@ strong{color:var(--ink)}
 .g2{grid-template-columns:repeat(2,1fr)}
 .g3{grid-template-columns:repeat(3,1fr)}
 .g4{grid-template-columns:repeat(4,1fr)}
-.card{
-  background:var(--white);border:1px solid var(--g200);border-radius:var(--radius);
-  padding:24px 22px;box-shadow:var(--shadow)
-}
+.card{background:var(--card);border:1px solid var(--bord);border-radius:var(--radius);padding:24px 22px}
 .card .ic{font-size:26px;margin-bottom:12px;display:block}
-.card h3{font-size:18px;font-weight:800;margin-bottom:6px;letter-spacing:-.01em}
-.card p{font-size:14.5px;color:var(--g600);line-height:1.5}
-.card.soft{background:var(--g50);box-shadow:none}
-.card.brand{background:linear-gradient(160deg,#fff,var(--purple-bg));border-color:#E4DDFB}
+.card h3{font-size:18px;font-weight:800;margin-bottom:6px;letter-spacing:-.01em;color:#fff}
+.card p{font-size:14.5px;color:var(--txt);line-height:1.5}
+.card .tiny{font-size:12.5px;color:var(--muted)}
+.card.brand{background:linear-gradient(160deg,rgba(139,92,246,.20),rgba(139,92,246,.06));border-color:rgba(139,92,246,.36)}
 
 /* tinted */
-.tint{border-radius:var(--radius);padding:20px 22px}
-.tint.purple{background:var(--purple-bg);border:1px solid #E4DDFB}
-.tint.green{background:var(--green-bg);border:1px solid #C8F0DC}
-.tint.amber{background:var(--amber-bg);border:1px solid #FCE9C0}
+.tint{border-radius:var(--radius);padding:18px 22px;border:1px solid var(--bord)}
+.tint.purple{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.3)}
+.tint.green{background:rgba(52,211,153,.10);border-color:rgba(52,211,153,.28)}
+.tint.amber{background:rgba(251,191,36,.10);border-color:rgba(251,191,36,.28)}
+.tint b{color:#fff}
 
 /* ---------- Lists ---------- */
-.bullets{display:flex;flex-direction:column;gap:14px;margin-top:6px}
-.bullets li{list-style:none;display:flex;gap:13px;align-items:flex-start;font-size:17px;line-height:1.45;color:var(--g700)}
-.bullets .dot{flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:var(--purple-bg);color:var(--purple);
-  display:grid;place-items:center;font-size:14px;font-weight:800;margin-top:1px}
-.bullets li b{color:var(--ink)}
+.bullets{display:flex;flex-direction:column;gap:13px;margin-top:6px}
+.bullets li{list-style:none;display:flex;gap:13px;align-items:flex-start;font-size:17px;line-height:1.45;color:var(--txt)}
+.bullets .dot{flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:rgba(139,92,246,.2);color:#C4B5FD;display:grid;place-items:center;font-size:13px;font-weight:800;margin-top:1px}
+.bullets li b{color:#fff}
 
 /* steps */
-.steps{display:flex;flex-direction:column;gap:14px}
+.steps{display:flex;flex-direction:column;gap:13px}
 .step{display:flex;gap:16px;align-items:flex-start}
-.step .n{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:var(--purple);color:#fff;
-  display:grid;place-items:center;font-weight:800;font-size:16px;box-shadow:0 4px 10px rgba(124,58,237,.35)}
+.step .n{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:linear-gradient(160deg,var(--purple),var(--purple-deep));color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;box-shadow:0 6px 16px rgba(139,92,246,.4)}
 .step .tx{padding-top:3px}
-.step .tx b{display:block;font-size:16.5px;font-weight:750;color:var(--ink);margin-bottom:2px}
-.step .tx span{font-size:14.5px;color:var(--g600);line-height:1.45}
+.step .tx b{display:block;font-size:16.5px;font-weight:750;color:#fff;margin-bottom:2px}
+.step .tx span{font-size:14.5px;color:var(--txt);line-height:1.45}
 
 /* ---------- Table ---------- */
-.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
-.tbl th,.tbl td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--g200)}
-.tbl th{background:var(--g900);color:#fff;font-weight:700;font-size:13.5px;letter-spacing:.01em}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--bord)}
+.tbl th,.tbl td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--bord)}
+.tbl th{background:rgba(255,255,255,.06);color:#fff;font-weight:700;font-size:13.5px}
+.tbl td{color:var(--txt)}
 .tbl tr:last-child td{border-bottom:none}
-.tbl td:first-child{font-weight:700;color:var(--ink)}
-.tbl .us{background:var(--purple-bg)}
-.tbl .us td{color:var(--purple-dark);font-weight:700}
+.tbl td:first-child{font-weight:700;color:#fff}
+.tbl .us{background:rgba(139,92,246,.16)}
+.tbl .us td{color:#fff;font-weight:700}
 .tbl .yes{color:var(--green);font-weight:800}
-.tbl .no{color:var(--g400);font-weight:700}
+.tbl .no{color:var(--faint);font-weight:700}
 .tbl-wrap{overflow:auto}
 
 /* ---------- Screens ---------- */
-.shot{border-radius:14px;border:1px solid var(--g200);box-shadow:var(--shadow-lg);width:100%;display:block;background:var(--g50)}
-.shot-frame{border-radius:16px;padding:10px;background:linear-gradient(160deg,#EDE9FE,#fff);border:1px solid #E4DDFB;box-shadow:var(--shadow-lg)}
-.shot-frame img{border-radius:9px;width:100%;display:block;border:1px solid var(--g200)}
-.shot-cap{font-size:13px;color:var(--g500);margin-top:10px;font-weight:600;display:flex;align-items:center;gap:6px}
+.shot-frame{border-radius:16px;padding:10px;background:linear-gradient(160deg,rgba(139,92,246,.28),rgba(255,255,255,.04));border:1px solid var(--bord-2);box-shadow:var(--shadow-lg)}
+.shot-frame img{border-radius:9px;width:100%;display:block;border:1px solid rgba(0,0,0,.2)}
+.shot-cap{font-size:13px;color:var(--muted);margin-top:10px;font-weight:600;padding:0 4px 2px}
 
 /* split layout */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:42px;align-items:center}
@@ -123,74 +110,55 @@ strong{color:var(--ink)}
 
 /* stat */
 .stat{display:flex;flex-direction:column}
-.stat .num{font-size:clamp(30px,3.6vw,48px);font-weight:900;letter-spacing:-.03em;color:var(--purple);line-height:1}
-.stat .lab{font-size:14px;color:var(--g600);font-weight:600;margin-top:6px}
+.stat .num{font-size:clamp(30px,3.6vw,48px);font-weight:900;letter-spacing:-.03em;color:var(--purple-2);line-height:1}
+.stat .lab{font-size:14px;color:var(--txt);font-weight:600;margin-top:6px}
 
 /* chips */
 .chips{display:flex;flex-wrap:wrap;gap:9px}
-.chip{font-size:14px;font-weight:650;padding:8px 14px;border-radius:999px;background:var(--g100);color:var(--g700);border:1px solid var(--g200)}
-.chip.p{background:var(--purple-bg);color:var(--purple-dark);border-color:#E4DDFB}
+.chip{font-size:14px;font-weight:650;padding:8px 14px;border-radius:999px;background:rgba(139,92,246,.14);color:#C4B5FD;border:1px solid rgba(139,92,246,.3)}
 
-/* ---------- Cover & dark slides ---------- */
-.slide.cover{
-  background:radial-gradient(1100px 600px at 78% 18%,rgba(124,58,237,.35),transparent 60%),
-             radial-gradient(900px 500px at 12% 92%,rgba(167,139,250,.22),transparent 55%),
-             linear-gradient(160deg,#15101F 0%,#0E0B16 100%);
-  color:#fff
-}
-.slide.dark{
-  background:linear-gradient(160deg,#15101F,#0E0B16);color:#fff
-}
-.slide.cover h1,.slide.dark h1,.slide.dark h2{color:#fff}
-.slide.cover .lead,.slide.dark .lead{color:#C9C4D6}
-.slide.cover .card,.slide.dark .card{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);box-shadow:none}
-.slide.cover .card h3,.slide.dark .card h3{color:#fff}
-.slide.cover .card p,.slide.dark .card p{color:#B6B0C4}
+/* code */
+.code{background:#0A0710;border:1px solid var(--bord);border-radius:16px;padding:24px 26px;box-shadow:var(--shadow-lg);
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14.5px;line-height:1.75;color:#E6E1F0}
+.code .c{color:var(--faint)} .code .k{color:#C4B5FD} .code .s{color:#6EE7B7}
+
+/* ---------- Cover ---------- */
 .logos{display:flex;align-items:center;gap:16px;margin-bottom:38px}
 .logos .x{color:#8a7fb0;font-size:22px;font-weight:300}
-.logo-pill{background:#fff;border-radius:12px;padding:0 16px;display:flex;align-items:center;gap:10px;height:50px;box-shadow:0 4px 18px rgba(124,58,237,.18)}
+.logo-pill{background:#fff;border-radius:12px;padding:0 16px;display:flex;align-items:center;gap:10px;height:50px;box-shadow:0 8px 26px rgba(139,92,246,.3)}
 .logo-pill img{height:24px;display:block}
 .logo-pill b{font-size:19px;font-weight:800;color:#1A1A2E;letter-spacing:-.02em}
-.logo-pill .ngmark{flex:0 0 auto}
-.cover-foot{position:absolute;left:7vw;bottom:6vh;font-size:14px;color:#8A82A0;font-weight:600}
+.cover-foot{position:absolute;left:7vw;bottom:6vh;font-size:14px;color:var(--faint);font-weight:600}
 .cover-goals{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
-.goal{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
-  padding:14px 20px;border-radius:14px}
+.goal{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--bord);padding:14px 20px;border-radius:14px}
 .goal .e{font-size:24px}
 .goal b{font-size:16px;color:#fff;display:block}
-.goal span{font-size:13.5px;color:#A79FB8}
+.goal span{font-size:13.5px;color:var(--muted)}
 
 /* ---------- Nav ---------- */
-.nav{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:50;
-  display:flex;align-items:center;gap:14px;background:rgba(20,16,30,.72);
-  backdrop-filter:blur(12px);padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.1)}
-.nav button{background:none;border:none;color:#fff;font-size:17px;width:30px;height:30px;border-radius:50%;
-  display:grid;place-items:center;transition:.15s;opacity:.85}
+.nav{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:14px;
+  background:rgba(20,16,30,.78);backdrop-filter:blur(12px);padding:8px 14px;border-radius:999px;border:1px solid var(--bord)}
+.nav button{background:none;border:none;color:#fff;font-size:17px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;transition:.15s;opacity:.85}
 .nav button:hover{background:rgba(255,255,255,.14);opacity:1}
-.nav .count{font-size:13px;color:#C9C4D6;font-weight:700;min-width:46px;text-align:center;letter-spacing:.04em}
-.dots{position:fixed;top:0;left:0;right:0;height:4px;z-index:50;background:rgba(255,255,255,.0)}
-.dots .bar{height:100%;background:linear-gradient(90deg,var(--purple),var(--purple-light));transition:width .35s ease;box-shadow:0 0 12px rgba(124,58,237,.6)}
-.hint{position:fixed;bottom:20px;right:22px;z-index:50;font-size:12px;color:#6f6786;font-weight:600}
-.brandmark{position:fixed;top:18px;right:22px;z-index:40;display:flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:var(--g400);letter-spacing:.02em}
-.slide.cover ~ *, .stage .slide.active.cover .brandmark{}
-.pgnum{position:absolute;right:7vw;bottom:5vh;font-size:13px;color:var(--g300);font-weight:700}
-.slide.cover .pgnum,.slide.dark .pgnum{color:rgba(255,255,255,.3)}
+.nav .count{font-size:13px;color:var(--txt);font-weight:700;min-width:50px;text-align:center;letter-spacing:.04em}
+.dots{position:fixed;top:0;left:0;right:0;height:4px;z-index:50}
+.dots .bar{height:100%;background:linear-gradient(90deg,var(--purple),var(--purple-2));transition:width .35s ease;box-shadow:0 0 12px rgba(139,92,246,.7)}
+.hint{position:fixed;bottom:20px;right:22px;z-index:50;font-size:12px;color:var(--faint);font-weight:600}
+.brandmark{position:fixed;top:18px;right:22px;z-index:40;font-size:13px;font-weight:800;color:rgba(255,255,255,.5);letter-spacing:.02em}
+.pgnum{position:absolute;right:7vw;bottom:5vh;font-size:13px;color:rgba(255,255,255,.28);font-weight:700}
 
 /* utility */
 .mt-s{margin-top:14px}.mt-m{margin-top:24px}.mt-l{margin-top:34px}
-.muted{color:var(--g500)}
-.note{font-size:13.5px;color:var(--g500);margin-top:14px;display:flex;gap:8px;align-items:flex-start;line-height:1.45}
-.note .i{color:var(--purple);font-weight:800}
+.muted{color:var(--muted)}
+.note{font-size:13.5px;color:var(--muted);margin-top:14px;display:flex;gap:8px;align-items:flex-start;line-height:1.45}
+.note .i{color:var(--purple-2);font-weight:800}
 .maxw{max-width:1180px;margin:0 auto;width:100%}
-.pill-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-.kbd{display:inline-block;background:var(--g100);border:1px solid var(--g300);border-bottom-width:2px;border-radius:6px;padding:1px 7px;font-size:13px;font-weight:700;font-family:var(--font)}
+.kbd{display:inline-block;background:rgba(255,255,255,.08);border:1px solid var(--bord-2);border-radius:6px;padding:1px 7px;font-size:13px;font-weight:700;font-family:var(--font)}
 
 @media (max-width:820px){
   .split,.split.narrow{grid-template-columns:1fr;gap:24px}
-  .g4{grid-template-columns:repeat(2,1fr)}
-  .g3{grid-template-columns:1fr}
-  .slide{padding:7vh 7vw 11vh}
-  h1{font-size:38px}h2{font-size:30px}
+  .g4{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:1fr}
+  .slide{padding:7vh 7vw 11vh} h1{font-size:38px}h2{font-size:30px}
 }
 @media print{
   body{overflow:visible}
@@ -202,57 +170,39 @@ strong{color:var(--ink)}
 <body>
 
 <div class="dots"><div class="bar" id="bar"></div></div>
-<div class="brandmark" id="brandmark">⬡ NeuroGate</div>
+<div class="brandmark">⬡ NeuroGate</div>
 
 <div class="deck"><div class="stage" id="stage">
 
 <!-- 1 · COVER -->
-<section class="slide cover active">
+<section class="slide active">
   <div class="maxw">
     <div class="logos">
       <div class="logo-pill">
-        <svg class="ngmark" width="22" height="22" viewBox="0 0 512 512" fill="#7C3AED" xmlns="http://www.w3.org/2000/svg"><rect x="84" y="84" width="150" height="150" rx="42"/><rect x="278" y="84" width="150" height="150" rx="42"/><rect x="84" y="278" width="150" height="150" rx="42"/><rect x="278" y="278" width="150" height="150" rx="42"/></svg>
+        <svg width="22" height="22" viewBox="0 0 512 512" fill="#7C3AED" xmlns="http://www.w3.org/2000/svg"><rect x="84" y="84" width="150" height="150" rx="42"/><rect x="278" y="84" width="150" height="150" rx="42"/><rect x="84" y="278" width="150" height="150" rx="42"/><rect x="278" y="278" width="150" height="150" rx="42"/></svg>
         <b>NeuroGate</b>
       </div>
       <span class="x">×</span>
       <div class="logo-pill"><img src="/neurogate/static/logo-unisender.png" alt="Unisender"></div>
     </div>
-    <span class="kicker dark">Гайд для маркетологов · 2026</span>
+    <span class="kicker">Гайд для маркетологов · 2026</span>
     <h1>NeuroGate для<br>команды Unisender</h1>
-    <p class="lead mt-s">Как пользоваться продуктом в ежедневных задачах маркетинга — и как продавать его клиентам по партнёрской программе.</p>
+    <p class="lead mt-s">Одна презентация — две задачи: научиться пользоваться продуктом в работе маркетолога и продавать его клиентам по партнёрской программе.</p>
     <div class="cover-goals">
-      <div class="goal"><span class="e">🎛️</span><div><b>Часть 1 — Пользуемся</b><span>кейсы: креативы, видео, презентации</span></div></div>
-      <div class="goal"><span class="e">💸</span><div><b>Часть 2 — Продаём</b><span>аргументы, ЦА, условия партнёрки</span></div></div>
+      <div class="goal"><span class="e">🛠️</span><div><b>Часть 1 — Пользуемся</b><span>кейсы и бест-практики: тексты, картинки, видео</span></div></div>
+      <div class="goal"><span class="e">💸</span><div><b>Часть 2 — Продаём</b><span>преимущества, аудитория, условия партнёрки</span></div></div>
     </div>
   </div>
   <div class="cover-foot">ng-ai.ru · агрегатор нейросетей для России</div>
 </section>
 
-<!-- 2 · AGENDA -->
-<section class="slide">
-  <div class="maxw">
-    <div class="s-head">
-      <span class="kicker">⬡ О чём поговорим</span>
-      <h2>Три блока за один звонок</h2>
-      <p class="lead">Сначала разберёмся, что это за продукт и кому он нужен. Потом — руками пройдём реальные задачи. В конце — как на этом зарабатывать.</p>
-    </div>
-    <div class="grid g3">
-      <div class="card brand"><span class="ic">🧭</span><h3>1. Что такое NeuroGate</h3><p>Продукт, преимущества, ассортимент моделей, конкуренты и кому это продаётся.</p></div>
-      <div class="card brand"><span class="ic">🛠️</span><h3>2. Как пользоваться</h3><p>5 типовых задач маркетолога пошагово: тексты, баннеры, видео, презентации, связка с рассылкой.</p></div>
-      <div class="card brand"><span class="ic">🤝</span><h3>3. Как продавать</h3><p>Партнёрские условия, сколько вы заработаете, готовые формулировки и кому нести оффер.</p></div>
-    </div>
-    <p class="note"><span class="i">↔</span> Листайте стрелками <span class="kbd">←</span> <span class="kbd">→</span> или пробелом. Презентация живёт по ссылке — её можно открыть после звонка и переслать коллегам.</p>
-  </div>
-  <div class="pgnum">02</div>
-</section>
-
-<!-- 3 · WHAT IS IT -->
+<!-- 2 · WHAT IS IT -->
 <section class="slide">
   <div class="maxw split narrow">
     <div>
       <span class="kicker">⬡ Суть</span>
       <h2>Один кабинет — все нейросети</h2>
-      <p class="lead">NeuroGate — это единая точка доступа ко всем актуальным AI-моделям мира: текст, картинки, видео, музыка. Оплата рублями, работает из России, без VPN и зарубежных карт.</p>
+      <p class="lead">NeuroGate — единая точка доступа ко всем актуальным AI-моделям: текст, картинки, видео, музыка. Оплата рублями, работает из России, без VPN и зарубежных карт.</p>
       <ul class="bullets mt-m">
         <li><span class="dot">✓</span><span><b>Без VPN и иностранных карт</b> — заходишь и работаешь из РФ</span></li>
         <li><span class="dot">✓</span><span><b>90+ моделей</b> вместо 5 отдельных подписок</span></li>
@@ -261,36 +211,33 @@ strong{color:var(--ink)}
     </div>
     <div class="shot-frame">
       <img src="/neurogate/unisender/shots/real-hero.png" alt="Главная NeuroGate">
-      <div class="shot-cap" style="padding:0 4px 2px">🖥️ Реальный экран ng-ai.ru</div>
+      <div class="shot-cap">🖥️ Реальный экран ng-ai.ru</div>
     </div>
   </div>
-  <div class="pgnum">03</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 4 · PROBLEM -->
-<section class="slide dark">
+<!-- 3 · PROBLEM -->
+<section class="slide">
   <div class="maxw">
-    <span class="kicker dark">⬡ Боль рынка</span>
+    <span class="kicker">⬡ Боль рынка</span>
     <h2>Почему люди ищут такой сервис</h2>
-    <p class="lead">Чтобы пользоваться нейросетями из России, человек сегодня вынужден решать четыре проблемы сразу. Каждая — повод уйти к конкуренту или сдаться.</p>
+    <p class="lead">Чтобы пользоваться топовыми нейросетями из России, человек сегодня решает сразу несколько проблем. Каждая — повод уйти или сдаться.</p>
     <div class="grid g4 mt-l">
       <div class="card"><span class="ic">🔒</span><h3>VPN</h3><p>ChatGPT, Midjourney, Claude напрямую не открываются.</p></div>
       <div class="card"><span class="ic">💳</span><h3>Иностранная карта</h3><p>Оплатить подписку российской картой нельзя.</p></div>
-      <div class="card"><span class="ic">🧾</span><h3>5 подписок</h3><p>Текст, картинки, видео — всё в разных сервисах и за валюту.</p></div>
-      <div class="card"><span class="ic">🤯</span><h3>Запутанный биллинг</h3><p>«Слова», «токены с множителями» — не посчитать.</p></div>
+      <div class="card"><span class="ic">🚫</span><h3>Риск бана</h3><p>Личный аккаунт из РФ могут заблокировать в любой момент.</p></div>
+      <div class="card"><span class="ic">🧾</span><h3>5 подписок</h3><p>Текст, картинки, видео — всё в разных сервисах за валюту.</p></div>
     </div>
-    <p class="lead mt-l">NeuroGate закрывает все четыре одной регистрацией. <strong style="color:#fff">Это и есть оффер.</strong></p>
+    <p class="lead mt-l">NeuroGate закрывает всё это одной регистрацией. <strong>Это и есть оффер.</strong></p>
   </div>
-  <div class="pgnum">04</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 5 · UTP -->
+<!-- 4 · ADVANTAGES -->
 <section class="slide">
   <div class="maxw">
-    <div class="s-head">
-      <span class="kicker">⬡ Преимущества</span>
-      <h2>Почему выбирают нас</h2>
-    </div>
+    <div class="s-head"><span class="kicker">⬡ Преимущества</span><h2>Почему выбирают нас</h2></div>
     <div class="grid g3">
       <div class="card brand"><span class="ic">🛡️</span><h3>Аккаунт не заблокируют</h3><p>Работаешь через NeuroGate, а не через личный зарубежный аккаунт под риском бана. Надёжно и без сюрпризов.</p></div>
       <div class="card"><span class="ic">🇷🇺</span><h3>Из России, рублями</h3><p>Карты РФ и СБП. Без VPN, без валютных переводов.</p></div>
@@ -301,60 +248,60 @@ strong{color:var(--ink)}
     </div>
     <p class="note"><span class="i">🔁</span> Отключат одну модель для РФ — переключаешься на другую в один клик. Ради этого и держат агрегатор, а не прямую подписку.</p>
   </div>
-  <div class="pgnum">05</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 6 · MODELS -->
+<!-- 5 · MODELS -->
 <section class="slide">
   <div class="maxw split narrow">
     <div>
       <span class="kicker">⬡ Ассортимент</span>
       <h2>Внутри: 94 модели, 14 провайдеров</h2>
-      <p class="lead">Один баланс открывает доступ ко всем четырём модальностям. Под каждую задачу — лучшая модель, без отдельной подписки.</p>
-      <div class="mt-m" style="display:flex;flex-direction:column;gap:14px">
-        <div class="tint purple"><b>📝 Текст</b> · <span class="muted">GPT-5.x, Claude 4.x, Gemini 3, DeepSeek, Grok, Perplexity</span></div>
-        <div class="tint purple"><b>🎨 Картинки</b> · <span class="muted">Midjourney, Flux 2, Seedream, GPT Image, Ideogram</span></div>
+      <p class="lead">Один баланс открывает все четыре модальности. Под каждую задачу — лучшая модель, без отдельной подписки.</p>
+      <div class="mt-m" style="display:flex;flex-direction:column;gap:12px">
+        <div class="tint purple"><b>📝 Текст</b> · <span class="muted">GPT-5.x, Claude 4.x, Gemini 3, DeepSeek, Grok</span></div>
+        <div class="tint purple"><b>🎨 Картинки</b> · <span class="muted">Midjourney, Flux 2, Seedream, Nano Banana, Ideogram</span></div>
         <div class="tint purple"><b>🎬 Видео</b> · <span class="muted">Kling, Sora 2, Veo 3.1, Seedance, Runway</span></div>
         <div class="tint purple"><b>🎵 Музыка и звук</b> · <span class="muted">Suno, Udio, Minimax Music</span></div>
       </div>
     </div>
     <div class="shot-frame">
       <img src="/neurogate/unisender/shots/cab-models.png" alt="Каталог моделей в кабинете">
-      <div class="shot-cap" style="padding:0 4px 2px">🗂️ Реальный каталог моделей в кабинете</div>
+      <div class="shot-cap">🗂️ Реальный каталог моделей в кабинете</div>
     </div>
   </div>
-  <div class="pgnum">06</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 6b · API FEATURE -->
+<!-- 6 · API -->
 <section class="slide">
   <div class="maxw split">
     <div>
       <span class="kicker">⬡ Фича · API</span>
       <h2>Подключается к любому агенту</h2>
-      <p class="lead">У NeuroGate OpenAI-совместимый API: меняешь один адрес — и весь твой код, бот или AI-агент работают через нас. Все 90+ моделей по одному ключу, оплата рублями, без VPN.</p>
+      <p class="lead">У NeuroGate OpenAI-совместимый API: меняешь один адрес — и весь твой код, бот или AI-агент работают через нас. Все 90+ моделей по одному ключу, рублями, без VPN.</p>
       <ul class="bullets mt-m">
         <li><span class="dot">⚡</span><span><b>Замени base_url</b> — остальной код не трогаешь</span></li>
         <li><span class="dot">🔀</span><span><b>Smart Router</b> — авто-выбор модели по цене и качеству</span></li>
-        <li><span class="dot">🛟</span><span><b>Fallback</b> — модель упала, запрос уходит на резервную. Zero downtime</span></li>
+        <li><span class="dot">🛟</span><span><b>Fallback</b> — модель упала, запрос уходит на резервную</span></li>
       </ul>
-      <p class="note"><span class="i">💡</span> Это аргумент не только для разработчиков: «подключи ИИ к своему боту/CRM/рассылке» — понятная ценность для бизнеса.</p>
+      <p class="note"><span class="i">💡</span> Аргумент не только для разработчиков: «подключи ИИ к своему боту, CRM или рассылке» — понятная ценность для бизнеса.</p>
     </div>
     <div>
-      <div style="background:#15101F;border-radius:16px;padding:24px 26px;box-shadow:var(--shadow-lg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14.5px;line-height:1.7;color:#E6E1F0">
-        <div style="color:#7c6f93;margin-bottom:10px">// один адрес — и готово</div>
-        <div><span style="color:#A78BFA">import</span> openai</div>
+      <div class="code">
+        <div class="c">// один адрес — и готово</div>
+        <div><span class="k">import</span> openai</div>
         <div>client = openai.OpenAI(</div>
-        <div style="padding-left:18px"><span style="color:#7c6f93">base_url</span>=<span style="color:#10B981">"https://api.ng-ai.ru/v1"</span>,</div>
-        <div style="padding-left:18px"><span style="color:#7c6f93">api_key</span>=<span style="color:#10B981">"ваш-ключ"</span>)</div>
+        <div style="padding-left:18px"><span class="c">base_url</span>=<span class="s">"https://api.ng-ai.ru/v1"</span>,</div>
+        <div style="padding-left:18px"><span class="c">api_key</span>=<span class="s">"ваш-ключ"</span>)</div>
         <div style="margin-top:12px">resp = client.chat.completions.create(</div>
-        <div style="padding-left:18px"><span style="color:#7c6f93">model</span>=<span style="color:#10B981">"auto"</span>,  <span style="color:#7c6f93"># Smart Router</span></div>
-        <div style="padding-left:18px"><span style="color:#7c6f93">messages</span>=[...])</div>
+        <div style="padding-left:18px"><span class="c">model</span>=<span class="s">"auto"</span>,  <span class="c"># Smart Router</span></div>
+        <div style="padding-left:18px"><span class="c">messages</span>=[...])</div>
       </div>
       <p class="shot-cap">⌨️ Тот же код, что и у OpenAI — меняется только адрес</p>
     </div>
   </div>
-  <div class="pgnum">07</div>
+  <div class="pgnum"></div>
 </section>
 
 <!-- 7 · AUDIENCE -->
@@ -366,23 +313,23 @@ strong{color:var(--ink)}
       <p class="lead">Через базу Unisender проще всего достучаться до маркетинговых команд и бизнеса — у них и чек выше, и партнёрское вознаграждение крупнее.</p>
     </div>
     <div class="grid g4">
-      <div class="card"><span class="ic">🎨</span><h3>Креаторы и SMM</h3><p class="muted" style="font-size:13px">фрилансеры, копирайтеры</p><p>Чек 500–800 ₽/мес. Боль: VPN и оплата. Массовый, виральный сегмент.</p></div>
-      <div class="card brand"><span class="ic">📣</span><h3>Маркетинг-команды</h3><p class="muted" style="font-size:13px">⭐ ключевые для Unisender</p><p>Чек 10–50 тыс ₽/мес. Боль: контроль расходов, безопасность, FOMO.</p></div>
-      <div class="card brand"><span class="ic">🏢</span><h3>Бизнес и CEO</h3><p class="muted" style="font-size:13px">⭐ ключевые для Unisender</p><p>Чек 30–150 тыс ₽/мес. Боль: внедрить AI без найма, ROI, закрывашки.</p></div>
-      <div class="card"><span class="ic">💻</span><h3>Разработчики</h3><p class="muted" style="font-size:13px">и AI-агентства</p><p>Чек 5–50 тыс ₽/мес. Боль: надёжный API без VPN. Очень «липкие».</p></div>
+      <div class="card"><span class="ic">🎨</span><h3>Креаторы и SMM</h3><p class="tiny">фрилансеры, копирайтеры</p><p>Чек 300–800 ₽/мес. Боль: VPN и оплата. Массовый сегмент.</p></div>
+      <div class="card brand"><span class="ic">📣</span><h3>Маркетинг-команды</h3><p class="tiny">⭐ ключевые для Unisender</p><p>Чек 10–50 тыс ₽/мес. Боль: контроль расходов, безопасность, FOMO.</p></div>
+      <div class="card brand"><span class="ic">🏢</span><h3>Бизнес и CEO</h3><p class="tiny">⭐ ключевые для Unisender</p><p>Чек 30–150 тыс ₽/мес. Боль: внедрить AI без найма, ROI, закрывашки.</p></div>
+      <div class="card"><span class="ic">💻</span><h3>Разработчики</h3><p class="tiny">и AI-агентства</p><p>Чек 5–50 тыс ₽/мес. Боль: надёжный API без VPN. Очень «липкие».</p></div>
     </div>
     <p class="note"><span class="i">💡</span> Аудитория Unisender — это ровно те маркетологи и бизнесы, которым AI нужен уже сегодня. Тёплый контакт + понятный оффер = высокая конверсия.</p>
   </div>
-  <div class="pgnum">07</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 7b · B2B -->
+<!-- 8 · B2B -->
 <section class="slide">
   <div class="maxw split narrow">
     <div>
       <span class="kicker">⬡ Для бизнеса</span>
       <h2>AI для всей команды.<br>Один кабинет, один счёт</h2>
-      <p class="lead">Отдельное предложение для компаний — это сильный аргумент для крупных клиентов Unisender. У NeuroGate есть готовая страница и режим для бизнеса.</p>
+      <p class="lead">Отдельное предложение для компаний — сильный аргумент для крупных клиентов Unisender. У NeuroGate есть готовая страница и режим для бизнеса.</p>
       <ul class="bullets mt-m">
         <li><span class="dot">🧾</span><span><b>Единый счёт от юрлица</b> — НДС, ЭДО, акты. Бухгалтерия довольна</span></li>
         <li><span class="dot">📊</span><span><b>Контроль по отделам</b> — кто сколько тратит, лимиты на сотрудника</span></li>
@@ -393,112 +340,122 @@ strong{color:var(--ink)}
     </div>
     <div class="shot-frame">
       <img src="/neurogate/static/screen-dashboard.png" alt="Дашборд расходов команды">
-      <div class="shot-cap" style="padding:0 4px 2px">📊 Дашборд расходов по сотрудникам и отделам</div>
+      <div class="shot-cap">📊 Дашборд расходов по сотрудникам и отделам</div>
     </div>
   </div>
-  <div class="pgnum">08</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 8 · COMPETITORS -->
+<!-- 9 · MARKET MAP (defensible) -->
 <section class="slide">
   <div class="maxw">
     <div class="s-head">
-      <span class="kicker">⬡ Конкуренты</span>
-      <h2>Чем мы отличаемся на рынке</h2>
+      <span class="kicker">⬡ Рынок</span>
+      <h2>Три способа пользоваться ИИ в России — и где мы</h2>
+      <p class="lead">Мы не утверждаем, что лучше всех по каждой модели. Мы — единственные, кто даёт всё нужное в одном месте.</p>
     </div>
-    <div class="tbl-wrap">
-    <table class="tbl">
-      <thead><tr><th>Сервис</th><th>Тип</th><th>Моделей</th><th>Оплата</th><th>API</th><th>Видео-генерация</th></tr></thead>
-      <tbody>
-        <tr class="us"><td>NeuroGate</td><td>UI + API</td><td>90+</td><td>За использование</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-        <tr><td>Chad</td><td>Агрегатор</td><td>55+</td><td>Подписка</td><td class="no">—</td><td class="yes">✓</td></tr>
-        <tr><td>GPTunnel</td><td>Агрегатор+API</td><td>30+</td><td>За использование</td><td class="yes">✓</td><td class="no">—</td></tr>
-        <tr><td>GigaChat</td><td>Своя LLM</td><td>3</td><td>Freemium</td><td class="yes">✓</td><td class="no">—</td></tr>
-        <tr><td>GenAPI</td><td>Только API</td><td>50+</td><td>За использование</td><td class="yes">✓</td><td class="no">—</td></tr>
-      </tbody>
-    </table>
+    <div class="grid g4">
+      <div class="card"><span class="ic">🌍</span><h3>Прямые подписки</h3><p class="tiny">ChatGPT, Midjourney…</p><p>Нужен VPN и зарубежная карта, риск бана аккаунта, отдельный сервис под каждую задачу.</p></div>
+      <div class="card"><span class="ic">🧩</span><h3>Агрегаторы-подписки</h3><p class="tiny">Chad и похожие</p><p>Без VPN, в рублях — но фикс-подписка, оплата «словами», обычно без API.</p></div>
+      <div class="card"><span class="ic">⚙️</span><h3>API-провайдеры</h3><p class="tiny">GenAPI и похожие</p><p>Только API для разработчиков — без удобного кабинета для людей.</p></div>
+      <div class="card brand"><span class="ic">⬡</span><h3>NeuroGate</h3><p class="tiny">гибрид</p><p>И кабинет, и API. Оплата по факту. Текст+картинки+видео+музыка. Без VPN. Аккаунт не банят.</p></div>
     </div>
-    <div class="grid g3 mt-m">
-      <div class="tint green"><b>UI + API в одном</b><br><span class="muted" style="font-size:14px">У конкурентов либо чат, либо API. У нас — оба.</span></div>
-      <div class="tint green"><b>Все модальности</b><br><span class="muted" style="font-size:14px">Текст + картинки + видео + музыка под одним балансом.</span></div>
-      <div class="tint green"><b>Прозрачный биллинг</b><br><span class="muted" style="font-size:14px">Понятная цена, а не «слова с множителями».</span></div>
-    </div>
+    <p class="note"><span class="i">i</span> Сравнение на уровне категорий — без спорных цифр по чужим сервисам. Точные тарифы конкурентов меняются; проверяемо одно: связку «кабинет + API + все модальности + рубли» сегодня не даёт никто.</p>
   </div>
-  <div class="pgnum">08</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 9 · PRICE FOR CLIENT -->
+<!-- 10 · PRICE FOR CLIENT -->
 <section class="slide">
   <div class="maxw split">
     <div>
       <span class="kicker">⬡ Выгода клиента</span>
       <h2>Дешевле, чем платить отдельно</h2>
-      <p class="lead">Клиент не покупает 5 валютных подписок. Он кладёт рубли на один баланс и тратит только на то, что реально использует. По многим моделям выходит ощутимо дешевле, чем у конкурентов-агрегаторов.</p>
+      <p class="lead">Клиент не покупает 5 валютных подписок. Кладёт рубли на один баланс и тратит только на то, что использует.</p>
       <ul class="bullets mt-m">
-        <li><span class="dot">₽</span><span><b>Минимум пополнения 500 ₽</b> — попробовать почти без риска</span></li>
+        <li><span class="dot">₽</span><span><b>От 2 ₽ за запрос</b> — попробовать почти без риска</span></li>
         <li><span class="dot">∞</span><span><b>Баланс не сгорает</b> — в отличие от месячной подписки</span></li>
         <li><span class="dot">🧾</span><span><b>Для бизнеса</b> — счёт, акт, ЭДО</span></li>
       </ul>
     </div>
     <div>
       <div class="tint purple" style="padding:26px">
-        <div class="sub" style="color:var(--purple-dark);margin-bottom:14px">ПРИМЕР: 500 ₽ НА БАЛАНСЕ</div>
+        <div class="sub" style="color:#C4B5FD;margin-bottom:14px">ПРИМЕР: 500 ₽ НА БАЛАНСЕ</div>
         <div style="display:flex;flex-direction:column;gap:16px">
           <div class="stat"><span class="num">~300</span><span class="lab">запросов к топовой текстовой модели</span></div>
           <div class="stat"><span class="num">до 480</span><span class="lab">картинок на быстрой модели (Flux)</span></div>
           <div class="stat"><span class="num">5–6</span><span class="lab">коротких видеороликов</span></div>
         </div>
       </div>
-      <p class="note"><span class="i">i</span> Цифры ориентировочные — зависят от выбранной модели и длины запросов. Точный прайс всегда виден в кабинете перед генерацией.</p>
+      <p class="note"><span class="i">i</span> Цифры ориентировочные — зависят от модели и длины запросов. Точный прайс виден в кабинете перед генерацией.</p>
     </div>
   </div>
-  <div class="pgnum">09</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 10 · PART 2 DIVIDER -->
-<section class="slide dark">
+<!-- 11 · PART 2 DIVIDER -->
+<section class="slide">
   <div class="maxw">
-    <span class="kicker dark">Часть 2</span>
-    <h1>Как пользоваться:<br>5 задач маркетолога</h1>
-    <p class="lead mt-s">Каждый кейс — пошагово, как это делается прямо в кабинете. Эти же сценарии вы будете показывать клиентам.</p>
+    <span class="kicker">Часть 1 · Пользуемся</span>
+    <h1>Как маркетологу<br>работать в NeuroGate</h1>
+    <p class="lead mt-s">Сначала — принцип и бест-практики. Потом — реальные задачи по шагам, как это делается прямо в кабинете.</p>
     <div class="chips mt-l">
-      <span class="chip p">① Рекламные тексты</span>
-      <span class="chip p">② Баннеры и креативы</span>
-      <span class="chip p">③ Видеоролик</span>
-      <span class="chip p">④ Презентация</span>
-      <span class="chip p">⑤ Связка с рассылкой</span>
+      <span class="chip">Принцип: бриф → промпт → результат</span>
+      <span class="chip">Тексты</span><span class="chip">Картинки</span><span class="chip">Видео</span><span class="chip">Презентации</span><span class="chip">Связка с рассылкой</span>
     </div>
   </div>
-  <div class="pgnum">10</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 11 · START -->
+<!-- 12 · START -->
 <section class="slide">
   <div class="maxw split narrow">
     <div>
       <span class="kicker">⬡ Старт · 2 минуты</span>
       <h2>С чего начинается работа</h2>
       <div class="steps mt-m">
-        <div class="step"><div class="n">1</div><div class="tx"><b>Регистрация по почте</b><span>На ng-ai.ru — без карты на входе, есть welcome-баланс попробовать.</span></div></div>
-        <div class="step"><div class="n">2</div><div class="tx"><b>Пополнение через СБП / карту РФ</b><span>От 500 ₽. Баланс зачисляется сразу, не сгорает.</span></div></div>
+        <div class="step"><div class="n">1</div><div class="tx"><b>Регистрация по почте</b><span>На ng-ai.ru — без карты на входе, +50 ₽ на баланс попробовать.</span></div></div>
+        <div class="step"><div class="n">2</div><div class="tx"><b>Пополнение через СБП / карту РФ</b><span>Баланс зачисляется сразу, не сгорает.</span></div></div>
         <div class="step"><div class="n">3</div><div class="tx"><b>Выбор модели под задачу</b><span>Слева — чат и инструменты, в каталоге — все модели с ценой за запрос.</span></div></div>
       </div>
     </div>
     <div class="shot-frame">
       <img src="/neurogate/unisender/shots/cab-register.png" alt="Регистрация в NeuroGate">
-      <div class="shot-cap" style="padding:0 4px 2px">🚀 Регистрация: +50 ₽ на баланс сразу</div>
+      <div class="shot-cap">🚀 Регистрация: +50 ₽ на баланс сразу</div>
     </div>
   </div>
-  <div class="pgnum">11</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 12 · CASE 1 TEXT -->
+<!-- 13 · BEST PRACTICES -->
+<section class="slide">
+  <div class="maxw">
+    <div class="s-head">
+      <span class="kicker">⬡ Бест-практика</span>
+      <h2>Как маркетологи работают с ИИ</h2>
+      <p class="lead">Принцип один — рецепт из трёх шагов. NeuroGate даёт под каждый шаг лучшую модель в одном окне, без переключения сервисов.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card"><span class="ic">📋</span><h3>1. Бриф</h3><p>Что нужно: формат, аудитория, тон, референс. Чем конкретнее — тем лучше результат.</p></div>
+      <div class="card"><span class="ic">✍️</span><h3>2. Промпт → модель</h3><p>Бриф уходит нужной модели: текст — GPT / Claude, визуал — Nano Banana / Flux.</p></div>
+      <div class="card"><span class="ic">✅</span><h3>3. Результат</h3><p>Готовый ассет за минуты. 1–2 итерации — и в работу.</p></div>
+    </div>
+    <div class="grid g3 mt-m">
+      <div class="tint green"><div class="stat"><span class="num" style="font-size:30px">~2 ч</span><span class="lab">весь контент недели вместо 15 часов</span></div></div>
+      <div class="tint green"><div class="stat"><span class="num" style="font-size:30px">14</span><span class="lab">готовых форматов постов под разные задачи</span></div></div>
+      <div class="tint green"><div class="stat"><span class="num" style="font-size:30px">230 ₽</span><span class="lab">весь контент NeuroGate за 2 недели (50+ постов, статьи, лендинги)</span></div></div>
+    </div>
+  </div>
+  <div class="pgnum"></div>
+</section>
+
+<!-- 14 · CASE 1 TEXT -->
 <section class="slide">
   <div class="maxw split narrow">
     <div>
       <span class="kicker">⬡ Кейс 1 · Тексты</span>
       <h2>Рекламные объявления и посты</h2>
-      <p class="lead">10 постов за 30 минут вместо 4 часов. ~2–5 ₽ за пост против часов ручной работы.</p>
+      <p class="lead">10 постов за 30 минут вместо 4 часов. ~2–5 ₽ за пост.</p>
       <div class="steps mt-m">
         <div class="step"><div class="n">1</div><div class="tx"><b>Открыть чат, выбрать GPT-5 или Claude</b><span>Для маркетинговых текстов — топовые текстовые модели.</span></div></div>
         <div class="step"><div class="n">2</div><div class="tx"><b>Дать бриф в промпте</b><span>«10 заголовков для Директа, продукт X, ЦА — маркетологи, тон — деловой».</span></div></div>
@@ -508,13 +465,13 @@ strong{color:var(--ink)}
     </div>
     <div class="shot-frame">
       <img src="/neurogate/unisender/shots/cab-text.png" alt="Реальный результат генерации в кабинете">
-      <div class="shot-cap" style="padding:0 4px 2px">💬 Реальный ответ GPT-5 в кабинете ng-ai.ru</div>
+      <div class="shot-cap">💬 Реальный ответ GPT-5 в кабинете ng-ai.ru</div>
     </div>
   </div>
-  <div class="pgnum">12</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 13 · CASE 2 IMAGE -->
+<!-- 15 · CASE 2 IMAGE -->
 <section class="slide">
   <div class="maxw split narrow">
     <div>
@@ -526,17 +483,17 @@ strong{color:var(--ink)}
         <div class="step"><div class="n">2</div><div class="tx"><b>Описать кадр</b><span>«Баннер для AI-сервиса, фиолетовый градиент, минимализм, место под заголовок».</span></div></div>
         <div class="step"><div class="n">3</div><div class="tx"><b>Итерации и обработка</b><span>Перегенерировать, убрать фон, увеличить разрешение — тут же.</span></div></div>
       </div>
-      <p class="note"><span class="i">💰</span> Обложка ~3 ₽ против 40–60 тыс. ₽ дизайнеру, баннер 20–50 ₽. Замена дизайнера на типовых задачах.</p>
+      <p class="note"><span class="i">💰</span> Обложка ~3 ₽ против 40–60 тыс ₽ дизайнеру, баннер 20–50 ₽.</p>
     </div>
     <div class="shot-frame">
       <img src="/neurogate/unisender/shots/cab-image.png" alt="Реальная генерация баннера в кабинете">
-      <div class="shot-cap" style="padding:0 4px 2px">🎨 Баннер, сгенерённый в кабинете (Seedream)</div>
+      <div class="shot-cap">🎨 Баннер, сгенерённый в кабинете (Seedream)</div>
     </div>
   </div>
-  <div class="pgnum">13</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 14 · CASE 3 VIDEO -->
+<!-- 16 · CASE 3 VIDEO -->
 <section class="slide">
   <div class="maxw split narrow">
     <div>
@@ -545,20 +502,20 @@ strong{color:var(--ink)}
       <p class="lead">Рекламный ролик, reels или видео-открытка — без съёмки и монтажёра.</p>
       <div class="steps mt-m">
         <div class="step"><div class="n">1</div><div class="tx"><b>Раздел видео, выбрать модель</b><span>Kling и Veo — для русского рынка, Sora — мировое качество.</span></div></div>
-        <div class="step"><div class="n">2</div><div class="tx"><b>Промпт или картинка → видео</b><span>Текстом описать сцену или оживить готовый кадр в движение.</span></div></div>
-        <div class="step"><div class="n">3</div><div class="tx"><b>Скачать и собрать</b><span>Нарезка коротких сцен → готовый рекламный ролик.</span></div></div>
+        <div class="step"><div class="n">2</div><div class="tx"><b>Промпт или картинка → видео</b><span>Текстом описать сцену или оживить готовый кадр.</span></div></div>
+        <div class="step"><div class="n">3</div><div class="tx"><b>Скачать и собрать</b><span>Нарезка коротких сцен → готовый ролик.</span></div></div>
       </div>
-      <p class="note"><span class="i">🎬</span> От ~73 ₽ за ролик. Контент для соцсетей без продакшена.</p>
+      <p class="note"><span class="i">🎬</span> От ~72 ₽ за ролик. Контент для соцсетей без продакшена.</p>
     </div>
     <div class="shot-frame">
       <img src="/neurogate/unisender/shots/cab-video.png" alt="Видео-модели в кабинете">
-      <div class="shot-cap" style="padding:0 4px 2px">🎬 Видео-модели и цены в кабинете (Kling, Veo, Seedance)</div>
+      <div class="shot-cap">🎬 Видео-модели и цены в кабинете (Kling, Veo, Seedance)</div>
     </div>
   </div>
-  <div class="pgnum">14</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 15 · CASE 4 PRESENTATION -->
+<!-- 17 · CASE 4 PRESENTATION -->
 <section class="slide">
   <div class="maxw split narrow">
     <div>
@@ -566,21 +523,59 @@ strong{color:var(--ink)}
       <h2>Структура и контент презентации</h2>
       <p class="lead">От идеи до готового наполнения слайдов — текст и визуал в одном месте.</p>
       <div class="steps mt-m">
-        <div class="step"><div class="n">1</div><div class="tx"><b>Попросить структуру</b><span>«Сделай план презентации о продукте X на 10 слайдов с тезисами».</span></div></div>
+        <div class="step"><div class="n">1</div><div class="tx"><b>Попросить структуру</b><span>«План презентации о продукте X на 10 слайдов с тезисами».</span></div></div>
         <div class="step"><div class="n">2</div><div class="tx"><b>Наполнить каждый слайд</b><span>Заголовки, буллеты, спикер-ноты — текстовой моделью.</span></div></div>
         <div class="step"><div class="n">3</div><div class="tx"><b>Догенерировать визуалы</b><span>Обложки и иллюстрации к слайдам — в разделе картинок.</span></div></div>
       </div>
-      <p class="note"><span class="i">📊</span> Эта презентация — пример того, что собирается таким же способом.</p>
+      <p class="note"><span class="i">📊</span> Эта презентация собрана таким же способом.</p>
     </div>
     <div class="shot-frame">
       <img src="/neurogate/unisender/shots/cab-pres.png" alt="План презентации, сгенерённый в кабинете">
-      <div class="shot-cap" style="padding:0 4px 2px">📊 План презентации из кабинета ng-ai.ru</div>
+      <div class="shot-cap">📊 План презентации из кабинета ng-ai.ru</div>
     </div>
   </div>
-  <div class="pgnum">15</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 16 · CASE 5 UNISENDER COMBO -->
+<!-- 18 · REAL WORKFLOW -->
+<section class="slide">
+  <div class="maxw">
+    <div class="s-head">
+      <span class="kicker">⬡ Бест-практика в действии</span>
+      <h2>Карточка товара: 30 минут → 5 минут</h2>
+      <p class="lead">Реальный workflow селлера на Wildberries из лендинга NeuroGate. Тот же рецепт «бриф → промпт → результат» — на живой задаче.</p>
+    </div>
+    <div class="shot-frame" style="max-width:980px;margin:0 auto">
+      <img src="/neurogate/unisender/shots/mk-workflow.png" alt="Workflow: карточка товара за 5 минут">
+      <div class="shot-cap">🛒 Фото со склада + ТЗ → промпт (Gemini + Nano Banana Pro) → готовая карточка с инфографикой</div>
+    </div>
+  </div>
+  <div class="pgnum"></div>
+</section>
+
+<!-- 19 · MARKETER LANDING -->
+<section class="slide">
+  <div class="maxw split narrow">
+    <div>
+      <span class="kicker">⬡ Готовый ресурс</span>
+      <h2>Целый лендинг с кейсами для маркетологов</h2>
+      <p class="lead">У NeuroGate есть отдельная страница для маркетологов с живыми пошаговыми workflow — можно отправлять клиентам как есть.</p>
+      <ul class="bullets mt-m">
+        <li><span class="dot">📦</span><span><b>5 живых кейсов</b> — карточка товара, стикер-пак, hero-картинка, пост с обложкой</span></li>
+        <li><span class="dot">🧰</span><span><b>14 форматов постов</b> и готовые промпты</span></li>
+        <li><span class="dot">💸</span><span><b>Честные цены</b> — типичный маркетолог 300–500 ₽/мес</span></li>
+      </ul>
+      <p class="note"><span class="i">🔗</span> <b>ng-ai.ru/for/marketer</b> — отправляйте как лид-магнит.</p>
+    </div>
+    <div class="shot-frame">
+      <img src="/neurogate/unisender/shots/mk-hero.png" alt="Лендинг для маркетологов">
+      <div class="shot-cap">🎯 ng-ai.ru/for/marketer</div>
+    </div>
+  </div>
+  <div class="pgnum"></div>
+</section>
+
+<!-- 20 · CASE 5 UNISENDER COMBO -->
 <section class="slide">
   <div class="maxw">
     <div class="s-head">
@@ -589,33 +584,30 @@ strong{color:var(--ink)}
       <p class="lead">Самый сильный сценарий для вашей аудитории: NeuroGate готовит контент → Unisender его доставляет.</p>
     </div>
     <div class="grid g4">
-      <div class="card brand"><span class="ic">✍️</span><h3>1. Текст письма</h3><p>GPT/Claude пишут тему и тело письма, варианты под A/B-тест.</p></div>
+      <div class="card brand"><span class="ic">✍️</span><h3>1. Текст письма</h3><p>GPT / Claude пишут тему и тело, варианты под A/B-тест.</p></div>
       <div class="card brand"><span class="ic">🖼️</span><h3>2. Картинка в письмо</h3><p>Баннер и иллюстрации генерируются тут же, под бренд.</p></div>
       <div class="card brand"><span class="ic">📤</span><h3>3. Перенос в Unisender</h3><p>Готовый контент вставляется в письмо и сегмент.</p></div>
       <div class="card brand"><span class="ic">🚀</span><h3>4. Запуск кампании</h3><p>Отправка по базе — рассылка ушла за час, а не за неделю.</p></div>
     </div>
-    <p class="note"><span class="i">🎯</span> Это идеальная история для продажи: клиент Unisender получает не «ещё один AI», а ускорение того, что уже делает каждый день.</p>
+    <p class="note"><span class="i">🎯</span> Клиент Unisender получает не «ещё один AI», а ускорение того, что уже делает каждый день.</p>
   </div>
-  <div class="pgnum">16</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 17 · PART 3 DIVIDER -->
-<section class="slide dark">
+<!-- 21 · PART 3 DIVIDER -->
+<section class="slide">
   <div class="maxw">
-    <span class="kicker dark">Часть 3</span>
+    <span class="kicker">Часть 2 · Продаём</span>
     <h1>Как на этом<br>зарабатывать</h1>
     <p class="lead mt-s">Партнёрская программа: вы приводите клиентов — получаете процент с их пополнений два года.</p>
   </div>
-  <div class="pgnum">17</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 18 · AFFILIATE TERMS -->
+<!-- 22 · AFFILIATE TERMS -->
 <section class="slide">
   <div class="maxw">
-    <div class="s-head">
-      <span class="kicker">⬡ Условия партнёрки</span>
-      <h2>15% от пополнений × 24 месяца</h2>
-    </div>
+    <div class="s-head"><span class="kicker">⬡ Условия партнёрки</span><h2>15% от пополнений × 24 месяца</h2></div>
     <div class="grid g4">
       <div class="card"><div class="stat"><span class="num">15%</span><span class="lab">от всех пополнений привлечённого клиента</span></div></div>
       <div class="card"><div class="stat"><span class="num">24 мес</span><span class="lab">срок начисления с даты регистрации клиента</span></div></div>
@@ -628,10 +620,10 @@ strong{color:var(--ink)}
       <div class="tint purple"><b>💼 Промо-материалы</b><br><span class="muted" style="font-size:14px">Реф-ссылка, тексты, баннеры, эта презентация — по запросу.</span></div>
     </div>
   </div>
-  <div class="pgnum">18</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 19 · HOW MUCH -->
+<!-- 23 · HOW MUCH -->
 <section class="slide">
   <div class="maxw split">
     <div>
@@ -641,24 +633,21 @@ strong{color:var(--ink)}
       <p class="note"><span class="i">i</span> Примеры иллюстративные: зависят от того, сколько клиент реально тратит. Срок учёта по каждому клиенту — 24 месяца.</p>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="card soft"><div style="display:flex;justify-content:space-between;align-items:center">
-        <div><b style="font-size:16px">Фрилансер</b><div class="muted" style="font-size:13.5px">≈ 600 ₽/мес × 24 мес</div></div>
-        <div class="stat" style="text-align:right"><span class="num" style="font-size:30px">2 160 ₽</span></div>
-      </div></div>
-      <div class="card soft"><div style="display:flex;justify-content:space-between;align-items:center">
-        <div><b style="font-size:16px">Маркетинг-команда</b><div class="muted" style="font-size:13.5px">≈ 30 000 ₽/мес × 24 мес</div></div>
-        <div class="stat" style="text-align:right"><span class="num" style="font-size:30px">108 000 ₽</span></div>
-      </div></div>
+      <div class="card"><div style="display:flex;justify-content:space-between;align-items:center">
+        <div><b style="font-size:16px;color:#fff">Фрилансер</b><div class="muted" style="font-size:13.5px">≈ 600 ₽/мес × 24 мес</div></div>
+        <div class="stat" style="text-align:right"><span class="num" style="font-size:30px">2 160 ₽</span></div></div></div>
+      <div class="card"><div style="display:flex;justify-content:space-between;align-items:center">
+        <div><b style="font-size:16px;color:#fff">Маркетинг-команда</b><div class="muted" style="font-size:13.5px">≈ 30 000 ₽/мес × 24 мес</div></div>
+        <div class="stat" style="text-align:right"><span class="num" style="font-size:30px">108 000 ₽</span></div></div></div>
       <div class="card brand"><div style="display:flex;justify-content:space-between;align-items:center">
-        <div><b style="font-size:16px">100 платящих клиентов</b><div class="muted" style="font-size:13.5px">средний чек 1 500 ₽/мес × 24 мес</div></div>
-        <div class="stat" style="text-align:right"><span class="num" style="font-size:30px">540 000 ₽</span></div>
-      </div></div>
+        <div><b style="font-size:16px;color:#fff">100 платящих клиентов</b><div class="muted" style="font-size:13.5px">средний чек 1 500 ₽/мес × 24 мес</div></div>
+        <div class="stat" style="text-align:right"><span class="num" style="font-size:30px">540 000 ₽</span></div></div></div>
     </div>
   </div>
-  <div class="pgnum">19</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 20 · HOW TO SELL -->
+<!-- 24 · HOW TO SELL -->
 <section class="slide">
   <div class="maxw">
     <div class="s-head">
@@ -672,17 +661,17 @@ strong{color:var(--ink)}
       <div class="card"><h3>💻 Разработчику</h3><p>«Надёжный API ко всем моделям без VPN. Один провайдер вместо пяти, оплата рублями.»</p></div>
     </div>
     <div class="grid g2 mt-m">
-      <div class="tint green"><b>✅ Что подчёркивать</b><br><span class="muted" style="font-size:14px">Без VPN · рублями · все модели в одном месте · для бизнеса есть документы · попробовать от 500 ₽.</span></div>
+      <div class="tint green"><b>✅ Что подчёркивать</b><br><span class="muted" style="font-size:14px">Аккаунт не банят · без VPN · рублями · все модели в одном месте · для бизнеса есть документы · попробовать от 2 ₽.</span></div>
       <div class="tint amber"><b>⚠️ Честно про анти-фрод</b><br><span class="muted" style="font-size:14px">Засчитываются реальные клиенты. Накрутка, мульти-аккаунты и подмена UTM — не оплачиваются.</span></div>
     </div>
   </div>
-  <div class="pgnum">20</div>
+  <div class="pgnum"></div>
 </section>
 
-<!-- 21 · FINAL -->
-<section class="slide cover">
+<!-- 25 · FINAL -->
+<section class="slide">
   <div class="maxw">
-    <span class="kicker dark">⬡ Дальше</span>
+    <span class="kicker">⬡ Дальше</span>
     <h1>Готовы пробовать?</h1>
     <p class="lead mt-s">Три шага, чтобы запустить и продукт, и продажи.</p>
     <div class="grid g3 mt-l">
@@ -692,9 +681,9 @@ strong{color:var(--ink)}
     </div>
     <div class="cover-goals">
       <div class="goal"><span class="e">🌐</span><div><b>ng-ai.ru</b><span>продукт и регистрация</span></div></div>
-      <div class="goal"><span class="e">🎯</span><div><b>ng-ai.ru/for/marketer</b><span>лендинг с кейсами для маркетологов</span></div></div>
+      <div class="goal"><span class="e">🎯</span><div><b>ng-ai.ru/for/marketer</b><span>кейсы для маркетологов</span></div></div>
       <div class="goal"><span class="e">🏢</span><div><b>ng-ai.ru/business</b><span>предложение для бизнеса</span></div></div>
-      <div class="goal"><span class="e">📄</span><div><b>msolo.me/neurogate/partner</b><span>полные условия партнёрки</span></div></div>
+      <div class="goal"><span class="e">📄</span><div><b>msolo.me/neurogate/partner</b><span>условия партнёрки</span></div></div>
     </div>
   </div>
   <div class="cover-foot">NeuroGate × Unisender · вопросы — в рабочий чат</div>
@@ -704,52 +693,37 @@ strong{color:var(--ink)}
 
 <div class="nav">
   <button id="prev" aria-label="Назад">‹</button>
-  <span class="count" id="count">1 / 21</span>
+  <span class="count" id="count">1 / 25</span>
   <button id="next" aria-label="Вперёд">›</button>
 </div>
 <div class="hint">← → листать · F — на весь экран</div>
 
 <script>
 const slides=[...document.querySelectorAll('.slide')];
-const bar=document.getElementById('bar');
-const count=document.getElementById('count');
-const brandmark=document.getElementById('brandmark');
+const bar=document.getElementById('bar'), count=document.getElementById('count');
 let i=0;
-// авто-нумерация: переписываем .pgnum по фактическому порядку слайдов
 slides.forEach((s,k)=>{const p=s.querySelector('.pgnum');if(p)p.textContent=String(k+1).padStart(2,'0')});
 function show(n){
   i=Math.max(0,Math.min(slides.length-1,n));
   slides.forEach((s,k)=>s.classList.toggle('active',k===i));
   bar.style.width=((i+1)/slides.length*100)+'%';
   count.textContent=(i+1)+' / '+slides.length;
-  const dark=slides[i].classList.contains('cover')||slides[i].classList.contains('dark');
-  brandmark.style.color=dark?'rgba(255,255,255,.55)':'';
   slides[i].scrollTop=0;
   location.hash=i+1;
 }
-function next(){show(i+1)}
-function prev(){show(i-1)}
+const next=()=>show(i+1), prev=()=>show(i-1);
 document.getElementById('next').onclick=next;
 document.getElementById('prev').onclick=prev;
 document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();next()}
   else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev()}
-  else if(e.key==='Home'){show(0)}
-  else if(e.key==='End'){show(slides.length-1)}
-  else if(e.key==='f'||e.key==='F'){
-    if(!document.fullscreenElement)document.documentElement.requestFullscreen();
-    else document.exitFullscreen();
-  }
+  else if(e.key==='Home')show(0);
+  else if(e.key==='End')show(slides.length-1);
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
 });
-// swipe
 let x0=null;
 document.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
-document.addEventListener('touchend',e=>{
-  if(x0===null)return;
-  const dx=e.changedTouches[0].clientX-x0;
-  if(Math.abs(dx)>50){dx<0?next():prev()}
-  x0=null;
-});
+document.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>50)dx<0?next():prev();x0=null});
 const start=parseInt(location.hash.replace('#',''))-1;
 show(isNaN(start)?0:start);
 </script>
