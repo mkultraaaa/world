@@ -146,11 +146,12 @@ strong{color:var(--ink)}
 .slide.cover .card,.slide.dark .card{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);box-shadow:none}
 .slide.cover .card h3,.slide.dark .card h3{color:#fff}
 .slide.cover .card p,.slide.dark .card p{color:#B6B0C4}
-.logos{display:flex;align-items:center;gap:18px;margin-bottom:38px}
-.logos img{height:34px;display:block}
-.logos .x{color:#7c6f93;font-size:22px;font-weight:300}
-.logo-pill{background:#fff;border-radius:10px;padding:8px 12px;display:flex;align-items:center;height:48px}
-.logo-pill img{height:26px}
+.logos{display:flex;align-items:center;gap:16px;margin-bottom:38px}
+.logos .x{color:#8a7fb0;font-size:22px;font-weight:300}
+.logo-pill{background:#fff;border-radius:12px;padding:0 16px;display:flex;align-items:center;gap:10px;height:50px;box-shadow:0 4px 18px rgba(124,58,237,.18)}
+.logo-pill img{height:24px;display:block}
+.logo-pill b{font-size:19px;font-weight:800;color:#1A1A2E;letter-spacing:-.02em}
+.logo-pill .ngmark{flex:0 0 auto}
 .cover-foot{position:absolute;left:7vw;bottom:6vh;font-size:14px;color:#8A82A0;font-weight:600}
 .cover-goals{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
 .goal{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
@@ -209,7 +210,10 @@ strong{color:var(--ink)}
 <section class="slide cover active">
   <div class="maxw">
     <div class="logos">
-      <div class="logo-pill"><img src="../static/logo-ngai.png" alt="NeuroGate"></div>
+      <div class="logo-pill">
+        <svg class="ngmark" width="22" height="22" viewBox="0 0 512 512" fill="#7C3AED" xmlns="http://www.w3.org/2000/svg"><rect x="84" y="84" width="150" height="150" rx="42"/><rect x="278" y="84" width="150" height="150" rx="42"/><rect x="84" y="278" width="150" height="150" rx="42"/><rect x="278" y="278" width="150" height="150" rx="42"/></svg>
+        <b>NeuroGate</b>
+      </div>
       <span class="x">×</span>
       <div class="logo-pill"><img src="../static/logo-unisender.svg" alt="Unisender"></div>
     </div>
@@ -251,13 +255,13 @@ strong{color:var(--ink)}
       <p class="lead">NeuroGate — это единая точка доступа ко всем актуальным AI-моделям мира: текст, картинки, видео, музыка. Оплата рублями, работает из России, без VPN и зарубежных карт.</p>
       <ul class="bullets mt-m">
         <li><span class="dot">✓</span><span><b>Без VPN и иностранных карт</b> — заходишь и работаешь из РФ</span></li>
-        <li><span class="dot">✓</span><span><b>100+ моделей</b> вместо 5 отдельных подписок</span></li>
-        <li><span class="dot">✓</span><span><b>Платишь за использование</b> — баланс не сгорает, минимум пополнения 500 ₽</span></li>
+        <li><span class="dot">✓</span><span><b>90+ моделей</b> вместо 5 отдельных подписок</span></li>
+        <li><span class="dot">✓</span><span><b>Платишь за использование</b> — от 2 ₽ за запрос, баланс не сгорает</span></li>
       </ul>
     </div>
     <div class="shot-frame">
-      <img src="../static/screen-dashboard.png" alt="Кабинет NeuroGate">
-      <div class="shot-cap" style="padding:0 4px 2px">🖥️ Главный экран кабинета ng-ai.ru</div>
+      <img src="./shots/real-hero.png" alt="Главная NeuroGate">
+      <div class="shot-cap" style="padding:0 4px 2px">🖥️ Реальный экран ng-ai.ru</div>
     </div>
   </div>
   <div class="pgnum">03</div>
@@ -285,16 +289,17 @@ strong{color:var(--ink)}
   <div class="maxw">
     <div class="s-head">
       <span class="kicker">⬡ Преимущества</span>
-      <h2>6 причин, почему выбирают нас</h2>
+      <h2>Почему выбирают нас</h2>
     </div>
     <div class="grid g3">
+      <div class="card brand"><span class="ic">🛡️</span><h3>Аккаунт не заблокируют</h3><p>Работаешь через NeuroGate, а не через личный зарубежный аккаунт под риском бана. Надёжно и без сюрпризов.</p></div>
       <div class="card"><span class="ic">🇷🇺</span><h3>Из России, рублями</h3><p>Карты РФ и СБП. Без VPN, без валютных переводов.</p></div>
-      <div class="card"><span class="ic">🗂️</span><h3>100+ моделей</h3><p>GPT, Claude, Gemini, Midjourney, Kling, Sora, Suno — в одном окне.</p></div>
-      <div class="card"><span class="ic">💧</span><h3>Pay-as-you-go</h3><p>Без обязательной подписки. Платишь по факту, баланс не сгорает.</p></div>
-      <div class="card"><span class="ic">🔎</span><h3>Прозрачная цена</h3><p>Понятная стоимость за запрос, а не «магические слова».</p></div>
+      <div class="card"><span class="ic">🗂️</span><h3>90+ моделей</h3><p>GPT, Claude, Gemini, Midjourney, Kling, Sora, Suno — в одном окне.</p></div>
+      <div class="card"><span class="ic">💧</span><h3>Pay-as-you-go</h3><p>Без обязательной подписки. От 2 ₽ за запрос, баланс не сгорает.</p></div>
       <div class="card"><span class="ic">👥</span><h3>Команда и B2B</h3><p>Единый счёт, лимиты по сотрудникам, закрывающие документы, ЭДО.</p></div>
       <div class="card"><span class="ic">🔌</span><h3>UI + API</h3><p>И удобный кабинет, и API для интеграций — в одном продукте.</p></div>
     </div>
+    <p class="note"><span class="i">🔁</span> Отключат одну модель для РФ — переключаешься на другую в один клик. Ради этого и держат агрегатор, а не прямую подписку.</p>
   </div>
   <div class="pgnum">05</div>
 </section>
@@ -304,21 +309,52 @@ strong{color:var(--ink)}
   <div class="maxw split narrow">
     <div>
       <span class="kicker">⬡ Ассортимент</span>
-      <h2>Что внутри: 100+ моделей</h2>
+      <h2>Внутри: 94 модели, 14 провайдеров</h2>
       <p class="lead">Один баланс открывает доступ ко всем четырём модальностям. Под каждую задачу — лучшая модель, без отдельной подписки.</p>
-      <div class="mt-m" style="display:flex;flex-direction:column;gap:16px">
+      <div class="mt-m" style="display:flex;flex-direction:column;gap:14px">
         <div class="tint purple"><b>📝 Текст</b> · <span class="muted">GPT-5.x, Claude 4.x, Gemini 3, DeepSeek, Grok, Perplexity</span></div>
-        <div class="tint purple"><b>🎨 Картинки</b> · <span class="muted">Midjourney v7, Flux 2, Seedream, GPT Image, Ideogram</span></div>
+        <div class="tint purple"><b>🎨 Картинки</b> · <span class="muted">Midjourney, Flux 2, Seedream, GPT Image, Ideogram</span></div>
         <div class="tint purple"><b>🎬 Видео</b> · <span class="muted">Kling, Sora 2, Veo 3.1, Seedance, Runway</span></div>
         <div class="tint purple"><b>🎵 Музыка и звук</b> · <span class="muted">Suno, Udio, Minimax Music</span></div>
       </div>
     </div>
     <div class="shot-frame">
-      <img src="../static/screen-models.jpg" alt="Каталог моделей NeuroGate">
-      <div class="shot-cap" style="padding:0 4px 2px">🗂️ Каталог моделей в кабинете</div>
+      <img src="./shots/real-catalog.png" alt="Каталог моделей NeuroGate">
+      <div class="shot-cap" style="padding:0 4px 2px">🗂️ Каталог и цены — ng-ai.ru/pricing</div>
     </div>
   </div>
   <div class="pgnum">06</div>
+</section>
+
+<!-- 6b · API FEATURE -->
+<section class="slide">
+  <div class="maxw split">
+    <div>
+      <span class="kicker">⬡ Фича · API</span>
+      <h2>Подключается к любому агенту</h2>
+      <p class="lead">У NeuroGate OpenAI-совместимый API: меняешь один адрес — и весь твой код, бот или AI-агент работают через нас. Все 90+ моделей по одному ключу, оплата рублями, без VPN.</p>
+      <ul class="bullets mt-m">
+        <li><span class="dot">⚡</span><span><b>Замени base_url</b> — остальной код не трогаешь</span></li>
+        <li><span class="dot">🔀</span><span><b>Smart Router</b> — авто-выбор модели по цене и качеству</span></li>
+        <li><span class="dot">🛟</span><span><b>Fallback</b> — модель упала, запрос уходит на резервную. Zero downtime</span></li>
+      </ul>
+      <p class="note"><span class="i">💡</span> Это аргумент не только для разработчиков: «подключи ИИ к своему боту/CRM/рассылке» — понятная ценность для бизнеса.</p>
+    </div>
+    <div>
+      <div style="background:#15101F;border-radius:16px;padding:24px 26px;box-shadow:var(--shadow-lg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14.5px;line-height:1.7;color:#E6E1F0">
+        <div style="color:#7c6f93;margin-bottom:10px">// один адрес — и готово</div>
+        <div><span style="color:#A78BFA">import</span> openai</div>
+        <div>client = openai.OpenAI(</div>
+        <div style="padding-left:18px"><span style="color:#7c6f93">base_url</span>=<span style="color:#10B981">"https://api.ng-ai.ru/v1"</span>,</div>
+        <div style="padding-left:18px"><span style="color:#7c6f93">api_key</span>=<span style="color:#10B981">"ваш-ключ"</span>)</div>
+        <div style="margin-top:12px">resp = client.chat.completions.create(</div>
+        <div style="padding-left:18px"><span style="color:#7c6f93">model</span>=<span style="color:#10B981">"auto"</span>,  <span style="color:#7c6f93"># Smart Router</span></div>
+        <div style="padding-left:18px"><span style="color:#7c6f93">messages</span>=[...])</div>
+      </div>
+      <p class="shot-cap">⌨️ Тот же код, что и у OpenAI — меняется только адрес</p>
+    </div>
+  </div>
+  <div class="pgnum">07</div>
 </section>
 
 <!-- 7 · AUDIENCE -->
@@ -340,6 +376,29 @@ strong{color:var(--ink)}
   <div class="pgnum">07</div>
 </section>
 
+<!-- 7b · B2B -->
+<section class="slide">
+  <div class="maxw split narrow">
+    <div>
+      <span class="kicker">⬡ Для бизнеса</span>
+      <h2>AI для всей команды.<br>Один кабинет, один счёт</h2>
+      <p class="lead">Отдельное предложение для компаний — это сильный аргумент для крупных клиентов Unisender. У NeuroGate есть готовая страница и режим для бизнеса.</p>
+      <ul class="bullets mt-m">
+        <li><span class="dot">🧾</span><span><b>Единый счёт от юрлица</b> — НДС, ЭДО, акты. Бухгалтерия довольна</span></li>
+        <li><span class="dot">📊</span><span><b>Контроль по отделам</b> — кто сколько тратит, лимиты на сотрудника</span></li>
+        <li><span class="dot">🔐</span><span><b>Безопасность</b> — промпты не уходят в обучение моделей</span></li>
+        <li><span class="dot">⚙️</span><span><b>Шаблоны по отделам</b> — маркетинг, продажи, HR, поддержка</span></li>
+      </ul>
+      <p class="note"><span class="i">🔗</span> Готовая страница для бизнеса: <b>ng-ai.ru/business</b></p>
+    </div>
+    <div class="shot-frame">
+      <img src="../static/screen-dashboard.png" alt="Дашборд расходов команды">
+      <div class="shot-cap" style="padding:0 4px 2px">📊 Дашборд расходов по сотрудникам и отделам</div>
+    </div>
+  </div>
+  <div class="pgnum">08</div>
+</section>
+
 <!-- 8 · COMPETITORS -->
 <section class="slide">
   <div class="maxw">
@@ -351,7 +410,7 @@ strong{color:var(--ink)}
     <table class="tbl">
       <thead><tr><th>Сервис</th><th>Тип</th><th>Моделей</th><th>Оплата</th><th>API</th><th>Видео-генерация</th></tr></thead>
       <tbody>
-        <tr class="us"><td>NeuroGate</td><td>UI + API</td><td>100+</td><td>За использование</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr class="us"><td>NeuroGate</td><td>UI + API</td><td>90+</td><td>За использование</td><td class="yes">✓</td><td class="yes">✓</td></tr>
         <tr><td>Chad</td><td>Агрегатор</td><td>55+</td><td>Подписка</td><td class="no">—</td><td class="yes">✓</td></tr>
         <tr><td>GPTunnel</td><td>Агрегатор+API</td><td>30+</td><td>За использование</td><td class="yes">✓</td><td class="no">—</td></tr>
         <tr><td>GigaChat</td><td>Своя LLM</td><td>3</td><td>Freemium</td><td class="yes">✓</td><td class="no">—</td></tr>
@@ -439,7 +498,7 @@ strong{color:var(--ink)}
     <div>
       <span class="kicker">⬡ Кейс 1 · Тексты</span>
       <h2>Рекламные объявления и посты</h2>
-      <p class="lead">10 вариантов оффера за пару минут вместо часа ручной работы.</p>
+      <p class="lead">10 постов за 30 минут вместо 4 часов. ~2–5 ₽ за пост против часов ручной работы.</p>
       <div class="steps mt-m">
         <div class="step"><div class="n">1</div><div class="tx"><b>Открыть чат, выбрать GPT-5 или Claude</b><span>Для маркетинговых текстов — топовые текстовые модели.</span></div></div>
         <div class="step"><div class="n">2</div><div class="tx"><b>Дать бриф в промпте</b><span>«10 заголовков для Директа, продукт X, ЦА — маркетологи, тон — деловой».</span></div></div>
@@ -467,7 +526,7 @@ strong{color:var(--ink)}
         <div class="step"><div class="n">2</div><div class="tx"><b>Описать кадр</b><span>«Баннер для AI-сервиса, фиолетовый градиент, минимализм, место под заголовок».</span></div></div>
         <div class="step"><div class="n">3</div><div class="tx"><b>Итерации и обработка</b><span>Перегенерировать, убрать фон, увеличить разрешение — тут же.</span></div></div>
       </div>
-      <p class="note"><span class="i">💰</span> От ~1 ₽ за картинку. Замена дизайнера на типовых задачах.</p>
+      <p class="note"><span class="i">💰</span> Обложка ~3 ₽ против 40–60 тыс. ₽ дизайнеру, баннер 20–50 ₽. Замена дизайнера на типовых задачах.</p>
     </div>
     <div class="shot-frame">
       <img src="../static/screen-templates.png" alt="Генерация изображений">
@@ -633,6 +692,8 @@ strong{color:var(--ink)}
     </div>
     <div class="cover-goals">
       <div class="goal"><span class="e">🌐</span><div><b>ng-ai.ru</b><span>продукт и регистрация</span></div></div>
+      <div class="goal"><span class="e">🎯</span><div><b>ng-ai.ru/for/marketer</b><span>лендинг с кейсами для маркетологов</span></div></div>
+      <div class="goal"><span class="e">🏢</span><div><b>ng-ai.ru/business</b><span>предложение для бизнеса</span></div></div>
       <div class="goal"><span class="e">📄</span><div><b>msolo.me/neurogate/partner</b><span>полные условия партнёрки</span></div></div>
     </div>
   </div>
@@ -654,6 +715,8 @@ const bar=document.getElementById('bar');
 const count=document.getElementById('count');
 const brandmark=document.getElementById('brandmark');
 let i=0;
+// авто-нумерация: переписываем .pgnum по фактическому порядку слайдов
+slides.forEach((s,k)=>{const p=s.querySelector('.pgnum');if(p)p.textContent=String(k+1).padStart(2,'0')});
 function show(n){
   i=Math.max(0,Math.min(slides.length-1,n));
   slides.forEach((s,k)=>s.classList.toggle('active',k===i));
