@@ -264,6 +264,61 @@
 
   </div>
 
+  <h2 class="section">Вторая ось · по типам обращений (волнами)</h2>
+  <p class="section-lead">Внедрение идёт по двум осям: <b style="color:var(--text)">ширина</b> — сколько чатов под ботом, и <b style="color:var(--text)">глубина</b> — сколько <b style="color:var(--text)">типов обращений</b> бот закрывает сам. Глубина — главный KPI: конкретный спринт-бэклог для команды, где каждая волна = бот закрывает новый пласт запросов. Группировка — по 10 категориям из live-проверки на стенде, от безопасных к критичным.</p>
+
+  <div class="ladder">
+
+    <div class="step s1">
+      <div class="head">
+        <span class="num">Волна 1</span>
+        <h3>Read-only / диагностика</h3>
+        <span class="when">нулевой риск · готово сейчас</span>
+      </div>
+      <p class="mode">Бот <b>только читает</b> данные — ломать нечего, авто-ответ можно включать сразу.</p>
+      <div class="kpis">
+        <div class="kpi">Статус лида / диагностика «что с лидом»</div>
+        <div class="kpi">Список и доступы баеров</div>
+        <div class="kpi">Статус капов / сделок (честный ответ)</div>
+        <div class="kpi">Документация и помощь</div>
+        <div class="kpi">Эскалация на человека</div>
+      </div>
+      <div class="gate" style="color:var(--ok)"><b style="color:var(--ok)">Готовность:</b> ✅ 100% сценариев сверено в CRM на стенде</div>
+    </div>
+
+    <div class="step s2">
+      <div class="head">
+        <span class="num">Волна 2</span>
+        <h3>Write-операции, проверенные</h3>
+        <span class="when">низкий риск</span>
+      </div>
+      <p class="mode">Бот <b>меняет данные</b>, но операции подтверждены и обратимы.</p>
+      <div class="kpis">
+        <div class="kpi">Обновление офиса: гео, язык, переименование, api_url</div>
+        <div class="kpi">Whitelist / blacklist — добавить и убрать</div>
+        <div class="kpi">Несколько операций в одном сообщении</div>
+      </div>
+      <div class="gate" style="color:var(--ok)"><b style="color:var(--ok)">Готовность:</b> ✅ сверено на стенде, изменения обратимы</div>
+    </div>
+
+    <div class="step s3">
+      <div class="head">
+        <span class="num">Волна 3</span>
+        <h3>Критичные — после фиксов</h3>
+        <span class="when">включаем, когда закрыты блокеры</span>
+      </div>
+      <p class="mode">Самые ответственные типы. Включаем, когда закрыты два известных пункта — это <b>прямая задачка разработчику Vibero</b> в рамках KPI.</p>
+      <div class="kpis">
+        <div class="kpi">Создание офиса / интеграция <b>(блокер: утечка кредов между офисами)</b></div>
+        <div class="kpi">Постбэки <b>(сервер вернул 500)</b></div>
+      </div>
+      <div class="gate"><b>Готовность:</b> 🔧 ждёт фикса — в работе у разработчика</div>
+    </div>
+
+  </div>
+
+  <p class="section-lead" style="margin-top:18px"><b style="color:var(--text)">Как считать:</b> KPI глубины = <b style="color:var(--text)">% типов обращений на авто-ответе</b> + deflection внутри каждого типа. Ширину (число чатов) наращиваем параллельно. Перешли волну → нашли дыру → починили → следующая волна.</p>
+
   <h2 class="section">Что меряем — и что не меряем</h2>
   <p class="section-lead">Главная ловушка таких проектов — мерить «активность бота» вместо реального эффекта.</p>
   <div class="metrics">
