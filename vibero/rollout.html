@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/vibero/">
+<title>Vibero Support Bot — план внедрения (3 ступени)</title>
+<meta name="description" content="Как мы внедряем бота-саппорта Vibero на живых клиентах: совместная ответственность, три ступени crawl-walk-run, измеримые KPI и управляемый процесс улучшений.">
+<style>
+  :root {
+    --bg: #0b0d12;
+    --bg-card: #141821;
+    --bg-elev: #1a1f2b;
+    --border: #232936;
+    --text: #e6e9ef;
+    --text-dim: #8a93a4;
+    --accent: #5b8cff;
+    --ok: #4ade80;
+    --warn: #fbbf24;
+    --escalate: #c084fc;
+    --bad: #f87171;
+    --mono: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 920px; margin: 0 auto; padding: 56px 24px 96px; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .breadcrumb { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .breadcrumb a { color: var(--text-dim); }
+
+  /* Hero */
+  .hero { margin-bottom: 40px; }
+  .hero .eyebrow { color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-size: 34px; font-weight: 700; margin: 0 0 16px; letter-spacing: -0.02em; line-height: 1.15; }
+  .hero .lead { color: var(--text-dim); font-size: 16px; max-width: 720px; }
+  .hero .meta { color: var(--text-dim); font-size: 13px; margin-top: 16px; }
+  .hero .meta b { color: var(--text); }
+
+  /* Principle callout */
+  .principle {
+    background: linear-gradient(135deg, rgba(91,140,255,0.10), rgba(91,140,255,0.02));
+    border: 1px solid rgba(91,140,255,0.3);
+    border-radius: 16px;
+    padding: 24px 26px;
+    margin: 32px 0 56px;
+  }
+  .principle .k { color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+  .principle p { margin: 0; font-size: 17px; line-height: 1.5; }
+  .principle b { color: #fff; }
+
+  /* Sections */
+  h2.section {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin: 60px 0 8px;
+    font-weight: 600;
+  }
+  .section-lead { color: var(--text-dim); font-size: 14px; margin: 0 0 24px; max-width: 740px; }
+
+  /* Responsibility split */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+  .split .col {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+  .split .col h4 { margin: 0 0 4px; font-size: 15px; }
+  .split .col .sub { color: var(--text-dim); font-size: 12px; margin-bottom: 14px; }
+  .split .col.them { border-top: 3px solid var(--warn); }
+  .split .col.us { border-top: 3px solid var(--accent); }
+  .split ul { margin: 0; padding-left: 18px; }
+  .split li { font-size: 14px; margin-bottom: 8px; }
+  .split li::marker { color: var(--text-dim); }
+
+  /* Ladder */
+  .ladder { display: flex; flex-direction: column; gap: 16px; }
+  .step {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 26px;
+    position: relative;
+  }
+  .step.s1 { border-left: 4px solid var(--ok); }
+  .step.s2 { border-left: 4px solid var(--accent); }
+  .step.s3 { border-left: 4px solid var(--escalate); }
+  .step .head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .step .num {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 999px;
+  }
+  .step.s1 .num { background: rgba(74,222,128,0.14); color: var(--ok); }
+  .step.s2 .num { background: rgba(91,140,255,0.14); color: var(--accent); }
+  .step.s3 .num { background: rgba(192,132,252,0.14); color: var(--escalate); }
+  .step h3 { margin: 0; font-size: 20px; font-weight: 650; letter-spacing: -0.01em; }
+  .step .when { color: var(--text-dim); font-size: 13px; margin-left: auto; }
+  .step .mode { color: var(--text-dim); font-size: 14px; margin: 8px 0 16px; }
+  .step .mode b { color: var(--text); }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .kpi {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+  }
+  .kpi b { color: #fff; font-weight: 650; }
+  .gate { margin-top: 14px; font-size: 12.5px; color: var(--text-dim); }
+  .gate b { color: var(--warn); }
+
+  /* Metrics two-col */
+  .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .mbox { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; }
+  .mbox.take { border-top: 3px solid var(--ok); }
+  .mbox.skip { border-top: 3px solid var(--bad); }
+  .mbox h4 { margin: 0 0 14px; font-size: 15px; }
+  .mbox ul { margin: 0; padding-left: 18px; }
+  .mbox li { font-size: 14px; margin-bottom: 9px; line-height: 1.45; }
+  .mbox.take li::marker { content: "✓ "; color: var(--ok); }
+  .mbox.skip li::marker { content: "✕ "; color: var(--bad); }
+  .mbox li b { color: #fff; }
+
+  /* Motivation / process cards */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; }
+  .card h4 { margin: 0 0 6px; font-size: 15px; }
+  .card p { margin: 0; font-size: 13.5px; color: var(--text-dim); line-height: 1.5; }
+  .card p b { color: var(--text); }
+
+  /* Benchmarks */
+  .bench { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .brow { padding: 13px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; gap: 18px; align-items: baseline; }
+  .brow:last-child { border-bottom: none; }
+  .brow .l { font-size: 13.5px; color: var(--text-dim); }
+  .brow .v { font-size: 15px; font-weight: 650; white-space: nowrap; }
+  .brow .v.ok { color: var(--ok); }
+  .brow .v.accent { color: var(--accent); }
+
+  /* Quote */
+  .quote {
+    border-left: 3px solid var(--accent);
+    padding: 4px 0 4px 22px;
+    margin: 28px 0 0;
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  .foot { margin-top: 64px; color: var(--text-dim); font-size: 12.5px; border-top: 1px solid var(--border); padding-top: 20px; }
+
+  @media (max-width: 680px) {
+    .split, .metrics, .cards { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 27px; }
+    .step .when { margin-left: 0; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="breadcrumb"><a href="https://vibero.org/">Vibero</a> → Support Bot → План внедрения</div>
+
+  <div class="hero">
+    <div class="eyebrow">План внедрения</div>
+    <h1>Как мы раскатываем бота-саппорта на живых клиентах</h1>
+    <p class="lead">Не «включили и надеемся», а управляемый процесс из трёх ступеней с совместной ответственностью и измеримыми KPI на каждом шаге. Двигаемся дальше только когда предыдущая ступень закрыта и качество в норме.</p>
+    <p class="meta">Контекст: <b>~50+ чатов</b> поддержки на общем аккаунте оператора. Бот v2 покрывает <b>~80%</b> зоны входящего трафика.</p>
+  </div>
+
+  <div class="principle">
+    <div class="k">Главный принцип</div>
+    <p>KPI ставится на <b>внедрение</b> — на людях внутри Vibero, — а не «на бота» абстрактно. У каждой стороны своя задачка, и они двигаются синхронно: вы тестируете → находите дыру → мы чиним → раскатываем дальше.</p>
+  </div>
+
+  <h2 class="section">Кто за что отвечает</h2>
+  <p class="section-lead">Разделение, которое снимает риск с обеих сторон: команда Vibero отвечает за внедрение и обратную связь, мы — за качество и скорость доработок.</p>
+  <div class="split">
+    <div class="col them">
+      <h4>Команда Vibero</h4>
+      <div class="sub">KPI на внедрение</div>
+      <ul>
+        <li>Подключить <b>N чатов</b> к боту</li>
+        <li>Разметить ответы <b>👍 / 👎</b> — это обучение бота</li>
+        <li>Держать <b>CSAT</b> / отсутствие жалоб клиентов</li>
+        <li>Замерить <b>освобождённое время</b> менеджеров</li>
+      </ul>
+    </div>
+    <div class="col us">
+      <h4>Наша сторона</h4>
+      <div class="sub">SLA на качество</div>
+      <ul>
+        <li><b>Точность</b> ответов бота</li>
+        <li><b>Срок фикса</b> найденной проблемы</li>
+        <li><b>Покрытие</b> новых сценариев</li>
+        <li><b>Стабильность</b> и аптайм</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section">Лестница внедрения · crawl → walk → run</h2>
+  <p class="section-lead">Никто не раскатывает бота сразу на всех — это индустриальный стандарт 30/60/90. Каждая ступень — это режим работы, цель и условие перехода дальше.</p>
+
+  <div class="ladder">
+
+    <div class="step s1">
+      <div class="head">
+        <span class="num">Ступень 1</span>
+        <h3>Пилот · бот предлагает, оператор отправляет</h3>
+        <span class="when">2–3 недели</span>
+      </div>
+      <p class="mode">Режим <b>human-in-the-loop</b>: бот готовит ответ, оператор проверяет и отправляет. Сам клиенту бот ничего не шлёт. Безопасно для живых клиентов, каждая правка оператора = обучающий сигнал.</p>
+      <div class="kpis">
+        <div class="kpi">Подключено <b>5–10 «дружелюбных» чатов</b></div>
+        <div class="kpi"><b>100%</b> входящих в них прошли через бота</div>
+        <div class="kpi">Собран baseline: <b>% ответов без правок</b> (старт ~40–55%)</div>
+        <div class="kpi"><b>0 жалоб</b>, CSAT не упал</div>
+        <div class="kpi">Зафиксировано <b>время первого ответа</b> («было»)</div>
+      </div>
+    </div>
+
+    <div class="step s2">
+      <div class="head">
+        <span class="num">Ступень 2</span>
+        <h3>Авто-ответ на безопасных сценариях</h3>
+        <span class="when">Месяц 2</span>
+      </div>
+      <p class="mode">Бот <b>сам отвечает</b> на проверенные read-only запросы (статус лида, депозит, креды, статистика), всё спорное → эскалация оператору с прозрачным триггером.</p>
+      <div class="kpis">
+        <div class="kpi">Расширение до <b>~50% чатов</b></div>
+        <div class="kpi"><b>Deflection 30–40%</b> (диалоги без оператора)</div>
+        <div class="kpi"><b>Containment 60–70%</b> по горячим интентам</div>
+        <div class="kpi">Время первого ответа <b>↓ в разы</b></div>
+      </div>
+      <div class="gate"><b>Переход дальше:</b> только когда KPI ступени достигнут И CSAT в норме.</div>
+    </div>
+
+    <div class="step s3">
+      <div class="head">
+        <span class="num">Ступень 3</span>
+        <h3>Масштаб + измеримая экономия</h3>
+        <span class="when">Месяц 3</span>
+      </div>
+      <p class="mode">Все чаты под ботом, зрелое покрытие. Главная цифра для руководителя — <b>освобождённые часы менеджеров</b>, переведённые в деньги.</p>
+      <div class="kpis">
+        <div class="kpi">Все <b>~50 чатов</b> под ботом</div>
+        <div class="kpi"><b>Deflection 50–60%</b></div>
+        <div class="kpi">Освобождено <b>X часов/нед</b> → € (часы × ставка)</div>
+        <div class="kpi">CSAT <b>не ниже</b> доботового</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section">Что меряем — и что не меряем</h2>
+  <p class="section-lead">Главная ловушка таких проектов — мерить «активность бота» вместо реального эффекта.</p>
+  <div class="metrics">
+    <div class="mbox take">
+      <h4>Берём — по важности для руководителя</h4>
+      <ul>
+        <li><b>Освобождённое время менеджеров</b> (часы/нед → €) — язык, который понимает CEO</li>
+        <li><b>Containment</b> — % диалогов, закрытых ботом (способность бота)</li>
+        <li><b>Deflection</b> — % снижения нагрузки на саппорт (эффект на команду)</li>
+        <li><b>Время первого ответа</b> — самый быстрый и наглядный win</li>
+        <li><b>CSAT / жалобы</b> — guardrail, чтобы скорость не убила качество</li>
+      </ul>
+    </div>
+    <div class="mbox skip">
+      <h4>Не берём — vanity-метрики</h4>
+      <ul>
+        <li><b>Число сообщений бота</b> — ничего не говорит об эффекте</li>
+        <li><b>Число сессий</b> — активность ≠ результат</li>
+        <li><b>Containment без CSAT</b> — бот закрыл 80%, но 30% клиентов остались без решения = провал, замаскированный под успех</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section">Чтобы менеджеры были «за», а не саботировали</h2>
+  <p class="section-lead">Внедрения чаще проваливаются из-за страха людей, чем из-за техники. Рамка решает всё.</p>
+  <div class="cards">
+    <div class="card">
+      <h4>Снимаем рутину, не сокращаем</h4>
+      <p>KPI звучит как «<b>освободить время на сложные кейсы и удержание</b>», а не «уменьшить число людей».</p>
+    </div>
+    <div class="card">
+      <h4>Менеджер — обучатель</h4>
+      <p>Его <b>👍/👎 напрямую улучшают бота</b>. Это часть работы, за которую хвалят, а не угроза.</p>
+    </div>
+    <div class="card">
+      <h4>Ранние адопторы — герои</h4>
+      <p>Кто первым взял пилотные чаты — <b>получает признание/бонус</b>. Остальные тянутся.</p>
+    </div>
+    <div class="card">
+      <h4>Прозрачная эскалация</h4>
+      <p>Бот <b>никогда не уводит сложный кейс молча</b> — спорное всегда падает оператору. Контроль остаётся у человека.</p>
+    </div>
+  </div>
+
+  <h2 class="section">Управляемый процесс улучшений</h2>
+  <div class="cards">
+    <div class="card">
+      <h4>Еженедельный синк · 30 мин</h4>
+      <p>Смотрим логи, разбираем каждую найденную проблему: <b>нашли → чиним → раскатываем</b>.</p>
+    </div>
+    <div class="card">
+      <h4>Единый лог проблем</h4>
+      <p>Команда кидает кейс → мы помечаем <b>fix и срок</b>. Это и есть «планомерно улучшаем».</p>
+    </div>
+    <div class="card">
+      <h4>Gate между ступенями</h4>
+      <p>Следующая ступень — только когда <b>метрика достигнута И CSAT в норме</b>. Защищает и нас, и клиента.</p>
+    </div>
+    <div class="card">
+      <h4>Старт всегда supervised</h4>
+      <p>Авто-режим включаем <b>только после набора baseline</b>. Никаких сюрпризов на живых клиентах.</p>
+    </div>
+  </div>
+
+  <h2 class="section">Бенчмарки индустрии · для калибровки целей</h2>
+  <div class="bench">
+    <div class="brow"><span class="l">Зрелые RAG-боты — containment</span><span class="v ok">55–65%</span></div>
+    <div class="brow"><span class="l">Rule-based боты — containment</span><span class="v">20–35%</span></div>
+    <div class="brow"><span class="l">Deflection за первые 90 дней</span><span class="v accent">40–55%</span></div>
+    <div class="brow"><span class="l">Медиана tier-1 deflection (энтерпрайз, 2026)</span><span class="v">~41%</span></div>
+    <div class="brow"><span class="l">Структурные интенты (статус, авторизация, рефанд)</span><span class="v ok">65–80%</span></div>
+    <div class="brow"><span class="l">Рост CSAT за 90 дней</span><span class="v accent">+12–18%</span></div>
+  </div>
+  <p class="section-lead" style="margin-top:14px">У Vibero трафик в основном <b style="color:var(--text)">структурный</b> (статусы лидов, депозиты, креды, статистика) — это играет в нашу пользу: именно такие интенты деффлектят выше всего.</p>
+
+  <h2 class="section">Что предлагаем зафиксировать</h2>
+  <p class="quote">«Делаем совместную лестницу из трёх ступеней. До конца месяца — пилот на 5–10 чатах в режиме “бот предлагает, оператор отправляет”: безопасно, собираем базу, ноль риска для клиентов. Команда подключает чаты и даёт фидбэк, мы чиним найденное в срок. На авто-ответ и масштаб переходим только когда CSAT в норме. Финальная цифра, которую защищаем вместе — <b>освобождённые часы менеджеров в неделю</b>.»</p>
+
+  <div class="foot">
+    Vibero Support Bot · план внедрения · v2.<br>
+    Источники бенчмарков: Alhena, Netguru, DigitalApplied (30/60/90 plan + 2026 statistics), Plivo (human-in-the-loop patterns).
+  </div>
+
+</div>
+</body>
+</html>
