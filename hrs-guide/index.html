@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<base href="/hrs-guide/">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бот квалификации — инструкция: как тестировать и улучшать</title>
+<meta name="description" content="Как работать с ботом: тестировать, оценивать ответы, подкидывать примеры переписок, корректировать. Пошаговая инструкция.">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#FF4D4D;--amber:#f5b53d;--green:#39d98a;--blue:#5aa9e6;--bg:#000;--surface:#0e0e0e;--surface2:#161616;--line:#262626;--white:#fff;--gray:#8a8a8a;--gray-dark:#555}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden;max-width:100%}
+.wrap{width:100%;max-width:1040px;margin:0 auto;padding:0 28px}
+em{color:var(--red);font-style:normal}
+.hero{padding:74px 0 46px;border-bottom:1px solid var(--line)}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:24px}
+.hero h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(36px,7vw,88px);line-height:.94;letter-spacing:.5px;margin-bottom:18px;text-transform:uppercase}
+.hero .sub{font-size:clamp(16px,2.2vw,20px);color:var(--gray);max-width:700px;margin-top:16px}
+.hero .sub b{color:var(--white);font-weight:700}
+/* TOC */
+.toc{display:flex;flex-wrap:wrap;gap:9px;margin-top:30px}
+.toc a{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--gray);border:1px solid var(--line);padding:9px 14px;border-radius:3px;text-decoration:none;transition:.15s}
+.toc a:hover{border-color:var(--red);color:var(--white)}
+section{padding:66px 0;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
+h2{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(28px,4.6vw,48px);line-height:1.0;letter-spacing:.3px;margin-bottom:14px}
+.lead{font-size:17px;color:var(--gray);max-width:720px;line-height:1.6}
+.lead b{color:var(--white);font-weight:600}
+/* 3 mini layers */
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px}
+.mcard{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:22px 20px}
+.mcard .mic{font-size:26px;margin-bottom:12px}
+.mcard h3{font-family:'Oswald',sans-serif;font-weight:700;font-size:20px;letter-spacing:.3px;margin-bottom:9px}
+.mcard p{font-size:14px;color:var(--gray);line-height:1.55}
+.mcard p b{color:var(--white);font-weight:600}
+.callout{margin-top:24px;border:1px solid var(--line);border-left:3px solid var(--green);background:#0c130f;padding:18px 20px;border-radius:8px;font-size:15px;color:#cfe8d8;line-height:1.6;max-width:760px}
+.callout b{color:#fff}
+/* approved answers */
+.ans{display:flex;flex-direction:column;gap:14px;margin-top:30px}
+.acard{border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+.ah{background:var(--surface2);padding:12px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.05em;color:var(--white);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ah .tag{color:var(--gray-dark);font-size:11px}
+.ab{padding:16px 18px;font-size:14px;color:#e0e0e0;line-height:1.6;white-space:pre-wrap}
+/* dialog example */
+.phones{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:30px}
+.phone{background:#08080a;border:1px solid var(--line);border-radius:14px;overflow:hidden;align-self:start}
+.ph-h{background:var(--surface);padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--white);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px}
+.ph-h .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+.thread{padding:16px 14px;display:flex;flex-direction:column;gap:8px}
+.bub{max-width:84%;padding:8px 12px;border-radius:14px;font-size:13px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+.bub.lead{align-self:flex-end;background:#2b4a63;color:#eaf3fb;border-bottom-right-radius:5px}
+.bub.bot{align-self:flex-start;background:#17171b;color:#e6e6e6;border:1px solid var(--line);border-bottom-left-radius:5px}
+/* junk list */
+.junk{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:30px}
+.jcol{border:1px solid var(--line);border-radius:12px;padding:22px 20px;background:var(--surface)}
+.jcol.no{border-color:#3a2526}.jcol.yes{border-color:#21342a}
+.jcol .jt{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+.jcol.no .jt{color:var(--red)}.jcol.yes .jt{color:var(--green)}
+.jcol ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.jcol li{font-size:14px;color:var(--gray);line-height:1.45;padding-left:20px;position:relative}
+.jcol.no li::before{content:"✕";position:absolute;left:0;color:var(--red);font-weight:700}
+.jcol.yes li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+.jcol li b{color:#fff}
+/* steps */
+.steps{display:flex;flex-direction:column;gap:14px;margin-top:28px}
+.step{display:flex;gap:18px;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:20px 22px;align-items:flex-start}
+.step .num{font-family:'Oswald',sans-serif;font-weight:700;font-size:34px;line-height:.9;color:var(--red);flex-shrink:0;width:42px}
+.step .sc h4{font-family:'Oswald',sans-serif;font-weight:700;font-size:21px;letter-spacing:.3px;margin-bottom:7px}
+.step .sc p{font-size:14.5px;color:var(--gray);line-height:1.55}
+.step .sc p b{color:#fff;font-weight:600}
+.cmd{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;background:#1a1410;color:var(--amber);border:1px solid #3a2f1c;padding:2px 9px;border-radius:5px;display:inline-block}
+.btnpair{display:inline-flex;gap:6px;vertical-align:middle}
+.btnk{font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid var(--line);border-radius:6px;padding:3px 9px;color:#fff;background:#141414}
+/* tool header chips */
+.toolhead{display:flex;align-items:center;gap:12px;margin-top:8px;margin-bottom:4px}
+.toolhead .cmd{font-size:15px}
+.toolhead .what{font-size:14px;color:var(--gray)}
+/* workflow */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:30px;border-radius:10px;overflow:hidden}
+.fstep{background:var(--bg);padding:22px 18px;min-height:138px}
+.fstep .fn{font-family:'Oswald',sans-serif;font-weight:700;font-size:32px;color:#1d1d1d;line-height:1}
+.fstep .ft{font-family:'Oswald',sans-serif;font-weight:700;font-size:18px;letter-spacing:.3px;margin:8px 0 8px}
+.fstep .fd{font-size:13px;color:var(--gray);line-height:1.5}
+.fstep .fd b{color:#fff}
+.trybtn{display:inline-block;margin-top:34px;background:var(--red);color:#000;font-family:'Oswald',sans-serif;font-weight:700;font-size:26px;letter-spacing:1px;padding:14px 32px;text-decoration:none;border-radius:3px}
+.trybtn:hover{opacity:.88}
+.note{margin-top:14px;font-size:13.5px;color:var(--gray-dark);line-height:1.5}
+footer{padding:60px 0 100px}
+footer .badge{display:inline-block;margin-top:6px;border:1px solid var(--line);padding:14px 22px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gray);letter-spacing:.08em}
+footer .badge em{color:var(--red)}
+@media(max-width:760px){.mini,.junk,.phones{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}section{padding:50px 0}.hero h1{font-size:38px}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Бот квалификации лидов · инструкция для тестирования</div>
+    <h1>КАК ТЕСТИРОВАТЬ<br>И УЛУЧШАТЬ БОТА</h1>
+    <p class="sub">Здесь — всё, что нужно, чтобы проверить бота и сделать его лучше: что он умеет сейчас, что отвечает, что считает мусором, и как <b>в два инструмента прямо в чате</b> подсказать ему, как отвечать правильно.</p>
+    <div class="toc">
+      <a href="#logic">Как бот думает</a>
+      <a href="#answers">Что отвечает сейчас</a>
+      <a href="#examples">Примеры диалогов</a>
+      <a href="#junk">Что считаем мусором</a>
+      <a href="#improve">Как улучшать</a>
+      <a href="#flow">Как правки доходят</a>
+    </div>
+  </div>
+</header>
+
+<section id="logic">
+  <div class="wrap">
+    <div class="eyebrow">// за 30 секунд</div>
+    <h2>Как бот думает</h2>
+    <p class="lead">Бот — не «болтливый ИИ». Это как ресепшионист с папкой утверждённых ответов. Три навыка, строго разделены — поэтому он надёжен и не выдумывает.</p>
+    <div class="mini">
+      <div class="mcard"><div class="mic">👂</div><h3>Слушает</h3><p>Понимает кривое сообщение клиента и определяет <b>намерение</b> (вопрос про цену? мусор? готов начать?).</p></div>
+      <div class="mcard"><div class="mic">🚦</div><h3>Решает</h3><p>По жёсткому сценарию выбирает <b>следующий шаг</b>. Одинаковая ситуация → одинаковый ответ.</p></div>
+      <div class="mcard"><div class="mic">📒</div><h3>Отвечает</h3><p>Факты (цены, KYC, банки) берёт <b>дословно из папки</b> утверждённых ответов. Цифры не выдумывает.</p></div>
+    </div>
+    <div class="callout">Поэтому улучшать бота безопасно: вы подсказываете <b>что и как он должен говорить</b>, а мы вшиваем это в нужный навык. Бот никогда не получает «свободу слова» — значит, не сломается и не наговорит лишнего клиенту.</div>
+  </div>
+</section>
+
+<section id="answers">
+  <div class="wrap">
+    <div class="eyebrow">// текущая папка ответов</div>
+    <h2>Что бот отвечает сейчас</h2>
+    <p class="lead">Это утверждённые тексты, которые бот выдаёт дословно. Если что-то надо изменить — поправьте через инструменты ниже, и мы обновим папку.</p>
+    <div class="ans">
+      <div class="acard">
+        <div class="ah"><span>💶 Цены / условия</span><span class="tag">на вопрос о цене</span></div>
+        <div class="ab">So I have 2 solutions for you:
+1. Crypto exchange with platform and KYC links for your client — 12%
+2. Just bank details with no KYC — 18%</div>
+      </div>
+      <div class="acard">
+        <div class="ah"><span>🧩 Презентация опций</span><span class="tag">старт квалификации</span></div>
+        <div class="ab">We have 2 options:
+1) Licensed crypto exchange (bank transfer → USDT/USDC), with KYC — 12%
+2) Bank details under our company, no KYC, no age limits — 18%
+Min 500€, payout T+0 in USDT/USDC.</div>
+      </div>
+      <div class="acard">
+        <div class="ah"><span>🪪 Правила KYC</span><span class="tag">на вопрос про верификацию</span></div>
+        <div class="ab">As we are regulated company every user should pass the KYC process:
+1. From 500 EUR to 4999 EUR — ID + live verification (обязательна для всех)
+2. From 5000 EUR to 9999 EUR — POA не старше 3 месяцев
+3. From 10 000 EUR — SOF не старше 6 месяцев</div>
+      </div>
+      <div class="acard">
+        <div class="ah"><span>🏦 Список решений</span><span class="tag">на вопрос «какие страны/банки»</span></div>
+        <div class="ab">🟢 Полный список ~50 решений по странам и валютам (SEPA / SWIFT / vIBAN / Open Banking) с лимитами по возрасту — выдаётся дословно из папки.</div>
+      </div>
+      <div class="acard">
+        <div class="ah"><span>🚫 Отказ нецелевому</span><span class="tag">мусорный лид</span></div>
+        <div class="ab">Thanks for reaching out — this doesn't look like a fit for what we do here. We work with established forex/recovery/retention traffic, not job offers or one-off deposits.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="examples">
+  <div class="wrap">
+    <div class="eyebrow">// как идёт диалог</div>
+    <h2>Примеры диалогов</h2>
+    <p class="lead">Клиент пишет справа, бот — слева. Бот называет цену сразу, спрашивает по одному вопросу и быстро ведёт к передаче партнёру.</p>
+    <div class="phones">
+      <div class="phone">
+        <div class="ph-h"><span class="dot"></span>Целевой лид → 12% (с KYC)</div>
+        <div class="thread">
+          <div class="bub lead">hi, saw your ad — interested</div>
+          <div class="bub bot">We have 2 options:
+1) Crypto exchange, with KYC — 12%
+2) Bank details, no KYC — 18%
+Min 500€, payout T+0.
+
+What kind of business do you have?</div>
+          <div class="bub lead">forex, mostly retention</div>
+          <div class="bub bot">Can your team handle KYC for your clients? 12% with KYC, 18% without.</div>
+          <div class="bub lead">yes we can</div>
+          <div class="bub bot">Great — option 1, 12%.
+🟢 [+ список банков]
+Shall I set you up with our partner team?</div>
+          <div class="bub lead">let's go</div>
+          <div class="bub bot">Great — what's your brand name? (for the group)</div>
+          <div class="bub lead">AlphaFX</div>
+          <div class="bub bot">Perfect. Creating a group with our partner team now.</div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="ph-h"><span class="dot"></span>Мусорный лид → отсев</div>
+        <div class="thread">
+          <div class="bub lead">hello! is this a job? how much per hour?</div>
+          <div class="bub bot">Thanks for reaching out — this doesn't look like a fit. We work with established forex/recovery/retention traffic, not job offers.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="junk">
+  <div class="wrap">
+    <div class="eyebrow">// фильтр на входе</div>
+    <h2>Что считаем мусором</h2>
+    <p class="lead">Бот сам отсекает нецелевых и не тратит на них время. Если фильтр ошибается — поправьте через инструменты ниже.</p>
+    <div class="junk">
+      <div class="jcol yes">
+        <div class="jt">✓ Целевой — ведём</div>
+        <ul>
+          <li><b>Forex / FX</b>, брокеры</li>
+          <li><b>Retention</b>, реактивация</li>
+          <li><b>Recovery</b></li>
+          <li>Trading, call-центры, affiliate, fintech/payment с реальным трафиком</li>
+        </ul>
+      </div>
+      <div class="jcol no">
+        <div class="jt">✕ Мусор — отсекаем</div>
+        <ul>
+          <li><b>Поиск работы</b> — вакансии, зарплата, подработка, студенты</li>
+          <li><b>Разовые депозиты</b> вместо потока</li>
+          <li><b>Только FTD</b> без целевого бизнеса</li>
+          <li>Не относится к делу / спам</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="improve">
+  <div class="wrap">
+    <div class="eyebrow">// два инструмента прямо в боте</div>
+    <h2>Как улучшать бота</h2>
+    <p class="lead">Никакого кода и терминала. Всё делается командами прямо в чате с ботом. Бот ничего не меняет «на лету» — он собирает ваши правки и присылает отчёт, по которому бот докручивают.</p>
+
+    <div class="toolhead"><span class="cmd">/test</span><span class="what">— оценить ответы и поправить</span></div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><div class="sc"><h4>Включите режим</h4><p>Отправьте боту <span class="cmd">/test</span>. Дальше пишите как клиент с рекламы — бот отвечает как обычно.</p></div></div>
+      <div class="step"><div class="num">2</div><div class="sc"><h4>Оцените каждый ответ</h4><p>Под каждым ответом бота появятся кнопки <span class="btnpair"><span class="btnk">👍 ок</span><span class="btnk">👎 не так</span></span>. Нравится — жмёте 👍 и идёте дальше.</p></div></div>
+      <div class="step"><div class="num">3</div><div class="sc"><h4>Поправьте, если не так</h4><p>Нажали <b>👎</b> — бот спросит «как надо ответить?». Напишите правильный вариант текстом — он привяжется ровно к этому ответу.</p></div></div>
+      <div class="step"><div class="num">4</div><div class="sc"><h4>Завершите</h4><p>Отправьте <span class="cmd">/done</span> — бот соберёт отчёт (каждый ход, ваши оценки и правки) и пришлёт его.</p></div></div>
+    </div>
+
+    <div class="toolhead" style="margin-top:34px"><span class="cmd">/example</span><span class="what">— подкинуть правильную переписку, чтобы бот научился новому</span></div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><div class="sc"><h4>Включите режим</h4><p>Отправьте боту <span class="cmd">/example</span>.</p></div></div>
+      <div class="step"><div class="num">2</div><div class="sc"><h4>Вставьте переписку</h4><p>Скопируйте правильный диалог (как <b>должно</b> быть) и вставьте одним сообщением (Ctrl+V / Cmd+V). Можно несколько подряд — бот сохранит как эталон.</p></div></div>
+      <div class="step"><div class="num">3</div><div class="sc"><h4>Завершите</h4><p>Отправьте <span class="cmd">/done</span> — бот подтвердит, сколько примеров сохранил, и пришлёт их.</p></div></div>
+    </div>
+    <a class="trybtn" href="https://t.me/hrsleads_bot">→ Открыть @hrsleads_bot</a>
+    <p class="note">Начните с <span class="cmd">/test</span>, затем напишите «hi» или «I need payment solutions». Бот отвечает на английском, как в реальных диалогах.</p>
+  </div>
+</section>
+
+<section id="flow">
+  <div class="wrap">
+    <div class="eyebrow">// что происходит дальше</div>
+    <h2>Как правки доходят и применяются</h2>
+    <p class="lead">Важно понимать: бот <b>не меняется сам</b> во время теста — это защита от случайных поломок. Он собирает ваши оценки и примеры, а применяются они после проверки.</p>
+    <div class="flow">
+      <div class="fstep"><div class="fn">1</div><div class="ft">Вы тестите</div><div class="fd">Оцениваете ответы (👍/👎) и подкидываете примеры прямо в боте.</div></div>
+      <div class="fstep"><div class="fn">2</div><div class="ft">Отчёт</div><div class="fd">По <b>/done</b> бот присылает отчёт с вашими правками — вам и команде msolo.</div></div>
+      <div class="fstep"><div class="fn">3</div><div class="ft">Применяем</div><div class="fd">Команда msolo вшивает правки в бота (ответы, сценарий, примеры) с проверкой.</div></div>
+      <div class="fstep"><div class="fn">4</div><div class="ft">Перетест</div><div class="fd">Бот отвечает по-новому — вы проверяете, и по кругу. Бот растёт.</div></div>
+    </div>
+    <p class="note">Ваша зона — <b>содержимое</b> (что и как бот говорит). Движок бота крутится у команды msolo 24/7 — вам не нужно ничего настраивать или поддерживать.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="eyebrow">// коротко</div>
+    <h2 style="font-size:clamp(26px,4vw,42px)">Тестируйте, оценивайте, подсказывайте</h2>
+    <p class="lead"><span class="cmd">/test</span> — оценить и поправить. <span class="cmd">/example</span> — подкинуть правильную переписку. <span class="cmd">/done</span> — прислать отчёт. Остальное — на нас.</p>
+    <div class="badge">сделано командой <em>msolo</em></div>
+  </div>
+</footer>
+</body>
+</html>

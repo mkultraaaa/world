@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<base href="/hrs-engine/">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Как устроен бот — движок, на котором он работает</title>
+<meta name="description" content="Понятное объяснение архитектуры бота: как он слушает, решает и отвечает — и почему не выдумывает.">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#FF4D4D;--amber:#f5b53d;--green:#39d98a;--blue:#5aa9e6;--bg:#000;--surface:#0e0e0e;--surface2:#161616;--line:#262626;--white:#fff;--gray:#8a8a8a;--gray-dark:#555}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden;max-width:100%}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 28px}
+em{color:var(--red);font-style:normal}
+.hero{min-height:54vh;display:flex;flex-direction:column;justify-content:center;padding:80px 0 50px;border-bottom:1px solid var(--line)}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:26px}
+.hero h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(40px,8vw,104px);line-height:.92;letter-spacing:.5px;margin-bottom:18px;text-transform:uppercase}
+.hero .sub{font-size:clamp(16px,2.2vw,21px);color:var(--gray);max-width:680px;margin-top:18px}
+.hero .sub b{color:var(--white);font-weight:700}
+section{padding:74px 0;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
+h2{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(30px,5vw,54px);line-height:1.0;letter-spacing:.3px;margin-bottom:14px}
+.lead{font-size:17px;color:var(--gray);max-width:720px;line-height:1.6}
+.lead b{color:var(--white);font-weight:600}
+/* analogy */
+.analogy{margin-top:34px;border:1px solid var(--line);border-left:3px solid var(--red);background:var(--surface);padding:24px 26px;border-radius:8px;font-size:17px;line-height:1.65;color:#d8d8d8;max-width:760px}
+.analogy b{color:var(--white)}
+/* 3 layers stack */
+.stack{margin-top:42px;display:flex;flex-direction:column;gap:0}
+.layer{position:relative;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:26px 26px 24px;overflow:hidden}
+.layer + .layer{margin-top:34px}
+.layer::before{content:attr(data-step);position:absolute;top:18px;right:22px;font-family:'Oswald',sans-serif;font-weight:700;font-size:60px;line-height:1;color:#1d1d1d}
+.lh{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.lh .ic{font-size:30px;line-height:1}
+.lh .tt{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray-dark)}
+.lh h3{font-family:'Oswald',sans-serif;font-weight:700;font-size:30px;letter-spacing:.5px;line-height:1}
+.layer p{font-size:15.5px;color:var(--gray);line-height:1.6;max-width:760px}
+.layer p b{color:var(--white);font-weight:600}
+.layer .tagline{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.03em;line-height:1.6;padding:11px 14px;border-radius:6px;background:#121214;border:1px solid var(--line)}
+.layer.ai{border-color:#3a3320}.layer.ai .tagline{border-color:#3a3320;color:var(--amber)}
+.layer.ai .lh h3 span{color:var(--amber)}
+.layer.rails{border-color:#23323a}.layer.rails .tagline{border-color:#23323a;color:var(--blue)}
+.layer.rails .lh h3 span{color:var(--blue)}
+.layer.kb{border-color:#21342a}.layer.kb .tagline{border-color:#21342a;color:var(--green)}
+.layer.kb .lh h3 span{color:var(--green)}
+.arrow{text-align:center;color:var(--gray-dark);font-size:24px;line-height:1;margin:14px 0 -20px;position:relative;z-index:2}
+/* example pipeline */
+.pipe{margin-top:38px;display:flex;flex-direction:column;gap:12px}
+.pstep{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:16px 18px;display:flex;gap:14px;align-items:flex-start}
+.pstep .pic{font-size:22px;line-height:1.2;flex-shrink:0}
+.pstep .pl{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-dark);margin-bottom:5px}
+.pstep .pv{font-size:14.5px;color:#e0e0e0;line-height:1.5}
+.pstep .pv .q{color:var(--gray);font-style:italic}
+.pstep.in{border-left:3px solid var(--gray)}
+.pstep.out{border-left:3px solid var(--green);background:#0c130f}
+.parrow{text-align:center;color:var(--gray-dark);font-size:18px;margin:-4px 0}
+/* contrast */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px}
+.col{border:1px solid var(--line);border-radius:12px;padding:24px 22px;background:var(--surface)}
+.col.bad{border-color:#3a2526}
+.col.good{border-color:#21342a}
+.col .ct{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+.col.bad .ct{color:var(--red)}.col.good .ct{color:var(--green)}
+.col h4{font-family:'Oswald',sans-serif;font-weight:700;font-size:23px;letter-spacing:.3px;margin-bottom:14px;line-height:1.1}
+.col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.col li{font-size:14px;color:var(--gray);line-height:1.5;padding-left:22px;position:relative}
+.col.bad li::before{content:"✕";position:absolute;left:0;color:var(--red);font-weight:700}
+.col.good li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+.col li b{color:var(--white);font-weight:600}
+/* loop */
+.loop{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:36px;border-radius:10px;overflow:hidden}
+.lstep{background:var(--bg);padding:22px 18px;min-height:130px}
+.lstep .ln{font-family:'Oswald',sans-serif;font-weight:700;font-size:34px;color:#1d1d1d;line-height:1}
+.lstep .lt{font-family:'Oswald',sans-serif;font-weight:700;font-size:19px;letter-spacing:.3px;margin:8px 0 8px}
+.lstep .ld{font-size:13px;color:var(--gray);line-height:1.5}
+/* boundary */
+.bnd{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px}
+.bcard{border:1px solid var(--line);border-radius:12px;padding:24px 22px;background:var(--surface)}
+.bcard.you{border-color:#21342a}
+.bcard.eng{border-color:#2a2a2a;background:#0a0a0a}
+.bcard .bt{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.bcard.you .bt{color:var(--green)}.bcard.eng .bt{color:var(--gray-dark)}
+.bcard h4{font-family:'Oswald',sans-serif;font-weight:700;font-size:24px;letter-spacing:.3px;margin-bottom:16px;line-height:1.1}
+.bcard ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.bcard li{font-size:14px;color:var(--gray);line-height:1.5;padding-left:20px;position:relative}
+.bcard.you li::before{content:"●";position:absolute;left:0;color:var(--green);font-size:9px;top:5px}
+.bcard.eng li::before{content:"🔒";position:absolute;left:0;font-size:11px;top:2px}
+.bcard li b{color:var(--white);font-weight:600}
+.bcard .locknote{margin-top:16px;font-size:12.5px;color:var(--gray-dark);line-height:1.5;font-style:italic}
+footer{padding:64px 0 100px}
+footer h2{margin-bottom:18px}
+footer .badge{display:inline-block;margin-top:24px;border:1px solid var(--line);padding:14px 22px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gray);letter-spacing:.08em}
+footer .badge em{color:var(--red)}
+@media(max-width:760px){
+  .cols,.bnd{grid-template-columns:1fr}
+  .loop{grid-template-columns:1fr 1fr}
+  section{padding:54px 0}
+  .hero h1{font-size:42px}
+  .layer::before{font-size:42px;top:16px;right:16px}
+  .lh h3{font-size:24px}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Как устроен бот · внутренняя кухня · простыми словами</div>
+    <h1>ДВИЖОК<br>БОТА</h1>
+    <p class="sub">Бот — это не «умный ИИ, который болтает». Это <b>опытный ресепшионист с папкой утверждённых ответов</b>. У него три навыка, и они строго разделены — именно поэтому он надёжен и его можно бесконечно улучшать.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// главная идея</div>
+    <h2>Три навыка, не один</h2>
+    <p class="lead">Обычный «ИИ-бот» делает всё сам: и понимает, и решает, и говорит. Звучит круто — но именно так он начинает выдумывать и ломаться. Наш бот разделён на три слоя. ИИ занят только тем, что у него хорошо получается — <b>понимать кривой текст</b>. А что и как сказать — решают жёсткие правила и папка фактов.</p>
+    <div class="analogy">
+      Представь стойку ресепшн. Человек подходит и мямлит: «эээ, я по рекламе, а скока стоит-то?». Ресепшионист <b>① расслышал</b>, что это вопрос про цену. <b>② Свериться с регламентом</b>: «на вопрос о цене — назвать условия и спросить про бизнес». <b>③ Прочитать дословно из папки</b> утверждённый прайс. Три разных действия — три разных слоя. Ровно так работает бот.
+    </div>
+
+    <div class="stack">
+      <div class="layer ai" data-step="01">
+        <div class="lh"><span class="ic">👂</span><div><div class="tt">Слой 1 · единственное место с ИИ</div><h3>Слух — <span>понимание</span></h3></div></div>
+        <p>ИИ читает сумбурное сообщение клиента и определяет <b>намерение</b>: это вопрос про цену? приветствие? мусор? человек готов начинать? Здесь ИИ силён — он понимает живой человеческий язык, опечатки, сленг.</p>
+        <div class="tagline">⚠️ ИИ только СЛУШАЕТ и навешивает ярлык. Что ответить — он не решает и не придумывает.</div>
+      </div>
+      <div class="arrow">▼</div>
+      <div class="layer rails" data-step="02">
+        <div class="lh"><span class="ic">🚦</span><div><div class="tt">Слой 2 · жёсткая логика, которую написали мы</div><h3>Рельсы — <span>сценарий</span></h3></div></div>
+        <p>По ярлыку от ИИ срабатывает <b>фиксированное правило</b>: «вопрос про цену → показать опции и спросить бизнес», «назвал бизнес → спросить про KYC», «мусор → вежливо отказать», «готов → взять бренд → передать партнёру».</p>
+        <div class="tagline">🚦 Одинаковая ситуация → одинаковый шаг. Никакой импровизации. Это держит бота на рельсах.</div>
+      </div>
+      <div class="arrow">▼</div>
+      <div class="layer kb" data-step="03">
+        <div class="lh"><span class="ic">📒</span><div><div class="tt">Слой 3 · папка утверждённых ответов</div><h3>Факты — <span>дословно</span></h3></div></div>
+        <p>Когда пора назвать факт (цена 12% / 18%, правила KYC, список банков) — бот <b>читает точный согласованный текст из папки</b>, слово в слово. Не пересказывает, не округляет, не выдумывает цифру.</p>
+        <div class="tagline">📒 Для денежного бизнеса критично: бот физически не может назвать непроверенную комиссию.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// одно сообщение — путь сквозь три слоя</div>
+    <h2>Как это выглядит вживую</h2>
+    <p class="lead">Берём реальную кривую реплику клиента и смотрим, как она проходит по слоям и превращается в чистый ответ.</p>
+    <div class="pipe">
+      <div class="pstep in"><div class="pic">💬</div><div><div class="pl">Клиент пишет</div><div class="pv"><span class="q">«hey saw ur ad, how much??»</span></div></div></div>
+      <div class="parrow">▼</div>
+      <div class="pstep"><div class="pic">👂</div><div><div class="pl">Слой 1 · слух (ИИ)</div><div class="pv">Распознал: <b>вопрос про цену + интерес</b></div></div></div>
+      <div class="parrow">▼</div>
+      <div class="pstep"><div class="pic">🚦</div><div><div class="pl">Слой 2 · рельсы</div><div class="pv">Правило: <b>показать опции один раз и спросить про бизнес</b></div></div></div>
+      <div class="parrow">▼</div>
+      <div class="pstep"><div class="pic">📒</div><div><div class="pl">Слой 3 · папка</div><div class="pv">Достал дословно: <b>прайс 12% / 18% + вопрос про род бизнеса</b></div></div></div>
+      <div class="parrow">▼</div>
+      <div class="pstep out"><div class="pic">🤖</div><div><div class="pl">Бот отвечает</div><div class="pv">Чистый, согласованный ответ — без выдуманных цифр, и сразу ведёт диалог дальше.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// почему не «просто умный ИИ»</div>
+    <h2>Надёжный <em>vs</em> болтливый</h2>
+    <p class="lead">Соблазн отдать всё одному ИИ велик — на демо красиво. Но в бою свободный ИИ ведёт себя непредсказуемо. Это уже проверено и измерено на реальном проекте: свободный ИИ стал <b>хуже</b>, а не лучше.</p>
+    <div class="cols">
+      <div class="col bad">
+        <div class="ct">✕ Свободный ИИ-агент</div>
+        <h4>Болтает и выдумывает</h4>
+        <ul>
+          <li><b>Выдумывает условия</b> — назовёт комиссию, которой нет. Для денег это катастрофа.</li>
+          <li><b>Непредсказуем</b> — на один вопрос разные ответы в разные дни.</li>
+          <li><b>Чинить нельзя</b> — поправил в одном месте, сломалось в другом.</li>
+          <li><b>Упирается в потолок</b> — измерено: точность падала с 44% до 28%.</li>
+        </ul>
+      </div>
+      <div class="col good">
+        <div class="ct">✓ Наш движок (3 слоя)</div>
+        <h4>Слушает, решает, отвечает</h4>
+        <ul>
+          <li><b>Не выдумывает</b> — факты только из папки утверждённых ответов.</li>
+          <li><b>Предсказуем</b> — одинаковая ситуация даёт одинаковый шаг.</li>
+          <li><b>Точечно улучшается</b> — добавил ответ/правило, остальное не трогается.</li>
+          <li><b>Растёт без потолка надёжности</b> — управляемо, шаг за шагом.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// как бот умнеет</div>
+    <h2>Цикл улучшения</h2>
+    <p class="lead">Бот не «дообучается сам» (это и есть риск). Он улучшается управляемо: вы даёте обратную связь — мы вшиваем её в нужный слой. Без свободы слова, без сюрпризов.</p>
+    <div class="loop">
+      <div class="lstep"><div class="ln">1</div><div class="lt">Тест</div><div class="ld">Пишете боту как клиент, прямо в чате оцениваете каждый ответ 👍/👎.</div></div>
+      <div class="lstep"><div class="ln">2</div><div class="lt">Правка</div><div class="ld">На 👎 говорите, как надо. Подкидываете примеры правильных диалогов.</div></div>
+      <div class="lstep"><div class="ln">3</div><div class="lt">Вшиваем</div><div class="ld">Складываем в нужный слой: ответ → в папку, ветка → в рельсы, пример → в слух.</div></div>
+      <div class="lstep"><div class="ln">4</div><div class="lt">Перетест</div><div class="ld">Бот отвечает по-новому. Проверяете — и по кругу. Бот растёт.</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">// кто что меняет</div>
+    <h2>Содержимое <em>vs</em> движок</h2>
+    <p class="lead">Чтобы улучшать бота и ничего не сломать, есть чёткая граница. Вы управляете <b>содержимым</b> — что бот говорит. Сам <b>движок</b> — как он слушает и думает — остаётся в работе на нашей стороне и крутится 24/7.</p>
+    <div class="bnd">
+      <div class="bcard you">
+        <div class="bt">● Вы управляете — содержимое</div>
+        <h4>Что бот говорит</h4>
+        <ul>
+          <li><b>Утверждённые ответы</b> — прайс, условия, тексты (папка фактов).</li>
+          <li><b>Примеры диалогов</b> — как должна звучать переписка.</li>
+          <li><b>Что считать мусором</b> и кого вести к партнёру.</li>
+          <li><b>Оценки 👍/👎</b> и правки по каждому ответу.</li>
+        </ul>
+        <div class="locknote">Меняется через сам бот — без кода. Перед публикацией изменения проходят проверку, поэтому сломать ничего нельзя.</div>
+      </div>
+      <div class="bcard eng">
+        <div class="bt">🔒 Наша сторона — движок</div>
+        <h4>Как бот слушает и думает</h4>
+        <ul>
+          <li>Слой понимания (ИИ) и его настройка.</li>
+          <li>Рельсы — логика сценария разговора.</li>
+          <li>Накопленный опыт: что ломается, что работает.</li>
+          <li>Хостинг 24/7, безопасность, эскалации.</li>
+        </ul>
+        <div class="locknote">Это работающая система и наш опыт — то, за что идёт подписка. Не разовая отдача «коробки».</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="eyebrow">// итог</div>
+    <h2>Коротко</h2>
+    <p class="lead">ИИ <b>слушает</b>. Рельсы <b>решают</b>. Папка <b>говорит</b> — дословно. Вы наполняете содержимое, мы держим и развиваем движок. Так бот не выдумывает, не ломается и постоянно становится лучше.</p>
+    <div class="badge">движок <em>msolo</em> · надёжность важнее болтливости</div>
+  </div>
+</footer>
+</body>
+</html>
