@@ -210,7 +210,7 @@ a.goal:hover{border-color:var(--bord-2);background:var(--card-2);transform:trans
     <div class="grid g3">
       <div class="card brand"><span class="ic">🛡️</span><h3>Аккаунт не заблокируют</h3><p>Работаешь через NeuroGate, а не через личный зарубежный аккаунт под риском бана. Надёжно и без сюрпризов.</p></div>
       <div class="card"><span class="ic">🇷🇺</span><h3>Из России, рублями</h3><p>Карты РФ и СБП. Без VPN, без валютных переводов.</p></div>
-      <div class="card"><span class="ic">🗂️</span><h3>80+ моделей</h3><p>GPT, Claude, Gemini, Kling, Sora, Flux — в одном окне.</p></div>
+      <div class="card"><span class="ic">🗂️</span><h3>80+ моделей</h3><p>GPT, Claude, Gemini, Midjourney, Kling, Sora — в одном окне.</p></div>
       <div class="card"><span class="ic">💧</span><h3>Pay-as-you-go</h3><p>Без обязательной подписки. От 2 ₽ за запрос, баланс не сгорает.</p></div>
       <div class="card"><span class="ic">👥</span><h3>Команда и B2B</h3><p>Единый счёт, лимиты по сотрудникам, закрывающие документы, ЭДО.</p></div>
       <div class="card"><span class="ic">🔌</span><h3>UI + API</h3><p>И удобный кабинет, и API для интеграций — в одном продукте.</p></div>
@@ -248,7 +248,7 @@ a.goal:hover{border-color:var(--bord-2);background:var(--card-2);transform:trans
     <h2>Почему люди ищут такой сервис</h2>
     <p class="lead">Российские и open-source модели пока не дают качества, которое нужно маркетингу, — в ход идут топовые зарубежные. А с ними из России начинается полоса препятствий, и каждая — повод уйти или сдаться.</p>
     <div class="grid g4 mt-l">
-      <div class="card"><span class="ic">🔒</span><h3>VPN</h3><p>ChatGPT, Claude, Gemini напрямую не открываются.</p></div>
+      <div class="card"><span class="ic">🔒</span><h3>VPN</h3><p>ChatGPT, Midjourney, Claude напрямую не открываются.</p></div>
       <div class="card"><span class="ic">💳</span><h3>Иностранная карта</h3><p>Оплатить подписку российской картой нельзя.</p></div>
       <div class="card"><span class="ic">🚫</span><h3>Риск бана</h3><p>Личный аккаунт из РФ могут заблокировать в любой момент.</p></div>
       <div class="card"><span class="ic">🧾</span><h3>5 подписок</h3><p>Текст, картинки, видео — всё в разных сервисах за валюту.</p></div>
@@ -264,10 +264,10 @@ a.goal:hover{border-color:var(--bord-2);background:var(--card-2);transform:trans
     <div>
       <span class="kicker">⬡ Модели и цены</span>
       <h2>80+ моделей, оплата за запрос</h2>
-      <p class="lead">Один баланс — все три модальности. Это <strong>те же оригинальные модели</strong> (GPT-5, Claude, Flux), не клоны — мы даём к ним доступ.</p>
+      <p class="lead">Один баланс — все три модальности. Это <strong>те же оригинальные модели</strong> (GPT-5, Claude, Midjourney), не клоны — мы даём к ним доступ.</p>
       <div class="mt-m" style="display:flex;flex-direction:column;gap:10px">
         <div class="tint purple"><b>📝 Текст</b> · <span class="muted">GPT-5.x, Claude 4.x, Gemini 3, DeepSeek</span></div>
-        <div class="tint purple"><b>🎨 Картинки</b> · <span class="muted">Flux, Seedream, Nano Banana</span></div>
+        <div class="tint purple"><b>🎨 Картинки</b> · <span class="muted">Midjourney, Flux, Seedream, Nano Banana</span></div>
         <div class="tint purple"><b>🎬 Видео</b> · <span class="muted">Kling, Sora 2, Veo 3.1, Seedance</span></div>
       </div>
       <p class="note"><span class="i">₽</span> Pay-as-you-go от 2 ₽ за запрос. Пример: <b>500 ₽ ≈ 300 текстовых запросов</b>, или ~480 картинок, или 5–6 видео. Баланс не сгорает.</p>
@@ -294,15 +294,9 @@ a.goal:hover{border-color:var(--bord-2);background:var(--card-2);transform:trans
       </div>
       <p class="note"><span class="i">💡</span> Понятно и не разработчику: «подключи ИИ к своему боту или рассылке» — а технику агент настроит сам.</p>
     </div>
-    <div>
-      <div class="code">
-        <div class="c"># 1 · ключ из кабинета NeuroGate</div>
-        <div><span class="k">API_KEY</span> = <span class="s">"ng-xxxxxxxx…"</span></div>
-        <div class="c" style="margin-top:14px"># 2 · адрес, который понимает агент</div>
-        <div><span class="k">base_url</span> = <span class="s">"https://api.ng-ai.ru/v1"</span></div>
-        <div class="c" style="margin-top:14px"># 3 · всё — агент уже видит 80+ моделей</div>
-      </div>
-      <p class="shot-cap">🔑 Один ключ — доступ ко всем моделям сразу</p>
+    <div class="shot-frame">
+      <img src="/neurogate/unisender/shots/cab-apikey.png" alt="Раздел API-ключей в настройках кабинета">
+      <div class="shot-cap">🔑 Настройки → API: кнопка «Создать ключ» — и ключ готов</div>
     </div>
   </div>
   <div class="pgnum"></div>
@@ -359,7 +353,7 @@ a.goal:hover{border-color:var(--bord-2);background:var(--card-2);transform:trans
       <p class="lead">Мы не утверждаем, что лучше всех по каждой модели. Мы — единственные, кто даёт всё нужное в одном месте.</p>
     </div>
     <div class="grid g4">
-      <div class="card"><span class="ic">🌍</span><h3>Прямые подписки</h3><p class="tiny">ChatGPT, Claude…</p><p>Нужен VPN и зарубежная карта, риск бана аккаунта, отдельный сервис под каждую задачу.</p></div>
+      <div class="card"><span class="ic">🌍</span><h3>Прямые подписки</h3><p class="tiny">ChatGPT, Midjourney…</p><p>Нужен VPN и зарубежная карта, риск бана аккаунта, отдельный сервис под каждую задачу.</p></div>
       <div class="card"><span class="ic">🧩</span><h3>Агрегаторы-подписки</h3><p class="tiny">Chad и похожие</p><p>Без VPN, в рублях — но фикс-подписка, оплата «словами», обычно без API.</p></div>
       <div class="card"><span class="ic">⚙️</span><h3>API-провайдеры</h3><p class="tiny">GenAPI и похожие</p><p>Только API для разработчиков — без удобного кабинета для людей.</p></div>
       <div class="card brand"><span class="ic">⬡</span><h3>NeuroGate</h3><p class="tiny">гибрид</p><p>И кабинет, и API. Оплата по факту. Текст+картинки+видео. Без VPN. Аккаунт не банят.</p></div>
@@ -389,7 +383,7 @@ a.goal:hover{border-color:var(--bord-2);background:var(--card-2);transform:trans
       <span class="kicker">⬡ Старт · 2 минуты</span>
       <h2>С чего начинается работа</h2>
       <div class="steps mt-m">
-        <div class="step"><div class="n">1</div><div class="tx"><b>Регистрация по почте</b><span>На ng-ai.ru — без карты на входе, +50 ₽ на баланс попробовать.</span></div></div>
+        <div class="step"><div class="n">1</div><div class="tx"><b>Регистрация по почте</b><span>На ng-ai.ru — подтверждаете e-mail кодом из письма, без карты на входе, +50 ₽ на баланс.</span></div></div>
         <div class="step"><div class="n">2</div><div class="tx"><b>Пополнение через СБП / карту РФ</b><span>Баланс зачисляется сразу, не сгорает.</span></div></div>
         <div class="step"><div class="n">3</div><div class="tx"><b>Выбор модели под задачу</b><span>Слева — чат и инструменты, в каталоге — все модели с ценой за запрос.</span></div></div>
       </div>
@@ -432,7 +426,7 @@ a.goal:hover{border-color:var(--bord-2);background:var(--card-2);transform:trans
       <h2>Баннеры и креативы без дизайнера</h2>
       <p class="lead">Визуал для поста, баннера или карточки товара — за рубли, без Photoshop.</p>
       <div class="steps mt-m">
-        <div class="step"><div class="n">1</div><div class="tx"><b>Раздел генерации картинок</b><span>Выбрать модель: Nano Banana — качество, Flux — скорость и цена.</span></div></div>
+        <div class="step"><div class="n">1</div><div class="tx"><b>Раздел генерации картинок</b><span>Выбрать модель: Midjourney — качество, Flux — скорость и цена.</span></div></div>
         <div class="step"><div class="n">2</div><div class="tx"><b>Описать кадр</b><span>«Баннер для AI-сервиса, фиолетовый градиент, минимализм, место под заголовок».</span></div></div>
         <div class="step"><div class="n">3</div><div class="tx"><b>Итерации и обработка</b><span>Перегенерировать, убрать фон, увеличить разрешение — тут же.</span></div></div>
       </div>
