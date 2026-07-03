@@ -120,6 +120,7 @@
     <nav class="nav-links">
       <a href="#how">Как устроено</a>
       <a href="#setup">Подключение</a>
+      <a href="#oauth">OAuth</a>
       <a href="#process">Процесс</a>
       <a href="#rules">9 правил</a>
       <a href="#control">Дашборд</a>
@@ -231,7 +232,11 @@
       <div class="num">2</div>
       <div>
         <h3>Установить 5 Яндекс-скиллов</h3>
-        <p>Четыре готовых скилла (<code>wordstat</code>, <code>metrika</code>, <code>webmaster</code>, <code>search-api</code>) — с GitHub Полякова, MIT-лицензия, бесплатно. Скилл <code>yandex-direct</code> — свой (мы делимся исходником). Каждый скилл — это папка с <code>SKILL.md</code> (плейбук для агента), <code>scripts/</code> (обёртки над API) и <code>config/.env</code> (токен).</p>
+        <p>Четыре готовых скилла (<code>wordstat</code>, <code>metrika</code>, <code>webmaster</code>, <code>search-api</code>) — базово с GitHub Полякова, MIT-лицензия. Скилл <code>yandex-direct</code> — свой. Весь набор, собранный и готовый к установке, лежит в открытом репозитории:</p>
+        <p><a href="https://github.com/mkultraaaa/claude-yandex-skills" style="color:var(--accent); font-weight:600">→ github.com/mkultraaaa/claude-yandex-skills</a> <span class="muted">— Claude Code skills для Direct, Metrika, Webmaster, Wordstat, Search API</span></p>
+        <p>Каждый скилл — папка с <code>SKILL.md</code> (плейбук для агента), <code>scripts/</code> (обёртки над API) и <code>config/.env</code> (токен). Клонируешь в <code>~/.claude/skills/</code> — и агент их видит.</p>
+        <pre>git clone https://github.com/mkultraaaa/claude-yandex-skills
+<span class="c"># скопировать папки скиллов в ~/.claude/skills/</span></pre>
       </div>
     </div>
     <div class="step">
@@ -264,6 +269,60 @@ bash scripts/stats.sh --date1 ... --date2 ...   <span class="c"># статист
   --remote-debugging-port=9222 \
   --user-data-dir=/tmp/chrome-debug-profile</pre>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- OAUTH DETAIL -->
+<section id="oauth">
+  <div class="wrap narrow">
+    <div class="eyebrow">Подключение — подробно</div>
+    <h2>OAuth-приложение Яндекса: где и что кликать</h2>
+    <p class="lead">Это самый неочевидный шаг. Один раз регистрируешь приложение, выдаёшь ему доступы к нужным API и получаешь токен, который кладёшь в скиллы. Ниже — точный маршрут по кликам.</p>
+
+    <div class="call warn">
+      <h4>⚙️ Что делаем по сути</h4>
+      <p style="margin:0">OAuth-приложение — это «пропуск», через который твой агент ходит в API Яндекса от твоего имени. Регистрируешь приложение → выбираешь доступы (Директ, Метрика, Вебмастер) → получаешь <code>ClientID</code> → по нему добываешь <strong>токен</strong> → токен в <code>config/.env</code>.</p>
+    </div>
+
+    <h3>Часть A. Зарегистрировать приложение</h3>
+    <div class="step"><div class="num">1</div><div><p>Открыть <a href="https://oauth.yandex.ru" style="color:var(--accent)">oauth.yandex.ru</a>, войти под аккаунтом, где у тебя Директ и Метрика. Нажать <strong>«Создать приложение»</strong>.</p></div></div>
+    <div class="step"><div class="num">2</div><div><p><strong>Название</strong> — любое понятное, напр. <code>MyDirect CLI</code>.</p></div></div>
+    <div class="step"><div class="num">3</div><div><p><strong>Платформа</strong> → выбрать <strong>«Веб-сервисы»</strong>. В поле <strong>Redirect URI</strong> вписать служебный адрес Яндекса, который просто показывает токен:</p><pre>https://oauth.yandex.ru/verification_code</pre></div></div>
+    <div class="step"><div class="num">4</div><div><p><strong>Доступы (Data / права)</strong> — добавить, поставив галки в нужных сервисах:</p>
+      <table style="margin-top:6px">
+        <thead><tr><th>Сервис</th><th>Что выбрать</th></tr></thead>
+        <tbody>
+          <tr><td>Яндекс.Директ</td><td>«Использование API Яндекс.Директа» (<code>direct:api</code>)</td></tr>
+          <tr><td>Яндекс.Метрика</td><td>«Получение статистики» + при необходимости «Управление» (<code>metrika:read</code> / <code>metrika:write</code>)</td></tr>
+          <tr><td>Яндекс.Вебмастер</td><td>«Просмотр и управление сайтами» (<code>webmaster:hostinfo</code>, <code>webmaster:verify</code>)</td></tr>
+          <tr><td>Wordstat</td><td>идёт вместе с доступом к Директу — отдельно не нужен</td></tr>
+        </tbody>
+      </table>
+    </div></div>
+    <div class="step"><div class="num">5</div><div><p><strong>Создать.</strong> На странице приложения появятся <strong>ClientID</strong> и <strong>Client secret</strong> — они понадобятся дальше. ClientID можно копировать сразу.</p></div></div>
+
+    <div class="call">
+      <h4>⚠️ Отдельно про доступ к Директ API</h4>
+      <p style="margin:0">Для боевого Директа доступ к API у аккаунта обычно открыт сразу. Если API отвечает ошибкой прав — в интерфейсе Директа зайди в <strong>Настройки → раздел для разработчиков / API</strong> и убедись, что доступ к API включён (для новых рекламодателей иногда нужна заявка, подтверждают быстро).</p>
+    </div>
+
+    <h3>Часть B. Получить токен</h3>
+    <div class="step"><div class="num">6</div><div><p>Открыть в браузере ссылку, подставив свой <code>ClientID</code> (<code>response_type=token</code> — это «выдай токен сразу»):</p>
+      <pre>https://oauth.yandex.ru/authorize?response_type=token&amp;client_id=<span class="c">ВАШ_CLIENT_ID</span></pre></div></div>
+    <div class="step"><div class="num">7</div><div><p>Яндекс попросит войти и нажать <strong>«Разрешить»</strong>. После этого перекинет на страницу, где в адресе (или на самой странице) будет <code>access_token=y0_Ag...</code> — это твой токен. Скопировать.</p></div></div>
+    <div class="step"><div class="num">8</div><div><p>Вписать токен в <code>config/.env</code> каждого скилла, которому он нужен:</p>
+      <pre><span class="c"># ~/.claude/skills/yandex-direct/config/.env</span>
+YANDEX_DIRECT_TOKEN=y0_AgAAAA...
+<span class="c"># тот же токен подходит для metrika/webmaster/wordstat, если доступы выданы</span></pre></div></div>
+    <div class="step"><div class="num">9</div><div><p><strong>Проверка боем</strong> — один вызов, и видно все кампании аккаунта:</p>
+      <pre>cd ~/.claude/skills/yandex-direct
+bash scripts/campaigns.sh</pre>
+      <p class="muted" style="margin:6px 0 0">Если вернулся список кампаний (или пусто, но без ошибки авторизации) — подключение работает.</p></div></div>
+
+    <div class="call good">
+      <h4>✅ Проверено на живом аккаунте</h4>
+      <p style="margin:0">По этой связке агент не только читает статистику, но и <strong>создаёт кампании</strong>: черновик заливается через API и появляется в кабинете за секунды (создание → проверка → удаление проходят end-to-end). На демо это и показываем: ставим задачу на русском → агент собирает и заливает кампанию → она возникает в интерфейсе Директа.</p>
     </div>
   </div>
 </section>
@@ -402,7 +461,7 @@ bash scripts/stats.sh --date1 ... --date2 ...   <span class="c"># статист
     </ul>
     <div class="call" style="margin-top:20px">
       <h4>Что мы даём специалисту на старте</h4>
-      <p style="margin:0">Исходник скилла <code>yandex-direct</code>, Playwright-скрипты для UI-автоматизации, шаблон дашборда и <code>log_action</code>, файл с 9 правилами, и эту страницу как чек-лист. Ссылки на готовые скиллы Полякова (MIT) — в комплекте.</p>
+      <p style="margin:0">Все скиллы (включая <code>yandex-direct</code>) — в открытом репозитории <a href="https://github.com/mkultraaaa/claude-yandex-skills" style="color:var(--accent); font-weight:600">github.com/mkultraaaa/claude-yandex-skills</a>. Плюс Playwright-скрипты для UI-автоматизации, шаблон дашборда и <code>log_action</code>, файл с 9 правилами, и эта страница как чек-лист.</p>
     </div>
   </div>
 </section>
