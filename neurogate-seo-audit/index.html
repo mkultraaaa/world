@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<base href="/neurogate-seo-audit/">
+<title>NeuroGate — SEO-аудит и план действий (июль 2026)</title>
+<meta name="description" content="Полный SEO-аудит ng-ai.ru: где мы сейчас в Яндексе и Google, главные проблемы, приоритизированный план действий и вопросы к специалисту.">
+<meta property="og:title" content="NeuroGate — SEO-аудит и план действий">
+<meta property="og:description" content="Состояние органики ng-ai.ru + план роста. Онбординг-документ для SEO-специалиста.">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --bg:#ffffff; --bg-soft:#f6f7f9; --bg-inset:#f0f2f5;
+    --ink:#0c0e16; --ink-2:#353b48; --dim:#69707e;
+    --border:#e4e7ed; --border-2:#d4d8e0;
+    --accent:#4f46e5; --accent-d:#3f37c9; --accent-sf:#eef0fe;
+    --good:#15803d; --good-sf:#eaf6ee;
+    --bad:#dc2626; --bad-sf:#fdecec;
+    --warn:#b45309; --warn-sf:#fdf4e7;
+    --mono: ui-monospace,"SF Mono","JetBrains Mono",Menlo,Monaco,monospace;
+    --sans: -apple-system,BlinkMacSystemFont,"Segoe UI","Inter",system-ui,sans-serif;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; scroll-padding-top:76px; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  a { color:inherit; }
+  ::selection { background:var(--accent-sf); }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 24px; }
+  .narrow { max-width:860px; }
+  section { padding:72px 0; border-top:1px solid var(--border); }
+  section.alt { background:var(--bg-soft); }
+  .eyebrow { display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:12px; letter-spacing:0.04em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:16px; }
+  .eyebrow::before { content:""; width:18px; height:1px; background:var(--accent); display:inline-block; }
+  h2 { font-size:clamp(26px,3.6vw,34px); line-height:1.18; letter-spacing:-0.02em; margin:0 0 18px; font-weight:720; }
+  h3 { font-size:19px; margin:26px 0 10px; letter-spacing:-0.01em; font-weight:680; }
+  .lead { color:var(--ink-2); font-size:18px; max-width:780px; }
+  p { margin:0 0 14px; }
+  .muted { color:var(--dim); }
+  strong { font-weight:660; }
+
+  /* Nav */
+  header.nav { position:sticky; top:0; z-index:50; background:rgba(255,255,255,0.86); backdrop-filter:saturate(160%) blur(12px); border-bottom:1px solid var(--border); }
+  .nav-in { display:flex; align-items:center; gap:24px; height:60px; }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:-0.01em; text-decoration:none; font-size:15px; }
+  .brand .dot { width:10px; height:10px; border-radius:3px; background:var(--accent); box-shadow:0 0 0 3px var(--accent-sf); }
+  .brand small { color:var(--dim); font-weight:500; }
+  .nav-links { display:flex; gap:20px; margin-left:auto; }
+  .nav-links a { text-decoration:none; color:var(--dim); font-size:13.5px; font-weight:500; transition:color .15s; }
+  .nav-links a:hover { color:var(--ink); }
+  @media (max-width:880px){ .nav-links { display:none; } }
+
+  /* Hero */
+  .hero { padding:64px 0 52px; border-top:none; }
+  .hero h1 { font-size:clamp(32px,5vw,50px); line-height:1.07; letter-spacing:-0.03em; margin:0 0 20px; font-weight:760; max-width:900px; }
+  .hero .lead { font-size:19px; max-width:720px; }
+  .meta-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px; }
+  .qbadge { font-family:var(--mono); font-size:12.5px; color:var(--ink-2); background:var(--bg-inset); border:1px solid var(--border); padding:6px 11px; border-radius:999px; }
+
+  /* KPI cards */
+  .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:38px; }
+  @media (max-width:880px){ .kpis { grid-template-columns:repeat(2,1fr); } }
+  .kpi { background:#fff; border:1px solid var(--border); border-radius:14px; padding:18px; }
+  .kpi .n { font-size:30px; font-weight:740; letter-spacing:-0.02em; }
+  .kpi .l { font-size:13px; color:var(--dim); margin-top:4px; }
+  .kpi .s { font-size:12px; margin-top:8px; font-family:var(--mono); }
+  .up { color:var(--good); } .down { color:var(--bad); } .flat { color:var(--warn); }
+
+  /* Callouts */
+  .call { border:1px solid var(--border); border-left:3px solid var(--accent); background:var(--bg-soft); border-radius:12px; padding:18px 20px; margin:20px 0; }
+  .call.good { border-left-color:var(--good); background:var(--good-sf); }
+  .call.bad { border-left-color:var(--bad); background:var(--bad-sf); }
+  .call.warn { border-left-color:var(--warn); background:var(--warn-sf); }
+  .call h4 { margin:0 0 6px; font-size:15px; }
+
+  /* Tables */
+  table { width:100%; border-collapse:collapse; margin:18px 0; font-size:14px; }
+  th,td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
+  th { font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:0.04em; color:var(--dim); font-weight:600; }
+  td.mono, .mono-c { font-family:var(--mono); font-size:13px; }
+  .pill { display:inline-block; font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:999px; font-weight:600; }
+  .p1 { background:var(--bad-sf); color:var(--bad); }
+  .p2 { background:var(--warn-sf); color:var(--warn); }
+  .p3 { background:var(--accent-sf); color:var(--accent); }
+  .tag-good { background:var(--good-sf); color:var(--good); }
+
+  /* Problem cards */
+  .prob { display:grid; grid-template-columns:44px 1fr; gap:16px; padding:20px 0; border-top:1px solid var(--border); }
+  .prob:first-child { border-top:none; }
+  .prob .rank { font-family:var(--mono); font-size:22px; font-weight:700; color:var(--accent); }
+  .prob h3 { margin:0 0 6px; }
+
+  /* Split cols */
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:8px; }
+  @media (max-width:760px){ .split { grid-template-columns:1fr; } }
+  .col-box { background:#fff; border:1px solid var(--border); border-radius:14px; padding:20px; }
+  .col-box h3 { margin-top:0; }
+  ul.tight { margin:8px 0 0; padding-left:18px; }
+  ul.tight li { margin-bottom:7px; }
+
+  /* Steps / plan */
+  .phase { margin-bottom:10px; }
+  footer { padding:48px 0; border-top:1px solid var(--border); color:var(--dim); font-size:13.5px; }
+  .foot-flex { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  code { font-family:var(--mono); font-size:0.88em; background:var(--bg-inset); padding:1px 6px; border-radius:5px; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top"><span class="dot"></span> NeuroGate <small>SEO-аудит</small></a>
+    <nav class="nav-links">
+      <a href="#state">Состояние</a>
+      <a href="#problems">Проблемы</a>
+      <a href="#foundation">Фундамент</a>
+      <a href="#plan">План</a>
+      <a href="#questions">Вопросы</a>
+      <a href="#access">Доступы</a>
+    </nav>
+  </div>
+</header>
+
+<div id="top"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">Внутренний документ · онбординг SEO-специалиста</div>
+    <h1>SEO-аудит ng-ai.ru и план действий</h1>
+    <p class="lead">Где мы сейчас в органике Яндекса и Google, что работает, что тормозит рост, и что делать в порядке приоритета. Один документ, чтобы за 10 минут ввести специалиста в курс дела.</p>
+    <div class="meta-row" style="margin-top:22px">
+      <span class="qbadge">Домен: ng-ai.ru</span>
+      <span class="qbadge">Дата: 3 июля 2026</span>
+      <span class="qbadge">Возраст домена: ~4 мес</span>
+      <span class="qbadge">Источники: GSC · Я.Вебмастер · Я.Метрика</span>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="n">266</div>
+        <div class="l">органик-сессий / 90 дн</div>
+        <div class="s up">▲ с 232 (июнь)</div>
+      </div>
+      <div class="kpi">
+        <div class="n">175 / 91</div>
+        <div class="l">Яндекс / Google</div>
+        <div class="s up">Google уже 34%</div>
+      </div>
+      <div class="kpi">
+        <div class="n">9 + 3</div>
+        <div class="l">регистраций + пополнений с органики</div>
+        <div class="s up">реклама дала 0</div>
+      </div>
+      <div class="kpi">
+        <div class="n">10</div>
+        <div class="l">ИКС (SQI) в Вебмастере</div>
+        <div class="s flat">◼ стоит на месте</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TL;DR -->
+<section class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">Коротко</div>
+    <h2>Суть в трёх фразах</h2>
+    <div class="call good">
+      <h4>✅ Что работает</h4>
+      <p style="margin:0">Органика — <strong>единственный канал, который приносит платящих</strong> (9 рег + 3 пополнения за 90 дней), тогда как платная реклама за апрель–май дала 0 при расходе ~22 700₽. Технический фундамент собран и чист. Контент-пайплайн налажен.</p>
+    </div>
+    <div class="call bad">
+      <h4>⛔ Что держит потолок</h4>
+      <p style="margin:0"><strong>Ноль внешних ссылок</strong> — ИКС застыл на 10, домен не набирает авторитет. В <strong>Google мы видимы только по бренду</strong> «neurogate»: по коммерческим запросам — показы есть, кликов ноль. Контент есть, но его мало и он на позициях 6–10, где трафика почти нет.</p>
+    </div>
+    <div class="call">
+      <h4>🎯 Куда бить</h4>
+      <p style="margin:0">Три рычага по убыванию отдачи: <strong>(1) off-page</strong> — первые 15–20 качественных ссылок/упоминаний, чтобы сдвинуть ИКС; <strong>(2) контент-велосити</strong> — добить near-win статьи под готовый спрос; <strong>(3) CTR</strong> — переписать title/description на страницах, которые уже в топ-10, но с нулём кликов.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATE -->
+<section id="state">
+  <div class="wrap narrow">
+    <div class="eyebrow">Где мы сейчас</div>
+    <h2>Состояние органики по двум системам</h2>
+    <p class="lead">ng-ai.ru — молодой домен (запуск ~март 2026). Основной трафик из Яндекса, но доля Google растёт быстрее. Поведение аудитории разное — и это важно для стратегии.</p>
+
+    <div class="split" style="margin-top:26px">
+      <div class="col-box">
+        <h3>Яндекс — 175 сессий / 90 дн</h3>
+        <ul class="tight">
+          <li><strong>ИКС 10</strong>, ~59 страниц в поиске (колеблется 50↔127 — нестабильная индексация)</li>
+          <li>Технических ошибок нет: 0 fatal / 0 critical в диагностике Вебмастера</li>
+          <li>Топ-запрос <code>агрегатор нейросетей</code> — был поз. 6–9, <strong>недавно просел до ~32</strong></li>
+          <li>Отказы 5%, глубина 1.3, время 2:37 — быстрые заходы, часто по бренду</li>
+          <li>Карточка в Яндекс.Справочнике добавлена (ждёт модерацию)</li>
+        </ul>
+      </div>
+      <div class="col-box">
+        <h3>Google — 91 сессия / 90 дн</h3>
+        <ul class="tight">
+          <li>Клики <strong>почти только по бренду</strong>: <code>neurogate</code> — 21 клик, поз. 2.6</li>
+          <li>Небрендовых коммерческих кликов — <strong>≈ 0</strong> при десятках показов</li>
+          <li>Desktop: средняя поз. <strong>13.1</strong> (2-я страница). Mobile: 5.2 — но объём мал</li>
+          <li>Отказы 14%, глубина 2.7, <strong>время 9:58</strong> — заходят глубже и читают дольше</li>
+          <li>Вывод: Google-аудитория качественнее по вовлечению, но мы для неё невидимы вне бренда</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="call warn" style="margin-top:24px">
+      <h4>⚠️ Ключевое наблюдение</h4>
+      <p style="margin:0">Контент оптимизирован «под Яндекс». В Google те же страницы висят на позициях 6–13 и не собирают клики. Google ранжирует иначе — сильнее весят <strong>внешние ссылки, авторитет домена и E-E-A-T</strong>. Пока off-page = 0, Google-потолок не пробить.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMS -->
+<section id="problems" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">Диагноз</div>
+    <h2>Главные проблемы по приоритету</h2>
+
+    <div class="prob">
+      <div class="rank">01</div>
+      <div>
+        <h3>Ноль внешних ссылок → ИКС застрял на 10 <span class="pill p1">критично</span></h3>
+        <p style="margin:0">В Вебмастере <strong>0 внешних ссылок</strong>. Для молодого домена это главный тормоз: без ссылочного профиля не растёт ни ИКС, ни доверие, ни позиции по конкурентным запросам. Это потолок номер один — и в Яндексе, и в Google.</p>
+      </div>
+    </div>
+    <div class="prob">
+      <div class="rank">02</div>
+      <div>
+        <h3>Google — видимость только по бренду <span class="pill p1">критично</span></h3>
+        <p style="margin:0">По всем небрендовым запросам в Google — показы без кликов, позиции 6–13. Растущий канал (34% органики) фактически не работает на привлечение нового спроса. Нужна отдельная Google-стратегия (ссылки + E-E-A-T + авторские страницы), а не только «яндексовый» контент.</p>
+      </div>
+    </div>
+    <div class="prob">
+      <div class="rank">03</div>
+      <div>
+        <h3>Контент в топ-10, но с нулём кликов — проблема CTR <span class="pill p2">важно</span></h3>
+        <p style="margin:0"><code>/business</code> — 58 показов, поз. 7, но всего 6 кликов. <code>/blog/claude-vs-chatgpt-2026</code> — 37 показов, поз. 9.4, <strong>0 кликов</strong>. Десятки <code>/pricing/*</code> висят на поз. 6–10 с нулём кликов. Это near-win: сниппеты не цепляют → переписать title/description и дожать в топ-3.</p>
+      </div>
+    </div>
+    <div class="prob">
+      <div class="rank">04</div>
+      <div>
+        <h3>Нестабильная индексация (50 ↔ 127 страниц) <span class="pill p2">важно</span></h3>
+        <p style="margin:0">Число страниц в поиске скачет: 51 → 126 → 50 за пару недель. Похоже на дубли по параметрам или «тонкие» программные <code>/pricing/*</code>, которые то входят, то выпадают из индекса. Нужен аудит: сколько реально ценных страниц и не разбавляет ли программная генерация индекс.</p>
+      </div>
+    </div>
+    <div class="prob">
+      <div class="rank">05</div>
+      <div>
+        <h3>Просадка по главному коммерческому запросу <span class="pill p2">важно</span></h3>
+        <p style="margin:0"><code>агрегатор нейросетей</code> — наш единственный небрендовый запрос, который был в топ-10 (поз. 6–9), <strong>откатился до ~32</strong>. Конкуренты (aitunnel, gptunnel, aily) укрепляются. Нужна опорная статья-сравнение + внутренние и внешние ссылки на неё.</p>
+      </div>
+    </div>
+    <div class="prob">
+      <div class="rank">06</div>
+      <div>
+        <h3>Семантика не оцифрована по частотам <span class="pill p3">фон</span></h3>
+        <p style="margin:0">Контент-план построен на интенте и позициях, но <strong>частоты Wordstat не проставлены</strong> (API недоступен из текущего окружения). Приоритизация «на глаз». Нужно снять частотности и пересобрать ядро по кластерам спрос×конкурентность.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDATION -->
+<section id="foundation">
+  <div class="wrap narrow">
+    <div class="eyebrow">Что уже сделано</div>
+    <h2>Фундамент, на который можно опереться</h2>
+    <p class="lead">Специалисту не нужно начинать с нуля — техничка и база готовы. Это экономит 1–2 месяца.</p>
+    <div class="split" style="margin-top:22px">
+      <div class="col-box">
+        <h3>Технический SEO</h3>
+        <ul class="tight">
+          <li>Structured data: Article / FAQ / Offer / Breadcrumb</li>
+          <li>Sitemap (145 URL), robots.txt с clean-param</li>
+          <li>Исправлен SSR-баг (Googlebot видел пустую страницу)</li>
+          <li>Убран фейк-рейтинг <code>AggregateRating</code> (риск санкции)</li>
+          <li>0 критических ошибок в Вебмастере, mobile-friendly</li>
+        </ul>
+      </div>
+      <div class="col-box">
+        <h3>Контент и структура</h3>
+        <ul class="tight">
+          <li>Блог проиндексирован и перелинкован с лендингами</li>
+          <li>6 статей прошли фактчек + деанонимизацию ИИ</li>
+          <li>Пайплайн: MDX → Sanity, публикация ~60 сек</li>
+          <li>Модельные лендинги <code>/pricing/*</code> + <code>/business</code></li>
+          <li>Готовый контент-план на 12 статей под спрос</li>
+        </ul>
+      </div>
+    </div>
+    <div class="call good" style="margin-top:22px">
+      <h4>💡 Главный стратегический факт</h4>
+      <p style="margin:0">Органика — <strong>единственный канал с платящими клиентами</strong>. Платная реклама (Директ) за апрель–май: ~22 700₽ → 0 оплат. Органика за тот же период: регистрации + 3 реальных пополнения. Это аргумент вкладываться именно в SEO.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PLAN -->
+<section id="plan" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">План действий</div>
+    <h2>Что делать — по приоритету</h2>
+    <p class="lead">P1 — сейчас, максимальная отдача. P2 — следующие 4–6 недель. P3 — фон / когда освободятся руки.</p>
+
+    <table>
+      <thead>
+        <tr><th>Prio</th><th>Задача</th><th>Зачем</th><th>Метрика успеха</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="pill p1">P1</span></td>
+          <td><strong>Off-page: первые 15–20 ссылок/упоминаний</strong><br><span class="muted">VC.ru, Habr, каталоги AI-сервисов, тематические подборки, 2ГИС, профильные Telegram/медиа</span></td>
+          <td>Сдвинуть ИКС с 10, дать домену авторитет — разблокирует и Яндекс, и Google</td>
+          <td>ИКС растёт; появляются первые внешние ссылки в Вебмастере</td>
+        </tr>
+        <tr>
+          <td><span class="pill p1">P1</span></td>
+          <td><strong>Добить 3 near-win статьи</strong><br><span class="muted">«Сравнение агрегаторов», «Нейросети без VPN — список», «Оплата от юрлица»</span></td>
+          <td>Готовый спрос, интент коммерческий/B2B, перехват конкурентов aitunnel/aily</td>
+          <td>Статьи в индексе, позиции по целевым запросам растут</td>
+        </tr>
+        <tr>
+          <td><span class="pill p1">P1</span></td>
+          <td><strong>CTR-фикс: переписать title/description</strong><br><span class="muted">Страницы в топ-10 с нулём кликов: /business, /blog/claude-vs-chatgpt, /pricing/*</span></td>
+          <td>Дешёвый быстрый выигрыш — трафик из уже имеющихся показов</td>
+          <td>Рост CTR и кликов без роста позиций</td>
+        </tr>
+        <tr>
+          <td><span class="pill p2">P2</span></td>
+          <td><strong>Google-стратегия</strong><br><span class="muted">Авторские страницы, E-E-A-T сигналы, внешние упоминания под Google</span></td>
+          <td>Google 34% органики, но по небренду мы невидимы</td>
+          <td>Появляются небрендовые клики из Google</td>
+        </tr>
+        <tr>
+          <td><span class="pill p2">P2</span></td>
+          <td><strong>Вернуть «агрегатор нейросетей» в топ-10</strong></td>
+          <td>Единственный небрендовый запрос, где были в топе; просел до ~32</td>
+          <td>Позиция < 10, есть клики</td>
+        </tr>
+        <tr>
+          <td><span class="pill p2">P2</span></td>
+          <td><strong>Аудит индексации /pricing/*</strong><br><span class="muted">Разобраться с качелями 50↔127, дублями по параметрам, тонкими страницами</span></td>
+          <td>Стабилизировать индекс, убрать каннибализацию</td>
+          <td>Число страниц в поиске стабильно; нет дублей</td>
+        </tr>
+        <tr>
+          <td><span class="pill p3">P3</span></td>
+          <td><strong>Оцифровать семантику через Wordstat</strong><br><span class="muted">Снять частоты, пересобрать ядро по кластерам</span></td>
+          <td>Приоритизация контента по данным, а не на глаз</td>
+          <td>Ядро с частотами, обновлённый контент-план</td>
+        </tr>
+        <tr>
+          <td><span class="pill p3">P3</span></td>
+          <td><strong>GEO / видимость в AI-ответах</strong><br><span class="muted">llms.txt, цитируемость, структурирование под LLM-выдачу</span></td>
+          <td>Всё больше поиска уходит в AI-ассистенты</td>
+          <td>Появление ng-ai.ru в ответах AI-поисковиков</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="call">
+      <h4>🧭 Если ресурс ограничен (1 человек)</h4>
+      <p style="margin:0">Порядок отдачи однозначен: <strong>1) off-page → 2) контент-велосити → 3) CTR-фиксы</strong>. Техничка уже в порядке, туда сейчас вкладываться не нужно. Главный вопрос к специалисту — реалистичная стратегия ссылок в RU AI-нише.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTIONS -->
+<section id="questions">
+  <div class="wrap narrow">
+    <div class="eyebrow">К обсуждению</div>
+    <h2>Вопросы к специалисту</h2>
+    <p class="lead">С этого стоит начать разговор — ответы определят фокус на ближайший квартал.</p>
+    <ul class="tight" style="font-size:16px; margin-top:18px">
+      <li><strong>Ссылочное для RU AI-ниши:</strong> какие доноры/каталоги/площадки реально двигают ИКС для сервиса нашего типа? С чего начать за минимальный бюджет?</li>
+      <li><strong>Google vs Яндекс:</strong> вкладываться ли в Google отдельно сейчас, или сфокусироваться на Яндексе, пока домен молодой?</li>
+      <li><strong>Программные <code>/pricing/*</code>:</strong> они помогают (широкий охват по моделям) или разбавляют индекс тонким контентом и вызывают качели индексации?</li>
+      <li><strong>Приоритет ресурса:</strong> при 1 человеке — контент-велосити, off-page или техника-оптимизация: где сейчас максимальный рычаг?</li>
+      <li><strong>Просадка «агрегатор нейросетей»:</strong> это алгоритмическое, рост конкурентов или проблема страницы? Как диагностировать?</li>
+      <li><strong>KPI и горизонт:</strong> какие метрики и сроки считать реалистичными для домена возрастом 4 месяца?</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section id="access" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">Доступы</div>
+    <h2>Что подключено и что выдать специалисту</h2>
+    <p class="lead">Программный доступ ко всем системам уже настроен на нашей стороне (для работы агента/автоматизации). Специалисту доступ выдаётся по email в один клик.</p>
+    <table>
+      <thead>
+        <tr><th>Система</th><th>Наш доступ</th><th>Как выдать специалисту</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Google Search Console</td><td><span class="pill tag-good">✓ API + UI</span></td><td>GSC → property ng-ai.ru → Settings → Users and permissions → Add user → его Google-email</td></tr>
+        <tr><td>Яндекс Вебмастер</td><td><span class="pill tag-good">✓ API + UI</span></td><td>Вебмастер → Настройки → Права доступа → делегировать его Яндекс-логину</td></tr>
+        <tr><td>Яндекс Метрика</td><td><span class="pill tag-good">✓ API</span> (счётчик 108363414)</td><td>Метрика → Настройка → Доступ → добавить логин (просмотр/ред.)</td></tr>
+        <tr><td>Яндекс Директ / Wordstat</td><td><span class="pill tag-good">✓ API</span></td><td>По необходимости — через тот же OAuth или гостевой доступ</td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="margin-top:12px">Управление пользователями в GSC и Яндексе делается только через UI (API для этого нет) — это единственный ручной шаг. Дальше вся аналитика тянется программно.</p>
+  </div>
+</section>
+
+<!-- DATA APPENDIX -->
+<section>
+  <div class="wrap narrow">
+    <div class="eyebrow">Приложение</div>
+    <h2>Данные, на которых построен аудит</h2>
+
+    <h3>Google Search Console — топ по кликам (90 дней)</h3>
+    <table>
+      <thead><tr><th>Запрос / страница</th><th>Клики</th><th>Показы</th><th>CTR</th><th>Поз.</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">neurogate <span class="muted">(бренд)</span></td><td>21</td><td>65</td><td>32%</td><td>2.6</td></tr>
+        <tr><td class="mono">/ <span class="muted">(главная)</span></td><td>31</td><td>141</td><td>22%</td><td>8.0</td></tr>
+        <tr><td class="mono">/business</td><td>6</td><td>58</td><td>10%</td><td>7.2</td></tr>
+        <tr><td class="mono">/blog/claude-vs-chatgpt-2026</td><td>0</td><td>37</td><td>0%</td><td>9.4</td></tr>
+        <tr><td class="mono">/pricing/kling-2.6-pro</td><td>0</td><td>13</td><td>0%</td><td>60.5</td></tr>
+        <tr><td class="mono">/pricing/gpt-5.4, perplexity, gpt-5-chat…</td><td>0</td><td>5–8</td><td>0%</td><td>6–8</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">Итого Google ~90 дн: ~37 кликов, из них небрендовых ≈ 0. Desktop поз. 13.1 / Mobile 5.2.</p>
+
+    <h3>Яндекс Вебмастер</h3>
+    <table>
+      <thead><tr><th>Показатель</th><th>Значение</th><th>Комментарий</th></tr></thead>
+      <tbody>
+        <tr><td>ИКС (SQI)</td><td class="mono">10</td><td>молодой домен, не растёт без ссылок</td></tr>
+        <tr><td>Страниц в поиске</td><td class="mono">~59 (50↔127)</td><td>нестабильно</td></tr>
+        <tr><td>Внешние ссылки</td><td class="mono">0</td><td>главный тормоз</td></tr>
+        <tr><td>Критических ошибок</td><td class="mono">0</td><td>техника в порядке</td></tr>
+        <tr><td>«агрегатор нейросетей»</td><td class="mono">поз. ~32</td><td>было 6–9, просело</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Яндекс Метрика — органика 90 дней</h3>
+    <table>
+      <thead><tr><th>Источник</th><th>Сессии</th><th>Юзеры</th><th>Отказы</th><th>Время</th></tr></thead>
+      <tbody>
+        <tr><td>Итого органика</td><td>266</td><td>58</td><td>8%</td><td>5:08</td></tr>
+        <tr><td>Яндекс</td><td>175</td><td>31</td><td>5%</td><td>2:37</td></tr>
+        <tr><td>Google</td><td>91</td><td>27</td><td>14%</td><td>9:58</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">Конверсия органики за период: 9 регистраций + 3 пополнения баланса. Для сравнения — платная реклама: ~22 700₽ → 0 оплат.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap narrow foot-flex">
+    <div>Внутренний онбординг-документ NeuroGate · не для публичного распространения<br>Страница закрыта от индексации (<code>noindex</code>).</div>
+    <div>Обновлено 03.07.2026 · <a href="https://ng-ai.ru/" style="color:var(--accent)">ng-ai.ru</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
