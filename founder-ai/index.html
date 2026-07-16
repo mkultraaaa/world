@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founder AI — онбординг фаундера в AI. Не курс.</title>
+<meta name="description" content="Персональный онбординг собственника в AI: садимся рядом, настраиваем вашу AI-систему и делаем вас драйвером AI-трансформации компании.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;
+  --bg2:#111111;
+  --card:#121212;
+  --line:#1f1f1f;
+  --line2:#2a2a2a;
+  --fg:#f5f5f0;
+  --muted:#8a8a82;
+  --dim:#55554f;
+  --accent:#ffb300;
+  --accent-dark:#241a00;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--fg);
+  font-family:'Inter',sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent);color:#000}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:'Unbounded',sans-serif;font-weight:900;line-height:1.05;letter-spacing:-.01em}
+em{font-style:normal;color:var(--accent)}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(10,10,10,.86);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:var(--fg);text-decoration:none}
+.logo span{color:var(--accent)}
+.topbar a.cta-mini{
+  font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);text-decoration:none;border:1px solid var(--accent);padding:8px 16px;
+  transition:background .15s,color .15s;
+}
+.topbar a.cta-mini:hover{background:var(--accent);color:#000}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;
+  padding:110px 0 90px;
+  border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(ellipse 90% 70% at 50% -10%, rgba(255,179,0,.07), transparent 60%),
+    repeating-linear-gradient(0deg, transparent 0 79px, rgba(255,255,255,.025) 79px 80px),
+    repeating-linear-gradient(90deg, transparent 0 79px, rgba(255,255,255,.025) 79px 80px);
+}
+.eyebrow{
+  display:flex;align-items:center;gap:16px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:36px;
+}
+.eyebrow::before,.eyebrow::after{content:"";height:1px;background:var(--line2);flex:0 0 48px}
+.eyebrow::after{flex:1}
+.hero h1{
+  font-size:clamp(44px,7.4vw,104px);
+  text-transform:uppercase;
+  margin-bottom:36px;
+}
+.hero h1 .line{display:block}
+.hero .sub{
+  max-width:640px;font-size:clamp(17px,1.6vw,21px);color:var(--muted);margin-bottom:44px;
+}
+.hero .sub b{color:var(--fg);font-weight:600}
+.btn-row{display:flex;gap:14px;flex-wrap:wrap}
+.btn{
+  display:inline-block;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding:18px 34px;
+  transition:all .15s;
+}
+.btn-solid{background:var(--accent);color:#000;border:1px solid var(--accent)}
+.btn-solid:hover{background:transparent;color:var(--accent)}
+.btn-ghost{background:transparent;color:var(--fg);border:1px solid var(--line2)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.reveal{opacity:0;transform:translateY(18px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+.d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.25s}.d4{animation-delay:.35s}.d5{animation-delay:.45s}
+
+/* ---------- ticker ---------- */
+.ticker{border-bottom:1px solid var(--line);overflow:hidden;padding:14px 0;background:var(--bg2)}
+.ticker-track{display:flex;gap:0;width:max-content;animation:scroll 36s linear infinite}
+.ticker-track span{
+  font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);white-space:nowrap;padding:0 18px;
+}
+.ticker-track span::after{content:"✳";color:var(--accent);margin-left:36px}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- sections ---------- */
+section{padding:96px 0;border-bottom:1px solid var(--line)}
+.sec-head{display:flex;align-items:baseline;gap:20px;margin-bottom:56px}
+.sec-num{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent)}
+.sec-head h2{font-size:clamp(28px,3.6vw,48px);text-transform:uppercase}
+.sec-lead{max-width:680px;color:var(--muted);font-size:18px;margin:-28px 0 56px 0}
+.sec-lead b{color:var(--fg);font-weight:600}
+
+/* problem */
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:56px}
+.stat{background:var(--bg);padding:34px 28px}
+.stat .n{font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(34px,4vw,52px);color:var(--fg);line-height:1}
+.stat .n em{color:var(--accent)}
+.stat .t{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:14px;line-height:1.7}
+.pain-list{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.pain{background:var(--card);padding:30px 28px}
+.pain h3{font-size:17px;margin-bottom:12px;text-transform:uppercase;font-weight:700}
+.pain p{color:var(--muted);font-size:15px}
+.pain .x{font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:13px;display:block;margin-bottom:16px}
+
+/* manifesto strip */
+.manifesto{
+  padding:110px 0;text-align:center;border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(ellipse 70% 90% at 50% 120%, rgba(255,179,0,.06), transparent 60%);
+}
+.manifesto p{
+  font-family:'Unbounded',sans-serif;font-weight:700;
+  font-size:clamp(24px,3.4vw,44px);line-height:1.25;max-width:960px;margin:0 auto;
+  text-transform:uppercase;
+}
+
+/* get */
+.get-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.get{background:var(--bg);padding:38px 34px;position:relative;transition:background .2s}
+.get:hover{background:var(--card)}
+.get::before{content:attr(data-i);font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);display:block;margin-bottom:18px}
+.get h3{font-size:20px;margin-bottom:14px}
+.get p{color:var(--muted);font-size:15.5px}
+.get p b{color:var(--fg);font-weight:600}
+
+/* steps */
+.step{
+  display:grid;grid-template-columns:130px 1fr 300px;gap:40px;
+  border:1px solid var(--line);border-bottom:none;padding:38px 34px;
+  transition:background .2s;background:var(--bg);
+}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step:hover{background:var(--card)}
+.step .num{font-family:'Unbounded',sans-serif;font-weight:900;font-size:44px;color:var(--accent-dark);-webkit-text-stroke:1px var(--accent);line-height:1}
+.step h3{font-size:21px;margin-bottom:12px}
+.step .body p{color:var(--muted);font-size:15.5px}
+.step .body p b{color:var(--fg);font-weight:600}
+.step .out{border-left:1px solid var(--line2);padding-left:24px}
+.step .out .lbl{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+.step .out p{font-size:14px;color:var(--muted)}
+.step .out p b{color:var(--accent);font-weight:600}
+
+/* cases */
+.case-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.case{background:var(--card);padding:36px 32px}
+.case .tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:20px}
+.case .big{font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(26px,2.6vw,36px);color:var(--accent);line-height:1.1;margin-bottom:14px}
+.case p{color:var(--muted);font-size:15px}
+.case p b{color:var(--fg);font-weight:600}
+
+/* compare */
+.cmp{border:1px solid var(--line);overflow-x:auto}
+.cmp table{width:100%;border-collapse:collapse;min-width:720px}
+.cmp th,.cmp td{padding:20px 24px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;text-align:left}
+.cmp th:last-child,.cmp td:last-child{border-right:none}
+.cmp tr:last-child td{border-bottom:none}
+.cmp thead th{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--bg2)}
+.cmp thead th.hl{color:#000;background:var(--accent)}
+.cmp td{font-size:15px;color:var(--muted)}
+.cmp td:first-child{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);width:160px}
+.cmp td.hl{color:var(--fg);background:rgba(255,179,0,.05);border-left:1px solid rgba(255,179,0,.25)}
+.cmp td.hl b{color:var(--accent)}
+
+/* who */
+.who{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.who .left h2{font-size:clamp(28px,3.4vw,44px);text-transform:uppercase;margin-bottom:28px}
+.who .left p{color:var(--muted);margin-bottom:18px}
+.who .left p b{color:var(--fg);font-weight:600}
+.who-facts{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.wf{background:var(--card);padding:22px 26px;display:flex;gap:18px;align-items:baseline}
+.wf .k{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);flex:0 0 26px}
+.wf .v{font-size:15px;color:var(--muted)}
+.wf .v b{color:var(--fg);font-weight:600}
+
+/* offer */
+.offer{display:grid;grid-template-columns:1.2fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.offer .left{background:var(--bg);padding:48px 42px}
+.offer .right{background:var(--accent);color:#000;padding:48px 42px;display:flex;flex-direction:column;justify-content:space-between}
+.offer h3{font-size:24px;margin-bottom:26px;text-transform:uppercase}
+.offer ul{list-style:none}
+.offer .left li{padding:14px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:15.5px;display:flex;gap:14px}
+.offer .left li:last-child{border-bottom:none}
+.offer .left li::before{content:"→";color:var(--accent);font-family:'JetBrains Mono',monospace}
+.offer .left li b{color:var(--fg);font-weight:600}
+.offer .right .price{font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(48px,5vw,72px);line-height:1}
+.offer .right .per{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-top:10px;opacity:.75}
+.offer .right .note{font-size:14.5px;margin-top:28px;line-height:1.6;font-weight:500}
+.offer .right a{
+  display:block;text-align:center;margin-top:36px;background:#000;color:var(--accent);
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;
+  padding:18px;text-decoration:none;border:1px solid #000;transition:all .15s;
+}
+.offer .right a:hover{background:transparent;color:#000}
+
+/* final cta */
+.final{padding:130px 0;text-align:center;border-bottom:none}
+.final h2{font-size:clamp(34px,5vw,68px);text-transform:uppercase;margin-bottom:28px}
+.final p{color:var(--muted);max-width:560px;margin:0 auto 44px;font-size:18px}
+footer{border-top:1px solid var(--line);padding:28px 0}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+footer span,footer a{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);text-decoration:none}
+footer a:hover{color:var(--accent)}
+
+/* scroll reveal */
+.sr{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.sr.on{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .stat-grid,.pain-list,.get-grid,.case-grid{grid-template-columns:1fr}
+  .step{grid-template-columns:1fr;gap:18px;padding:30px 24px}
+  .step .num{font-size:36px}
+  .step .out{border-left:none;border-top:1px solid var(--line2);padding:18px 0 0}
+  .who{grid-template-columns:1fr;gap:40px}
+  .offer{grid-template-columns:1fr}
+  section{padding:64px 0}
+  .hero{padding:70px 0 60px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="logo" href="/">msolo<span>.</span></a>
+    <a class="cta-mini" href="https://t.me/msoloviev">Написать в Telegram</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow reveal d1">Founder AI — персональный онбординг собственника</div>
+    <h1>
+      <span class="line reveal d2">Не курс.</span>
+      <span class="line reveal d3"><em>Онбординг.</em></span>
+    </h1>
+    <p class="sub reveal d4">Курсы рассказывают про AI. Мы садимся рядом, <b>настраиваем вашу личную AI-систему</b> и не отпускаем, пока вы не станете драйвером AI-трансформации своей компании.</p>
+    <div class="btn-row reveal d5">
+      <a class="btn btn-solid" href="https://t.me/msoloviev">Хочу онбординг</a>
+      <a class="btn btn-ghost" href="#steps">Как это устроено ↓</a>
+    </div>
+  </div>
+</div>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Личная AI-система</span><span>Терминал вместо чата</span><span>Агенты на ваших задачах</span><span>Память и контекст</span><span>Майндсет фаундера</span><span>Бадди-сопровождение</span>
+    <span>Личная AI-система</span><span>Терминал вместо чата</span><span>Агенты на ваших задачах</span><span>Память и контекст</span><span>Майндсет фаундера</span><span>Бадди-сопровождение</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-head sr"><span class="sec-num">01</span><h2>Вы уже прошли курс. Что изменилось?</h2></div>
+    <p class="sec-lead sr">Рынок AI-обучения устроен как кинотеатр: <b>купил билет, посмотрел, вышел</b>. Красиво рассказали — никто не внедрил.</p>
+    <div class="stat-grid sr">
+      <div class="stat"><div class="n">500</div><div class="t">человек в потоке типового AI-курса за $2 000</div></div>
+      <div class="stat"><div class="n">~90%</div><div class="t">после курса так и не ушли дальше чата с GPT</div></div>
+      <div class="stat"><div class="n"><em>1</em></div><div class="t">фаундер в фокусе здесь. Вы. Один-на-один</div></div>
+    </div>
+    <div class="pain-list sr">
+      <div class="pain"><span class="x">[ FAIL_01 ]</span><h3>Лекции без рук</h3><p>Вам показали «как это делается у других». Своя система не появилась — применять нечего и не на чем.</p></div>
+      <div class="pain"><span class="x">[ FAIL_02 ]</span><h3>Спринты на силе воли</h3><p>Всё держится на вашей дисциплине: хочешь — участвуешь, хочешь — смотришь записи. Через месяц — тишина.</p></div>
+      <div class="pain"><span class="x">[ FAIL_03 ]</span><h3>Делегировать некому</h3><p>«Пусть команда разберётся» не работает: если собственник не в теме — компания не двигается. Драйвер — это вы.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="manifesto">
+  <div class="wrap sr">
+    <p>Компания становится AI-native только тогда, когда AI-native становится <em>её собственник</em>.</p>
+  </div>
+</div>
+
+<!-- WHAT YOU GET -->
+<section id="get">
+  <div class="wrap">
+    <div class="sec-head sr"><span class="sec-num">02</span><h2>Что вы получаете</h2></div>
+    <div class="get-grid sr">
+      <div class="get" data-i="[ 01 ]"><h3>Личную AI-систему</h3><p>Не «аккаунт в ChatGPT», а рабочую среду уровня AI-инженера: <b>терминал, агенты, память, голосовой ввод, доступ к вашим данным</b>. Разворачиваем вместе, на вашем компьютере, под ваши задачи.</p></div>
+      <div class="get" data-i="[ 02 ]"><h3>Майндсет AI-native</h3><p>Учитесь смотреть на компанию как на <b>карту процессов, а не список задач</b>: где нужен человек, где справится агент, и что это меняет в деньгах.</p></div>
+      <div class="get" data-i="[ 03 ]"><h3>Роль требовательного заказчика</h3><p>Вы перестаёте верить подрядчикам и сотрудникам на слово. Вы <b>сами понимаете, что реально</b>, сколько это стоит и за сколько дней делается.</p></div>
+      <div class="get" data-i="[ 04 ]"><h3>Бадди на дистанции</h3><p>Модели и инструменты меняются каждый месяц. У вас есть партнёр, который <b>держит вас на фронтире</b>: «смотри, вышло вот это — ставим, будет быстрее».</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section id="steps">
+  <div class="wrap">
+    <div class="sec-head sr"><span class="sec-num">03</span><h2>Этапы погружения</h2></div>
+    <p class="sec-lead sr">Не теория. Каждый этап — руки на клавиатуре, <b>материал — ваша компания</b>.</p>
+
+    <div class="step sr">
+      <div class="num">01</div>
+      <div class="body"><h3>Диагностика</h3><p>Разбираем, как устроен ваш бизнес: ключевые процессы, где утекают деньги и время, что делают люди из того, что уже должен делать агент. <b>Находим low-hanging fruits.</b></p></div>
+      <div class="out"><div class="lbl">Результат</div><p>Карта процессов + <b>3–5 точек быстрой экономии</b></p></div>
+    </div>
+    <div class="step sr">
+      <div class="num">02</div>
+      <div class="body"><h3>Личная система</h3><p>Садимся рядом — вживую или в Zoom — и разворачиваем вашу AI-среду: <b>Claude Code с полной обвязкой</b>, контекст, память, инструменты, голос. То же, чем пользуемся сами каждый день.</p></div>
+      <div class="out"><div class="lbl">Результат</div><p>Рабочая система <b>на вашем компьютере</b>, не в презентации</p></div>
+    </div>
+    <div class="step sr">
+      <div class="num">03</div>
+      <div class="body"><h3>Первые победы</h3><p>Берём 2–3 реальные задачи вашей компании — аналитика, разбор звонков, отчёты, контроль качества — и <b>закрываем их вашими руками</b> в вашей новой системе.</p></div>
+      <div class="out"><div class="lbl">Результат</div><p>Работающие автоматизации + <b>ощущение «я сам это могу»</b></p></div>
+    </div>
+    <div class="step sr">
+      <div class="num">04</div>
+      <div class="body"><h3>Привычки и ритмы</h3><p>Встраиваем AI в ваш день: утренние дайджесты, разбор встреч, подготовка решений. <b>Система, которая работает без силы воли</b> — потому что она удобнее старого способа.</p></div>
+      <div class="out"><div class="lbl">Результат</div><p>AI в ежедневной рутине, <b>а не «по вдохновению»</b></p></div>
+    </div>
+    <div class="step sr">
+      <div class="num">05</div>
+      <div class="body"><h3>Трансляция в компанию</h3><p>Теперь вниз: как дать доступ команде, кого назначить чемпионами, какие KPI ставить и как принимать работу подрядчиков по AI. <b>План на 90 дней для вашей компании.</b></p></div>
+      <div class="out"><div class="lbl">Результат</div><p>90-дневный план трансформации + <b>вы во главе неё</b></p></div>
+    </div>
+    <div class="step sr">
+      <div class="num">06</div>
+      <div class="body"><h3>Бадди-сопровождение</h3><p>Три месяца на связи: разбираем ваши кейсы, обновляем инструменты, докручиваем систему. <b>Вы не остаётесь один на один с фронтиром.</b></p></div>
+      <div class="out"><div class="lbl">Результат</div><p>Система живёт и растёт <b>вместе с рынком</b></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section id="cases">
+  <div class="wrap">
+    <div class="sec-head sr"><span class="sec-num">04</span><h2>Почему нам можно верить</h2></div>
+    <p class="sec-lead sr">Мы не теоретики. Всё, что показываем, — <b>работает у нас и у наших клиентов</b> прямо сейчас.</p>
+    <div class="case-grid sr">
+      <div class="case"><span class="tag">SaaS / Unisender</span><div class="big">−$30 000/мес</div><p>Сокращение костов на разработку в Unisender за счёт AI-инструментов. <b>Изнутри, в роли CEO</b> — не консультантом со стороны.</p></div>
+      <div class="case"><span class="tag">Медицина / сеть клиник</span><div class="big">100% звонков</div><p>Клиника проверяла качество звонков вручную и выборочно, подрядчик просил 100 000 ₽/мес. Готовое AI-решение разбирает <b>каждый звонок</b>.</p></div>
+      <div class="case"><span class="tag">E-commerce / маркетплейсы</span><div class="big">2 дня</div><p>Парсер Ozon, Wildberries и Яндекс.Маркета, который находит контрафакт и оформляет жалобы. <b>Вместо штатного юриста.</b> Собран за два дня.</p></div>
+      <div class="case"><span class="tag">Свои продукты</span><div class="big">AI-first</div><p>Свои продукты на AI: сервис записи и разбора звонков, доступ к нейросетям, агентские пайплайны. <b>Мы живём в этой системе сами</b> — и именно её вам ставим.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section id="compare">
+  <div class="wrap">
+    <div class="sec-head sr"><span class="sec-num">05</span><h2>Курс / спринт / онбординг</h2></div>
+    <div class="cmp sr">
+      <table>
+        <thead>
+          <tr><th></th><th>Курс</th><th>Спринт</th><th class="hl">Founder AI</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Формат</td><td>Лекции на 500 человек</td><td>Групповые задания</td><td class="hl"><b>1-на-1, за руку</b></td></tr>
+          <tr><td>Что остаётся</td><td>Конспект и сертификат</td><td>Пара экспериментов</td><td class="hl"><b>Работающая AI-система</b> на вашем компьютере</td></tr>
+          <tr><td>Материал</td><td>Чужие кейсы</td><td>Учебные задачи</td><td class="hl"><b>Ваша компания</b>: процессы, данные, деньги</td></tr>
+          <tr><td>Держится на</td><td>Вашей мотивации</td><td>Вашей дисциплине</td><td class="hl"><b>Партнёре</b>, который не даст бросить</td></tr>
+          <tr><td>После финала</td><td>«Удачи!»</td><td>Чат выпускников</td><td class="hl"><b>3 месяца бадди-сопровождения</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section id="who">
+  <div class="wrap">
+    <div class="who">
+      <div class="left sr">
+        <span class="sec-num">06</span>
+        <h2 style="margin-top:16px">Кто проводит</h2>
+        <p><b>Макс Соловьёв</b> — предприниматель и практик AI-внедрений. Экс-CEO Unisender, 20 лет в маркетинге, e-commerce и продуктах.</p>
+        <p>Сейчас — собственная студия AI-разработки и несколько своих AI-продуктов. Каждый день работаю в той самой системе, которую настраиваю фаундерам.</p>
+        <p style="margin-top:28px"><a class="btn btn-ghost" href="/ai-native-guide">Презентация: что такое AI-native →</a></p>
+      </div>
+      <div class="who-facts sr">
+        <div class="wf"><span class="k">01</span><span class="v"><b>CEO Unisender 4 года</b> — вырастил и перестроил компанию, потом внедрял AI изнутри</span></div>
+        <div class="wf"><span class="k">02</span><span class="v"><b>Свои AI-продукты</b> — сервис разбора звонков, доступ к нейросетям, агентские системы</span></div>
+        <div class="wf"><span class="k">03</span><span class="v"><b>Студия msolo.studio</b> — AI-внедрения в работающие бизнесы: от саппорта до финансов</span></div>
+        <div class="wf"><span class="k">04</span><span class="v"><b>Есть быть и казаться</b> — не рассказываю со сцены, а сажусь рядом и делаю вместе с вами</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFER -->
+<section id="offer">
+  <div class="wrap">
+    <div class="sec-head sr"><span class="sec-num">07</span><h2>Формат и цена</h2></div>
+    <div class="offer sr">
+      <div class="left">
+        <h3>Что входит</h3>
+        <ul>
+          <li><b>Диагностика бизнеса</b> — процессы, деньги, точки быстрой экономии</li>
+          <li><b>Личная сессия настройки</b> — разворачиваем вашу AI-систему вместе, вживую</li>
+          <li><b>2–3 боевые задачи</b> вашей компании, решённые вашими руками</li>
+          <li><b>План AI-трансформации на 90 дней</b> — для компании, не для галочки</li>
+          <li><b>3 месяца бадди-сопровождения</b> — разборы, обновления, докрутка</li>
+        </ul>
+      </div>
+      <div class="right">
+        <div>
+          <div class="price">$4 000</div>
+          <div class="per">за фаундера / всё включено</div>
+          <p class="note">Берём двух фаундеров в месяц. Работаем один-на-один — конвейера здесь нет и не будет.</p>
+        </div>
+        <a href="https://t.me/msoloviev">Забронировать место</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="wrap sr">
+    <h2>Через месяц вы либо <em>в системе</em>,<br>либо снова «посмотрели курс»</h2>
+    <p>Напишите в Telegram — за 15 минут поймём, ваш это формат или нет. Без продавцов и скриптов: сразу с тем, кто будет вас онбордить.</p>
+    <a class="btn btn-solid" href="https://t.me/msoloviev">Написать Максу</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 msolo.me</span>
+    <a href="/ai-native-guide">AI-native guide</a>
+    <a href="/studio">msolo.studio</a>
+    <a href="https://t.me/msoloviev">@msoloviev</a>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.sr').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
