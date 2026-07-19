@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Китай — семь миров одного путешествия</title>
+<meta name="description" content="Маршрут-мечта: Шэньчжэнь → Гуанчжоу → Цинъюань → Яншо → Фужун → Пекин → Шанхай. Лето 2026.">
+<meta name="robots" content="noindex, nofollow">
+<base href="/china/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23120f0c'/><text x='50' y='74' font-size='62' text-anchor='middle' fill='%23d5442a'>中</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#100d0a;
+  --ink2:#171310;
+  --paper:#f2ead9;
+  --paper-dim:#b3a78f;
+  --faint:#6b6252;
+  --cinnabar:#d5442a;
+  --gold:#c9a227;
+  --line:rgba(242,234,217,.14);
+  --serif:'Cormorant',serif;
+  --sans:'Manrope',sans-serif;
+  --sc:'Noto Serif SC',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.65;
+  overflow-x:hidden;
+}
+::selection{background:var(--cinnabar);color:var(--paper)}
+img{display:block;max-width:100%}
+
+/* grain overlay */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;min-height:100vh;min-height:100svh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;
+  background-image:
+    linear-gradient(to bottom, rgba(16,13,10,.30) 0%, rgba(16,13,10,.05) 40%, rgba(16,13,10,.55) 78%, var(--ink) 100%),
+    var(--hero-img);
+  animation:heroZoom 18s ease-out forwards;
+}
+@keyframes heroZoom{from{transform:scale(1.08)}to{transform:scale(1)}}
+.hero-vert{
+  position:absolute;top:6vh;right:5vw;z-index:3;
+  writing-mode:vertical-rl;
+  font-family:var(--sc);font-weight:900;
+  font-size:clamp(3rem,7.5vw,6.5rem);
+  color:rgba(242,234,217,.92);
+  letter-spacing:.28em;
+  text-shadow:0 2px 30px rgba(0,0,0,.55);
+  opacity:0;animation:fadeSlide 1.4s .5s ease forwards;
+}
+.hero-vert b{color:var(--cinnabar);font-weight:900}
+.hero-inner{position:relative;z-index:3;padding:0 5vw 9vh}
+.hero-kicker{
+  text-shadow:0 1px 3px rgba(0,0,0,.9),0 1px 14px rgba(0,0,0,.6);
+  font-size:.78rem;letter-spacing:.34em;text-transform:uppercase;color:var(--paper);
+  display:flex;align-items:center;gap:1rem;
+  opacity:0;animation:fadeSlide 1s .25s ease forwards;
+}
+.hero-kicker::before{content:"";width:44px;height:1px;background:var(--cinnabar)}
+.hero h1{
+  text-shadow:0 2px 26px rgba(0,0,0,.5);
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(3.4rem,10vw,9rem);
+  line-height:.98;letter-spacing:.01em;
+  margin:.4rem 0 1.2rem;
+  opacity:0;animation:fadeSlide 1.2s .4s ease forwards;
+}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{
+  text-shadow:0 1px 12px rgba(0,0,0,.6);
+  max-width:34rem;color:var(--paper-dim);font-size:1.02rem;
+  opacity:0;animation:fadeSlide 1.2s .6s ease forwards;
+}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+
+/* route ticker */
+.route-strip{
+  position:relative;z-index:3;
+  border-top:1px solid var(--line);
+  background:rgba(16,13,10,.55);backdrop-filter:blur(8px);
+  padding:1rem 5vw;
+  display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;align-items:center;
+  font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-dim);
+}
+.route-strip span{white-space:nowrap}
+.route-strip i{font-style:normal;color:var(--cinnabar);margin-left:.55rem}
+.route-strip .rs-days{margin-left:auto;color:var(--gold);letter-spacing:.2em}
+
+/* ---------- MANIFESTO ---------- */
+.manifesto{
+  padding:16vh 5vw;max-width:62rem;margin:0 auto;text-align:center;
+}
+.manifesto p{
+  font-family:var(--serif);font-size:clamp(1.6rem,3.4vw,2.6rem);
+  line-height:1.35;font-weight:400;color:var(--paper);
+}
+.manifesto p em{color:var(--cinnabar);font-style:italic}
+.manifesto .mini{
+  margin-top:2.4rem;font-family:var(--sans);font-size:.8rem;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--faint);
+}
+
+/* ---------- CHAPTERS ---------- */
+.chapter{position:relative;padding:10vh 0 0}
+.ch-head{
+  padding:0 5vw;max-width:78rem;margin:0 auto 5vh;
+  display:grid;grid-template-columns:auto 1fr;gap:2rem 3rem;align-items:end;
+}
+.ch-num{
+  font-family:var(--sc);font-weight:900;
+  font-size:clamp(4.5rem,9vw,8rem);line-height:1;
+  color:transparent;-webkit-text-stroke:1.5px var(--faint);
+}
+.ch-meta .ch-city-cn{
+  font-family:var(--sc);color:var(--cinnabar);font-weight:600;
+  font-size:1rem;letter-spacing:.5em;
+}
+.ch-meta h2{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.02;margin:.2rem 0 .6rem;
+}
+.ch-tag{
+  display:inline-block;font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);border:1px solid rgba(201,162,39,.35);border-radius:99px;
+  padding:.34rem 1rem;margin-right:.6rem;
+}
+.ch-days{font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;color:var(--faint)}
+
+.ch-body{
+  padding:0 5vw;max-width:78rem;margin:0 auto 6vh;
+  display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;
+}
+.ch-desc{font-size:1.05rem;color:var(--paper-dim);max-width:36rem}
+.ch-desc strong{color:var(--paper);font-weight:600}
+.ch-list{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.ch-list li{
+  display:flex;gap:.9rem;align-items:baseline;
+  font-size:.95rem;color:var(--paper-dim);
+  border-bottom:1px dashed var(--line);padding-bottom:.65rem;
+}
+.ch-list li::before{content:"○";color:var(--cinnabar);font-size:.7rem}
+.ch-list li b{color:var(--paper);font-weight:600}
+
+/* photo layouts */
+.ph-grid{
+  display:grid;gap:10px;padding:0 3vw;
+  grid-template-columns:repeat(12,1fr);
+}
+.ph{
+  position:relative;overflow:hidden;border-radius:4px;background:var(--ink2);
+}
+.ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.6,.2,1),filter 1.2s ease;filter:saturate(1.04)}
+.ph:hover img{transform:scale(1.045)}
+.ph .cap{
+  position:absolute;left:0;right:0;bottom:0;padding:2.2rem 1.2rem .9rem;
+  background:linear-gradient(to top,rgba(16,13,10,.78),transparent);
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-dim);
+  opacity:0;transform:translateY(8px);transition:.5s ease;
+}
+.ph:hover .cap{opacity:1;transform:none}
+.ph-a{grid-column:1/9;aspect-ratio:16/9.5}
+.ph-b{grid-column:9/13;aspect-ratio:auto}
+.ph-c{grid-column:1/5}
+.ph-d{grid-column:5/13;aspect-ratio:16/8.5}
+.ph-full{grid-column:1/13;aspect-ratio:21/9}
+.ph-half1{grid-column:1/7;aspect-ratio:4/3}
+.ph-half2{grid-column:7/13;aspect-ratio:4/3}
+
+/* transfer between chapters */
+.transfer{
+  display:flex;align-items:center;gap:1.4rem;justify-content:center;
+  padding:9vh 5vw;color:var(--faint);
+  font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;
+}
+.transfer::before,.transfer::after{
+  content:"";height:1px;flex:1;max-width:220px;
+  background:linear-gradient(to right,transparent,var(--line));
+}
+.transfer::after{background:linear-gradient(to left,transparent,var(--line))}
+.transfer b{color:var(--cinnabar);font-weight:600}
+
+/* ---------- FINALE / STATS ---------- */
+.finale{
+  position:relative;margin-top:8vh;padding:16vh 5vw 6vh;text-align:center;
+  background:
+    linear-gradient(to bottom,var(--ink) 0%,rgba(16,13,10,.55) 30%,rgba(16,13,10,.85) 100%),
+    var(--finale-img) center/cover fixed;
+}
+@media (hover:none){.finale{background-attachment:scroll}}
+.finale h2{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(2.4rem,6vw,4.6rem);line-height:1.05;margin-bottom:1rem;
+}
+.finale h2 em{color:var(--gold);font-style:italic}
+.finale p{color:var(--paper-dim);max-width:36rem;margin:0 auto}
+.stats{
+  margin:9vh auto 0;max-width:70rem;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);
+}
+.stat{background:var(--ink);padding:2rem 1rem}
+.stat b{
+  display:block;font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);
+  font-weight:500;color:var(--paper);
+}
+.stat span{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--faint)}
+.foot{
+  margin-top:7vh;padding-top:2rem;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;
+  font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);
+}
+.foot .zh{font-family:var(--sc);letter-spacing:.5em;color:var(--cinnabar)}
+
+/* reveal on scroll */
+.rv{opacity:0;transform:translateY(34px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.6,.2,1)}
+.rv.on{opacity:1;transform:none}
+
+@media (max-width:860px){
+  .ch-head{grid-template-columns:1fr;gap:.6rem}
+  .ch-body{grid-template-columns:1fr;gap:2rem}
+  .ph-grid{grid-template-columns:1fr;padding:0 4vw}
+  .ph-grid .ph{grid-column:1/-1 !important;aspect-ratio:4/3}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .hero-vert{right:6vw;font-size:2.6rem}
+  .route-strip .rs-days{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="hero-bg" style="--hero-img:url('img/hero-li-river.jpg')"></div>
+  <div class="hero-vert">中<b>国</b>之旅</div>
+  <div class="hero-inner">
+    <div class="hero-kicker">30 июля — 19 августа 2026 · соло</div>
+    <h1>Китай.<br>Семь <em>миров</em><br>одного пути</h1>
+    <p class="hero-sub">Три недели через страну, где каждый следующий город — другая планета: от города будущего до империи, от чайных рынков до гор из китайской туши.</p>
+  </div>
+  <div class="route-strip">
+    <span>Москва <i>→</i></span><span>Шэньчжэнь <i>→</i></span><span>Гуанчжоу <i>→</i></span><span>Цинъюань <i>→</i></span><span>Яншо <i>→</i></span><span>Фужун <i>→</i></span><span>Пекин <i>→</i></span><span>Шанхай <i>→</i></span><span>Москва</span>
+    <span class="rs-days">≈ 21 день</span>
+  </div>
+</header>
+
+<!-- ================= MANIFESTO ================= -->
+<section class="manifesto rv">
+  <p>Не список достопримечательностей, а <em>смена миров</em>: мегаполис будущего → чай и кантонская кухня → каньоны → карстовые горы → древний город на водопаде → императорский Пекин → неоновый Шанхай.</p>
+  <div class="mini">без спешки · без очередей · с лучшим светом</div>
+</section>
+
+<!-- ================= 01 SHENZHEN ================= -->
+<section class="chapter" id="shenzhen">
+  <div class="ch-head rv">
+    <div class="ch-num">一</div>
+    <div class="ch-meta">
+      <div class="ch-city-cn">深圳</div>
+      <h2>Шэньчжэнь</h2>
+      <span class="ch-tag">Город будущего</span><span class="ch-days">4 дня</span>
+    </div>
+  </div>
+  <div class="ch-body rv">
+    <p class="ch-desc">Сорок лет назад здесь была рыбацкая деревня. Сейчас — <strong>витрина Китая XXI века</strong>: 600-метровый Ping An, закаты над бухтой Shenzhen Bay, кварталы электроники Huaqiangbei и вечерние набережные. Точка входа в путешествие — сразу в будущее.</p>
+    <ul class="ch-list">
+      <li><b>Ping An Finance Center</b> — смотровая на 116 этаже</li>
+      <li><b>Shenzhen Bay</b> — закатная набережная</li>
+      <li><b>Huaqiangbei</b> — крупнейший рынок электроники мира</li>
+      <li><b>OCT Harbour и Sea World</b> — вечерние прогулки</li>
+      <li>Livehouse — концерт китайской группы</li>
+    </ul>
+  </div>
+  <div class="ph-grid rv">
+    <figure class="ph ph-a"><img loading="lazy" src="img/sz-dusk.jpg" alt="Шэньчжэнь на закате"><figcaption class="cap">Закат над Шэньчжэнем</figcaption></figure>
+    <figure class="ph ph-b"><img loading="lazy" src="img/sz-night.jpg" alt="Ночной Шэньчжэнь"><figcaption class="cap">Неоновый Футянь</figcaption></figure>
+  </div>
+</section>
+
+<div class="transfer rv">Шэньчжэнь → Гуанчжоу · <b>高铁</b> · скоростной поезд · ~40 мин</div>
+
+<!-- ================= 02 GUANGZHOU ================= -->
+<section class="chapter" id="guangzhou">
+  <div class="ch-head rv">
+    <div class="ch-num">二</div>
+    <div class="ch-meta">
+      <div class="ch-city-cn">广州</div>
+      <h2>Гуанчжоу</h2>
+      <span class="ch-tag">Чай · кухня · юг</span><span class="ch-days">3 дня</span>
+    </div>
+  </div>
+  <div class="ch-body rv">
+    <p class="ch-desc">Столица кантонской кухни и одна из главных целей поездки — <strong>чайный рынок Fangcun</strong>: шу и шэн пуэры, белый чай, улуны, чайник в подарок другу. Плюс собственные духи в Xuelei Fragrance Museum, димсам, жареный гусь и вечер у Canton Tower.</p>
+    <ul class="ch-list">
+      <li><b>Fangcun Tea Market</b> — главная чайная закупка поездки</li>
+      <li><b>Xuelei Fragrance Museum</b> — создать свои духи</li>
+      <li><b>Кантонский димсам</b> и жареный гусь</li>
+      <li><b>Canton Tower</b> и вечерняя Pearl River</li>
+      <li><b>YOMA SPA</b> — массаж после прогулок</li>
+    </ul>
+  </div>
+  <div class="ph-grid rv">
+    <figure class="ph ph-c"><img loading="lazy" src="img/gz-dimsum.jpg" alt="Кантонский димсам"><figcaption class="cap">Кантонский димсам</figcaption></figure>
+    <figure class="ph ph-d"><img loading="lazy" src="img/gz-canton-tower.jpg" alt="Canton Tower ночью"><figcaption class="cap">Canton Tower</figcaption></figure>
+  </div>
+</section>
+
+<div class="transfer rv">Гуанчжоу ⇄ Цинъюань · однодневный выезд · без смены отеля</div>
+
+<!-- ================= 03 QINGYUAN ================= -->
+<section class="chapter" id="qingyuan">
+  <div class="ch-head rv">
+    <div class="ch-num">三</div>
+    <div class="ch-meta">
+      <div class="ch-city-cn">清远</div>
+      <h2>Цинъюань</h2>
+      <span class="ch-tag">Адреналин</span><span class="ch-days">1 день</span>
+    </div>
+  </div>
+  <div class="ch-body rv">
+    <p class="ch-desc">Самый активный день путешествия — каньон <strong>Gulong Gorge</strong>: стеклянный мост над пропастью, рафтинг по горной реке, водопады и виды, от которых сводит ладони.</p>
+    <ul class="ch-list">
+      <li><b>Стеклянный мост</b> над каньоном</li>
+      <li><b>Рафтинг</b> по горной реке</li>
+      <li><b>Водопады</b> и смотровые Gulong Gorge</li>
+    </ul>
+  </div>
+  <div class="ph-grid rv">
+    <figure class="ph ph-full"><img loading="lazy" src="img/qy-glass-bridge.jpg" alt="Каньон и стеклянный мост"><figcaption class="cap">Gulong Gorge</figcaption></figure>
+  </div>
+</section>
+
+<div class="transfer rv">Гуанчжоу → Яншо · <b>高铁</b> · скоростной поезд · ~2 ч</div>
+
+<!-- ================= 04 YANGSHUO ================= -->
+<section class="chapter" id="yangshuo">
+  <div class="ch-head rv">
+    <div class="ch-num">四</div>
+    <div class="ch-meta">
+      <div class="ch-city-cn">阳朔</div>
+      <h2>Яншо</h2>
+      <span class="ch-tag">Горы из туши</span><span class="ch-days">3 дня</span>
+    </div>
+  </div>
+  <div class="ch-body rv">
+    <p class="ch-desc">Место, которого жду больше всего. Карстовые пики как на классических китайских свитках, <strong>электроскутер между рисовых полей</strong>, бамбуковый плот по реке Юйлун и рассвет над излучиной Ли с горы Сянгун. Без спешки — три дня растворения в пейзаже.</p>
+    <ul class="ch-list">
+      <li><b>Скутер</b> — деревни, рисовые поля, карстовые горы</li>
+      <li><b>Бамбуковый плот</b> по реке Юйлун</li>
+      <li><b>Xianggong Mountain</b> — рассвет над рекой Ли</li>
+      <li><b>Moon Hill и Xingping</b> — виды с 20-юаневой купюры</li>
+      <li>Шоу <b>Impression Liu Sanjie</b> на воде</li>
+    </ul>
+  </div>
+  <div class="ph-grid rv">
+    <figure class="ph ph-full"><img loading="lazy" src="img/ys-li-bend.jpg" alt="Карстовые горы, река Ли"><figcaption class="cap">Река Ли · рассвет</figcaption></figure>
+    <figure class="ph ph-half1"><img loading="lazy" src="img/ys-rafts.jpg" alt="Бамбуковый плот"><figcaption class="cap">Юйлун · бамбуковый плот</figcaption></figure>
+    <figure class="ph ph-half2"><img loading="lazy" src="img/ys-rice.jpg" alt="Рисовые поля"><figcaption class="cap">Дороги для скутера</figcaption></figure>
+  </div>
+</section>
+
+<div class="transfer rv">Яншо → Фужун · самый длинный переезд · <b>高铁</b></div>
+
+<!-- ================= 05 FURONG ================= -->
+<section class="chapter" id="furong">
+  <div class="ch-head rv">
+    <div class="ch-num">五</div>
+    <div class="ch-meta">
+      <div class="ch-city-cn">芙蓉镇</div>
+      <h2>Фужун</h2>
+      <span class="ch-tag">Древний Китай</span><span class="ch-days">1 день</span>
+    </div>
+  </div>
+  <div class="ch-body rv">
+    <p class="ch-desc">Тысячелетний город, <strong>стоящий прямо на водопаде</strong>. Вечером — фонари и подсветка над падающей водой, ужин с видом. Утром — пустые улицы старого города до приезда туристов. Здесь цель не достопримечательности, а атмосфера.</p>
+    <ul class="ch-list">
+      <li><b>Водопад</b> под старым городом</li>
+      <li><b>Ночная подсветка</b> и ужин с видом</li>
+      <li><b>Утренняя прогулка</b> без туристов</li>
+    </ul>
+  </div>
+  <div class="ph-grid rv">
+    <figure class="ph ph-full"><img loading="lazy" src="img/fr-waterfall.jpg" alt="Фужун — город на водопаде, ночная подсветка"><figcaption class="cap">芙蓉镇 · город на водопаде</figcaption></figure>
+  </div>
+</section>
+
+<div class="transfer rv">Фужун → Чжанцзяцзе → <b>перелёт</b> → Пекин</div>
+
+<!-- ================= 06 BEIJING ================= -->
+<section class="chapter" id="beijing">
+  <div class="ch-head rv">
+    <div class="ch-num">六</div>
+    <div class="ch-meta">
+      <div class="ch-city-cn">北京</div>
+      <h2>Пекин</h2>
+      <span class="ch-tag">Империя</span><span class="ch-days">4 дня</span>
+    </div>
+  </div>
+  <div class="ch-body rv">
+    <p class="ch-desc">История Китая на максимальной громкости: <strong>Великая стена</strong>, уходящая за горизонт, Запретный город с высоты парка Цзиншань, Храм Неба на рассвете, лабиринты хутунов и вечерний Хоухай. И конечно — настоящая утка по-пекински.</p>
+    <ul class="ch-list">
+      <li><b>Великая Китайская стена</b> — драматичный свет, без толп</li>
+      <li><b>Запретный город</b> + вид с холма Цзиншань</li>
+      <li><b>Храм Неба</b> и площадь Тяньаньмэнь</li>
+      <li><b>Хутуны и Хоухай</b> — старый Пекин вечером</li>
+      <li><b>Утка по-пекински</b> — каноничная</li>
+    </ul>
+  </div>
+  <div class="ph-grid rv">
+    <figure class="ph ph-a"><img loading="lazy" src="img/bj-wall.jpg" alt="Великая Китайская стена"><figcaption class="cap">Великая стена</figcaption></figure>
+    <figure class="ph ph-b"><img loading="lazy" src="img/bj-temple.jpg" alt="Запретный город, угловая башня"><figcaption class="cap">Запретный город</figcaption></figure>
+    <figure class="ph ph-full"><img loading="lazy" src="img/bj-forbidden.jpg" alt="Храм Неба"><figcaption class="cap">Храм Неба</figcaption></figure>
+  </div>
+</section>
+
+<div class="transfer rv">Пекин → Шанхай · <b>高铁</b> · 350 км/ч · ~4,5 ч</div>
+
+<!-- ================= 07 SHANGHAI ================= -->
+<section class="chapter" id="shanghai">
+  <div class="ch-head rv">
+    <div class="ch-num">七</div>
+    <div class="ch-meta">
+      <div class="ch-city-cn">上海</div>
+      <h2>Шанхай</h2>
+      <span class="ch-tag">Неоновый финал</span><span class="ch-days">3 дня</span>
+    </div>
+  </div>
+  <div class="ch-body rv">
+    <p class="ch-desc">Финал — самый красивый современный город Китая. Набережная Бунд напротив <strong>неонового леса Луцзяцзуй</strong>, платаны Французской концессии, Shanghai Tower, финальный шопинг. Последний вечер — ресторан с видом на огни Бунда.</p>
+    <ul class="ch-list">
+      <li><b>The Bund</b> — вечер и рассвет</li>
+      <li><b>Lujiazui + Shanghai Tower</b> — вид сверху</li>
+      <li><b>French Concession</b> — платаны и кафе</li>
+      <li><b>Nanjing Road</b>, PANE, финальный шопинг</li>
+      <li><b>Прощальный ужин</b> с видом на ночной Бунд</li>
+    </ul>
+  </div>
+  <div class="ph-grid rv">
+    <figure class="ph ph-full"><img loading="lazy" src="img/sh-bund-blue.jpg" alt="Шанхай, Бунд ночью"><figcaption class="cap">The Bund · ночь</figcaption></figure>
+    <figure class="ph ph-half1"><img loading="lazy" src="img/sh-lujiazui.jpg" alt="Луцзяцзуй"><figcaption class="cap">Lujiazui</figcaption></figure>
+    <figure class="ph ph-half2"><img loading="lazy" src="img/sh-bund-night.jpg" alt="Шанхай"><figcaption class="cap">Финальный вечер</figcaption></figure>
+  </div>
+</section>
+
+<!-- ================= FINALE ================= -->
+<section class="finale" style="--finale-img:url('img/finale-pudong.jpg')">
+  <div class="rv">
+    <h2>Поездка <em>мечты</em>,<br>а не список галочек</h2>
+    <p>Каждое место — эмоция. Логистика — скоростные поезда. Свет — рассветы и закаты. Решения на месте — минимум: всё продумано заранее.</p>
+  </div>
+  <div class="stats rv">
+    <div class="stat"><b>21</b><span>день</span></div>
+    <div class="stat"><b>7</b><span>миров</span></div>
+    <div class="stat"><b>5</b><span>скоростных поездов</span></div>
+    <div class="stat"><b>∞</b><span>чая и димсамов</span></div>
+  </div>
+  <div class="foot">
+    <span>Максим Соловьёв · лето 2026</span>
+    <span class="zh">一路平安</span>
+    <span>Москва → 中国 → Москва</span>
+  </div>
+  <p style="margin-top:1.6rem;font-size:.62rem;letter-spacing:.08em;color:var(--faint);text-transform:none">
+    Фото: Wikimedia Commons — Charlie fong, Dinkun Chen, Tim Wu, Peachyeung316, Sunyiming, ReeveJ, Gerd Eichmann, Rod Waddington, G41rn8, Chensiyuan, Severin.stalder, Lloyd Tudor, kallgan, Dllu, Larry Qian, King of Hearts (CC BY / CC BY-SA / CC0)
+  </p>
+</section>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
