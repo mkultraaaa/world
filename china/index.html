@@ -230,6 +230,28 @@ body::after{
 }
 .foot .zh{font-family:var(--sc);letter-spacing:.5em;color:var(--cinnabar)}
 
+/* ---------- ITINERARY ---------- */
+.itin{padding:12vh 5vw 4vh;max-width:46rem;margin:0 auto}
+.itin-head{text-align:center;margin-bottom:4rem}
+.itin-head .ch-city-cn{font-size:.95rem}
+.itin-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,5vw,3.8rem);line-height:1.05;margin:.2rem 0 .5rem}
+.itin-head p{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:var(--faint)}
+.itin ol{list-style:none}
+.it-city{
+  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  padding:1rem 0;border-top:1px solid var(--line);
+}
+.it-city span{font-family:var(--serif);font-size:1.55rem;font-weight:500}
+.it-city span i{font-family:var(--sc);font-style:normal;font-size:.85rem;color:var(--cinnabar);margin-left:.7rem;letter-spacing:.25em}
+.it-city b{font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:600;white-space:nowrap}
+.it-move{
+  padding:.55rem 0 .55rem 1.4rem;margin-left:.35rem;
+  border-left:1px dashed rgba(213,68,42,.45);
+  font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);
+}
+.it-move em{font-style:normal;color:var(--cinnabar)}
+.itin ol .it-city:last-of-type{border-bottom:1px solid var(--line)}
+
 /* reveal on scroll */
 .rv{opacity:0;transform:translateY(34px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.6,.2,1)}
 .rv.on{opacity:1;transform:none}
@@ -252,13 +274,13 @@ body::after{
   <div class="hero-bg" style="--hero-img:url('img/hero-li-river.jpg')"></div>
   <div class="hero-vert">中<b>国</b>之旅</div>
   <div class="hero-inner">
-    <div class="hero-kicker">30 июля — 19 августа 2026 · соло</div>
+    <div class="hero-kicker">30 июля — 13 августа 2026 · соло</div>
     <h1>Китай.<br>Семь <em>миров</em><br>одного пути</h1>
-    <p class="hero-sub">Три недели через страну, где каждый следующий город — другая планета: от города будущего до империи, от чайных рынков до гор из китайской туши.</p>
+    <p class="hero-sub">Две недели через страну, где каждый следующий город — другая планета: от города будущего до империи, от чайных рынков до гор из китайской туши.</p>
   </div>
   <div class="route-strip">
     <span>Москва <i>→</i></span><span>Шэньчжэнь <i>→</i></span><span>Гуанчжоу <i>→</i></span><span>Цинъюань <i>→</i></span><span>Яншо <i>→</i></span><span>Фужун <i>→</i></span><span>Пекин <i>→</i></span><span>Шанхай <i>→</i></span><span>Москва</span>
-    <span class="rs-days">≈ 21 день</span>
+    <span class="rs-days">14 дней</span>
   </div>
 </header>
 
@@ -275,7 +297,7 @@ body::after{
     <div class="ch-meta">
       <div class="ch-city-cn">深圳</div>
       <h2>Шэньчжэнь</h2>
-      <span class="ch-tag">Город будущего</span><span class="ch-days">4 дня</span>
+      <span class="ch-tag">Город будущего</span><span class="ch-days">3 дня</span>
     </div>
   </div>
   <div class="ch-body rv">
@@ -303,7 +325,7 @@ body::after{
     <div class="ch-meta">
       <div class="ch-city-cn">广州</div>
       <h2>Гуанчжоу</h2>
-      <span class="ch-tag">Чай · кухня · юг</span><span class="ch-days">3 дня</span>
+      <span class="ch-tag">Чай · кухня · юг</span><span class="ch-days">2 дня</span>
     </div>
   </div>
   <div class="ch-body rv">
@@ -356,11 +378,11 @@ body::after{
     <div class="ch-meta">
       <div class="ch-city-cn">阳朔</div>
       <h2>Яншо</h2>
-      <span class="ch-tag">Горы из туши</span><span class="ch-days">3 дня</span>
+      <span class="ch-tag">Горы из туши</span><span class="ch-days">2 дня</span>
     </div>
   </div>
   <div class="ch-body rv">
-    <p class="ch-desc">Место, которого жду больше всего. Карстовые пики как на классических китайских свитках, <strong>электроскутер между рисовых полей</strong>, бамбуковый плот по реке Юйлун и рассвет над излучиной Ли с горы Сянгун. Без спешки — три дня растворения в пейзаже.</p>
+    <p class="ch-desc">Место, которого жду больше всего. Карстовые пики как на классических китайских свитках, <strong>электроскутер между рисовых полей</strong>, бамбуковый плот по реке Юйлун и рассвет над излучиной Ли с горы Сянгун. Без спешки — два дня растворения в пейзаже.</p>
     <ul class="ch-list">
       <li><b>Скутер</b> — деревни, рисовые поля, карстовые горы</li>
       <li><b>Бамбуковый плот</b> по реке Юйлун</li>
@@ -410,7 +432,7 @@ body::after{
     <div class="ch-meta">
       <div class="ch-city-cn">北京</div>
       <h2>Пекин</h2>
-      <span class="ch-tag">Империя</span><span class="ch-days">4 дня</span>
+      <span class="ch-tag">Империя</span><span class="ch-days">3 дня</span>
     </div>
   </div>
   <div class="ch-body rv">
@@ -439,7 +461,7 @@ body::after{
     <div class="ch-meta">
       <div class="ch-city-cn">上海</div>
       <h2>Шанхай</h2>
-      <span class="ch-tag">Неоновый финал</span><span class="ch-days">3 дня</span>
+      <span class="ch-tag">Неоновый финал</span><span class="ch-days">2 дня</span>
     </div>
   </div>
   <div class="ch-body rv">
@@ -459,6 +481,32 @@ body::after{
   </div>
 </section>
 
+<!-- ================= ITINERARY ================= -->
+<section class="itin rv" id="plan">
+  <div class="itin-head">
+    <div class="ch-city-cn">行程</div>
+    <h2>Раскладка</h2>
+    <p>14 дней · 30 июля → 13 августа 2026</p>
+  </div>
+  <ol>
+    <li class="it-move"><em>✈</em> Москва → Шэньчжэнь · ночной перелёт · ~10 ч</li>
+    <li class="it-city"><span>Шэньчжэнь <i>深圳</i></span><b>3 дня</b></li>
+    <li class="it-move"><em>高铁</em> скоростной поезд · ~40 мин</li>
+    <li class="it-city"><span>Гуанчжоу <i>广州</i></span><b>2 дня</b></li>
+    <li class="it-move"><em>高铁</em> день-трип из Гуанчжоу · ~25 мин в одну сторону</li>
+    <li class="it-city"><span>Цинъюань <i>清远</i></span><b>1 день</b></li>
+    <li class="it-move">возврат в Гуанчжоу → <em>高铁</em> в Яншо · ~2,5 ч</li>
+    <li class="it-city"><span>Яншо <i>阳朔</i></span><b>2 дня</b></li>
+    <li class="it-move"><em>高铁</em> с пересадкой · самый длинный переезд · ~5–6 ч</li>
+    <li class="it-city"><span>Фужун <i>芙蓉镇</i></span><b>1 день</b></li>
+    <li class="it-move">авто до Чжанцзяцзе · ~1,5 ч → <em>✈</em> перелёт в Пекин · ~2,5 ч</li>
+    <li class="it-city"><span>Пекин <i>北京</i></span><b>3 дня</b></li>
+    <li class="it-move"><em>高铁</em> 350 км/ч · ~4,5 ч</li>
+    <li class="it-city"><span>Шанхай <i>上海</i></span><b>2 дня</b></li>
+    <li class="it-move"><em>✈</em> Шанхай → Москва · ~10 ч</li>
+  </ol>
+</section>
+
 <!-- ================= FINALE ================= -->
 <section class="finale" style="--finale-img:url('img/finale-pudong.jpg')">
   <div class="rv">
@@ -466,9 +514,9 @@ body::after{
     <p>Каждое место — эмоция. Логистика — скоростные поезда. Свет — рассветы и закаты. Решения на месте — минимум: всё продумано заранее.</p>
   </div>
   <div class="stats rv">
-    <div class="stat"><b>21</b><span>день</span></div>
+    <div class="stat"><b>14</b><span>дней</span></div>
     <div class="stat"><b>7</b><span>миров</span></div>
-    <div class="stat"><b>5</b><span>скоростных поездов</span></div>
+    <div class="stat"><b>6</b><span>скоростных поездов</span></div>
     <div class="stat"><b>∞</b><span>чая и димсамов</span></div>
   </div>
   <div class="foot">
