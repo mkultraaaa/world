@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code для собственника — настройка</title>
+<style>
+  :root {
+    --paper: #fbf7ec;
+    --card: #ffffff;
+    --ink: #201a0e;
+    --muted: #71684f;
+    --line: #e6ddc6;
+    --accent: #ffb300;
+    --accent-ink: #7a5600;
+    --accent-soft: #fff3d1;
+    --danger: #b3441e;
+    --danger-soft: #fbe9e1;
+    --mono-bg: #f3edda;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #17130a;
+      --card: #201a0f;
+      --ink: #f1e8d4;
+      --muted: #a2966f;
+      --line: #383019;
+      --accent: #ffb300;
+      --accent-ink: #ffc94d;
+      --accent-soft: #2b2310;
+      --danger: #ff8a5c;
+      --danger-soft: #2c1a10;
+      --mono-bg: #241e10;
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #fbf7ec; --card: #ffffff; --ink: #201a0e; --muted: #71684f;
+    --line: #e6ddc6; --accent: #ffb300; --accent-ink: #7a5600;
+    --accent-soft: #fff3d1; --danger: #b3441e; --danger-soft: #fbe9e1; --mono-bg: #f3edda;
+  }
+  :root[data-theme="dark"] {
+    --paper: #17130a; --card: #201a0f; --ink: #f1e8d4; --muted: #a2966f;
+    --line: #383019; --accent: #ffb300; --accent-ink: #ffc94d;
+    --accent-soft: #2b2310; --danger: #ff8a5c; --danger-soft: #2c1a10; --mono-bg: #241e10;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px 96px; }
+
+  /* hero */
+  header { padding: 72px 0 40px; border-bottom: 3px solid var(--ink); }
+  .eyebrow {
+    display: inline-block; background: var(--accent); color: #201a0e;
+    font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    padding: 4px 10px; margin-bottom: 20px;
+  }
+  h1 {
+    font-size: clamp(30px, 5.4vw, 46px); line-height: 1.08; margin: 0 0 18px;
+    font-weight: 800; letter-spacing: -.02em; text-wrap: balance;
+  }
+  .lede { font-size: 18px; color: var(--muted); max-width: 56ch; margin: 0 0 28px; }
+  .lede strong { color: var(--ink); }
+
+  .sysmap {
+    background: var(--mono-bg); border: 1px solid var(--line);
+    padding: 18px 20px; overflow-x: auto;
+  }
+  .sysmap pre {
+    margin: 0; font: 13px/1.7 ui-monospace, "SF Mono", Menlo, monospace;
+    color: var(--ink); white-space: pre;
+  }
+  .sysmap .c { color: var(--muted); }
+  .sysmap .a { color: var(--accent-ink); font-weight: 700; }
+
+  /* steps */
+  section.step {
+    display: grid; grid-template-columns: 84px 1fr; gap: 0 20px;
+    padding: 44px 0 36px; border-bottom: 1px solid var(--line);
+  }
+  .num {
+    font-size: 54px; font-weight: 800; line-height: 1; color: var(--accent);
+    letter-spacing: -.03em; font-variant-numeric: tabular-nums;
+  }
+  .num small { display: block; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-top: 8px; }
+  h2 { font-size: 24px; font-weight: 800; letter-spacing: -.01em; margin: 4px 0 6px; text-wrap: balance; }
+  .goal { color: var(--muted); margin: 0 0 18px; font-size: 15px; }
+  @media (max-width: 620px) {
+    section.step { grid-template-columns: 1fr; gap: 10px; }
+    .num { font-size: 40px; }
+  }
+
+  /* checklist */
+  ul.todo { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  ul.todo li {
+    display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start;
+    background: var(--card); border: 1px solid var(--line); padding: 13px 16px;
+  }
+  ul.todo input[type=checkbox] {
+    appearance: none; width: 20px; height: 20px; margin: 2px 0 0;
+    border: 2px solid var(--ink); background: var(--card); cursor: pointer; flex: none;
+  }
+  ul.todo input[type=checkbox]:checked { background: var(--accent); border-color: var(--accent); }
+  ul.todo input[type=checkbox]:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  ul.todo li.done { opacity: .55; }
+  ul.todo b { font-weight: 700; }
+
+  code {
+    font: 13.5px/1.5 ui-monospace, "SF Mono", Menlo, monospace;
+    background: var(--mono-bg); border: 1px solid var(--line);
+    padding: 1px 6px; border-radius: 3px; white-space: nowrap;
+  }
+  .say {
+    border-left: 3px solid var(--accent); background: var(--accent-soft);
+    padding: 10px 14px; margin: 14px 0 0; font-size: 15px;
+  }
+  .say b { text-transform: uppercase; font-size: 11px; letter-spacing: .12em; color: var(--accent-ink); display: block; margin-bottom: 2px; }
+
+  /* table */
+  .tblwrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 560px; }
+  th { text-align: left; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--ink); padding: 8px 12px 8px 0; }
+  td { border-bottom: 1px solid var(--line); padding: 10px 12px 10px 0; vertical-align: top; }
+  td:first-child { font-weight: 700; white-space: nowrap; }
+
+  /* rules */
+  ol.rules { margin: 0; padding: 0 0 0 0; list-style: none; counter-reset: r; display: flex; flex-direction: column; gap: 10px; }
+  ol.rules li { counter-increment: r; display: grid; grid-template-columns: 30px 1fr; gap: 10px; }
+  ol.rules li::before {
+    content: counter(r); font-weight: 800; color: var(--accent-ink);
+    font-size: 17px; font-variant-numeric: tabular-nums;
+  }
+
+  .dont { background: var(--danger-soft); border: 1px solid var(--line); padding: 18px 20px; }
+  .dont ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .dont li::marker { color: var(--danger); }
+  .dont b { color: var(--danger); }
+
+  footer { padding-top: 36px; color: var(--muted); font-size: 14px; }
+  footer code { white-space: normal; }
+  @media (prefers-reduced-motion: no-preference) {
+    ul.todo input[type=checkbox] { transition: background .15s, border-color .15s; }
+  }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">founder-ai · инструкция развёртывания</span>
+  <h1>Claude Code для собственника: от чистого Mac до рабочей системы</h1>
+  <p class="lede">Логика системы: <strong>приложение — руки, файлы — мозг.</strong> Всё, что ассистент знает о человеке и его бизнесе, лежит в обычных папках. Поэтому настройка — это 4 переключателя в приложении и macOS плюс раскладка правильных файлов. Дальше — по шагам, галочки кликаются.</p>
+  <div class="sysmap"><pre>
+Приложение Claude Code <span class="c">(залогинен, подписка)</span>
+│
+├── <span class="a">~/.claude/CLAUDE.md</span>   <span class="c">← «кто мой хозяин»: профиль, правила, память</span>
+│
+└── <span class="a">~/projects/</span>           <span class="c">← воркспейс: один проект = одна папка</span>
+    ├── CLAUDE.md         <span class="c">← стандарт: структура, inbox, дашборды</span>
+    ├── START.md          <span class="c">← ритуал + первые 10 промптов</span>
+    ├── clinic/           <span class="c">← бизнес: CLAUDE.md · inbox/ · dashboard/ · docs/</span>
+    └── personal/         <span class="c">← личное</span></pre></div>
+</header>
+
+<section class="step">
+  <div class="num">1<small>~15 мин</small></div>
+  <div>
+    <h2>Приложение</h2>
+    <p class="goal">Поставить, залогинить, объяснить один принцип запуска.</p>
+    <ul class="todo">
+      <li><input type="checkbox" id="c1"><label for="c1"><b>Установить.</b> claude.ai/download → Claude для macOS. Работаем во вкладке <b>Code</b> — это режим папок и файлов, не обычный чат</label></li>
+      <li><input type="checkbox" id="c2"><label for="c2"><b>Подписка.</b> Аккаунт клиента, тариф Pro ($20). Упёрся в лимиты при ежедневной работе — апгрейд на Max ($100). Для РФ — оплата по <code>rf-access.md</code></label></li>
+      <li><input type="checkbox" id="c3"><label for="c3"><b>Обновления.</b> Правило: видишь внизу «Relaunch to update» — жми</label></li>
+      <li><input type="checkbox" id="c4"><label for="c4"><b>Запуск работы.</b> New session → выбрать папку проекта, например <code>~/projects/clinic</code></label></li>
+    </ul>
+    <div class="say"><b>Вбить клиенту</b>Одна сессия = один проект = одна папка. Новая тема или новый день — новая сессия. Контекст не потеряется: он в файлах.</div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="num">2<small>~10 мин</small></div>
+  <div>
+    <h2>macOS</h2>
+    <p class="goal">Диктовка — главный инструмент собственника: говорить быстрее, чем печатать.</p>
+    <ul class="todo">
+      <li><input type="checkbox" id="c5"><label for="c5"><b>Диктовка.</b> System Settings → Keyboard → Dictation → On. Язык — русский (+ английский). Шорткат — <b>дважды Fn</b>. Проверка: курсор в чат → Fn Fn → «посчитай выручку за март» → текст появился</label></li>
+      <li><input type="checkbox" id="c6"><label for="c6"><b>Доступ к папкам.</b> macOS спросит доступ к Documents/Desktop — разрешить. Full Disk Access не нужен</label></li>
+      <li><input type="checkbox" id="c7"><label for="c7"><b>Finder.</b> Settings → Sidebar → включить домашнюю папку; перетащить <code>projects</code> в сайдбар. Клиент должен уметь докинуть файл в <code>inbox/</code> перетаскиванием — это его основной жест</label></li>
+    </ul>
+  </div>
+</section>
+
+<section class="step">
+  <div class="num">3</div>
+  <div>
+    <h2>Поведение в приложении</h2>
+    <p class="goal">Три вещи, которые снимают страх и дают контроль.</p>
+    <ol class="rules">
+      <li><b>Разрешения.</b> Claude спрашивает перед правкой файлов и командами. Правки в <code>~/projects</code> — разрешать («Allow always»). Незнакомая команда — спросить в чате: «объясни по-простому, что сделает эта команда». Это не формальность, а контроль над системой</li>
+      <li><b>Терминал не нужен.</b> Всё через чат. Исключение — если Claude сам попросит нажать Enter в терминале справа</li>
+      <li><b>Результат не тот</b> — не начинать заново, а сказать: «получилось не то, я хотел X». Переделка — нормальный цикл, не ошибка</li>
+    </ol>
+  </div>
+</section>
+
+<section class="step">
+  <div class="num">4<small>~5 мин</small></div>
+  <div>
+    <h2>Раскладка воркспейса</h2>
+    <p class="goal">Из starter-kit — два перемещения и проверка, что система жива.</p>
+    <ul class="todo">
+      <li><input type="checkbox" id="c8"><label for="c8"><code>starter-kit/projects/</code> → <code>~/projects/</code></label></li>
+      <li><input type="checkbox" id="c9"><label for="c9"><code>starter-kit/home-claude/CLAUDE.md</code> → <code>~/.claude/CLAUDE.md</code></label></li>
+      <li><input type="checkbox" id="c10"><label for="c10"><b>Проверка:</b> новая сессия в <code>~/projects/clinic</code> → «что ты знаешь про мой бизнес?» → Claude пересказывает контекст из файлов. Пересказал — система жива</label></li>
+    </ul>
+  </div>
+</section>
+
+<section class="step">
+  <div class="num">5</div>
+  <div>
+    <h2>Наработки: что именно передаём</h2>
+    <p class="goal">Ядро продукта. Не «настроили чат» — перенесли рабочую систему, обкатанную на своих проектах.</p>
+    <div class="tblwrap">
+    <table>
+      <tr><th>Наработка</th><th>Где живёт у клиента</th><th>Суть</th></tr>
+      <tr><td>Два уровня контекста</td><td><code>~/.claude/CLAUDE.md</code> + <code>проект/CLAUDE.md</code></td><td>Человек отдельно, бизнес отдельно. Ассистент всегда знает, с кем говорит и про что</td></tr>
+      <tr><td>Структура проекта</td><td><code>~/projects/CLAUDE.md</code>, <code>_template/</code></td><td>README + CLAUDE.md + inbox/ + dashboard/ + docs/. Новый проект = копия шаблона</td></tr>
+      <tr><td>Inbox-дисциплина</td><td>правило воркспейса</td><td>Всё входящее — сначала в <code>inbox/</code>, потом «разбери». Не пересказывать таблицы словами</td></tr>
+      <tr><td>Память</td><td>секция «Текущее» + «запомни: …»</td><td>Итоги работы дописываются в CLAUDE.md — контекст не теряется между сессиями</td></tr>
+      <tr><td>Правила задач</td><td><code>~/.claude/CLAUDE.md</code></td><td>5 правил Карпати в переводе для собственника — ниже</td></tr>
+      <tr><td>Безопасность</td><td><code>~/.claude/CLAUDE.md</code></td><td>Персданные пациентов — никогда; удаление и отправка — только с явного «да»</td></tr>
+      <tr><td>Дашборды</td><td><code>проект/dashboard/</code></td><td>Выгрузка в <code>data/</code> → «обнови дашборд». Локальный HTML, без интернета</td></tr>
+      <tr><td>Ритуал</td><td><code>START.md</code></td><td>15 минут утром, один вопрос в день, 10 готовых промптов</td></tr>
+    </table>
+    </div>
+    <div class="say"><b>Правила задач — зашиты в личный CLAUDE.md</b>
+      1&nbsp;· Просьба неоднозначна → ассистент сначала озвучивает, как понял.&ensp;
+      2&nbsp;· Большая задача → план и «готово, когда X».&ensp;
+      3&nbsp;· Делать только то, что просили.&ensp;
+      4&nbsp;· Две неудачи подряд → стоп и разбор, не третья попытка вслепую.&ensp;
+      5&nbsp;· «Сделал» = показал доказательство, а не «должно работать».
+    </div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="num">6<small>~60 мин</small></div>
+  <div>
+    <h2>Первый час: сценарий по ценности</h2>
+    <p class="goal">Порядок принципиальный: сначала польза на его данных, объяснения по ходу. Не наоборот.</p>
+    <ol class="rules">
+      <li><b>Дашборд за 10 минут.</b> Его выгрузка из МИС/CRM → перетащить в <code>clinic/dashboard/data/</code> → «собери дашборд по этим данным» → открылась страница с его цифрами. Момент «понял»</li>
+      <li><b>Инсайты.</b> «Какие 3 вещи в этих цифрах заслуживают внимания?» — разговор о бизнесе, не о технологии</li>
+      <li><b>Знакомство по ходу.</b> Теперь Claude уточняет контекст (кто, цель года, услуги) — и клиент видит, зачем отвечает: каждый ответ ложится в CLAUDE.md, ответы ассистента становятся точнее на глазах</li>
+      <li><b>Первая боль.</b> Одна реальная задача из его списка — от формулировки до результата</li>
+      <li><b>Ритуал.</b> Показать <code>START.md</code>: «завтра утром — 15 минут, вот первый вопрос»</li>
+    </ol>
+  </div>
+</section>
+
+<section class="step">
+  <div class="num">7</div>
+  <div>
+    <h2>Чего не делать</h2>
+    <div class="dont">
+      <ul>
+        <li><b>Персональные данные пациентов</b> (ФИО, телефоны, диагнозы) ассистенту не давать — выгрузки обезличивать</li>
+        <li><b>Не подтверждать удаление,</b> если непонятно, что удаляется</li>
+        <li><b>Не вести всё в одной сессии</b> неделями — контекст «протухает»; новая тема = новая сессия</li>
+        <li><b>Не пересказывать таблицы словами</b> — файл в <code>inbox/</code>, потом вопрос</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Мастер-инструкция продукта founder-ai. Источник: <code>docs/claude-code-setup.md</code> · тур клиента: <code>starter-kit/projects/ONBOARDING.md</code>. Агенту, разворачивающему систему: следовать шагам 1–7 по порядку; критерий готовности — клиент сам открыл сессию в проекте, задал вопрос по своим данным и получил ответ.
+</footer>
+</div>
+
+<script>
+  document.querySelectorAll('ul.todo input').forEach(cb => {
+    const key = 'fai-setup-' + cb.id;
+    if (localStorage.getItem(key) === '1') { cb.checked = true; cb.closest('li').classList.add('done'); }
+    cb.addEventListener('change', () => {
+      localStorage.setItem(key, cb.checked ? '1' : '0');
+      cb.closest('li').classList.toggle('done', cb.checked);
+    });
+  });
+</script>
+
+</body>
+</html>
