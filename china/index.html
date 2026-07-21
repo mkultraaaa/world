@@ -257,13 +257,40 @@ body::after{
 .rv.on{opacity:1;transform:none}
 
 @media (max-width:860px){
-  .ch-head{grid-template-columns:1fr;gap:.6rem}
-  .ch-body{grid-template-columns:1fr;gap:2rem}
-  .ph-grid{grid-template-columns:1fr;padding:0 4vw}
+  body{font-size:15px}
+  .hero-inner{padding-bottom:7vh}
+  .hero-vert{right:6vw;top:5vh;font-size:2.4rem;letter-spacing:.2em}
+  .hero-kicker{font-size:.68rem;letter-spacing:.22em}
+  .hero-sub{font-size:.95rem}
+  .route-strip{padding:.8rem 5vw;font-size:.7rem;letter-spacing:.08em;gap:.3rem .8rem}
+  .route-strip .rs-days{margin-left:0;width:100%}
+  .manifesto{padding:11vh 6vw}
+  .manifesto p{font-size:1.45rem;line-height:1.4}
+  .chapter{padding-top:8vh}
+  .ch-head{grid-template-columns:1fr;gap:.4rem;margin-bottom:3.5vh}
+  .ch-num{font-size:3.4rem;-webkit-text-stroke:1px var(--faint)}
+  .ch-meta h2{font-size:2.5rem}
+  .ch-tag{font-size:.66rem;padding:.28rem .8rem;letter-spacing:.2em}
+  .ch-days{font-size:.66rem}
+  .ch-body{grid-template-columns:1fr;gap:1.6rem;margin-bottom:4.5vh}
+  .ch-desc{font-size:.98rem}
+  .ch-list li{font-size:.9rem;gap:.7rem}
+  .ph-grid{grid-template-columns:1fr;padding:0 4vw;gap:8px}
   .ph-grid .ph{grid-column:1/-1 !important;aspect-ratio:4/3}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .hero-vert{right:6vw;font-size:2.6rem}
-  .route-strip .rs-days{margin-left:0}
+  .ph .cap{opacity:1;transform:none;font-size:.64rem;padding:1.6rem .9rem .7rem}
+  .transfer{padding:6vh 6vw;font-size:.66rem;letter-spacing:.18em;text-align:center;line-height:1.9}
+  .itin{padding:8vh 5vw 3vh}
+  .itin-head{margin-bottom:2.6rem}
+  .itin-head p{font-size:.68rem;letter-spacing:.2em}
+  .it-city{padding:.8rem 0}
+  .it-city span{font-size:1.25rem}
+  .it-city span i{font-size:.72rem;margin-left:.45rem;letter-spacing:.15em}
+  .it-city b{font-size:.68rem;letter-spacing:.16em}
+  .it-move{font-size:.66rem;letter-spacing:.12em;padding:.5rem 0 .5rem 1.1rem}
+  .finale{padding:11vh 6vw 5vh}
+  .stats{grid-template-columns:repeat(2,1fr);margin-top:6vh}
+  .stat{padding:1.4rem .8rem}
+  .foot{font-size:.66rem;gap:.7rem;flex-direction:column;align-items:center;text-align:center}
 }
 </style>
 </head>
@@ -274,7 +301,7 @@ body::after{
   <div class="hero-bg" style="--hero-img:url('img/hero-li-river.jpg')"></div>
   <div class="hero-vert">中<b>国</b>之旅</div>
   <div class="hero-inner">
-    <div class="hero-kicker">30 июля — 13 августа 2026 · соло</div>
+    <div class="hero-kicker">30 июля — 13 августа 2026 · вдвоём</div>
     <h1>Китай.<br>Семь <em>миров</em><br>одного пути</h1>
     <p class="hero-sub">Две недели через страну, где каждый следующий город — другая планета: от города будущего до чайных гор Феникса, от древнего города на водопаде до неонового Бунда.</p>
   </div>
@@ -530,7 +557,7 @@ body::after{
     <div class="stat"><b>∞</b><span>чая и димсамов</span></div>
   </div>
   <div class="foot">
-    <span>Максим Соловьёв · лето 2026</span>
+    <span>Макс + Юля · лето 2026</span>
     <span class="zh">一路平安</span>
     <span>Москва → 中国 → Москва</span>
   </div>
