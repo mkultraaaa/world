@@ -253,6 +253,12 @@
   .money .mv{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:800;color:var(--accent);margin-bottom:10px}
   .money h3{margin:0 0 8px;font-size:18px;font-weight:700}
   .money p{margin:0;color:var(--muted);font-size:14px;line-height:1.55}
+  .fo-bar{margin-top:26px;border:1px solid rgba(255,179,0,.35);background:linear-gradient(90deg,rgba(255,179,0,.07),transparent 55%);display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;padding:34px 40px}
+  .fo-tag{font-family:'JetBrains Mono',monospace;font-size:12px;color:#ffb300;letter-spacing:.08em;margin-bottom:10px}
+  .fo-btn{border-color:rgba(255,179,0,.5)}
+  .fo-btn:hover{border-color:#ffb300;color:#ffb300}
+  .fo-bar h3{margin:0 0 10px;font-size:24px;font-weight:800;letter-spacing:-.01em}
+  .fo-bar p{margin:0;color:var(--muted);font-size:15px;line-height:1.55;max-width:760px}
   .prod-shot img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;filter:brightness(.85) saturate(.96);transition:filter .35s ease}
   a.prod:hover .prod-shot img{filter:brightness(1) saturate(1)}
 
@@ -342,6 +348,7 @@
     .hs:nth-last-child(-n+1){border-bottom:none}
     .sec-head{grid-template-columns:1fr;gap:20px}
     .problem-grid,.cases,.products,.money-grid{grid-template-columns:1fr}
+    .fo-bar{grid-template-columns:1fr;padding:26px}
     .founder-wrap{grid-template-columns:1fr}
     .services{grid-template-columns:1fr}
     .svc{border-right:none}
@@ -510,6 +517,15 @@
         </ul>
       </div>
 
+    </div>
+
+    <div class="fo-bar">
+      <div>
+        <div class="fo-tag">05 / FOUNDER ONBOARDING</div>
+        <h3 data-en="Founder immersion &amp; onboarding">Погружение и онбординг собственника</h3>
+        <p data-en="A separate format — not about the company's processes, but about you personally: we assemble your own AI stack (assistants, agents, voice input, memory), move your daily work onto it and teach you to live in it. A month later you run the business with an AI team — the way we do.">Отдельный формат — не про процессы компании, а про вас лично: собираем ваш личный AI-стек (ассистенты, агенты, голосовой ввод, память), переносим на него ваши задачи и учим этим жить. Через месяц вы управляете бизнесом с AI-командой — как мы.</p>
+      </div>
+      <a class="btn-ghost fo-btn" href="https://msolo.me/founder-ai" target="_blank" rel="noopener" data-en="About the format →">Подробнее о формате →</a>
     </div>
   </div>
 </section>
