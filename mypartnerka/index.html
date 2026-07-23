@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Моя Партнёрка — своя партнёрская программа за копейки</title>
+<meta name="description" content="Своя партнёрская программа для малого бизнеса за копейки: реф-ссылки, кабинет партнёра и аналитика. Запуск за час, 1 партнёр бесплатно. Развернём под ключ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4EFE3;
+  --paper-2:#EFE8D8;
+  --ink:#17140D;
+  --ink-soft:#544E3E;
+  --line:rgba(23,20,13,.16);
+  --line-strong:rgba(23,20,13,.34);
+  --go:#0E7A4E;        /* деньги / легально / go */
+  --go-bright:#12B76A;
+  --stamp:#C33A26;     /* штамп */
+  --card:#FBF8F0;
+  --radius:18px;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --sans:"Onest",system-ui,sans-serif;
+  --disp:"Unbounded","Onest",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:17px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+/* бумажная фактура */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply;
+}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--disp);font-weight:800;letter-spacing:-.02em;line-height:1.02;margin:0}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--go)}
+.dash{border:0;border-top:1.5px dashed var(--line-strong);margin:0}
+
+/* ---------- NAV ---------- */
+nav{position:sticky;top:0;z-index:40;background:rgba(244,239,227,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.03em;display:flex;align-items:center;gap:9px}
+.logo b{color:var(--go)}
+.logo .tick{width:22px;height:22px;border:2px solid var(--ink);border-radius:6px;display:grid;place-items:center;font-family:var(--mono);font-size:13px;color:var(--go);transform:rotate(-4deg)}
+.nav-links{display:flex;gap:30px;font-size:15px;color:var(--ink-soft)}
+.nav-links a:hover{color:var(--ink)}
+@media(max-width:820px){.nav-links{display:none}}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:600;font-size:15px;
+  padding:11px 20px;border-radius:12px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);
+  cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;white-space:nowrap}
+.btn:hover{transform:translateY(-2px);box-shadow:4px 6px 0 var(--go)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:none}
+.btn.ghost:hover{box-shadow:4px 6px 0 var(--line-strong)}
+.btn.go{background:var(--go);border-color:var(--go)}
+.btn.go:hover{box-shadow:4px 6px 0 var(--ink)}
+
+/* ---------- HERO ---------- */
+.hero{padding:74px 0 40px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:56px;align-items:center}
+@media(max-width:940px){.hero-grid{grid-template-columns:1fr;gap:40px}}
+.hero h1{font-size:clamp(38px,6vw,66px)}
+.hero h1 .u{color:var(--go);position:relative;white-space:nowrap}
+.hero h1 .u::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.14em;background:var(--go-bright);opacity:.28;z-index:-1;border-radius:4px}
+.hero p.lead{font-size:20px;color:var(--ink-soft);max-width:33ch;margin:22px 0 30px}
+.hero .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+.trust{display:flex;flex-wrap:wrap;gap:8px 8px;margin-top:26px}
+.chip{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--ink-soft);
+  border:1px solid var(--line-strong);border-radius:999px;padding:6px 13px;background:var(--paper-2)}
+.chip b{color:var(--go);font-weight:700}
+
+/* receipt card */
+.receipt{background:var(--card);border-radius:var(--radius);position:relative;
+  box-shadow:0 26px 60px -24px rgba(23,20,13,.4), 0 2px 0 rgba(23,20,13,.06);
+  padding:26px 26px 30px;border:1px solid var(--line)}
+.receipt::before,.receipt::after{content:"";position:absolute;left:0;right:0;height:14px;background:
+  radial-gradient(circle at 10px -3px, transparent 8px, var(--card) 8.5px) repeat-x;background-size:20px 14px}
+.receipt::before{top:-11px;transform:rotate(180deg)}
+.receipt::after{bottom:-11px}
+.r-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.r-head .t{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.r-head .id{font-family:var(--mono);font-size:12px;color:var(--go)}
+.r-title{font-family:var(--disp);font-weight:600;font-size:20px;margin:8px 0 16px}
+.r-row{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:14px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.r-row span:first-child{color:var(--ink-soft)}
+.r-row b{font-weight:700}
+.r-row .up{color:var(--go)}
+.r-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;padding-top:14px;border-top:2px solid var(--ink)}
+.r-total .lbl{font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:.12em}
+.r-total .val{font-family:var(--disp);font-weight:800;font-size:30px;color:var(--go)}
+.stamp{position:absolute;right:-14px;bottom:38px;transform:rotate(-13deg);
+  border:2.5px solid var(--stamp);color:var(--stamp);border-radius:10px;padding:7px 12px 6px;
+  font-family:var(--mono);font-weight:700;font-size:11px;line-height:1.15;text-align:center;letter-spacing:.08em;
+  background:rgba(195,58,38,.05);text-transform:uppercase;box-shadow:0 3px 0 rgba(195,58,38,.14)}
+.stamp b{font-size:14px;display:block}
+
+/* ---------- MARQUEE / problem ---------- */
+.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper-2);margin-top:44px}
+.strip .wrap{display:grid;grid-template-columns:repeat(3,1fr)}
+.stat{padding:30px 24px;text-align:center;border-left:1px dashed var(--line)}
+.stat:first-child{border-left:0}
+.stat .big{font-family:var(--disp);font-weight:800;font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;line-height:1}
+.stat .big.go{color:var(--go)}
+.stat .cap{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);margin-top:9px;letter-spacing:.02em}
+@media(max-width:720px){.strip .wrap{grid-template-columns:1fr}.stat{border-left:0;border-top:1px dashed var(--line);padding:22px}.stat:first-child{border-top:0}}
+
+/* ---------- SECTION shells ---------- */
+section{padding:88px 0;position:relative}
+.sec-head{max-width:640px;margin-bottom:48px}
+.sec-head h2{font-size:clamp(30px,4.4vw,46px)}
+.sec-head p{color:var(--ink-soft);font-size:19px;margin-top:16px}
+
+/* problem cards */
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:860px){.pains{grid-template-columns:1fr}}
+.pain{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.pain .n{font-family:var(--mono);font-size:12px;color:var(--stamp);letter-spacing:.14em}
+.pain h3{font-family:var(--disp);font-weight:600;font-size:21px;margin:12px 0 10px}
+.pain p{color:var(--ink-soft);font-size:16px;margin:0}
+.pain .old{font-family:var(--mono);font-size:13px;color:var(--stamp);margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}
+
+/* how it works */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--card)}
+@media(max-width:860px){.steps{grid-template-columns:1fr}}
+.step{padding:34px 30px;border-right:1px dashed var(--line);position:relative}
+.step:last-child{border-right:0}
+@media(max-width:860px){.step{border-right:0;border-bottom:1px dashed var(--line)}.step:last-child{border-bottom:0}}
+.step .num{font-family:var(--disp);font-weight:800;font-size:44px;color:var(--line-strong);line-height:1}
+.step h3{font-family:var(--disp);font-weight:600;font-size:20px;margin:14px 0 10px}
+.step p{color:var(--ink-soft);font-size:16px;margin:0}
+.step .tag{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--go);border:1px solid var(--go);border-radius:999px;padding:4px 10px}
+
+/* killer payouts */
+.killer{background:var(--ink);color:var(--paper);border-radius:26px;padding:56px;position:relative;overflow:hidden}
+.killer::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");pointer-events:none}
+.killer-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;position:relative;z-index:2}
+@media(max-width:900px){.killer{padding:38px}.killer-grid{grid-template-columns:1fr;gap:34px}}
+.killer .eyebrow{color:var(--go-bright)}
+.killer h2{color:var(--paper);font-size:clamp(28px,4vw,42px);margin:16px 0 18px}
+.killer p{color:#D8D2C2;font-size:18px;max-width:46ch}
+.killer ul{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:12px}
+.killer li{font-family:var(--sans);font-size:16px;display:flex;gap:12px;align-items:flex-start;color:#EDE8DA}
+.killer li i{color:var(--go-bright);font-style:normal;font-family:var(--mono);font-weight:700;margin-top:1px}
+.payout-card{background:var(--card);color:var(--ink);border-radius:var(--radius);padding:24px;position:relative}
+.payout-card .pc-h{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px}
+.payout-card .pc-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:14px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.payout-card .pc-row b{color:var(--go)}
+.pc-stamp{margin-top:18px;border:2.5px dashed var(--go);color:var(--go);border-radius:10px;text-align:center;
+  font-family:var(--mono);font-weight:700;font-size:13px;padding:12px;letter-spacing:.08em;text-transform:uppercase}
+.pc-stamp b{display:block;font-size:16px;font-family:var(--disp)}
+.by{margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-align:center}
+
+/* features */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:860px){.feat{grid-template-columns:1fr}}
+.f{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
+.f .ic{width:40px;height:40px;border:1.5px solid var(--ink);border-radius:10px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;color:var(--go);margin-bottom:16px;transform:rotate(-3deg)}
+.f h3{font-family:var(--disp);font-weight:600;font-size:18px;margin:0 0 8px}
+.f p{color:var(--ink-soft);font-size:15px;margin:0}
+
+/* cabinet mockup */
+.window{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 44px 90px -44px rgba(23,20,13,.55)}
+.win-bar{display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--paper-2)}
+.win-dots{display:flex;gap:7px}
+.win-dots i{width:11px;height:11px;border-radius:50%;background:var(--line-strong);display:block}
+.win-url{flex:1;font-family:var(--mono);font-size:12px;color:var(--ink-soft);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:6px 12px;text-align:center}
+.app{padding:24px;display:grid;gap:18px}
+@media(max-width:560px){.app{padding:16px}}
+.app-top{display:flex;justify-content:space-between;align-items:center}
+.app-top .brand{font-family:var(--disp);font-weight:700;font-size:15px;display:flex;gap:8px;align-items:center}
+.app-hello{font-family:var(--disp);font-weight:600;font-size:22px}
+.reflink{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--paper-2);border:1px dashed var(--line-strong);border-radius:12px;padding:12px 14px}
+.reflink code{font-family:var(--mono);font-size:14px;color:var(--go);flex:1;min-width:160px}
+.reflink .cp{font-family:var(--mono);font-size:12px;font-weight:700;border:1.5px solid var(--ink);border-radius:8px;padding:6px 12px;background:var(--ink);color:var(--paper);cursor:pointer}
+.cond{display:flex;gap:8px;flex-wrap:wrap}
+.cond span{font-family:var(--mono);font-size:11px;border:1px solid var(--line-strong);border-radius:999px;padding:5px 11px;color:var(--ink-soft)}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:720px){.tiles{grid-template-columns:repeat(2,1fr)}}
+.tile{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px}
+.tile .k{font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em}
+.tile .v{font-family:var(--disp);font-weight:800;font-size:24px;margin-top:6px}
+.tile .v.go{color:var(--go)}
+.app-cols{display:grid;grid-template-columns:1.4fr .9fr;gap:16px}
+@media(max-width:720px){.app-cols{grid-template-columns:1fr}}
+.chart{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px}
+.chart .ct{font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:104px}
+.bars i{flex:1;background:var(--go);border-radius:5px 5px 0 0;opacity:.85;display:block}
+.bal{background:var(--ink);color:var(--paper);border-radius:12px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+.bal .k{font-family:var(--mono);font-size:11px;color:#C9C3B4;text-transform:uppercase;letter-spacing:.08em}
+.bal .v{font-family:var(--disp);font-weight:800;font-size:30px;margin:8px 0 0;color:var(--go-bright)}
+.bal .wbtn{text-align:center;font-family:var(--sans);font-weight:600;font-size:14px;background:var(--go);color:#fff;border-radius:10px;padding:11px}
+.mini-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+@media(max-width:720px){.mini-steps{grid-template-columns:1fr}}
+.mini-steps .ms{font-size:15px;color:var(--ink-soft)}
+.mini-steps .ms b{font-family:var(--disp);color:var(--go);font-size:18px;margin-right:6px}
+
+/* turnkey band */
+.turnkey-band{display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap;background:var(--card);border:1px dashed var(--line-strong);border-radius:var(--radius);padding:30px 34px}
+.turnkey-band h3{font-family:var(--disp);font-weight:700;font-size:clamp(21px,3vw,29px);margin:10px 0 8px;letter-spacing:-.01em}
+.turnkey-band p{color:var(--ink-soft);font-size:16px;margin:0;max-width:54ch}
+
+/* compare */
+.cmp{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--card)}
+.cmp table{width:100%;border-collapse:collapse;font-size:15px}
+.cmp th,.cmp td{padding:16px 18px;text-align:left;border-bottom:1px dashed var(--line)}
+.cmp thead th{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);background:var(--paper-2)}
+.cmp thead th.us{color:var(--go);border-bottom:2px solid var(--go)}
+.cmp td.us{font-weight:600}
+.cmp .y{color:var(--go);font-family:var(--mono);font-weight:700}
+.cmp .n{color:var(--stamp);font-family:var(--mono)}
+.cmp tr:last-child td{border-bottom:0}
+.cmp-scroll{overflow-x:auto}
+
+/* pricing */
+.price-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+@media(max-width:980px){.price-wrap{grid-template-columns:1fr}}
+.price{background:var(--card);border:1.5px solid var(--ink);border-radius:var(--radius);padding:34px;position:relative}
+.price.free{background:var(--ink);color:var(--paper)}
+.price .tier{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--go-bright)}
+.price.free .tier{color:var(--go-bright)}
+.price .amt{font-family:var(--disp);font-weight:800;font-size:52px;margin:12px 0 2px;line-height:1}
+.price .per{font-family:var(--mono);font-size:14px;color:var(--ink-soft)}
+.price.free .per{color:#C9C3B4}
+.price ul{list-style:none;padding:0;margin:22px 0 26px;display:grid;gap:11px;font-size:15px}
+.price li{display:flex;gap:10px}.price li i{color:var(--go);font-style:normal;font-family:var(--mono);font-weight:700}
+.price.free li i{color:var(--go-bright)}
+.anchor{font-family:var(--mono);font-size:13px;color:var(--ink-soft);margin-top:16px}
+.anchor s{color:var(--stamp)}
+
+/* CTA form */
+.cta{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cta-inner{display:grid;grid-template-columns:1fr .9fr;gap:48px;align-items:center}
+@media(max-width:860px){.cta-inner{grid-template-columns:1fr;gap:30px}}
+.cta h2{font-size:clamp(28px,4vw,44px)}
+.cta p{color:var(--ink-soft);font-size:18px;margin-top:14px}
+form.wl{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;display:grid;gap:14px;box-shadow:0 20px 50px -30px rgba(23,20,13,.5)}
+form.wl label{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+form.wl input{width:100%;padding:13px 15px;border:1.5px solid var(--line-strong);border-radius:11px;background:var(--paper);font-family:var(--sans);font-size:16px;color:var(--ink)}
+form.wl input:focus{outline:none;border-color:var(--go)}
+.wl-ok{display:none;font-family:var(--mono);font-size:14px;color:var(--go);border:1.5px dashed var(--go);border-radius:11px;padding:14px;text-align:center}
+
+/* footer */
+footer{padding:44px 0 60px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;align-items:center;color:var(--ink-soft);font-size:14px}
+footer .logo{color:var(--ink)}
+
+/* reveal */
+.rev{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.rev.in{opacity:1;transform:none}
+.hero .rev{transition-delay:calc(var(--i,0)*90ms)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top"><span class="tick">✓</span>Моя&nbsp;<b>Партнёрка</b></a>
+    <div class="nav-links">
+      <a href="#how">Как работает</a>
+      <a href="#cabinet">Кабинет</a>
+      <a href="#payouts">Выплаты</a>
+      <a href="#compare">Сравнение</a>
+      <a href="#price">Цена</a>
+    </div>
+    <a class="btn" href="#join">Запустить партнёрку</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow rev" style="--i:0">Партнёрская программа для малого бизнеса</div>
+      <h1 class="rev" style="--i:1">Своя <span class="u">партнёрка</span> — быстро и за копейки</h1>
+      <p class="lead rev" style="--i:2">Реф-ссылки, кабинет партнёра и аналитика. Запустите свою программу за час — без разработчиков.</p>
+      <div class="cta-row rev" style="--i:3">
+        <a class="btn go" href="#join">Запустить партнёрку →</a>
+        <a class="btn ghost" href="#turnkey">Развернуть под ключ</a>
+      </div>
+      <div class="trust rev" style="--i:4">
+        <span class="chip">до 5 партнёров — <b>бесплатно</b></span>
+        <span class="chip">дальше от <b>1 450 ₽/мес</b></span>
+        <span class="chip">запуск за <b>1 час</b></span>
+        <span class="chip">развернём <b>под ключ</b></span>
+      </div>
+    </div>
+
+    <div class="receipt rev" style="--i:3">
+      <div class="r-head">
+        <span class="t">Кабинет партнёра</span>
+        <span class="id">#PTR-0428</span>
+      </div>
+      <div class="r-title">Статистика · июль</div>
+      <div class="r-row"><span>Переходы по ссылке</span><b>1 240</b></div>
+      <div class="r-row"><span>Регистрации</span><b>86</b></div>
+      <div class="r-row"><span>Оплатили</span><b class="up">31</b></div>
+      <div class="r-row"><span>Ставка</span><b>15%</b></div>
+      <div class="r-total">
+        <span class="lbl">К выводу</span>
+        <span class="val mono">18 400 ₽</span>
+      </div>
+      <div class="stamp">Готово<b>1 ЧАС</b>без кода</div>
+    </div>
+  </div>
+</header>
+
+<div class="strip">
+  <div class="wrap">
+    <div class="stat"><div class="big go">×6</div><div class="cap">дешевле готовых платформ</div></div>
+    <div class="stat"><div class="big">1 час</div><div class="cap">на запуск, без кода</div></div>
+    <div class="stat"><div class="big go">0 ₽</div><div class="cap">старт — бесплатно</div></div>
+  </div>
+</div>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <div class="eyebrow">В чём боль</div>
+      <h2>Партнёрка нужна каждому. Развернуть её — мучение</h2>
+    </div>
+    <div class="pains">
+      <div class="pain rev"><div class="n">01</div><h3>Инструменты дорогие</h3><p>Готовые платформы берут абонплату за огромный функционал, из которого малому бизнесу нужны ссылки, учёт и кабинет.</p><div class="old">Готовые платформы — от 9 900 ₽/мес</div></div>
+      <div class="pain rev"><div class="n">02</div><h3>Долго и сложно</h3><p>Настройка, интеграции, менеджеры, недели на запуск. А хочется взять и включить сегодня.</p><div class="old">запуск — дни и недели</div></div>
+      <div class="pain rev"><div class="n">03</div><h3>Своё писать — долго</h3><p>Заказать разработку кабинета партнёра — это месяцы и сотни тысяч. Ради простого трекинга ссылок и учёта.</p><div class="old">разработка · месяцы · дорого</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <div class="eyebrow">Как работает</div>
+      <h2>Три шага от ссылки до выплаты</h2>
+      <p>Никакой интеграции на недели. Создаёте программу — партнёры уже зарабатывают.</p>
+    </div>
+    <div class="steps rev">
+      <div class="step"><div class="num">1</div><h3>Создаёте программу</h3><p>Задаёте правило вознаграждения — процент или фикс, окно начисления, минимум к выводу. Гибко под ваш бизнес.</p><span class="tag">2 минуты</span></div>
+      <div class="step"><div class="num">2</div><h3>Партнёр получает кабинет</h3><p>Персональная реф-ссылка и личный кабинет: переходы, регистрации, оплаты, начисления и баланс — прозрачно.</p><span class="tag">ссылка + аналитика</span></div>
+      <div class="step"><div class="num">3</div><h3>Платите за результат</h3><p>Партнёр запрашивает вывод, вы видите точную сумму и платите. Нужно легально — поможем оформить выплату самозанятому.</p><span class="tag">учёт до копейки</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="cabinet" style="padding-top:24px">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <div class="eyebrow">Кабинет партнёра</div>
+      <h2>Раз, два — и партнёр всё видит сам</h2>
+      <p>Персональная ссылка и все условия — за пару минут. Дальше партнёр просто следит за статистикой и запрашивает вывод. Никаких вопросов вам «а сколько я заработал?».</p>
+    </div>
+    <div class="window rev">
+      <div class="win-bar"><div class="win-dots"><i></i><i></i><i></i></div><div class="win-url">app.mypartnerka.ru</div></div>
+      <div class="app">
+        <div class="app-top">
+          <div class="brand"><span class="tick" style="width:20px;height:20px;font-size:11px">✓</span>Моя Партнёрка</div>
+          <div style="font-family:var(--mono);font-size:12px;color:var(--ink-soft)">Ирина К. · партнёр</div>
+        </div>
+        <div>
+          <div class="app-hello">Добрый день, Ирина 👋</div>
+          <div style="color:var(--ink-soft);font-size:14px;margin-top:2px">Программа: NeuroGate · вознаграждение 15%</div>
+        </div>
+        <div class="reflink">
+          <code>neurogate.ru/?ref=irina-k</code>
+          <span class="cp">Скопировать</span>
+        </div>
+        <div class="cond">
+          <span>ставка 15%</span><span>начисление до 24 мес</span><span>вывод от 5 000 ₽</span><span>cookie 90 дней</span>
+        </div>
+        <div class="tiles">
+          <div class="tile"><div class="k">Переходы</div><div class="v">1 240</div></div>
+          <div class="tile"><div class="k">Регистрации</div><div class="v">86</div></div>
+          <div class="tile"><div class="k">Оплатили</div><div class="v go">31</div></div>
+          <div class="tile"><div class="k">Начислено</div><div class="v go">18 400 ₽</div></div>
+        </div>
+        <div class="app-cols">
+          <div class="chart">
+            <div class="ct">Доход по месяцам</div>
+            <div class="bars"><i style="height:30%"></i><i style="height:46%"></i><i style="height:38%"></i><i style="height:64%"></i><i style="height:80%"></i><i style="height:100%"></i></div>
+          </div>
+          <div class="bal">
+            <div><div class="k">Баланс к выводу</div><div class="v">18 400 ₽</div></div>
+            <div class="wbtn">Вывести деньги</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mini-steps rev">
+      <div class="ms"><b>1.</b> Получает персональную ссылку и условия</div>
+      <div class="ms"><b>2.</b> Делится ей в канале, чате или с друзьями</div>
+      <div class="ms"><b>3.</b> Видит доход в реальном времени и выводит</div>
+    </div>
+  </div>
+</section>
+
+<section id="payouts">
+  <div class="wrap">
+    <div class="killer rev">
+      <div class="killer-grid">
+        <div>
+          <div class="eyebrow">Выплаты партнёрам</div>
+          <h2>Платите легально — без НДФЛ и рисков</h2>
+          <p>Партнёр оформляется самозанятым, вы платите официально. Берём на себя договоры и документооборот с самозанятым, а чек ФНС формируется автоматически. Никаких взносов и риска переквалификации.</p>
+          <ul>
+            <li><i>✓</i><span>Оформим договоры и работу с самозанятыми</span></li>
+            <li><i>✓</i><span>Выплата официальная, чек ФНС автоматически</span></li>
+            <li><i>✓</i><span>Массовые выплаты пачкой, а не вручную по одному</span></li>
+            <li><i>✓</i><span>Ноль рисков переквалификации для бизнеса</span></li>
+          </ul>
+          <a class="btn go" href="#join" style="margin-top:26px">Подключить выплаты →</a>
+        </div>
+        <div class="payout-card">
+          <div class="pc-h">Выплата партнёру</div>
+          <div class="pc-row"><span>Партнёр</span><span>Ирина К. · СЗ</span></div>
+          <div class="pc-row"><span>Сумма</span><b>18 400 ₽</b></div>
+          <div class="pc-row"><span>Договор и акт</span><span>оформлены</span></div>
+          <div class="pc-row"><span>Статус</span><b>оплачено</b></div>
+          <div class="pc-stamp">Чек сформирован<b>№ 20e4f… ФНС</b></div>
+          <div class="by">выплаты на базе «Моей Удалёнки»</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features" style="padding-top:24px">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <div class="eyebrow">Что внутри</div>
+      <h2>Всё, что нужно — и ничего лишнего</h2>
+    </div>
+    <div class="feat">
+      <div class="f rev"><div class="ic">↗</div><h3>Реф-ссылки и UTM</h3><p>Персональные ссылки, трекинг переходов, UTM-метки и источники — видно, откуда пришёл каждый клиент.</p></div>
+      <div class="f rev"><div class="ic">▦</div><h3>Кабинет партнёра</h3><p>Партнёр сам видит статистику, начисления и баланс. Меньше вопросов вам — больше доверия.</p></div>
+      <div class="f rev"><div class="ic">%</div><h3>Гибкие правила</h3><p>Процент или фикс, окно начисления, минимум к выводу. Разные условия под разные программы.</p></div>
+      <div class="f rev"><div class="ic">Σ</div><h3>Честный учёт</h3><p>Идемпотентные начисления, учёт возвратов, деньги до копейки. Цифры всегда сходятся.</p></div>
+      <div class="f rev"><div class="ic">₽</div><h3>Выплаты партнёрам</h3><p>Считаем сумму к выплате точно. Нужно легально — поможем оформить выплату через самозанятого.</p></div>
+      <div class="f rev"><div class="ic">⚡</div><h3>Запуск за час</h3><p>Никаких менеджеров и недель настройки. Создали программу — партнёры уже работают.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <div class="eyebrow">Сравнение</div>
+      <h2>Почему не готовые платформы и не своя разработка</h2>
+    </div>
+    <div class="cmp rev cmp-scroll">
+      <table>
+        <thead><tr><th>&nbsp;</th><th class="us">Моя Партнёрка</th><th>Готовые платформы</th><th>Своя разработка</th></tr></thead>
+        <tbody>
+          <tr><td>Цена входа</td><td class="us">от 0 ₽</td><td>от 9 900 ₽/мес</td><td>сотни тысяч ₽</td></tr>
+          <tr><td>Запуск</td><td class="us">за час</td><td>1–3 дня + настройка</td><td>месяцы</td></tr>
+          <tr><td>Кабинет партнёра</td><td class="us y">да</td><td class="y">да</td><td>надо писать</td></tr>
+          <tr><td>Настройка под ключ</td><td class="us y">да</td><td class="n">нет</td><td class="n">—</td></tr>
+          <tr><td>Помощь с выплатами</td><td class="us y">да</td><td class="n">на карту</td><td class="n">сами</td></tr>
+          <tr><td>Под малый бизнес</td><td class="us y">да</td><td class="n">под средний/крупный</td><td class="n">дорого</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="price">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <div class="eyebrow">Цена</div>
+      <h2>Дёшево — это принцип, а не акция</h2>
+      <p>Партнёрка должна помогать бизнесу расти, а не съедать бюджет до первого партнёра.</p>
+    </div>
+    <div class="price-wrap">
+      <div class="price free rev">
+        <div class="tier">Старт</div>
+        <div class="amt">0 ₽</div>
+        <div class="per">до 5 партнёров — попробовать</div>
+        <ul>
+          <li><i>✓</i>До 5 активных партнёров</li>
+          <li><i>✓</i>Реф-ссылки, кабинет, аналитика</li>
+          <li><i>✓</i>Гибкие правила начисления</li>
+          <li><i>✓</i>Учёт до копейки</li>
+        </ul>
+        <a class="btn go" href="#join" style="width:100%;justify-content:center">Начать бесплатно</a>
+      </div>
+      <div class="price rev">
+        <div class="tier">Бизнес</div>
+        <div class="amt">1 450 ₽</div>
+        <div class="per">/ мес · до 50 партнёров</div>
+        <ul>
+          <li><i>✓</i>Всё из «Старта»</li>
+          <li><i>✓</i>До 50 активных партнёров</li>
+          <li><i>✓</i>Несколько программ и правил</li>
+          <li><i>✓</i>Помощь с выплатами</li>
+        </ul>
+        <a class="btn" href="#join" style="width:100%;justify-content:center">Оставить заявку</a>
+        <div class="anchor">Дешевле готовых платформ <s>от 9 900 ₽</s></div>
+      </div>
+      <div class="price rev">
+        <div class="tier">Про</div>
+        <div class="amt">3 900 ₽</div>
+        <div class="per">/ мес · без лимита партнёров</div>
+        <ul>
+          <li><i>✓</i>Всё из «Бизнеса»</li>
+          <li><i>✓</i>Партнёров — сколько угодно</li>
+          <li><i>✓</i>Промокоды и мультипрограммы</li>
+          <li><i>✓</i>Приоритетная поддержка</li>
+        </ul>
+        <a class="btn" href="#join" style="width:100%;justify-content:center">Оставить заявку</a>
+        <div class="anchor">×11 дешевле готовых платформ <s>44 900 ₽</s></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="turnkey" style="padding-top:24px">
+  <div class="wrap">
+    <div class="turnkey-band rev">
+      <div>
+        <div class="eyebrow">Под ключ</div>
+        <h3>Не хотите настраивать сами? Развернём за вас</h3>
+        <p>Настроим программу, подключим трекинг к сайту, перенесём партнёров с другого сервиса и обучим команду. Стоимость — индивидуально под вашу задачу.</p>
+      </div>
+      <a class="btn" href="#join" style="white-space:nowrap">Обсудить под ключ →</a>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="join">
+  <div class="wrap cta-inner">
+    <div class="rev">
+      <div class="eyebrow">Ранний доступ</div>
+      <h2>Запустите партнёрку одной из первых</h2>
+      <p>Собираем первых пользователей. Поможем перенести программу и настроить выплаты — руками, без гемора.</p>
+    </div>
+    <form class="wl rev" id="wlform">
+      <div>
+        <label for="biz">Компания / проект</label>
+        <input id="biz" name="biz" placeholder="Название вашего бизнеса" required>
+      </div>
+      <div>
+        <label for="contact">Email или Telegram</label>
+        <input id="contact" name="contact" placeholder="you@mail.ru / @username" required>
+      </div>
+      <button class="btn go" type="submit" style="justify-content:center">Получить ранний доступ →</button>
+      <div class="wl-ok" id="wlok">✓ Заявка принята. Свяжемся и поможем запуститься.</div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#top"><span class="tick">✓</span>Моя&nbsp;<b>Партнёрка</b></a>
+    <span class="mono" style="font-size:12px">Партнёрская программа для малого бизнеса — дёшево и без гемора</span>
+    <span>© 2026 · mypartnerka.ru</span>
+  </div>
+</footer>
+
+<script>
+// reveal on scroll
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.rev').forEach(el=>io.observe(el));
+// hero reveal immediately
+document.querySelectorAll('.hero .rev').forEach(el=>el.classList.add('in'));
+// fake submit
+document.getElementById('wlform').addEventListener('submit',e=>{
+  e.preventDefault();
+  e.target.querySelectorAll('input,button').forEach(i=>i.style.display='none');
+  document.getElementById('wlok').style.display='block';
+});
+</script>
+</body>
+</html>
