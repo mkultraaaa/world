@@ -395,6 +395,19 @@
   .lang-switch{padding:9px 12px;background:transparent;color:var(--fg);border:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.05em;transition:.15s}
   .lang-switch:hover{border-color:var(--accent);color:var(--accent)}
 </style>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111120201', 'ym');
+
+    ym(111120201, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111120201" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </head>
 <body>
 
@@ -933,6 +946,55 @@
   </div>
 </section>
 
+
+<!-- FAQ -->
+<style>
+#faq .faq-list{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+#faq .faq-item{border:1px solid var(--line);background:var(--card);border-radius:14px;overflow:hidden}
+#faq summary{list-style:none;cursor:pointer;padding:22px 26px;font-size:18px;font-weight:600;color:var(--fg);display:flex;justify-content:space-between;gap:20px;align-items:center;transition:color .15s}
+#faq summary::-webkit-details-marker{display:none}
+#faq summary::after{content:"+";color:var(--accent);font-weight:400;font-size:28px;line-height:1;flex:none}
+#faq details[open] summary::after{content:"–"}
+#faq summary:hover{color:var(--accent)}
+#faq .faq-a{padding:0 26px 24px;color:var(--muted);font-size:16px;line-height:1.65;max-width:840px}
+#faq .faq-a b{color:var(--fg);font-weight:600}
+</style>
+<section id="faq">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <h2 class="sec-title" data-en="FAQ">Частые вопросы</h2>
+        <p class="sec-sub" data-en="What people weigh before reaching out. Straight answers, no fluff.">То, о чём думают перед тем, как написать. Отвечаем прямо, без воды.</p>
+      </div>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary data-en="How much does it cost? Won't you just charge whatever you like?">Сколько это стоит? Не насчитаете «по одёжке»?</summary>
+        <div class="faq-a" data-en="A pilot is <b>from 200K ₽ (≈€2,000)</b>, with price and outcome fixed <b>before we start</b>. Upfront we estimate the payback — how much it returns and when. If the economics don't add up, we pass.">Пилот — <b>от 200К ₽ (≈€2 000)</b>, цена и результат фиксируются <b>до старта</b>. Перед запуском считаем окупаемость: сколько внедрение вернёт и когда. Не сходится экономика — не берёмся.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-en="Are you an agency or one person? Who actually does the work?">Вы агентство или один человек? Кто реально делает?</summary>
+        <div class="faq-a" data-en="A studio, not a conveyor. Projects are run by <b>CEO/CPO-level</b> people — no juniors, no «account manager + offshore». On the first call you get Max, not a salesperson.">Студия, а не конвейер. Проект ведут люди уровня <b>CEO/CPO</b>, без джуниоров и «менеджер + офшор». На первом звонке — сразу Макс, а не продавец.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-en="Why you, instead of hiring in-house or doing it ourselves?">Зачем вы, если можно нанять штатного или сделать самим?</summary>
+        <div class="faq-a" data-en="Hiring means months of search, a salary and the risk it won't work out. We deliver <b>something working in 2–4 weeks</b> without growing headcount, then support on a subscription. If plain automation or a hire solves it — <b>we'll tell you</b>.">Наём — это месяцы поиска, оклад и риск, что не потянет. Мы даём <b>работающее за 2–4 недели</b> без раздувания штата, дальше — поддержка по подписке. Если задача решается простой автоматизацией или наймом — <b>сами скажем</b>.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-en="AI makes mistakes and hallucinates. Can you trust it in production?">ИИ ошибается и выдумывает. Можно ли доверять в бою?</summary>
+        <div class="faq-a" data-en="We don't promise «100%». We measure quality: <b>regression scenarios</b>, staged rollout, a weekly report with numbers. Where the model isn't reliable, we don't put it in a critical spot.">Мы не обещаем «100%». Качество измеряем: <b>регрессионные сценарии</b>, поэтапный запуск, еженедельный отчёт с цифрами. Там, где модель ненадёжна, — не ставим её в критичное место.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-en="How fast will there be a result?">Как быстро будет результат?</summary>
+        <div class="faq-a" data-en="A working prototype on <b>your data — within the first 1–2 weeks</b>, launch in 2–4 weeks. No «approve the spec → draw mockups → deploy in six months».">Рабочий прототип на <b>ваших данных — в первые 1–2 недели</b>, запуск за 2–4 недели. Без «согласуем ТЗ → нарисуем макеты → через полгода внедрим».</div>
+      </details>
+      <details class="faq-item">
+        <summary data-en="What if it doesn't work or isn't a fit?">А если не сработает или не подойдёт?</summary>
+        <div class="faq-a" data-en="We start with a <b>free 30-minute review</b> of one process — no commitment. We take it on only if there's a path to money. Then weekly reports: if something goes wrong, you know right away, not at the end.">Начинаем с <b>бесплатного 30-минутного разбора</b> одного процесса — без обязательств. Берёмся, только если видна траектория к деньгам. Дальше — еженедельные отчёты: если что-то идёт не так, узнаёте сразу, а не в конце.</div>
+      </details>
+    </div>
+  </div>
+</section>
 
 <!-- CTA -->
 <section class="cta-block" id="cta">
