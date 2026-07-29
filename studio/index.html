@@ -332,6 +332,8 @@
   .btn-tg:hover{background:transparent;color:var(--accent)}
   .btn-email{background:transparent;color:var(--fg);border:1px solid var(--line)}
   .btn-email:hover{border-color:var(--fg)}
+  .btn-lead{background:transparent;color:var(--accent);border:1px solid var(--accent);cursor:pointer;font:inherit}
+  .btn-lead:hover{background:var(--accent);color:#000}
 
   /* ===== FOOTER ===== */
   footer{padding:60px 0 40px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted)}
@@ -815,7 +817,7 @@
           <li data-en="<b>Co-founder GoMagic</b> · <b>Founder WorkinPulse</b>"><b>Co-founder GoMagic</b> · <b>Founder WorkinPulse</b></li>
         </ul>
         <blockquote class="f-quote" data-en="«I don't sell &quot;AI adoption&quot;. I look for the places in your business where AI pays back real money — and build with my own hands, the way I'd build for myself. If there are no such places, I'll say so on the first call.»">«Я не продаю "внедрение ИИ". Я ищу в вашем бизнесе места, где ИИ вернёт живые деньги, — и делаю руками, как делал бы для себя. Если таких мест нет — скажу об этом прямо на первом звонке.»</blockquote>
-        <div class="f-links"><a href="https://t.me/msoloviev" target="_blank" rel="noopener">t.me/msoloviev ↗</a></div>
+        <div class="f-links"><a href="https://t.me/msoloviev" onclick="try{ym(111120201,'reachGoal','tg')}catch(e){}" target="_blank" rel="noopener">t.me/msoloviev ↗</a></div>
       </div>
     </div>
   </div>
@@ -1005,8 +1007,8 @@
       <p class="cta-lead" data-en="It's already happening — and it's countable in money. On the first call we'll estimate what this means for your business specifically.">Это уже происходит — и это считается в деньгах. На первом звонке прикинем, что это значит именно для вашего бизнеса.</p>
       <p class="cta-sub" data-en="30 minutes on a call and you'll know if we have something for you. No briefs, no slides, no «let's schedule another call».">30 минут разговора — и вы поймёте, есть ли у нас, что вам предложить. Без брифов, слайдов и «давайте созвонимся ещё раз».</p>
       <div class="cta-buttons">
-        <a class="btn-big btn-tg" href="https://t.me/msoloviev" target="_blank" data-en="→ Message on Telegram">→ Написать в Telegram</a>
-        <a class="btn-big btn-email" href="mailto:mk.soloviev@gmail.com">mk.soloviev@gmail.com</a>
+        <a class="btn-big btn-tg" href="https://t.me/msoloviev" onclick="try{ym(111120201,'reachGoal','tg')}catch(e){}" target="_blank" data-en="→ Message on Telegram">→ Написать в Telegram</a>
+        <button class="btn-big btn-lead" type="button" onclick="msoloLead.open()" data-en="Leave a request">Оставить заявку</button>
       </div>
       <p class="cta-hint" data-en="Write the word «razbor» — Max replies personally within a day.">Напишите слово «разбор» — Макс ответит лично в течение дня.</p>
     </div>
@@ -1082,6 +1084,75 @@
   applyLang(initial());
 })();
 </script>
+
+<!-- msolo lead form -->
+<div id="msolo-lead" style="--la:#d8ff3a;--lat:#0a0a0a">
+  <div class="ml-bg" onclick="if(event.target===this)msoloLead.close()">
+    <div class="ml-box" role="dialog" aria-modal="true">
+      <button class="ml-x" type="button" onclick="msoloLead.close()" aria-label="Закрыть">✕</button>
+      <div class="ml-title">Оставить заявку</div>
+      <div class="ml-sub">Свяжусь удобным вам способом, в течение дня.</div>
+      <form onsubmit="return msoloLead.submit(this)">
+        <input name="name" placeholder="Как вас зовут (по желанию)" autocomplete="name">
+        <input name="contact" placeholder="Телефон, email или @telegram" required autocomplete="off">
+        <textarea name="message" placeholder="Что нужно? (по желанию)"></textarea>
+        <input type="text" name="company" class="ml-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="ml-btn" type="submit">Отправить заявку →</button>
+        <div class="ml-err" hidden></div>
+        <div class="ml-micro">Без спама. Отвечает лично Максим.</div>
+      </form>
+    </div>
+  </div>
+</div>
+<style>
+#msolo-lead .ml-bg{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;place-items:center;z-index:9999;padding:20px}
+#msolo-lead.open .ml-bg{display:grid}
+#msolo-lead .ml-box{background:#121212;border:1px solid #2a2a2a;border-radius:16px;max-width:420px;width:100%;padding:30px 28px;position:relative;font-family:inherit}
+#msolo-lead .ml-x{position:absolute;top:12px;right:14px;background:none;border:none;color:#8a8a82;font-size:20px;cursor:pointer;line-height:1}
+#msolo-lead .ml-title{font-size:22px;font-weight:800;color:#f5f5f0;margin-bottom:6px}
+#msolo-lead .ml-sub{color:#8a8a82;font-size:14px;margin-bottom:18px}
+#msolo-lead input,#msolo-lead textarea{width:100%;background:#0d0d0d;border:1px solid #2a2a2a;border-radius:10px;padding:13px 15px;color:#f5f5f0;font:inherit;font-size:15px;margin-bottom:10px;box-sizing:border-box}
+#msolo-lead input:focus,#msolo-lead textarea:focus{outline:none;border-color:var(--la)}
+#msolo-lead input::placeholder,#msolo-lead textarea::placeholder{color:#55554f}
+#msolo-lead textarea{resize:vertical;min-height:64px}
+#msolo-lead .ml-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;margin:0}
+#msolo-lead .ml-btn{width:100%;background:var(--la);color:var(--lat);border:none;border-radius:10px;padding:14px;font-family:inherit;font-weight:800;font-size:14px;letter-spacing:.03em;text-transform:uppercase;cursor:pointer;margin-top:4px}
+#msolo-lead .ml-btn:hover{filter:brightness(1.08)}
+#msolo-lead .ml-btn:disabled{opacity:.6;cursor:default}
+#msolo-lead .ml-err{color:#ff6b5b;font-size:13px;margin-top:10px;text-align:center}
+#msolo-lead .ml-micro{font-size:12px;color:#55554f;text-align:center;margin-top:12px}
+#msolo-lead .ml-ok{text-align:center;padding:14px 0}
+#msolo-lead .ml-ok .ml-check{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.08);color:var(--la);display:grid;place-items:center;margin:0 auto 16px;font-size:27px}
+#msolo-lead .ml-ok b{font-size:18px;color:#f5f5f0}
+#msolo-lead .ml-ok p{color:#8a8a82;font-size:14px;margin-top:6px}
+</style>
+<script>
+window.msoloLead={
+  src:'studio',
+  open:function(){document.getElementById('msolo-lead').classList.add('open');document.body.style.overflow='hidden';},
+  close:function(){document.getElementById('msolo-lead').classList.remove('open');document.body.style.overflow='';},
+  submit:function(f){
+    var btn=f.querySelector('.ml-btn'),err=f.querySelector('.ml-err');
+    err.hidden=true;
+    var data={name:f.name.value.trim(),contact:f.contact.value.trim(),message:f.message.value.trim(),company:f.company.value,source:this.src};
+    if(!data.contact)return false;
+    btn.disabled=true;btn.textContent='Отправляю…';
+    fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+      .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})
+      .then(function(res){
+        if(!res.ok)throw new Error((res.j&&res.j.error)||'fail');
+        try{ym(111120201,'reachGoal','lead')}catch(e){}
+        var form=f.parentElement;
+        form.innerHTML='<div class="ml-ok"><div class="ml-check">✓</div><b>Заявка отправлена</b><p>Свяжусь с вами в течение дня. Спасибо!</p></div>';
+        setTimeout(msoloLead.close,2600);
+      })
+      .catch(function(){btn.disabled=false;btn.textContent='Отправить заявку →';err.textContent='Не отправилось — попробуйте ещё раз или напишите в Telegram.';err.hidden=false;});
+    return false;
+  }
+};
+document.addEventListener('keydown',function(e){if(e.key==='Escape')msoloLead.close();});
+</script>
+<!-- /msolo lead form -->
 
 </body>
 </html>
