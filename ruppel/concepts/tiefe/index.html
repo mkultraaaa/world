@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<base href="/ruppel/concepts/tiefe/">
+<title>Ruppel Water — концепт Tiefe, полная версия</title>
+<style>
+  :root {
+    --bg: #04121A;
+    --bg-2: #071D28;
+    --panel: rgba(255,255,255,0.04);
+    --hairline: rgba(150,214,224,0.14);
+    --hairline-soft: rgba(150,214,224,0.07);
+    --ink: #EDF6F7;
+    --muted: #8FAEB6;
+    --faint: #64838C;
+    --aqua: #4BD9CE;
+    --aqua-deep: #2E9BC7;
+    --champagne: #E9CFA5;
+    --serif: "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: "Avenir Next", Avenir, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+
+  .note-bar { background: #0B2A38; color: var(--muted); font-size: 12.5px; padding: 10px 18px; text-align: center; }
+  .note-bar a { color: var(--aqua); text-decoration: none; font-weight: 600; }
+
+  header.site { display: flex; justify-content: space-between; align-items: center; padding: 22px 5%; border-bottom: 1px solid var(--hairline-soft); }
+  .logo-img { height: 38px; width: auto; filter: brightness(0) invert(1); opacity: .95; }
+  header.site nav { display: flex; gap: 28px; font-size: 14px; color: var(--muted); }
+  header.site .navcta { border: 1px solid var(--hairline); border-radius: 999px; padding: 8px 18px; color: var(--ink); font-size: 13px; text-decoration: none; }
+  @media (max-width: 760px) { header.site nav { display: none; } }
+
+  .hero { position: relative; }
+  .hero img { width: 100%; }
+  .hero .overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; text-align: right; padding: 5% 6%; }
+  h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(26px, 4.6vw, 60px); line-height: 1.08; margin: 0 0 16px; max-width: 520px; }
+  h1 i, .em { font-style: italic; background: linear-gradient(115deg, #6FE7DC, #37A9CF); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+  .hero .sub { font-size: clamp(13px, 1.4vw, 17px); color: var(--muted); margin: 0 0 24px; max-width: 380px; }
+  .cta { display: inline-block; background: linear-gradient(135deg, #6FE7DC, #2E9BC7); color: #05242B; padding: 14px 30px; border-radius: 999px; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .cta.ghost { background: transparent; border: 1px solid var(--hairline); color: var(--ink); font-weight: 600; }
+  @media (max-width: 760px) {
+    .hero .overlay { position: static; align-items: flex-start; text-align: left; padding: 26px 18px; }
+  }
+
+  .trust { display: flex; flex-wrap: wrap; gap: 10px 40px; justify-content: center; padding: 22px 5%; border-bottom: 1px solid var(--hairline-soft); font-size: 11.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--faint); }
+
+  section.block { padding: 90px 5%; max-width: 1160px; margin: 0 auto; }
+  .kicker { font-size: 11px; letter-spacing: 0.36em; text-transform: uppercase; color: var(--aqua); font-weight: 600; margin: 0 0 18px; }
+  h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(24px, 3.6vw, 44px); line-height: 1.12; margin: 0 0 16px; text-wrap: balance; }
+  .lead { color: var(--muted); font-size: 16px; max-width: 560px; }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--hairline); border-radius: 20px; overflow: hidden; margin-top: 44px; }
+  .split img { width: 100%; height: 100%; object-fit: cover; }
+  .specs { padding: 44px 40px; display: flex; flex-direction: column; justify-content: center; background: var(--panel); }
+  .specs h3 { font-family: var(--serif); font-weight: 500; font-size: 26px; margin: 0 0 20px; }
+  .specs .row { display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid var(--hairline-soft); font-size: 14.5px; }
+  .specs .row:last-child { border-bottom: none; }
+  .specs .row span:first-child { color: var(--muted); }
+  .specs .row b { color: var(--champagne); font-variant-numeric: tabular-nums; }
+  @media (max-width: 760px) { .split { grid-template-columns: 1fr; } }
+
+  .product { display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; align-items: center; margin-top: 44px; }
+  .product .imgwrap { background: #EFEBE3; border-radius: 20px; padding: 8%; }
+  .product h3 { font-family: var(--serif); font-weight: 500; font-size: 30px; margin: 0 0 8px; }
+  .product .price { font-family: var(--serif); font-size: 26px; color: var(--champagne); margin: 0 0 18px; }
+  .product .price small { font-size: 14px; color: var(--faint); font-family: var(--sans); }
+  .product ul { margin: 0 0 26px; padding: 0; list-style: none; }
+  .product li { padding: 9px 0 9px 26px; position: relative; color: var(--muted); font-size: 14.5px; border-bottom: 1px solid var(--hairline-soft); }
+  .product li::before { content: "—"; position: absolute; left: 0; color: var(--aqua); }
+  @media (max-width: 760px) { .product { grid-template-columns: 1fr; gap: 26px; } }
+
+  .b2b { background: linear-gradient(180deg, var(--bg-2), var(--bg)); border-top: 1px solid var(--hairline-soft); border-bottom: 1px solid var(--hairline-soft); }
+  .b2b .inner { max-width: 1160px; margin: 0 auto; padding: 80px 5%; display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
+  .b2b .facts { display: grid; gap: 12px; }
+  .b2b .fact { border: 1px solid var(--hairline); border-radius: 14px; padding: 18px 22px; background: var(--panel); font-size: 14.5px; color: var(--muted); }
+  .b2b .fact b { color: var(--ink); display: block; margin-bottom: 4px; }
+  @media (max-width: 760px) { .b2b .inner { grid-template-columns: 1fr; } }
+
+  footer.site { padding: 54px 5% 40px; text-align: center; border-top: 1px solid var(--hairline-soft); }
+  footer.site .logo-img { margin: 0 auto 18px; height: 32px; }
+  footer.site .langs { font-size: 12px; letter-spacing: 0.18em; color: var(--faint); text-transform: uppercase; margin-bottom: 10px; }
+  footer.site .fine { font-size: 12px; color: var(--faint); }
+
+  @media (max-width: 640px) {
+    h1 br, h2 br { display: none; }
+    section.block { padding: 60px 18px; }
+    .b2b .inner { padding: 60px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="note-bar">Концепт «Tiefe» — полная версия первой страницы · <a href="../">← ко всем концептам</a></div>
+
+<header class="site">
+  <img class="logo-img" src="../img/logo.svg" alt="Ruppel Water">
+  <nav><span>Systems</span><span>Technology</span><span>Business</span><span>Service</span><span>EN · DE</span></nav>
+  <a class="navcta" href="#" onclick="return false">Get a consultation</a>
+</header>
+
+<div class="hero">
+  <img src="../img/dark-hero.jpg" alt="Премиальная система очистки воды">
+  <div class="overlay">
+    <h1>Engineered <i>depth</i>. <br>Delivered pure.</h1>
+    <p class="sub">Professional water treatment for homes and business — built on European and Italian technology.</p>
+    <div><a class="cta" href="#" onclick="return false">Discover the range</a></div>
+  </div>
+</div>
+
+<div class="trust"><span>European technology</span><span>Own brand · Ruppel Water</span><span>Tested by independent labs</span><span>EU-wide delivery</span><span>5-year warranty</span></div>
+
+<section class="block">
+  <p class="kicker">The system</p>
+  <h2>Six stages between <br>the tap and <span class="em">perfection</span></h2>
+  <p class="lead">Every Ruppel Water system is engineered around one number: 99.9% purity. The rest — materials, service, design — exists to keep that promise for years.</p>
+  <div class="split">
+    <img src="../img/detail-macro.jpg" alt="Капля воды на шлифованной стали">
+    <div class="specs">
+      <h3>RW One · Reverse Osmosis</h3>
+      <div class="row"><span>Purification</span><b>99.9%</b></div>
+      <div class="row"><span>Filtration stages</span><b>6</b></div>
+      <div class="row"><span>Installation</span><b>Under-sink</b></div>
+      <div class="row"><span>Made in</span><b>Italy</b></div>
+      <div class="row"><span>Warranty</span><b>5 years</b></div>
+      <div class="row"><span>Service interval</span><b>6 months</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <p class="kicker">Featured</p>
+  <div class="product">
+    <div class="imgwrap"><img src="../img/product-studio.jpg" alt="Система обратного осмоса RW One"></div>
+    <div>
+      <h3>RW One</h3>
+      <p class="price">€790 <small>· incl. installation kit · VAT shown at checkout</small></p>
+      <ul>
+        <li>Tankless reverse osmosis — fits any kitchen cabinet</li>
+        <li>Filters delivered to your door, replaced in minutes</li>
+        <li>Ships from EU warehouses in 2–4 days</li>
+        <li>B2B: VAT-ID accepted, reverse charge applied automatically</li>
+      </ul>
+      <a class="cta" href="#" onclick="return false">Configure yours</a> &nbsp; <a class="cta ghost" href="#" onclick="return false">Compare systems</a>
+    </div>
+  </div>
+</section>
+
+<div class="b2b">
+  <div class="inner">
+    <div>
+      <p class="kicker">For business</p>
+      <h2>Offices, cafés and hotels <br>across <span class="em">Europe</span></h2>
+      <p class="lead">One supplier for equipment, installation partners and consumables — invoiced properly, delivered on time.</p>
+      <p style="margin-top: 26px;"><a class="cta" href="#" onclick="return false">Open a business account</a></p>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>VAT-ID / VIES validated</b>Reverse charge at checkout for EU companies.</div>
+      <div class="fact"><b>Per-country delivery</b>Rates and terms for each EU market.</div>
+      <div class="fact"><b>Volume pricing</b>B2B catalogues with negotiated terms.</div>
+    </div>
+  </div>
+</div>
+
+<footer class="site">
+  <img class="logo-img" src="../img/logo.svg" alt="Ruppel Water">
+  <div class="langs">EN · DE — more to come</div>
+  <div class="fine">Концепт Tiefe · прототип, не рабочий магазин · Ruppel Water × msolo.studio · август 2026</div>
+</footer>
+
+</body>
+</html>
