@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<base href="/ruppel/concepts/">
+<title>Ruppel Water — три концепта первой страницы</title>
+<style>
+  :root {
+    --chrome: #06171F; --chrome-ink: #EDF6F7; --chrome-muted: #8FAEB6;
+    --aqua: #4BD9CE; --hairline: rgba(150,214,224,0.14);
+    --serif: "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: "Avenir Next", Avenir, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; background: var(--chrome); color: var(--chrome-ink); font-family: var(--sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+
+  .intro { text-align: center; padding: 90px 20px 60px; max-width: 860px; margin: 0 auto; }
+  .intro .eyebrow { font-size: 11px; letter-spacing: 0.36em; text-transform: uppercase; color: var(--aqua); font-weight: 600; margin-bottom: 24px; }
+  .intro h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(30px, 5.6vw, 52px); line-height: 1.12; margin: 0 0 16px; text-wrap: balance; }
+  .intro .em { font-style: italic; background: linear-gradient(115deg, #6FE7DC, #37A9CF); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+  .intro p { color: var(--chrome-muted); font-size: 16px; max-width: 620px; margin: 0 auto; }
+
+  .annot { max-width: 1060px; margin: 70px auto 0; padding: 0 20px; }
+  .annot .bar { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: baseline; border-left: 3px solid var(--aqua); padding: 10px 0 10px 18px; }
+  .annot .num { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--aqua); font-weight: 700; }
+  .annot .name { font-family: var(--serif); font-size: 26px; }
+  .annot .desc { color: var(--chrome-muted); font-size: 14.5px; flex-basis: 100%; max-width: 760px; }
+
+  .mock { max-width: 1060px; margin: 22px auto 0; border: 1px solid var(--hairline); border-radius: 20px; overflow: hidden; box-shadow: 0 40px 120px -50px rgba(0,0,0,0.8); }
+
+  /* ============ CONCEPT 1: LICHT ============ */
+  .licht { background: #F7F5F0; color: #17303B; font-family: var(--sans); }
+  .licht .nav { display: flex; justify-content: space-between; align-items: center; padding: 22px 34px; border-bottom: 1px solid #E4E0D6; }
+  .wordmark { font-size: 13px; letter-spacing: 0.42em; text-transform: uppercase; font-weight: 700; white-space: nowrap; }
+  .wordmark span { color: #1594B4; }
+  .licht .nav nav { display: flex; gap: 26px; font-size: 13.5px; color: #5E7A84; }
+  .licht .hero { position: relative; }
+  .licht .hero img { width: 100%; height: auto; }
+  .licht .hero .overlay {
+    position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
+    padding: 6% 7%; max-width: 54%;
+  }
+  .licht h2 { font-family: var(--sans); font-weight: 600; font-size: clamp(22px, 3.6vw, 46px); letter-spacing: -0.02em; line-height: 1.08; margin: 0 0 14px; color: #17303B; }
+  .licht .sub { font-size: clamp(12px, 1.4vw, 16px); color: #5E7A84; margin: 0 0 22px; max-width: 380px; }
+  .licht .cta { display: inline-block; align-self: flex-start; background: #17303B; color: #F7F5F0; padding: 12px 26px; border-radius: 999px; font-size: 14px; font-weight: 600; text-decoration: none; }
+  .licht .trust { display: flex; flex-wrap: wrap; gap: 10px 34px; justify-content: center; padding: 22px 24px; border-top: 1px solid #E4E0D6; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #8AA2AA; }
+  .licht .cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; border-top: 1px solid #E4E0D6; }
+  .licht .col { padding: 34px 30px; border-right: 1px solid #E4E0D6; }
+  .licht .col:last-child { border-right: none; }
+  .licht .col b { font-size: 16px; display: block; margin-bottom: 8px; }
+  .licht .col p { font-size: 13.5px; color: #5E7A84; margin: 0; }
+  @media (max-width: 760px) {
+    .licht .nav nav { display: none; }
+    .licht .hero .overlay { position: static; max-width: 100%; padding: 26px 22px; }
+    .licht .cols { grid-template-columns: 1fr; }
+    .licht .col { border-right: none; border-bottom: 1px solid #E4E0D6; }
+  }
+
+  /* ============ CONCEPT 2: TIEFE ============ */
+  .tiefe { background: #04121A; color: #EDF6F7; }
+  .tiefe .nav { display: flex; justify-content: space-between; align-items: center; padding: 22px 34px; border-bottom: 1px solid rgba(150,214,224,0.12); }
+  .tiefe .wordmark span { color: #4BD9CE; }
+  .tiefe .nav nav { display: flex; gap: 26px; font-size: 13.5px; color: #8FAEB6; }
+  .tiefe .hero { position: relative; }
+  .tiefe .hero img { width: 100%; }
+  .tiefe .hero .overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; text-align: right; padding: 6% 7%; }
+  .tiefe h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(24px, 4vw, 52px); line-height: 1.1; margin: 0 0 14px; max-width: 480px; }
+  .tiefe h2 i { font-style: italic; background: linear-gradient(115deg, #6FE7DC, #37A9CF); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+  .tiefe .sub { font-size: clamp(12px, 1.4vw, 16px); color: #8FAEB6; margin: 0 0 22px; max-width: 360px; }
+  .tiefe .cta { display: inline-block; background: linear-gradient(135deg, #6FE7DC, #2E9BC7); color: #05242B; padding: 12px 26px; border-radius: 999px; font-size: 14px; font-weight: 700; text-decoration: none; }
+  .tiefe .split { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid rgba(150,214,224,0.12); }
+  .tiefe .split img { width: 100%; height: 100%; object-fit: cover; }
+  .tiefe .specs { padding: 40px 36px; display: flex; flex-direction: column; justify-content: center; }
+  .tiefe .specs h3 { font-family: var(--serif); font-weight: 500; font-size: 24px; margin: 0 0 18px; }
+  .tiefe .specs .row { display: flex; justify-content: space-between; gap: 20px; padding: 12px 0; border-bottom: 1px solid rgba(150,214,224,0.1); font-size: 14px; }
+  .tiefe .specs .row span:first-child { color: #8FAEB6; }
+  .tiefe .specs .row b { color: #E9CFA5; font-variant-numeric: tabular-nums; }
+  @media (max-width: 760px) {
+    .tiefe .nav nav { display: none; }
+    .tiefe .hero .overlay { position: static; align-items: flex-start; text-align: left; padding: 26px 22px; }
+    .tiefe .split { grid-template-columns: 1fr; }
+  }
+
+  /* ============ CONCEPT 3: KLAR ============ */
+  .klar { background: #FFFFFF; color: #0B2530; }
+  .klar .nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 34px; background: #0B2530; color: #fff; }
+  .klar .wordmark span { color: #35E0D2; }
+  .klar .nav nav { display: flex; gap: 26px; font-size: 13.5px; color: rgba(255,255,255,0.7); }
+  .klar .shout { padding: 54px 34px 30px; }
+  .klar h2 { font-weight: 800; font-size: clamp(34px, 7vw, 84px); letter-spacing: -0.04em; line-height: 0.98; margin: 0; text-transform: uppercase; }
+  .klar h2 .stroke { color: transparent; -webkit-text-stroke: 2px #0B2530; }
+  .klar h2 .aqua { color: #12BFB2; }
+  .klar .strip { display: flex; flex-wrap: wrap; gap: 10px 0; background: #12BFB2; color: #04302C; font-weight: 700; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; padding: 14px 34px; justify-content: space-between; }
+  .klar .grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 0; }
+  .klar .grid img { width: 100%; height: 100%; object-fit: cover; }
+  .klar .panel { background: #F0F7F6; padding: 38px 32px; display: flex; flex-direction: column; justify-content: center; }
+  .klar .panel p { font-size: 16px; color: #38555E; margin: 0 0 22px; }
+  .klar .cta { display: inline-block; align-self: flex-start; background: #0B2530; color: #fff; padding: 14px 30px; border-radius: 14px; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .klar .badge { display: inline-block; margin-bottom: 14px; font-size: 11px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: #12BFB2; }
+  @media (max-width: 760px) {
+    .klar .nav nav { display: none; }
+    .klar .grid { grid-template-columns: 1fr; }
+    .klar .shout { padding: 36px 22px 22px; }
+    .klar .strip { padding: 12px 22px; gap: 8px 18px; }
+  }
+
+  .verdict { max-width: 1060px; margin: 18px auto 0; padding: 0 20px; color: var(--chrome-muted); font-size: 14px; }
+  .verdict b { color: var(--chrome-ink); }
+
+  .outro { text-align: center; padding: 90px 20px 80px; }
+  .outro h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(24px, 4vw, 40px); margin: 0 0 14px; }
+  .outro p { color: var(--chrome-muted); max-width: 560px; margin: 0 auto 8px; }
+  .outro .note { font-size: 13px; color: #64838C; }
+  footer { text-align: center; padding: 26px; font-size: 12px; letter-spacing: 0.08em; color: #64838C; border-top: 1px solid var(--hairline); }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <p class="eyebrow">Ruppel Water · Прототипы</p>
+  <h1>Три концепта первой страницы.<br>Выбери <span class="em">направление</span></h1>
+  <p>Это не финальный дизайн, а три разных характера бренда — с продуктовыми съёмками, сделанными под Ruppel Water. Скажи, какой ближе (или что смешать), и доведём до полного магазина.</p>
+</div>
+
+<div class="annot" id="licht">
+  <div class="bar">
+    <span class="num">Концепт 01</span>
+    <span class="name">Licht</span>
+    <span class="desc">Светлый минимализм в духе Mitte и Aarke: дерево, камень, тишина. Продукт живёт в реальной кухне. Для тех, кто покупает «навсегда».</span>
+  </div>
+</div>
+<div class="mock licht">
+  <div class="nav">
+    <span class="wordmark">Ruppel <span>Water</span></span>
+    <nav><span>Systems</span><span>Technology</span><span>Business</span><span>Service</span></nav>
+  </div>
+  <div class="hero">
+    <img src="img/hero-kitchen.jpg" alt="Система обратного осмоса в минималистичной кухне" loading="lazy">
+    <div class="overlay">
+      <h2>Your own source<br>of pure water</h2>
+      <p class="sub">Reverse osmosis systems engineered in Europe. Designed for homes that value quiet quality.</p>
+      <a class="cta" href="#" onclick="return false">Explore systems</a>
+    </div>
+  </div>
+  <div class="trust"><span>European technology</span><span>Tested by independent labs</span><span>Own brand · Ruppel Water</span><span>5-year service</span></div>
+  <div class="cols">
+    <div class="col"><b>For homes</b><p>Under-sink systems that disappear into your kitchen and stay for years.</p></div>
+    <div class="col"><b>For business</b><p>Offices, cafés and hotels across Europe. VAT-invoiced, delivered from EU warehouses.</p></div>
+    <div class="col"><b>Serviced for life</b><p>Filter reminders, spare parts and human support — included, not extra.</p></div>
+  </div>
+</div>
+<p class="verdict"><b>Кому подходит:</b> если хотим «немецкое спокойствие» — бренд, который не кричит. Самый безопасный и самый европейский вариант.</p>
+
+<div class="annot" id="tiefe">
+  <div class="bar">
+    <span class="num">Концепт 02</span>
+    <span class="name">Tiefe</span>
+    <span class="desc">Тёмный премиум: техника снята как люкс-объект, серифная типографика, шампань в цифрах. Вода как глубина, а не сантехника.</span>
+  </div>
+</div>
+<div class="mock tiefe">
+  <div class="nav">
+    <span class="wordmark">Ruppel <span>Water</span></span>
+    <nav><span>Systems</span><span>Technology</span><span>Business</span><span>Service</span></nav>
+  </div>
+  <div class="hero">
+    <img src="img/dark-hero.jpg" alt="Премиальная система очистки воды в тёмной студии" loading="lazy">
+    <div class="overlay">
+      <h2>Engineered <i>depth</i>.<br>Delivered pure.</h2>
+      <p class="sub">Professional water treatment for homes and business — built on European and Italian technology.</p>
+      <a class="cta" href="#" onclick="return false">Discover the range</a>
+    </div>
+  </div>
+  <div class="split">
+    <img src="img/detail-macro.jpg" alt="Капля воды на шлифованной стали" loading="lazy">
+    <div class="specs">
+      <h3>RW One · Reverse Osmosis</h3>
+      <div class="row"><span>Purification</span><b>99.9%</b></div>
+      <div class="row"><span>Filtration stages</span><b>6</b></div>
+      <div class="row"><span>Installation</span><b>Under-sink</b></div>
+      <div class="row"><span>Made in</span><b>Italy</b></div>
+      <div class="row"><span>Warranty</span><b>5 years</b></div>
+    </div>
+  </div>
+</div>
+<p class="verdict"><b>Кому подходит:</b> если целимся в «водный Bang &amp; Olufsen» — максимальный статус и отстройка от всех «магазинов фильтров». Самый смелый по позиционированию.</p>
+
+<div class="annot" id="klar">
+  <div class="bar">
+    <span class="num">Концепт 03</span>
+    <span class="name">Klar</span>
+    <span class="desc">Смелый и живой: плакатная типографика, электрик-аква, эмоция воды. Энергия LARQ, но во «взрослой» палитре. Хорошо продаёт D2C.</span>
+  </div>
+</div>
+<div class="mock klar">
+  <div class="nav">
+    <span class="wordmark">Ruppel <span>Water</span></span>
+    <nav><span>Systems</span><span>Technology</span><span>Business</span><span>Service</span></nav>
+  </div>
+  <div class="shout">
+    <h2>Tap water,<br><span class="stroke">upgraded</span> to<br><span class="aqua">perfect.</span></h2>
+  </div>
+  <div class="strip"><span>99.9% purity</span><span>6 stages</span><span>EU delivery</span><span>30-day trial</span></div>
+  <div class="grid">
+    <img src="img/lifestyle-glass.jpg" alt="Стакан наполняется чистой водой" loading="lazy">
+    <div class="panel">
+      <span class="badge">Own brand · European technology</span>
+      <p>One under-sink system replaces 1,800 plastic bottles a year. Pure water for drinking, coffee and cooking — from your own tap.</p>
+      <a class="cta" href="#" onclick="return false">Build my system →</a>
+    </div>
+  </div>
+</div>
+<p class="verdict"><b>Кому подходит:</b> если фокус — быстрые B2C-продажи в Германии и рост через рекламу: смелый первый экран лучше конвертит холодный трафик.</p>
+
+<div class="outro">
+  <h2>Что дальше</h2>
+  <p>Выбираешь направление (или миксуем: например, каркас Licht + продуктовая съёмка Tiefe) — и мы собираем полный магазин в этом стиле: каталог, карточки, B2B, языки.</p>
+  <p class="note">Все фотографии на этой странице сгенерированы под бренд Ruppel Water — так будет выглядеть и контент магазина, без стоковых снимков.</p>
+</div>
+
+<footer>Ruppel Water × msolo.studio · август 2026</footer>
+</body>
+</html>
