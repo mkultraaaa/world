@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<base href="/ruppel/plan/">
+<title>Ruppel Water — план запуска и объём работ</title>
+<style>
+  :root {
+    --ocean-0: #04121A; --ocean-1: #06171F;
+    --glass: rgba(255,255,255,0.035); --glass-2: rgba(255,255,255,0.06);
+    --hairline: rgba(150,214,224,0.13); --hairline-soft: rgba(150,214,224,0.07);
+    --ink: #EDF6F7; --muted: #8FAEB6; --faint: #64838C;
+    --aqua: #4BD9CE; --aqua-deep: #2E9BC7; --champagne: #E9CFA5; --coral: #E89B87;
+    --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: "Avenir Next", Avenir, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; background: var(--ocean-1); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .atmosphere { position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(1100px 700px at 18% -10%, rgba(46,155,199,0.14), transparent 62%),
+                radial-gradient(900px 640px at 85% 108%, rgba(75,217,206,0.09), transparent 60%); }
+  main { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; padding: 70px 22px 60px; }
+
+  .eyebrow { display: inline-flex; align-items: center; gap: 16px; font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--aqua); font-weight: 600; margin-bottom: 22px; }
+  .eyebrow::before, .eyebrow::after { content: ""; width: 38px; height: 1px; background: var(--hairline); }
+  header { text-align: center; margin-bottom: 46px; }
+  h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(28px, 4.6vw, 46px); line-height: 1.14; margin: 0 0 14px; text-wrap: balance; }
+  .em { font-style: italic; background: linear-gradient(115deg, #6FE7DC 10%, #37A9CF 90%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+  header .sub { color: var(--muted); max-width: 560px; margin: 0 auto; text-wrap: balance; }
+
+  .params { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 36px 0 0; }
+  @media (max-width: 720px) { .params { grid-template-columns: repeat(2, 1fr); } }
+  .param { background: var(--glass-2); border: 1px solid var(--hairline); border-radius: 14px; padding: 16px 18px; text-align: left; }
+  .param .k { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--faint); font-weight: 700; margin-bottom: 6px; }
+  .param .v { font-family: var(--serif); font-size: 21px; color: var(--champagne); font-variant-numeric: tabular-nums; }
+  .param .v small { font-size: 13px; color: var(--muted); font-family: var(--sans); }
+
+  section { margin-top: 64px; }
+  h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(23px, 3.4vw, 32px); margin: 0 0 8px; }
+  h2 .num { font-style: italic; color: var(--aqua); margin-right: 10px; }
+  .h2sub { color: var(--faint); font-size: 14px; margin: 0 0 24px; }
+
+  .block { background: linear-gradient(180deg, var(--glass-2), var(--glass)); border: 1px solid var(--hairline); border-radius: 16px; padding: 24px 26px; margin-bottom: 14px; }
+  .block h3 { margin: 0 0 10px; font-size: 17px; letter-spacing: -0.01em; }
+  .block h3 .tag { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--aqua); border: 1px solid rgba(75,217,206,0.35); border-radius: 999px; padding: 3px 10px; margin-left: 10px; vertical-align: 2px; font-weight: 700; }
+  .block ul { margin: 0; padding: 0; list-style: none; }
+  .block li { padding: 8px 0 8px 26px; position: relative; color: var(--muted); font-size: 14.5px; border-bottom: 1px solid var(--hairline-soft); }
+  .block li:last-child { border-bottom: none; }
+  .block li::before { content: "—"; position: absolute; left: 2px; color: var(--aqua); }
+  .block li b { color: var(--ink); font-weight: 600; }
+  .block li.note::before { content: "▲"; font-size: 9px; top: 13px; color: var(--champagne); }
+  .block li.note { color: var(--muted); }
+
+  .out .block li::before { content: "✕"; color: var(--coral); }
+
+  /* timeline */
+  .stage { display: grid; grid-template-columns: 130px 1fr; gap: 20px; padding: 20px 4px; border-bottom: 1px solid var(--hairline-soft); text-align: left; }
+  .stage:last-child { border-bottom: none; }
+  @media (max-width: 640px) { .stage { grid-template-columns: 1fr; gap: 6px; } }
+  .stage .when { font-family: var(--serif); font-style: italic; color: var(--aqua); font-size: 17px; }
+  .stage .when small { display: block; font-style: normal; font-family: var(--sans); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); margin-top: 4px; }
+  .stage b { display: block; margin-bottom: 4px; font-size: 16px; }
+  .stage p { margin: 0; color: var(--muted); font-size: 14.5px; }
+  .stage .gate { margin-top: 8px; font-size: 13px; color: var(--champagne); }
+  .stage .gate::before { content: "⟡ "; }
+
+  /* checklist */
+  .check li::before { content: "☐"; color: var(--champagne); font-size: 15px; top: 8px; }
+
+  /* accept */
+  .accept li::before { content: "✓"; color: var(--aqua); font-weight: 700; }
+
+  .fine { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--hairline-soft); color: var(--faint); font-size: 13px; }
+  .fine b { color: var(--muted); }
+  footer { position: relative; z-index: 1; text-align: center; padding: 28px; color: var(--faint); font-size: 12px; letter-spacing: 0.08em; border-top: 1px solid var(--hairline-soft); }
+  a { color: var(--aqua); }
+</style>
+</head>
+<body>
+<div class="atmosphere" aria-hidden="true"></div>
+<main>
+
+<header>
+  <p class="eyebrow">Ruppel Water · План запуска</p>
+  <h1>Объём работ, этапы и <span class="em">правила игры</span></h1>
+  <p class="sub">Рабочий документ по запуску интернет-магазина Ruppel Water. Здесь всё, о чём договорились: что входит, что нужно с твоей стороны, как идём по этапам и что считается «готово».</p>
+  <div class="params">
+    <div class="param"><div class="k">Запуск работ</div><div class="v">1 сент<small> 2026</small></div></div>
+    <div class="param"><div class="k">Разработка</div><div class="v">€3 000<small> · 50/50</small></div></div>
+    <div class="param"><div class="k">Сопровождение</div><div class="v">€200<small>/мес</small></div></div>
+    <div class="param"><div class="k">Ориентир запуска</div><div class="v">нач. окт<small> 2026</small></div></div>
+  </div>
+</header>
+
+<section id="scope">
+  <h2><span class="num">1</span>Что входит в разработку</h2>
+  <p class="h2sub">Полный объём за €3 000. Всё из этого списка — моя ответственность.</p>
+
+  <div class="block">
+    <h3>Магазин и дизайн</h3>
+    <ul>
+      <li>Shopify-магазин под ключ: структура, все страницы, каталог, корзина, чекаут</li>
+      <li>Индивидуальный дизайн под бренд Ruppel Water на базе профессиональной темы: типографика, палитра, секции, продуктовые изображения — по согласованному концепту (Licht / Tiefe / Klar или их микс)</li>
+      <li>Бренд-страницы: About / Technology / Service &amp; Installation / Warranty / Contact</li>
+      <li>Мобильная версия — приоритет, проверяем на реальных устройствах</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Языки</h3>
+    <ul>
+      <li><b>EN + DE полностью:</b> меню, карточки товаров, все страницы, политики доставки и возврата</li>
+      <li>Системные тексты чекаута — на языке покупателя (нативная локализация Shopify)</li>
+      <li>Письма-уведомления клиентам (подтверждение заказа, доставка) — на языке покупателя</li>
+      <li>Юридические тексты: перевод + вычитка, не сырая машина</li>
+      <li>Архитектура сразу под добавление новых языков в будущем</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Налоги и B2B</h3>
+    <ul>
+      <li>Shopify Tax: ставки VAT по каждой стране ЕС, цены с учётом налога страны покупателя, отчёты совместимые с EU OSS</li>
+      <li><b>B2B:</b> поле VAT-номера в чекауте, проверка в VIES в реальном времени, автоматический 0% / reverse charge для компаний ЕС при кросс-бордер отправке, номер сохраняется в профиле клиента</li>
+      <li>Приложение Sufio: корректные B2B-инвойсы + отображение цен без VAT для компаний</li>
+      <li>B2C и B2B работают одновременно в одном магазине и одном чекауте</li>
+      <li class="note">Нюанс (обсудили): проверка VIES работает в стандартном чекауте — специальный «B2B-чекаут» тарифа Plus не используем, он и не нужен. Если сервис VIES временно недоступен, VAT останется в заказе — возвращаем кредит-нотой, процесс покажу</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Платежи</h3>
+    <ul>
+      <li>Shopify Payments для кипрской компании: карты + европейские методы (Klarna и др.)</li>
+      <li>PayPal — обязателен для немецкого рынка</li>
+      <li>Настройка, тестовые платежи, сопровождение верификации (KYC) твоей компании по шагам</li>
+      <li class="note">Сроки одобрения KYC определяют Shopify/PayPal, не мы — закладываем их в этап 2, документы готовим заранее</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Доставка</h3>
+    <ul>
+      <li>Два профиля доставки: <b>склад Польша</b> (умягчители, краны, фильтры, картриджи) и <b>склад Италия</b> (системы Ruppel Water)</li>
+      <li>Зоны по странам: Германия / Австрия / остальной ЕС — свои тарифы для каждой</li>
+      <li>Ставки <b>по весу</b>: лёгкий картридж и 40-кг умягчитель считаются по-разному</li>
+      <li>Обновление тарифов — пара минут в админке или сообщением агенту</li>
+      <li>Заказ из двух складов: доставка считается по каждому и суммируется в одну строку для клиента</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Поставщики и заказы</h3>
+    <ul>
+      <li>Каждый товар привязан к поставщику (Польша / Италия)</li>
+      <li><b>Автопередача после оплаты:</b> заказ автоматически уходит нужному поставщику — email, веб-портал или API (согласуем формат с каждым поставщиком)</li>
+      <li><b>Сплит-заказы:</b> товары от двух поставщиков в одном заказе автоматически делятся на две отправки, каждая со своим трекингом</li>
+      <li>В админке всегда видно: какой заказ, от какого поставщика, из какой страны едет</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Товары</h3>
+    <ul>
+      <li>Загрузка и оформление первых <b>10–20 товаров</b>: фото, характеристики, варианты, описания EN+DE, SEO title/description, привязка к поставщику</li>
+      <li>Перенос подходящих материалов и переводов с ruppelwater.com</li>
+      <li>Продуктовые изображения в стиле бренда — генерация под Ruppel Water там, где нет живых фото</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>AI-агент в Telegram</h3>
+    <ul>
+      <li>Рабочий агент, подключённый к твоему магазину через официальный API Shopify</li>
+      <li>Сценарий «новый товар»: фото + название + цена + характеристики → агент делает карточку, описание, перевод EN/DE, привязку поставщика → <b>черновик</b> → публикация после твоего «ок»</li>
+      <li>Правки ценами и остатками, отчёты «что по заказам за неделю»</li>
+      <li>Агент остаётся у тебя; хостинг и развитие — в сопровождении (€200/мес); при отказе от сопровождения передаю агента с настройкой на твой сервер (нужен свой ключ AI-провайдера)</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>SEO, аналитика, запуск</h3>
+    <ul>
+      <li>Базовое SEO: мета-теги, структура URL, alt-тексты, sitemap, hreflang для EN/DE</li>
+      <li>Shopify-канал видимости для AI-ассистентов (ChatGPT, Google, Perplexity)</li>
+      <li>Аналитика: Google Analytics 4 + Shopify-отчёты</li>
+      <li>Индексацию открываем только после приёмки — до этого магазин закрыт от поиска</li>
+      <li>Обучение: созвон-экскурсия по админке и агенту + короткие видео</li>
+    </ul>
+  </div>
+</section>
+
+<section id="out" class="out">
+  <h2><span class="num">2</span>Что не входит (фиксируем честно)</h2>
+  <p class="h2sub">Чтобы потом не было «а я думал…». Всё из этого списка возможно — но отдельной задачей и бюджетом.</p>
+  <div class="block">
+    <ul>
+      <li>Тарифы доставки по <b>габаритам</b> и живые тарифы перевозчиков (DHL/DPD/GLS в реальном времени) — стартуем на весовых таблицах; реалтайм подключается позже (приложение ~$29/мес + тариф Shopify Grow), когда обороты оправдают</li>
+      <li>Языки сверх EN+DE — добавляются потом в рамках сопровождения</li>
+      <li>Перенос <b>всего</b> каталога ruppelwater.com (тысячи позиций) — в объёме первые 10–20 товаров, дальше сам через агента или отдельной задачей</li>
+      <li>Модуль аренды (как на rrwater.online) — магазин на него ссылается, интеграция аренды в Shopify — отдельный проект</li>
+      <li>Реклама, контент-маркетинг, ведение соцсетей, полноценное SEO-продвижение</li>
+      <li>Профессиональная фотосъёмка товаров — используем генерацию в стиле бренда + материалы поставщиков</li>
+      <li>Подписки Shopify и приложений (~$50–90/мес суммарно) и комиссии платёжных систем — оплачиваются тобой напрямую</li>
+    </ul>
+  </div>
+</section>
+
+<section id="stages">
+  <h2><span class="num">3</span>Этапы и сроки</h2>
+  <p class="h2sub">Ориентир — запуск в первую неделю октября. Сроки держатся, если материалы по чек-листу (раздел 4) готовы к старту и обратная связь по согласованиям — в пределах 1–2 дней.</p>
+  <div class="block">
+    <div class="stage">
+      <div class="when">до 1 сент<small>Этап 0 · Подготовка</small></div>
+      <div><b>Материалы и предоплата</b>
+        <p>Ты собираешь всё по чек-листу из раздела 4, я готовлю Shopify-магазин (закрытый), финализируем выбор дизайн-концепта. Предоплата 50% — €1 500.</p>
+        <div class="gate">Гейт: материалы получены, концепт выбран</div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="when">1–5 сент<small>Этап 1 · Дизайн</small></div>
+      <div><b>Финальный дизайн на согласование</b>
+        <p>Главная + карточка товара + каталог в выбранном стиле, десктоп и мобайл. Один раунд правок внутри этапа.</p>
+        <div class="gate">Гейт: твоё «ок» по дизайну</div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="when">8–19 сент<small>Этап 2 · Сборка</small></div>
+      <div><b>Магазин целиком</b>
+        <p>Вёрстка всех страниц, EN+DE, Shopify Tax + VIES/B2B, платёжка (параллельно идёт KYC), профили доставки Польша/Италия, автопередача заказов поставщикам, загрузка товаров.</p>
+        <div class="gate">Гейт: тестовые заказы проходят end-to-end</div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="when">22–26 сент<small>Этап 3 · Агент и прогон</small></div>
+      <div><b>AI-агент + путь клиента</b>
+        <p>Подключение Telegram-агента, совместный тест-прогон: B2C-заказ, B2B-заказ с VAT-номером, сплит-заказ из двух складов, возвраты. Правки по итогам.</p>
+        <div class="gate">Гейт: чек-лист приёмки (раздел 5) — зелёный</div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="when">29 сент – 3 окт<small>Этап 4 · Запуск</small></div>
+      <div><b>Приёмка и передача</b>
+        <p>Открытие индексации, аналитика, передача ownership на твой Shopify-аккаунт, обучение (созвон + видео). Вторая половина оплаты — €1 500. С этого момента включается сопровождение €200/мес.</p>
+        <div class="gate">Гейт: магазин живой, всё твоё</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="need">
+  <h2><span class="num">4</span>Что нужно с твоей стороны</h2>
+  <p class="h2sub">Чек-лист к 1 сентября. Чем полнее к старту — тем точнее сроки.</p>
+  <div class="block check">
+    <h3>Компания и платежи</h3>
+    <ul>
+      <li>Документы кипрской компании для Shopify Payments: регистрационный номер (HE), данные директора/UBO, банковский счёт (IBAN)</li>
+      <li>VAT-номер компании; регистрация EU OSS — у твоего бухгалтера (мы настраиваем магазин под неё)</li>
+      <li>PayPal Business аккаунт (или создаём в процессе)</li>
+      <li>Домен: какой используем (новый или существующий) + доступ к DNS</li>
+      <li>Твой email для Shopify-аккаунта (на него передаётся ownership)</li>
+    </ul>
+  </div>
+  <div class="block check">
+    <h3>Поставщики</h3>
+    <ul>
+      <li>Контакты поставщиков (Польша, Италия) и подтверждение: <b>как они принимают заказы</b> — email / портал / API</li>
+      <li>Прайсы и условия: закупочные цены, сроки отправки</li>
+      <li>Тарифы доставки от каждого: Польша → Германия/ЕС и Италия → Германия/ЕС, по весовым диапазонам</li>
+      <li>Договорённость с поставщиками об отправке напрямую клиенту (нейтральная упаковка/документы — как договоритесь)</li>
+    </ul>
+  </div>
+  <div class="block check">
+    <h3>Товары и контент</h3>
+    <ul>
+      <li>Список первых 10–20 товаров: названия, цены продажи, характеристики, фото от поставщиков (что есть)</li>
+      <li>Вес и габариты каждого товара (для тарифов доставки)</li>
+      <li>Исходники логотипа (SVG уже есть у нас с ruppelwater.com — подтверди, что он актуален)</li>
+      <li>Фактура о компании: история, сервис, гарантия, установка — тезисно, тексты напишем мы, ты проверишь</li>
+      <li>Реквизиты для юридических страниц: Impressum-данные, условия возврата, контакты поддержки</li>
+    </ul>
+  </div>
+  <div class="block check">
+    <h3>В процессе</h3>
+    <ul>
+      <li>Обратная связь по согласованиям в пределах 1–2 рабочих дней</li>
+      <li>Прохождение KYC-верификаций (Shopify Payments, PayPal) — по нашим инструкциям</li>
+      <li>Участие в тест-прогоне на этапе 3 (пара часов)</li>
+    </ul>
+  </div>
+</section>
+
+<section id="accept">
+  <h2><span class="num">5</span>Критерии приёмки</h2>
+  <p class="h2sub">Работа считается выполненной, когда каждый пункт проходит на живом магазине — проверяем вместе на этапе 3–4.</p>
+  <div class="block accept">
+    <ul>
+      <li>Тестовый B2C-заказ из Германии: корректная цена с немецким VAT, оплата картой проходит</li>
+      <li>Тестовый B2B-заказ с валидным EU VAT-номером: VIES-проверка, 0% / reverse charge, пометка в заказе и инвойсе</li>
+      <li>Сплит-заказ (товар из Польши + товар из Италии): заказ делится, каждый поставщик получает свою часть автоматически, доставка посчитана по обоим складам</li>
+      <li>PayPal и Klarna доступны в чекауте и проходят тест</li>
+      <li>Полное переключение EN ⇄ DE: меню, карточки, страницы, политики, чекаут, письмо-подтверждение</li>
+      <li>Тарифы доставки: лёгкий и тяжёлый товар в одну страну дают разные корректные ставки</li>
+      <li>Агент: из фото + цены в Telegram появляется карточка-черновик с описанием EN/DE и привязкой к поставщику; после «публикуй» товар виден на витрине</li>
+      <li>Мобильная версия: путь «каталог → карточка → корзина → оплата» проходит с телефона</li>
+      <li>Ownership магазина, домен и все доступы — на твоих аккаунтах</li>
+    </ul>
+  </div>
+</section>
+
+<section id="terms">
+  <h2><span class="num">6</span>Деньги и правила</h2>
+  <div class="block">
+    <ul>
+      <li><b>Разработка €3 000:</b> €1 500 на старте (этап 0) + €1 500 по приёмке (этап 4)</li>
+      <li><b>Сопровождение €200/мес</b> с момента запуска: поддержка, доработки, развитие агента, новые языки и страны, консультации. Отмена — в любой месяц</li>
+      <li>Операционные расходы на тебе: Shopify Basic $39/мес (первые 3 мес по €1), приложения ~$40–60/мес, комиссии платёжек (~2% с продаж)</li>
+      <li>Правки: по одному раунду внутри этапов 1 и 3 — включены; хотелки сверх объёма из раздела 1 собираем в список и делаем после запуска в рамках сопровождения</li>
+      <li>Всё созданное — магазин, тема, автоматизации, агент, контент — твоя собственность после полной оплаты</li>
+    </ul>
+  </div>
+</section>
+
+<p class="fine"><b>Зависимости, которые не контролируем:</b> сроки одобрения KYC у Shopify Payments и PayPal; доступность сервиса VIES (при сбое VAT остаётся в заказе — возвращаем кредит-нотой); скорость ответов поставщиков по формату приёма заказов. Эти риски снижаем тем, что документы и договорённости готовим на этапе 0.</p>
+
+</main>
+<footer>Ruppel Water × msolo.studio · план запуска · версия 1 · август 2026 · <a href="/ruppel/">← предложение</a> · <a href="/ruppel/concepts/">концепты</a></footer>
+</body>
+</html>
