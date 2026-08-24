@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<base href="/eight/">
+<title>EIGHT — чайный бар на Кипре</title>
+<meta name="description" content="Концепция премиального чайного бара в Никосии: система багуа, айдентика, упаковка, экономика.">
+<style>
+:root{
+ --ink:#F2EEE7; --ground:#0B0A09; --panel:#141210; --panel2:#1B1815;
+ --dim:#9A9188; --faint:#6E665E; --rule:rgba(242,238,231,.13); --rule2:rgba(242,238,231,.07);
+ --sans:'Inter Display','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;
+ --mono:'Inter',ui-monospace,Menlo,monospace;
+ --heaven:#2A1B12; --lake:#14464C; --fire:#B31D22; --thunder:#2E5B33;
+ --wind:#A9682B; --water:#16283F; --mountain:#D8D4C8; --earth:#D9A183;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--ground)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;
+ -webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* знак */
+.mk{display:inline-flex;flex-direction:column;justify-content:space-between;color:currentColor;vertical-align:middle}
+.mk .ln{display:flex;gap:22%;height:22%;font-style:normal}
+.mk .ln b{flex:1;background:currentColor;display:block}
+.mk.s{width:20px;height:16px} .mk.m{width:30px;height:25px} .mk.l{width:62px;height:51px}
+
+/* навигация */
+nav{position:sticky;top:0;z-index:50;background:rgba(11,10,9,.9);backdrop-filter:blur(14px);
+ border-bottom:1px solid var(--rule2)}
+nav .wrap{display:flex;align-items:center;gap:26px;height:54px;overflow-x:auto;scrollbar-width:none}
+nav .wrap::-webkit-scrollbar{display:none}
+nav a{color:var(--dim);text-decoration:none;font-size:12.5px;white-space:nowrap;letter-spacing:.01em}
+nav a:hover,nav a:focus-visible{color:var(--ink)}
+nav .brand{font-weight:800;letter-spacing:.26em;font-size:12px;color:var(--ink);flex:none}
+
+/* герой */
+header{padding:96px 0 74px;border-bottom:1px solid var(--rule2)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+h1{font-size:clamp(44px,9vw,86px);line-height:.94;letter-spacing:-.045em;font-weight:900;margin:22px 0 24px;text-wrap:balance}
+.lede{font-size:clamp(17px,2.4vw,21px);line-height:1.45;color:#C4BBB1;max-width:44ch}
+.marks-row{display:flex;gap:14px;margin-top:44px;flex-wrap:wrap}
+.marks-row .sw{width:60px;height:60px;border-radius:9px;display:flex;align-items:center;justify-content:center}
+
+/* секции */
+section{padding:78px 0;border-bottom:1px solid var(--rule2)}
+.shead{display:flex;gap:18px;align-items:baseline;margin-bottom:14px;flex-wrap:wrap}
+.snum{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--faint)}
+h2{font-size:clamp(26px,4.2vw,36px);letter-spacing:-.03em;font-weight:800;line-height:1.06}
+h3{font-size:19px;letter-spacing:-.02em;font-weight:700;margin:38px 0 10px}
+p{max-width:64ch;color:#CCC3B9;margin-bottom:15px}
+p strong,li strong{color:var(--ink);font-weight:600}
+.note{font-size:17px;color:#C4BBB1;max-width:60ch;margin-bottom:30px}
+ul{max-width:64ch;color:#CCC3B9;margin:0 0 15px 18px}
+li{margin-bottom:7px}
+a{color:#9ECBD2}
+code{font-family:var(--mono);font-size:.9em;background:var(--panel2);padding:2px 6px;border-radius:4px;color:#DCD3C8}
+
+/* карточки */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--rule2);
+ border:1px solid var(--rule2);margin:26px 0}
+.cards>div{background:var(--panel);padding:20px}
+.cards h4{font-size:14.5px;font-weight:700;margin-bottom:7px}
+.cards p{font-size:13.5px;margin:0;color:#A79E94}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule2);
+ border:1px solid var(--rule2);margin:26px 0}
+.kpi>div{background:var(--panel);padding:20px}
+.kpi b{display:block;font-size:29px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:var(--faint);font-family:var(--mono);letter-spacing:.09em}
+
+/* таблицы */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule2)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--rule2)}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;
+ background:var(--panel2)}
+tr:last-child td{border-bottom:none}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+td.tdim,td.tax{color:var(--faint);font-size:13px}
+.tmk{width:34px;color:var(--c)} .tmk .mk b{background:var(--c);filter:brightness(1.9)}
+.tsign{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--dim);white-space:nowrap}
+
+/* стаканы */
+.cupgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:26px 0}
+.cup{border-radius:9px;overflow:hidden;background:var(--panel)}
+.cup img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.cup figcaption{padding:13px 14px 15px;background:var(--c);color:var(--on);display:flex;flex-direction:column;gap:3px}
+.cmk{margin-bottom:5px}
+.cn{font-family:var(--mono);font-size:10px;letter-spacing:.16em;opacity:.72}
+.cd{font-size:14.5px;font-weight:700;letter-spacing:-.015em}
+.cs{font-family:var(--mono);font-size:10.5px;opacity:.72;font-variant-numeric:tabular-nums}
+
+/* галереи */
+.gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:26px 0}
+.gal2{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:26px 0}
+.gal figure,.gal2 figure{margin:0}
+.gal img,.gal2 img{width:100%;border-radius:8px;background:var(--panel)}
+.gal figcaption,.gal2 figcaption{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;color:var(--faint);
+ margin-top:8px;text-transform:uppercase}
+.wide{margin:26px 0} .wide img{width:100%;border-radius:9px}
+.wide figcaption{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;color:var(--faint);margin-top:8px;
+ text-transform:uppercase}
+
+/* коллбек */
+.callout{border-left:3px solid var(--wind);background:var(--panel);padding:18px 20px;margin:26px 0;max-width:66ch}
+.callout p:last-child{margin-bottom:0}
+.btn{display:inline-block;background:var(--ink);color:var(--ground);text-decoration:none;font-weight:700;
+ padding:14px 22px;border-radius:9px;font-size:15px;margin-top:8px}
+.btn:hover{opacity:.88}
+.status{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;
+ letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
+.pip{width:7px;height:7px;border-radius:50%;background:var(--thunder);display:inline-block}
+.pip.warn{background:var(--wind)} .pip.stop{background:var(--fire)}
+footer{padding:52px 0 76px;color:var(--faint);font-size:13px}
+footer p{color:var(--faint);max-width:60ch}
+@media(max-width:640px){header{padding:64px 0 52px} section{padding:56px 0}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+ <span class="brand">E I G H T</span>
+ <a href="#idea">Идея</a><a href="#market">Рынок</a><a href="#system">Система</a><a href="#menu">Меню</a>
+ <a href="#brand">Айдентика</a><a href="#digital">Digital</a><a href="#delivery">Подача</a>
+ <a href="#ads">Реклама</a><a href="#econ">Экономика</a><a href="#plan">План</a><a href="#next">Дальше</a>
+</div></nav>
+
+<header><div class="wrap">
+ <div class="eyebrow">Никосия · Кипр · концепция · обновлено 24.08.2026</div>
+ <h1>Кофе — не единственный источник энергии.</h1>
+ <p class="lede">EIGHT — премиальный чайный бар. Восемь состояний чая, три вопроса, чтобы найти своё. Не bubble tea.</p>
+ <div class="marks-row">
+  <span class="sw" style="background:#2A1B12;color:#EFE7DC"><span class="mk m"><i class="ln"><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b></i></span></span><span class="sw" style="background:#14464C;color:#DCE9EA"><span class="mk m"><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b></i></span></span><span class="sw" style="background:#B31D22;color:#ffffff"><span class="mk m"><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i></span></span><span class="sw" style="background:#2E5B33;color:#E6EFE2"><span class="mk m"><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i></span></span><span class="sw" style="background:#A9682B;color:#FBF3E7"><span class="mk m"><i class="ln"><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i></span></span><span class="sw" style="background:#16283F;color:#DAE3EE"><span class="mk m"><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i></span></span><span class="sw" style="background:#D8D4C8;color:#2A2520"><span class="mk m"><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i></span></span><span class="sw" style="background:#D9A183;color:#5A2F1C"><span class="mk m"><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i></span></span>
+ </div>
+</div></header>
+
+<section id="idea"><div class="wrap">
+ <div class="shead"><span class="snum">01</span><h2>Что это</h2></div>
+ <p class="note">Премиальный чайный бар в формате CHAGEE: настоящий листовой чай, свежее молоко, регулируемый сахар, красивый стакан с собой. Позиционирование — <strong>ежедневная альтернатива кофе</strong>, а не десерт раз в неделю.</p>
+ <div class="cards">
+  <div><h4>Не bubble tea</h4><p>Никаких шариков тапиоки, сиропов «taro» и детской эстетики. Рынок Кипра уже отфильтровал дешёвый bubble tea.</p></div>
+  <div><h4>Средний чек €7–8</h4><p>Кофе рядом стоит €3.50–4. Готовность платить подтверждена конкурентами — см. раздел «Рынок».</p></div>
+  <div><h4>Сначала без помещения</h4><p>Delivery-only тест за €5–8k вместо точки за €80k. Физическая точка — только после подтверждения цифр.</p></div>
+ </div>
+ <div class="callout"><p><strong>Главная проблема, которую решаем:</strong> человек не знает, чем улун отличается от пуэра, и не должен узнать, чтобы сделать заказ. Отсюда вся система — см. раздел «Система».</p></div>
+</div></section>
+
+<section id="market"><div class="wrap">
+ <div class="shead"><span class="snum">02</span><h2>Рынок: категория на Кипре работает</h2></div>
+ <p class="note">Ресёрч показал: спрос подтверждён, но подтверждён именно <strong>хорошо упакованный премиум-чай</strong>, а не любое заведение с bubble tea.</p>
+ <div class="kpi">
+  <div><b>839</b><span>ОТЗЫВОВ · BOBA ISLAND НИКОСИЯ ЗА 27 МЕС</span></div>
+  <div><b>€6.90</b><span>ОБЫЧНЫЙ MILK TEA У BOBA ISLAND</span></div>
+  <div><b>€7–10</b><span>МАТЧА У MATCHA THEORY, ЛИМАСОЛ</span></div>
+  <div><b>~7</b><span>СПЕЦИАЛИЗИРОВАННЫХ ТОЧЕК НА ВЕСЬ ОСТРОВ</span></div>
+ </div>
+ <h3>Кто уже работает</h3>
+ <div class="tw"><table>
+  <tr><th>Бренд</th><th>Масштаб</th><th>Сигнал</th><th>Вывод</th></tr>
+  <tr><td>Boba Island</td><td>5 точек + Дубай</td><td>839 / 660 / 514 отзывов, ~4.2k IG</td><td>🟢 очень сильный</td></tr>
+  <tr><td>The 1972</td><td>1, Лимасол</td><td>225 отзывов, ~1.6k IG, очереди</td><td>🟢 хороший</td></tr>
+  <tr><td>Matcha Theory</td><td>1, Лимасол</td><td>83 отзыва, матча €7–10</td><td>🟢 доказал цену</td></tr>
+  <tr><td>Bubbletale</td><td>несколько, давно</td><td>857 IG, дешевле на 35%</td><td>🟡 средний</td></tr>
+ </table></div>
+ <div class="callout"><p>Bubbletale работает годами, стоит на 35% дешевле и проигрывает Boba Island впятеро по соцсетям. <strong>Рынок платит не за категорию, а за исполнение.</strong> Это лучший из возможных сигналов для нового игрока.</p></div>
+ <p>Чего на Кипре нет: полноценного <strong>tea-as-alternative-to-coffee</strong> бренда. Boba Island — десерт-heavy (Nutella, Oreo, crème brûlée), Matcha Theory — только матча. Ниша ежедневного повторяемого потребления открыта.</p>
+</div></section>
+
+<section id="system"><div class="wrap">
+ <div class="shead"><span class="snum">03</span><h2>Система: багуа как трёхбитный код</h2></div>
+ <p class="note">Триграмма — три черты, каждая целая или разорванная. Три бинарных признака дают ровно восемь комбинаций. Это не мистика: Лейбниц заинтересовался «Ицзином» именно потому, что увидел двоичную систему.</p>
+ <div class="callout" style="border-left-color:var(--thunder)"><p style="font-size:19px;color:var(--ink);margin:0">
+ <strong>3 вопроса → 3 черты → 1 знак → 1 напиток.</strong></p></div>
+ <h3>Три вопроса — и ни одного про чай</h3>
+ <div class="tw"><table>
+  <tr><th>Черта</th><th>Вопрос</th><th>Ян</th><th>Инь</th></tr>
+  <tr><td class="tsign">нижняя</td><td>Что нужно от следующего часа?</td><td>подняться</td><td>успокоиться</td></tr>
+  <tr><td class="tsign">средняя</td><td>Какой запах приятнее?</td><td>тёплый: дерево, обжарка</td><td>свежий: цветы, фрукты</td></tr>
+  <tr><td class="tsign">верхняя</td><td>Каким должен быть напиток?</td><td>плотный, с молоком</td><td>чистый, без молока</td></tr>
+ </table></div>
+ <p>Черты собираются снизу вверх на глазах у человека. Знак — это буквально три его ответа, а не судьба. Название чая он видит мелким шрифтом под своим знаком: ничего не учил, но через четыре заказа говорит «мне мой ветер».</p>
+ <h3>Соседство встроено в систему</h3>
+ <p>У соседних триграмм отличается ровно одна черта — то есть ровно один атрибут напитка. «То же, но без молока» = перевернуть верхнюю черту. Рекомендательный движок писать не нужно, он следует из кодировки.</p>
+ <figure class="wide"><img src="img/bagua-grid.jpg" alt="Сетка багуа из восьми чаёв" loading="lazy">
+ <figcaption>Расположение Вэнь-вана — оно же сетка Instagram, меню-борд и карта лояльности</figcaption></figure>
+</div></section>
+
+<section id="menu"><div class="wrap">
+ <div class="shead"><span class="snum">04</span><h2>Восемь чаёв</h2></div>
+ <p class="note">Девятый напиток — Oolong Milk Tea — стоит в центре как 太極, для тех, кто не хочет проходить квиз.</p>
+ <div class="cupgrid"><figure class="cup" style="--c:#2A1B12;--on:#EFE7DC">
+ <img src="img/cup-heaven.jpg" alt="Caramel Shu Pu-erh" loading="lazy">
+ <figcaption><span class="cmk"><span class="mk m"><i class="ln"><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b></i></span></span><span class="cn">НЕБО</span><span class="cd">Caramel Shu Pu-erh</span>
+ <span class="cs">70 мг · €6.90</span></figcaption></figure><figure class="cup" style="--c:#14464C;--on:#DCE9EA">
+ <img src="img/cup-lake.jpg" alt="Cold Brew Pu-erh" loading="lazy">
+ <figcaption><span class="cmk"><span class="mk m"><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b></i></span></span><span class="cn">ОЗЕРО</span><span class="cd">Cold Brew Pu-erh</span>
+ <span class="cs">60 мг · €5.50</span></figcaption></figure><figure class="cup" style="--c:#B31D22;--on:#ffffff">
+ <img src="img/cup-fire.jpg" alt="Strawberry Matcha" loading="lazy">
+ <figcaption><span class="cmk"><span class="mk m"><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i></span></span><span class="cn">ОГОНЬ</span><span class="cd">Strawberry Matcha</span>
+ <span class="cs">65 мг · €7.50</span></figcaption></figure><figure class="cup" style="--c:#2E5B33;--on:#E6EFE2">
+ <img src="img/cup-thunder.jpg" alt="Classic Matcha" loading="lazy">
+ <figcaption><span class="cmk"><span class="mk m"><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i></span></span><span class="cn">ГРОМ</span><span class="cd">Classic Matcha</span>
+ <span class="cs">65 мг · €6.90</span></figcaption></figure><figure class="cup" style="--c:#A9682B;--on:#FBF3E7">
+ <img src="img/cup-wind.jpg" alt="Hojicha Latte" loading="lazy">
+ <figcaption><span class="cmk"><span class="mk m"><i class="ln"><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i></span></span><span class="cn">ВЕТЕР</span><span class="cd">Hojicha Latte</span>
+ <span class="cs">20 мг · €6.50</span></figcaption></figure><figure class="cup" style="--c:#16283F;--on:#DAE3EE">
+ <img src="img/cup-water.jpg" alt="GABA Oolong" loading="lazy">
+ <figcaption><span class="cmk"><span class="mk m"><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i></span></span><span class="cn">ВОДА</span><span class="cd">GABA Oolong</span>
+ <span class="cs">45 мг · €6.00</span></figcaption></figure><figure class="cup" style="--c:#D8D4C8;--on:#2A2520">
+ <img src="img/cup-mountain.jpg" alt="Jasmine Cloud" loading="lazy">
+ <figcaption><span class="cmk"><span class="mk m"><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i></span></span><span class="cn">ГОРА</span><span class="cd">Jasmine Cloud</span>
+ <span class="cs">45 мг · €6.50</span></figcaption></figure><figure class="cup" style="--c:#D9A183;--on:#5A2F1C">
+ <img src="img/cup-earth.jpg" alt="Peach Jasmine" loading="lazy">
+ <figcaption><span class="cmk"><span class="mk m"><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i></span></span><span class="cn">ЗЕМЛЯ</span><span class="cd">Peach Jasmine</span>
+ <span class="cs">25 мг · €6.50</span></figcaption></figure></div>
+ <div class="tw"><table>
+  <tr><th></th><th>Знак</th><th>Напиток</th><th>Чай</th><th>Оси</th><th>Кофеин</th><th>Цена</th></tr>
+  <tr style="--c:#2A1B12"><td class="tmk"><span class="mk s"><i class="ln"><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b></i></span></td><td class="tsign">乾 НЕБО</td>
+<td>Caramel Shu Pu-erh</td><td class="tdim">шу пуэр</td><td class="tax">подняться · тёплый · молочный</td><td class="num">70</td><td class="num">€6.90</td></tr><tr style="--c:#14464C"><td class="tmk"><span class="mk s"><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b></i></span></td><td class="tsign">兌 ОЗЕРО</td>
+<td>Cold Brew Pu-erh</td><td class="tdim">шу пуэр, холодная экстракция</td><td class="tax">подняться · тёплый · чистый</td><td class="num">60</td><td class="num">€5.50</td></tr><tr style="--c:#B31D22"><td class="tmk"><span class="mk s"><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i></span></td><td class="tsign">離 ОГОНЬ</td>
+<td>Strawberry Matcha</td><td class="tdim">матча</td><td class="tax">подняться · свежий · молочный</td><td class="num">65</td><td class="num">€7.50</td></tr><tr style="--c:#2E5B33"><td class="tmk"><span class="mk s"><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i></span></td><td class="tsign">震 ГРОМ</td>
+<td>Classic Matcha</td><td class="tdim">матча</td><td class="tax">подняться · свежий · чистый</td><td class="num">65</td><td class="num">€6.90</td></tr><tr style="--c:#A9682B"><td class="tmk"><span class="mk s"><i class="ln"><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i></span></td><td class="tsign">巽 ВЕТЕР</td>
+<td>Hojicha Latte</td><td class="tdim">ходзича</td><td class="tax">успокоиться · тёплый · молочный</td><td class="num">20</td><td class="num">€6.50</td></tr><tr style="--c:#16283F"><td class="tmk"><span class="mk s"><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i></span></td><td class="tsign">坎 ВОДА</td>
+<td>GABA Oolong</td><td class="tdim">GABA улун</td><td class="tax">успокоиться · тёплый · чистый</td><td class="num">45</td><td class="num">€6.00</td></tr><tr style="--c:#D8D4C8"><td class="tmk"><span class="mk s"><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i></span></td><td class="tsign">艮 ГОРА</td>
+<td>Jasmine Cloud</td><td class="tdim">жасминовый зелёный</td><td class="tax">успокоиться · свежий · молочный</td><td class="num">45</td><td class="num">€6.50</td></tr><tr style="--c:#D9A183"><td class="tmk"><span class="mk s"><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i></span></td><td class="tsign">坤 ЗЕМЛЯ</td>
+<td>Peach Jasmine</td><td class="tdim">жасминовый + персик</td><td class="tax">успокоиться · свежий · чистый</td><td class="num">25</td><td class="num">€6.50</td></tr>
+ </table></div>
+ <p class="note" style="font-size:14px;color:var(--faint)">Кофеин — оценочные значения, требуют подтверждения замером или данными поставщика. На упаковку идут только проверенные цифры.</p>
+</div></section>
+
+<section id="brand"><div class="wrap">
+ <div class="shead"><span class="snum">05</span><h2>Айдентика</h2></div>
+ <p class="note">Восемь трёхчерточных знаков — готовый графический набор, читаемый в 32 px. Ни дракона, ни иероглифа-декора. У каждой триграммы свой цветовой мир, взятый из цвета самого чая; вёрстка, свет и ракурс одинаковые во всех восьми — именно это удерживает набор как систему.</p>
+ <div class="gal"><figure><img src="img/storefront.jpg" alt="Фасад" loading="lazy"><figcaption>Фасад</figcaption></figure><figure><img src="img/menuboard.jpg" alt="Меню-борд" loading="lazy"><figcaption>Меню-борд</figcaption></figure><figure><img src="img/lineup.jpg" alt="Линейка" loading="lazy"><figcaption>Линейка</figcaption></figure><figure><img src="img/counter.jpg" alt="Стойка" loading="lazy"><figcaption>Стойка</figcaption></figure><figure><img src="img/apron.jpg" alt="Форма" loading="lazy"><figcaption>Форма</figcaption></figure><figure><img src="img/courierbag.jpg" alt="Курьерская сумка" loading="lazy"><figcaption>Курьерская сумка</figcaption></figure></div>
+ <h3>Носители</h3>
+ <div class="gal"><figure><img src="img/menucard.jpg" alt="Бумажное меню" loading="lazy"><figcaption>Бумажное меню</figcaption></figure><figure><img src="img/flyer.jpg" alt="QR-карточки для дегустаций" loading="lazy"><figcaption>QR-карточки для дегустаций</figcaption></figure><figure><img src="img/stamp.jpg" alt="Штамп и карта лояльности" loading="lazy"><figcaption>Штамп и карта лояльности</figcaption></figure><figure><img src="img/office.jpg" alt="Офисный набор" loading="lazy"><figcaption>Офисный набор</figcaption></figure></div>
+ <div class="callout"><p><strong>Лояльность:</strong> круг из восьми секторов, каждый новый знак закрывает свой. Замкнул круг — девятый напиток в подарок. Механика требует минимум восьми покупок и заодно решает вторую половину проблемы онбординга: человек не залипает на одном чае.</p></div>
+</div></section>
+
+<section id="digital"><div class="wrap">
+ <div class="shead"><span class="snum">06</span><h2>Instagram, Wolt и свой квиз</h2></div>
+ <p class="note">Три поверхности с разными работами: Instagram привлекает и объясняет категорию, своя страница превращает интерес в заказ и выдаёт знак, Wolt забирает тех, кто ищет напиток, а не бренд.</p>
+ <div class="gal"><figure><img src="img/phone-ig.jpg" alt="Профиль: сетка 3×3 = схема багуа" loading="lazy"><figcaption>Профиль: сетка 3×3 = схема багуа</figcaption></figure><figure><img src="img/phone-wolt.jpg" alt="Wolt: меню поделено на «поднимает» и «успокаивает»" loading="lazy"><figcaption>Wolt: меню поделено на «поднимает» и «успокаивает»</figcaption></figure><figure><img src="img/phone-quiz.jpg" alt="Результат квиза" loading="lazy"><figcaption>Результат квиза</figcaption></figure></div>
+ <h3>Зачем нужен свой сайт</h3>
+ <p>Instagram не принимает заказы. Wolt принимает, но берёт 25–30% и, что важнее, забирает клиента. Но причина сильнее денег: <strong>квиз физически некуда положить, кроме своей страницы</strong>. Это единственное место, где человек получает то, чего больше нигде нет — и это и есть причина заказывать напрямую.</p>
+ <figure class="wide"><img src="img/quiz-flow.jpg" alt="Экраны квиза" loading="lazy">
+ <figcaption>Три вопроса и результат · знак собирается снизу вверх</figcaption></figure>
+ <p><a class="btn" href="https://claude.ai/code/artifact/9169a2e1-ecc4-477a-9fe4-df689d051bf6" target="_blank" rel="noopener">Открыть рабочий прототип квиза →</a></p>
+</div></section>
+
+<section id="delivery"><div class="wrap">
+ <div class="shead"><span class="snum">07</span><h2>Подача через доставку</h2></div>
+ <p class="note">Офлайн-точки нет. Значит курьер — единственная физическая сцена, и упаковка должна делать всё, что делает кафе: первое впечатление, онбординг и повод вернуться.</p>
+ <div class="gal"><figure><img src="img/handover.jpg" alt="Передача: закрытый пакет с лентой" loading="lazy"><figcaption>Передача: закрытый пакет с лентой</figcaption></figure><figure><img src="img/unboxing.jpg" alt="Вскрытие: пять предметов вместо мокрого стакана" loading="lazy"><figcaption>Вскрытие: пять предметов вместо мокрого стакана</figcaption></figure><figure><img src="img/seal.jpg" alt="Пломба: разрыв ломает знак пополам" loading="lazy"><figcaption>Пломба: разрыв ломает знак пополам</figcaption></figure><figure><img src="img/coaster.jpg" alt="Подстаканник впитывает конденсат и остаётся на столе" loading="lazy"><figcaption>Подстаканник впитывает конденсат и остаётся на столе</figcaption></figure><figure><img src="img/card.jpg" alt="Карточка знака с саше сухого листа" loading="lazy"><figcaption>Карточка знака с саше сухого листа</figcaption></figure><figure><img src="img/packaging.jpg" alt="Упаковка" loading="lazy"><figcaption>Упаковка</figcaption></figure></div>
+ <div class="callout"><p><strong>Саше с 2 г сухого листа</strong> — сильнейший элемент набора. Запах единственное, что доставка забирает целиком и что невозможно вернуть картинкой. Человек нюхает сухую ходзичу до первого глотка и сам понимает, откуда в напитке дерево. Объяснять не нужно.</p></div>
+ <h3>Смета на заказ</h3>
+ <div class="tw"><table>
+  <tr><th>Кому</th><th>Что кладём</th><th>€ / заказ</th></tr>
+  <tr><td>Первый заказ</td><td>подстаканник, пломба, карточка, саше, пробник соседнего знака</td><td class="num">0.70–1.40</td></tr>
+  <tr><td>Повторный</td><td>подстаканник + пломба</td><td class="num">0.20–0.40</td></tr>
+  <tr><td>Каждый 4-й повторный</td><td>+ пробник нового знака</td><td class="num">0.45–0.85</td></tr>
+ </table></div>
+ <p>Полный набор съедает 15–28% вклада с чека €7 — каждому заказу слишком дорого. Первое впечатление покупается один раз, дальше платим только за возврат.</p>
+</div></section>
+
+<section id="ads"><div class="wrap">
+ <div class="shead"><span class="snum">08</span><h2>Рекламные материалы</h2></div>
+ <p class="note">Одиннадцать креативов, восемь углов, четыре формата под Meta и Google Display. Фотография — AI, типографика наложена вёрсткой: так кириллица и цифры набраны честно.</p>
+ <div class="gal"><figure><img src="img/ad-02-caffeine-1x1.jpg" alt="20 против 80 · рациональный" loading="lazy"><figcaption>20 против 80 · рациональный</figcaption></figure><figure><img src="img/ad-03-quiz-4x5.jpg" alt="Квиз · лучший CAC" loading="lazy"><figcaption>Квиз · лучший CAC</figcaption></figure><figure><img src="img/ad-09-delivery-4x5.jpg" alt="Не мокрый стакан · козырь" loading="lazy"><figcaption>Не мокрый стакан · козырь</figcaption></figure><figure><img src="img/ad-07-padel-1x1.jpg" alt="Контекст вместо продукта" loading="lazy"><figcaption>Контекст вместо продукта</figcaption></figure><figure><img src="img/ad-01-manifesto-4x5.jpg" alt="Манифест" loading="lazy"><figcaption>Манифест</figcaption></figure><figure><img src="img/ad-05-teadrop-9x16.jpg" alt="Tea Drop · дефицит" loading="lazy"><figcaption>Tea Drop · дефицит</figcaption></figure></div>
+ <figure class="wide"><img src="img/ads-sheet.jpg" alt="Все креативы" loading="lazy">
+ <figcaption>Полный набор · 11 креативов</figcaption></figure>
+</div></section>
+
+<section id="econ"><div class="wrap">
+ <div class="shead"><span class="snum">09</span><h2>Экономика</h2></div>
+ <p class="note">Модель под формат 50–70 м², 10–16 посадочных мест, основной оборот takeaway. Средний чек €7.80, вклад около €5 с транзакции — консервативно.</p>
+ <div class="tw"><table>
+  <tr><th></th><th>Никосия</th><th>Лимасол</th><th>Пафос</th></tr>
+  <tr><td>Аренда под нашу модель</td><td>€1.2–1.8k</td><td>€2–3k</td><td>€0.8–1.5k</td></tr>
+  <tr><td>Fixed costs всего</td><td>~€11–12k</td><td>~€12.5–13.5k</td><td>~€10–11k</td></tr>
+  <tr><td>Безопасный break-even</td><td><strong>90 заказов/день</strong></td><td>100/день</td><td>80/день</td></tr>
+  <tr><td>Прибыль при 130/день</td><td>~€8k</td><td>~€6k</td><td>~€9k</td></tr>
+  <tr><td>Оценка risk/reward</td><td>🟢 8/10</td><td>🟢 7.5/10</td><td>🟡 5.5–6/10</td></tr>
+ </table></div>
+ <p><strong>Никосия выбрана первой:</strong> 351 тыс. жителей в районе против 262 тыс. в Лимасоле и 101 тыс. в Пафосе, самая низкая аренда, доказанный спрос на азиатские напитки — и при этом нет ни одного полноценного premium tea bar. Пафос отвергнут для флагмана: туристы вместо повторных клиентов, локальная база втрое меньше.</p>
+ <h3>Вложения в точку</h3>
+ <div class="kpi">
+  <div><b>€65–90k</b><span>ГОТОВОЕ БЫВШЕЕ КАФЕ</span></div>
+  <div><b>€110–140k</b><span>БЕТОННАЯ КОРОБКА · FITOUT €1400/М²</span></div>
+  <div><b>15–22</b><span>МЕСЯЦЕВ ДО ВОЗВРАТА С УЧЁТОМ RAMP-UP</span></div>
+  <div><b>€5–8k</b><span>DELIVERY-ONLY ТЕСТ ВМЕСТО ЭТОГО</span></div>
+ </div>
+ <div class="callout" style="border-left-color:var(--fire)"><p>Цифры — модель, а не котировки. VAT-классификация меню (9% / 5% / 19%) не подтверждена, себестоимость стакана не считана по реальным поставщикам. До вложения денег требуют проверки.</p></div>
+</div></section>
+
+<section id="plan"><div class="wrap">
+ <div class="shead"><span class="snum">10</span><h2>План теста гипотезы</h2></div>
+ <p class="note">Снижаем ставку с €80k до €5–8k: delivery-only из арендованной лицензированной кухни, шесть недель, без единого публичного помещения.</p>
+ <div class="tw"><table>
+  <tr><th>Метрика через 6–8 недель</th><th>❌ плохо</th><th>🟡 интересно</th><th>🟢 доказано</th></tr>
+  <tr><td>заказов в день</td><td>&lt;15</td><td>15–25</td><td><strong>25–40+</strong></td></tr>
+  <tr><td>повторы за 30 дней</td><td>&lt;15%</td><td>15–25%</td><td><strong>&gt;25–30%</strong></td></tr>
+  <tr><td>средний чек</td><td>&lt;€6</td><td>€6–7</td><td><strong>&gt;€7</strong></td></tr>
+  <tr><td>CAC</td><td>&gt;€8</td><td>€5–8</td><td><strong>&lt;€5</strong></td></tr>
+  <tr><td>доля прямых заказов</td><td>&lt;10%</td><td>10–30%</td><td><strong>&gt;30%</strong></td></tr>
+ </table></div>
+ <p>Главный показатель — не выручка, а <strong>сколько людей купили 3+ раза</strong>. Если из 300 уникальных покупателей 60–80 сделали три и больше заказов, значит формируется привычка, а не продаётся одноразовая новинка.</p>
+ <h3>Два блокера, которые надо снять первыми</h3>
+ <p>Ресёрч официальных требований вскрыл две вещи, о которых не пишут в статьях «как открыть кафе на Кипре».</p>
+ <div class="cards">
+  <div><h4><span class="status"><span class="pip stop"></span> Гражданство</span></h4>
+  <p>Лицензию catering establishment получает физлицо — гражданин Кипра или ЕС, либо <strong>юридическое лицо</strong>. Значит путь один: лицензия на кипрскую компанию. Проверить у юриста до любых трат.</p></div>
+  <div><h4><span class="status"><span class="pip stop"></span> Управляющий</span></h4>
+  <p>Управляющий обязан иметь гостинично-туристическое образование, либо аттестат + 1 год в общепите, либо <strong>3 года опыта в F&amp;B</strong>. Без него заявление не примут — нужен человек со стажем.</p></div>
+ </div>
+
+ <h3>Развилка: чья лицензия</h3>
+ <div class="tw"><table>
+  <tr><th></th><th>Своя лицензия</th><th>Под чужой лицензией</th></tr>
+  <tr><td>Что нужно</td><td>planning permit, Title Deed, согласие собственника, управляющий, инспекция</td><td>договор аренды кухни + письменное согласие владельца лицензии</td></tr>
+  <tr><td>Срок</td><td><strong>до 3 месяцев</strong> на решение</td><td>1–2 недели</td></tr>
+  <tr><td>Пошлина</td><td>€51–171 в год по классу</td><td>—</td></tr>
+  <tr><td>Для теста</td><td>❌ дольше, чем весь тест</td><td>✅ единственный реальный вариант</td></tr>
+ </table></div>
+ <p>Wolt прямо поддерживает такую модель: delivery-only бренд работает из существующей кухни без своего storefront. Оператором пищевого бизнеса остаётся владелец лицензии, мы — бренд и рецептура.</p>
+
+ <h3>Юридический каркас: €600–2200 и 3–5 недель</h3>
+ <div class="tw"><table>
+  <tr><th>Что</th><th>Кто выдаёт</th><th>Срок</th><th>€</th></tr>
+  <tr><td>Кипрская компания</td><td>Registrar of Companies</td><td>1–3 нед</td><td class="num">300–1200</td></tr>
+  <tr><td>Договор аренды кухни</td><td>владелец кухни</td><td>1–2 нед</td><td class="num">500–1500</td></tr>
+  <tr><td>Health certificate</td><td>Ministry of Health</td><td>дни</td><td class="num">30–60</td></tr>
+  <tr><td>План HACCP · обязателен по 852/2004</td><td>консультант</td><td>1–3 нед</td><td class="num">300–900</td></tr>
+  <tr><td>Wolt merchant verification</td><td>Wolt</td><td>1–2 нед</td><td class="num">0</td></tr>
+  <tr><td>Регистрация НДС</td><td>Tax Department</td><td>1–2 нед</td><td class="num">0</td></tr>
+ </table></div>
+ <div class="callout"><p><strong>Неочевидное:</strong> прайс-лист лицензированного заведения утверждает Deputy Ministry of Tourism, а цены включают service charge и VAT. Для бренда под чужой лицензией это отдельный вопрос к владельцу. Классификация VAT нашего меню (9% / 5% / 19%) по-прежнему не подтверждена.</p></div>
+
+ <h3>Аренда в Никосии — живые цифры</h3>
+ <p>Из объявлений index.cy, август 2026:</p>
+ <div class="tw"><table>
+  <tr><th>€ / мес</th><th>м²</th><th>€ / м²</th></tr>
+  <tr><td class="num">440</td><td class="num">28</td><td class="num">15.7</td></tr>
+  <tr><td class="num">550</td><td class="num">40</td><td class="num">13.8</td></tr>
+  <tr><td class="num">700</td><td class="num">50</td><td class="num">14.0</td></tr>
+  <tr><td class="num">680</td><td class="num">65</td><td class="num">10.5</td></tr>
+  <tr><td class="num">900</td><td class="num">127</td><td class="num">7.1</td></tr>
+ </table></div>
+ <p>Медиана до 120 м² — <strong>€680/мес, около €14/м²</strong>. Реальный рынок дешевле, чем закладывали в модели. Но для теста своё помещение не нужно: нужен кусок чужой кухни — вода, мойка, холодильник, лёд, поверхность, электричество. Ни жарки, ни запахов, ни вытяжки.</p>
+ <div class="callout" style="border-left-color:var(--thunder)"><p><strong>Что предлагать владельцу кухни:</strong> «Нужна ваша кухня Пн–Пт 09:00–16:00 на 6 недель. Только чай, молоко, лёд, шейкер — никакой готовки и запахов. Фиксированная аренда плюс депозит.» Целевая ставка €500–1500 за шесть недель. Искать среди ресторанов с вечерним циклом, catering-компаний и отельных кухонь в межсезонье — публичных cloud-kitchen операторов на Кипре нет.</p></div>
+
+ <h3>Пять стадий с гейтами</h3>
+ <div class="tw"><table>
+  <tr><th>Стадия</th><th>Срок</th><th>€</th><th>Гейт — дальше не идём, пока не выполнен</th></tr>
+  <tr><td><strong>0 · Юридический каркас</strong></td><td>3–5 нед</td><td class="num">600–2200</td><td>подписан договор на кухню и подтверждён Wolt-мерчант</td></tr>
+  <tr><td><strong>1 · Рецептуры</strong></td><td>нед 1–2</td><td class="num">400–900</td><td>девять напитков стабильно воспроизводятся за 2–4 минуты</td></tr>
+  <tr><td><strong>2 · Бренд до продукта</strong></td><td>нед 1–3</td><td class="num">1500–2500</td><td>300+ подписчиков из Никосии, приём заказов работает</td></tr>
+  <tr><td><strong>3 · Tea Drops</strong></td><td>нед 3–4</td><td class="num">700–1200</td><td>дроп на 50 стаканов распродаётся за день</td></tr>
+  <tr><td><strong>4 · Ежедневная доставка</strong></td><td>нед 5–10</td><td class="num">1500–2500</td><td>метрики ниже</td></tr>
+ </table></div>
+ <p><strong>Итого бюджет теста: €4700–9300.</strong> Верхняя граница выше исходных €5–8k — юридический каркас в первой оценке не учитывался.</p>
+</div></section>
+
+<section id="status"><div class="wrap">
+ <div class="shead"><span class="snum">11</span><h2>Статус</h2></div>
+ <div class="cards">
+  <div><h4><span class="status"><span class="pip"></span> Готово</span></h4>
+  <p>Концепция и система знаков · восемь чаёв · айдентика и палитра · оформление Instagram и Wolt · упаковка доставки · рабочий прототип квиза · 11 рекламных креативов · 25 фотореалистичных рендеров · имя и хендл · операционный план и лицензии</p></div>
+  <div><h4><span class="status"><span class="pip warn"></span> В работе</span></h4>
+  <p>Замер кофеина · поставщик формованного волокна · юрист по лицензии · управляющий с опытом F&amp;B · обход кухонь в Никосии</p></div>
+  <div><h4><span class="status"><span class="pip stop"></span> Не начато</span></h4>
+  <p>Боевой сайт с оплатой и Wolt Drive · греческие тексты · лицензированная гарнитура · горячий двустенный стакан · формат reels</p></div>
+ </div>
+ <h3>Имя</h3>
+ <p><strong>EIGHT · Tea Bar</strong>, хендл <code>@eight.teabar</code> — проверен и свободен. Домен <code>eightteabar.com</code> свободен, совпадает с хендлом. На товарный знак в классе напитков рассчитывать не стоит: «Eight Tea» уже существует в Брунее и Мумбае. Сила бренда должна лежать в системе знаков, а не в слове.</p>
+</div></section>
+
+<section id="next"><div class="wrap">
+ <div class="shead"><span class="snum">12</span><h2>Что делать на следующей неделе</h2></div>
+ <ul style="font-size:16.5px">
+  <li><strong>Юристу</strong> — два вопроса: может ли кипрская Ltd с российским бенефициаром получить catering licence, и можно ли работать delivery-брендом под чужой лицензией</li>
+  <li><strong>Найти управляющего</strong> с 3+ годами в F&amp;B — или выяснить, нужен ли он при работе под чужой лицензией</li>
+  <li><strong>Обойти 10–15 кухонь</strong> в районе Makariou / Stasandrou / Themistokli Dervi</li>
+  <li><strong>Занять</strong> <code>@eight.teabar</code> и <code>eightteabar.com</code></li>
+  <li><strong>Бухгалтеру</strong> — классификация VAT для чайных напитков навынос</li>
+ </ul>
+ <h3>Источники ресёрча</h3>
+ <p style="font-size:14px"><a href="https://www.businessincyprus.gov.cy/business-sectors/catering-and-entertainment-establishment/" target="_blank" rel="noopener">businessincyprus.gov.cy</a> — требования, документы, пошлины, сроки ·
+ <a href="https://eur-lex.europa.eu/eli/reg/2004/852/oj/eng" target="_blank" rel="noopener">Регламент ЕС 852/2004</a> — обязательность HACCP ·
+ <a href="https://index.cy/for-rent/commercial-property/nicosia/" target="_blank" rel="noopener">index.cy</a> — аренда, август 2026 ·
+ <a href="https://merchant.wolt.com/en/deu/blog/virtual-kitchen-guide" target="_blank" rel="noopener">Wolt</a> — модель virtual kitchen</p>
+</div></section>
+
+<footer><div class="wrap">
+ <p><strong style="color:var(--ink)">Живой документ.</strong> Обновляется по мере работы. Последнее обновление — 24 августа 2026.</p>
+ <p style="margin-top:12px">Визуализации — фотореалистичные рендеры и макеты, не фотографии существующего продукта. Рыночные цифры собраны из открытых источников (Google, Wolt, Instagram, CYSTAT) в августе 2026. Цифры себестоимости и кофеина — оценочные, требуют подтверждения.</p>
+</div></footer>
+
+</body></html>
