@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Переезд на «Мою Партнёрку» — инструкция для «Моей Удалёнки»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4EFE3;--card:#FBF8F0;--ink:#17140D;--muted:#6b6555;
+    --go:#0E7A4E;--go-soft:#e2efe6;--stamp:#C33A26;--stamp-soft:#f7e4e0;
+    --amber:#B7791F;--amber-soft:#f7ecd8;--line:rgba(23,20,13,.16);
+    --sans:"Onest",system-ui,-apple-system,sans-serif;
+    --disp:"Unbounded","Onest",system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+  .wrap{max-width:940px;margin:0 auto;padding:0 22px}
+  h1,h2,h3{font-family:var(--disp);letter-spacing:-.02em;line-height:1.15}
+  header{padding:48px 0 28px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--go);margin:0 0 14px}
+  header h1{font-size:clamp(26px,4.4vw,40px);font-weight:800;margin:0 0 14px}
+  header p{max-width:64ch;color:var(--muted);font-size:18px;margin:0}
+  section{padding:28px 0;border-top:1px solid var(--line)}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--go);margin:0 0 8px}
+  section h2{font-size:23px;font-weight:800;margin:0 0 8px}
+  section > .wrap > p{max-width:72ch}
+  h3{font-size:17px;margin:22px 0 6px}
+  ol,ul{max-width:72ch;padding-left:22px}
+  li{margin:7px 0}
+  code{font-family:var(--mono);font-size:13.5px;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:16px 0;box-shadow:0 1px 2px rgba(23,20,13,.04)}
+  .box.go{background:var(--go-soft);border-color:color-mix(in srgb,var(--go) 30%,transparent)}
+  .box.stamp{background:var(--stamp-soft);border-color:color-mix(in srgb,var(--stamp) 35%,transparent)}
+  .box.amber{background:var(--amber-soft);border-color:color-mix(in srgb,var(--amber) 40%,transparent)}
+  .box h3{margin-top:0}
+  .kv{display:flex;gap:12px;padding:6px 0;border-bottom:1px solid var(--line);font-size:15px;flex-wrap:wrap}
+  .kv:last-child{border:none}
+  .kv b{min-width:130px;color:var(--muted);font-weight:600}
+  .kv span{font-family:var(--mono);font-size:14px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14.5px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+  th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:500;background:var(--paper)}
+  tr:last-child td{border-bottom:none}
+  .step{display:flex;gap:14px;margin:14px 0}
+  .step .n{flex:none;width:30px;height:30px;border-radius:9px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:14px}
+  .step .b b{display:block;margin-bottom:2px}
+  .step .b span{color:var(--muted);font-size:14.5px}
+  footer{padding:32px 0 60px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Переезд партнёрской программы</p>
+    <h1>«Моя Удалёнка» переезжает с PRM Online на «Мою Партнёрку»</h1>
+    <p>Собственный трекер партнёрской программы — совместимый с PRM по API, поэтому переезд простой и безопасный: две системы могут работать параллельно, пока вы сверяете новую, и только потом старая отключается.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <p class="kicker">Главное · безопасность переезда</p>
+  <h2>Параллельная работа — переезжаем без риска</h2>
+  <p>Не нужно «выключить старое, включить новое» разом. Ваш бэкенд может слать события партнёрской программы <b>сразу в обе системы</b> — PRM Online (как сейчас, боевая) и «Мою Партнёрку» (копит те же данные). Наш трекер защищён от дублей, повторные события ему не мешают.</p>
+  <div class="box go">
+    <h3>Как это выглядит по шагам</h3>
+    <div class="step"><div class="n">1</div><div class="b"><b>Dual-write (параллельно)</b><span>Программист добавляет второй вызов — те же события уходят и в PRM, и в наш фасад. PRM продолжает работать как обычно, ничего не ломается.</span></div></div>
+    <div class="step"><div class="n">2</div><div class="b"><b>Сверка</b><span>Менеджер открывает обе системы и смотрит: те же лиды, те же обороты, те же начисления. Убеждается, что «Моя Партнёрка» считает так же (или лучше).</span></div></div>
+    <div class="step"><div class="n">3</div><div class="b"><b>Переключение</b><span>Когда доверие есть — программист убирает вызов в PRM (одна строка). Партнёрам выдаётся доступ в новый кабинет. PRM-подписку можно отключать.</span></div></div>
+  </div>
+  <p>Сколько держать параллельно — на ваше усмотрение (день, неделя). Риск минимальный: если что-то не так в новой системе, боевой контур (PRM) всё это время работает.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="kicker">Часть 1 · Менеджеру партнёрской программы</p>
+  <h2>Как войти и что смотреть</h2>
+  <div class="box">
+    <div class="kv"><b>Админка</b><span>https://api.mypartnerka.ru/admin/login</span></div>
+    <div class="kv"><b>Логин</b><span>заведём на ваш рабочий email — пришлите его</span></div>
+    <div class="kv"><b>Пароль</b><span>выдадим при создании доступа (смените при первом входе)</span></div>
+  </div>
+  <p>При первом входе — примите условия и смените пароль в «Профиле». Разделы:</p>
+  <ul>
+    <li><b>Обзор</b> — начислено, к выплате, число партнёров, очередь заявок на вывод.</li>
+    <li><b>Партнёры</b> — все 40 ваших партнёров уже перенесены с теми же реф-ссылками. Открыть карточку → «Выдать доступ в кабинет» (система выдаёт партнёру логин+пароль). Одобрить/заблокировать, редактировать данные.</li>
+    <li><b>Лиды</b> — приведённые компании: статус, оборот, прогресс к порогу. Фильтры, выгрузка в Excel. Можно завести/отредактировать лид, отклонить с причиной.</li>
+    <li><b>Выплаты</b> — заявки партнёров на вывод: «Оплатить» (после реального перевода) / «Отклонить».</li>
+    <li><b>Правила</b> — порог оборота и размер бонуса (сейчас: 100 000 ₽ → 30 000 ₽, как у вас). Можно менять.</li>
+    <li><b>Материалы</b> — ссылки на презентации/кейсы для партнёров.</li>
+  </ul>
+  <div class="box amber">
+    <h3>Что проверять при сверке (пока обе системы работают)</h3>
+    <ul style="margin:0">
+      <li>После тестовой регистрации по партнёрской ссылке — лид появился и у нас, и в PRM, привязан к тому же партнёру.</li>
+      <li>Оборот и прогресс к порогу совпадают.</li>
+      <li>При достижении порога бонус начислен в обеих системах одинаково.</li>
+    </ul>
+  </div>
+  <p><b>Статусы лида проще, чем в PRM</b> — три понятных: «В работе» → «Готов к выплате» (система ставит сама при достижении порога) → «Выплачено». Двигать вручную не нужно.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="kicker">Часть 2 · Программисту</p>
+  <h2>Что сделать (по сути — 2 строки конфига + опционально dual-write)</h2>
+  <p>Ваш модуль <code>PrmOnlineModule</code> шлёт серверные события. API «Моей Партнёрки» <b>полностью совместим</b> с PRM Online — логика не меняется.</p>
+  <table>
+    <tr><th>Параметр</th><th>Было (PRM)</th><th>Стало (Моя Партнёрка)</th></tr>
+    <tr><td>Base URL</td><td>https://api.prmonline.ru</td><td><b>https://api.mypartnerka.ru</b></td></tr>
+    <tr><td>Basic Auth логин</td><td>ваш PRM-логин</td><td><b>moyaudalenka</b></td></tr>
+    <tr><td>Basic Auth пароль</td><td>ваш PRM-пароль</td><td>передадим отдельным защищённым каналом</td></tr>
+  </table>
+  <h3>Для параллельной работы (рекомендуем)</h3>
+  <p>Не заменяйте адрес, а <b>продублируйте отправку</b>: тот же вызов <code>POST /v1/events</code> и <code>PATCH /v1/lead</code> шлите вторым запросом на наш base URL с нашими кредами. PRM продолжает получать всё как раньше. Наш фасад идемпотентен — повторы и порядок не ломают учёт. Когда решите переключиться — просто уберите вызов в PRM.</p>
+  <h3>Что мы принимаем (как у вас сейчас)</h3>
+  <ul>
+    <li><code>POST /v1/events</code> — <code>NEW</code>/<code>Q1</code>: поля <code>eventType, entityIdent, leadIdent, firstname, lastname, customFields</code>. Ответ: <code>{leadId, partnerId, eventIdent, eventDate, purchaseIdent}</code>.</li>
+    <li><code>PATCH /v1/lead</code> — <code>Q2</code>/<code>PURCHASE</code>/<code>PURCHASE_CONFIRM</code>: прогресс в <code>customFields[5382]</code> (копейки, абсолютное значение). При достижении порога бонус начисляется автоматически.</li>
+  </ul>
+  <div class="box stamp">
+    <h3>Важно про идентификатор партнёра</h3>
+    <p style="margin:0"><code>entityIdent</code> = <b>refLinkId</b> (ID реферальной ссылки), как у вас сейчас — НЕ ID партнёра. Мы завели ваших партнёров с теми же refLinkId, поэтому уже розданные клиентам ссылки продолжат работать без перевыпуска. Партнёрская ссылка привлечения клиента: <code>https://app.moyaudalenka.ru/registration?refLinkId=&lt;refLinkId&gt;</code>.</p>
+  </div>
+  <h3>Проверка после подключения</h3>
+  <ol>
+    <li>Сделайте одну тестовую регистрацию по партнёрской ссылке (<code>?refLinkId=…</code>).</li>
+    <li>Мы вместе смотрим: лид долетел, привязался к партнёру.</li>
+    <li>Прогоняете обычный сценарий (Q1→Q2→PURCHASE) — сверяем с PRM.</li>
+  </ol>
+  <p><b>Уточнить у вас:</b> шлёт ли <code>PrmOnlineModule</code> в <code>entityIdent</code> именно <code>refLinkId</code> (из cookie <code>_p_rlid</code> / скрытого поля формы) — мы предполагаем что да, как в PRM. И нужен ли вам трекинг кликов (пиксель) у нас — для переезда достаточно серверных событий.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="kicker">Технические детали</p>
+  <h2>Кратко</h2>
+  <ul>
+    <li>HTTPS, валидный сертификат. Basic Auth по компании (ваша — <code>moyaudalenka</code>).</li>
+    <li>Ошибки в JSON: неверный auth → 401, неизвестный ident → 404, кривой JSON → 400.</li>
+    <li>Данные партнёров (40 человек) уже перенесены с их refLinkId. История лидов — с чистого листа (по договорённости), переносим только партнёров.</li>
+    <li>Выплаты партнёрам-самозанятым идут через «Мою Удалёнку» (ваш же легальный механизм с чеком) — трекер фиксирует статус.</li>
+  </ul>
+  <p>Вопросы по переезду — через Макса. Пароль фасада и доступ менеджера передаются отдельно.</p>
+</div></section>
+
+<footer><div class="wrap">
+  «Моя Партнёрка» · инструкция по переезду для «Моей Удалёнки». Доступы (пароль фасада, логин менеджера) передаются отдельным защищённым каналом.
+</div></footer>
+</body>
+</html>
