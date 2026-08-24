@@ -115,10 +115,14 @@
   </table>
   <h3>Для параллельной работы (рекомендуем)</h3>
   <p>Не заменяйте адрес, а <b>продублируйте отправку</b>: тот же вызов <code>POST /v1/events</code> и <code>PATCH /v1/lead</code> шлите вторым запросом на наш base URL с нашими кредами. PRM продолжает получать всё как раньше. Наш фасад идемпотентен — повторы и порядок не ломают учёт. Когда решите переключиться — просто уберите вызов в PRM.</p>
+  <div class="box amber">
+    <h3>Важно для dual-write: два разных leadId</h3>
+    <p style="margin:0">Ответ нашего <code>POST /v1/events</code> содержит <b>наш</b> <code>leadId</code> — он отличается от id, который вернул PRM. Последующий <code>PATCH /v1/lead</code> к нам идентифицирует лид <b>именно по нашему</b> <code>leadId</code> (поле <code>leadId</code> в теле запроса), <b>не</b> по email и <b>не</b> по id от PRM. При dual-write сохраняйте оба id рядом (наш и PRM) и в каждую систему шлите PATCH с её собственным leadId.</p>
+  </div>
   <h3>Что мы принимаем (как у вас сейчас)</h3>
   <ul>
     <li><code>POST /v1/events</code> — <code>NEW</code>/<code>Q1</code>: поля <code>eventType, entityIdent, leadIdent, firstname, lastname, customFields</code>. Ответ: <code>{leadId, partnerId, eventIdent, eventDate, purchaseIdent}</code>.</li>
-    <li><code>PATCH /v1/lead</code> — <code>Q2</code>/<code>PURCHASE</code>/<code>PURCHASE_CONFIRM</code>: прогресс в <code>customFields[5382]</code> (копейки, абсолютное значение). При достижении порога бонус начисляется автоматически.</li>
+    <li><code>PATCH /v1/lead</code> — обязательное поле <code>leadId</code> (наш, из ответа POST) + <code>eventType</code> <code>Q2</code>/<code>PURCHASE</code>/<code>PURCHASE_CONFIRM</code>: прогресс в <code>customFields[5382]</code> (копейки, абсолютное значение). При достижении порога бонус начисляется автоматически.</li>
   </ul>
   <div class="box stamp">
     <h3>Важно про идентификатор партнёра</h3>
