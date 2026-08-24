@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<base href="/eight/inex/">
+<title>EIGHT × RAY — предложение</title>
+<style>
+:root{
+ --ink:#F4F0E9; --ground:#0B0A09; --panel:#141210; --panel2:#1C1916;
+ --dim:#9A9188; --faint:#6E665E; --rule:rgba(244,240,233,.14); --rule2:rgba(244,240,233,.07);
+ --acc:#2E5B33; --wind:#A9682B; --lake:#14464C; --fire:#B31D22;
+ --sans:'Inter Display','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+ --mono:'Inter',ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ground);scroll-behavior:smooth}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;
+ -webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+.wrap{max-width:920px;margin:0 auto;padding:0 24px}
+.mk{display:inline-flex;flex-direction:column;justify-content:space-between;color:currentColor;vertical-align:middle}
+.mk .ln{display:flex;gap:22%;height:22%;font-style:normal}
+.mk .ln b{flex:1;background:currentColor;display:block}
+.mk.s{width:19px;height:15px} .mk.m{width:30px;height:25px} .mk.l{width:56px;height:46px}
+
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+header{padding:82px 0 62px;position:relative;overflow:hidden}
+header .bg{position:absolute;inset:0}
+header .bg img{width:100%;height:100%;object-fit:cover;opacity:.30}
+header .bg::after{content:'';position:absolute;inset:0;
+ background:linear-gradient(180deg,rgba(11,10,9,.72) 0%,rgba(11,10,9,.88) 55%,var(--ground) 100%)}
+header .wrap{position:relative}
+h1{font-size:clamp(34px,6.6vw,60px);line-height:1.0;letter-spacing:-.04em;font-weight:900;margin:20px 0 20px;text-wrap:balance}
+.lede{font-size:clamp(17px,2.3vw,20px);line-height:1.45;color:#D3CABF;max-width:46ch}
+.from{margin-top:38px;font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;color:var(--dim);
+ border-top:1px solid var(--rule2);padding-top:18px}
+
+section{padding:66px 0;border-top:1px solid var(--rule2)}
+h2{font-size:clamp(24px,3.8vw,33px);letter-spacing:-.03em;font-weight:800;line-height:1.08;margin-bottom:16px;text-wrap:balance}
+h3{font-size:18px;font-weight:700;letter-spacing:-.02em;margin:34px 0 10px}
+p{max-width:62ch;color:#CEC5BA;margin-bottom:14px}
+p strong,li strong,td strong{color:var(--ink);font-weight:600}
+ul{max-width:62ch;color:#CEC5BA;margin:0 0 14px 19px} li{margin-bottom:7px}
+
+.hero-num{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--rule2);
+ border:1px solid var(--rule2);margin:34px 0 0}
+.hero-num>div{background:var(--panel);padding:20px}
+.hero-num b{display:block;font-size:31px;font-weight:900;letter-spacing:-.035em;font-variant-numeric:tabular-nums;
+ line-height:1.05}
+.hero-num span{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--faint);
+ display:block;margin-top:7px;text-transform:uppercase}
+
+.big{background:var(--panel);border-left:3px solid var(--acc);padding:24px 26px;margin:28px 0;max-width:64ch}
+.big .l1{font-size:clamp(21px,3.2vw,27px);font-weight:800;letter-spacing:-.03em;line-height:1.16;color:var(--ink)}
+.big p:last-child{margin-bottom:0}
+
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule2)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px}
+th,td{text-align:left;padding:12px 15px;border-bottom:1px solid var(--rule2)}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;background:var(--panel2)}
+tr:last-child td{border-bottom:none}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+tr.hi td{background:rgba(46,91,51,.16)}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule2);border:1px solid var(--rule2);margin:26px 0}
+.split>div{background:var(--panel);padding:22px}
+.split h4{font-size:13px;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+.split.me h4{color:var(--acc);filter:brightness(1.5)}
+.split ul{margin:0 0 0 17px;font-size:14.5px}
+.split li{margin-bottom:6px}
+.split.me h4.you{color:var(--wind);filter:brightness(1.35)}
+@media(max-width:620px){.split{grid-template-columns:1fr}}
+
+.gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:26px 0}
+.gal figure{margin:0} .gal img{width:100%;border-radius:8px}
+.gal figcaption{font-family:var(--mono);font-size:10px;letter-spacing:.09em;color:var(--faint);margin-top:8px;text-transform:uppercase}
+.wide{margin:26px 0} .wide img{width:100%;border-radius:9px}
+.wide figcaption{font-family:var(--mono);font-size:10px;letter-spacing:.09em;color:var(--faint);margin-top:8px;text-transform:uppercase}
+
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:26px 0}
+.three figure{margin:0;border-radius:9px;overflow:hidden;background:var(--panel)}
+.three img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.three figcaption{padding:14px 15px 16px;color:#fff}
+.three .w{font-family:var(--mono);font-size:10px;letter-spacing:.15em;opacity:.75;display:block;margin-bottom:5px}
+.three .n{font-size:16px;font-weight:800;letter-spacing:-.02em;display:block}
+.three .d{font-size:13px;opacity:.82;display:block;margin-top:4px;line-height:1.4}
+.three .s{font-family:var(--mono);font-size:10.5px;opacity:.75;display:block;margin-top:8px;font-variant-numeric:tabular-nums}
+
+.steps{counter-reset:s;margin:26px 0}
+.step{display:flex;gap:18px;padding:17px 0;border-bottom:1px solid var(--rule2)}
+.step:last-child{border-bottom:none}
+.step .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--faint);flex:none;width:52px;padding-top:3px}
+.step .b{flex:1} .step .b b{display:block;font-size:16.5px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.step .b span{font-size:14.5px;color:#CEC5BA}
+
+.ask{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:28px;margin:30px 0}
+.ask h3{margin-top:0;font-size:21px;letter-spacing:-.025em}
+.contact{font-family:var(--mono);font-size:14px;letter-spacing:.05em;margin-top:16px;color:var(--ink)}
+footer{padding:44px 0 72px;color:var(--faint);font-size:12.5px;border-top:1px solid var(--rule2)}
+footer p{color:var(--faint);max-width:62ch;font-size:12.5px}
+@media(max-width:620px){header{padding:60px 0 46px} section{padding:48px 0}}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="bg"><img src="img/padel.jpg" alt=""></div>
+ <div class="wrap">
+  <div class="eyebrow">Предложение для INEX Club · Lime Park · RAY</div>
+  <h1>Гонщик возвращается с заезда в 8 утра. Что вы ему нальёте?</h1>
+  <p class="lede">Пятый кофе за день — не ответ. Мы предлагаем поставить в RAY функциональный чай: тот же бариста, те же три минуты, почти вдвое больше вклада с чашки.</p>
+  <div class="hero-num">
+   <div><b>€4.46</b><span>вклад с чашки чая</span></div>
+   <div><b>€2.30</b><span>вклад с чашки кофе</span></div>
+   <div><b>€0</b><span>ваших вложений</span></div>
+   <div><b>6 недель</b><span>пилот с выходом в любой момент</span></div>
+  </div>
+  <div class="from">EIGHT · чайный бар · Максим Соловьёв · Пафос</div>
+ </div>
+</header>
+
+<section><div class="wrap">
+ <h2>Что мы заметили в вашей экосистеме</h2>
+ <p>У вас уже есть всё, ради чего люди открывают кафе: <strong>лояльная аудитория, которая приходит по два-четыре раза в неделю</strong>. Велосипедисты в Лимасоле, падел-игроки и семьи в Lime Park. Такой трафик не купишь рекламой.</p>
+ <p>И у этой аудитории есть особенность: она <strong>считает</strong>. Кофеин, сахар, восстановление, пульс. Клуб основали профессиональные гонщики — вам не нужно объяснять, почему человек после заезда не хочет ещё один эспрессо.</p>
+ <div class="big">
+  <div class="l1">Но в утренние часы кафе продаёт кофе за €3.50 людям, которым кофе уже не нужен.</div>
+ </div>
+ <p>Мы предлагаем закрыть этот час. Не новой концепцией кафе, не ремонтом и не наймом — <strong>тремя позициями в вашем существующем меню</strong>.</p>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Три напитка под три момента</h2>
+ <p>Не bubble tea и не сиропы. Настоящий листовой чай, свежее молоко, регулируемый сахар и честные миллиграммы кофеина на этикетке.</p>
+ <div class="three">
+  <figure><img src="img/cup-thunder.jpg" alt="Classic Matcha">
+   <figcaption style="background:#2E5B33"><span class="w"><span class="mk s"><i class="ln"><b></b><b></b></i><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i></span> &nbsp;ДО ТРЕНИРОВКИ</span>
+   <span class="n">Classic Matcha</span><span class="d">Ровная концентрация без скачка и спада</span>
+   <span class="s">65 мг · 0 г сахара · €6.90</span></figcaption></figure>
+  <figure><img src="img/cup-wind.jpg" alt="Hojicha Latte">
+   <figcaption style="background:#A9682B"><span class="w"><span class="mk s"><i class="ln"><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b><b></b></i></span> &nbsp;ПОСЛЕ</span>
+   <span class="n">Hojicha Latte</span><span class="d">Обжарка съедает почти весь кофеин — можно вечером</span>
+   <span class="s">20 мг · 6 г сахара · €6.50</span></figcaption></figure>
+  <figure><img src="img/cup-lake.jpg" alt="Cold Brew Pu-erh">
+   <figcaption style="background:#14464C"><span class="w"><span class="mk s"><i class="ln"><b></b><b></b></i><i class="ln"><b></b></i><i class="ln"><b></b></i></span> &nbsp;НА ЖАРУ</span>
+   <span class="n">Cold Brew Pu-erh</span><span class="d">12 часов холодной экстракции, без молока и сахара</span>
+   <span class="s">60 мг · 0 г сахара · €5.50</span></figcaption></figure>
+ </div>
+ <p>Всего в системе восемь чаёв, но <strong>для пилота мы намеренно берём три</strong> — чтобы не грузить ваш персонал и быстро получить ответ. Остальные разворачиваются потом, если цифры сойдутся.</p>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Математика</h2>
+ <h3>Одна чашка</h3>
+ <div class="tw"><table>
+  <tr><th></th><th>Кофе</th><th>Чай EIGHT</th></tr>
+  <tr><td>Цена гостю</td><td class="num">€3.50</td><td class="num">€6.50</td></tr>
+  <tr><td>Себестоимость</td><td class="num">€0.90</td><td class="num">€1.45</td></tr>
+  <tr><td>Время бариста</td><td class="num">2–3 мин</td><td class="num">2–3 мин</td></tr>
+  <tr class="hi"><td><strong>Вклад с чашки</strong></td><td class="num"><strong>€2.30</strong></td><td class="num"><strong>€4.46</strong></td></tr>
+ </table></div>
+ <p>Даже если часть продаж перетечёт из кофе — это выигрыш: <strong>каждая замена добавляет €2.16</strong>. Новые продажи добавляют все €4.46.</p>
+
+ <h3>Ваша половина, три сценария</h3>
+ <p>Мы делим вклад линейки пополам. Цифры объёмов — наша оценка, её надо уточнить по вашей реальной посещаемости.</p>
+ <div class="tw"><table>
+  <tr><th>Сценарий</th><th>Стаканов в день</th><th>Вклад линейки / мес</th><th>Ваша половина / мес</th><th>За год</th></tr>
+  <tr><td>Осторожно</td><td class="num">14</td><td class="num">€1 875</td><td class="num">€938</td><td class="num">€11 250</td></tr>
+  <tr class="hi"><td><strong>Реалистично</strong></td><td class="num">24</td><td class="num">€3 215</td><td class="num"><strong>€1 607</strong></td><td class="num"><strong>€19 290</strong></td></tr>
+  <tr><td>Хорошо</td><td class="num">40</td><td class="num">€5 358</td><td class="num">€2 679</td><td class="num">€32 150</td></tr>
+ </table></div>
+ <div class="big">
+  <div class="l1">€19 000 в год на существующем персонале, существующей площади и без единого евро вложений.</div>
+  <p style="margin-top:12px">Это не считая того, что человек, зашедший за чаем, попутно берёт еду, а член клуба получает ещё одну причину заезжать к вам.</p>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Кто что делает</h2>
+ <div class="split me">
+  <div><h4>С нашей стороны — всё</h4>
+   <ul>
+    <li>Оборудование: венчики, шейкеры, весы, блендер</li>
+    <li>Закупка и поставка чая и сырья</li>
+    <li>Рецептуры и технологические карты</li>
+    <li>Обучение ваших бариста</li>
+    <li>Стаканы, рукава, вся печать</li>
+    <li>Меню-борд и полиграфия</li>
+    <li>Весь визуал и фотосъёмка</li>
+    <li>Маркетинг: соцсети, креативы, запуск</li>
+    <li>Контроль качества и пересборка меню по цифрам</li>
+   </ul></div>
+  <div><h4 class="you">С вашей — четыре вещи</h4>
+   <ul>
+    <li><strong>Согласие работать под вашей лицензией</strong></li>
+    <li>Место на баре и в холодильнике</li>
+    <li>Ваши бариста — те же люди, +2 минуты обучения на позицию</li>
+    <li>Касса и доступ к цифрам продаж линейки</li>
+   </ul>
+   <p style="margin-top:18px;font-size:14px">Ни ремонта, ни найма, ни вложений, ни изменения ваших процессов.</p>
+  </div>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Что уже готово</h2>
+ <p>Это не идея на салфетке. Бренд, система, упаковка, digital и рекламные материалы <strong>сделаны и ждут кухню</strong>.</p>
+ 
+ <div class="gal">
+  <figure><img src="img/lineup.jpg" alt="Линейка" loading="lazy"><figcaption>Линейка и упаковка</figcaption></figure>
+  <figure><img src="img/menuboard.jpg" alt="Меню-борд" loading="lazy"><figcaption>Меню-борд</figcaption></figure>
+  <figure><img src="img/counter.jpg" alt="Стойка" loading="lazy"><figcaption>Подача на стойке</figcaption></figure>
+  <figure><img src="img/card.jpg" alt="Карточка чая" loading="lazy"><figcaption>Карточка с сухим листом</figcaption></figure>
+  <figure><img src="img/phone-ig.jpg" alt="Instagram" loading="lazy"><figcaption>Готовый Instagram</figcaption></figure>
+  <figure><img src="img/ad-padel.jpg" alt="Реклама" loading="lazy"><figcaption>Рекламные креативы</figcaption></figure>
+ </div>
+ <h3>И одна вещь, которой нет ни у кого на Кипре</h3>
+ <p>Человек не обязан разбираться в чае. Три вопроса про него самого — и он получает свой напиток. Ни одного вопроса про чай, ни одного незнакомого слова.</p>
+ <div class="gal" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">
+  <figure><img src="img/phone-quiz.jpg" alt="Квиз" loading="lazy"><figcaption>Подбор за 40 секунд</figcaption></figure>
+  <figure><img src="img/seal.jpg" alt="Пломба" loading="lazy"><figcaption>Упаковка навынос</figcaption></figure>
+  <figure><img src="img/apron.jpg" alt="Форма" loading="lazy"><figcaption>Форма и подача</figcaption></figure>
+ </div>
+ <p>Заодно это <strong>контент для ваших соцсетей</strong>: готовая визуальная система, снятая и свёрстанная, достаётся вам бесплатно.</p>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Пилот: шесть недель</h2>
+ <div class="steps">
+  <div class="step"><span class="n">НЕДЕЛЯ 0</span><div class="b"><b>Договорённость и закупка</b>
+   <span>Подписываем короткое соглашение, я закупаю оборудование и сырьё, привожу на площадку.</span></div></div>
+  <div class="step"><span class="n">НЕДЕЛЯ 1</span><div class="b"><b>Обучение и запуск</b>
+   <span>Два часа с вашими бариста, технологические карты на бар, меню-борд на стену. Стартуем.</span></div></div>
+  <div class="step"><span class="n">НЕДЕЛИ 1–6</span><div class="b"><b>Маркетинг и наблюдение</b>
+   <span>Соцсети, дегустации для членов клуба, реклама на местную аудиторию. Я на площадке в Пафосе, сколько нужно.</span></div></div>
+  <div class="step"><span class="n">НЕДЕЛЯ 6</span><div class="b"><b>Смотрим цифры и решаем</b>
+   <span>Меньше 10 стаканов в день — сворачиваем без обид, <strong>оборудование остаётся вам</strong>. Больше — разворачиваем полное меню и вторую точку.</span></div></div>
+ </div>
+ <p>Начать предлагаем <strong>с Lime Park в Пафосе</strong>: больше трафика за счёт паделя и семей, и я живу рядом — могу быть на площадке каждый день. Лимасол подключаем вторым шагом.</p>
+</div></section>
+
+<section><div class="wrap">
+ <div class="ask">
+  <h3>Что прошу</h3>
+  <p style="margin-bottom:10px">Тридцать минут разговора и, если идея интересна, <strong>цифры по кафе</strong>: сколько человек в день проходит, сколько напитков продаётся сейчас, какой средний чек и где провалы по часам.</p>
+  <p style="margin-bottom:0">Без них таблица выше — оценка. С ними мы за один вечер посчитаем точно и поймём, стоит ли пробовать.</p>
+  <div class="contact">Максим Соловьёв · EIGHT<br>mk.soloviev@gmail.com</div>
+ </div>
+</div></section>
+
+<footer><div class="wrap">
+ <p>Изображения — визуализации бренда EIGHT: фотореалистичные рендеры и макеты, а не фотографии существующего продукта. Цифры вклада рассчитаны при НДС 9% для заведения с залом. Оценка объёмов продаж — предварительная, требует уточнения по фактической посещаемости RAY.</p>
+</div></footer>
+
+</body></html>
