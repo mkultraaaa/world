@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Гайд по «Моей Партнёрке» — для менеджера</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20256%20256'%3E%3Crect%20width='256'%20height='256'%20rx='52'%20fill='%230E7A4E'/%3E%3Cpath%20d='M64%2064%20H192%20V192%20H160%20V96%20H96%20V192%20H64%20Z'%20fill='%23fff'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0E7A4E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4EFE3;--card:#FBF8F0;--ink:#17140D;--muted:#6b6555;
+    --go:#0E7A4E;--go-soft:#e2efe6;--stamp:#C33A26;--amber:#B7791F;--amber-soft:#f7ecd8;
+    --line:rgba(23,20,13,.16);
+    --sans:"Onest",system-ui,-apple-system,sans-serif;
+    --disp:"Unbounded","Onest",system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+  .wrap{max-width:920px;margin:0 auto;padding:0 22px}
+  h1,h2,h3{font-family:var(--disp);letter-spacing:-.02em;line-height:1.15}
+  header{padding:48px 0 24px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--go);margin:0 0 14px}
+  header h1{font-size:clamp(26px,4.4vw,40px);font-weight:800;margin:0 0 14px}
+  header p{max-width:64ch;color:var(--muted);font-size:18px;margin:0}
+  section{padding:26px 0;border-top:1px solid var(--line)}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--go);margin:0 0 8px}
+  section h2{font-size:23px;font-weight:800;margin:0 0 10px}
+  h3{font-size:17px;margin:20px 0 6px}
+  p,li{max-width:74ch}
+  ol,ul{padding-left:22px}
+  li{margin:6px 0}
+  code{font-family:var(--mono);font-size:13.5px;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+  figure{margin:16px 0}
+  figure img{width:100%;border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 8px rgba(23,20,13,.08);display:block}
+  figcaption{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:7px;text-align:center}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin:16px 0}
+  .box.amber{background:var(--amber-soft);border-color:color-mix(in srgb,var(--amber) 40%,transparent)}
+  .box.go{background:var(--go-soft);border-color:color-mix(in srgb,var(--go) 30%,transparent)}
+  .box h3{margin-top:0}
+  .toc{font-size:15px;columns:2;column-gap:28px}
+  .toc a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+  footer{padding:28px 0 60px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+  @media(max-width:560px){.toc{columns:1}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Моя Партнёрка · инструкция для менеджера</p>
+    <h1>Как вести партнёрскую программу в «Моей Партнёрке»</h1>
+    <p>Всё то же, что вы делали в PRM Online, только в своём кабинете. Ниже — по разделам, с примерами на живых экранах. Данные на скриншотах — демонстрационные.</p>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <p class="kicker">Содержание</p>
+  <div class="toc">
+    <a href="#partners">1. Партнёры — завести и вести</a><br>
+    <a href="#rules">2. Условия — шаблоны и индивидуальные</a><br>
+    <a href="#leads">3. Лиды — статусы и оборот</a><br>
+    <a href="#payouts">4. Выплаты</a><br>
+    <a href="#move">5. Про переезд</a>
+  </div>
+</div></section>
+
+<section id="partners"><div class="wrap">
+  <p class="kicker">Раздел 1</p>
+  <h2>Партнёры</h2>
+  <p>Все ваши текущие партнёры уже перенесены с их реф-ссылками — работают как раньше. В таблице: тип (СМЗ/ИП/ООО/физлицо), статус, сколько начислено. Действия в строке — одобрить, заблокировать, сбросить пароль.</p>
+  <figure><img src="/mypartnerka/guide/01-partners.png" alt="Список партнёров"><figcaption>Раздел «Партнёры» — список с типом, статусом и начислениями</figcaption></figure>
+
+  <h3>Завести нового партнёра</h3>
+  <ol>
+    <li><b>«+ Пригласить партнёра»</b> — если партнёру нужен личный кабинет: заполняете данные, система выдаёт ему логин и пароль.</li>
+    <li><b>«+ Добавить без доступа»</b> — если нужен только учёт (кабинет не нужен).</li>
+    <li>Поле <b>«Код ссылки»</b> — это идентификатор реф-ссылки партнёра (refLinkId). По нему привязываются приведённые им клиенты. Новому партнёру задаёте код, и он же используется в его ссылке для регистрации клиентов на <code>app.moyaudalenka.ru</code>.</li>
+  </ol>
+  <figure><img src="/mypartnerka/guide/02-partner-invite.png" alt="Форма приглашения партнёра"><figcaption>«Пригласить партнёра» — данные + «Код ссылки» (refLinkId)</figcaption></figure>
+  <div class="box amber">
+    <b>Важно про нового партнёра.</b> Чтобы клиенты нового партнёра привязывались, его «Код ссылки» должен совпадать с <code>refLinkId</code>, который уходит в регистрацию на стороне «Моей Удалёнки». Первого нового партнёра заведём и проверим вместе с вашим разработчиком — дальше всё по накатанной.
+  </div>
+</div></section>
+
+<section id="rules"><div class="wrap">
+  <p class="kicker">Раздел 2</p>
+  <h2>Условия вознаграждения — шаблоны</h2>
+  <p>Условия задаются <b>шаблонами</b>. Один шаблон — <b>дефолтный</b> (применяется ко всем партнёрам, у кого не задано своё). Сейчас дефолт — «Базовый»: порог 100 000 ₽ → бонус 30 000 ₽ (как у вас в PRM).</p>
+  <figure><img src="/mypartnerka/guide/05-rules-list.png" alt="Шаблоны условий"><figcaption>«Шаблоны условий» — «Базовый» с бейджем «Дефолт»</figcaption></figure>
+
+  <h3>Создать новый шаблон</h3>
+  <p>«+ Создать шаблон» → задаёте название и <b>тип вознаграждения</b>:</p>
+  <ul>
+    <li><b>Фикс. бонус при достижении порога</b> — как «Базовый» (набрал оборот → фикс-бонус).</li>
+    <li><b>% от оборота клиента</b> — партнёр получает процент с оборота приведённого клиента; можно задать <b>срок действия</b> (сколько месяцев начислять с одного клиента — например 6).</li>
+  </ul>
+  <figure><img src="/mypartnerka/guide/06-rules-create.png" alt="Создание шаблона"><figcaption>«Создать шаблон» — название, тип, значения</figcaption></figure>
+
+  <h3>Индивидуальные условия партнёру</h3>
+  <p>Договорились с кем-то о повышенном проценте? Создаёте шаблон (например «VIP 15%») и назначаете его этому партнёру в его карточке — раздел «Условия партнёра» → «Шаблон условий» → «Назначить». Остальные остаются на дефолтном.</p>
+  <figure><img src="/mypartnerka/guide/07-partner-card.png" alt="Условия партнёра в карточке"><figcaption>Карточка партнёра — назначение шаблона условий</figcaption></figure>
+</div></section>
+
+<section id="leads"><div class="wrap">
+  <p class="kicker">Раздел 3</p>
+  <h2>Лиды</h2>
+  <p>Приведённые партнёрами клиенты. Видно партнёра, статус и оборот относительно порога. Статусы простые: <b>«В работе»</b> → <b>«Готов к выплате»</b> (система ставит сама при достижении порога) → <b>«Выплачено»</b>. Можно фильтровать, выгружать в Excel, завести/отредактировать лид или отклонить с причиной.</p>
+  <figure><img src="/mypartnerka/guide/03-leads.png" alt="Список лидов"><figcaption>«Лиды» — статус, оборот/порог, галочка при достижении</figcaption></figure>
+  <div class="box">
+    Раздел наполнится, когда пойдут события от «Моей Удалёнки» (после подключения). Сейчас у вас он пустой — лиды ведём с чистого листа, историю из PRM не переносим.
+  </div>
+</div></section>
+
+<section id="payouts"><div class="wrap">
+  <p class="kicker">Раздел 4</p>
+  <h2>Выплаты</h2>
+  <p>Заявки партнёров на вывод. Когда партнёр набрал бонус — заявка появляется здесь. После того как реально перевели деньги (как и сейчас, вне системы), жмёте <b>«Оплатить»</b> — заявка помечается выплаченной. Или <b>«Отклонить»</b>.</p>
+  <figure><img src="/mypartnerka/guide/04-payouts.png" alt="Выплаты"><figcaption>«Выплаты» — заявки на вывод, «Оплатить» / «Отклонить»</figcaption></figure>
+  <div class="box go">
+    Как в PRM — система ведёт учёт, а сам перевод денег партнёру делаете вы своим привычным способом. Кнопка «Оплатить» просто фиксирует факт.
+  </div>
+</div></section>
+
+<section id="move"><div class="wrap">
+  <p class="kicker">Раздел 5</p>
+  <h2>Коротко про переезд</h2>
+  <ul>
+    <li>Всё работает как в PRM Online — вы ведёте тех же и новых партнёров так же.</li>
+    <li>Партнёры и их реф-ссылки уже перенесены. Лиды — с чистого листа.</li>
+    <li>Подключение — на стороне вашего разработчика (пара строк конфига), лиды начнут прилетать автоматически.</li>
+    <li>Пока идёт сверка — старая PRM продолжает работать параллельно, без риска.</li>
+  </ul>
+  <p>Вопросы — через Макса.</p>
+</div></section>
+
+<footer><div class="wrap">
+  «Моя Партнёрка» · гайд для менеджера. Данные на скриншотах — демонстрационные. Компаньон к инструкции по переезду.
+</div></footer>
+</body>
+</html>
