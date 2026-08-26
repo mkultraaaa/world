@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#faf6f1">
+<meta name="color-scheme" content="light">
+<meta property="og:title" content="Герой за 25 секунд — досье проекта">
+<meta property="og:description" content="Рынок, устройство стойки, экономика, риски и план пилота AI-фотостойки для детских праздников на Кипре.">
+<meta property="og:type" content="website">
+<meta name="description" content="Рынок, устройство стойки, экономика, риски и план пилота AI-фотостойки для детских праздников на Кипре.">
+<title>Герой за 25 секунд — досье проекта</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<style>
+  .pk-home{
+    position:fixed; z-index:90; left:max(12px,env(safe-area-inset-left));
+    top:max(12px,env(safe-area-inset-top));
+    display:inline-flex; align-items:center; gap:7px; text-decoration:none;
+    font:600 12.5px/1 -apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    letter-spacing:.02em; padding:9px 13px 9px 11px; border-radius:99px;
+    color:#4a4150; background:rgba(255,255,255,.88); border:1px solid rgba(0,0,0,.09);
+    box-shadow:0 4px 16px rgba(0,0,0,.12); backdrop-filter:blur(8px);
+    transition:transform .25s ease, opacity .25s ease;
+  }
+  .pk-home:active{transform:scale(.96)}
+  /* уезжает вниз при чтении вниз, возвращается при скролле вверх */
+  .pk-home.away{transform:translateY(-140%); opacity:0; pointer-events:none}
+  @media (prefers-color-scheme: dark){
+    .pk-home{color:#e8e0ef; background:rgba(36,24,51,.88); border-color:rgba(255,255,255,.14)}
+  }
+  @media print{.pk-home{display:none}}
+</style>
+<a class="pk-home" href="/photokids">← Все материалы</a>
+<script>
+(function(){
+  var chip = document.querySelector('.pk-home'), last = 0;
+  addEventListener('scroll', function(){
+    var y = scrollY;
+    chip.classList.toggle('away', y > 120 && y > last);
+    last = y;
+  }, {passive:true});
+})();
+</script>
+<style>
+  /* ---- tokens: light (photo paper) ---- */
+  :root{
+    --paper:#faf6f1;
+    --card:#ffffff;
+    --sunk:#f2ece4;
+    --ink:#1d1720;
+    --ink-2:#5b5260;
+    --ink-3:#8d8494;
+    --rule:#e2d9cf;
+    --rule-2:#cfc3b6;
+    --mag:#c2185b;     /* пурпурная панель риббона */
+    --cyan:#0f7f99;    /* голубая */
+    --amber:#a06a12;   /* жёлтая */
+    --mag-soft:#fbe9f0;
+    --cyan-soft:#e4f2f5;
+    --amber-soft:#f8efdd;
+    --shadow:0 1px 2px rgba(29,23,32,.05), 0 10px 30px rgba(29,23,32,.07);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#14111a; --card:#1c1823; --sunk:#221d2b;
+      --ink:#f2edf4; --ink-2:#b4aabc; --ink-3:#847a8d;
+      --rule:#302938; --rule-2:#463d51;
+      --mag:#ff7bae; --cyan:#5fd0e8; --amber:#f0bd5e;
+      --mag-soft:#2c1723; --cyan-soft:#132930; --amber-soft:#2c2313;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 34px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#14111a; --card:#1c1823; --sunk:#221d2b;
+    --ink:#f2edf4; --ink-2:#b4aabc; --ink-3:#847a8d;
+    --rule:#302938; --rule-2:#463d51;
+    --mag:#ff7bae; --cyan:#5fd0e8; --amber:#f0bd5e;
+    --mag-soft:#2c1723; --cyan-soft:#132930; --amber-soft:#2c2313;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 34px rgba(0,0,0,.45);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:400 17px/1.68 Georgia,"Iowan Old Style","Droid Serif",serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .disp{
+    font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+    font-weight:800; letter-spacing:-.022em; text-wrap:balance;
+  }
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+
+  /* ---- shell ---- */
+  .shell{max-width:1180px; margin:0 auto; padding:0 22px; display:grid; grid-template-columns:1fr; gap:0}
+  @media (min-width:1040px){
+    .shell{grid-template-columns:186px minmax(0,1fr); gap:44px; align-items:start}
+  }
+  nav.toc{display:none}
+  @media (min-width:1040px){
+    nav.toc{
+      display:block; position:sticky; top:0; padding:112px 0 40px;
+      font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:12.5px; line-height:1.5;
+    }
+    nav.toc a{
+      display:block; padding:7px 0 7px 13px; color:var(--ink-3); text-decoration:none;
+      border-left:2px solid var(--rule); transition:color .15s, border-color .15s;
+    }
+    nav.toc a:hover,nav.toc a:focus-visible{color:var(--ink); border-left-color:var(--mag)}
+    nav.toc b{
+      display:block; padding:0 0 10px 13px; color:var(--ink-3); font-weight:700;
+      text-transform:uppercase; letter-spacing:.11em; font-size:10.5px;
+    }
+  }
+  main{min-width:0; padding-bottom:96px}
+
+  /* ---- hero ---- */
+  header.hero{padding:74px 0 12px}
+  .kicker{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:11.5px; font-weight:700;
+    letter-spacing:.17em; text-transform:uppercase; color:var(--mag); margin:0 0 20px;
+  }
+  h1{font-size:clamp(38px,6.4vw,68px); line-height:1.03; margin:0 0 22px}
+  .lede{font-size:clamp(18px,2.3vw,22px); line-height:1.55; color:var(--ink-2); max-width:31em; margin:0}
+
+  /* ---- money shot ---- */
+  .shot{margin:44px 0 8px}
+  .shotgrid{
+    display:grid; grid-template-columns:1.16fr auto repeat(3,1fr); gap:12px; align-items:center;
+  }
+  @media (max-width:860px){
+    .shotgrid{grid-template-columns:repeat(3,1fr); gap:9px}
+    .shotgrid .arrow{display:none}
+    .shotgrid .src{grid-column:span 3}
+  }
+  .fr{position:relative; border-radius:3px; overflow:hidden; background:var(--sunk); box-shadow:var(--shadow)}
+  .fr img{display:block; width:100%; aspect-ratio:2/3; object-fit:cover}
+  .fr.src img{aspect-ratio:2/3; object-position:top center}
+  .fr figcaption{
+    position:absolute; left:0; right:0; bottom:0; padding:20px 8px 7px; color:#fff;
+    background:linear-gradient(transparent,rgba(0,0,0,.82));
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:10px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase;
+  }
+  .arrow{color:var(--mag); font-size:26px; text-align:center; line-height:1}
+  .shotnote{
+    margin:14px 0 0; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:13px; color:var(--ink-3); letter-spacing:.01em;
+  }
+
+  /* ---- sections ---- */
+  section{padding:62px 0 0; scroll-margin-top:20px}
+  h2{font-size:clamp(25px,3.4vw,34px); line-height:1.14; margin:0 0 8px}
+  .sub{color:var(--ink-3); margin:0 0 26px; font-size:16px}
+  p{max-width:63ch; margin:0 0 18px}
+  a{color:var(--mag)}
+  strong{font-weight:700}
+  hr{border:0; border-top:1px solid var(--rule); margin:0}
+
+  /* ---- callout ---- */
+  .call{
+    border-left:3px solid var(--mag); background:var(--mag-soft);
+    padding:20px 24px; margin:26px 0; border-radius:0 6px 6px 0;
+  }
+  .call p{margin:0; max-width:58ch}
+  .call.cy{border-left-color:var(--cyan); background:var(--cyan-soft)}
+  .call.am{border-left-color:var(--amber); background:var(--amber-soft)}
+
+  /* ---- tables ---- */
+  .tw{overflow-x:auto; margin:8px 0 26px; border:1px solid var(--rule); border-radius:8px; background:var(--card)}
+  table{width:100%; border-collapse:collapse; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:14.5px}
+  th,td{padding:12px 15px; text-align:left; border-bottom:1px solid var(--rule); vertical-align:top}
+  thead th{
+    font-size:10.5px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-3);
+    font-weight:700; background:var(--sunk); white-space:nowrap;
+  }
+  tbody tr:last-child td{border-bottom:0}
+  td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+  tr.sum td{border-top:2px solid var(--rule-2); font-weight:700; color:var(--ink)}
+  td em{font-style:normal; color:var(--ink-3); font-size:13px; display:block; margin-top:2px}
+
+  /* ---- ledger ---- */
+  .ledger{
+    border:1px solid var(--rule); border-radius:8px; background:var(--card); overflow:hidden;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; margin:8px 0 26px;
+  }
+  .ledger .row{display:flex; justify-content:space-between; gap:16px; padding:11px 16px; border-bottom:1px solid var(--rule); font-size:14.5px}
+  .ledger .row:last-child{border-bottom:0}
+  .ledger .row span:last-child{font-variant-numeric:tabular-nums; white-space:nowrap}
+  .ledger .row.pos span:last-child{color:var(--cyan); font-weight:700}
+  .ledger .row.neg span:last-child{color:var(--ink-2)}
+  .ledger .row.tot{background:var(--sunk); font-weight:700; font-size:16px; border-top:2px solid var(--rule-2)}
+  .ledger .row.tot span:last-child{color:var(--mag)}
+
+  /* ---- cards ---- */
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:14px; margin:8px 0 26px}
+  .cd{background:var(--card); border:1px solid var(--rule); border-radius:10px; padding:19px}
+  .cd h3{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--cyan); margin:0 0 9px;
+  }
+  .cd.m h3{color:var(--mag)} .cd.a h3{color:var(--amber)}
+  .cd p{margin:0; font-size:15px; line-height:1.6; max-width:none; color:var(--ink-2)}
+
+  /* ---- steps ---- */
+  ol.steps{list-style:none; counter-reset:s; margin:8px 0 26px; padding:0}
+  ol.steps li{counter-increment:s; position:relative; padding:0 0 26px 54px; border-left:1px solid var(--rule); margin-left:15px}
+  ol.steps li:last-child{border-left-color:transparent; padding-bottom:0}
+  ol.steps li::before{
+    content:counter(s); position:absolute; left:-15px; top:-2px; width:30px; height:30px; border-radius:50%;
+    display:grid; place-items:center; background:var(--card); border:1px solid var(--rule-2); color:var(--ink-2);
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:700; font-size:13px;
+  }
+  ol.steps h3{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:17px; margin:2px 0 6px; letter-spacing:-.01em}
+  ol.steps p{margin:0 0 8px; font-size:16px}
+  .gate{
+    display:inline-block; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:12.5px;
+    background:var(--sunk); border:1px solid var(--rule-2); border-radius:5px; padding:6px 11px; color:var(--ink-2);
+  }
+  .gate b{color:var(--ink)}
+
+  /* ---- schema ---- */
+  .schema{border:1px solid var(--rule); border-radius:10px; background:var(--card); padding:14px; margin:8px 0 26px; overflow-x:auto}
+  .schema svg{display:block; min-width:660px; width:100%; height:auto}
+
+  /* ---- compare ---- */
+  .cmp{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:8px 0 26px}
+  @media (max-width:720px){.cmp{grid-template-columns:1fr}}
+  .cmp figure{margin:0}
+  .cmp img{width:100%; display:block; border-radius:8px; border:1px solid var(--rule)}
+  .cmp figcaption{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:12.5px; margin-top:8px;
+    color:var(--ink-2); line-height:1.5;
+  }
+  .cmp b{display:block; font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:3px}
+  .cmp .bad b{color:var(--mag)} .cmp .good b{color:var(--cyan)}
+
+  /* ---- cta ---- */
+  .cta{
+    margin:56px 0 0; padding:30px; border-radius:12px; background:var(--sunk); border:1px solid var(--rule);
+    display:flex; flex-wrap:wrap; align-items:center; gap:18px; justify-content:space-between;
+  }
+  .cta div{max-width:44ch}
+  .cta h2{margin:0 0 6px; font-size:24px}
+  .cta p{margin:0; font-size:15.5px; color:var(--ink-2)}
+  .btn{
+    display:inline-block; background:var(--mag); color:#fff; text-decoration:none; padding:15px 28px;
+    border-radius:999px; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:700; font-size:15.5px;
+    white-space:nowrap; transition:transform .14s, filter .14s;
+  }
+  .btn:hover,.btn:focus-visible{transform:translateY(-1px); filter:brightness(1.08)}
+  :root[data-theme="dark"] .btn, :root:not([data-theme="light"]) .btn{color:#20101a}
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .btn{color:#fff}}
+
+  a:focus-visible,.btn:focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+
+  footer{padding:44px 0 0; border-top:1px solid var(--rule); margin-top:56px; color:var(--ink-3); font-size:14px}
+  footer p{max-width:60ch}
+</style>
+
+<div class="shell">
+<nav class="toc" aria-label="Разделы">
+  <b>Разделы</b>
+  <a href="#proof">Что уже проверено</a>
+  <a href="#market">Рынок</a>
+  <a href="#hole">Где дыра</a>
+  <a href="#booth">Как устроена стойка</a>
+  <a href="#money">Экономика</a>
+  <a href="#risk">Риски</a>
+  <a href="#pilot">План пилота</a>
+</nav>
+
+<main>
+<header class="hero">
+  <p class="kicker">Кипр · детские праздники · pre-MVP</p>
+  <h1 class="disp">Ребёнок заходит собой, выходит героем — и уносит это в руках</h1>
+  <p class="lede">Фотостойка без оператора: выбрал персонажа, сфотографировался, через
+    25 секунд забрал напечатанную карточку. Аниматор берёт её у меня за €100 за праздник,
+    ставит родителю €180 и разницу оставляет себе.</p>
+
+  <div class="shot">
+    <div class="shotgrid">
+      <figure class="fr src"><img src="img/607d47eb90.jpg" alt="Исходный кадр из будки: ребёнок на однотонном фоне"><figcaption>Кадр из будки</figcaption></figure>
+      <div class="arrow" aria-hidden="true">→</div>
+      <figure class="fr"><img src="img/b9dcfdeb71.jpg" alt="Неоновый кумир"><figcaption>Неоновый кумир</figcaption></figure>
+      <figure class="fr"><img loading="lazy" decoding="async" src="img/938361c33d.jpg" alt="Космовет"><figcaption>Космовет</figcaption></figure>
+      <figure class="fr"><img loading="lazy" decoding="async" src="img/8443d9656c.jpg" alt="Морской разведчик"><figcaption>Морской разведчик</figcaption></figure>
+    </div>
+    <p class="shotnote">Один снимок → шесть персонажей. Лицо, возраст и улыбка не трогаются:
+      меняются только причёска, костюм и фон.</p>
+  </div>
+</header>
+
+<section id="proof">
+  <h2 class="disp">Что уже проверено</h2>
+  <p class="sub">Не рассуждения — прогон настоящего пайплайна 25 августа 2026</p>
+  <p>Синтетический портрет ребёнка прогнали через <span class="mono">gpt-image-2</span> в режиме
+    редактирования, шесть архетипов, промпт с жёстким требованием сохранить лицо.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Метрика</th><th>Результат</th></tr></thead>
+    <tbody>
+      <tr><td>Время генерации</td><td><strong>22–30 секунд</strong> на кадр</td></tr>
+      <tr><td>Сохранение сходства</td><td>ребёнок узнаётся во всех шести<em>лицо, возраст, улыбка не поплыли</em></td></tr>
+      <tr><td>Цена кадра</td><td>≈ $0.05</td></tr>
+      <tr><td>Отказы модерации</td><td>1 из 6 в первом прогоне<em>«танцор с мечом» — оружие рядом с ребёнком</em></td></tr>
+    </tbody>
+  </table></div>
+  <div class="call">
+    <p><strong>Побочная находка, важная для прода.</strong> При повторном прогоне тот же
+      отклонённый промпт прошёл. Модерация вероятностная, а не детерминированная. Значит:
+      убрать оружие из пресетов, заложить обязательный retry, держать второго провайдера
+      наготове.</p>
+  </div>
+</section>
+
+<section id="market">
+  <h2 class="disp">Рынок</h2>
+  <p class="sub">Категория зрелая, детский сегмент — почти пустой</p>
+  <p>AI-фотобудки — сформировавшийся сегмент проката. Планшетные системы держат около 37%
+    рынка по технологии, типовое время генерации у вендоров 30–60 секунд, операторы берут
+    $400–900 за ивент.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Игрок</th><th>Что даёт</th><th>Цена</th></tr></thead>
+    <tbody>
+      <tr><td>Simple Booth HALO</td><td>iPad-будка, самый простой self-serve</td><td>софт $29–249/мес, железо $2500–4000, AI-кредиты $0.10</td></tr>
+      <tr><td>LumaBooth</td><td>Windows и iPad, AI Portraits</td><td>$19.99–49.99/мес</td></tr>
+      <tr><td>aiphotobooth.eu</td><td>европейский SaaS-кабинет под AI-будку</td><td>€19 → €799/мес по кредитам</td></tr>
+      <tr><td>Snapbar, Chic Booth, Lucky Frog</td><td>US-операторы, продают как услугу</td><td>$400–900 за ивент</td></tr>
+    </tbody>
+  </table></div>
+  <p>Кипрский контекст: аниматор берёт €100–350 за час в Лимассоле, средний чек детского
+    аниматора в Пафосе около €438, STEM-праздники от €300. Аддон за €100 встраивается
+    в такой чек органично — это <strong>плюс 25–30% к их среднему счёту без единого
+    лишнего часа работы</strong>.</p>
+  <div class="call cy">
+    <p>Индустрия прямо пишет: очередь тормозят не вычисления, а непонимание — люди зависают,
+      не зная, как начать и нормальное ли у них фото. Мы хотим работать без оператора,
+      значит эту роль целиком берёт на себя интерфейс.</p>
+  </div>
+</section>
+
+<section id="hole">
+  <h2 class="disp">Где дыра</h2>
+  <p class="sub">Три причины, по которым место свободно</p>
+  <div class="cards">
+    <div class="cd m"><h3>Дети заблокированы</h3><p>Google и OpenAI отклоняют обработку фото
+      с несовершеннолетними на уровне API, и защита не отключается настройками. Весь SaaS-слой
+      рынка построен на этих моделях — то есть детский праздник он обслужить не может.</p></div>
+    <div class="cd"><h3>Оператор всегда рядом</h3><p>Рынок продаёт «будка плюс человек».
+      Модель «привезли коробку, она сама работает три часа» встречается редко.</p></div>
+    <div class="cd a"><h3>На Кипре пусто</h3><p>Рынок детских праздников насыщен аниматорами,
+      но AI-будок в выдаче не видно. Конкуренции по этому аддону практически нет.</p></div>
+  </div>
+</section>
+
+<section id="booth">
+  <h2 class="disp">Как устроена стойка</h2>
+  <p class="sub">Одна сумка на колёсах, 12 кг, сборка за 10 минут без инструментов</p>
+
+  <div class="schema">
+    <svg viewBox="0 0 880 430" role="img" aria-label="Схема расположения: фон, ребёнок, стойка с планшетом, корпус с принтером">
+      <rect x="30" y="34" width="228" height="300" rx="7" fill="none" stroke="currentColor" stroke-opacity=".28" stroke-width="1.5"/>
+      <text x="144" y="176" text-anchor="middle" font-size="13" font-family="Helvetica,Arial" fill="currentColor" fill-opacity=".62">однотонный фон</text>
+      <text x="144" y="196" text-anchor="middle" font-size="11" font-family="Helvetica,Arial" fill="currentColor" fill-opacity=".42">ткань 1.5 × 2 м</text>
+      <circle cx="144" cy="252" r="19" fill="currentColor" fill-opacity=".22"/>
+      <path d="M114 334c0-17 13-29 30-29s30 12 30 29z" fill="currentColor" fill-opacity=".22"/>
+      <text x="144" y="356" text-anchor="middle" font-size="11.5" font-family="Helvetica,Arial" fill="currentColor" fill-opacity=".55">ребёнок</text>
+
+      <circle cx="300" cy="96" r="22" fill="none" stroke="#a06a12" stroke-width="4"/>
+      <text x="300" y="140" text-anchor="middle" font-size="11.5" font-family="Helvetica,Arial" fill="#a06a12">кольцевая лампа</text>
+
+      <rect x="390" y="58" width="142" height="204" rx="10" fill="none" stroke="#c2185b" stroke-width="2"/>
+      <rect x="404" y="76" width="114" height="142" rx="7" fill="currentColor" fill-opacity=".05" stroke="currentColor" stroke-opacity=".3"/>
+      <text x="461" y="142" text-anchor="middle" font-size="13" font-family="Helvetica,Arial" fill="currentColor" fill-opacity=".75">iPad</text>
+      <text x="461" y="160" text-anchor="middle" font-size="10.5" font-family="Helvetica,Arial" fill="currentColor" fill-opacity=".45">экран + камера</text>
+      <circle cx="461" cy="88" r="3.5" fill="#0f7f99"/>
+      <rect x="418" y="228" width="86" height="22" rx="5" fill="currentColor" fill-opacity=".08"/>
+      <text x="461" y="243" text-anchor="middle" font-size="10" font-family="Helvetica,Arial" fill="currentColor" fill-opacity=".6">лоток выдачи</text>
+      <rect x="443" y="262" width="36" height="106" fill="currentColor" fill-opacity=".1"/>
+      <ellipse cx="461" cy="372" rx="78" ry="12" fill="currentColor" fill-opacity=".1"/>
+      <text x="461" y="404" text-anchor="middle" font-size="11.5" font-family="Helvetica,Arial" fill="currentColor" fill-opacity=".55">тренога, ~120 см</text>
+
+      <rect x="620" y="130" width="206" height="140" rx="10" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5"/>
+      <text x="723" y="158" text-anchor="middle" font-size="12.5" font-family="Helvetica,Arial" font-weight="bold" fill="currentColor" fill-opacity=".8">внутри корпуса</text>
+      <text x="723" y="184" text-anchor="middle" font-size="12" font-family="Helvetica,Arial" fill="currentColor" fill-opacity=".62">принтер SELPHY</text>
+      <text x="723" y="206" text-anchor="middle" font-size="12" font-family="Helvetica,Arial" fill="currentColor" fill-opacity=".62">Raspberry Pi</text>
+      <text x="723" y="228" text-anchor="middle" font-size="12" font-family="Helvetica,Arial" fill="currentColor" fill-opacity=".62">4G-роутер</text>
+      <text x="723" y="250" text-anchor="middle" font-size="12" font-family="Helvetica,Arial" fill="currentColor" fill-opacity=".62">повербанк</text>
+
+      <path d="M266 190 L378 190" stroke="#c2185b" stroke-width="2"/>
+      <path d="M378 190 l-9 -5 v10 z" fill="#c2185b"/>
+      <path d="M538 196 L610 196" stroke="#c2185b" stroke-width="2"/>
+      <path d="M610 196 l-9 -5 v10 z" fill="#c2185b"/>
+      <path d="M723 124 C723 46 600 28 538 92" stroke="#0f7f99" stroke-width="1.8" fill="none" stroke-dasharray="5 5"/>
+      <path d="M538 92 l3 -10 l7 7 z" fill="#0f7f99"/>
+      <text x="600" y="34" font-size="11.5" font-family="Helvetica,Arial" fill="#0f7f99">интернет → GPU → назад</text>
+    </svg>
+  </div>
+
+  <h3 class="disp" style="font-size:19px;margin:30px 0 4px">Путь ребёнка</h3>
+  <p class="sub">Шесть экранов, ни одного взрослого</p>
+  <div class="cards">
+    <div class="cd"><h3>Витрина</h3><p>Экран крутит готовые карточки. Ребёнок видит результат
+      до того, как решил участвовать — это снимает главный ступор.</p></div>
+    <div class="cd"><h3>Выбор</h3><p>Шесть больших картинок, ни слова текста. Работает
+      на любом языке зала — английском, греческом, русском.</p></div>
+    <div class="cd"><h3>Съёмка</h3><p>Силуэт-рамка, кнопка активна только когда лицо в кадре.
+      Отсчёт 3-2-1, серия из трёх кадров, лучший выбирается сам.</p></div>
+    <div class="cd"><h3>Ожидание</h3><p>Двадцать пять секунд для ребёнка — вечность.
+      Прогресс-бар и анимация, иначе он уйдёт.</p></div>
+    <div class="cd"><h3>Результат</h3><p>Две кнопки: печать или переснять, один раз.
+      Больше выборов не даём.</p></div>
+    <div class="cd"><h3>Печать</h3><p>Карточка 10×15 выезжает в лоток. Автосброс
+      через 15 секунд — следующий.</p></div>
+  </div>
+
+  <h3 class="disp" style="font-size:19px;margin:30px 0 4px">Из чего собирается</h3>
+  <p class="sub">Четыре готовых предмета. Ни одного самодельного, фанеру не пилим</p>
+  <div class="tw"><table>
+    <thead><tr><th>Предмет</th><th>Что берём</th><th class="n">€</th><th class="n">Вес</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Стойка, свет и держатель</strong></td><td>кольцевой свет 18″ на штативе с держателем под планшет — три вещи в одной покупке<em>колонна, свет и крепление сразу</em></td><td class="n">50–70</td><td class="n">3.5 кг</td></tr>
+      <tr><td><strong>Фон</strong></td><td>складной поп-ап 150×200, раскрывается пружиной, складывается в диск 70 см</td><td class="n">60–80</td><td class="n">1.5 кг</td></tr>
+      <tr><td>Принтер</td><td>Canon SELPHY CP1500 и картридж на 108 карточек</td><td class="n">140+32</td><td class="n">1.3 кг</td></tr>
+      <tr><td>Печатный узел</td><td>старый ноут, который уже есть — принтер к нему по USB<em>своя батарея, лежит внутри тумбы с закрытой крышкой</em></td><td class="n">0–20</td><td class="n">2 кг</td></tr>
+      <tr><td>Подставка под принтер</td><td>складной табурет: лоток должен быть на 50–60 см, чтобы ребёнок доставал карточку не приседая</td><td class="n">15–25</td><td class="n">2 кг</td></tr>
+      <tr><td>Транспорт</td><td>сумка на колёсах</td><td class="n">25–35</td><td class="n">1.5 кг</td></tr>
+      <tr class="sum"><td>Итого</td><td>iPad и ноут свои, окупается за 4 праздника</td><td class="n">≈ 330</td><td class="n">12 кг</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="cards">
+    <div class="cd m"><h3>Свет и есть стойка</h3><p>Кольцевой свет на штативе закрывает
+      колонну, освещение и крепление планшета одной покупкой и складывается в свой же чехол.
+      Планшет встаёт в центр кольца — свет бьёт ровно в лицо, ровно то, что нужно генерации.</p></div>
+    <div class="cd"><h3>Аттракцион делает фон</h3><p>«Это фотозона» считывается по фону
+      и свету, а не по коробке вокруг планшета. Печатный фон с нашими персонажами
+      за €70 даёт весь вау-эффект, который дал бы корпус за €550.</p></div>
+    <div class="cd a"><h3>Штатив надо утяжелить</h3><p>Дети виснут на всём. Мешок с песком
+      на ноги штатива — €10, или пакет камней с пляжа за ноль. Без этого стойка поедет
+      на первом же празднике.</p></div>
+  </div>
+
+  <p><strong>Сборка на месте — четыре движения.</strong> Раскрыть фон, раскрыть штатив
+    на 120 см и вставить планшет, поставить табурет с принтером, воткнуть удлинитель.</p>
+
+  <h3 class="disp" style="font-size:19px;margin:30px 0 4px">Как это выглядит на самом деле</h3>
+  <p class="sub">Один и тот же комплект, разница — €70 на маскировку</p>
+  <div class="cmp">
+    <figure class="bad"><img loading="lazy" decoding="async" src="img/7269015b4f.jpg" alt="MVP без маскировки: штатив, принтер на табурете, провода по полу">
+      <figcaption><b>Как есть · €0</b>Чёрная тренога, ноут на полу, удлинитель и провода по плитке,
+        серая тряпка вместо фона. Читается как угол для вебинара, а не как аттракцион.
+        Самый крупный объект в кадре — серый фон, и именно он всё портит.</figcaption></figure>
+    <figure class="good"><img loading="lazy" decoding="async" src="img/5bdd92d433.jpg" alt="Тот же комплект со скримом на штативе и цветным фоном">
+      <figcaption><b>+ €70</b>Скрим превращает три ноги в одну колонну — вместо конструкции
+        получается предмет. Цветной фон вместо серого. Провода внутри скрима, принтер в коробке.
+        Уже читается как фотобудка.</figcaption></figure>
+  </div>
+  <p><strong>Два вывода из этой пары.</strong> Первое: чехол на штатив делает больше, чем всё
+    остальное вместе — он убирает саму «треногость». Второе: <strong>цвет фона бесплатен.</strong>
+    Серый и цветной стоят одинаково, но серый читается как студийное оборудование, а цветной —
+    как часть праздника. На этом экономить нельзя даже случайно.</p>
+  <p>Честная оценка нижней картинки: это <em>самодельная</em> фотобудка. На домашнем детском
+    празднике этого достаточно. Продуктом она становится на следующей ступени — с промо-стойкой:</p>
+  <div class="cmp" style="grid-template-columns:1fr">
+    <figure class="good"><img loading="lazy" decoding="async" src="img/efe9603c4b.jpg" alt="Конфигурация с промо-стойкой и печатным фоном">
+      <figcaption><b>Стойка с печатью · ≈ €200 сверху</b>Один объект с собственной графикой,
+        штатива нет, проводов нет, принтер и ноут внутри тумбы. Рендер замысла: пропорции честные,
+        графика условная — своих персонажей ещё не рисовали.</figcaption></figure>
+  </div>
+
+  <h3 class="disp" style="font-size:19px;margin:30px 0 4px">Почему печатает не планшет</h3>
+  <p class="sub">Проверено по документации и репортам разработчиков, а не предположено</p>
+  <p>Логично спросить: зачем отдельный компьютер, если есть iPad, а SELPHY умеет AirPrint.
+    Ответ: <strong>iPad не может печатать молча</strong> — а будке без оператора нужна именно
+    молчаливая печать: ребёнок жмёт кнопку и забирает карточку, без диалогов и выбора принтера.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Путь</th><th>Что происходит</th></tr></thead>
+    <tbody>
+      <tr><td>Веб-приложение в Safari</td><td>с iOS 10.3.3 автоматический вызов печати <strong>блокируется</strong>: «This website was blocked for automatic printing». Тупик</td></tr>
+      <tr><td>Нативное iOS-приложение</td><td>метод прямой печати существует, но разработчики стабильно сообщают: <strong>всё равно всплывает окно «Printing to…» с кнопкой отмены</strong>. Плюс на iOS 16 после первой печати следующие выходят пустыми до перезапуска</td></tr>
+      <tr><td>Chrome в киоск-режиме на компьютере</td><td>флаг тихой печати даёт <strong>настоящую печать без диалогов</strong>. Работает</td></tr>
+    </tbody>
+  </table></div>
+  <div class="call cy">
+    <p><strong>Но Raspberry покупать не надо.</strong> Роль печатного узла закрывает старый
+      ноут, который уже есть: лежит внутри тумбы с закрытой крышкой, принтер к нему по USB —
+      значит печать не зависит от Wi-Fi вообще. И у ноута своя батарея, то есть он же
+      закрывает питание. Pi за €70 имеет смысл потом, когда захочется забрать ноут обратно.</p>
+  </div>
+  <p><strong>Интернет нужен только планшету</strong> — отправить кадр на генерацию.
+    На праздниках он обычно есть; страховка на случай мёртвого Wi-Fi у хозяев — телефон
+    в режиме модема, ноль евро и тридцать секунд.</p>
+
+  <h3 class="disp" style="font-size:19px;margin:30px 0 4px">Чтобы не выглядело как ремонт</h3>
+  <p class="sub">На празднике всё украшено — набор вещей с проводами туда не встаёт</p>
+  <p>Решается не строительством и не покупкой готовой тумбы. Выставочная стойка — это
+    <strong>коробка плюс печатная кожа</strong>. Обе части на Кипре стоят кратно дешевле,
+    чем готовое изделие из Британии с доставкой, НДС и растаможкой.</p>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Купить готовое</th><th>Собрать</th></tr></thead>
+    <tbody>
+      <tr><td>Тело</td><td>—</td><td><strong>складной стол-чемодан</strong><em>складывается пополам, ручка, ~5 кг</em> €35–55</td></tr>
+      <tr><td>Кожа</td><td>—</td><td><strong>стрейч-чехол на 4 стороны с печатью</strong><em>у местного печатника</em> €60–120</td></tr>
+      <tr class="sum"><td>Итого</td><td>€400–500 с доставкой на Кипр</td><td>€95–175</td></tr>
+    </tbody>
+  </table></div>
+  <p>Четырёхсторонний стрейч-чехол — ровно то, чем на выставках закрывают стол: обтягивает
+    столешницу и все четыре стороны до пола. Под ним исчезают принтер, ноут, провода и
+    удлинитель. Это буквально функция промо-стойки, только за четверть цены. Столешница при
+    этом больше, а высота 74 см вместо 100 — <strong>для детей лучше</strong>: лоток выдачи
+    ровно на уровне рук.</p>
+  <div class="call cy">
+    <p><strong>Печать заказывать на Кипре и всё сразу.</strong> Местные печатают на ткани
+      до 3.2 м без швов — Print Angels в Лимассоле, Zonari в Пафосе, Cyprus Printing Center.
+      Один макет, один поставщик, один заказ: фон, чехол на стол и указатель. Дешевле, чем
+      возить готовое, и правится за день, если персонажи поменяются.</p>
+  </div>
+  <p><strong>Промежуточный шаг за €30:</strong> не печатать сразу, а взять однотонный
+    стрейч-чехол — он уже прячет всё под столом и выглядит опрятно. Печать заказывать
+    после того, как персонажи финализированы и организатор сказал «беру».</p>
+  <div class="tw"><table>
+    <thead><tr><th>Ступень</th><th class="n">€</th><th>Как читается</th></tr></thead>
+    <tbody>
+      <tr><td>Как есть</td><td class="n">0</td><td>стройка в углу</td></tr>
+      <tr><td>Скрим на штатив и цветной фон</td><td class="n">70</td><td>самодельная фотобудка</td></tr>
+      <tr><td><strong>+ стол с однотонным чехлом</strong></td><td class="n">≈105</td><td>опрятная фотозона</td></tr>
+      <tr><td><strong>+ печать чехла и фона</strong></td><td class="n">≈200</td><td>продукт</td></tr>
+      <tr><td>Покупная выставочная стойка</td><td class="n">400–500</td><td>то же самое, что за €200</td></tr>
+    </tbody>
+  </table></div>
+  <div class="call">
+    <p><strong>Покупная промо-стойка не нужна вообще.</strong> Она не даёт ничего сверх
+      стола с печатным чехлом — кроме веса и счёта на растаможку.</p>
+  </div>
+  <p>Принтер, ноут, питание и все провода уезжают внутрь. Снаружи — один объект
+    с нашей графикой и карточка, которая выезжает на столешницу. <strong>Штатив исчезает
+    вообще:</strong> планшет ставится на топ на коротком кронштейне, и экран оказывается
+    на 115 см — ровно уровень глаз ребёнка 5–10 лет. Свет — компактное кольцо на струбцине.</p>
+  <div class="call cy">
+    <p><strong>Провода можно убрать полностью.</strong> SELPHY потребляет менее 60 Вт
+      и поддерживает штатный аккумулятор — <strong>72 карточки с одного заряда</strong>,
+      это больше, чем весь праздник. Ноут работает от своей батареи, планшет добирает повербанком. Ни одного провода
+      к розетке — и это не только внешний вид: шнур по полу там, где бегают дети,
+      это то, обо что споткнутся.</p>
+  </div>
+  <p><strong>Если бюджет пока не тянет стойку,</strong> 80% визуального мусора убирается
+    за €70: чехол-скрим на штатив (диджейский, с отверстием для вывода кабеля, €25–35),
+    принтер в декоративной коробке с вырезом под лоток вместо табурета (€20),
+    один плоский удлинитель в кабель-канале (€20).</p>
+  <div class="cards">
+    <div class="cd m"><h3>Графика важнее каркаса</h3><p>Печатная обтяжка с теми же
+      персонажами, что на карточках, превращает набор вещей в аттракцион. €150 на печать
+      делают больше, чем €550 на металл.</p></div>
+    <div class="cd a"><h3>Пусть организатор украсит</h3><p>Он всё равно приезжает с шарами
+      и тематическим декором. Стойка, к которой можно привязать его шары, перестаёт быть
+      чужой техникой и становится частью его оформления. Стоит ноль — и делает его соавтором.</p></div>
+  </div>
+
+  <h3 class="disp" style="font-size:19px;margin:30px 0 4px">Когда всё-таки нужен корпус</h3>
+  <p class="sub">Только на стационарной точке в отеле или ТЦ</p>
+  <p>Там ящик стоит неделями: его никто не собирает заново, зато его трогают сотни детей,
+    и он должен выглядеть мебелью, а не штативом с планшетом. Тогда — либо готовый
+    алюминиевый shell за €400–550, либо чертёж кипрскому столяру: отдаёшь размеры в
+    миллиметрах, получаешь распиленные панели за €150–250, собираешь шуруповёртом за вечер.
+    Своими руками не пилим — нет мастерской, и экономия сотни евро не стоит выходных.</p>
+
+  <div class="call am">
+    <p><strong>Что если сломается.</strong> Нет интернета — стойка молча переходит на
+      локальную обработку без ИИ, карточка выходит всё равно. Дети жмут всё подряд —
+      один отпечаток на сессию, пауза 20 секунд, лимит на праздник. Меня нет рядом —
+      вижу телеметрию: остаток бумаги, процент успешных генераций, жива ли будка.</p>
+  </div>
+</section>
+
+<section id="money">
+  <h2 class="disp">Экономика</h2>
+  <p class="sub">Цифры подпёрты прайсами кипрских операторов, а не взяты с потолка</p>
+
+  <h3 class="disp" style="font-size:19px;margin:6px 0 4px">Сколько стоят сопоставимые аддоны</h3>
+  <p class="sub">Живой прайс KIDDOM, Лимассол — тот самый сегмент, куда заходим</p>
+  <div class="tw"><table>
+    <thead><tr><th>Их услуга</th><th class="n">Цена</th><th>Что это по сути</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Аквагрим</strong></td><td class="n">€70 / 30 мин</td><td>ближайший аналог: персональное превращение, которое ребёнок уносит на себе</td></tr>
+      <tr><td><strong>Мастер-класс</strong><em>мыло, свечи, браслеты</em></td><td class="n">€100 / 10 детей</td><td>аналог по формату: станция, через которую дети проходят по очереди</td></tr>
+      <tr><td>Маскот, ростовая кукла</td><td class="n">€100 / 25 мин</td><td></td></tr>
+      <tr><td>Фотограф</td><td class="n">€150 / час</td><td></td></tr>
+      <tr><td><strong>Персональная фотозона</strong></td><td class="n">от €450</td><td></td></tr>
+      <tr><td>Дополнительный аниматор</td><td class="n">€50 / час</td><td></td></tr>
+      <tr><td>Шоу: пузыри, крио, тесла, дискотеки</td><td class="n">€200–450 / 30 мин</td><td></td></tr>
+      <tr><td>Пакеты праздника на 10 детей</td><td class="n">€450 → €1500</td><td>2.5–3.5 часа</td></tr>
+    </tbody>
+  </table></div>
+  <div class="call">
+    <p><strong>€100 родителю — это было ниже рынка.</strong> За те же деньги аквагримёр
+      отрабатывает 45 минут. Будка работает весь праздник, обслуживает всех детей и отдаёт
+      физический артефакт. Реалистичный розничный ценник — <strong>€150–200</strong>:
+      дешевле часа фотографа, кратно дешевле фотозоны, дороже мастер-класса при
+      несопоставимо большем времени работы.</p>
+  </div>
+
+  <h3 class="disp" style="font-size:19px;margin:30px 0 4px">Сколько принято оставлять посреднику</h3>
+  <p class="sub">Два разных мира, которые постоянно путают</p>
+  <div class="tw"><table>
+    <thead><tr><th>Модель</th><th>Кто так работает</th><th class="n">Доля посредника</th></tr></thead>
+    <tbody>
+      <tr><td>Комиссия за рекомендацию<em>свёл — получил процент</em></td><td>event-планировщики, свадебные агентства</td><td class="n">10–20%<br>в люксе до 40%</td></tr>
+      <tr><td>Наценка на подрядчика<em>перепродажа со своей маржой</em></td><td>агентства, нанимающие исполнителей</td><td class="n">25–50%</td></tr>
+      <tr><td>Агентская комиссия с исполнителя</td><td>talent и booking-агентства</td><td class="n">10–25%</td></tr>
+      <tr><td>Реселлер фото-сервисов</td><td>Eventiere и аналоги</td><td class="n">15–25%</td></tr>
+      <tr><td>Русскоязычные детские агентства</td><td>referral-схемы</td><td class="n">30–40%</td></tr>
+    </tbody>
+  </table></div>
+  <div class="call cy">
+    <p><strong>Пятьдесят на пятьдесят — это верхняя граница агентской жадности, а не норма.</strong>
+      Для подрядчика, который приезжает со своим оборудованием и своей технологией,
+      посредник оставляет себе 20–35%. Оговорка в обе стороны: наш организатор делает больше,
+      чем «свёл» — он везёт, ставит и присматривает. Поэтому чистые 15% тут занижены.
+      Справедливая вилка — <strong>25–35% розничной цены</strong>.</p>
+  </div>
+
+  <h3 class="disp" style="font-size:19px;margin:30px 0 4px">Какую схему предлагать</h3>
+  <p class="sub">Не процент, а фиксированная оптовая цена</p>
+  <p>Организатор платит мне фикс и сам ставит ценник родителю, забирая разницу.</p>
+  <div class="call am">
+    <p>«Будка стоит тебе €100 за праздник. Родителю продавай за сколько хочешь —
+      у тебя в прайсе аквагрим стоит €70 за полчаса, а это работает весь праздник
+      и каждый ребёнок уносит карточку. Ставь €180 — €80 твои.»</p>
+  </div>
+  <p>Почему фикс, а не половина от чека: не надо проверять, за сколько он реально продал —
+    иначе конфликт на ровном месте. Организатор сам управляет маржой, и это привычная ему
+    модель наценки на подрядчика. Продаст за €250 — его право и его заработок, мотивация
+    двигать цену вверх, а не вниз. И заодно выстраивается нормальная оптово-розничная
+    структура, которая потом переносится на отели без переписывания договорённостей.</p>
+  <p><strong>Вилка для торга:</strong> открываем на €100 опта, пол — €80, потолок — €130
+    для премиального организатора, который продаёт от €250.</p>
+
+  <h3 class="disp" style="font-size:19px;margin:30px 0 10px">Один праздник</h3>
+  <div class="ledger">
+    <div class="row pos"><span>Оптовая цена организатору</span><span>+100.00 €</span></div>
+    <div class="row neg"><span>Печать, 26 карточек по €0.30</span><span>−7.80 €</span></div>
+    <div class="row neg"><span>GPU, около 30 генераций</span><span>−0.30 €</span></div>
+    <div class="row neg"><span>Мобильный интернет, доля</span><span>−1.00 €</span></div>
+    <div class="row neg"><span>Амортизация железа, €345 на 50 ивентов</span><span>−6.90 €</span></div>
+    <div class="row tot"><span>Чистыми за праздник</span><span>≈ 84 €</span></div>
+  </div>
+  <p>Железо окупается за <strong>пять праздников</strong> вместо тринадцати.
+    Но вся экономика держится на том, что коробку возит организатор: если вожу я —
+    минус бензин и полтора часа, остаётся около €65 и убитый выходной.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Праздников в месяц</th><th class="n">Было: €50, пополам</th><th class="n">Стало: €100 опта</th></tr></thead>
+    <tbody>
+      <tr><td>8</td><td class="n">€264</td><td class="n">€672</td></tr>
+      <tr><td>15</td><td class="n">€495</td><td class="n">€1 260</td></tr>
+      <tr><td>20</td><td class="n">€660</td><td class="n">€1 680</td></tr>
+    </tbody>
+  </table></div>
+  <div class="call">
+    <p><strong>Честно про потолок.</strong> Даже с исправленной ценой домашние дни рождения
+      не дают €10 000 в месяц — но перестают быть подработкой. Полторы тысячи с одного ящика
+      при полной загрузке — это база, на которую ставится второй ящик и делается заход в отели.</p>
+  </div>
+  <p>Тот же ящик и тот же софт на другой площадке стоят в три-шесть раз дороже:</p>
+  <div class="tw"><table>
+    <thead><tr><th>Канал</th><th>Чек</th><th>Почему</th></tr></thead>
+    <tbody>
+      <tr><td>Отели и kids club<em>Пафос, Лимассол</em></td><td>€300–600 за вечер<br>или €500–900/мес</td><td>дети каждый день, платит юрлицо, логистики нет вообще</td></tr>
+      <tr><td>ТЦ и детские центры</td><td>revenue share</td><td>работает 30 дней в месяц, а не 4</td></tr>
+      <tr><td>Корпоративы, family day</td><td>€400–900 за ивент</td><td>бюджет корпоративный, торга почти нет</td></tr>
+      <tr><td>Софт другим операторам будок</td><td>€99–199/мес + кредиты</td><td>у них детский сегмент закрыт политикой Google и OpenAI — продаём то, чего они не могут купить</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="disp" style="font-size:19px;margin:30px 0 4px">Что закрывается только разговором</h3>
+  <p class="sub">Три цифры, которых нет в публичных прайсах</p>
+  <div class="cards">
+    <div class="cd m"><h3>Закупка аквагримёра</h3><p>Розница €70 за полчаса известна,
+      внутренняя закупка — нет. Прямой вопрос организатору: «за сколько ты берёшь
+      аквагримёра на праздник?» Эта цифра закрывает торг окончательно.</p></div>
+    <div class="cd"><h3>Кто везёт</h3><p>Вся экономика держится на том, что коробку возит
+      организатор. Откажется — net падает с €84 до €65 и уходит выходной.</p></div>
+    <div class="cd a"><h3>Премиум или массовый</h3><p>KIDDOM — премиальный русскоязычный
+      оператор Лимассола. В Пафосе и в грекоязычном сегменте цены могут быть заметно ниже.</p></div>
+  </div>
+</section>
+
+<section id="risk">
+  <h2 class="disp">Риски</h2>
+  <p class="sub">Что реально может убить проект</p>
+  <div class="cards">
+    <div class="cd m"><h3>Фильтр на детские лица</h3><p>Прямой Gemini API отклоняет фото
+      с несовершеннолетними, и это не отключается настройками разработчика; за систематические
+      нарушения отзывают доступ. У OpenAI модерация мягче и вероятностная. Страховка —
+      open-weight модель на своём GPU: Qwen-Image-Edit под Apache 2.0, коммерция разрешена.
+      FLUX Kontext dev в прод нельзя — лицензия non-commercial.</p></div>
+    <div class="cd a"><h3>Чужая интеллектуальная собственность</h3><p>Никаких имён и персонажей
+      чужих мультфильмов ни в интерфейсе, ни в промптах, ни в маркетинге. Только свои
+      архетипы по мотивам жанра. Это защищает и организатора, который ставит будку у себя
+      на празднике.</p></div>
+    <div class="cd"><h3>GDPR и детские данные</h3><p>Изображение становится биометрией
+      только если применяется распознавание. Поэтому его не делаем вообще — только детекция
+      лица для кадрирования. Фото удаляется после печати, цифровая копия живёт 24 часа,
+      согласие родителей организатор берёт при бронировании.</p></div>
+    <div class="cd"><h3>Дети и физика</h3><p>Устойчивая база, кабели внутри корпуса,
+      никаких острых кромок и стекла, планшет в антивандальном креплении.</p></div>
+  </div>
+</section>
+
+<section id="pilot">
+  <h2 class="disp">План пилота</h2>
+  <p class="sub">Две недели, меньше €400, железо покупаем последним</p>
+  <ol class="steps">
+    <li>
+      <h3 class="disp">Спрос без продукта</h3>
+      <p>Напечатать шесть карточек в обычном фотосалоне — принтер для этого не нужен —
+        и прийти с ними физически к пяти организаторам детских праздников.
+        Вопрос не «нравится?», а «возьмёшь на три ближайших праздника, продашь родителям
+        за €100 и отдашь мне половину? Возить и ставить — ты».</p>
+      <p><span class="gate">Гейт: <b>двое из пяти называют конкретные даты</b></span></p>
+    </li>
+    <li>
+      <h3 class="disp">Живой праздник вручную</h3>
+      <p>Никакой автономности: приезжаю с ноутбуком, генерю руками. Цель не заработать,
+        а замерить — сколько детей подошло, сколько раз ребёнок завис и позвал взрослого,
+        восторг у родителей или неловкая пауза, сколько секунд ожидания ребёнок терпит.
+        Видео с этого праздника станет промо для отелей.</p>
+    </li>
+    <li>
+      <h3 class="disp">Автономная стойка</h3>
+      <p>Собираем железо на €345 и доводим прототип до боевого.</p>
+      <p><span class="gate">Готово, когда <b>трое детей подряд проходят путь до карточки
+        в руках без единого вопроса взрослому</b>, а я стою в десяти метрах и не вмешиваюсь.
+        И когда я выдёргиваю интернет — карточка всё равно выходит.</span></p>
+    </li>
+    <li>
+      <h3 class="disp">Пять праздников подряд</h3>
+      <p>Метрики решения: доля детей, дошедших до печати; процент успешных генераций;
+        сколько раз организатор обратился ко мне за праздник — цель ноль; заказал ли повторно.
+        Только после этого идём в отели с портфолио.</p>
+    </li>
+  </ol>
+  <p><strong>Чего сознательно не делаем в первой версии:</strong> оплату картой в будке,
+    облачную галерею, шеринг в соцсети, мобильное приложение, свободный ввод промптов,
+    видео, вторую будку, брендирование под заказчика.</p>
+</section>
+
+<div class="cta">
+  <div>
+    <h2 class="disp">Прототип будки</h2>
+    <p>Пройди путь ребёнка целиком: выбор героя, отсчёт, превращение, печать.
+      Внутри вторая вкладка — схема стойки и текст оффера организатору.</p>
+  </div>
+  <a class="btn" href="/photokids/booth">Открыть прототип →</a>
+</div>
+
+<footer>
+  <p>Проект <span class="mono">aiphotokids</span> · собрано 25 августа 2026 ·
+    источники: KIDDOM и Partyfer (Лимассол), Cyprus Shows, GigHeaven (Пафос),
+    Simple Booth, aiphotobooth.eu, Activation King, Snapbar, PONS.ai,
+    документация Google Vertex AI и OpenAI, GDPR-практика по детским данным,
+    кипрские площадки детских праздников.</p>
+</footer>
+</main>
+</div>
+
+</body>
+</html>

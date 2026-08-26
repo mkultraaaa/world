@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#171021">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="Плюс €80 к празднику — фотостойка с героями">
+<meta property="og:description" content="Аддон к детскому празднику: ребёнок превращается в героя и уносит напечатанную карточку. 13 слайдов для организатора.">
+<meta property="og:type" content="website">
+<meta name="description" content="Аддон к детскому празднику: ребёнок превращается в героя и уносит напечатанную карточку. 13 слайдов для организатора.">
+<title>Плюс €80 к празднику — фотостойка с героями</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<style>
+  /* Дек намеренно одноцветный в обе темы: это брендовый материал,
+     он должен выглядеть одинаково у всех, кому его откроют. */
+  :root{
+    --paper:#faf6f1;
+    --ink:#1a1420;
+    --ink-2:#574d5c;
+    --ink-3:#8b8191;
+    --dark:#171021;
+    --dark-2:#241833;
+    --on-dark:#f6f1f8;
+    --on-dark-2:#b9aec4;
+    --mag:#c2185b;
+    --mag-lite:#ff7bae;
+    --cyan:#0f7f99;
+    --cyan-lite:#5fd0e8;
+    --amber:#a06a12;
+    --amber-lite:#f0bd5e;
+    --rule:#e2d9cf;
+    --rule-dark:rgba(255,255,255,.14);
+    --card:#ffffff;
+    --sunk:#f2ece4;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:400 17px/1.6 Georgia,"Iowan Old Style","Droid Serif",serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .d{font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif; font-weight:800; letter-spacing:-.022em; text-wrap:balance}
+  .num{font-variant-numeric:tabular-nums}
+
+  #deck{height:100dvh; overflow-y:auto; scroll-snap-type:y mandatory; scroll-behavior:smooth}
+  .s{
+    min-height:100dvh; scroll-snap-align:start; scroll-snap-stop:always;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:clamp(28px,5vw,72px) clamp(20px,5vw,72px) clamp(64px,7vw,84px);
+    position:relative;
+  }
+  @media (max-width:700px){.s{padding-bottom:52px}}
+  .inner{width:100%; max-width:1060px; margin:0 auto}
+  .s.dark{background:var(--dark); color:var(--on-dark)}
+  .s.dark .lead{color:var(--on-dark-2)}
+  .s.dark .eyebrow{color:var(--mag-lite)}
+
+  .eyebrow{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--mag); margin:0 0 18px;
+  }
+  h1{font-size:clamp(34px,6.6vw,74px); line-height:1.02; margin:0 0 20px}
+  h2{font-size:clamp(27px,4.6vw,50px); line-height:1.07; margin:0 0 16px}
+  .lead{font-size:clamp(17px,2.1vw,23px); line-height:1.5; color:var(--ink-2); max-width:30em; margin:0}
+  p{margin:0 0 14px; max-width:38em}
+
+  /* титул */
+  .hero-cards{display:flex; gap:12px; margin:34px 0 0; justify-content:flex-start; flex-wrap:wrap}
+  .hero-cards img{
+    width:clamp(88px,13vw,150px); aspect-ratio:2/3; object-fit:cover; border-radius:4px;
+    border:4px solid #fff; box-shadow:0 14px 40px rgba(0,0,0,.45); transform:rotate(-2deg);
+  }
+  .hero-cards img:nth-child(even){transform:rotate(2.5deg)}
+
+  /* превращение */
+  .flow{display:grid; grid-template-columns:1fr auto 1fr 1fr 1fr; gap:10px; align-items:center; margin:8px 0 0}
+  @media (max-width:760px){.flow{grid-template-columns:repeat(3,1fr)} .flow .arw{display:none} .flow .src{grid-column:span 3}}
+  @media (max-width:620px){.flow{grid-template-columns:repeat(2,1fr); gap:8px} .flow .src{grid-column:span 1}}
+  .fr{position:relative; border-radius:4px; overflow:hidden; box-shadow:0 8px 26px rgba(0,0,0,.28)}
+  .fr img{display:block; width:100%; aspect-ratio:2/3; object-fit:cover}
+  .fr figcaption{
+    position:absolute; inset:auto 0 0 0; padding:18px 7px 6px; color:#fff;
+    background:linear-gradient(transparent,rgba(0,0,0,.82));
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:9.5px; font-weight:700;
+    letter-spacing:.09em; text-transform:uppercase;
+  }
+  .arw{color:var(--mag-lite); font-size:26px; text-align:center}
+
+  /* шаги */
+  .steps{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:16px; margin:8px 0 0}
+  .step{border-top:3px solid var(--mag); padding-top:14px}
+  .s.dark .step{border-top-color:var(--mag-lite)}
+  .step .n{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:.14em; color:var(--mag); margin-bottom:7px;
+  }
+  .s.dark .step .n{color:var(--mag-lite)}
+  .step h3{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:19px; margin:0 0 7px; letter-spacing:-.01em}
+  .step p{font-size:15.5px; color:var(--ink-2); margin:0; max-width:none}
+  .s.dark .step p{color:var(--on-dark-2)}
+
+  /* большие числа */
+  .money{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(12px,3vw,32px); margin:10px 0 26px; align-items:end}
+  @media (max-width:700px){.money{grid-template-columns:1fr; gap:18px}}
+  .money div{border-top:1px solid var(--rule-dark); padding-top:14px}
+  .money .k{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:12px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--on-dark-2); margin-bottom:8px}
+  .money .v{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:800; font-size:clamp(44px,8vw,88px); line-height:1; letter-spacing:-.03em}
+  .money .v.you{color:var(--amber-lite)}
+  .money .n2{font-size:14px; color:var(--on-dark-2); margin-top:8px; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+  @media (max-width:700px){.money{margin-bottom:18px} .money div{padding-top:10px} .money .v{font-size:38px} .money .k{margin-bottom:6px} .money .n2{margin-top:6px}}
+
+  /* таблицы */
+  .tw{overflow-x:auto; border:1px solid var(--rule); border-radius:9px; background:var(--card); margin:6px 0 18px}
+  .s.dark .tw{border-color:var(--rule-dark); background:var(--dark-2)}
+  table{width:100%; border-collapse:collapse; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:15px}
+  th,td{padding:12px 15px; text-align:left; border-bottom:1px solid var(--rule)}
+  .s.dark th,.s.dark td{border-bottom-color:var(--rule-dark)}
+  thead th{font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); font-weight:700; background:var(--sunk)}
+  .s.dark thead th{color:var(--on-dark-2); background:rgba(255,255,255,.05)}
+  tbody tr:last-child td{border-bottom:0}
+  td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+  /* на телефоне третий столбец («сколько длится») уезжал за экран — сжимаем и даём шапке переноситься */
+  @media (max-width:620px){table{font-size:12.5px} th,td{padding:9px 8px} thead th.n{white-space:normal}}
+
+  /* карточки */
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin:6px 0 0}
+  .cd{background:var(--card); border:1px solid var(--rule); border-radius:11px; padding:18px}
+  .s.dark .cd{background:var(--dark-2); border-color:var(--rule-dark)}
+  .cd h3{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:11px; font-weight:700; letter-spacing:.11em; text-transform:uppercase; color:var(--cyan); margin:0 0 8px}
+  .s.dark .cd h3{color:var(--cyan-lite)}
+  .cd.m h3{color:var(--mag)} .s.dark .cd.m h3{color:var(--mag-lite)}
+  .cd.a h3{color:var(--amber)} .s.dark .cd.a h3{color:var(--amber-lite)}
+  .cd p{margin:0; font-size:15px; line-height:1.55; color:var(--ink-2); max-width:none}
+  .s.dark .cd p{color:var(--on-dark-2)}
+
+  /* реплики */
+  .say{border-left:3px solid var(--mag); padding:4px 0 4px 18px; margin:0 0 16px; max-width:44em}
+  .s.dark .say{border-left-color:var(--mag-lite)}
+  .say p{font-size:clamp(17px,2vw,21px); line-height:1.5; margin:0; font-style:italic}
+  .qa{display:grid; gap:12px; margin-top:6px}
+  .qa div{display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start}
+  .qa b{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:11px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--mag); padding-top:4px; white-space:nowrap;
+  }
+  .s.dark .qa b{color:var(--mag-lite)}
+  .qa p{margin:0; font-size:16px; color:var(--ink-2)}
+  .s.dark .qa p{color:var(--on-dark-2)}
+
+  /* фото */
+  .shot{border-radius:11px; overflow:hidden; border:1px solid var(--rule); margin:6px 0 0}
+  .s.dark .shot{border-color:var(--rule-dark)}
+  .shot img{display:block; width:100%; height:auto}
+  .split{display:grid; grid-template-columns:1fr 1.15fr; gap:clamp(18px,4vw,44px); align-items:center}
+  @media (max-width:860px){.split{grid-template-columns:1fr; gap:22px}}
+
+  /* сетка радости */
+  .joy{display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:1fr; gap:10px; margin:6px 0 0}
+  @media (max-width:820px){.joy{grid-template-columns:repeat(2,1fr); gap:8px; grid-auto-rows:auto}}
+  .joy figure{margin:0; position:relative; border-radius:8px; overflow:hidden}
+  .joy img{display:block; width:100%; aspect-ratio:3/2; object-fit:cover}
+  .joy figcaption{
+    position:absolute; inset:auto 0 0 0; padding:22px 9px 8px; color:#fff;
+    background:linear-gradient(transparent,rgba(0,0,0,.8));
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:10.5px; font-weight:700;
+    letter-spacing:.09em; text-transform:uppercase;
+  }
+  .joy .big{grid-column:span 2; grid-row:span 2}
+  .joy .big img{aspect-ratio:auto; height:100%}
+  @media (max-width:820px){.joy .big{grid-row:span 1} .joy .big img{aspect-ratio:3/2}}
+
+  /* галочки */
+  ul.tick{list-style:none; padding:0; margin:6px 0 0; display:grid; gap:11px}
+  ul.tick li{display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:baseline; font-size:17px}
+  ul.tick .mk{color:var(--cyan); font-weight:800; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+  .s.dark ul.tick .mk{color:var(--cyan-lite)}
+  ul.tick.no .mk{color:var(--ink-3)}
+
+  /* финал */
+  .cta-box{border:1px solid var(--rule-dark); border-radius:14px; padding:clamp(20px,3.5vw,32px); background:var(--dark-2); margin-top:6px}
+  .cta-box h3{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:clamp(19px,2.6vw,26px); margin:0 0 10px; color:var(--on-dark)}
+  .cta-box p{color:var(--on-dark-2); margin:0; max-width:42em}
+
+  /* хром */
+  #dots{position:fixed; right:14px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:9px; z-index:40}
+  @media (max-width:700px){#dots{display:none}}
+  #dots button{
+    width:9px; height:9px; padding:0; border-radius:50%; border:0; cursor:pointer;
+    background:rgba(130,120,140,.42); transition:transform .18s, background .18s;
+  }
+  #dots button.on{background:var(--mag); transform:scale(1.55)}
+  #dots button:focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  #cnt{
+    position:fixed; left:16px; bottom:14px; z-index:40; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:11.5px; letter-spacing:.1em; color:var(--ink-3); font-variant-numeric:tabular-nums;
+    background:rgba(250,246,241,.82); padding:5px 11px; border-radius:99px; backdrop-filter:blur(6px);
+  }
+  #cnt.on-dark{color:var(--on-dark-2); background:rgba(23,16,33,.72)}
+  #hint{
+    position:fixed; right:16px; bottom:14px; z-index:40; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:11.5px; color:var(--ink-3); background:rgba(250,246,241,.82); padding:5px 11px;
+    border-radius:99px; backdrop-filter:blur(6px); transition:opacity .4s;
+  }
+  #hint.on-dark{color:var(--on-dark-2); background:rgba(23,16,33,.72)}
+  #hint.hide{opacity:0; pointer-events:none}
+
+  /* Короткий экран (телефон с открытой адресной строкой): сжимаем вертикальный ритм,
+     чтобы слайд читался целиком и низ не уезжал под срез. */
+  @media (max-width:760px) and (max-height:820px){
+    .s{padding-top:18px; padding-bottom:44px}
+    .eyebrow{margin-bottom:11px}
+    h1{font-size:30px; margin-bottom:13px}
+    h2{font-size:24px; margin-bottom:11px}
+    .lead{font-size:16px; line-height:1.42}
+    p{margin-bottom:11px}
+    .hero-cards{gap:9px; margin-top:22px}
+    .hero-cards img{width:80px}
+    .steps{gap:11px; margin-top:16px!important}
+    .step{padding-top:11px}
+    .step h3{font-size:17.5px; margin-bottom:5px}
+    .step p{font-size:14px; line-height:1.42}
+    .cards{gap:9px}
+    .cd{padding:13px; border-radius:9px}
+    .cd h3{margin-bottom:6px}
+    .cd p{font-size:14px; line-height:1.45}
+    .say{margin-bottom:12px; padding-left:14px}
+    .say p{font-size:16px; line-height:1.45}
+    .qa{gap:9px}
+    .qa p{font-size:14px; line-height:1.45}
+    .tick li{margin-bottom:9px}
+    .money{gap:12px; margin-bottom:14px}
+    .money div{padding-top:9px}
+    .money .k{font-size:11px; letter-spacing:.1em; margin-bottom:4px}
+    .money .v{font-size:30px}
+    .money .n2{font-size:13px; margin-top:4px}
+    .joy{gap:6px}
+    .joy img, .joy .big img{aspect-ratio:16/10}
+    .flow{gap:7px}
+    .flow .fr img{aspect-ratio:3/4}
+    table{font-size:12px}
+    th,td{padding:8px}
+  }
+  @media (prefers-reduced-motion:reduce){html,#deck{scroll-behavior:auto} *{transition:none!important}}
+</style>
+
+<div id="deck">
+
+<!-- 1 -->
+<section class="s dark" data-t="Титул"><div class="inner">
+  <p class="eyebrow">Новый аддон к детскому празднику · Кипр</p>
+  <h1 class="d">Дети уходят с праздника<br>героями мультика</h1>
+  <p class="lead">Фотостойка, которая за полминуты превращает ребёнка в персонажа
+    и печатает карточку ему в руки. Работает весь праздник сама — без оператора,
+    без твоего участия и без единого лишнего часа твоей работы.</p>
+  <div class="hero-cards">
+    <img src="img/b9dcfdeb71.jpg" alt=""><img src="img/222fa8e9fb.jpg" alt=""><img src="img/938361c33d.jpg" alt=""><img src="img/8443d9656c.jpg" alt=""><img src="img/23d57b710a.jpg" alt="">
+  </div>
+</div></section>
+
+<!-- 2 -->
+<section class="s" data-t="Что происходит"><div class="inner">
+  <p class="eyebrow">Что видит ребёнок</p>
+  <h2 class="d">Выбрал героя. Сфотографировался.<br>Забрал карточку.</h2>
+  <div class="steps" style="margin-top:26px">
+    <div class="step"><div class="n">01</div><h3>Выбирает</h3>
+      <p>Шесть героев большими картинками. Без текста — работает с любым ребёнком,
+        на любом языке.</p></div>
+    <div class="step"><div class="n">02</div><h3>Снимается</h3>
+      <p>Рамка на экране, отсчёт три-два-один. Три кадра, лучший выбирается сам.</p></div>
+    <div class="step"><div class="n">03</div><h3>Превращается</h3>
+      <p>Полминуты — и он на экране в костюме своего героя. Лицо своё, узнаваемое.</p></div>
+    <div class="step"><div class="n">04</div><h3>Забирает</h3>
+      <p>Карточка 10×15 выезжает в лоток. Не понравилось — можно переснять.</p></div>
+  </div>
+</div></section>
+
+<!-- 3 -->
+<section class="s dark" data-t="Демо"><div class="inner">
+  <p class="eyebrow">Один снимок — шесть героев</p>
+  <h2 class="d">Лицо остаётся своим</h2>
+  <p class="lead" style="margin-bottom:26px">Меняются только причёска, костюм и фон.
+    Ребёнок себя узнаёт — и родитель узнаёт своего ребёнка.</p>
+  <div class="flow">
+    <figure class="fr src" style="margin:0"><img loading="lazy" decoding="async" src="img/607d47eb90.jpg" alt=""><figcaption>как снял</figcaption></figure>
+    <div class="arw">→</div>
+    <figure class="fr" style="margin:0"><img loading="lazy" decoding="async" src="img/b9dcfdeb71.jpg" alt=""><figcaption>неоновый кумир</figcaption></figure>
+    <figure class="fr" style="margin:0"><img loading="lazy" decoding="async" src="img/938361c33d.jpg" alt=""><figcaption>космовет</figcaption></figure>
+    <figure class="fr" style="margin:0"><img loading="lazy" decoding="async" src="img/8443d9656c.jpg" alt=""><figcaption>морской разведчик</figcaption></figure>
+  </div>
+</div></section>
+
+<!-- 4 -->
+<section class="s" data-t="Как стоит"><div class="inner">
+  <div class="split">
+    <div>
+      <p class="eyebrow">Как это стоит у тебя на празднике</p>
+      <h2 class="d">Одна опрятная стойка,<br>ни одного провода</h2>
+      <ul class="tick">
+        <li><span class="mk">✓</span><span>Ставится за десять минут, без инструментов</span></li>
+        <li><span class="mk">✓</span><span>Занимает меньше двух метров у стены</span></li>
+        <li><span class="mk">✓</span><span>Принтер и техника спрятаны, проводов по полу нет</span></li>
+        <li><span class="mk">✓</span><span>Твои шары и декор вешаются прямо на неё</span></li>
+        <li><span class="mk">✓</span><span>Оформление под тему праздника — заранее</span></li>
+      </ul>
+    </div>
+    <div class="shot"><img loading="lazy" decoding="async" src="img/efe9603c4b.jpg" alt="Стойка в сборе на детском празднике"></div>
+  </div>
+</div></section>
+
+<!-- 4b -->
+<section class="s dark" data-t="Реакция"><div class="inner">
+  <p class="eyebrow">Ради чего это всё</p>
+  <h2 class="d">Как это будет выглядеть<br>у тебя на празднике</h2>
+  <div class="joy" style="margin-top:22px">
+    <figure class="big"><img loading="lazy" decoding="async" src="img/9ea2906662.jpg" alt=""><figcaption>увидела себя героем</figcaption></figure>
+    <figure><img loading="lazy" decoding="async" src="img/3fa2e37343.jpg" alt=""><figcaption>выбирает</figcaption></figure>
+    <figure><img loading="lazy" decoding="async" src="img/82ba7bebd8.jpg" alt=""><figcaption>забирает карточку</figcaption></figure>
+    <figure><img loading="lazy" decoding="async" src="img/b25e8348f4.jpg" alt=""><figcaption>показывает маме</figcaption></figure>
+    <figure><img loading="lazy" decoding="async" src="img/c75adcd7ad.jpg" alt=""><figcaption>сравнивают</figcaption></figure>
+  </div>
+  <p style="color:var(--on-dark-2); font-size:14.5px; margin-top:18px; max-width:46em">
+    Родитель уносит с праздника не только торт на фото, а карточку, которую ребёнок
+    будет носить в рюкзаке. Это то, о чём рассказывают другим родителям.</p>
+</div></section>
+
+<!-- 5 -->
+<section class="s dark" data-t="Деньги"><div class="inner">
+  <p class="eyebrow">Твоя математика</p>
+  <h2 class="d">Ты платишь фиксированную цену<br>и сам решаешь, за сколько продать</h2>
+  <div class="money">
+    <div><div class="k">Стоит тебе</div><div class="v num">€100</div><div class="n2">за праздник, всё включено</div></div>
+    <div><div class="k">Продаёшь родителю</div><div class="v num">€180</div><div class="n2">рекомендуемая цена</div></div>
+    <div><div class="k">Остаётся тебе</div><div class="v num you">€80</div><div class="n2">за один разговор при бронировании</div></div>
+  </div>
+  <p style="color:var(--on-dark-2); max-width:44em">Продашь дороже — разница твоя,
+    я не считаю твою розницу. Четыре праздника в месяц дают <b class="num">€320</b>,
+    восемь — <b class="num">€640</b>. При этом объём твоей работы не меняется.</p>
+</div></section>
+
+<!-- 6 -->
+<section class="s" data-t="Сравнение"><div class="inner">
+  <p class="eyebrow">Почему это продаётся легко</p>
+  <h2 class="d">Родители уже платят за такое</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Аддон</th><th class="n">Сколько стоит родителю</th><th>Сколько длится</th></tr></thead>
+    <tbody>
+      <tr><td>Аквагрим</td><td class="n">€70</td><td>30 минут</td></tr>
+      <tr><td>Мастер-класс на 10 детей</td><td class="n">€100</td><td>15–30 минут</td></tr>
+      <tr><td>Ростовая кукла</td><td class="n">€100</td><td>25 минут</td></tr>
+      <tr><td>Фотограф</td><td class="n">€150</td><td>час</td></tr>
+      <tr><td>Персональная фотозона</td><td class="n">от €450</td><td>—</td></tr>
+      <tr style="background:rgba(194,24,91,.06)"><td><b>Фотостойка с героями</b></td><td class="n"><b>€180</b></td><td><b>весь праздник</b></td></tr>
+    </tbody>
+  </table></div>
+  <p>Это цены, по которым аддоны продаются на Кипре сегодня. Наш стоит как один
+    мастер-класс с небольшим плюсом — но работает не двадцать минут, а весь праздник,
+    и каждый ребёнок уносит своё.</p>
+</div></section>
+
+<!-- 7 -->
+<section class="s dark" data-t="Что от тебя"><div class="inner">
+  <div class="split">
+    <div>
+      <p class="eyebrow">Что нужно от тебя</p>
+      <h2 class="d">Три вещи</h2>
+      <ul class="tick">
+        <li><span class="mk">1</span><span>Предложить родителю при бронировании</span></li>
+        <li><span class="mk">2</span><span>Привезти и поставить — одна сумка, десять минут</span></li>
+        <li><span class="mk">3</span><span>Включить и вести свой праздник как обычно</span></li>
+      </ul>
+    </div>
+    <div>
+      <p class="eyebrow" style="color:var(--on-dark-2)">Чего не нужно</p>
+      <h2 class="d" style="font-size:clamp(22px,3vw,30px)">Ничего из этого</h2>
+      <ul class="tick no">
+        <li><span class="mk">×</span><span>Учиться и разбираться в технике</span></li>
+        <li><span class="mk">×</span><span>Стоять рядом и нажимать за детей</span></li>
+        <li><span class="mk">×</span><span>Искать исполнителя и бояться, что он отменит</span></li>
+        <li><span class="mk">×</span><span>Что-то чинить, если сломается</span></li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- 8 -->
+<section class="s" data-t="Что говорить"><div class="inner">
+  <p class="eyebrow">Готовый текст для родителя</p>
+  <h2 class="d">Что сказать при бронировании</h2>
+  <div class="say"><p>«В этом году у нас есть новая штука: дети превращаются в героев
+    мультика и уносят напечатанную карточку. Стоит €180, работает весь праздник,
+    у каждого ребёнка своя.»</p></div>
+  <div class="qa">
+    <div><b>Дорого</b><p>«Это дешевле аквагримёра на три часа. И остаётся у ребёнка
+      на память, а не смывается вечером в ванной.»</p></div>
+    <div><b>А если не выйдет похоже</b><p>«Ребёнок сразу видит результат на экране.
+      Не понравилось — переснимает.»</p></div>
+    <div><b>Куда денутся фото</b><p>«Никуда. Печатаются и удаляются. В интернет
+      ничего не уходит, публиковать никто не будет.»</p></div>
+    <div><b>А дети сами справятся?</b><p>«Там две кнопки и картинки вместо текста.
+      Справляются с пяти лет, взрослый не нужен.»</p></div>
+  </div>
+</div></section>
+
+<!-- 9 -->
+<section class="s dark" data-t="Если сломается"><div class="inner">
+  <p class="eyebrow">Твоя репутация не пострадает</p>
+  <h2 class="d">Что будет, если что-то пойдёт не так</h2>
+  <div class="cards">
+    <div class="cd"><h3>Пропал интернет</h3><p>Стойка молча переключается на запасной
+      режим. Карточка всё равно выходит — ребёнок не уходит с пустыми руками.</p></div>
+    <div class="cd m"><h3>Дети жмут всё подряд</h3><p>Одна карточка на ребёнка,
+      пауза между съёмками. Бумага не кончится в первые полчаса.</p></div>
+    <div class="cd a"><h3>Что-то сломалось</h3><p>Я вижу состояние стойки удалённо и
+      на связи весь праздник. Если она встала и не чинится — праздник тебе бесплатно.</p></div>
+    <div class="cd"><h3>Исполнитель не приедет</h3><p>Такого пункта нет. Коробка
+      не болеет и не отменяет за день до праздника.</p></div>
+  </div>
+</div></section>
+
+<!-- 10 -->
+<section class="s" data-t="Приличия"><div class="inner">
+  <p class="eyebrow">То, о чём спросят родители</p>
+  <h2 class="d">Детские фото и чужие мультики</h2>
+  <div class="cards">
+    <div class="cd"><h3>Фото не хранятся</h3><p>Снимок живёт до печати и удаляется.
+      Никаких публикаций, никаких соцсетей, никакой базы детских лиц.</p></div>
+    <div class="cd m"><h3>Согласие родителей</h3><p>Одна строка при бронировании
+      праздника — шаблон даю я. Табличка на стойке в зале.</p></div>
+    <div class="cd a"><h3>Герои свои</h3><p>Мы не используем персонажей чужих
+      мультфильмов. Все шесть героев нарисованы для нас — претензий ни к тебе,
+      ни ко мне быть не может.</p></div>
+    <div class="cd"><h3>Безопасно физически</h3><p>Устойчивая стойка, провода спрятаны,
+      острых углов и стекла нет.</p></div>
+  </div>
+</div></section>
+
+<!-- 11 -->
+<section class="s dark" data-t="Оффер"><div class="inner">
+  <p class="eyebrow">Честно про стадию</p>
+  <h2 class="d">Я запускаюсь и беру<br>трёх первых партнёров</h2>
+  <p class="lead" style="margin-bottom:24px">Технология работает — всё, что ты видел выше,
+    сделано ею. Саму стойку я собираю сейчас, под первые праздники сезона. Поэтому условия
+    для тех, кто зайдёт первым, — другие.</p>
+  <div class="cards">
+    <div class="cd a"><h3>Первый праздник — бесплатно</h3><p>Ты ничего не платишь и
+      ничем не рискуешь. Продал родителю — деньги твои целиком.</p></div>
+    <div class="cd"><h3>Я приезжаю сам</h3><p>На первый раз привожу, ставлю и стою рядом.
+      Тебе не нужно ничего осваивать с ходу.</p></div>
+    <div class="cd m"><h3>Дальше €100 за праздник</h3><p>Цена фиксируется за тобой
+      на весь сезон и не растёт, даже когда вырастет для остальных.</p></div>
+  </div>
+</div></section>
+
+<!-- 12 -->
+<section class="s" data-t="Дальше"><div class="inner">
+  <p class="eyebrow">Что дальше</p>
+  <h2 class="d">Назови две ближайшие даты</h2>
+  <p class="lead" style="margin-bottom:26px">Не нужно решать про весь сезон.
+    Достаточно двух праздников, где это можно попробовать.</p>
+  <div class="cta-box">
+    <h3 class="d">На первый я приезжаю сам и он бесплатный</h3>
+    <p>Посмотришь, как дети реагируют, и как это продаётся родителю.
+      После него решишь, берёшь ли дальше. Если нет — расходимся без обид,
+      ты ничего не потерял.</p>
+  </div>
+</div></section>
+
+</div>
+
+<nav id="dots" aria-label="Слайды"></nav>
+<div id="cnt" class="on-dark"><span id="cur">1</span> / <span id="tot">13</span></div>
+<div id="hint" class="on-dark">стрелки или свайп</div>
+
+<script>
+(function(){
+  var deck = document.getElementById('deck');
+  var slides = Array.prototype.slice.call(deck.querySelectorAll('.s'));
+  var dots = document.getElementById('dots');
+  var cnt = document.getElementById('cnt');
+  var cur = document.getElementById('cur');
+  var hint = document.getElementById('hint');
+  document.getElementById('tot').textContent = slides.length;
+
+  slides.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', (i+1) + '. ' + (s.dataset.t || ''));
+    b.addEventListener('click', function(){ go(i); });
+    dots.appendChild(b);
+  });
+  var btns = Array.prototype.slice.call(dots.children);
+
+  var idx = 0;
+  function paint(i){
+    idx = i;
+    cur.textContent = i + 1;
+    btns.forEach(function(b, j){ b.classList.toggle('on', j === i); });
+    var dark = slides[i].classList.contains('dark');
+    cnt.classList.toggle('on-dark', dark);
+    hint.classList.toggle('on-dark', dark);
+  }
+  function go(i){
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    slides[i].scrollIntoView({behavior:'smooth', block:'start'});
+    paint(i);
+  }
+
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) paint(slides.indexOf(e.target));
+      });
+    }, {root: deck, threshold: 0.55});
+    slides.forEach(function(s){ io.observe(s); });
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' '){
+      e.preventDefault(); go(idx + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp'){
+      e.preventDefault(); go(idx - 1);
+    } else if (e.key === 'Home'){ e.preventDefault(); go(0); }
+    else if (e.key === 'End'){ e.preventDefault(); go(slides.length - 1); }
+  });
+
+  var t = setTimeout(function(){ hint.classList.add('hide'); }, 4200);
+  deck.addEventListener('scroll', function(){
+    clearTimeout(t); hint.classList.add('hide');
+  }, {passive:true, once:true});
+
+  paint(0);
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b0b12">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="Стань героем — прототип будки">
+<meta property="og:description" content="Кликабельный прототип: путь ребёнка от выбора героя до печати карточки.">
+<meta property="og:type" content="website">
+<meta name="description" content="Кликабельный прототип: путь ребёнка от выбора героя до печати карточки.">
+<title>Стань героем — прототип будки</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<style>
+  :root{
+    --bg:#0b0b12; --bg2:#14141f; --ink:#f4f4f8; --dim:#9a9ab0;
+    --accent:#ff3d8b; --accent2:#39d7ff; --gold:#ffc94d;
+    --card:#1b1b28; --line:rgba(255,255,255,.12);
+    --safe: env(safe-area-inset-bottom, 0px);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{height:100%; margin:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:'Trebuchet MS',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    overflow:hidden; user-select:none; touch-action:manipulation;
+  }
+  #app{position:fixed; inset:0; display:flex; flex-direction:column}
+  .screen{position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center}
+  .screen.on{display:flex; animation:fade .35s ease both}
+  @keyframes fade{from{opacity:0; transform:scale(.985)}to{opacity:1; transform:none}}
+
+  /* ---------- attract ---------- */
+  #attract{background:radial-gradient(120% 90% at 50% 0%, #2a1140 0%, var(--bg) 62%)}
+  .logo{font-size:clamp(34px,7vw,68px); font-weight:900; letter-spacing:.02em; line-height:1;
+        background:linear-gradient(92deg,var(--accent),var(--gold) 55%,var(--accent2));
+        -webkit-background-clip:text; background-clip:text; color:transparent}
+  .sub{color:var(--dim); font-size:clamp(15px,2.6vw,22px); margin-top:14px; letter-spacing:.04em}
+  .reel{display:flex; gap:14px; margin:34px 0 30px; height:min(38vh,360px); max-width:100%}
+  .reel img{height:100%; width:auto; max-width:27vw; border-radius:18px; border:3px solid #fff; object-fit:cover;
+            box-shadow:0 18px 50px rgba(0,0,0,.6); animation:bob 4s ease-in-out infinite}
+  .reel img:nth-child(2){animation-delay:.6s} .reel img:nth-child(3){animation-delay:1.2s}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-14px) rotate(1.5deg)}}
+  .tapme{font-size:clamp(22px,4vw,38px); font-weight:900; padding:22px 46px; border-radius:999px;
+         background:linear-gradient(92deg,var(--accent),#ff7a3d); color:#fff; border:0;
+         box-shadow:0 12px 40px rgba(255,61,139,.45); animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+
+  /* ---------- pick ---------- */
+  .head{font-size:clamp(20px,3.4vw,32px); font-weight:900; margin-bottom:4px}
+  .headsub{color:var(--dim); font-size:clamp(13px,2vw,18px); margin-bottom:20px}
+  .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; width:100%; max-width:960px}
+  @media (max-width:620px){.grid{grid-template-columns:repeat(2,1fr); gap:12px}}
+  /* На телефоне шесть карточек в две колонки не влезали в экран, а экран не скроллился —
+     нижний ряд героев был недосягаем. Прижимаем к верху и разрешаем прокрутку. */
+  @media (max-width:620px){
+    #pick{justify-content:flex-start; overflow-y:auto; -webkit-overflow-scrolling:touch;
+          padding:66px 20px calc(24px + var(--safe))}
+  }
+  @media (max-width:620px) and (max-height:820px){.ch{aspect-ratio:3/4}}
+  .ch{position:relative; border:0; padding:0; background:var(--card); border-radius:20px; overflow:hidden;
+      aspect-ratio:2/3; cursor:pointer; box-shadow:0 8px 26px rgba(0,0,0,.45); transition:transform .15s}
+  .ch:active{transform:scale(.95)}
+  .ch img{width:100%; height:100%; object-fit:cover; display:block}
+  .ch b{position:absolute; left:0; right:0; bottom:0; padding:26px 8px 10px; font-size:clamp(12px,1.8vw,17px);
+        color:#fff; background:linear-gradient(transparent,rgba(0,0,0,.85)); letter-spacing:.03em}
+
+  /* ---------- camera ---------- */
+  #camwrap{position:relative; width:100%; max-width:720px; aspect-ratio:3/4; border-radius:24px; overflow:hidden;
+           background:#000; border:4px solid var(--line)}
+  #cam,#still{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scaleX(-1)}
+  .silh{position:absolute; inset:0; display:grid; place-items:center; pointer-events:none}
+  .silh svg{width:62%; opacity:.5}
+  .count{position:absolute; inset:0; display:grid; place-items:center; font-size:26vh; font-weight:900;
+         color:#fff; text-shadow:0 0 60px rgba(255,61,139,.9); animation:pop .9s ease-out}
+  @keyframes pop{from{transform:scale(2.2); opacity:0}30%{opacity:1}to{transform:scale(1); opacity:1}}
+  .flash{position:absolute; inset:0; background:#fff; animation:fl .5s ease-out forwards}
+  @keyframes fl{from{opacity:1}to{opacity:0}}
+
+  /* ---------- processing ---------- */
+  .orb{width:min(46vw,240px); aspect-ratio:1; border-radius:50%; margin-bottom:26px;
+       background:conic-gradient(from 0deg,var(--accent),var(--gold),var(--accent2),var(--accent));
+       animation:spin 1.5s linear infinite; filter:blur(1px);
+       mask:radial-gradient(circle, transparent 56%, #000 58%);
+       -webkit-mask:radial-gradient(circle, transparent 56%, #000 58%)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .bar{width:min(74vw,460px); height:16px; border-radius:99px; background:#26263a; overflow:hidden; margin-top:8px}
+  .bar i{display:block; height:100%; width:0; border-radius:99px; background:linear-gradient(90deg,var(--accent),var(--gold))}
+  .tick{color:var(--dim); margin-top:14px; font-size:clamp(14px,2.2vw,20px); min-height:1.4em}
+
+  /* ---------- result ---------- */
+  #res{width:min(62vw,380px); aspect-ratio:2/3; object-fit:cover; border:8px solid #fff; border-radius:8px;
+       box-shadow:0 24px 60px rgba(0,0,0,.7); animation:rise .6s cubic-bezier(.2,1.3,.4,1) both}
+  @keyframes rise{from{transform:translateY(40px) scale(.9); opacity:0}to{transform:none; opacity:1}}
+  .row{display:flex; gap:16px; margin-top:26px; flex-wrap:wrap; justify-content:center}
+  .btn{border:0; border-radius:999px; padding:20px 40px; font-size:clamp(17px,2.6vw,26px); font-weight:900;
+       cursor:pointer; transition:transform .12s}
+  .btn:active{transform:scale(.94)}
+  .btn.p{background:linear-gradient(92deg,var(--accent),#ff7a3d); color:#fff; box-shadow:0 10px 30px rgba(255,61,139,.4)}
+  .btn.s{background:#25253a; color:var(--ink)}
+  .printer{font-size:clamp(19px,3vw,30px); font-weight:900; margin-top:20px}
+  .slide{width:min(58vw,320px); aspect-ratio:2/3; object-fit:cover; border:7px solid #fff; border-radius:6px;
+         animation:out 2.4s ease-out both; box-shadow:0 20px 50px rgba(0,0,0,.6)}
+  @keyframes out{from{clip-path:inset(0 0 100% 0); transform:translateY(-30px)}to{clip-path:inset(0 0 0 0); transform:none}}
+
+  /* ---------- chrome ---------- */
+  #mode{position:fixed; right:10px; top:10px; z-index:50; display:flex; gap:6px}
+  #mode button{background:rgba(255,255,255,.07); color:var(--dim); border:1px solid var(--line);
+    border-radius:99px; padding:7px 13px; font-size:12px; cursor:pointer; backdrop-filter:blur(6px)}
+  #mode button.act{background:var(--ink); color:#000; border-color:var(--ink)}
+  .badge{position:fixed; left:10px; top:10px; z-index:50; font-size:11px; color:var(--dim);
+    background:rgba(255,255,255,.06); border:1px solid var(--line); padding:6px 11px; border-radius:99px}
+
+  /* ---------- spec view ---------- */
+  #spec{display:none; position:fixed; inset:0; overflow-y:auto; background:var(--bg); padding:60px 20px 80px}
+  #spec.on{display:block}
+  .wrap{max-width:900px; margin:0 auto}
+  #spec h1{font-size:clamp(24px,4vw,38px); margin:0 0 6px}
+  #spec h2{font-size:clamp(18px,2.6vw,24px); margin:38px 0 12px; color:var(--gold)}
+  #spec p,#spec li{color:#d3d3e0; line-height:1.65; font-size:15px}
+  #spec .lead{color:var(--dim); margin-bottom:26px}
+  table{width:100%; border-collapse:collapse; font-size:14px; margin-top:10px}
+  th,td{text-align:left; padding:10px 8px; border-bottom:1px solid var(--line)}
+  th{color:var(--dim); font-weight:600; font-size:12px; letter-spacing:.06em; text-transform:uppercase}
+  td.n{text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums}
+  .tot td{border-top:2px solid var(--line); font-weight:900; color:#fff}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:14px}
+  .c{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px}
+  .c b{display:block; color:var(--accent2); font-size:13px; letter-spacing:.06em; margin-bottom:6px}
+  .c span{font-size:14px; color:#cfcfe0; line-height:1.55}
+  .scroll{overflow-x:auto; margin-top:12px}
+</style>
+
+<div class="badge" id="badge">демо</div>
+<div id="mode">
+  <button id="mKiosk" class="act">Будка</button>
+  <button id="mSpec">Как устроена</button>
+</div>
+
+<div id="app">
+  <!-- 1. attract -->
+  <section class="screen on" id="attract">
+    <div class="logo">СТАНЬ ГЕРОЕМ</div>
+    <div class="sub">сфотографируйся · выбери героя · забери карточку</div>
+    <div class="reel" id="reel"></div>
+    <button class="tapme" id="start">НАЧАТЬ ▸</button>
+  </section>
+
+  <!-- 2. pick -->
+  <section class="screen" id="pick">
+    <div class="head">КЕМ ТЫ ХОЧЕШЬ БЫТЬ?</div>
+    <div class="headsub">нажми на картинку</div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- 3. camera -->
+  <section class="screen" id="shoot">
+    <div class="head" id="shootHead">ВСТАНЬ В РАМКУ</div>
+    <div class="headsub" id="shootSub">смотри в камеру и улыбайся</div>
+    <div id="camwrap">
+      <video id="cam" autoplay playsinline muted></video>
+      <img id="still" hidden alt="">
+      <div class="silh" id="silh">
+        <svg viewBox="0 0 100 130" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="7 7">
+          <circle cx="50" cy="38" r="26"/><path d="M12 130c0-24 17-38 38-38s38 14 38 38"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. processing -->
+  <section class="screen" id="work">
+    <div class="orb"></div>
+    <div class="head">ПРЕВРАЩЕНИЕ…</div>
+    <div class="bar"><i id="bar"></i></div>
+    <div class="tick" id="tick"></div>
+  </section>
+
+  <!-- 5. result -->
+  <section class="screen" id="done">
+    <div class="head" id="doneHead">ГОТОВО!</div>
+    <img id="res" alt="">
+    <div class="row">
+      <button class="btn p" id="print">🖨 ПЕЧАТАТЬ</button>
+      <button class="btn s" id="retry">↻ ЕЩЁ РАЗ</button>
+    </div>
+  </section>
+
+  <!-- 6. printing -->
+  <section class="screen" id="out">
+    <img id="slide" class="slide" alt="">
+    <div class="printer">ЗАБИРАЙ КАРТОЧКУ 👇</div>
+    <div class="headsub" id="outsub">следующий!</div>
+  </section>
+</div>
+
+<!-- ================= SPEC ================= -->
+<div id="spec"><div class="wrap">
+  <h1>Как устроена стойка</h1>
+  <p class="lead">Один кейс в багажник, сборка за 10 минут без инструментов, оператор не нужен.
+     Организатор ставит, включает и работает свой праздник как обычно.</p>
+
+  <div class="scroll">
+  <svg viewBox="0 0 900 470" width="100%" role="img" aria-label="Схема стойки">
+    <defs>
+      <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#2a1140"/><stop offset="1" stop-color="#14141f"/>
+      </linearGradient>
+      <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0 L10 5 L0 10 z" fill="#ff3d8b"/>
+      </marker>
+    </defs>
+    <rect width="900" height="470" fill="url(#g1)" rx="16"/>
+
+    <!-- backdrop -->
+    <rect x="40" y="40" width="250" height="330" rx="8" fill="#1e2a3a" stroke="#39d7ff" stroke-width="2"/>
+    <text x="165" y="200" fill="#8fd8ee" font-size="13" text-anchor="middle" font-family="sans-serif">однотонный фон</text>
+    <text x="165" y="220" fill="#5e93a8" font-size="11" text-anchor="middle" font-family="sans-serif">ткань 1.5 × 2 м</text>
+    <!-- child -->
+    <circle cx="165" cy="290" r="20" fill="#ffc94d"/>
+    <path d="M133 370c0-18 14-30 32-30s32 12 32 30z" fill="#ffc94d"/>
+    <text x="165" y="392" fill="#ffc94d" font-size="11" text-anchor="middle" font-family="sans-serif">ребёнок</text>
+
+    <!-- stand -->
+    <rect x="400" y="70" width="150" height="215" rx="12" fill="#1b1b28" stroke="#ff3d8b" stroke-width="2.5"/>
+    <rect x="415" y="88" width="120" height="150" rx="8" fill="#0b0b12" stroke="#39d7ff"/>
+    <text x="475" y="168" fill="#39d7ff" font-size="12" text-anchor="middle" font-family="sans-serif">iPad</text>
+    <text x="475" y="186" fill="#5e93a8" font-size="10" text-anchor="middle" font-family="sans-serif">экран + камера</text>
+    <circle cx="475" cy="100" r="4" fill="#39d7ff"/>
+    <rect x="430" y="248" width="90" height="26" rx="6" fill="#25253a"/>
+    <text x="475" y="266" fill="#9a9ab0" font-size="10" text-anchor="middle" font-family="sans-serif">лоток выдачи</text>
+    <rect x="455" y="285" width="40" height="115" fill="#25253a"/>
+    <ellipse cx="475" cy="405" rx="85" ry="14" fill="#25253a"/>
+    <text x="475" y="440" fill="#9a9ab0" font-size="12" text-anchor="middle" font-family="sans-serif">стойка на треноге, ~120 см</text>
+
+    <!-- ring light -->
+    <circle cx="330" cy="120" r="26" fill="none" stroke="#ffc94d" stroke-width="5"/>
+    <text x="330" y="168" fill="#ffc94d" font-size="11" text-anchor="middle" font-family="sans-serif">кольцевая</text>
+    <text x="330" y="182" fill="#ffc94d" font-size="11" text-anchor="middle" font-family="sans-serif">лампа</text>
+
+    <!-- box -->
+    <rect x="640" y="150" width="200" height="130" rx="12" fill="#1b1b28" stroke="#9a9ab0" stroke-width="2"/>
+    <text x="740" y="178" fill="#f4f4f8" font-size="13" text-anchor="middle" font-family="sans-serif" font-weight="bold">внутри корпуса</text>
+    <text x="740" y="204" fill="#cfcfe0" font-size="12" text-anchor="middle" font-family="sans-serif">принтер SELPHY</text>
+    <text x="740" y="226" fill="#cfcfe0" font-size="12" text-anchor="middle" font-family="sans-serif">Raspberry Pi</text>
+    <text x="740" y="248" fill="#cfcfe0" font-size="12" text-anchor="middle" font-family="sans-serif">4G-роутер</text>
+    <text x="740" y="270" fill="#cfcfe0" font-size="12" text-anchor="middle" font-family="sans-serif">повербанк</text>
+
+    <path d="M300 200 L392 200" stroke="#ff3d8b" stroke-width="2.5" marker-end="url(#ar)"/>
+    <path d="M556 215 L632 215" stroke="#ff3d8b" stroke-width="2.5" marker-end="url(#ar)"/>
+    <path d="M740 145 C740 60 620 40 556 110" stroke="#39d7ff" stroke-width="2" fill="none" stroke-dasharray="5 5" marker-end="url(#ar)"/>
+    <text x="640" y="52" fill="#39d7ff" font-size="11" font-family="sans-serif">интернет → GPU → назад</text>
+  </svg>
+  </div>
+
+  <h2>Путь ребёнка — 6 экранов, ни одного взрослого</h2>
+  <div class="cards">
+    <div class="c"><b>1 · ВИТРИНА</b><span>Экран крутит готовые карточки. Ребёнок видит результат до того, как решил участвовать.</span></div>
+    <div class="c"><b>2 · ВЫБОР</b><span>6 больших картинок. Без текста — работает на любом языке зала.</span></div>
+    <div class="c"><b>3 · СЪЁМКА</b><span>Силуэт-рамка, кнопка активна только когда лицо в кадре. Отсчёт 3-2-1, серия из 3 кадров, лучший выбирается сам.</span></div>
+    <div class="c"><b>4 · ОЖИДАНИЕ</b><span>~25 сек. Прогресс-бар и анимация — иначе ребёнок уходит.</span></div>
+    <div class="c"><b>5 · РЕЗУЛЬТАТ</b><span>Две кнопки: печать или переснять (один раз). Больше выборов не даём.</span></div>
+    <div class="c"><b>6 · ПЕЧАТЬ</b><span>Карточка 10×15 выезжает в лоток. Автосброс через 15 сек — следующий.</span></div>
+  </div>
+
+  <h2>Железо</h2>
+  <div class="scroll"><table>
+    <tr><th>Что</th><th>Зачем</th><th class="n">€</th></tr>
+    <tr><td>iPad (свой, старый)</td><td>экран + камера, режим «Гид-доступ» = киоск</td><td class="n">0</td></tr>
+    <tr><td>Canon SELPHY CP1500</td><td>печать 10×15, ~€0.30 за карточку</td><td class="n">140</td></tr>
+    <tr><td>Raspberry Pi 5</td><td>очередь печати, работает без интернета</td><td class="n">70</td></tr>
+    <tr><td>Кольцевая лампа 10"</td><td>ровный свет = стабильный результат ИИ</td><td class="n">25</td></tr>
+    <tr><td>Однотонный фон 1.5×2 м</td><td>то же самое, второй рычаг качества</td><td class="n">25</td></tr>
+    <tr><td>Тренога + держатель + полка</td><td>стойка ~120 см, кадрирование программное</td><td class="n">55</td></tr>
+    <tr><td>Корпус и оформление</td><td>вау-эффект, прячет кабели от детей</td><td class="n">30</td></tr>
+    <tr class="tot"><td>Итого</td><td>окупается за ~13 праздников</td><td class="n">345</td></tr>
+  </table></div>
+
+  <h2>Что говорим организатору</h2>
+  <p>«Будка стоит тебе €100 за праздник. Родителю продавай за сколько хочешь — у тебя
+     в прайсе аквагрим стоит €70 за полчаса, а это работает весь праздник и каждый ребёнок
+     уносит карточку. Ставь €180 — €80 твои. Ставится за 10 минут, оператор не нужен:
+     включил и ведёшь свой праздник как обычно.»</p>
+
+  <h2>Что если что-то сломается</h2>
+  <div class="cards">
+    <div class="c"><b>НЕТ ИНТЕРНЕТА</b><span>Стойка молча переключается на локальную обработку без ИИ. Карточка выходит всегда — ребёнок не уходит с пустыми руками.</span></div>
+    <div class="c"><b>ДЕТИ ЖМУТ ВСЁ ПОДРЯД</b><span>Один отпечаток на сессию, пауза 20 сек, лимит на праздник. Бумага не кончится за первые полчаса.</span></div>
+    <div class="c"><b>Я НЕ НА МЕСТЕ</b><span>Вижу телеметрию каждой будки: остаток бумаги, % успешных генераций, жива ли она. Проблему замечаю раньше организатора.</span></div>
+  </div>
+
+  <h2>Правила, которые не нарушаем</h2>
+  <p>Никаких персонажей и названий чужих мультфильмов — только свои архетипы.
+     Никакого распознавания лиц. Фото удаляется после печати, цифровая копия живёт 24 часа.
+     Согласие родителей организатор берёт при бронировании праздника.</p>
+</div></div>
+
+<script>window.__ASSETS__={"base": "img/607d47eb90.jpg", "neon": "img/b9dcfdeb71.jpg", "tiger": "img/222fa8e9fb.jpg", "ribbon": "img/33e4be2c26.jpg", "space": "img/938361c33d.jpg", "sea": "img/8443d9656c.jpg", "sky": "img/23d57b710a.jpg"};</script>
+<script>
+const ASSETS_URL = "img/booth-assets.json";
+let A = null;
+
+const CHARS = [
+  {k:"neon",   t:"НЕОНОВЫЙ КУМИР"},
+  {k:"tiger",  t:"ТИГР-ХРАНИТЕЛЬ"},
+  {k:"ribbon", t:"ТАНЦОР ЛЕНТ"},
+  {k:"space",  t:"КОСМОВЕТ"},
+  {k:"sea",    t:"МОРСКОЙ РАЗВЕДЧИК"},
+  {k:"sky",    t:"НЕБЕСНЫЙ ГОНЩИК"},
+];
+const TICKS = ["ищем твоё лицо…","подбираем причёску…","шьём костюм…","рисуем фон…","добавляем блеск…","почти готово…"];
+
+const $ = s => document.querySelector(s);
+const show = id => document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id));
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+let chosen = null, stream = null, idle = null, camOK = false;
+
+function resetIdle(){ clearTimeout(idle); idle = setTimeout(goHome, 60000); }
+function goHome(){ chosen = null; show('attract'); }
+
+/* ---------- boot ---------- */
+(async function boot(){
+  try { A = await (await fetch(ASSETS_URL)).json(); }
+  catch(e){ A = window.__ASSETS__ || {}; }
+
+  $('#reel').innerHTML = ['neon','space','sea'].map(k => `<img src="${A[k]||''}" alt="">`).join('');
+  $('#grid').innerHTML = CHARS.map(c =>
+    `<button class="ch" data-k="${c.k}"><img src="${A[c.k]||''}" alt=""><b>${c.t}</b></button>`).join('');
+  document.querySelectorAll('.ch').forEach(b => b.onclick = () => pick(b.dataset.k));
+})();
+
+$('#start').onclick = () => { resetIdle(); show('pick'); };
+$('#retry').onclick = () => { resetIdle(); show('pick'); };
+$('#print').onclick = doPrint;
+
+/* ---------- camera ---------- */
+async function pick(k){
+  chosen = k; resetIdle(); show('shoot');
+  $('#still').hidden = true; $('#cam').hidden = false; $('#silh').style.display = 'grid';
+  camOK = false;
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'user', width:{ideal:1280}}, audio:false});
+    $('#cam').srcObject = stream; camOK = true;
+    $('#shootSub').textContent = 'смотри в камеру и улыбайся';
+  }catch(e){
+    $('#cam').hidden = true; $('#still').hidden = false; $('#still').src = A.base || '';
+    $('#shootSub').textContent = 'камера недоступна — показываю на примере';
+  }
+  await wait(1400);
+  await countdown();
+}
+
+async function countdown(){
+  const w = $('#camwrap');
+  $('#silh').style.display = 'none';
+  $('#shootHead').textContent = 'ВНИМАНИЕ!';
+  for (const n of [3,2,1]){
+    const d = document.createElement('div');
+    d.className = 'count'; d.textContent = n; w.appendChild(d);
+    await wait(900); d.remove();
+  }
+  const f = document.createElement('div'); f.className = 'flash'; w.appendChild(f);
+  await wait(500); f.remove();
+  if (stream){ stream.getTracks().forEach(t => t.stop()); stream = null; }
+  $('#shootHead').textContent = 'ВСТАНЬ В РАМКУ';
+  process();
+}
+
+/* ---------- fake generation ---------- */
+async function process(){
+  show('work'); resetIdle();
+  const bar = $('#bar'), tick = $('#tick');
+  const total = 6200;                 // демо; в проде ~25 сек
+  const t0 = performance.now();
+  let i = -1;
+  const timer = setInterval(() => {
+    const p = Math.min(1, (performance.now() - t0) / total);
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    const s = Math.min(TICKS.length - 1, Math.floor(p * TICKS.length));
+    if (s !== i){ i = s; tick.textContent = TICKS[s]; }
+    if (p >= 1){ clearInterval(timer); reveal(); }
+  }, 60);
+}
+
+function reveal(){
+  $('#res').src = A[chosen] || '';
+  show('done'); resetIdle();
+}
+
+async function doPrint(){
+  $('#slide').src = A[chosen] || '';
+  show('out');
+  clearTimeout(idle);
+  await wait(5200);
+  goHome();
+}
+
+/* ---------- chrome ---------- */
+$('#mSpec').onclick = () => {
+  $('#spec').classList.add('on'); $('#app').style.display = 'none';
+  $('#mSpec').classList.add('act'); $('#mKiosk').classList.remove('act');
+  document.body.style.overflow = 'auto';
+};
+$('#mKiosk').onclick = () => {
+  $('#spec').classList.remove('on'); $('#app').style.display = 'flex';
+  $('#mKiosk').classList.add('act'); $('#mSpec').classList.remove('act');
+  document.body.style.overflow = 'hidden'; goHome();
+};
+document.addEventListener('touchstart', resetIdle, {passive:true});
+document.addEventListener('click', resetIdle);
+</script>
+
+</body>
+</html>

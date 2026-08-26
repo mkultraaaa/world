@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#faf6f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141019" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<title>Фотостойка с героями — материалы проекта</title>
+<meta name="description" content="Презентация организатору, кликабельный прототип будки и досье проекта AI-фотостойки для детских праздников.">
+<meta property="og:title" content="Фотостойка с героями — материалы проекта">
+<meta property="og:description" content="Презентация организатору, кликабельный прототип будки и досье проекта.">
+<meta property="og:image" content="https://msolo.me/photokids/img/9ea2906662.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --paper:#faf6f1; --card:#fff; --ink:#1a1420; --ink-2:#574d5c; --ink-3:#8b8191;
+    --rule:#e2d9cf; --mag:#c2185b; --shadow:0 1px 2px rgba(26,20,32,.06),0 12px 32px rgba(26,20,32,.09);
+    --shadow-h:0 2px 4px rgba(26,20,32,.07),0 22px 48px rgba(26,20,32,.16);
+    --chip:#f2ece4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#141019; --card:#1e1727; --ink:#f4f0f7; --ink-2:#b7acc0; --ink-3:#8c8098;
+      --rule:rgba(255,255,255,.12); --mag:#ff7bae; --chip:rgba(255,255,255,.08);
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px rgba(0,0,0,.45);
+      --shadow-h:0 2px 6px rgba(0,0,0,.5),0 22px 48px rgba(0,0,0,.6);
+    }
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:400 17px/1.6 Georgia,"Iowan Old Style","Droid Serif",serif;
+    -webkit-font-smoothing:antialiased;
+    padding:max(28px,env(safe-area-inset-top)) clamp(18px,5vw,32px) 64px;
+  }
+  .d{font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif; font-weight:800; letter-spacing:-.022em}
+  main{max-width:960px; margin:0 auto}
+
+  .eyebrow{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--mag); margin:0 0 16px;
+  }
+  h1{font-size:clamp(30px,7vw,52px); line-height:1.04; margin:0 0 16px; text-wrap:balance}
+  .lead{font-size:clamp(16.5px,2.4vw,20px); line-height:1.5; color:var(--ink-2); margin:0; max-width:33em}
+
+  .cards{display:grid; gap:clamp(16px,2.4vw,22px); margin:clamp(34px,6vw,52px) 0 0}
+  @media (min-width:760px){.cards{grid-template-columns:1fr 1fr}}
+
+  .c{
+    display:block; text-decoration:none; color:inherit; background:var(--card);
+    border:1px solid var(--rule); border-radius:14px; overflow:hidden;
+    box-shadow:var(--shadow); transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .c:active{transform:scale(.985)}
+  @media (hover:hover){.c:hover{transform:translateY(-3px); box-shadow:var(--shadow-h)}}
+  .c:focus-visible{outline:3px solid var(--mag); outline-offset:3px}
+  @media (min-width:760px){.c.wide{grid-column:span 2; display:grid; grid-template-columns:1fr 1.25fr}}
+
+  .c figure{margin:0; background:#221a2c}
+  .c img{display:block; width:100%; height:100%; aspect-ratio:16/10; object-fit:cover}
+  @media (min-width:760px){.c.wide img{aspect-ratio:auto; min-height:100%}}
+  .c .body{padding:clamp(18px,3vw,26px)}
+  .c h2{font-size:clamp(21px,3.2vw,27px); line-height:1.15; margin:0 0 8px}
+  .c p{margin:0; color:var(--ink-2); font-size:15.5px; line-height:1.5}
+  .meta{
+    display:flex; flex-wrap:wrap; gap:7px; margin:14px 0 0;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:.09em; text-transform:uppercase;
+  }
+  .meta span{background:var(--chip); color:var(--ink-3); padding:5px 9px; border-radius:99px}
+  .meta span.hot{background:var(--mag); color:#fff}
+  .go{
+    display:inline-block; margin:16px 0 0; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:13.5px; font-weight:700; color:var(--mag); letter-spacing:.01em;
+  }
+
+  .note{
+    margin:clamp(34px,6vw,52px) 0 0; padding:20px 22px; border-left:3px solid var(--mag);
+    background:var(--chip); border-radius:0 10px 10px 0; font-size:15.5px; line-height:1.55; color:var(--ink-2);
+  }
+  .note b{color:var(--ink)}
+  footer{margin:40px 0 0; padding-top:20px; border-top:1px solid var(--rule); color:var(--ink-3); font-size:13.5px; line-height:1.5}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px}
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">aiphotokids · Кипр · август 2026</p>
+  <h1 class="d">Ребёнок заходит собой,<br>выходит героем</h1>
+  <p class="lead">Три материала по проекту фотостойки: что показывать организатору,
+    как это выглядит в руках у ребёнка и что стоит за этим внутри.</p>
+
+  <div class="cards">
+
+    <a class="c wide" href="/photokids/deck">
+      <figure><img src="img/9ea2906662.jpg" alt="Девочка смотрит на свою карточку" fetchpriority="high"></figure>
+      <div class="body">
+        <h2 class="d">Презентация организатору</h2>
+        <p>13 слайдов: что видит ребёнок, как стойка стоит в зале, сколько организатор
+          зарабатывает с праздника, готовые ответы родителям и условия для первых партнёров.
+          Листается стрелками или свайпом.</p>
+        <div class="meta"><span class="hot">Показывать наружу</span><span>13 слайдов</span><span>5 минут</span></div>
+        <span class="go">Открыть презентацию →</span>
+      </div>
+    </a>
+
+    <a class="c" href="/photokids/booth">
+      <figure><img src="img/b9dcfdeb71.jpg" alt="Ребёнок в образе неонового кумира" loading="lazy" decoding="async"></figure>
+      <div class="body">
+        <h2 class="d">Прототип будки</h2>
+        <p>Кликабельный экран стойки: выбор героя, отсчёт, превращение, печать.
+          Вторая вкладка — схема, из чего собрана стойка. С телефона проходится за минуту.</p>
+        <div class="meta"><span class="hot">Показывать наружу</span><span>Интерактив</span><span>Спросит камеру</span></div>
+        <span class="go">Пройти путь ребёнка →</span>
+      </div>
+    </a>
+
+    <a class="c" href="/photokids/dossier">
+      <figure><img src="img/efe9603c4b.jpg" alt="Стойка в сборе на празднике" loading="lazy" decoding="async"></figure>
+      <div class="body">
+        <h2 class="d">Досье проекта</h2>
+        <p>Рынок и конкуренты, устройство стойки и печати, юнит-экономика по кипрским
+          прайсам, риски модерации и GDPR, пошаговый план пилота с гейтами.</p>
+        <div class="meta"><span>Внутреннее</span><span>Длинный текст</span><span>15 минут</span></div>
+        <span class="go">Читать досье →</span>
+      </div>
+    </a>
+
+  </div>
+
+  <p class="note"><b>Кому что отправлять.</b> Организатору идёт ссылка на презентацию —
+    она самодостаточна и ведёт разговор сама. Прототип показывать лучше вживую с телефона,
+    пока человек рядом. Досье — для себя: там внутренние цифры, риски и то, чего мы
+    сознательно не делаем в первой версии.</p>
+
+  <footer>
+    <p>Фотографии на страницах — визуализация замысла, а не съёмка с прошедших праздников.
+      Стойка собирается сейчас, под первые праздники сезона.</p>
+    <p class="mono">msolo.me/photokids · страницы закрыты от поисковиков</p>
+  </footer>
+</main>
+</body>
+</html>

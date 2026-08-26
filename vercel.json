@@ -18,6 +18,7 @@
     { "src": "/neurogate/use/enhance-photo$", "dest": "/neurogate/use/enhance-photo/index.html" },
     { "src": "/neurogate/use/remove-bg$", "dest": "/neurogate/use/remove-bg/index.html" },
     { "src": "/neurogate/ad-strategy$", "dest": "/neurogate/ad-strategy/index.html" },
+    { "src": "/photokids$", "dest": "/photokids/index.html" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 }
