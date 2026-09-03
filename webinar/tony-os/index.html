@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Вебинар «Tony OS изнутри» — msolo.studio</title>
+<meta name="description" content="Запись вебинара: как выглядит работа фаундера с собственной AI-средой — терминал, дашборды, телеграм-мост и память. Видео, презентация и промпты.">
+<meta property="og:title" content="Tony OS изнутри — запись вебинара">
+<meta property="og:description" content="Как один человек управляет несколькими компаниями через собственную AI-среду. Запись вебинара + презентация с промптами.">
+<meta property="og:image" content="https://msolo.me/webinar/tony-os/cover.jpg">
+<meta property="og:type" content="video.other">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a; --bg-2:#111; --fg:#f5f5f0; --muted:#8a8a82;
+  --line:#1f1f1f; --accent:#d8ff3a; --accent-2:#ff5b1f; --card:#121212;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+a{color:inherit}
+.container{max-width:1120px;margin:0 auto;padding:0 24px}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* шапка */
+.nav{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(10,10,10,.92);backdrop-filter:blur(8px);z-index:10}
+.nav-row{display:flex;align-items:center;gap:20px;height:64px}
+.logo{font-weight:700;letter-spacing:-.01em;text-decoration:none}
+.nav-links{margin-left:auto;display:flex;gap:22px;align-items:center;font-size:14px}
+.nav-links a{color:var(--muted);text-decoration:none}
+.nav-links a:hover{color:var(--fg)}
+.btn{display:inline-block;padding:12px 22px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent;transition:.15s}
+.btn-primary{background:var(--accent);color:#0a0a0a}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{border-color:#333;color:var(--fg)}
+.btn-ghost:hover{border-color:var(--fg)}
+.btn-sm{padding:9px 16px;font-size:14px}
+
+/* герой */
+.hero{padding:64px 0 34px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{font-size:clamp(34px,5vw,60px);line-height:1.03;font-weight:900;letter-spacing:-.02em;max-width:15ch}
+h1 .underline{background:linear-gradient(transparent 62%,rgba(216,255,58,.35) 62%)}
+.hero p{color:var(--muted);font-size:clamp(16px,2vw,19px);max-width:60ch;margin-top:22px}
+.meta{display:flex;gap:26px;flex-wrap:wrap;margin-top:26px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted)}
+.meta b{color:var(--accent);font-weight:700}
+
+/* плеер */
+.player-wrap{margin:38px 0 10px}
+.player{position:relative;padding-top:56.25%;background:var(--card);border:1px solid var(--line)}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.player-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px}
+.player-empty .mono{font-size:13px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.player-note{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:14px;font-size:14px;color:var(--muted)}
+
+/* секции */
+section{padding:56px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(24px,3.4vw,36px);font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+.lead{color:var(--muted);max-width:65ch;margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.item{background:var(--card);padding:26px 24px}
+.item .k{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.item h3{font-size:18px;font-weight:700;margin-bottom:8px}
+.item p{color:var(--muted);font-size:15px}
+
+/* раздатка */
+.handout{display:flex;gap:28px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);padding:30px}
+.handout-body{flex:1;min-width:280px}
+.handout h3{font-size:22px;font-weight:800;margin-bottom:8px}
+.handout p{color:var(--muted);font-size:15px;margin-bottom:18px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);border:1px solid var(--line);padding:6px 10px}
+
+/* cta */
+.cta{background:var(--card);border:1px solid var(--accent);padding:42px 32px;text-align:center}
+.cta h2{margin-bottom:12px}
+.cta p{color:var(--muted);max-width:56ch;margin:0 auto 26px}
+.cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:14px}
+.foot-row{display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.foot-row a{color:var(--muted);text-decoration:none;margin-left:18px}
+.foot-row a:hover{color:var(--fg)}
+@media (max-width:640px){
+  .nav-links a:not(.btn){display:none}
+  .hero{padding:40px 0 24px}
+  section{padding:40px 0}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-row">
+    <a class="logo" href="/studio">msolo.studio</a>
+    <div class="nav-links">
+      <a href="/studio#cases">Кейсы</a>
+      <a href="/tony-os">Презентация</a>
+      <a class="btn btn-primary btn-sm" href="https://t.me/msoloviev" target="_blank" rel="noopener">Написать в Telegram →</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">Запись вебинара · сентябрь 2026</div>
+    <h1>Tony OS изнутри: рабочий день фаундера в своей <span class="underline">AI-среде</span></h1>
+    <p>Час о том, как один человек ведёт несколько компаний через собственную среду поверх Claude Code: терминал в браузере, дашборды с цифрами всех проектов, телеграм-мост и память в файлах. Без теории — показываю свои рабочие экраны и отдаю промпты, по которым это собирается.</p>
+    <div class="meta">
+      <span><b>~60</b> минут</span>
+      <span><b>59</b> слайдов раздатки</span>
+      <span><b>4</b> готовых промпта</span>
+      <span>для собственников и топ-менеджеров</span>
+    </div>
+  </div>
+</header>
+
+<div class="container player-wrap">
+  <div class="player">
+    <!-- YOUTUBE_EMBED_START -->
+    <iframe src="https://www.youtube-nocookie.com/embed/6zQgMcAMYYk?rel=0&modestbranding=1" title="Вебинар «Tony OS изнутри»" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <!-- YOUTUBE_EMBED_END -->
+  </div>
+  <div class="player-note">
+    <span>Не открывается плеер?</span>
+    <a class="btn btn-ghost btn-sm" href="https://youtu.be/6zQgMcAMYYk" target="_blank" rel="noopener">Смотреть на YouTube →</a>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <h2>Что внутри</h2>
+    <p class="lead">Вебинар идёт по восьми блокам — от «зачем вообще своя среда» до порядка сборки с промптами. Каждый блок самостоятельный: можно забрать один кусок и получить пользу, не собирая всё.</p>
+    <div class="grid">
+      <div class="item"><div class="k">Блок 1</div><h3>Зачем своя среда</h3><p>Чем не подошли терминал, IDE и готовые приложения: агент живёт на одной машине, с телефона не подключиться, интерфейс не для управленца.</p></div>
+      <div class="item"><div class="k">Блок 2</div><h3>Память и папки</h3><p>Фундамент: один стандарт структуры на полсотни проектов, вики в markdown вместо векторных баз, свой просмотрщик файлов в браузере.</p></div>
+      <div class="item"><div class="k">Блок 3</div><h3>Терминал в браузере</h3><p>Пульт к сессиям агентов с любого устройства. Ноутбук закрыт — работа продолжается на сервере. Уведомления, когда агент ждёт ответа.</p></div>
+      <div class="item"><div class="k">Блок 4</div><h3>Дашборды с метриками</h3><p>Цифры всех компаний на одном экране, у каждой видно источник и время обновления. Встроенный аналитик подсказывает, на что смотреть.</p></div>
+      <div class="item"><div class="k">Блок 5</div><h3>Каналы входа</h3><p>Контекст приходит сам: звонки записываются и разбираются, Telegram читается демоном, сессии агентов пишут хронику проектов.</p></div>
+      <div class="item"><div class="k">Блок 6</div><h3>Скиллы</h3><p>Повторяющаяся задача становится файлом-инструкцией: публикация страниц, генерация картинок, реклама, статьи в журнал — одной фразой.</p></div>
+      <div class="item"><div class="k">Блок 7</div><h3>Телеграм-мост</h3><p>Управление с телефона: поставить задачу, открыть сессию, получить результат. С гардрейлами — что агенту можно, а что только с подтверждения.</p></div>
+      <div class="item"><div class="k">Блок 8</div><h3>Безопасность и сборка</h3><p>Чеклист «наружу не торчит ничего», бэкапы, и маршрут: что собирать первым, что за вечер, а что за выходные.</p></div>
+      <div class="item"><div class="k">Дальше</div><h3>Куда это растёт</h3><p>От диалога с агентом — к автономным петлям по спеке с приёмкой по доказательствам. И следующий экран доступа: AI-очки.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="handout">
+      <div class="handout-body">
+        <h3>Презентация — она же раздатка</h3>
+        <p>Внутри всё, что показывалось: готовые промпты для агента, чеклист безопасности, порядок сборки по шагам и живые скриншоты системы. Открывается в браузере, листается стрелками, работает с телефона.</p>
+        <div class="chips">
+          <span class="chip">4 промпта целиком</span>
+          <span class="chip">чеклист безопасности</span>
+          <span class="chip">порядок сборки</span>
+          <span class="chip">59 слайдов</span>
+        </div>
+        <a class="btn btn-primary" href="/tony-os">Открыть презентацию →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="cta" id="cta">
+      <h2>Хотите такую же среду у себя?</h2>
+      <p>Собрать самому по презентации — реально: там весь маршрут. Если хочется быстрее и под свои процессы — это ровно то, чем занимается студия: заходим в операционку, находим, что съедает время, и внедряем то, что окупается.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://t.me/msoloviev" target="_blank" rel="noopener">Написать в Telegram →</a>
+        <a class="btn btn-ghost" href="/studio">Что делает студия</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot-row">
+    <div>© 2026 msolo.studio</div>
+    <div style="margin-left:auto">
+      <a href="/studio">Студия</a>
+      <a href="/tony-os">Презентация</a>
+      <a href="https://t.me/msoloviev" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -95,6 +95,26 @@
 
   /* ===== SECTIONS ===== */
   section{padding:100px 0;border-bottom:1px solid var(--line);position:relative}
+
+  /* ── вебинар: витрина экспертности ─────────────────────────────── */
+  #webinar .wb-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;border:1px solid var(--line);background:var(--card,#121212)}
+  #webinar .wb-body{padding:44px 40px}
+  #webinar .wb-kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  #webinar .wb-title{font-size:clamp(24px,2.6vw,34px);font-weight:900;line-height:1.1;letter-spacing:-.01em;margin-bottom:14px}
+  #webinar .wb-text{color:var(--muted);font-size:16px;line-height:1.6;margin-bottom:20px}
+  #webinar .wb-meta{display:flex;gap:18px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:26px}
+  #webinar .wb-meta b{color:var(--accent)}
+  #webinar .wb-cta{display:flex;gap:12px;flex-wrap:wrap}
+  #webinar .wb-cta a{padding:16px 26px;font-size:15px;font-weight:600;transition:.15s}
+  #webinar .wb-shot{position:relative;height:100%;min-height:280px;overflow:hidden;border-left:1px solid var(--line)}
+  #webinar .wb-shot img{width:100%;height:100%;object-fit:cover;display:block;opacity:.92}
+  #webinar .wb-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  #webinar .wb-play span{width:74px;height:74px;border-radius:50%;background:var(--accent);color:#000;display:flex;align-items:center;justify-content:center;font-size:26px;padding-left:5px}
+  @media (max-width:860px){
+    #webinar .wb-wrap{grid-template-columns:1fr}
+    #webinar .wb-shot{border-left:none;border-top:1px solid var(--line);min-height:210px}
+    #webinar .wb-body{padding:30px 24px}
+  }
   .sec-head{margin-bottom:60px}
   .sec-num{font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:13px}
   .sec-title{font-size:clamp(32px,4vw,52px);font-weight:900;line-height:1;letter-spacing:-.02em;margin:0}
@@ -819,6 +839,38 @@
         <blockquote class="f-quote" data-en="«I don't sell &quot;AI adoption&quot;. I look for the places in your business where AI pays back real money — and build with my own hands, the way I'd build for myself. If there are no such places, I'll say so on the first call.»">«Я не продаю "внедрение ИИ". Я ищу в вашем бизнесе места, где ИИ вернёт живые деньги, — и делаю руками, как делал бы для себя. Если таких мест нет — скажу об этом прямо на первом звонке.»</blockquote>
         <div class="f-links"><a href="https://t.me/msoloviev" onclick="try{ym(111120201,'reachGoal','tg')}catch(e){}" target="_blank" rel="noopener">t.me/msoloviev ↗</a></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- WEBINAR -->
+<section id="webinar">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <h2 class="sec-title" data-en="Our main case is ourselves">Наш главный кейс — мы сами</h2>
+        <p class="sec-sub" data-en="Before selling AI adoption, we run our own companies on it. Here is a full hour of that, screen by screen — no theory, no slideware.">Прежде чем продавать внедрение ИИ, мы сами ведём на нём свои компании. Вот целый час об этом — экран за экраном, без теории и красивых схем.</p>
+      </div>
+    </div>
+    <div class="wb-wrap">
+      <div class="wb-body">
+        <div class="wb-kicker" data-en="Webinar · recording">Вебинар · запись</div>
+        <div class="wb-title" data-en="A founder's working day inside his own AI environment">Рабочий день фаундера в своей AI-среде</div>
+        <p class="wb-text" data-en="Terminal in the browser, dashboards with numbers from every company, a Telegram bridge and memory in plain files — the environment one person uses to run several businesses. The talk shows real screens and hands over the prompts it is built from.">Терминал в браузере, дашборды с цифрами всех компаний, телеграм-мост и память в обычных файлах — среда, через которую один человек ведёт несколько бизнесов. В вебинаре живые экраны и промпты, по которым это собирается.</p>
+        <div class="wb-meta">
+          <span><b>~60</b> <span data-en="minutes">минут</span></span>
+          <span><b>59</b> <span data-en="slides of handout">слайдов раздатки</span></span>
+          <span><b>4</b> <span data-en="ready-made prompts">готовых промпта</span></span>
+        </div>
+        <div class="wb-cta">
+          <a class="btn-primary" href="/webinar/tony-os" onclick="try{ym(111120201,'reachGoal','webinar')}catch(e){}" data-en="Watch the recording →">Смотреть запись →</a>
+          <a class="btn-ghost" href="/tony-os" data-en="Open the deck">Открыть презентацию</a>
+        </div>
+      </div>
+      <a class="wb-shot" href="/webinar/tony-os" aria-label="Смотреть запись вебинара">
+        <img src="/webinar/tony-os/cover.jpg" alt="Вебинар «Tony OS изнутри»" loading="lazy">
+        <span class="wb-play"><span>▶</span></span>
+      </a>
     </div>
   </div>
 </section>
