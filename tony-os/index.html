@@ -675,7 +675,7 @@ img.shot{flex:1;min-height:0;width:100%;object-fit:contain;object-position:cente
   </div>
   <div class="rv" style="margin-top:14px;border:1px solid var(--amber);background:rgba(212,168,67,.06);padding:13px 20px;display:flex;gap:20px;align-items:center;flex-wrap:wrap">
     <span style="font-family:var(--disp);font-weight:900;font-size:26px;color:var(--amber);white-space:nowrap">szvon.ru</span>
-    <span style="font-size:15px;line-height:1.5;flex:1;min-width:280px"><b>Регистрируйтесь и пользуйтесь</b> — это мой сервис, он открыт. Приложения для <b>Mac и Windows</b>, запись без бота-гостя. Ключ для агента выдаётся в кабинете — вставили, и транскрипты падают прямо в ваши папки.</span>
+    <span style="font-size:15px;line-height:1.5;flex:1;min-width:280px"><b>Регистрируйтесь и пользуйтесь</b> — это мой сервис, он открыт. Приложения для <b>Mac и Windows</b>, запись без бота-гостя. Ключ для агента выдаётся в кабинете — вставили, и транскрипты падают прямо в ваши папки. <b>Запись и хранение бесплатно — платите только за разбор нужных звонков, 3 ₽/мин. Без абонементов и сгорающих минут, первые часы разбора в подарок.</b></span>
   </div>
 </section>
 
@@ -785,7 +785,7 @@ img.shot{flex:1;min-height:0;width:100%;object-fit:contain;object-position:cente
   </div>
   <div class="rv" style="margin-top:16px;border:1px solid var(--amber);background:rgba(212,168,67,.06);padding:14px 20px;display:flex;gap:20px;align-items:center;flex-wrap:wrap">
     <span style="font-family:var(--disp);font-weight:900;font-size:26px;color:var(--amber);white-space:nowrap">ng-ai.ru</span>
-    <span style="font-size:15px;line-height:1.5;flex:1;min-width:280px"><b>Регистрируйтесь</b> — один ключ и доступ сразу ко всем нейросетям: картинки, видео, текстовые модели. Оплата в рублях, без VPN, платите по факту запросов — никаких подписок. Подключается по API туда, где нужно: в терминал, в скилл, в свой продукт.</span>
+    <span style="font-size:15px;line-height:1.5;flex:1;min-width:280px"><b>Регистрируйтесь</b> — один ключ и доступ сразу ко всем нейросетям: картинки, видео, текстовые модели. Оплата в рублях, без VPN, <b>платите только за то, что используете — от 2 ₽ за запрос, никаких подписок</b> (на старте 50 ₽ на счёт). Подключается по API туда, где нужно: в терминал, в скилл, в свой продукт.</span>
   </div>
 </section>
 
@@ -873,6 +873,21 @@ img.shot{flex:1;min-height:0;width:100%;object-fit:contain;object-position:cente
     — добавь <b>PreToolUse-хук</b>: жёстко блокируй rm, git push, sudo и деплой; каждое действие — в audit.log<br>
     — деструктивные операции — только после моего подтверждения в чате<br>
     <span class="c">Проверка: с телефона «создай файл test.md в проекте X» → файл есть; открытых портов на сервере не появилось (long polling).</span>
+  </div>
+</section>
+
+<section class="slide" data-title="Дальше · петли">
+  <div class="eyebrow rv">Что делаем дальше · как меняется сама работа</div>
+  <h2 class="rv" style="margin-bottom:8px">От диалога — к автономной петле</h2>
+  <p class="sub rv" style="margin-bottom:16px">Обычный режим — «пишу задачу, смотрю, правлю» — упирается в меня: каждый шаг валидирую сам. Следующий уровень: сформулировать требования, отдать работу петле и оставить себе только приёмку.</p>
+  <div class="steps rv" style="flex:1">
+    <div class="step" style="font-size:15px"><b>Спека вместо задачи:</b> цель и критерии приёмки, где каждый критерий — запускаемая команда. «Удобно» и «красиво» критериями быть не могут<span class="note">вход</span></div>
+    <div class="step" style="font-size:15px"><b>Гейты один раз:</b> проект получает скрипты «проверь» и «запусти» — типы, линт, тесты, сборка. Петля не стартует, пока они не зелёные<span class="note">харнесс</span></div>
+    <div class="step" style="font-size:15px"><b>Петля работает сама:</b> в отдельной ветке агент планирует, пишет, гоняет проверки и чинит себя — по кругу, пока не сойдётся. Выход только детерминированный: слово агента «готово» не считается<span class="note">автономность</span></div>
+    <div class="step" style="font-size:15px"><b>Приёмка по доказательствам:</b> другой агент со свежим контекстом сам прогоняет каждый критерий и собирает таблицу «критерий → команда → вывод». Я читаю её, а не диффы<span class="note">контроль</span></div>
+  </div>
+  <div class="rv" style="margin-top:14px;border:1px solid var(--amber);background:rgba(212,168,67,.06);padding:14px 20px;font-size:15px;line-height:1.5">
+    <b>Почему советую не засиживаться на диалоговом режиме:</b> там ваш потолок — сколько вы успеваете провалидировать руками. В петле нагрузка на вас падает до двух точек — спека на входе и приёмка на выходе, а работать агент может параллельно и без вас. Цена — дисциплина: плохая спека превращается в сотни строк неправильного кода. Поэтому мелкие правки по-прежнему быстрее сделать в диалоге, а петлю запускать на задачах от стадии и больше.
   </div>
 </section>
 
