@@ -14,105 +14,100 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0a0a0a; --bg-2:#111; --fg:#f5f5f0; --muted:#8a8a82;
-  --line:#1f1f1f; --accent:#d8ff3a; --accent-2:#ff5b1f; --card:#121212;
-  --nav:64px;
+  --bg:#0a0a0a; --bg-2:#101010; --fg:#f5f5f0; --muted:#8a8a82; --dim:#5f5f59;
+  --line:#212121; --accent:#d8ff3a; --card:#121212;
+  --pad:28px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
 a{color:inherit}
-.container{max-width:1120px;margin:0 auto;padding:0 24px}
-.container-wide{max-width:1560px;margin:0 auto;padding:0 24px}
+img{display:block;max-width:100%}
+
+/* единая сетка: всё на странице живёт в одном контейнере */
+.wrap{width:100%;max-width:1440px;margin:0 auto;padding:0 var(--pad)}
 .mono{font-family:'JetBrains Mono',monospace}
 
 /* шапка */
-.nav{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(10,10,10,.92);backdrop-filter:blur(8px);z-index:20}
-.nav-row{display:flex;align-items:center;gap:20px;height:var(--nav)}
+.nav{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(10,10,10,.94);backdrop-filter:blur(8px);z-index:30}
+.nav-row{display:flex;align-items:center;gap:20px;height:64px}
 .logo{font-weight:700;letter-spacing:-.01em;text-decoration:none}
 .nav-links{margin-left:auto;display:flex;gap:22px;align-items:center;font-size:14px}
 .nav-links a{color:var(--muted);text-decoration:none}
 .nav-links a:hover{color:var(--fg)}
-.btn{display:inline-block;padding:12px 22px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent;transition:.15s}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-weight:600;font-size:15px;
+  text-decoration:none;border:1px solid transparent;transition:.15s;cursor:pointer;font-family:inherit}
 .btn-primary{background:var(--accent);color:#0a0a0a}
 .btn-primary:hover{filter:brightness(1.08)}
-.btn-ghost{border-color:#333;color:var(--fg)}
+.btn-ghost{border-color:#333;color:var(--fg);background:none}
 .btn-ghost:hover{border-color:var(--fg)}
 .btn-sm{padding:9px 16px;font-size:14px}
 
 /* герой */
-.hero{padding:40px 0 24px}
-.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
-h1{font-size:clamp(32px,4.6vw,54px);line-height:1.04;font-weight:900;letter-spacing:-.02em;max-width:26ch}
+.hero{padding:44px 0 26px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+h1{font-size:clamp(32px,4.4vw,54px);line-height:1.04;font-weight:900;letter-spacing:-.025em;max-width:22ch}
 h1 .underline{background:linear-gradient(transparent 62%,rgba(216,255,58,.35) 62%)}
-.hero p{color:var(--muted);font-size:clamp(15px,1.6vw,17px);max-width:86ch;margin-top:16px}
-.meta{display:flex;gap:24px;flex-wrap:wrap;margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted)}
+.hero p{color:var(--muted);font-size:clamp(15px,1.5vw,17px);max-width:78ch;margin-top:16px}
+.hero p b{color:var(--fg);font-weight:600}
+.meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted)}
 .meta b{color:var(--accent);font-weight:700}
 
-/* ── рабочая область: видео + презентация ── */
-.wsp{margin:22px 0 0;scroll-margin-top:78px}
-.wsp-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  border:1px solid var(--line);background:var(--card);padding:9px 10px;margin-bottom:14px}
-.seg{display:flex;border:1px solid var(--line)}
-.seg button{background:none;border:0;border-right:1px solid var(--line);color:var(--muted);
-  font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
-  padding:9px 15px;cursor:pointer;transition:.15s;white-space:nowrap}
-.seg button:last-child{border-right:0}
-.seg button:hover{color:var(--fg)}
-.seg button[aria-pressed="true"]{background:var(--accent);color:#0a0a0a}
-.seg .only-wide{display:none}
-.wsp-tools{margin-left:auto;display:flex;align-items:center;gap:14px;
-  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)}
-.wsp-tools button,.wsp-tools a{background:none;border:0;color:var(--muted);cursor:pointer;
-  font:inherit;text-decoration:none;padding:4px 0;transition:.15s}
-.wsp-tools button:hover,.wsp-tools a:hover{color:var(--accent)}
-#slideLbl{color:var(--fg)}
+/* ── две карточки: видео и презентация ── */
+.decks{display:grid;grid-template-columns:1fr;gap:20px;margin-top:8px}
+.card{border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;min-width:0}
+.card-head{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.card-head .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none}
+.card-head .sep{color:#3a3a3a}
+.card-head .out{margin-left:auto;color:var(--dim);text-decoration:none;letter-spacing:.08em;transition:.15s;white-space:nowrap}
+.card-head .out:hover{color:var(--accent)}
+.stage{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden}
+.stage iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.card-foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 16px;
+  border-top:1px solid var(--line);min-height:58px;font-size:13.5px;color:var(--muted)}
+.card-foot a{color:var(--muted);text-decoration:none;border-bottom:1px solid #333}
+.card-foot a:hover{color:var(--fg);border-color:var(--fg)}
 
-.panes{display:grid;gap:14px;align-items:stretch}
-.pane{background:var(--bg-2);border:1px solid var(--line);min-width:0;position:relative;display:flex;flex-direction:column}
-.frame{position:relative;width:100%;aspect-ratio:16/9;background:#000}
-.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.pane-deck iframe{width:100%;height:100%;border:0;display:block;background:var(--bg-2)}
-.deck-idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:14px;text-align:center;padding:24px;color:var(--muted);font-size:14px}
-.pane-note{display:flex;gap:14px;flex-wrap:wrap;align-items:center;padding:12px 14px;
-  font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
-.pane-note a{color:var(--muted);text-decoration:none;border-bottom:1px solid #333}
-.pane-note a:hover{color:var(--fg);border-color:var(--fg)}
-.toc{display:none;border-top:1px solid var(--line);overflow:auto;min-height:0}
-.toc-h{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--muted);padding:12px 14px 6px}
-.toc button{display:flex;width:100%;align-items:baseline;gap:10px;background:none;border:0;cursor:pointer;
-  color:var(--muted);font:inherit;font-size:14px;text-align:left;padding:7px 14px;transition:.15s}
-.toc button:hover{background:#171717;color:var(--fg)}
-.toc button b{font-weight:600;color:var(--fg)}
-.toc button span{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#666}
-.toc button:hover span{color:var(--accent)}
+/* витрина презентации: сначала обложка с явной кнопкой, iframe грузится по клику */
+#deckStage iframe{width:1280px;height:720px;transform-origin:top left}
+.poster{position:absolute;inset:0;border:0;padding:0;cursor:pointer;background:none;display:block;width:100%;height:100%}
+.poster img{width:100%;height:100%;object-fit:cover;opacity:.5;transition:.25s}
+.poster:hover img{opacity:.68}
+.poster-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  background:linear-gradient(180deg,rgba(10,10,10,.35),rgba(10,10,10,.72))}
+.poster-cta{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#0a0a0a;
+  font-weight:700;font-size:16px;padding:14px 24px;transition:.15s}
+.poster:hover .poster-cta{filter:brightness(1.08)}
+.poster-sub{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#cfcfc7}
 
-/* режимы */
-.wsp[data-mode="video"] .pane-deck{display:none}
-.wsp[data-mode="deck"] .pane-video{display:none}
-.wsp[data-mode="deck"] .panes,
-.wsp[data-mode="both"] .panes{height:min(74vh,760px)}
-.wsp[data-mode="deck"] .pane-deck,
-.wsp[data-mode="both"] .pane-deck{height:100%}
-
-/* чипсы раздатки */
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.chip{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);border:1px solid var(--line);padding:6px 10px}
+/* управление слайдами */
+.nav-btn{display:inline-flex;align-items:center;gap:7px;background:none;border:1px solid #303030;color:var(--fg);
+  font:inherit;font-size:13.5px;padding:8px 14px;cursor:pointer;transition:.15s}
+.nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.nav-btn:disabled{opacity:.35;cursor:default}
+.counter{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--fg);min-width:92px;text-align:center}
+.counter b{color:var(--accent);font-weight:700}
+.foot-x{margin-left:auto;display:flex;align-items:center;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.foot-x button,.foot-x a{background:none;border:0;color:var(--dim);cursor:pointer;font:inherit;text-decoration:none;transition:.15s}
+.foot-x button:hover,.foot-x a:hover{color:var(--accent)}
 
 /* секции */
-section{padding:52px 0;border-top:1px solid var(--line);margin-top:52px}
-h2{font-size:clamp(24px,3.2vw,34px);font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
-.lead{color:var(--muted);max-width:65ch;margin-bottom:28px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
-.item{background:var(--card);padding:24px 22px;display:flex;flex-direction:column;gap:8px;
+section{padding:48px 0;border-top:1px solid var(--line);margin-top:52px}
+h2{font-size:clamp(23px,3vw,32px);font-weight:800;letter-spacing:-.015em;margin-bottom:10px}
+.lead{color:var(--muted);max-width:70ch;margin-bottom:26px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.item{background:var(--card);padding:22px 20px;display:flex;flex-direction:column;gap:8px;
   border:0;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:.15s}
-.item:hover{background:#171717}
+.item:hover{background:#181818}
 .item:hover .jump{color:var(--accent)}
 .item .k{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
-.item h3{font-size:18px;font-weight:700}
-.item p{color:var(--muted);font-size:15px;flex:1}
-.jump{font-family:'JetBrains Mono',monospace;font-size:12px;color:#666;transition:.15s;margin-top:4px}
+.item h3{font-size:17.5px;font-weight:700}
+.item p{color:var(--muted);font-size:14.5px;flex:1}
+.jump{font-family:'JetBrains Mono',monospace;font-size:12px;color:#5a5a55;transition:.15s;margin-top:2px}
+
+/* чипсы раздатки */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);border:1px solid var(--line);padding:6px 10px}
 
 /* cta */
 .cta{background:var(--card);border:1px solid var(--accent);padding:40px 32px;text-align:center}
@@ -120,66 +115,61 @@ h2{font-size:clamp(24px,3.2vw,34px);font-weight:800;letter-spacing:-.01em;margin
 .cta p{color:var(--muted);max-width:56ch;margin:0 auto 26px}
 .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 
-footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:14px;margin-top:52px}
-.foot-row{display:flex;gap:20px;flex-wrap:wrap;align-items:center}
-.foot-row a{color:var(--muted);text-decoration:none;margin-left:18px}
-.foot-row a:hover{color:var(--fg)}
+footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:14px;margin-top:52px}
+.foot-row{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.foot-links{margin-left:auto;display:flex;gap:18px}
+.foot-links a{color:var(--muted);text-decoration:none}
+.foot-links a:hover{color:var(--fg)}
 
-/* ── широкий экран: видео и презентация рядом ── */
-@media (min-width:1180px){
-  .seg .only-wide{display:block}
-  .wsp[data-mode="both"] .panes{grid-template-columns:clamp(380px,34vw,560px) minmax(0,1fr)}
-  .wsp[data-mode="both"] .toc{display:flex;flex-direction:column;flex:1}
+/* ── широкий экран: карточки рядом ── */
+@media (min-width:1080px){
+  .decks{grid-template-columns:1fr 1fr;gap:24px}
   .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 
-/* ── планшет ── */
-@media (max-width:1179px){
-  .container-wide{max-width:1120px}
-  .wsp[data-mode="deck"] .panes{height:min(78vh,720px)}
-}
-
 /* ── телефон ── */
-@media (max-width:640px){
-  .container,.container-wide{padding:0 16px}
+@media (max-width:760px){
+  :root{--pad:16px}
   .nav-links a:not(.btn){display:none}
-  .hero{padding:34px 0 20px}
-  h1{max-width:100%}
-  .meta{gap:14px 20px;font-size:12px}
-  section{padding:38px 0;margin-top:38px}
-  .wsp-bar{padding:8px}
-  .seg{width:100%}
-  .seg button{flex:1;padding:11px 10px;font-size:11px;letter-spacing:.04em}
-  .wsp-tools{width:100%;margin-left:0;justify-content:space-between;padding:0 2px;gap:8px;font-size:11px}
-  #fsBtn{display:none}
-  .wsp[data-mode="deck"] .panes{height:min(80vh,640px)}
-  .pane-note{font-size:12px;padding:10px 12px}
-  .cta{padding:30px 20px}
-  .foot-row a{margin-left:0;margin-right:16px}
-  .foot-row>div:last-child{margin-left:0!important}
+  .hero{padding:30px 0 20px}
+  .meta{gap:12px 18px;font-size:12px}
+  section{padding:36px 0;margin-top:36px}
+  /* обложка остаётся 16:9, а открытая презентация раскладывается в колонку — ей нужна высота */
+  #deckStage.live{aspect-ratio:auto;height:62vh}
+  .card-head{font-size:10.5px;letter-spacing:.1em;padding:11px 13px;gap:8px}
+  .card-foot{padding:11px 13px;gap:8px}
+  .counter{min-width:0;font-size:12px}
+  .nav-btn{padding:9px 12px;font-size:13px}
+  .foot-x{width:100%;margin-left:0;justify-content:space-between}
+  /* на телефоне у презентации есть своя панель листания внизу слайда — вторую не показываем */
+  .hide-s{display:none}
+  .deck-foot{display:none}
+  .poster-cta{font-size:15px;padding:12px 18px}
+  .cta{padding:28px 18px}
+  .foot-links{margin-left:0;width:100%}
 }
 </style>
 </head>
 <body>
 
 <nav class="nav">
-  <div class="container nav-row">
+  <div class="wrap nav-row">
     <a class="logo" href="/studio">msolo.studio</a>
     <div class="nav-links">
       <a href="/studio#cases">Кейсы</a>
-      <a href="/tony-os">Презентация</a>
+      <a href="/tony-os" target="_blank" rel="noopener">Презентация</a>
       <a class="btn btn-primary btn-sm" href="https://t.me/msoloviev" target="_blank" rel="noopener">Написать в Telegram →</a>
     </div>
   </div>
 </nav>
 
 <header class="hero">
-  <div class="container-wide">
+  <div class="wrap">
     <div class="eyebrow">Запись вебинара · сентябрь 2026</div>
     <h1>Своя <span class="underline" style="white-space:nowrap">AI-среда</span> за 3 месяца</h1>
-    <p><b style="color:var(--fg);font-weight:600">«Tony OS изнутри»</b> — час о том, как один человек ведёт несколько компаний через собственную среду поверх Claude Code: терминал в браузере, дашборды с цифрами всех проектов, телеграм-мост и память в файлах. Без теории — рабочие экраны и промпты, по которым это собирается.</p>
+    <p><b>«Tony OS изнутри»</b> — час о том, как один человек ведёт несколько компаний через собственную среду поверх Claude Code: терминал в браузере, дашборды с цифрами всех проектов, телеграм-мост и память в файлах. Слева — запись, справа — та самая презентация: её можно листать прямо здесь.</p>
     <div class="meta">
-      <span><b>~60</b> минут</span>
+      <span><b>~60</b> минут записи</span>
       <span><b>59</b> слайдов раздатки</span>
       <span><b>4</b> готовых промпта</span>
       <span>для собственников и топ-менеджеров</span>
@@ -187,84 +177,82 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-s
   </div>
 </header>
 
-<div class="container-wide">
-  <div class="wsp" id="wsp" data-mode="video">
-    <div class="wsp-bar">
-      <div class="seg" role="group" aria-label="Что показывать">
-        <button type="button" data-set="video" aria-pressed="true">Видео</button>
-        <button type="button" data-set="both" class="only-wide" aria-pressed="false">Вместе</button>
-        <button type="button" data-set="deck" aria-pressed="false">Презентация</button>
+<div class="wrap">
+  <div class="decks">
+
+    <!-- запись -->
+    <div class="card">
+      <div class="card-head">
+        <span class="dot"></span><span>Запись вебинара</span><span class="sep hide-s">·</span><span class="hide-s">60 минут</span>
+        <a class="out" href="https://youtu.be/ejChk7nsMxE" target="_blank" rel="noopener">на YouTube ↗</a>
       </div>
-      <div class="wsp-tools">
-        <span id="slideLbl" class="mono">59 слайдов</span>
-        <button type="button" id="fsBtn" title="Презентация на весь экран">во весь экран ⤢</button>
-        <a href="/tony-os" target="_blank" rel="noopener">отдельной вкладкой ↗</a>
+      <div class="stage">
+        <!-- YOUTUBE_EMBED_START -->
+        <iframe src="https://www.youtube-nocookie.com/embed/ejChk7nsMxE?rel=0&modestbranding=1" title="Запись вебинара «Tony OS изнутри»" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <!-- YOUTUBE_EMBED_END -->
+      </div>
+      <div class="card-foot">
+        <span>Не открывается плеер?</span>
+        <a href="https://youtu.be/ejChk7nsMxE" target="_blank" rel="noopener">Смотреть на YouTube →</a>
       </div>
     </div>
 
-    <div class="panes">
-      <div class="pane pane-video">
-        <div class="frame">
-          <!-- YOUTUBE_EMBED_START -->
-          <iframe src="https://www.youtube-nocookie.com/embed/ejChk7nsMxE?rel=0&modestbranding=1" title="Запись вебинара «Tony OS изнутри»" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          <!-- YOUTUBE_EMBED_END -->
-        </div>
-        <div class="pane-note">
-          <span>Не открывается плеер?</span>
-          <a href="https://youtu.be/ejChk7nsMxE" target="_blank" rel="noopener">Смотреть на YouTube →</a>
-        </div>
-        <div class="toc">
-          <div class="toc-h">Блоки вебинара</div>
-          <button type="button" data-slide="8"><b>01</b> Зачем своя среда<span>8</span></button>
-          <button type="button" data-slide="13"><b>02</b> Память и папки<span>13</span></button>
-          <button type="button" data-slide="20"><b>03</b> Терминал в браузере<span>20</span></button>
-          <button type="button" data-slide="27"><b>04</b> Дашборды с метриками<span>27</span></button>
-          <button type="button" data-slide="34"><b>05</b> Каналы входа<span>34</span></button>
-          <button type="button" data-slide="40"><b>06</b> Скиллы<span>40</span></button>
-          <button type="button" data-slide="48"><b>07</b> Телеграм-мост<span>48</span></button>
-          <button type="button" data-slide="53"><b>08</b> Безопасность и сборка<span>53</span></button>
-          <button type="button" data-slide="47"><b>→</b> Куда это растёт<span>47</span></button>
-        </div>
+    <!-- презентация -->
+    <div class="card">
+      <div class="card-head">
+        <span class="dot"></span><span>Презентация</span><span class="sep hide-s">·</span><span class="hide-s">59 слайдов</span>
+        <a class="out" href="/tony-os" target="_blank" rel="noopener">отдельной вкладкой ↗</a>
       </div>
-
-      <div class="pane pane-deck" id="deckPane">
-        <iframe id="deckFrame" title="Презентация «Tony OS изнутри»" loading="lazy"></iframe>
-        <div class="deck-idle" id="deckIdle">
-          <span class="mono">презентация · 59 слайдов</span>
-          <span>Листается стрелками, работает с телефона</span>
-        </div>
+      <div class="stage" id="deckStage">
+        <iframe id="deckFrame" title="Презентация «Tony OS изнутри»" hidden></iframe>
+        <button class="poster" id="deckPoster" type="button" aria-label="Открыть презентацию и листать слайды">
+          <img src="deck-cover.jpg" alt="Первый слайд презентации Tony OS" width="1280" height="720" loading="lazy">
+          <span class="poster-in">
+            <span class="poster-cta">▶ Листать презентацию</span>
+            <span class="poster-sub">59 слайдов · промпты · чеклист</span>
+          </span>
+        </button>
+      </div>
+      <div class="card-foot deck-foot">
+        <button class="nav-btn" id="prevBtn" type="button">‹ Назад</button>
+        <span class="counter" id="counter">слайд <b>1</b> / 59</span>
+        <button class="nav-btn" id="nextBtn" type="button">Вперёд ›</button>
+        <span class="foot-x">
+          <button type="button" id="fsBtn">во весь экран ⤢</button>
+        </span>
       </div>
     </div>
 
-    <div class="chips">
-      <span class="chip">4 промпта целиком</span>
-      <span class="chip">чеклист безопасности</span>
-      <span class="chip">порядок сборки</span>
-      <span class="chip">живые скриншоты системы</span>
-    </div>
+  </div>
+
+  <div class="chips">
+    <span class="chip">4 промпта целиком</span>
+    <span class="chip">чеклист безопасности</span>
+    <span class="chip">порядок сборки по шагам</span>
+    <span class="chip">живые скриншоты системы</span>
   </div>
 </div>
 
 <section>
-  <div class="container-wide">
+  <div class="wrap">
     <h2>Разбор по блокам</h2>
-    <p class="lead">Вебинар идёт по восьми блокам — от «зачем вообще своя среда» до порядка сборки с промптами. Каждый блок самостоятельный: можно забрать один кусок и получить пользу, не собирая всё. Клик по блоку открывает нужный слайд презентации рядом с видео.</p>
+    <p class="lead">Вебинар идёт по восьми блокам — от «зачем вообще своя среда» до порядка сборки с промптами. Каждый блок самостоятельный: можно забрать один кусок и получить пользу, не собирая всё. Клик по блоку открывает нужный слайд презентации наверху.</p>
     <div class="grid">
-      <button class="item" data-slide="8"><div class="k">Блок 1</div><h3>Зачем своя среда</h3><p>Чем не подошли терминал, IDE и готовые приложения: агент живёт на одной машине, с телефона не подключиться, интерфейс не для управленца.</p><div class="jump">→ слайд 8</div></button>
-      <button class="item" data-slide="13"><div class="k">Блок 2</div><h3>Память и папки</h3><p>Фундамент: один стандарт структуры на полсотни проектов, вики в markdown вместо векторных баз, свой просмотрщик файлов в браузере.</p><div class="jump">→ слайд 13</div></button>
-      <button class="item" data-slide="20"><div class="k">Блок 3</div><h3>Терминал в браузере</h3><p>Пульт к сессиям агентов с любого устройства. Ноутбук закрыт — работа продолжается на сервере. Уведомления, когда агент ждёт ответа.</p><div class="jump">→ слайд 20</div></button>
-      <button class="item" data-slide="27"><div class="k">Блок 4</div><h3>Дашборды с метриками</h3><p>Цифры всех компаний на одном экране, у каждой видно источник и время обновления. Встроенный аналитик подсказывает, на что смотреть.</p><div class="jump">→ слайд 27</div></button>
-      <button class="item" data-slide="34"><div class="k">Блок 5</div><h3>Каналы входа</h3><p>Контекст приходит сам: звонки записываются и разбираются, Telegram читается демоном, сессии агентов пишут хронику проектов.</p><div class="jump">→ слайд 34</div></button>
-      <button class="item" data-slide="40"><div class="k">Блок 6</div><h3>Скиллы</h3><p>Повторяющаяся задача становится файлом-инструкцией: публикация страниц, генерация картинок, реклама, статьи в журнал — одной фразой.</p><div class="jump">→ слайд 40</div></button>
-      <button class="item" data-slide="48"><div class="k">Блок 7</div><h3>Телеграм-мост</h3><p>Управление с телефона: поставить задачу, открыть сессию, получить результат. С гардрейлами — что агенту можно, а что только с подтверждения.</p><div class="jump">→ слайд 48</div></button>
-      <button class="item" data-slide="53"><div class="k">Блок 8</div><h3>Безопасность и сборка</h3><p>Чеклист «наружу не торчит ничего», бэкапы, и маршрут: что собирать первым, что за вечер, а что за выходные.</p><div class="jump">→ слайд 53</div></button>
-      <button class="item" data-slide="47"><div class="k">Дальше</div><h3>Куда это растёт</h3><p>От диалога с агентом — к автономным петлям по спеке с приёмкой по доказательствам. И следующий экран доступа: AI-очки.</p><div class="jump">→ слайд 47</div></button>
+      <button class="item" data-slide="8"><div class="k">Блок 1</div><h3>Зачем своя среда</h3><p>Чем не подошли терминал, IDE и готовые приложения: агент живёт на одной машине, с телефона не подключиться, интерфейс не для управленца.</p><div class="jump">→ открыть слайд 8</div></button>
+      <button class="item" data-slide="13"><div class="k">Блок 2</div><h3>Память и папки</h3><p>Фундамент: один стандарт структуры на полсотни проектов, вики в markdown вместо векторных баз, свой просмотрщик файлов в браузере.</p><div class="jump">→ открыть слайд 13</div></button>
+      <button class="item" data-slide="20"><div class="k">Блок 3</div><h3>Терминал в браузере</h3><p>Пульт к сессиям агентов с любого устройства. Ноутбук закрыт — работа продолжается на сервере. Уведомления, когда агент ждёт ответа.</p><div class="jump">→ открыть слайд 20</div></button>
+      <button class="item" data-slide="27"><div class="k">Блок 4</div><h3>Дашборды с метриками</h3><p>Цифры всех компаний на одном экране, у каждой видно источник и время обновления. Встроенный аналитик подсказывает, на что смотреть.</p><div class="jump">→ открыть слайд 27</div></button>
+      <button class="item" data-slide="34"><div class="k">Блок 5</div><h3>Каналы входа</h3><p>Контекст приходит сам: звонки записываются и разбираются, Telegram читается демоном, сессии агентов пишут хронику проектов.</p><div class="jump">→ открыть слайд 34</div></button>
+      <button class="item" data-slide="40"><div class="k">Блок 6</div><h3>Скиллы</h3><p>Повторяющаяся задача становится файлом-инструкцией: публикация страниц, генерация картинок, реклама, статьи в журнал — одной фразой.</p><div class="jump">→ открыть слайд 40</div></button>
+      <button class="item" data-slide="48"><div class="k">Блок 7</div><h3>Телеграм-мост</h3><p>Управление с телефона: поставить задачу, открыть сессию, получить результат. С гардрейлами — что агенту можно, а что только с подтверждения.</p><div class="jump">→ открыть слайд 48</div></button>
+      <button class="item" data-slide="53"><div class="k">Блок 8</div><h3>Безопасность и сборка</h3><p>Чеклист «наружу не торчит ничего», бэкапы, и маршрут: что собирать первым, что за вечер, а что за выходные.</p><div class="jump">→ открыть слайд 53</div></button>
+      <button class="item" data-slide="47"><div class="k">Дальше</div><h3>Куда это растёт</h3><p>От диалога с агентом — к автономным петлям по спеке с приёмкой по доказательствам. И следующий экран доступа: AI-очки.</p><div class="jump">→ открыть слайд 47</div></button>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="container">
+  <div class="wrap">
     <div class="cta" id="cta">
       <h2>Хотите такую же среду у себя?</h2>
       <p>Собрать самому по презентации — реально: там весь маршрут. Если хочется быстрее и под свои процессы — это ровно то, чем занимается студия: заходим в операционку, находим, что съедает время, и внедряем то, что окупается.</p>
@@ -277,11 +265,11 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-s
 </section>
 
 <footer>
-  <div class="container foot-row">
+  <div class="wrap foot-row">
     <div>© 2026 msolo.studio</div>
-    <div style="margin-left:auto">
+    <div class="foot-links">
       <a href="/studio">Студия</a>
-      <a href="/tony-os">Презентация</a>
+      <a href="/tony-os" target="_blank" rel="noopener">Презентация</a>
       <a href="https://t.me/msoloviev" target="_blank" rel="noopener">Telegram</a>
     </div>
   </div>
@@ -289,76 +277,79 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-s
 
 <script>
 (function(){
-  var wsp=document.getElementById('wsp'),
+  var TOTAL=59,
+      stage=document.getElementById('deckStage'),
       frame=document.getElementById('deckFrame'),
-      idle=document.getElementById('deckIdle'),
-      lbl=document.getElementById('slideLbl'),
-      btns=[].slice.call(wsp.querySelectorAll('.seg button')),
-      TOTAL=59, loaded=false, timer=null;
+      poster=document.getElementById('deckPoster'),
+      counter=document.getElementById('counter'),
+      prevBtn=document.getElementById('prevBtn'),
+      nextBtn=document.getElementById('nextBtn'),
+      loaded=false, at=1, timer=null;
 
-  function wide(){ return matchMedia('(min-width:1180px)').matches; }
-
-  // презентация весит несколько мегабайт — грузим только когда она реально нужна
-  function loadDeck(slide){
-    if(loaded) return;
-    frame.src='/tony-os'+(slide?'#'+slide:'');
-    loaded=true;
-    if(idle) idle.style.display='none';
-  }
-
-  function label(n){ lbl.textContent = n ? ('слайд '+n+' / '+TOTAL) : (TOTAL+' слайдов'); }
-
-  function poll(){
-    if(!loaded || wsp.dataset.mode==='video') return;
-    try{
-      var h=frame.contentWindow.location.hash.slice(1);
-      if(h) label(parseInt(h,10));
-    }catch(e){/* фрейм ещё грузится */}
-  }
-
-  function setMode(m){
-    if(m==='both' && !wide()) m='deck';
-    wsp.dataset.mode=m;
-    btns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.set===m)); });
-    if(m!=='video'){ loadDeck(); if(!timer) timer=setInterval(poll,900); }
-    else { label(0); }
-  }
-
-  btns.forEach(function(b){ b.addEventListener('click',function(){ setMode(b.dataset.set); }); });
-
-  // переход к слайду из карточки блока
-  function goSlide(n){
-    if(!loaded){ loadDeck(n); setMode(wide()?'both':'deck'); }
-    else{
-      setMode(wide()?'both':'deck');
-      try{ frame.contentWindow.show(n-1); }
-      catch(e){ frame.src='/tony-os#'+n; }
+  // презентация — тяжёлый файл, поэтому до первого клика на её месте лежит обложка
+  function open(slide){
+    at=slide||at;
+    if(!loaded){
+      frame.src='/tony-os#'+at;
+      frame.hidden=false;
+      poster.style.display='none';
+      stage.classList.add('live');
+      loaded=true;
+      fit();
+      if(!timer) timer=setInterval(sync,700);
+    }else{
+      try{ frame.contentWindow.show(at-1); }
+      catch(e){ frame.src='/tony-os#'+at; }
     }
-    label(n);
-    wsp.scrollIntoView({behavior:'smooth',block:'start'});
+    label(at);
   }
-  [].forEach.call(document.querySelectorAll('[data-slide]'),function(el){
-    el.addEventListener('click',function(){ goSlide(parseInt(el.dataset.slide,10)); });
-  });
+
+  function label(n){
+    counter.innerHTML='слайд <b>'+n+'</b> / '+TOTAL;
+    prevBtn.disabled = n<=1;
+    nextBtn.disabled = n>=TOTAL;
+  }
+
+  function sync(){
+    try{
+      var h=parseInt(frame.contentWindow.location.hash.slice(1),10);
+      if(h && h!==at){ at=h; label(at); }
+    }catch(e){}
+  }
+
+  // слайд 1280×720 масштабируем под ширину карточки: внутри фрейма остаётся «десктопная» вёрстка
+  function fit(){
+    if(!loaded) return;
+    var w=stage.clientWidth, h=stage.clientHeight;
+    // на телефоне отдаём презентации её собственную мобильную раскладку, на десктопе — слайды 16:9
+    if(matchMedia('(max-width:760px)').matches){
+      frame.style.width='100%'; frame.style.height='100%'; frame.style.transform='none'; return;
+    }
+    var k=Math.min(w/1280,h/720);
+    frame.style.width='1280px'; frame.style.height='720px';
+    frame.style.transform='translate('+((w-1280*k)/2)+'px,'+((h-720*k)/2)+'px) scale('+k+')';
+  }
+
+  poster.addEventListener('click',function(){ open(1); });
+  prevBtn.addEventListener('click',function(){ open(Math.max(1,at-1)); });
+  nextBtn.addEventListener('click',function(){ open(Math.min(TOTAL,at+1)); });
 
   document.getElementById('fsBtn').addEventListener('click',function(){
-    setMode('deck');
-    var el=document.getElementById('deckPane');
-    if(el.requestFullscreen) el.requestFullscreen();
-    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    if(!loaded) open(1);
+    if(stage.requestFullscreen) stage.requestFullscreen();
+    else if(stage.webkitRequestFullscreen) stage.webkitRequestFullscreen();
   });
 
-  // на широком экране показываем оба окна сразу, но грузим дек после отрисовки страницы
-  if(wide()){
-    var start=function(){ setMode('both'); };
-    if('requestIdleCallback' in window) requestIdleCallback(start,{timeout:2500});
-    else setTimeout(start,1200);
-  }
-
-  // при сужении окна режим «вместе» больше не помещается
-  addEventListener('resize',function(){
-    if(wsp.dataset.mode==='both' && !wide()) setMode('deck');
+  [].forEach.call(document.querySelectorAll('[data-slide]'),function(el){
+    el.addEventListener('click',function(){
+      open(parseInt(el.dataset.slide,10));
+      stage.scrollIntoView({behavior:'smooth',block:'center'});
+    });
   });
+
+  addEventListener('resize',fit);
+  document.addEventListener('fullscreenchange',function(){ setTimeout(fit,60); });
+  label(1);
 })();
 </script>
 
